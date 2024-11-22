@@ -2,6 +2,7 @@
 
 import { ButtonSwitchServer } from "@/components/button-server";
 import { ButtonSwitch } from "@/components/button-switch";
+import { GoogleLogin } from "@/components/google-login";
 import { Slider } from "@/components/slider/slider";
 import { useTranslations } from "next-intl";
 
@@ -14,8 +15,8 @@ export default function Home() {
         <h1 className="text-4xl">{t("title")}</h1>
         <ButtonSwitchServer />
         <Slider />
-        {/* <UserInfo />
         <GoogleLogin />
+        {/* <UserInfo />
 
         <ApiFetch />
 
