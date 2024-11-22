@@ -1,6 +1,7 @@
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { ButtonSwitchServer } from "../button-server";
+import { ModeToggle } from "../toggles/theme-toggle";
 
 // import { LanguageSwitcher } from "./LanguageSwitcher";
 // import { ModeToggle } from "./ModeToggle";
@@ -23,7 +24,7 @@ export const Header = () => {
         </Link>
       </div>
 
-      <nav className="hidden items-center justify-center sm:flex ">
+      <nav className="hidden items-center justify-center sm:flex">
         <ul className="flex items-center space-x-5">
           {navigationKeys.map((key) => (
             <li key={key}>
@@ -34,6 +35,8 @@ export const Header = () => {
       </nav>
 
       <ButtonSwitchServer />
+
+      <ModeToggle />
 
       {/* <div className="flex items-center gap-2">
         <LanguageSwitcher />
