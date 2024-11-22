@@ -1,4 +1,5 @@
 import React from "react";
+import { Header } from "./header";
 // import Header from "./Header";
 
 export const MainLayout = async ({
@@ -8,9 +9,9 @@ export const MainLayout = async ({
 }) => {
   return (
     <>
-      {/* <Header /> */}
+                     <Header />
 
-      <div className="mx-auto grid max-w-[1280px] place-content-center">
+        <div className="mx-auto grid max-w-[1280px] place-content-center">
         {children}
       </div>
 

@@ -1,0 +1,13 @@
+{
+  "HomePage": {
+    "title": "Hello world!",
+    "navigation": {
+      "movies": "Movies",
+      "tvseries": "TV Series",
+      "anime": "Anime",
+      "games": "Games"
+    },
+
+    "description": "Next.js 14 introduces enhanced internationalization (i18n) features, empowering developers to effortlessly manage translations, locale-based routing, and content localization for globally accessible web applications. <br /> <br />This also piggy-backs built-in support for multiple locales, dynamic content loading, and robust fallback handling."
+  }
+}
