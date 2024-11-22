@@ -27,7 +27,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: install yarn
-        run: npm install yarn
+        run: npm install yarn --legacy-peer-deps
       - name: install packages
         run: yarn
       # - name: generate api client
