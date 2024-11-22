@@ -1,8 +1,7 @@
-
-import {cookies} from "next/headers";
+import { cookies } from "next/headers";
 import { ButtonSwitch } from "./button-switch";
 
-export const ButtonSwitchServer =  async () => {
+export const ButtonSwitchServer = async () => {
   const cookieStore = await cookies();
   // console.log('cookieStore', cookieStore);
 
@@ -10,7 +9,7 @@ export const ButtonSwitchServer =  async () => {
 
   return (
     <>
-              <ButtonSwitch locale={cookieStore.get('locale')?.value || 'en'} />
+      <ButtonSwitch locale={cookieStore.get("locale")?.value || "en"} />
     </>
-  )
-}
+  );
+};

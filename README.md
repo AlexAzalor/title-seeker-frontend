@@ -1,3 +1,90 @@
+IF NO FORMAT CODE ON SAVE BUTTON!!!!!
+if we have PRETTIER PLUGIN but DO NOT HAVE PRETTIER - check in package.json!!!! in devDEP !!!
+yarn add prettier -D
+
+===project-m READMY===
+
+npx depcheck
+[text](https://www.npmjs.com/package/@next/bundle-analyzer)
+
+If bad things with localhost pathname url...
+need to delete images and files - not cookies
+chrome://settings/clearBrowserData
+
+npx create-next-app@latest
+npx storybook@latest init
+yarn add -D @storybook/nextjs - ? само установилось с прошлой команды
+tailwind-merge
+yarn add prettier prettier-plugin-tailwindcss -D
+module.exports = {
+plugins: ["prettier-plugin-tailwindcss"],
+};
+
+yarn add @storybook/addon-themes -D
+addons - "@storybook/addon-themes",
+
+fix @/../.. fix alias import bug
+main.ts
+add:
+webpackFinal: async (config) => {
+if (!config.resolve) {
+return config;
+}
+
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      "@": path.resolve(__dirname, "../src"),
+    };
+
+    return config;
+
+},
+
+yarn add @storybook/addon-a11y --dev
+yarn add -D chromatic - як гіт?
+
+yarn add next-themes
+
+yarn add @typescript-eslint/eslint-plugin -D
+"plugins": ["@typescript-eslint"],
+
+---
+
+yarn add next-intl
+.mjs
+import createNextIntlPlugin from "next-intl/plugin";
+
+const withNextIntl = createNextIntlPlugin();
+
+/\*_ @type {import('next').NextConfig} _/
+const nextConfig = {};
+
+## export default withNextIntl(nextConfig);
+
+npx shadcn-ui@latest init
+add accurate path! - [locale]
+Where is your global CSS file? › › app/[locale]/globals.css
+Where is your tailwind.config.js located? › tailwind.config.ts - js => ts
+
+yarn add @radix-ui/react-icons
+
+yarn add orval -D
+add config - https://github.com/Simple2B/orval-showcase/blob/main/orval.config.ts
+gererate code
+yarn orval --config ./orval.config.ts
+generate new config
+yarn orval --config ./orval.config.ts -p orval-prod
+
+yarn add @faker-js/faker
+yarn add @tanstack/react-query
+yarn add axios
+yarn add msw@latest -D
+
+yarn add swr
+yarn add zod
+
+========================
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
