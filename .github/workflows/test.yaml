@@ -1,13 +1,13 @@
 name: Test project
 
-on:
-  push:
-    branches:
-      - main
 # on:
 #   push:
-#     tags:
-#       - "v*"
+#     branches:
+#       - main
+on:
+  push:
+    tags:
+      - "v*"
 
 # env:
 #   DOCKER_LOGIN: simple2b
@@ -27,6 +27,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: install yarn
+        # Flag --legacy-peer-deps is used to resolve dependency between next-auth and react 19
         run: npm install yarn --legacy-peer-deps
       - name: install packages
         run: yarn
