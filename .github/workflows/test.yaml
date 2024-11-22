@@ -31,8 +31,8 @@ jobs:
         run: npm install yarn --legacy-peer-deps
       - name: install packages
         run: yarn
-      # - name: generate api client
-      #   run: yarn gen-api
+      - name: generate api client
+        run: yarn gen-api
       - name: check types
         run: yarn type-check
       - name: check lint
