@@ -1,9 +1,5 @@
-// import Image from "next/image";
-
 import { ButtonSwitchServer } from "@/components/button-server";
-import { ButtonSwitch } from "@/components/button-switch";
 import { GoogleLogin } from "@/components/google-login";
-import { ServicesList } from "@/components/services-list";
 
 import { Slider } from "@/components/slider/slider";
 import { useTranslations } from "next-intl";
@@ -18,13 +14,6 @@ export default function Home() {
         <ButtonSwitchServer />
         <Slider />
         <GoogleLogin />
-        <ServicesList />
-        {/* <UserInfo />
-
-        <ApiFetch />
-
-        <p dangerouslySetInnerHTML={{ __html: t("description") }}></p>
-        <CustomButton title="Click me" /> */}
       </main>
     </>
   );

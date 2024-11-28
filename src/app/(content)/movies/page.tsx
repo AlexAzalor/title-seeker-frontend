@@ -1,17 +1,32 @@
-import { useTranslations } from "next-intl";
+import { getLocale, getTranslations } from "next-intl/server";
 import Link from "next/link";
+import { getMovies } from "@/orval_api/movies/movies";
+import { backendURL } from "@/lib/constants";
+import { Language } from "@/orval_api/model";
 
-export default function MoviesPage() {
-  const t = useTranslations("HomePage");
+export default async function MoviesPage() {
+  const t = await getTranslations("HomePage");
+  const locale = await getLocale();
+  const lang = Language[locale as keyof typeof Language];
+
+  const { aPIGetMovies } = getMovies();
+  const {
+    data: { movies },
+  } = await aPIGetMovies({ lang }, backendURL);
 
   return (
     <div className="min-h-screen">
       <h1 className="p-5 text-3xl">{t("navigation.movies")}</h1>
       <div className="flex flex-col gap-4">
-
-          <Link className="p-4 bg-purple-400 text-lg"  href="/movies/movie-1">Movie 1</Link>
-          <Link className="p-4 bg-purple-400 text-lg"  href="/movies/movie-2">Movie 2</Link>
-          <Link className="p-4 bg-purple-400 text-lg" href="/movies/movie-3">Movie 3</Link>
+        {movies.map((movie) => (
+          <Link
+            key={movie.uuid}
+            className="bg-purple-400 p-4 text-lg"
+            href={`/movies/${movie.uuid}`}
+          >
+            {movie.title}
+          </Link>
+        ))}
       </div>
     </div>
   );
