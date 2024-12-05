@@ -9,6 +9,7 @@
   }],
   "no-restricted-imports": [
     "error"
-  ]
+  ],
+  "@typescript-eslint/no-explicit-any": "warn"
   }
 }

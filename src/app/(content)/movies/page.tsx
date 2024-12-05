@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { getLocale, getTranslations } from "next-intl/server";
 import Link from "next/link";
 import { getMovies } from "@/orval_api/movies/movies";
@@ -24,6 +25,14 @@ export default async function MoviesPage() {
             className="bg-purple-400 p-4 text-lg"
             href={`/movies/${movie.uuid}`}
           >
+            {movie.poster && (
+              <Image
+                src={`http://127.0.0.1:5002/api/movies/poster/${movie.poster}`}
+                alt="Actor Avatar"
+                height={100}
+                width={50}
+              />
+            )}
             {movie.title}
           </Link>
         ))}
