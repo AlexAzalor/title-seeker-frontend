@@ -1,16 +1,14 @@
 import { getLocale } from "next-intl/server";
 import Link from "next/link";
 import { getMovies } from "@/orval_api/movies/movies";
-import { getGenres } from "@/orval_api/genres/genres";
 import { backendURL } from "@/lib/constants";
-import { Language } from "@/orval_api/model";
+import { Language, MovieSearchOut } from "@/orval_api/model";
 import Image from "next/image";
 import { formatDate } from "@/lib/utils";
-import { Genres } from "@/components/genres";
 
 export const revalidate = 10;
 
-type Params = Promise<{ slug: string }>;
+// type Params = Promise<{ slug: string }>;
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 
 export default async function SuperSearchPage(props: {
@@ -21,25 +19,38 @@ export default async function SuperSearchPage(props: {
   const locale = await getLocale();
   const lang = Language[locale as keyof typeof Language];
 
-  const { aPIGetGenres } = getGenres();
+  let moviesList: MovieSearchOut[] = [];
 
-  const {
-    data: { genres },
-  } = await aPIGetGenres({ lang }, backendURL);
-
-  const { aPIGetMoviesByGenre } = getMovies();
+  const { aPISearchMovies } = getMovies();
 
   const genreNamesList =
     typeof searchParams.genre_name === "string"
       ? [searchParams.genre_name]
       : searchParams.genre_name;
+  const subgenreNamesList =
+    typeof searchParams.subgenre_name === "string"
+      ? [searchParams.subgenre_name]
+      : searchParams.subgenre_name;
+
+  const actorNamesList =
+    typeof searchParams.actor_name === "string"
+      ? [searchParams.actor_name]
+      : searchParams.actor_name;
+
+  const directorNamesList =
+    typeof searchParams.director_name === "string"
+      ? [searchParams.director_name]
+      : searchParams.director_name;
 
   const {
-    data: { movies, genre, subgenre },
-  } = await aPIGetMoviesByGenre(
+    data: { movies },
+  } = await aPISearchMovies(
     {
       lang,
       genre_name: genreNamesList,
+      subgenre_name: subgenreNamesList,
+      actor_name: actorNamesList,
+      director_name: directorNamesList,
     },
     {
       baseURL: backendURL.baseURL,
@@ -49,27 +60,19 @@ export default async function SuperSearchPage(props: {
     },
   );
 
-  console.log("movies", movies.length);
+  moviesList = movies;
+
+  console.log("moviesList", moviesList.length);
 
   return (
     <div className="min-h-screen">
-      <h1>{movies.length}</h1>
-      <h1 className="p-5 text-3xl">
-        Result search by genres: {genre ? genre.name : ""},{" "}
-        {subgenre ? subgenre.name : ""}
-      </h1>
-
-      {!movies.length && <h2>No movies found</h2>}
-
-      <div className="flex justify-around gap-6">
-        <Genres genres={genres} />
-
-        <div className="flex flex-col gap-4">
-          {movies.map((movie) => (
+      <div className="flex flex-col gap-4">
+        {moviesList.length ? (
+          moviesList.map((movie) => (
             <Link
-              key={movie.uuid}
-              className="flex items-center justify-around bg-purple-400 p-4 text-lg"
-              href={`/movies/${movie.uuid}`}
+              key={movie.key}
+              className="flex w-[350px] items-center justify-around bg-purple-400 p-4 text-lg"
+              href={`/movies/${movie.key}`}
             >
               {movie.poster && (
                 <Image
@@ -89,8 +92,12 @@ export default async function SuperSearchPage(props: {
                 )}
               </div>
             </Link>
-          ))}
-        </div>
+          ))
+        ) : (
+          <div className="flex w-[350px] items-center justify-around bg-red-400 p-4 text-lg">
+            No movies found
+          </div>
+        )}
       </div>
     </div>
   );

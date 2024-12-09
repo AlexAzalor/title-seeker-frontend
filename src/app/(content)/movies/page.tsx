@@ -18,12 +18,12 @@ export default async function MoviesPage() {
   return (
     <div className="min-h-screen">
       <h1 className="p-5 text-3xl">{t("navigation.movies")}</h1>
-      <div className="flex flex-col gap-4">
+      <div className="grid grid-cols-5 gap-4">
         {movies.map((movie) => (
           <Link
-            key={movie.uuid}
+            key={movie.key}
             className="bg-purple-400 p-4 text-lg"
-            href={`/movies/${movie.uuid}`}
+            href={`/movies/${movie.key}`}
           >
             {movie.poster && (
               <Image

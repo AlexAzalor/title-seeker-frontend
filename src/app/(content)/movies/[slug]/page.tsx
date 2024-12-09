@@ -9,14 +9,14 @@ import { formatDate } from "@/lib/utils";
 import Link from "next/link";
 
 export default async function DynamicPage({ params }: PageProps) {
-  const { slug: movie_uuid } = await params;
+  const { slug: movie_key } = await params;
 
   const t = await getTranslations("HomePage");
   const locale = await getLocale();
   const lang = Language[locale as keyof typeof Language];
 
   const { aPIGetMovie } = getMovies();
-  const { data } = await aPIGetMovie(movie_uuid, { lang }, backendURL);
+  const { data } = await aPIGetMovie(movie_key, { lang }, backendURL);
 
   return (
     <div className="min-h-screen">
@@ -54,7 +54,7 @@ export default async function DynamicPage({ params }: PageProps) {
       <div className="flex gap-4 border">
         {data.subgenres?.map((subgenre) => (
           <Link
-            href={`/super-search/?genre_name=${subgenre.key}`}
+            href={`/super-search/?subgenre_name=${subgenre.key}`}
             className="border border-red-400 p-2"
             key={subgenre.key}
           >
@@ -67,7 +67,7 @@ export default async function DynamicPage({ params }: PageProps) {
 
       <div className="flex gap-3">
         {data.actors?.map((actor) => (
-          <div key={actor.uuid}>
+          <Link href={`/super-search/?actor_name=${actor.key}`} key={actor.key}>
             <h1 className="text-xl font-bold">
               {actor.first_name + " " + actor.last_name}
             </h1>
@@ -78,13 +78,16 @@ export default async function DynamicPage({ params }: PageProps) {
               height={50}
               width={50}
             />
-          </div>
+          </Link>
         ))}
       </div>
 
       <div className="flex gap-3">
         {data.directors?.map((director) => (
-          <div key={director.uuid}>
+          <Link
+            href={`/super-search/?director_name=${director.key}`}
+            key={director.key}
+          >
             <h1 className="text-xl font-bold">
               {director.first_name + " " + director.last_name}
             </h1>
@@ -97,7 +100,7 @@ export default async function DynamicPage({ params }: PageProps) {
                 width={50}
               />
             )}
-          </div>
+          </Link>
         ))}
       </div>
     </div>
