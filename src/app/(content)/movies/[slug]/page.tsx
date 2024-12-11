@@ -122,6 +122,7 @@ export default async function DynamicPage({ params }: PageProps) {
           <RateCriteries
             movieKey={data.key}
             ratingCriteria={data.user_rating}
+            criteriaType={data.rating_criterion}
           />
 
           {data.ratings?.map((rating) => (

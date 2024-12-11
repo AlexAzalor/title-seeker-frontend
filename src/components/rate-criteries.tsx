@@ -2,9 +2,14 @@
 
 import { useReducer, useState } from "react";
 import { RateSlider } from "./rate-slider";
-import { MovieOutUserRating, UserRateMovieIn } from "@/orval_api/model";
+import {
+  MovieOutUserRating,
+  RatingCriterion,
+  UserRateMovieIn,
+} from "@/orval_api/model";
 import { rateMovie, updateRateMovie } from "@/app/actions";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 enum RateCriteriesEnum {
   ACTING = "acting",
@@ -48,6 +53,45 @@ const SCARE_FACTOR_ON = false;
 const BOTH_ON = VISUAL_EFFECTS_ON && SCARE_FACTOR_ON;
 const MIN_RATE = 0.01;
 const SHOW_RATE_VALUES = false;
+// const SUBSTRACT_RATE = 0.5;
+
+const RATING_MAX = {
+  acting: 2,
+  plotStoryline: 2,
+  music: 1.5,
+  reWatchability: 1.5,
+  emotionalImpact: 1,
+  dialogue: 1,
+  productionDesign: 0.5,
+  duration: 0.5,
+  // Additional
+  visualEffects: 1.5,
+  scareFactor: 3,
+};
+
+const DEFAULT_RATE = {
+  acting: RATING_MAX.acting / 2,
+  plotStoryline: RATING_MAX.plotStoryline / 2,
+  music: RATING_MAX.music / 2,
+  reWatchability: RATING_MAX.reWatchability / 2,
+  emotionalImpact: RATING_MAX.emotionalImpact / 2,
+  dialogue: RATING_MAX.dialogue / 2,
+  productionDesign: RATING_MAX.productionDesign / 2,
+  duration: RATING_MAX.duration / 2,
+};
+// Visual Effects Default Rate
+const VE_DEFAULT_RATE = {
+  acting: (RATING_MAX.acting - 0.5) / 2,
+  plotStoryline: (RATING_MAX.plotStoryline - 1) / 2,
+  visualEffects: RATING_MAX.visualEffects / 2,
+};
+
+const SF_DEFAULT_RATE = {
+  acting: (RATING_MAX.acting - 1) / 2,
+  plotStoryline: (RATING_MAX.plotStoryline - 1) / 2,
+  reWatchability: (RATING_MAX.reWatchability - 1) / 2,
+  scareFactor: RATING_MAX.scareFactor / 2,
+};
 
 // const initialState = {
 //   acting: BOTH_ON ? 0.5 : VISUAL_EFFECTS_ON ? 0.75 : SCARE_FACTOR_ON ? 0.5 : 1,
@@ -101,49 +145,73 @@ export function updateRateReducer(
 type Props = {
   movieKey: string;
   ratingCriteria?: MovieOutUserRating;
+  criteriaType: RatingCriterion;
 };
 
-export const RateCriteries = ({ movieKey, ratingCriteria }: Props) => {
-  const initialState = {
-    acting: ratingCriteria
-      ? ratingCriteria.acting
-      : BOTH_ON
-        ? 0.5
-        : VISUAL_EFFECTS_ON
-          ? 0.75
-          : SCARE_FACTOR_ON
-            ? 0.5
-            : 1,
-    plotStoryline: ratingCriteria
-      ? ratingCriteria.plot_storyline
-      : BOTH_ON
-        ? 0.375
-        : VISUAL_EFFECTS_ON
-          ? 0.5
-          : SCARE_FACTOR_ON
-            ? 0.5
-            : 1,
-    music: ratingCriteria ? ratingCriteria.music : 0.75,
-    reWatchability: ratingCriteria
-      ? ratingCriteria.re_watchability
-      : BOTH_ON
-        ? 0.5
-        : SCARE_FACTOR_ON
-          ? 0.25
-          : 0.75,
-    emotionalImpact: ratingCriteria ? ratingCriteria.emotional_impact : 0.5,
-    dialogue: ratingCriteria ? ratingCriteria.dialogue : 0.5,
-    productionDesign: ratingCriteria ? ratingCriteria.production_design : 0.25,
-    duration: ratingCriteria ? ratingCriteria.duration : 0.25,
-    visualEffects: BOTH_ON ? 0.5 : VISUAL_EFFECTS_ON ? 0.75 : 0,
-    scareFactor: BOTH_ON ? 0.875 : SCARE_FACTOR_ON ? 1.5 : 0,
+export const RateCriteries = ({
+  movieKey,
+  ratingCriteria,
+  criteriaType,
+}: Props) => {
+  const isVisualEffects = criteriaType === RatingCriterion.visual_effects;
+  const isScareFactor = criteriaType === RatingCriterion.scare_factor;
+
+  const vsMax = {
+    ...RATING_MAX,
+    acting: RATING_MAX.acting - 0.5,
+    plotStoryline: RATING_MAX.plotStoryline - 1,
   };
 
-  const [state, dispatch] = useReducer(updateRateReducer, initialState);
+  const sfMax = {
+    ...RATING_MAX,
+    acting: RATING_MAX.acting - 1,
+    plotStoryline: RATING_MAX.plotStoryline - 1,
+    reWatchability: RATING_MAX.reWatchability - 1,
+  };
+
+  const initialState = {
+    acting: isVisualEffects
+      ? VE_DEFAULT_RATE.acting
+      : isScareFactor
+        ? SF_DEFAULT_RATE.acting
+        : DEFAULT_RATE.acting,
+    plotStoryline: isVisualEffects
+      ? VE_DEFAULT_RATE.plotStoryline
+      : isScareFactor
+        ? SF_DEFAULT_RATE.plotStoryline
+        : DEFAULT_RATE.plotStoryline,
+    // ?
+    music: DEFAULT_RATE.music,
+    reWatchability: isScareFactor
+      ? SF_DEFAULT_RATE.reWatchability
+      : DEFAULT_RATE.reWatchability,
+    emotionalImpact: DEFAULT_RATE.emotionalImpact,
+    dialogue: DEFAULT_RATE.dialogue,
+    productionDesign: DEFAULT_RATE.productionDesign,
+    duration: DEFAULT_RATE.duration,
+    visualEffects: isVisualEffects ? VE_DEFAULT_RATE.visualEffects : 0,
+    scareFactor: isScareFactor ? SF_DEFAULT_RATE.scareFactor : 0,
+  };
+
+  const userRating: RatingState = {
+    acting: ratingCriteria?.acting || initialState.acting,
+    plotStoryline: ratingCriteria?.plot_storyline || initialState.plotStoryline,
+    music: ratingCriteria?.music || initialState.music,
+    reWatchability:
+      ratingCriteria?.re_watchability || initialState.reWatchability,
+    emotionalImpact:
+      ratingCriteria?.emotional_impact || initialState.emotionalImpact,
+    dialogue: ratingCriteria?.dialogue || initialState.dialogue,
+    productionDesign:
+      ratingCriteria?.production_design || initialState.productionDesign,
+    duration: ratingCriteria?.duration || initialState.duration,
+    visualEffects: ratingCriteria?.visual_effects || initialState.visualEffects,
+    scareFactor: ratingCriteria?.scare_factor || initialState.scareFactor,
+  };
+
+  const [state, dispatch] = useReducer(updateRateReducer, userRating);
   const [showValues, setShowValues] = useState(SHOW_RATE_VALUES);
   const router = useRouter();
-
-  // const [rate, setRate] = useState(0);
 
   const handleValueChange = (value: number[], type: RateCriteriesEnum) => {
     switch (type) {
@@ -186,7 +254,7 @@ export const RateCriteries = ({ movieKey, ratingCriteria }: Props) => {
     setShowValues((prev) => !prev);
   };
 
-  const sumRate =
+  let sumRate =
     state.acting +
     state.plotStoryline +
     state.music +
@@ -194,9 +262,16 @@ export const RateCriteries = ({ movieKey, ratingCriteria }: Props) => {
     state.emotionalImpact +
     state.dialogue +
     state.productionDesign +
-    state.duration +
-    state.visualEffects +
-    state.scareFactor;
+    state.duration;
+  // state.visualEffects +
+  // state.scareFactor;
+  if (isVisualEffects) {
+    sumRate += state.visualEffects;
+  }
+
+  if (isScareFactor) {
+    sumRate += state.scareFactor;
+  }
 
   const handleRateMovie = async () => {
     const data: UserRateMovieIn = {
@@ -211,15 +286,24 @@ export const RateCriteries = ({ movieKey, ratingCriteria }: Props) => {
       dialogue: state.dialogue,
       production_design: state.productionDesign,
       duration: state.duration,
+      visual_effects: state.visualEffects,
+      scare_factor: state.scareFactor,
     };
 
     if (ratingCriteria) {
-      console.log("PUT RATE");
-
-      await updateRateMovie(data);
+      try {
+        await updateRateMovie(data);
+        toast.success("Rating UPDATED");
+      } catch {
+        toast.error("Error occured");
+      }
     } else {
-      console.log("POST RATE");
-      await rateMovie(data);
+      try {
+        await rateMovie(data);
+        toast.success("Rating ADDED");
+      } catch {
+        toast.error("Error occured");
+      }
     }
 
     router.refresh();
@@ -232,14 +316,23 @@ export const RateCriteries = ({ movieKey, ratingCriteria }: Props) => {
       <button className="rounded-md bg-red-300 p-1" onClick={handleShowValues}>
         Show values
       </button>
+      {/* <button onClick={() => toast.success("Event has been created")}>
+        toast
+      </button> */}
       <div>
         Acting
         <RateSlider
           value={showValues ? [state.acting] : undefined}
-          max={BOTH_ON ? 1 : VISUAL_EFFECTS_ON ? 1.5 : SCARE_FACTOR_ON ? 1 : 2}
+          max={
+            isVisualEffects
+              ? vsMax.acting
+              : isScareFactor
+                ? sfMax.acting
+                : RATING_MAX.acting
+          }
           min={MIN_RATE}
           // className="[&_[role=slider]]:h-4 [&_[role=slider]]:w-4"
-          defaultValue={[initialState.acting]}
+          defaultValue={[userRating.acting]}
           onValueChange={(value) =>
             handleValueChange(value, RateCriteriesEnum.ACTING)
           }
@@ -249,9 +342,15 @@ export const RateCriteries = ({ movieKey, ratingCriteria }: Props) => {
         Plot/Storyline
         <RateSlider
           value={showValues ? [state.plotStoryline] : undefined}
-          max={BOTH_ON ? 0.75 : VISUAL_EFFECTS_ON ? 1 : SCARE_FACTOR_ON ? 1 : 2}
+          max={
+            isVisualEffects
+              ? vsMax.plotStoryline
+              : isScareFactor
+                ? sfMax.plotStoryline
+                : RATING_MAX.plotStoryline
+          }
           min={MIN_RATE}
-          defaultValue={[initialState.plotStoryline]}
+          defaultValue={[userRating.plotStoryline]}
           onValueChange={(value) =>
             handleValueChange(value, RateCriteriesEnum.PLOT_STORYLINE)
           }
@@ -261,9 +360,9 @@ export const RateCriteries = ({ movieKey, ratingCriteria }: Props) => {
         Music
         <RateSlider
           value={showValues ? [state.music] : undefined}
-          max={1.5}
+          max={RATING_MAX.music}
           min={MIN_RATE}
-          defaultValue={[initialState.music]}
+          defaultValue={[userRating.music]}
           onValueChange={(value) =>
             handleValueChange(value, RateCriteriesEnum.MUSIC)
           }
@@ -273,9 +372,9 @@ export const RateCriteries = ({ movieKey, ratingCriteria }: Props) => {
         Re-watchability
         <RateSlider
           value={showValues ? [state.reWatchability] : undefined}
-          max={BOTH_ON ? 1 : SCARE_FACTOR_ON ? 0.5 : 1.5}
+          max={isScareFactor ? sfMax.reWatchability : RATING_MAX.reWatchability}
           min={MIN_RATE}
-          defaultValue={[initialState.reWatchability]}
+          defaultValue={[userRating.reWatchability]}
           onValueChange={(value) =>
             handleValueChange(value, RateCriteriesEnum.RE_WATCHABILITY)
           }
@@ -285,9 +384,9 @@ export const RateCriteries = ({ movieKey, ratingCriteria }: Props) => {
         Emotional Impact
         <RateSlider
           value={showValues ? [state.emotionalImpact] : undefined}
-          max={1}
+          max={RATING_MAX.emotionalImpact}
           min={MIN_RATE}
-          defaultValue={[initialState.emotionalImpact]}
+          defaultValue={[userRating.emotionalImpact]}
           onValueChange={(value) =>
             handleValueChange(value, RateCriteriesEnum.EMOTIONAL_IMPACT)
           }
@@ -297,9 +396,9 @@ export const RateCriteries = ({ movieKey, ratingCriteria }: Props) => {
         Dialogue
         <RateSlider
           value={showValues ? [state.dialogue] : undefined}
-          max={1}
+          max={RATING_MAX.dialogue}
           min={MIN_RATE}
-          defaultValue={[initialState.dialogue]}
+          defaultValue={[userRating.dialogue]}
           onValueChange={(value) =>
             handleValueChange(value, RateCriteriesEnum.DIALOGUE)
           }
@@ -309,9 +408,9 @@ export const RateCriteries = ({ movieKey, ratingCriteria }: Props) => {
         Production Design
         <RateSlider
           value={showValues ? [state.productionDesign] : undefined}
-          max={0.5}
+          max={RATING_MAX.productionDesign}
           min={MIN_RATE}
-          defaultValue={[initialState.productionDesign]}
+          defaultValue={[userRating.productionDesign]}
           onValueChange={(value) =>
             handleValueChange(value, RateCriteriesEnum.PRODUCTION_DESIGN)
           }
@@ -322,23 +421,23 @@ export const RateCriteries = ({ movieKey, ratingCriteria }: Props) => {
         Duration
         <RateSlider
           value={showValues ? [state.duration] : undefined}
-          max={0.5}
+          max={RATING_MAX.duration}
           min={MIN_RATE}
-          defaultValue={[initialState.duration]}
+          defaultValue={[userRating.duration]}
           onValueChange={(value) =>
             handleValueChange(value, RateCriteriesEnum.DURATION)
           }
         />
       </div>
 
-      {(BOTH_ON || VISUAL_EFFECTS_ON) && (
+      {isVisualEffects && (
         <div>
           Visual Effects
           <RateSlider
             value={showValues ? [state.visualEffects] : undefined}
-            max={BOTH_ON ? 1 : 1.5}
+            max={RATING_MAX.visualEffects}
             min={MIN_RATE}
-            defaultValue={[initialState.visualEffects]}
+            defaultValue={[userRating.visualEffects]}
             onValueChange={(value) =>
               handleValueChange(value, RateCriteriesEnum.VISUAL_EFFECTS)
             }
@@ -346,14 +445,14 @@ export const RateCriteries = ({ movieKey, ratingCriteria }: Props) => {
         </div>
       )}
 
-      {(BOTH_ON || SCARE_FACTOR_ON) && (
+      {(BOTH_ON || isScareFactor) && (
         <div>
           Scare Factor
           <RateSlider
             value={showValues ? [state.scareFactor] : undefined}
-            max={BOTH_ON ? 1.75 : 3}
+            max={RATING_MAX.scareFactor}
             min={MIN_RATE}
-            defaultValue={[initialState.scareFactor]}
+            defaultValue={[userRating.scareFactor]}
             onValueChange={(value) =>
               handleValueChange(value, RateCriteriesEnum.SCARE_FACTOR)
             }

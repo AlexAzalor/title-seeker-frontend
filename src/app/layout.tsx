@@ -6,6 +6,8 @@ import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import AuthProvider from "@/components/providers/auth-provider";
+// import { Toaster } from "sonner";
+import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -45,6 +47,8 @@ export default async function RootLayout({
             </AuthProvider>
           </NextIntlClientProvider>
         </ThemeProvider>
+
+        <Toaster richColors />
       </body>
     </html>
   );
