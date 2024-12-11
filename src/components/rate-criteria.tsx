@@ -12,19 +12,6 @@ import { rateMovie, updateRateMovie } from "@/app/actions";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
-// enum RateCriteriesEnum {
-//   ACTING = "acting",
-//   PLOT_STORYLINE = "plotStoryline",
-//   MUSIC = "music",
-//   RE_WATCHABILITY = "reWatchability",
-//   EMOTIONAL_IMPACT = "emotionalImpact",
-//   DIALOGUE = "dialogue",
-//   PRODUCTION_DESIGN = "productionDesign",
-//   DURATION = "duration",
-//   VISUAL_EFFECTS = "visualEffects",
-//   SCARE_FACTOR = "scareFactor",
-// }
-
 type RateCriteriesEnum = keyof UserRatingCriteria;
 
 type RatingAction = {
@@ -99,6 +86,21 @@ const SF_DEFAULT_RATE: Pick<
   scare_factor: RATING_MAX.scare_factor / 2,
 };
 
+const FULL_DEFAULT_RATE: Pick<
+  UserRatingCriteria,
+  | "acting"
+  | "re_watchability"
+  | "plot_storyline"
+  | "visual_effects"
+  | "scare_factor"
+> = {
+  acting: (RATING_MAX.acting - 1) / 2,
+  plot_storyline: (RATING_MAX.plot_storyline - 1.25) / 2,
+  re_watchability: (RATING_MAX.re_watchability - 0.5) / 2,
+  visual_effects: 1 / 2,
+  scare_factor: 1.75 / 2,
+};
+
 // Utility function for exhaustive type checking
 function assertNever(x: never): never {
   throw new Error(`Unhandled action: ${JSON.stringify(x)}`);
@@ -150,6 +152,7 @@ export const RateCriteria = ({
 }: Props) => {
   const isVisualEffects = criteriaType === RatingCriterion.visual_effects;
   const isScareFactor = criteriaType === RatingCriterion.scare_factor;
+  const isFull = criteriaType === RatingCriterion.full;
 
   const vsMax: StaticRatingType = {
     ...RATING_MAX,
@@ -164,28 +167,50 @@ export const RateCriteria = ({
     re_watchability: RATING_MAX.re_watchability - 1,
   };
 
+  const fullMax: StaticRatingType = {
+    ...RATING_MAX,
+    acting: RATING_MAX.acting - 1,
+    plot_storyline: RATING_MAX.plot_storyline - 1.25,
+    re_watchability: RATING_MAX.re_watchability - 0.5,
+    visual_effects: 1,
+    scare_factor: 1.75,
+  };
+
   const initialState: UserRatingCriteria = {
-    acting: isVisualEffects
-      ? VE_DEFAULT_RATE.acting
-      : isScareFactor
-        ? SF_DEFAULT_RATE.acting
-        : DEFAULT_RATE.acting,
-    plot_storyline: isVisualEffects
-      ? VE_DEFAULT_RATE.plot_storyline
-      : isScareFactor
-        ? SF_DEFAULT_RATE.plot_storyline
-        : DEFAULT_RATE.plot_storyline,
-    // ?
+    acting: isFull
+      ? FULL_DEFAULT_RATE.acting
+      : isVisualEffects
+        ? VE_DEFAULT_RATE.acting
+        : isScareFactor
+          ? SF_DEFAULT_RATE.acting
+          : DEFAULT_RATE.acting,
+    plot_storyline: isFull
+      ? FULL_DEFAULT_RATE.plot_storyline
+      : isVisualEffects
+        ? VE_DEFAULT_RATE.plot_storyline
+        : isScareFactor
+          ? SF_DEFAULT_RATE.plot_storyline
+          : DEFAULT_RATE.plot_storyline,
     music: DEFAULT_RATE.music,
-    re_watchability: isScareFactor
-      ? SF_DEFAULT_RATE.re_watchability
-      : DEFAULT_RATE.re_watchability,
+    re_watchability: isFull
+      ? FULL_DEFAULT_RATE.re_watchability
+      : isScareFactor
+        ? SF_DEFAULT_RATE.re_watchability
+        : DEFAULT_RATE.re_watchability,
     emotional_impact: DEFAULT_RATE.emotional_impact,
     dialogue: DEFAULT_RATE.dialogue,
     production_design: DEFAULT_RATE.production_design,
     duration: DEFAULT_RATE.duration,
-    visual_effects: isVisualEffects ? VE_DEFAULT_RATE.visual_effects : 0,
-    scare_factor: isScareFactor ? SF_DEFAULT_RATE.scare_factor : 0,
+    visual_effects: isFull
+      ? FULL_DEFAULT_RATE.visual_effects
+      : isVisualEffects
+        ? VE_DEFAULT_RATE.visual_effects
+        : 0,
+    scare_factor: isFull
+      ? FULL_DEFAULT_RATE.scare_factor
+      : isScareFactor
+        ? SF_DEFAULT_RATE.scare_factor
+        : 0,
   };
 
   const userRating: UserRatingCriteria = {
@@ -269,7 +294,45 @@ export const RateCriteria = ({
     sumRate += state.scare_factor;
   }
 
+  if (isFull && state.visual_effects && state.scare_factor) {
+    sumRate += state.visual_effects + state.scare_factor;
+  }
+
   const handleRateMovie = async () => {
+    if (ratingCriteria) {
+      const criteriaKeys: RateCriteriesEnum[] = [
+        "acting",
+        "plot_storyline",
+        "music",
+        "re_watchability",
+        "emotional_impact",
+        "dialogue",
+        "production_design",
+        "duration",
+      ];
+
+      if (isVisualEffects) {
+        criteriaKeys.push("visual_effects");
+      }
+
+      if (isScareFactor) {
+        criteriaKeys.push("scare_factor");
+      }
+
+      if (isFull) {
+        criteriaKeys.push("visual_effects", "scare_factor");
+      }
+
+      const isEqual = criteriaKeys.every(
+        (key) => state[key] === ratingCriteria[key],
+      );
+
+      if (isEqual) {
+        toast.warning("Please rate at least one criteria before submitting");
+        return;
+      }
+    }
+
     const data: UserRateMovieIn = {
       movie_key: movieKey,
       uuid: "some_uuid",
@@ -320,11 +383,13 @@ export const RateCriteria = ({
         <RateSlider
           value={showValues ? [state.acting] : undefined}
           max={
-            isVisualEffects
-              ? vsMax.acting
-              : isScareFactor
-                ? sfMax.acting
-                : RATING_MAX.acting
+            isFull
+              ? fullMax.acting
+              : isVisualEffects
+                ? vsMax.acting
+                : isScareFactor
+                  ? sfMax.acting
+                  : RATING_MAX.acting
           }
           min={MIN_RATE}
           // className="[&_[role=slider]]:h-4 [&_[role=slider]]:w-4"
@@ -337,11 +402,13 @@ export const RateCriteria = ({
         <RateSlider
           value={showValues ? [state.plot_storyline] : undefined}
           max={
-            isVisualEffects
-              ? vsMax.plot_storyline
-              : isScareFactor
-                ? sfMax.plot_storyline
-                : RATING_MAX.plot_storyline
+            isFull
+              ? fullMax.plot_storyline
+              : isVisualEffects
+                ? vsMax.plot_storyline
+                : isScareFactor
+                  ? sfMax.plot_storyline
+                  : RATING_MAX.plot_storyline
           }
           min={MIN_RATE}
           defaultValue={[userRating.plot_storyline]}
@@ -363,7 +430,11 @@ export const RateCriteria = ({
         <RateSlider
           value={showValues ? [state.re_watchability] : undefined}
           max={
-            isScareFactor ? sfMax.re_watchability : RATING_MAX.re_watchability
+            isFull
+              ? fullMax.re_watchability
+              : isScareFactor
+                ? sfMax.re_watchability
+                : RATING_MAX.re_watchability
           }
           min={MIN_RATE}
           defaultValue={[userRating.re_watchability]}
@@ -421,7 +492,7 @@ export const RateCriteria = ({
           Visual Effects
           <RateSlider
             value={showValues ? [state.visual_effects || 0] : undefined}
-            max={RATING_MAX.visual_effects}
+            max={isFull ? fullMax.visual_effects : RATING_MAX.visual_effects}
             min={MIN_RATE}
             defaultValue={[userRating.visual_effects]}
             onValueChange={(value) =>
@@ -436,7 +507,7 @@ export const RateCriteria = ({
           Scare Factor
           <RateSlider
             value={showValues ? [state.scare_factor || 0] : undefined}
-            max={RATING_MAX.scare_factor}
+            max={isFull ? fullMax.scare_factor : RATING_MAX.scare_factor}
             min={MIN_RATE}
             defaultValue={[userRating.scare_factor]}
             onValueChange={(value) => handleValueChange(value, "scare_factor")}
@@ -444,7 +515,7 @@ export const RateCriteria = ({
         </div>
       )}
 
-      <button className="bg-orange-400 p-2" onClick={handleRateMovie}>
+      <button className="mt-5 bg-orange-400 p-2" onClick={handleRateMovie}>
         Rate movie
       </button>
     </div>
