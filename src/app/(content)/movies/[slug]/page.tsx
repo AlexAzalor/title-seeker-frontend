@@ -7,7 +7,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import Image from "next/image";
 import { formatDate } from "@/lib/utils";
 import Link from "next/link";
-import { RateCriteria } from "@/components/rate-criteria";
+import { RateCriteria } from "@/components/rating/rate-criteria";
 
 export default async function DynamicPage({ params }: PageProps) {
   const { slug: movie_key } = await params;
@@ -126,7 +126,7 @@ export default async function DynamicPage({ params }: PageProps) {
           />
 
           {data.ratings?.map((rating) => (
-            <div key={rating.rating}>
+            <div key={rating.uuid}>
               <div>{rating.rating}</div>
               <div>{rating.comment}</div>
             </div>
