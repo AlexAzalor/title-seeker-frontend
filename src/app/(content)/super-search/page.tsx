@@ -41,6 +41,18 @@ export default async function SuperSearchPage(props: {
     typeof searchParams.director_name === "string"
       ? [searchParams.director_name]
       : searchParams.director_name;
+  const specificationNamesList =
+    typeof searchParams.specification_name === "string"
+      ? [searchParams.specification_name]
+      : searchParams.specification_name;
+  const keywordNamesList =
+    typeof searchParams.keyword_name === "string"
+      ? [searchParams.keyword_name]
+      : searchParams.keyword_name;
+  const actionTimeNamesList =
+    typeof searchParams.action_time_name === "string"
+      ? [searchParams.action_time_name]
+      : searchParams.action_time_name;
 
   const {
     data: { movies },
@@ -51,6 +63,9 @@ export default async function SuperSearchPage(props: {
       subgenre_name: subgenreNamesList,
       actor_name: actorNamesList,
       director_name: directorNamesList,
+      specification_name: specificationNamesList,
+      keyword_name: keywordNamesList,
+      action_time_name: actionTimeNamesList,
     },
     {
       baseURL: backendURL.baseURL,

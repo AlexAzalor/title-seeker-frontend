@@ -1,6 +1,6 @@
 "use client";
 
-import { useReducer, useState } from "react";
+import { useOptimistic, useReducer, useState, useTransition } from "react";
 import { RateSlider } from "./rate-slider";
 import {
   MovieOutUserRating,
@@ -41,6 +41,11 @@ export const RateCriteria = ({
 }: Props) => {
   const router = useRouter();
   const [showValues, setShowValues] = useState(SHOW_RATE_VALUES);
+  const [ratingState, setRatingState] = useOptimistic(0);
+  const [isPending, startTransition] = useTransition();
+
+  // useActionState();
+  // useOptimistic();
 
   const isVisualEffects = criteriaType === RatingCriterion.visual_effects;
   const isScareFactor = criteriaType === RatingCriterion.scare_factor;
@@ -156,6 +161,9 @@ export const RateCriteria = ({
 
     if (ratingCriteria) {
       try {
+        startTransition(() => {
+          setRatingState(data.rating);
+        });
         await updateRateMovie(data);
         toast.success("Rating UPDATED");
       } catch {
@@ -196,6 +204,8 @@ export const RateCriteria = ({
   return (
     <div className="w-[500px]">
       <h1>Rate: {calculateRating()}</h1>
+      <h1>Optimistic: {ratingState}</h1>
+      {isPending && <div>...pending...</div>}
       {/* add tooltip or warning text or smth or modal? */}
       <button className="rounded-md bg-red-300 p-1" onClick={handleShowValues}>
         Show values

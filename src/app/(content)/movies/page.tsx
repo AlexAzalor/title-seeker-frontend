@@ -4,6 +4,7 @@ import Link from "next/link";
 import { getMovies } from "@/orval_api/movies/movies";
 import { backendURL } from "@/lib/constants";
 import { Language } from "@/orval_api/model";
+import { formatDate } from "@/lib/utils";
 
 export default async function MoviesPage() {
   const t = await getTranslations("HomePage");
@@ -33,7 +34,12 @@ export default async function MoviesPage() {
                 width={50}
               />
             )}
-            {movie.title}
+            <div>{movie.title}</div>
+            <div>
+              {movie.release_date
+                ? formatDate(movie.release_date, lang)
+                : "no date"}
+            </div>
           </Link>
         ))}
       </div>

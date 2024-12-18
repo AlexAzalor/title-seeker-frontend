@@ -57,6 +57,7 @@ export default async function DynamicPage({ params }: PageProps) {
                 key={genre.key}
               >
                 {genre.name}
+                <div>{genre.percentage_match}% match</div>
               </Link>
             ))}
           </div>
@@ -64,11 +65,51 @@ export default async function DynamicPage({ params }: PageProps) {
           <div className="flex gap-4 border">
             {data.subgenres?.map((subgenre) => (
               <Link
-                href={`/super-search/?subgenre_name=${subgenre.key}`}
+                href={`/super-search/?genre_name=${subgenre.parent_genre.key}&subgenre_name=${subgenre.key}`}
                 className="border border-red-400 p-2"
                 key={subgenre.key}
               >
                 {subgenre.name}
+                <div>{subgenre.percentage_match}% match</div>
+              </Link>
+            ))}
+          </div>
+
+          <div className="flex gap-4 border">
+            {data.specifications?.map((specification) => (
+              <Link
+                href={`/super-search/?specification_name=${specification.key}`}
+                className="border border-red-400 p-2"
+                key={specification.key}
+              >
+                {specification.name}
+                <div>{specification.percentage_match}% match</div>
+              </Link>
+            ))}
+          </div>
+
+          <div className="flex gap-4 border">
+            {data.keywords?.map((keyword) => (
+              <Link
+                href={`/super-search/?keyword_name=${keyword.key}`}
+                className="border border-red-400 p-2"
+                key={keyword.key}
+              >
+                {keyword.name}
+                <div>{keyword.percentage_match}% match</div>
+              </Link>
+            ))}
+          </div>
+
+          <div className="flex gap-4 border">
+            {data.action_times?.map((action_time) => (
+              <Link
+                href={`/super-search/?action_time_name=${action_time.key}`}
+                className="border border-red-400 p-2"
+                key={action_time.key}
+              >
+                {action_time.name}
+                <div>{action_time.percentage_match}% match</div>
               </Link>
             ))}
           </div>

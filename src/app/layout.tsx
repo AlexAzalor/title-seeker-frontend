@@ -8,6 +8,7 @@ import { ThemeProvider } from "@/components/providers/theme-provider";
 import AuthProvider from "@/components/providers/auth-provider";
 // import { Toaster } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
+// import { after } from "next/server";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -35,6 +36,12 @@ export default async function RootLayout({
   // Providing all messages to the client
   // side is the easiest way to get started
   const messages = await getMessages();
+
+  // Secondary task
+  // after(() => {
+  //   console.log("TEST AFTER");
+  // });
+
   return (
     <html lang={locale}>
       <body
