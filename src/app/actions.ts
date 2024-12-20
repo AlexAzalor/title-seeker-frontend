@@ -3,7 +3,9 @@
 import { cookies } from "next/headers";
 import { getUsers } from "@/orval_api/users/users";
 import { backendURL } from "@/lib/constants";
-import { UserRateMovieIn } from "@/orval_api/model";
+import { MovieIn, UserRateMovieIn } from "@/orval_api/model";
+import { getMovies } from "@/orval_api/movies/movies";
+
 export async function create(locale: string) {
   const cookieStore = await cookies();
 
@@ -20,4 +22,10 @@ export async function rateMovie(data: UserRateMovieIn) {
   const { aPIRateMovie } = getUsers();
 
   await aPIRateMovie("user_uuid", data, backendURL);
+}
+
+export async function addNewMovie(data: MovieIn) {
+  const { aPICreateMovie } = getMovies();
+
+  await aPICreateMovie(data, backendURL);
 }
