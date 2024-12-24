@@ -38,3 +38,7 @@ export function convertToISOString(dateString: string) {
   // Convert the Date object to an ISO string
   return date.toISOString();
 }
+
+export function formatKey(names: string[]) {
+  return convertToSlug(names.join(" "));
+}

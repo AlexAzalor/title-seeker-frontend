@@ -118,6 +118,154 @@ export default {
         SoftPink: "#f5b7b1",
         LightPeach: "#ffdab9",
         Silver22: "#c0c0c0",
+        // ========================
+
+        //         primary: {
+        //           light: '#F9E2E7', // Light Pink
+        //           DEFAULT: '#F497A5', // Soft Pink
+        //           dark: '#D6717E', // Deep Pink
+        //         },
+        //         secondary: {
+        //           light: '#E1F5FE', // Light Blue
+        //           DEFAULT: '#81D4FA', // Sky Blue
+        //           dark: '#4BA3C7', // Medium Blue
+        //         },
+        //         neutral: {
+        //           light: '#FAFAFA', // Off-White
+        //           DEFAULT: '#EAEAEA', // Light Gray
+        //           dark: '#9E9E9E', // Medium Gray
+        //         },
+        // // ========================
+
+        //         primary: {
+        //           light: '#FFC1E3', // Neon Pink
+        //           DEFAULT: '#FF4081', // Hot Pink
+        //           dark: '#C60055', // Deep Neon Pink
+        //         },
+        //         secondary: {
+        //           light: '#80D8FF', // Neon Blue
+        //           DEFAULT: '#00B0FF', // Electric Blue
+        //           dark: '#005F8E', // Deep Neon Blue
+        //         },
+        //         neutral: {
+        //           light: '#F5F5F5', // White Smoke
+        //           DEFAULT: '#BDBDBD', // Gray
+        //           dark: '#616161', // Charcoal
+        //         },
+        // // ========================
+
+        //         primary: {
+        //           light: '#EED9F5', // Pale Pink
+        //           DEFAULT: '#D17BB8', // Blush Pink
+        //           dark: '#9C4A7C', // Dusky Pink
+        //         },
+        //         secondary: {
+        //           light: '#CCE7F9', // Pale Blue
+        //           DEFAULT: '#6FA3CE', // Muted Blue
+        //           dark: '#426A8A', // Steel Blue
+        //         },
+        //         neutral: {
+        //           light: '#FFFFFF', // White
+        //           DEFAULT: '#ECEFF1', // Light Gray
+        //           dark: '#607D8B', // Blue-Gray
+        //         },
+        // // ========================
+        //               primary: {
+        //         light: '#FFD7F1', // Soft Blush Pink
+        //         DEFAULT: '#FF92C6', // Bubblegum Pink
+        //         dark: '#FF69A6', // Candy Pink
+        //       },
+        //       secondary: {
+        //         light: '#D8EFFF', // Sky Pastel Blue
+        //         DEFAULT: '#A3D8FF', // Baby Blue
+        //         dark: '#71B7E6', // Soft Aqua Blue
+        //       },
+        //       accent: {
+        //         light: '#FFF5C3', // Pale Yellow
+        //         DEFAULT: '#FFE680', // Sunshine Yellow
+        //         dark: '#FFCC33', // Golden Yellow
+        //       },
+        //       neutral: {
+        //         light: '#FFF8FB', // Almost White Pink
+        //         DEFAULT: '#FCE4EC', // Light Pink
+        //         dark: '#F8BBD0', // Rosy Pink
+        //       },
+
+        //       // Anime 1
+        //       primary: {
+        //         light: '#FFD7F1', // Soft Blush Pink
+        //         DEFAULT: '#FF92C6', // Bubblegum Pink
+        //         dark: '#FF69A6', // Candy Pink
+        //       },
+        //       secondary: {
+        //         light: '#D8EFFF', // Sky Pastel Blue
+        //         DEFAULT: '#A3D8FF', // Baby Blue
+        //         dark: '#71B7E6', // Soft Aqua Blue
+        //       },
+        //       accent: {
+        //         light: '#FFF5C3', // Pale Yellow
+        //         DEFAULT: '#FFE680', // Sunshine Yellow
+        //         dark: '#FFCC33', // Golden Yellow
+        //       },
+        //       neutral: {
+        //         light: '#FFF8FB', // Almost White Pink
+        //         DEFAULT: '#FCE4EC', // Light Pink
+        //         dark: '#F8BBD0', // Rosy Pink
+        //       },
+
+        //       // Anime 2
+
+        //       primary: {
+        //         light: '#FFE1E9', // Sakura Pink
+        //         DEFAULT: '#FF99B7', // Cherry Blossom Pink
+        //         dark: '#E06C9F', // Darker Pink Petal
+        //       },
+        //       secondary: {
+        //         light: '#DCEFFF', // Soft Lavender Blue
+        //         DEFAULT: '#A7CFFF', // Pastel Blue
+        //         dark: '#6D9EDF', // Calm Blue
+        //       },
+        //       accent: {
+        //         light: '#F7E3F5', // Pale Lilac
+        //         DEFAULT: '#D5A9E5', // Lavender
+        //         dark: '#A678C1', // Deep Orchid
+        //       },
+        //       neutral: {
+        //         light: '#FFFFFF', // White
+        //         DEFAULT: '#F7F7F7', // Off-White
+        //         dark: '#EBEBEB', // Light Gray
+        //       },
+
+        // Anime 3
+        animeprimary: {
+          light: "#FFADF7", // Neon Pink
+          DEFAULT: "#FF69C0", // Hot Pink
+          dark: "#E633A0", // Fuchsia
+        },
+        animesecondary: {
+          light: "#ADE5FF", // Bright Aqua Blue
+          DEFAULT: "#66CCFF", // Electric Blue
+          dark: "#3399FF", // Bold Sky Blue
+        },
+        animeaccent: {
+          light: "#FFF4B3", // Bright Yellow
+          DEFAULT: "#FFD700", // Neon Yellow
+          dark: "#FFC300", // Deep Golden Yellow
+        },
+        animeneutral: {
+          light: "#FFF9FA", // Light Peachy Pink
+          DEFAULT: "#F8EFF3", // Pastel Gray
+          dark: "#E0D1D8", // Soft Gray
+        },
+
+        // Anime 4
+        testfour: {
+          p: "#FAD7E8",
+          b: "#ACCBEA",
+          w: "#FDFDFE ",
+          p2: "#F7A9C7",
+          g: "#B0BCCD",
+        },
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

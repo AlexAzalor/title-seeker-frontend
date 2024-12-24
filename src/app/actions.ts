@@ -3,8 +3,17 @@
 import { cookies } from "next/headers";
 import { getUsers } from "@/orval_api/users/users";
 import { backendURL } from "@/lib/constants";
-import { MovieIn, UserRateMovieIn } from "@/orval_api/model";
+import {
+  ActorIn,
+  BodyAPICreateActor,
+  Language,
+  MovieIn,
+  UserRateMovieIn,
+} from "@/orval_api/model";
 import { getMovies } from "@/orval_api/movies/movies";
+import { getActors } from "@/orval_api/actors/actors";
+import { AxiosError, AxiosResponse } from "axios";
+import { getLocale } from "next-intl/server";
 
 export async function create(locale: string) {
   const cookieStore = await cookies();
@@ -25,7 +34,31 @@ export async function rateMovie(data: UserRateMovieIn) {
 }
 
 export async function addNewMovie(data: MovieIn) {
+  const locale = await getLocale();
+  const lang = Language[locale as keyof typeof Language];
+
   const { aPICreateMovie } = getMovies();
 
-  await aPICreateMovie(data, backendURL);
+  try {
+    const a: AxiosResponse = await aPICreateMovie(data, { lang }, backendURL);
+
+    return { status: a.status, message: "Movie created" };
+  } catch (error: any) {
+    return { status: error.status, message: error.response?.data.detail };
+  }
+}
+
+export async function addNewActor(data: BodyAPICreateActor) {
+  const locale = await getLocale();
+  const lang = Language[locale as keyof typeof Language];
+
+  const { aPICreateActor } = getActors();
+
+  try {
+    const a: AxiosResponse = await aPICreateActor(data, { lang }, backendURL);
+    // I do this on Zod project
+    return { status: a.status, message: "Actor created", newActor: a.data };
+  } catch (error: any) {
+    return { status: error.status, message: error.response?.data.detail };
+  }
 }
