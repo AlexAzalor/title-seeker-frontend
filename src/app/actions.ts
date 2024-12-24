@@ -12,6 +12,7 @@ import {
 } from "@/orval_api/model";
 import { getMovies } from "@/orval_api/movies/movies";
 import { getActors } from "@/orval_api/actors/actors";
+import { getDirectors } from "@/orval_api/directors/directors";
 import { AxiosError, AxiosResponse } from "axios";
 import { getLocale } from "next-intl/server";
 
@@ -58,6 +59,29 @@ export async function addNewActor(data: BodyAPICreateActor) {
     const a: AxiosResponse = await aPICreateActor(data, { lang }, backendURL);
     // I do this on Zod project
     return { status: a.status, message: "Actor created", newActor: a.data };
+  } catch (error: any) {
+    return { status: error.status, message: error.response?.data.detail };
+  }
+}
+
+export async function addNewDirector(data: BodyAPICreateActor) {
+  const locale = await getLocale();
+  const lang = Language[locale as keyof typeof Language];
+
+  const { aPICreateDirector } = getDirectors();
+
+  try {
+    const a: AxiosResponse = await aPICreateDirector(
+      data,
+      { lang },
+      backendURL,
+    );
+    // I do this on Zod project
+    return {
+      status: a.status,
+      message: "Director created",
+      newDirector: a.data,
+    };
   } catch (error: any) {
     return { status: error.status, message: error.response?.data.detail };
   }

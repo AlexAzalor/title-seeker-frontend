@@ -80,6 +80,7 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import { AddNewActor } from "./add-new-actor";
+import { AddNewDirector } from "./add-new-director";
 
 // form values save on localsotrage
 // preven exit without saving
@@ -171,6 +172,7 @@ export const AddNewMovie = ({
   const [movieTitle, setMovieTitle] = useState<string>("");
 
   const [openActorFormModal, setOpenActorFormModal] = useState(false);
+  const [openDirectorFormModal, setOpenDirectorFormModal] = useState(false);
 
   const addMovie = async () => {
     console.log("Actor", actorsRef.current);
@@ -677,7 +679,15 @@ export const AddNewMovie = ({
                   className="h-9"
                 />
                 <CommandList>
-                  <CommandEmpty>No director found.</CommandEmpty>
+                  <CommandEmpty>
+                    No director found.
+                    <Button
+                      variant="link"
+                      onClick={() => setOpenDirectorFormModal(true)}
+                    >
+                      Add?
+                    </Button>
+                  </CommandEmpty>
 
                   <TooltipProvider>
                     <CommandGroup className="text-left">
@@ -1794,6 +1804,26 @@ export const AddNewMovie = ({
               account and remove your data from our servers.
             </DialogDescription> */}
             <AddNewActor setActorsList={setActorsList} actorsRef={actorsRef} />
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog
+        open={openDirectorFormModal}
+        onOpenChange={setOpenDirectorFormModal}
+      >
+        {/* <DialogTrigger>Open</DialogTrigger> */}
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Director</DialogTitle>
+            {/* <DialogDescription>
+              This action cannot be undone. This will permanently delete your
+              account and remove your data from our servers.
+            </DialogDescription> */}
+            <AddNewDirector
+              setDirectorsList={setDirectorsList}
+              directorsRef={directorsRef}
+            />
           </DialogHeader>
         </DialogContent>
       </Dialog>

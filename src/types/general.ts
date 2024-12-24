@@ -8,6 +8,7 @@ export type PageProps = {
   params: Promise<{ slug: string }>;
 };
 
+// This use for the direcors too
 export type ActorFieldNames = keyof BodyAPICreateActor;
 
 export type TypeActorScheme = z.infer<typeof ActorScheme>;
