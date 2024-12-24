@@ -4,8 +4,8 @@ import { cookies } from "next/headers";
 import { getUsers } from "@/orval_api/users/users";
 import { backendURL } from "@/lib/constants";
 import {
-  ActorIn,
   BodyAPICreateActor,
+  BodyAPICreateGenre,
   Language,
   MovieIn,
   UserRateMovieIn,
@@ -13,7 +13,8 @@ import {
 import { getMovies } from "@/orval_api/movies/movies";
 import { getActors } from "@/orval_api/actors/actors";
 import { getDirectors } from "@/orval_api/directors/directors";
-import { AxiosError, AxiosResponse } from "axios";
+import { getGenres } from "@/orval_api/genres/genres";
+import { AxiosResponse } from "axios";
 import { getLocale } from "next-intl/server";
 
 export async function create(locale: string) {
@@ -81,6 +82,25 @@ export async function addNewDirector(data: BodyAPICreateActor) {
       status: a.status,
       message: "Director created",
       newDirector: a.data,
+    };
+  } catch (error: any) {
+    return { status: error.status, message: error.response?.data.detail };
+  }
+}
+
+export async function addNewGenre(data: BodyAPICreateGenre) {
+  const locale = await getLocale();
+  const lang = Language[locale as keyof typeof Language];
+
+  const { aPICreateGenre } = getGenres();
+
+  try {
+    const a: AxiosResponse = await aPICreateGenre(data, { lang }, backendURL);
+    // I do this on Zod project
+    return {
+      status: a.status,
+      message: "Genre created",
+      newGenre: a.data,
     };
   } catch (error: any) {
     return { status: error.status, message: error.response?.data.detail };

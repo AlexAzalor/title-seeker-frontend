@@ -81,6 +81,7 @@ import {
 } from "../ui/dialog";
 import { AddNewActor } from "./add-new-actor";
 import { AddNewDirector } from "./add-new-director";
+import { AddNewGenre } from "./add-new-genre";
 
 // form values save on localsotrage
 // preven exit without saving
@@ -173,6 +174,7 @@ export const AddNewMovie = ({
 
   const [openActorFormModal, setOpenActorFormModal] = useState(false);
   const [openDirectorFormModal, setOpenDirectorFormModal] = useState(false);
+  const [openGenreFormModal, setOpenGenreFormModal] = useState(false);
 
   const addMovie = async () => {
     console.log("Actor", actorsRef.current);
@@ -882,7 +884,15 @@ export const AddNewMovie = ({
               <Command>
                 <CommandInput placeholder="Search genres..." className="h-9" />
                 <CommandList>
-                  <CommandEmpty>No genres found.</CommandEmpty>
+                  <CommandEmpty>
+                    No genres found.
+                    <Button
+                      variant="link"
+                      onClick={() => setOpenGenreFormModal(true)}
+                    >
+                      Add?
+                    </Button>
+                  </CommandEmpty>
 
                   <TooltipProvider>
                     <CommandGroup className="text-left">
@@ -1824,6 +1834,20 @@ export const AddNewMovie = ({
               setDirectorsList={setDirectorsList}
               directorsRef={directorsRef}
             />
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={openGenreFormModal} onOpenChange={setOpenGenreFormModal}>
+        {/* <DialogTrigger>Open</DialogTrigger> */}
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Director</DialogTitle>
+            {/* <DialogDescription>
+              This action cannot be undone. This will permanently delete your
+              account and remove your data from our servers.
+            </DialogDescription> */}
+            <AddNewGenre setGenresList={setGenresList} genresRef={genresRef} />
           </DialogHeader>
         </DialogContent>
       </Dialog>

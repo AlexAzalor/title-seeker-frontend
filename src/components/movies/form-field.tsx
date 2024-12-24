@@ -1,6 +1,6 @@
 "use client";
 
-import { FormFieldProps } from "@/types/general";
+import { FormFieldProps, GenreFormFieldProps } from "@/types/general";
 
 const passwordInputs = ["key"];
 
@@ -12,7 +12,7 @@ export const FormField = ({
   labelWidth,
   label,
   value,
-}: FormFieldProps) => {
+}: FormFieldProps | GenreFormFieldProps) => {
   return (
     <>
       <div className="relative mt-7 h-[50px] w-full">

@@ -65,3 +65,13 @@ export const ActorScheme = z
   .refine(
     (data) => (data.key = formatKey([data.first_name_en, data.last_name_en])),
   );
+
+export const GenreScheme = z
+  .object({
+    key: z.string().trim(),
+    name_uk: z.string().min(1, { message: "name_uk is required" }).trim(),
+    name_en: z.string().min(1, { message: "name_en is required" }).trim(),
+    description_uk: z.union([z.string().trim(), z.literal("")]).optional(),
+    description_en: z.union([z.string().trim(), z.literal("")]).optional(),
+  })
+  .refine((data) => (data.key = formatKey([data.name_en])));
