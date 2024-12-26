@@ -85,6 +85,7 @@ import { AddNewGenre } from "./add-new-genre";
 import { AddNewSubgenre } from "./add-new-subgenre";
 import { AddNewSpecification } from "./add-new-specification";
 import { AddNewKeyword } from "./add-new-keyword";
+import { AddNewActionTime } from "./add-new-action-time";
 
 // form values save on localsotrage
 // preven exit without saving
@@ -182,6 +183,7 @@ export const AddNewMovie = ({
   const [openSpecificationFormModal, setOpenSpecificationFormModal] =
     useState(false);
   const [openKeywordFormModal, setOpenKeywordFormModal] = useState(false);
+  const [openActionTimeFormModal, setOpenActionTimeFormModal] = useState(false);
 
   const addMovie = async () => {
     console.log("Actor", actorsRef.current);
@@ -1645,7 +1647,15 @@ export const AddNewMovie = ({
                   className="h-9"
                 />
                 <CommandList>
-                  <CommandEmpty>No action time found.</CommandEmpty>
+                  <CommandEmpty>
+                    No action time found.
+                    <Button
+                      variant="link"
+                      onClick={() => setOpenActionTimeFormModal(true)}
+                    >
+                      Add?
+                    </Button>
+                  </CommandEmpty>
 
                   <TooltipProvider>
                     <CommandGroup className="text-left">
@@ -1940,6 +1950,26 @@ export const AddNewMovie = ({
             <AddNewKeyword
               setKeywordsList={setKeywordsList}
               keywordsRef={keywordsRef}
+            />
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog
+        open={openActionTimeFormModal}
+        onOpenChange={setOpenActionTimeFormModal}
+      >
+        {/* <DialogTrigger>Open</DialogTrigger> */}
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Action Time</DialogTitle>
+            {/* <DialogDescription>
+              This action cannot be undone. This will permanently delete your
+              account and remove your data from our servers.
+            </DialogDescription> */}
+            <AddNewActionTime
+              setActionTimesList={setActionTimesList}
+              actionTimesRef={actionTimesRef}
             />
           </DialogHeader>
         </DialogContent>

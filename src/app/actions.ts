@@ -18,6 +18,7 @@ import { getGenres } from "@/orval_api/genres/genres";
 import { getSubgenres } from "@/orval_api/subgenres/subgenres";
 import { getSpecifications } from "@/orval_api/specifications/specifications";
 import { getKeywords } from "@/orval_api/keywords/keywords";
+import { getActionTimes } from "@/orval_api/action-times/action-times";
 import { AxiosResponse } from "axios";
 import { getLocale } from "next-intl/server";
 
@@ -169,6 +170,28 @@ export async function addNewKeyword(data: BodyAPICreateGenre) {
     return {
       status: a.status,
       message: "Keyword created",
+      newGenre: a.data,
+    };
+  } catch (error: any) {
+    return { status: error.status, message: error.response?.data.detail };
+  }
+}
+export async function addNewActionTime(data: BodyAPICreateGenre) {
+  const locale = await getLocale();
+  const lang = Language[locale as keyof typeof Language];
+
+  const { aPICreateActionTime } = getActionTimes();
+
+  try {
+    const a: AxiosResponse = await aPICreateActionTime(
+      data,
+      { lang },
+      backendURL,
+    );
+    // I do this on Zod project
+    return {
+      status: a.status,
+      message: "Action Time created",
       newGenre: a.data,
     };
   } catch (error: any) {
