@@ -24,6 +24,21 @@ export type StaticRatingType = Omit<UserRatingCriteria, ExtraRateCriteria> & {
   scare_factor: number;
 };
 
+export const MIN_RATE = 0.01;
+
+export const INITIAL_RATE: UserRatingCriteria = {
+  acting: MIN_RATE,
+  plot_storyline: MIN_RATE,
+  music: MIN_RATE,
+  re_watchability: MIN_RATE,
+  emotional_impact: MIN_RATE,
+  dialogue: MIN_RATE,
+  production_design: MIN_RATE,
+  duration: MIN_RATE,
+  // visual_effects: MIN_RATE,
+  // scare_factor: MIN_RATE,
+};
+
 export const RATING_MAX: StaticRatingType = {
   acting: 2,
   plot_storyline: 2,

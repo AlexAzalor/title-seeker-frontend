@@ -9,9 +9,11 @@ import {
   KeywordOut,
   MovieFilterField,
   MovieIn,
+  MoviePersonFilterField,
   RatingCriterion,
   SpecificationOut,
   SubgenreOut,
+  UserRatingCriteria,
 } from "@/orval_api/model";
 // import { Input } from "@/components/ui/input";
 // import { Card, CardHeader } from "@/components/ui/card";
@@ -86,6 +88,8 @@ import { AddNewSubgenre } from "./add-new-subgenre";
 import { AddNewSpecification } from "./add-new-specification";
 import { AddNewKeyword } from "./add-new-keyword";
 import { AddNewActionTime } from "./add-new-action-time";
+import { RateMovie } from "./rate-movie";
+import { INITIAL_RATE } from "../rating/utils";
 
 // form values save on localsotrage
 // preven exit without saving
@@ -117,7 +121,7 @@ export const AddNewMovie = ({
   // Actors
   const [openActor, setOpenActor] = useState(false);
   const [actorsList, setActorsList] = useState<ActorOut[]>([]);
-  const actorsRef = useRef<{ [key: string]: string }[]>([]);
+  const actorsRef = useRef<MoviePersonFilterField[]>([]);
 
   // Directors
   const [openDirectors, setOpenDirectors] = useState(false);
@@ -154,7 +158,10 @@ export const AddNewMovie = ({
   const [actionTimesList, setActionTimesList] = useState<ActionTimeOut[]>([]);
   const actionTimesRef = useRef<MovieFilterField[]>([]);
 
-  const ratingCriteriaRef = useRef<RatingCriterion>(RatingCriterion.basic);
+  // const ratingCriteriaRef = useRef<RatingCriterion>(RatingCriterion.basic);
+  const [ratingCriteria, setRatingCriteria] = useState<RatingCriterion>(
+    RatingCriterion.basic,
+  );
 
   const movieIdRef = useRef<number>(newMovieId);
 
@@ -185,16 +192,18 @@ export const AddNewMovie = ({
   const [openKeywordFormModal, setOpenKeywordFormModal] = useState(false);
   const [openActionTimeFormModal, setOpenActionTimeFormModal] = useState(false);
 
+  const ratingRef = useRef<UserRatingCriteria & { rating: number }>({
+    ...INITIAL_RATE,
+    rating: 0,
+  });
+
   const addMovie = async () => {
-    console.log("Actor", actorsRef.current);
-    // console.log("Director", directorKey);
-    // console.log("Specification", specificationKey);
-    // console.log("SPEC REF", specRef.current);
-    console.log("Genres", genresRef.current);
-    // console.log("Subgenres", subgenresRef.current);
-    // console.log("Keywords", keywordsRef.current);
-    // console.log("Action Times", actionTimesRef.current);
-    // console.log("Rating Criteria", ratingCriteriaRef.current);
+    console.log("RATING:::::::", ratingRef.current);
+
+    if (ratingRef.current.rating < 1) {
+      toast.error("Rating must be more than 1");
+      return;
+    }
 
     const newMovieData: MovieIn = {
       id: movieIdRef.current,
@@ -211,14 +220,16 @@ export const AddNewMovie = ({
       location_uk: locationUkRef.current,
       location_en: locationEnRef.current,
       poster: newMovieId + "_" + movieTitle + ".png",
-      actors_keys: actorsRef.current.map((actor) => actor.key),
+      actors_keys: actorsRef.current,
       directors_keys: directorsRef.current.map((director) => director.key),
       genres: genresRef.current,
       subgenres: subgenresRef.current,
       specifications: specRef.current,
       keywords: keywordsRef.current,
       action_times: actionTimesRef.current,
-      rating_criterion: ratingCriteriaRef.current,
+      rating_criterion_type: ratingCriteria,
+      rating_criteria: ratingRef.current,
+      rating: ratingRef.current.rating,
     };
 
     console.log("DATA TO API: ", newMovieData);
@@ -236,7 +247,7 @@ export const AddNewMovie = ({
     // try {
     //   await addNewMovie(newMovieData);
     //   toast.success("Movie added");
-    // } catch (error) {
+    // } catch (error: any) {
     //   toast.error("Error with adding movie");
     //   console.error("Error occured", error.response);
     // }
@@ -269,7 +280,6 @@ export const AddNewMovie = ({
             />
           </div>
         </div>
-
         <Label htmlFor="title-uk">Title UK</Label>
         <Input
           id="title-uk"
@@ -277,7 +287,6 @@ export const AddNewMovie = ({
           placeholder="Title UK"
           onChange={(e) => (titleUkRef.current = e.target.value)}
         />
-
         <div className="flex gap-5">
           <div className="flex-1">
             <Label htmlFor="title-en">Title EN</Label>
@@ -308,7 +317,6 @@ export const AddNewMovie = ({
             />
           </div>
         </div>
-
         <div className="grid gap-2">
           <Label htmlFor="description-uk">Description UK</Label>
           <Textarea
@@ -317,7 +325,6 @@ export const AddNewMovie = ({
             onChange={(e) => (descriptionUkRef.current = e.target.value)}
           />
         </div>
-
         <div className="grid gap-2">
           <Label htmlFor="description-en">Description EN</Label>
           <Textarea
@@ -326,7 +333,6 @@ export const AddNewMovie = ({
             onChange={(e) => (descriptionEnRef.current = e.target.value)}
           />
         </div>
-
         <div className="flex gap-3">
           <div className="flex flex-col">
             <Label htmlFor="release-date">Release Date</Label>
@@ -374,7 +380,6 @@ export const AddNewMovie = ({
             />
           </div>
         </div>
-
         <Label htmlFor="duration">Duration</Label>
         <Input
           id="duration"
@@ -382,7 +387,6 @@ export const AddNewMovie = ({
           placeholder="Duration"
           onChange={(e) => (durationRef.current = +e.target.value)}
         />
-
         <Label htmlFor="budget">Budget</Label>
         <Input
           id="budget"
@@ -390,7 +394,6 @@ export const AddNewMovie = ({
           placeholder="Budget"
           onChange={(e) => (budgetRef.current = +e.target.value)}
         />
-
         <Label htmlFor="domestic-gross">Domestic gross</Label>
         <Input
           id="domestic-gross"
@@ -398,7 +401,6 @@ export const AddNewMovie = ({
           placeholder="Domestic gross"
           onChange={(e) => (domesticGrossRef.current = +e.target.value)}
         />
-
         <Label htmlFor="worldwide-gross">Worldwide gross</Label>
         <Input
           id="worldwide-gross"
@@ -406,7 +408,6 @@ export const AddNewMovie = ({
           placeholder="Worldwide gross"
           onChange={(e) => (worldwideGrossRef.current = +e.target.value)}
         />
-
         <Label htmlFor="location-uk">Location UK</Label>
         <Input
           id="location-uk"
@@ -414,7 +415,6 @@ export const AddNewMovie = ({
           placeholder="Location UK"
           onChange={(e) => (locationUkRef.current = e.target.value)}
         />
-
         <Label htmlFor="location-en">Location EN</Label>
         <Input
           id="location-en"
@@ -422,7 +422,6 @@ export const AddNewMovie = ({
           placeholder="Location EN"
           onChange={(e) => (locationEnRef.current = e.target.value)}
         />
-
         <Label htmlFor="poster">Poster</Label>
         <Input
           id="poster"
@@ -432,9 +431,7 @@ export const AddNewMovie = ({
           value={newMovieId + "_" + movieTitle + ".png"}
           // onChange={(e) => (locationEnRef.current = newMovieId + "_" + e.target.value + ".png")}
         />
-
         {/* ============================ Actors ====================================================== */}
-
         <div className="border border-black p-2">
           <h1>Actors</h1>
           <div>
@@ -465,6 +462,26 @@ export const AddNewMovie = ({
                         >
                           <span>{actor.full_name}</span>
                         </TooltipTrigger>
+                        <Input
+                          onChange={(e) => {
+                            console.log("scec ref", +e.target.value);
+
+                            const a = actorsRef.current.find(
+                              (actorPrev) => actorPrev.key === actor.key,
+                            );
+                            if (!a) {
+                              actorsRef.current.push({
+                                key: actor.key,
+                                character_name: e.target.value,
+                              });
+                            } else {
+                              a.character_name = e.target.value;
+                            }
+                          }}
+                          className="w-32"
+                          type="text"
+                          placeholder="Poster"
+                        />
                         <CircleXIcon
                           className="cursor-pointer"
                           onClick={(e) => {
@@ -552,14 +569,15 @@ export const AddNewMovie = ({
                                   )
                                 : [...prev, actor],
                             );
-                            const a = actorsRef.current.find(
-                              (actorPrev) => actorPrev.key === actor.key,
-                            );
-                            if (!a) {
-                              actorsRef.current.push({
-                                key: actor.key,
-                              });
-                            }
+                            // const a = actorsRef.current.find(
+                            //   (actorPrev) => actorPrev.key === actor.key,
+                            // );
+                            // if (!a) {
+                            //   actorsRef.current.push({
+                            //     key: actor.key,
+                            //     character_name: "",
+                            //   });
+                            // }
 
                             setOpenActor(false);
                           }}
@@ -592,9 +610,7 @@ export const AddNewMovie = ({
             </PopoverContent>
           </Popover>
         </div>
-
         {/* ============================ Actors ====================================================== */}
-
         {/* ============================ Directors ====================================================== */}
         <div className="border border-black p-2">
           <h1>Directors</h1>
@@ -760,9 +776,7 @@ export const AddNewMovie = ({
             </PopoverContent>
           </Popover>
         </div>
-
         {/* ============================ Directors ====================================================== */}
-
         {/* ============================ Genres ====================================================== */}
         <div className="border border-black p-2">
           <h1>Genres</h1>
@@ -819,7 +833,7 @@ export const AddNewMovie = ({
                             //       : specification,
                             // );
                           }}
-                          className="w-12"
+                          className="w-12 border"
                           type="text"
                           placeholder="Poster"
                         />
@@ -957,11 +971,8 @@ export const AddNewMovie = ({
             </PopoverContent>
           </Popover>
         </div>
-
         {/* ============================ Genres ====================================================== */}
-
         {/* ============================ Subgenres ====================================================== */}
-
         <div className="border border-black p-2">
           <h1>Subgenre</h1>
           <div>
@@ -1140,11 +1151,8 @@ export const AddNewMovie = ({
             </PopoverContent>
           </Popover>
         </div>
-
         {/* ============================ Subgenres ====================================================== */}
-
         {/* ============================ Specifications ====================================================== */}
-
         <div className="border border-black p-2">
           <h1>Specification</h1>
           <div>
@@ -1328,7 +1336,6 @@ export const AddNewMovie = ({
             </PopoverContent>
           </Popover>
         </div>
-
         {/* ============================ Specifications ====================================================== */}
 
         {/* ============================ Keywords ====================================================== */}
@@ -1518,7 +1525,6 @@ export const AddNewMovie = ({
           </Popover>
         </div>
         {/* ============================ Keywords ====================================================== */}
-
         {/* ============================ Action Times ====================================================== */}
         <div className="border border-black p-2">
           <h1>Action Times</h1>
@@ -1710,14 +1716,13 @@ export const AddNewMovie = ({
           </Popover>
         </div>
         {/* ============================ Action Times ====================================================== */}
-
         <div className="grid gap-2">
           <Label htmlFor="rating-criteria">Rating Criteria</Label>
           <Select
             onValueChange={(value: RatingCriterion) => {
-              ratingCriteriaRef.current = value;
+              setRatingCriteria(value);
             }}
-            defaultValue={RatingCriterion.basic}
+            defaultValue={ratingCriteria}
           >
             <SelectTrigger id="rating-criteria">
               <SelectValue placeholder="Select" />
@@ -1734,11 +1739,25 @@ export const AddNewMovie = ({
             </SelectContent>
           </Select>
         </div>
-
+        <RateMovie
+          criteriaType={ratingCriteria}
+          ratingCriteria={{
+            ...INITIAL_RATE,
+            scare_factor:
+              ratingCriteria === RatingCriterion.scare_factor ||
+              ratingCriteria === RatingCriterion.full
+                ? 0.01
+                : undefined,
+            visual_effects:
+              ratingCriteria === RatingCriterion.visual_effects ||
+              ratingCriteria === RatingCriterion.full
+                ? 0.01
+                : undefined,
+          }}
+          ratingRef={ratingRef}
+        />
         <Button onClick={addMovie}>Submit</Button>
-
         {/*===================================  Report an issue ============================= */}
-
         {/* <Card className="w-[700px]">
         <CardHeader>
           <CardTitle>Report an issue</CardTitle>
@@ -1797,9 +1816,7 @@ export const AddNewMovie = ({
           <Button onClick={addMovie}>Submit</Button>
         </CardFooter>
       </Card> */}
-
         {/*===================================  Report an issue ============================= */}
-
         {/* <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
