@@ -82,6 +82,7 @@ import {
 import { AddNewActor } from "./add-new-actor";
 import { AddNewDirector } from "./add-new-director";
 import { AddNewGenre } from "./add-new-genre";
+import { AddNewSubgenre } from "./add-new-subgenre";
 
 // form values save on localsotrage
 // preven exit without saving
@@ -175,6 +176,7 @@ export const AddNewMovie = ({
   const [openActorFormModal, setOpenActorFormModal] = useState(false);
   const [openDirectorFormModal, setOpenDirectorFormModal] = useState(false);
   const [openGenreFormModal, setOpenGenreFormModal] = useState(false);
+  const [openSubgenreFormModal, setOpenSubgenreFormModal] = useState(false);
 
   const addMovie = async () => {
     console.log("Actor", actorsRef.current);
@@ -1072,7 +1074,15 @@ export const AddNewMovie = ({
                   className="h-9"
                 />
                 <CommandList>
-                  <CommandEmpty>No subgenres found.</CommandEmpty>
+                  <CommandEmpty>
+                    No subgenres found.
+                    <Button
+                      variant="link"
+                      onClick={() => setOpenSubgenreFormModal(true)}
+                    >
+                      Add?
+                    </Button>
+                  </CommandEmpty>
 
                   <TooltipProvider>
                     <CommandGroup className="text-left">
@@ -1848,6 +1858,28 @@ export const AddNewMovie = ({
               account and remove your data from our servers.
             </DialogDescription> */}
             <AddNewGenre setGenresList={setGenresList} genresRef={genresRef} />
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog
+        open={openSubgenreFormModal}
+        onOpenChange={setOpenSubgenreFormModal}
+      >
+        {/* <DialogTrigger>Open</DialogTrigger> */}
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Director</DialogTitle>
+            {/* <DialogDescription>
+              This action cannot be undone. This will permanently delete your
+              account and remove your data from our servers.
+            </DialogDescription> */}
+            <AddNewSubgenre
+              setSubgenresList={setSubgenresList}
+              subgenresRef={subgenresRef}
+              setSubgenres={setSubgenres}
+              genresList={genresList}
+            />
           </DialogHeader>
         </DialogContent>
       </Dialog>

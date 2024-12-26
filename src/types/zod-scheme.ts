@@ -75,3 +75,14 @@ export const GenreScheme = z
     description_en: z.union([z.string().trim(), z.literal("")]).optional(),
   })
   .refine((data) => (data.key = formatKey([data.name_en])));
+
+export const SubgenreScheme = z
+  .object({
+    key: z.string().trim(),
+    name_uk: z.string().min(1, { message: "name_uk is required" }).trim(),
+    name_en: z.string().min(1, { message: "name_en is required" }).trim(),
+    description_uk: z.union([z.string().trim(), z.literal("")]).optional(),
+    description_en: z.union([z.string().trim(), z.literal("")]).optional(),
+    parent_genre_key: z.string().trim(),
+  })
+  .refine((data) => (data.key = formatKey([data.name_en])));

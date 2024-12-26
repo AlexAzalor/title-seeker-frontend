@@ -1,7 +1,11 @@
 import { FieldError, UseFormRegister } from "react-hook-form";
 import { z } from "zod";
-import { ActorScheme, GenreScheme } from "./zod-scheme";
-import { BodyAPICreateActor, BodyAPICreateGenre } from "@/orval_api/model";
+import { ActorScheme, GenreScheme, SubgenreScheme } from "./zod-scheme";
+import {
+  BodyAPICreateActor,
+  BodyAPICreateGenre,
+  BodyAPICreateSubgenre,
+} from "@/orval_api/model";
 import { HTMLInputTypeAttribute } from "react";
 
 export type PageProps = {
@@ -32,6 +36,21 @@ export type GenreFormFieldProps = {
   type: HTMLInputTypeAttribute;
   name: GenreFieldNames;
   register: UseFormRegister<TypeGenreScheme>;
+  error: FieldError | undefined;
+  labelWidth?: number;
+  label: string;
+  value?: string;
+};
+
+// Subenres
+export type SubgenreFieldNames = keyof BodyAPICreateSubgenre;
+
+export type TypeSubgenreScheme = z.infer<typeof SubgenreScheme>;
+
+export type SubgenreFormFieldProps = {
+  type: HTMLInputTypeAttribute;
+  name: SubgenreFieldNames;
+  register: UseFormRegister<TypeSubgenreScheme>;
   error: FieldError | undefined;
   labelWidth?: number;
   label: string;

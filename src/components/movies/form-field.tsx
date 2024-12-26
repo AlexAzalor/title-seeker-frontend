@@ -1,6 +1,10 @@
 "use client";
 
-import { FormFieldProps, GenreFormFieldProps } from "@/types/general";
+import {
+  FormFieldProps,
+  GenreFormFieldProps,
+  SubgenreFormFieldProps,
+} from "@/types/general";
 
 const passwordInputs = ["key"];
 
@@ -12,7 +16,7 @@ export const FormField = ({
   labelWidth,
   label,
   value,
-}: FormFieldProps | GenreFormFieldProps) => {
+}: FormFieldProps | GenreFormFieldProps | SubgenreFormFieldProps) => {
   return (
     <>
       <div className="relative mt-7 h-[50px] w-full">
@@ -40,3 +44,42 @@ export const FormField = ({
     </>
   );
 };
+
+{
+  /* <BidPlanTables<TreeShape>
+columns={columns}
+
+interface Props<Datum extends { id: string | number }>
+  extends Omit<TableProps<Datum>, "data"> {
+  data: TreeShape[];
+...
+}
+
+export const BidPlanTables = <Datum extends { id: string | number }>({
+  data,
+...
+}: Props<Datum>) => { */
+}
+
+{
+  /* <FilterableDataController<
+TreeShape,
+typeof BidAPI.bid.loadBidPlan,
+typeof tasksFilterBar
+>
+
+export function FilterableDataController<
+  Datum extends { id: number | string },
+  Fetch extends (...args: any[]) => Promise<PaginatedResponse<Datum>>,
+  Filters extends FilterSpec<Datum, any>[]
+>(props: Props<Datum, Fetch, Filters>): ReturnType<React.FC> {
+
+
+interface Props<
+  Datum,
+  Fetch extends (...args: any[]) => Promise<PaginatedResponse<Datum>>,
+  Filters extends FilterSpec<Datum, any>[]
+> {
+  fetch: Fetch;
+  ... */
+}
