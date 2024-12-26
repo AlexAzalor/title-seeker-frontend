@@ -84,6 +84,7 @@ import { AddNewDirector } from "./add-new-director";
 import { AddNewGenre } from "./add-new-genre";
 import { AddNewSubgenre } from "./add-new-subgenre";
 import { AddNewSpecification } from "./add-new-specification";
+import { AddNewKeyword } from "./add-new-keyword";
 
 // form values save on localsotrage
 // preven exit without saving
@@ -180,6 +181,7 @@ export const AddNewMovie = ({
   const [openSubgenreFormModal, setOpenSubgenreFormModal] = useState(false);
   const [openSpecificationFormModal, setOpenSpecificationFormModal] =
     useState(false);
+  const [openKeywordFormModal, setOpenKeywordFormModal] = useState(false);
 
   const addMovie = async () => {
     console.log("Actor", actorsRef.current);
@@ -1453,7 +1455,15 @@ export const AddNewMovie = ({
                   className="h-9"
                 />
                 <CommandList>
-                  <CommandEmpty>No keyword found.</CommandEmpty>
+                  <CommandEmpty>
+                    No keyword found.
+                    <Button
+                      variant="link"
+                      onClick={() => setOpenKeywordFormModal(true)}
+                    >
+                      Add?
+                    </Button>
+                  </CommandEmpty>
 
                   <TooltipProvider>
                     <CommandGroup className="text-left">
@@ -1910,6 +1920,26 @@ export const AddNewMovie = ({
             <AddNewSpecification
               setSpecificationsList={setSpecificationsList}
               specRef={specRef}
+            />
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog
+        open={openKeywordFormModal}
+        onOpenChange={setOpenKeywordFormModal}
+      >
+        {/* <DialogTrigger>Open</DialogTrigger> */}
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Keyword</DialogTitle>
+            {/* <DialogDescription>
+              This action cannot be undone. This will permanently delete your
+              account and remove your data from our servers.
+            </DialogDescription> */}
+            <AddNewKeyword
+              setKeywordsList={setKeywordsList}
+              keywordsRef={keywordsRef}
             />
           </DialogHeader>
         </DialogContent>

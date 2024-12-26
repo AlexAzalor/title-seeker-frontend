@@ -16,8 +16,8 @@ import { getActors } from "@/orval_api/actors/actors";
 import { getDirectors } from "@/orval_api/directors/directors";
 import { getGenres } from "@/orval_api/genres/genres";
 import { getSubgenres } from "@/orval_api/subgenres/subgenres";
-// import { getSpecifictions } from "@/orval_api/specifications/specifications";
 import { getSpecifications } from "@/orval_api/specifications/specifications";
+import { getKeywords } from "@/orval_api/keywords/keywords";
 import { AxiosResponse } from "axios";
 import { getLocale } from "next-intl/server";
 
@@ -150,6 +150,25 @@ export async function addNewSpecification(data: BodyAPICreateGenre) {
     return {
       status: a.status,
       message: "Specification created",
+      newGenre: a.data,
+    };
+  } catch (error: any) {
+    return { status: error.status, message: error.response?.data.detail };
+  }
+}
+
+export async function addNewKeyword(data: BodyAPICreateGenre) {
+  const locale = await getLocale();
+  const lang = Language[locale as keyof typeof Language];
+
+  const { aPICreateKeyword } = getKeywords();
+
+  try {
+    const a: AxiosResponse = await aPICreateKeyword(data, { lang }, backendURL);
+    // I do this on Zod project
+    return {
+      status: a.status,
+      message: "Keyword created",
       newGenre: a.data,
     };
   } catch (error: any) {
