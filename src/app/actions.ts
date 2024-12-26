@@ -16,6 +16,8 @@ import { getActors } from "@/orval_api/actors/actors";
 import { getDirectors } from "@/orval_api/directors/directors";
 import { getGenres } from "@/orval_api/genres/genres";
 import { getSubgenres } from "@/orval_api/subgenres/subgenres";
+// import { getSpecifictions } from "@/orval_api/specifications/specifications";
+import { getSpecifications } from "@/orval_api/specifications/specifications";
 import { AxiosResponse } from "axios";
 import { getLocale } from "next-intl/server";
 
@@ -125,6 +127,29 @@ export async function addNewSubgenre(data: BodyAPICreateSubgenre) {
     return {
       status: a.status,
       message: "Genre created",
+      newGenre: a.data,
+    };
+  } catch (error: any) {
+    return { status: error.status, message: error.response?.data.detail };
+  }
+}
+
+export async function addNewSpecification(data: BodyAPICreateGenre) {
+  const locale = await getLocale();
+  const lang = Language[locale as keyof typeof Language];
+
+  const { aPICreateSpecification } = getSpecifications();
+
+  try {
+    const a: AxiosResponse = await aPICreateSpecification(
+      data,
+      { lang },
+      backendURL,
+    );
+    // I do this on Zod project
+    return {
+      status: a.status,
+      message: "Specification created",
       newGenre: a.data,
     };
   } catch (error: any) {

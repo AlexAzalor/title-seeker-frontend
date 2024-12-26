@@ -83,6 +83,7 @@ import { AddNewActor } from "./add-new-actor";
 import { AddNewDirector } from "./add-new-director";
 import { AddNewGenre } from "./add-new-genre";
 import { AddNewSubgenre } from "./add-new-subgenre";
+import { AddNewSpecification } from "./add-new-specification";
 
 // form values save on localsotrage
 // preven exit without saving
@@ -123,9 +124,9 @@ export const AddNewMovie = ({
 
   // Specification
   const [openSpec, setOpenSpec] = useState(false);
-  const [specificationKey, setSpecificationKey] = useState<SpecificationOut[]>(
-    [],
-  );
+  const [specificationsList, setSpecificationsList] = useState<
+    SpecificationOut[]
+  >([]);
   const specRef = useRef<MovieFilterField[]>([]);
 
   // Genres
@@ -177,6 +178,8 @@ export const AddNewMovie = ({
   const [openDirectorFormModal, setOpenDirectorFormModal] = useState(false);
   const [openGenreFormModal, setOpenGenreFormModal] = useState(false);
   const [openSubgenreFormModal, setOpenSubgenreFormModal] = useState(false);
+  const [openSpecificationFormModal, setOpenSpecificationFormModal] =
+    useState(false);
 
   const addMovie = async () => {
     console.log("Actor", actorsRef.current);
@@ -1141,9 +1144,9 @@ export const AddNewMovie = ({
         <div className="border border-black p-2">
           <h1>Specification</h1>
           <div>
-            {specificationKey.length ? (
+            {specificationsList.length ? (
               <div className="flex flex-col gap-1">
-                {specificationKey.map((spec) => (
+                {specificationsList.map((spec) => (
                   <TooltipProvider key={spec.key}>
                     <Tooltip>
                       <div
@@ -1203,7 +1206,7 @@ export const AddNewMovie = ({
                           onClick={(e) => {
                             // e.stopPropagation();
                             // e.preventDefault();
-                            setSpecificationKey((prev) =>
+                            setSpecificationsList((prev) =>
                               prev.filter(
                                 (specification) =>
                                   specification.key !== spec.key,
@@ -1261,7 +1264,15 @@ export const AddNewMovie = ({
                   className="h-9"
                 />
                 <CommandList>
-                  <CommandEmpty>No specification found.</CommandEmpty>
+                  <CommandEmpty>
+                    No specification found.
+                    <Button
+                      variant="link"
+                      onClick={() => setOpenSpecificationFormModal(true)}
+                    >
+                      Add?
+                    </Button>
+                  </CommandEmpty>
 
                   <TooltipProvider>
                     <CommandGroup className="text-left">
@@ -1270,7 +1281,7 @@ export const AddNewMovie = ({
                           key={specification.key}
                           value={specification.name}
                           onSelect={(currentValue) => {
-                            setSpecificationKey((prev) =>
+                            setSpecificationsList((prev) =>
                               currentValue ===
                               prev.find(
                                 (spec) => spec.key === specification.key,
@@ -1297,7 +1308,7 @@ export const AddNewMovie = ({
                           <Check
                             className={cn(
                               "ml-auto",
-                              specificationKey
+                              specificationsList
                                 .map((spec) => spec.key)
                                 .includes(specification.key)
                                 ? "opacity-100"
@@ -1879,6 +1890,26 @@ export const AddNewMovie = ({
               subgenresRef={subgenresRef}
               setSubgenres={setSubgenres}
               genresList={genresList}
+            />
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog
+        open={openSpecificationFormModal}
+        onOpenChange={setOpenSpecificationFormModal}
+      >
+        {/* <DialogTrigger>Open</DialogTrigger> */}
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Director</DialogTitle>
+            {/* <DialogDescription>
+              This action cannot be undone. This will permanently delete your
+              account and remove your data from our servers.
+            </DialogDescription> */}
+            <AddNewSpecification
+              setSpecificationsList={setSpecificationsList}
+              specRef={specRef}
             />
           </DialogHeader>
         </DialogContent>
