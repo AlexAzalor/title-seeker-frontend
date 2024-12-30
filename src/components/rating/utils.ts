@@ -127,9 +127,12 @@ export function assertNever(x: never): never {
   throw new Error(`Unhandled action: ${JSON.stringify(x)}`);
 }
 
+// type UpdState = "UPDATE_STATE";
+
 export function updateRateReducer(
   state: UserRatingCriteria,
   action: RatingAction,
+  // action: RatingAction | { type: UpdState; value: UserRatingCriteria },
 ): UserRatingCriteria {
   if (!action) {
     throw new Error("Action is undefined"); // Handle the undefined case

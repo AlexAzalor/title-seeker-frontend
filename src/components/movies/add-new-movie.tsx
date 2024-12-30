@@ -93,6 +93,7 @@ import { AddNewKeyword } from "./add-new-keyword";
 import { AddNewActionTime } from "./add-new-action-time";
 import { RateMovie } from "./rate-movie";
 import { INITIAL_RATE } from "../rating/utils";
+import { useRouter } from "next/navigation";
 
 // form values save on localsotrage
 // preven exit without saving
@@ -116,13 +117,16 @@ export const AddNewMovie = ({
   keywords,
   actionTimes,
 }: Props) => {
+  const router = useRouter();
   const [date, setDate] = useState<Date | undefined>(new Date());
 
   // Actors
   const [openActor, setOpenActor] = useState(false);
   const [actorsList, setActorsList] = useState<ActorOut[]>([]);
   const actorsRef = useRef<MoviePersonFilterField[]>([]);
-  const [characterKey, setCharacterKey] = useState<string>("");
+  const [characterKey, setCharacterKey] = useState<{
+    [key: string]: string;
+  }>();
 
   // Directors
   const [openDirectors, setOpenDirectors] = useState(false);
@@ -175,6 +179,7 @@ export const AddNewMovie = ({
   const descriptionEnRef = useRef<string>("");
   const releaseDateRef = useRef<string>("");
   const durationRef = useRef<number>(0);
+
   const budgetRef = useRef<number>(0);
   const domesticGrossRef = useRef<number>(0);
   const worldwideGrossRef = useRef<number>(0);
@@ -201,18 +206,18 @@ export const AddNewMovie = ({
     ...INITIAL_RATE,
     rating: 0,
   });
-
   const addMovie = async () => {
     setIsSubmitting(true);
-    console.log("fileRef.current:::::::", fileRef.current);
 
     if (ratingRef.current.rating < 1) {
       toast.error("Rating must be more than 1");
+      setIsSubmitting(false);
       return;
     }
 
     if (!fileRef.current) {
       toast.error("Please add poster");
+      setIsSubmitting(false);
       return;
     }
 
@@ -224,7 +229,7 @@ export const AddNewMovie = ({
       description_uk: descriptionUkRef.current,
       description_en: descriptionEnRef.current,
       release_date: date?.toISOString() || "",
-      duration: durationRef.current,
+      duration: durationRef.current || 0,
       budget: budgetRef.current,
       actors_keys: actorsRef.current,
       directors_keys: directorsRef.current.map((director) => director.key),
@@ -251,10 +256,7 @@ export const AddNewMovie = ({
     console.log("DATA TO API: ", newMovieData);
 
     // Save data to local storage
-    // localStorage.setItem(
-    //   "newMovieData",
-    //   JSON.stringify({ ...newMovieData, file: fileRef.current }),
-    // );
+    localStorage.setItem("newMovieData", JSON.stringify(newMovieData));
 
     const response = await addNewMovie({
       form_data: newMovieData,
@@ -275,34 +277,243 @@ export const AddNewMovie = ({
     setIsSubmitting(false);
   };
 
+  const saveFormDataToLocalstorage = () => {
+    const newMovieData: FormData = {
+      // id: movieIdRef.current,
+      key: convertToSlug(movieKey),
+      title_uk: titleUkRef.current,
+      title_en: titleEnRef.current,
+      description_uk: descriptionUkRef.current,
+      description_en: descriptionEnRef.current,
+      release_date: date?.toISOString() || "",
+      duration: durationRef.current || 0,
+      budget: budgetRef.current,
+      actors_keys: actorsRef.current,
+      directors_keys: directorsRef.current.map((director) => director.key),
+      genres: genresRef.current,
+
+      // actors_keys: actorsRef.current,
+      domestic_gross: domesticGrossRef.current,
+      worldwide_gross: worldwideGrossRef.current,
+      location_uk: locationUkRef.current,
+      location_en: locationEnRef.current,
+      poster: newMovieId + "_" + movieTitle + ".png",
+      // directors_keys: directorsRef.current.map((director) => director.key),
+      // genres: genresRef.current,
+      subgenres: subgenresRef.current,
+      specifications: specRef.current,
+      keywords: keywordsRef.current,
+      action_times: actionTimesRef.current,
+      rating_criterion_type: ratingCriteria,
+      // rating_criteria: ratingDataState,
+      rating_criteria: ratingRef.current,
+      rating: ratingRef.current.rating,
+      // file: fileRef.current,
+    };
+
+    try {
+      // Save data to local storage
+      localStorage.setItem("newMovieData", JSON.stringify(newMovieData));
+      console.log("DATA SAVED: ", newMovieData);
+      toast.success("Data saved to local storage");
+    } catch (error) {
+      console.log("error: ", error);
+      toast.error("Error saving data to local storage");
+    }
+  };
+
   const getDataFromLocalStorage = () => {
     const data = localStorage.getItem("newMovieData");
     if (data) {
-      const parsedData = JSON.parse(data);
+      const parsedData: FormData = JSON.parse(data);
       console.log("parsedData: ", parsedData);
-      // setActorsList(parsedData.actors_keys);
-      // setDirectorsList(parsedData.directors_keys);
-      // setGenresList(parsedData.genres);
-      // setSubgenresList(parsedData.subgenres);
-      // setSpecificationsList(parsedData.specifications);
-      // setKeywordsList(parsedData.keywords);
-      // setActionTimesList(parsedData.action_times);
-      // setRatingCriteria(parsedData.rating_criterion_type);
-      // ratingRef.current = parsedData.rating_criteria;
-      // setDate(new Date(parsedData.release_date));
-      // titleUkRef.current = parsedData.title_uk;
-      // titleEnRef.current = parsedData.title_en;
-      // descriptionUkRef.current = parsedData.description_uk;
-      // descriptionEnRef.current = parsedData.description_en;
-      // durationRef.current = parsedData.duration;
-      // budgetRef.current = parsedData.budget;
-      // domesticGrossRef.current = parsedData.domestic_gross;
-      // worldwideGrossRef.current = parsedData.worldwide_gross;
-      // locationUkRef.current = parsedData.location_uk;
-      // locationEnRef.current = parsedData.location_en;
-      // movieKeyRef.current = parsedData.key;
-      // setMovieKey(parsedData.key);
-      // setMovieTitle(parsedData.title_en);
+      setMovieKey(parsedData.key);
+      movieKeyRef.current = parsedData.key;
+      setMovieTitle(parsedData.title_en);
+      setDate(new Date(parsedData.release_date));
+      titleUkRef.current = parsedData.title_uk;
+      titleEnRef.current = parsedData.title_en;
+      descriptionUkRef.current = parsedData.description_uk;
+      descriptionEnRef.current = parsedData.description_en;
+      durationRef.current = parsedData.duration;
+      budgetRef.current = parsedData.budget;
+      domesticGrossRef.current = parsedData.domestic_gross || 0;
+      worldwideGrossRef.current = parsedData.worldwide_gross || 0;
+      locationUkRef.current = parsedData.location_uk || "";
+      locationEnRef.current = parsedData.location_en || "";
+
+      // Actors
+      setActorsList((prev) => {
+        return parsedData.actors_keys.map((actor) => {
+          const actorData = actors.find((a) => a.key === actor.key);
+          if (!actorData) {
+            return {
+              key: actor.key,
+              full_name: "Not found",
+            };
+          }
+          return {
+            key: actor.key,
+            full_name: actorData.full_name,
+          };
+        });
+      });
+      actorsRef.current = parsedData.actors_keys;
+      setCharacterKey((prev) => {
+        const obj: { [key: string]: string } = {};
+        parsedData.actors_keys.forEach((actor) => {
+          obj[actor.key] = actor.character_key;
+        });
+        return obj;
+      });
+
+      // Directors
+      setDirectorsList(() => {
+        return parsedData.directors_keys.map((director) => {
+          const directorData = directors.find((d) => d.key === director);
+          if (!directorData) {
+            return {
+              key: director,
+              full_name: "Not found",
+            };
+          }
+          return {
+            key: director,
+            full_name: directorData.full_name,
+          };
+        });
+      });
+      directorsRef.current = parsedData.directors_keys.map((director) => ({
+        key: director,
+        full_name: "",
+      }));
+
+      // Genres
+      const subGenresList: SubgenreOut[] = [];
+      setGenresList(() => {
+        return parsedData.genres.map((genre) => {
+          const genreData = genres.find((g) => g.key === genre.key);
+          if (!genreData) {
+            return {
+              key: genre.key,
+              name: "Not found",
+            };
+          }
+          if (genreData.subgenres) {
+            const a = subGenresList.find(
+              (e) => e.parent_genre_key === genre.key,
+            );
+            if (!a) {
+              subGenresList.push(...genreData.subgenres);
+            }
+          }
+          return {
+            key: genre.key,
+            name: genreData.name,
+          };
+        });
+      });
+      genresRef.current = parsedData.genres;
+
+      // Get Subgenres list - for select input
+      const genreKeys = parsedData.genres.map((genre) => genre.key);
+      const subgenresDataList: SubgenreOut[] = [];
+      genres.map((e) =>
+        e.subgenres?.map(
+          (e) =>
+            genreKeys.includes(e.parent_genre_key) && subgenresDataList.push(e),
+        ),
+      );
+      setSubgenres(subgenresDataList);
+
+      // Subgenres
+      setSubgenresList(() => {
+        return parsedData.subgenres.map((subgenre) => {
+          const subgenreData = subgenresDataList.find(
+            (s) => s.key === subgenre.key,
+          );
+          if (!subgenreData) {
+            return {
+              key: subgenre.key,
+              name: "Not found",
+              parent_genre_key: "",
+            };
+          }
+          return {
+            key: subgenre.key,
+            name: subgenreData.name,
+            parent_genre_key: subgenreData.parent_genre_key,
+          };
+        });
+      });
+
+      subgenresRef.current = parsedData.subgenres;
+
+      // Specifications
+      setSpecificationsList(() => {
+        return parsedData.specifications.map((e) => {
+          const specData = specifications.find((s) => s.key === e.key);
+          if (!specData) {
+            return {
+              key: e.key,
+              name: "Not fount",
+              percentage_match: e.percentage_match,
+            };
+          }
+          return {
+            key: e.key,
+            name: specData.name,
+            percentage_match: e.percentage_match,
+          };
+        });
+      });
+      specRef.current = parsedData.specifications;
+
+      // Keywords
+      setKeywordsList(() => {
+        return parsedData.keywords.map((e) => {
+          const keywordData = keywords.find((s) => s.key === e.key);
+          if (!keywordData) {
+            return {
+              key: e.key,
+              name: "Not fount",
+              percentage_match: e.percentage_match,
+            };
+          }
+          return {
+            key: e.key,
+            name: keywordData.name,
+            percentage_match: e.percentage_match,
+          };
+        });
+      });
+      keywordsRef.current = parsedData.keywords;
+
+      // Action Times
+      setActionTimesList(() => {
+        return parsedData.action_times.map((e) => {
+          const actTimeData = actionTimes.find((s) => s.key === e.key);
+          if (!actTimeData) {
+            return {
+              key: e.key,
+              name: "Not fount",
+              percentage_match: e.percentage_match,
+            };
+          }
+          return {
+            key: e.key,
+            name: actTimeData.name,
+            percentage_match: e.percentage_match,
+          };
+        });
+      });
+      actionTimesRef.current = parsedData.action_times;
+
+      // Rating
+      setRatingCriteria(parsedData.rating_criterion_type);
+      ratingRef.current = parsedData.rating_criteria as any;
+
+      router.refresh();
     }
   };
 
@@ -310,9 +521,13 @@ export const AddNewMovie = ({
     <>
       <div className="flex w-full flex-col gap-3">
         <h1>1.5 ГОДИНИ ПОТРАТИВ НА ХУЙНЮ!!!!!!!!!</h1>
-        <button onClick={getDataFromLocalStorage}>
+        <Button onClick={getDataFromLocalStorage}>
           Get data from LOCAL STORAGE
-        </button>
+        </Button>
+        <Button variant="destructive" onClick={saveFormDataToLocalstorage}>
+          SAVE DATA
+        </Button>
+        {/* <button onClick={setValues}>get value</button> */}
         <div className="flex items-center gap-2">
           <div>
             <Label htmlFor="new-movie-id">New Movie ID</Label>
@@ -343,6 +558,7 @@ export const AddNewMovie = ({
               id="title-en"
               type="text"
               placeholder="Title EN"
+              defaultValue={titleEnRef.current}
               onChange={(e) => {
                 titleEnRef.current = e.target.value;
                 movieKeyRef.current = e.target.value;
@@ -357,9 +573,6 @@ export const AddNewMovie = ({
             <Input
               value={convertToSlug(movieKey)}
               disabled
-              // onChange={(e) => {
-              //   movieKeyRef.current = e.target.value;
-              // }}
               id="movie-key"
               type="text"
               placeholder="Movie key"
@@ -371,6 +584,7 @@ export const AddNewMovie = ({
           id="title-uk"
           type="text"
           placeholder="Title UK"
+          defaultValue={titleUkRef.current}
           onChange={(e) => (titleUkRef.current = e.target.value)}
         />
 
@@ -379,6 +593,7 @@ export const AddNewMovie = ({
           <Input
             id="movie-poster"
             type="file"
+            // defaultValue={newMovieId + "_" + movieTitle + ".png"}
             onChange={(e) => {
               fileRef.current = e.target.files?.[0] || null;
             }}
@@ -390,6 +605,7 @@ export const AddNewMovie = ({
           <Textarea
             id="description-uk"
             placeholder="Description UK"
+            defaultValue={descriptionUkRef.current}
             onChange={(e) => (descriptionUkRef.current = e.target.value)}
           />
         </div>
@@ -398,6 +614,7 @@ export const AddNewMovie = ({
           <Textarea
             id="description-en"
             placeholder="Description EN"
+            defaultValue={descriptionEnRef.current}
             onChange={(e) => (descriptionEnRef.current = e.target.value)}
           />
         </div>
@@ -451,8 +668,9 @@ export const AddNewMovie = ({
         <Label htmlFor="duration">Duration</Label>
         <Input
           id="duration"
-          type="text"
+          type="number"
           placeholder="Duration"
+          defaultValue={durationRef.current || undefined}
           onChange={(e) => (durationRef.current = +e.target.value)}
         />
         {/* Auto remove all symbols 700,000 -> 700000 */}
@@ -461,6 +679,7 @@ export const AddNewMovie = ({
           id="budget"
           type="text"
           placeholder="Budget"
+          defaultValue={budgetRef.current || undefined}
           onChange={(e) => (budgetRef.current = +e.target.value)}
         />
         {/* move location above and set here tooltip or () - Domestic gross (US) */}
@@ -469,6 +688,7 @@ export const AddNewMovie = ({
           id="domestic-gross"
           type="text"
           placeholder="Domestic gross"
+          defaultValue={domesticGrossRef.current || undefined}
           onChange={(e) => (domesticGrossRef.current = +e.target.value)}
         />
         <Label htmlFor="worldwide-gross">Worldwide gross</Label>
@@ -476,6 +696,7 @@ export const AddNewMovie = ({
           id="worldwide-gross"
           type="text"
           placeholder="Worldwide gross"
+          defaultValue={worldwideGrossRef.current || undefined}
           onChange={(e) => (worldwideGrossRef.current = +e.target.value)}
         />
 
@@ -485,6 +706,7 @@ export const AddNewMovie = ({
           id="location-uk"
           type="text"
           placeholder="Location UK"
+          defaultValue={locationUkRef.current}
           onChange={(e) => (locationUkRef.current = e.target.value)}
         />
         <Label htmlFor="location-en">Location EN</Label>
@@ -492,6 +714,7 @@ export const AddNewMovie = ({
           id="location-en"
           type="text"
           placeholder="Location EN"
+          defaultValue={locationEnRef.current}
           onChange={(e) => (locationEnRef.current = e.target.value)}
         />
         <Label htmlFor="poster">Poster</Label>
@@ -520,6 +743,11 @@ export const AddNewMovie = ({
                           <span>{actor.full_name}</span>
                         </TooltipTrigger>
                         <Input
+                          defaultValue={
+                            actorsRef.current.find(
+                              (actorPrev) => actorPrev.key === actor.key,
+                            )?.character_name_en || ""
+                          }
                           onChange={(e) => {
                             const a = actorsRef.current.find(
                               (actorPrev) => actorPrev.key === actor.key,
@@ -535,13 +763,20 @@ export const AddNewMovie = ({
                               a.character_name_en = e.target.value;
                               a.character_key = convertToSlug(e.target.value);
                             }
-                            setCharacterKey(convertToSlug(e.target.value));
+                            setCharacterKey((prev) => ({
+                              ...prev,
+                              [actor.key]: convertToSlug(e.target.value),
+                            }));
                           }}
                           className="w-32"
                           type="text"
                           placeholder="NAME EN"
                         />
                         <Input
+                          defaultValue={
+                            actorsRef.current.find((e) => e.key === actor.key)
+                              ?.character_name_uk || ""
+                          }
                           onChange={(e) => {
                             const a = actorsRef.current.find(
                               (actorPrev) => actorPrev.key === actor.key,
@@ -561,7 +796,7 @@ export const AddNewMovie = ({
                           type="text"
                           placeholder="NAME UK"
                         />
-                        <div>{characterKey}</div>
+                        <div>{characterKey ? characterKey[actor.key] : ""}</div>
                         <CircleXIcon
                           className="cursor-pointer"
                           onClick={(e) => {
@@ -790,6 +1025,7 @@ export const AddNewMovie = ({
                             if (!a) {
                               directorsRef.current.push({
                                 key: director.key,
+                                full_name: director.full_name,
                               });
                             }
 
@@ -842,6 +1078,11 @@ export const AddNewMovie = ({
                           <span>{genre.name}</span>
                         </TooltipTrigger>
                         <Input
+                          defaultValue={
+                            genresRef.current.find(
+                              (genrePrev) => genrePrev.key === genre.key,
+                            )?.percentage_match || 0
+                          }
                           onChange={(e) => {
                             const a = genresRef.current.find(
                               (genrePrev) => genrePrev.key === genre.key,
@@ -1016,6 +1257,12 @@ export const AddNewMovie = ({
                           <span>{subgenre.name}</span>
                         </TooltipTrigger>
                         <Input
+                          defaultValue={
+                            subgenresRef.current.find(
+                              (subgenrePrev) =>
+                                subgenrePrev.key === subgenre.key,
+                            )?.percentage_match || 0
+                          }
                           onChange={(e) => {
                             const a = subgenresRef.current.find(
                               (genrePrev) => genrePrev.key === subgenre.key,
@@ -1174,6 +1421,10 @@ export const AddNewMovie = ({
                           <span>{spec.name}</span>
                         </TooltipTrigger>
                         <Input
+                          defaultValue={
+                            specRef.current.find((e) => e.key === spec.key)
+                              ?.percentage_match || undefined
+                          }
                           onChange={(e) => {
                             const a = specRef.current.find(
                               (specification) => specification.key === spec.key,
@@ -1339,6 +1590,11 @@ export const AddNewMovie = ({
                           <span>{keyword.name}</span>
                         </TooltipTrigger>
                         <Input
+                          defaultValue={
+                            keywordsRef.current.find(
+                              (e) => e.key === keyword.key,
+                            )?.percentage_match || undefined
+                          }
                           onChange={(e) => {
                             const a = keywordsRef.current.find(
                               (keywordsPrev) =>
@@ -1505,6 +1761,11 @@ export const AddNewMovie = ({
                           <span>{actionTime.name}</span>
                         </TooltipTrigger>
                         <Input
+                          defaultValue={
+                            actionTimesRef.current.find(
+                              (e) => e.key === actionTime.key,
+                            )?.percentage_match || undefined
+                          }
                           onChange={(e) => {
                             const a = actionTimesRef.current.find(
                               (actionTImePrev) =>
