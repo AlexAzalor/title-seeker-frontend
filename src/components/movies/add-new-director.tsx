@@ -1,19 +1,15 @@
 "use client";
-import { Control, Controller, useForm, useWatch } from "react-hook-form";
+
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { FormField } from "./form-field";
 import { TypeActorScheme } from "@/types/general";
 import { ActorScheme } from "@/types/zod-scheme";
 import { useRouter } from "next/navigation";
-import { addNewActor, addNewDirector, addNewMovie } from "@/app/actions";
+import { addNewDirector } from "@/app/actions";
 import { toast } from "sonner";
-import {
-  ActorIn,
-  ActorOut,
-  BodyAPICreateActor,
-  DirectorOut,
-} from "@/orval_api/model";
+import { BodyAPICreateActor, DirectorOut } from "@/orval_api/model";
 import { formatKey } from "@/lib/utils";
 
 type Props = {
@@ -85,23 +81,6 @@ export const AddNewDirector = ({ setDirectorsList, directorsRef }: Props) => {
 
           <FormField
             type="text"
-            label="First Name UK"
-            name="first_name_uk"
-            register={register}
-            error={errors.first_name_uk}
-            labelWidth={50}
-          />
-          <FormField
-            type="text"
-            label="Last Name UK"
-            name="last_name_uk"
-            register={register}
-            error={errors.last_name_uk}
-            labelWidth={56}
-          />
-
-          <FormField
-            type="text"
             label="First Name EN"
             name="first_name_en"
             register={register}
@@ -116,6 +95,23 @@ export const AddNewDirector = ({ setDirectorsList, directorsRef }: Props) => {
             register={register}
             error={errors.last_name_en}
             labelWidth={94}
+          />
+
+          <FormField
+            type="text"
+            label="First Name UK"
+            name="first_name_uk"
+            register={register}
+            error={errors.first_name_uk}
+            labelWidth={50}
+          />
+          <FormField
+            type="text"
+            label="Last Name UK"
+            name="last_name_uk"
+            register={register}
+            error={errors.last_name_uk}
+            labelWidth={56}
           />
 
           <FormField
@@ -138,20 +134,20 @@ export const AddNewDirector = ({ setDirectorsList, directorsRef }: Props) => {
 
           <FormField
             type="text"
-            label="Born in (UK)"
-            name="born_in_uk"
-            register={register}
-            error={errors.born_in_uk}
-            labelWidth={42}
-          />
-
-          <FormField
-            type="text"
             label="Born in (EN)"
             name="born_in_en"
             register={register}
             error={errors.born_in_en}
             labelWidth={94}
+          />
+
+          <FormField
+            type="text"
+            label="Born in (UK)"
+            name="born_in_uk"
+            register={register}
+            error={errors.born_in_uk}
+            labelWidth={42}
           />
 
           <FormField

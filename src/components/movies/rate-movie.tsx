@@ -50,16 +50,12 @@ export const RateMovie = ({
   const isScareFactor = criteriaType === RatingCriterion.scare_factor;
   const isFull = criteriaType === RatingCriterion.full;
 
-  console.log("isFull", isFull);
-
   const ratingCriteriaState = getRatingCriteriaState(
     isVisualEffects,
     isScareFactor,
     isFull,
     ratingCriteria,
   );
-
-  console.log("||| ratingCriteriaState |||", ratingCriteriaState);
 
   const [state, dispatch] = useReducer(updateRateReducer, ratingCriteriaState);
   const {
@@ -74,8 +70,6 @@ export const RateMovie = ({
     visual_effects,
     scare_factor,
   } = state;
-
-  console.log("STATE ACTING", acting);
 
   const updateCriterionValue = (value: number[], type: RateCriteriesEnum) => {
     switch (type) {

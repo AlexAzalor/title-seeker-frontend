@@ -6,9 +6,9 @@ import { backendURL } from "@/lib/constants";
 import {
   BodyAPICreateActor,
   BodyAPICreateGenre,
+  BodyAPICreateMovie,
   BodyAPICreateSubgenre,
   Language,
-  MovieIn,
   UserRateMovieIn,
 } from "@/orval_api/model";
 import { getMovies } from "@/orval_api/movies/movies";
@@ -40,14 +40,23 @@ export async function rateMovie(data: UserRateMovieIn) {
   await aPIRateMovie("user_uuid", data, backendURL);
 }
 
-export async function addNewMovie(data: MovieIn) {
+export async function addNewMovie(
+  // data: APICreateMovieParams,
+  act: BodyAPICreateMovie,
+) {
   const locale = await getLocale();
   const lang = Language[locale as keyof typeof Language];
 
   const { aPICreateMovie } = getMovies();
 
   try {
-    const a: AxiosResponse = await aPICreateMovie(data, { lang }, backendURL);
+    const a: AxiosResponse = await aPICreateMovie(
+      act,
+      { lang },
+      {
+        baseURL: backendURL.baseURL,
+      },
+    );
 
     return { status: a.status, message: "Movie created" };
   } catch (error: any) {

@@ -3,7 +3,10 @@
 import {
   ActionTimeOut,
   ActorOut,
+  APICreateMovieParams,
+  BodyAPICreateMovie,
   DirectorOut,
+  FormData,
   GenreOut,
   GenreOutSubgenres,
   KeywordOut,
@@ -113,15 +116,13 @@ export const AddNewMovie = ({
   keywords,
   actionTimes,
 }: Props) => {
-  console.log("newMovieId: ", newMovieId);
-
   const [date, setDate] = useState<Date | undefined>(new Date());
-  // console.log("DATE: ", date?.toISOString());
 
   // Actors
   const [openActor, setOpenActor] = useState(false);
   const [actorsList, setActorsList] = useState<ActorOut[]>([]);
   const actorsRef = useRef<MoviePersonFilterField[]>([]);
+  const [characterKey, setCharacterKey] = useState<string>("");
 
   // Directors
   const [openDirectors, setOpenDirectors] = useState(false);
@@ -180,6 +181,8 @@ export const AddNewMovie = ({
   const locationUkRef = useRef<string>("");
   const locationEnRef = useRef<string>("");
 
+  const fileRef = useRef<File | null>(null);
+
   const [allowEditMovieId, setAllowEditMovieId] = useState<CheckedState>(false);
   const [movieTitle, setMovieTitle] = useState<string>("");
 
@@ -192,21 +195,29 @@ export const AddNewMovie = ({
   const [openKeywordFormModal, setOpenKeywordFormModal] = useState(false);
   const [openActionTimeFormModal, setOpenActionTimeFormModal] = useState(false);
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const ratingRef = useRef<UserRatingCriteria & { rating: number }>({
     ...INITIAL_RATE,
     rating: 0,
   });
 
   const addMovie = async () => {
-    console.log("RATING:::::::", ratingRef.current);
+    setIsSubmitting(true);
+    console.log("fileRef.current:::::::", fileRef.current);
 
     if (ratingRef.current.rating < 1) {
       toast.error("Rating must be more than 1");
       return;
     }
 
-    const newMovieData: MovieIn = {
-      id: movieIdRef.current,
+    if (!fileRef.current) {
+      toast.error("Please add poster");
+      return;
+    }
+
+    const newMovieData: FormData = {
+      // id: movieIdRef.current,
       key: convertToSlug(movieKey),
       title_uk: titleUkRef.current,
       title_en: titleEnRef.current,
@@ -215,14 +226,18 @@ export const AddNewMovie = ({
       release_date: date?.toISOString() || "",
       duration: durationRef.current,
       budget: budgetRef.current,
+      actors_keys: actorsRef.current,
+      directors_keys: directorsRef.current.map((director) => director.key),
+      genres: genresRef.current,
+
+      // actors_keys: actorsRef.current,
       domestic_gross: domesticGrossRef.current,
       worldwide_gross: worldwideGrossRef.current,
       location_uk: locationUkRef.current,
       location_en: locationEnRef.current,
       poster: newMovieId + "_" + movieTitle + ".png",
-      actors_keys: actorsRef.current,
-      directors_keys: directorsRef.current.map((director) => director.key),
-      genres: genresRef.current,
+      // directors_keys: directorsRef.current.map((director) => director.key),
+      // genres: genresRef.current,
       subgenres: subgenresRef.current,
       specifications: specRef.current,
       keywords: keywordsRef.current,
@@ -230,11 +245,21 @@ export const AddNewMovie = ({
       rating_criterion_type: ratingCriteria,
       rating_criteria: ratingRef.current,
       rating: ratingRef.current.rating,
+      // file: fileRef.current,
     };
 
     console.log("DATA TO API: ", newMovieData);
 
-    const response = await addNewMovie(newMovieData);
+    // Save data to local storage
+    // localStorage.setItem(
+    //   "newMovieData",
+    //   JSON.stringify({ ...newMovieData, file: fileRef.current }),
+    // );
+
+    const response = await addNewMovie({
+      form_data: newMovieData,
+      file: fileRef.current,
+    });
 
     if (response.status === 201) {
       toast.success(response?.message);
@@ -244,19 +269,50 @@ export const AddNewMovie = ({
       toast.error(response?.message);
     }
 
-    // try {
-    //   await addNewMovie(newMovieData);
-    //   toast.success("Movie added");
-    // } catch (error: any) {
-    //   toast.error("Error with adding movie");
-    //   console.error("Error occured", error.response);
-    // }
+    if (response.status === 422) {
+      toast.error("Validation error");
+    }
+    setIsSubmitting(false);
+  };
+
+  const getDataFromLocalStorage = () => {
+    const data = localStorage.getItem("newMovieData");
+    if (data) {
+      const parsedData = JSON.parse(data);
+      console.log("parsedData: ", parsedData);
+      // setActorsList(parsedData.actors_keys);
+      // setDirectorsList(parsedData.directors_keys);
+      // setGenresList(parsedData.genres);
+      // setSubgenresList(parsedData.subgenres);
+      // setSpecificationsList(parsedData.specifications);
+      // setKeywordsList(parsedData.keywords);
+      // setActionTimesList(parsedData.action_times);
+      // setRatingCriteria(parsedData.rating_criterion_type);
+      // ratingRef.current = parsedData.rating_criteria;
+      // setDate(new Date(parsedData.release_date));
+      // titleUkRef.current = parsedData.title_uk;
+      // titleEnRef.current = parsedData.title_en;
+      // descriptionUkRef.current = parsedData.description_uk;
+      // descriptionEnRef.current = parsedData.description_en;
+      // durationRef.current = parsedData.duration;
+      // budgetRef.current = parsedData.budget;
+      // domesticGrossRef.current = parsedData.domestic_gross;
+      // worldwideGrossRef.current = parsedData.worldwide_gross;
+      // locationUkRef.current = parsedData.location_uk;
+      // locationEnRef.current = parsedData.location_en;
+      // movieKeyRef.current = parsedData.key;
+      // setMovieKey(parsedData.key);
+      // setMovieTitle(parsedData.title_en);
+    }
   };
 
   return (
     <>
       <div className="flex w-full flex-col gap-3">
         <h1>1.5 ГОДИНИ ПОТРАТИВ НА ХУЙНЮ!!!!!!!!!</h1>
+        <button onClick={getDataFromLocalStorage}>
+          Get data from LOCAL STORAGE
+        </button>
         <div className="flex items-center gap-2">
           <div>
             <Label htmlFor="new-movie-id">New Movie ID</Label>
@@ -280,13 +336,6 @@ export const AddNewMovie = ({
             />
           </div>
         </div>
-        <Label htmlFor="title-uk">Title UK</Label>
-        <Input
-          id="title-uk"
-          type="text"
-          placeholder="Title UK"
-          onChange={(e) => (titleUkRef.current = e.target.value)}
-        />
         <div className="flex gap-5">
           <div className="flex-1">
             <Label htmlFor="title-en">Title EN</Label>
@@ -317,6 +366,25 @@ export const AddNewMovie = ({
             />
           </div>
         </div>
+        <Label htmlFor="title-uk">Title UK</Label>
+        <Input
+          id="title-uk"
+          type="text"
+          placeholder="Title UK"
+          onChange={(e) => (titleUkRef.current = e.target.value)}
+        />
+
+        <div className="flex-1 basis-6">
+          <Label htmlFor="movie-poster">Poster</Label>
+          <Input
+            id="movie-poster"
+            type="file"
+            onChange={(e) => {
+              fileRef.current = e.target.files?.[0] || null;
+            }}
+          />
+        </div>
+
         <div className="grid gap-2">
           <Label htmlFor="description-uk">Description UK</Label>
           <Textarea
@@ -387,6 +455,7 @@ export const AddNewMovie = ({
           placeholder="Duration"
           onChange={(e) => (durationRef.current = +e.target.value)}
         />
+        {/* Auto remove all symbols 700,000 -> 700000 */}
         <Label htmlFor="budget">Budget</Label>
         <Input
           id="budget"
@@ -394,6 +463,7 @@ export const AddNewMovie = ({
           placeholder="Budget"
           onChange={(e) => (budgetRef.current = +e.target.value)}
         />
+        {/* move location above and set here tooltip or () - Domestic gross (US) */}
         <Label htmlFor="domestic-gross">Domestic gross</Label>
         <Input
           id="domestic-gross"
@@ -408,6 +478,8 @@ export const AddNewMovie = ({
           placeholder="Worldwide gross"
           onChange={(e) => (worldwideGrossRef.current = +e.target.value)}
         />
+
+        {/* Add selector most common locations - US, UK... and manual input for rare */}
         <Label htmlFor="location-uk">Location UK</Label>
         <Input
           id="location-uk"
@@ -444,44 +516,52 @@ export const AddNewMovie = ({
                         key={actor.key}
                         className="mr-2 flex w-max items-center gap-1 rounded-xl bg-purple-300 p-2 dark:bg-purple-700"
                       >
-                        <TooltipTrigger
-                          onClick={(e) => {
-                            console.log("????????????????????");
-
-                            // e.stopPropagation();
-                            // e.preventDefault();
-                            // setActionTimesList((prev) =>
-                            //   prev.filter(
-                            //     (actionTimePrev) =>
-                            //       actionTimePrev.key !== actionTime.key,
-                            //   ),
-                            // );
-                          }}
-                          asChild
-                          className="text-left"
-                        >
+                        <TooltipTrigger asChild className="text-left">
                           <span>{actor.full_name}</span>
                         </TooltipTrigger>
                         <Input
                           onChange={(e) => {
-                            console.log("scec ref", +e.target.value);
-
                             const a = actorsRef.current.find(
                               (actorPrev) => actorPrev.key === actor.key,
                             );
                             if (!a) {
                               actorsRef.current.push({
                                 key: actor.key,
-                                character_name: e.target.value,
+                                character_name_uk: "",
+                                character_name_en: e.target.value,
+                                character_key: convertToSlug(e.target.value),
                               });
                             } else {
-                              a.character_name = e.target.value;
+                              a.character_name_en = e.target.value;
+                              a.character_key = convertToSlug(e.target.value);
+                            }
+                            setCharacterKey(convertToSlug(e.target.value));
+                          }}
+                          className="w-32"
+                          type="text"
+                          placeholder="NAME EN"
+                        />
+                        <Input
+                          onChange={(e) => {
+                            const a = actorsRef.current.find(
+                              (actorPrev) => actorPrev.key === actor.key,
+                            );
+                            if (!a) {
+                              actorsRef.current.push({
+                                key: actor.key,
+                                character_name_uk: e.target.value,
+                                character_name_en: "",
+                                character_key: "",
+                              });
+                            } else {
+                              a.character_name_uk = e.target.value;
                             }
                           }}
                           className="w-32"
                           type="text"
-                          placeholder="Poster"
+                          placeholder="NAME UK"
                         />
+                        <div>{characterKey}</div>
                         <CircleXIcon
                           className="cursor-pointer"
                           onClick={(e) => {
@@ -528,12 +608,7 @@ export const AddNewMovie = ({
                     .includes(specification.key),
                 )?.name
               : "Select specification..."} */}
-                <ChevronsUpDown
-                  className="opacity-50"
-                  onClick={(e) => {
-                    console.log("????????????????????");
-                  }}
-                />
+                <ChevronsUpDown className="opacity-50" />
               </Button>
             </PopoverTrigger>
 
@@ -543,6 +618,7 @@ export const AddNewMovie = ({
                 <CommandList>
                   <CommandEmpty>
                     No actor found.{" "}
+                    {/* after add set value from this input to form's input */}
                     <Button
                       variant="link"
                       onClick={() => setOpenActorFormModal(true)}
@@ -569,15 +645,6 @@ export const AddNewMovie = ({
                                   )
                                 : [...prev, actor],
                             );
-                            // const a = actorsRef.current.find(
-                            //   (actorPrev) => actorPrev.key === actor.key,
-                            // );
-                            // if (!a) {
-                            //   actorsRef.current.push({
-                            //     key: actor.key,
-                            //     character_name: "",
-                            //   });
-                            // }
 
                             setOpenActor(false);
                           }}
@@ -612,6 +679,7 @@ export const AddNewMovie = ({
         </div>
         {/* ============================ Actors ====================================================== */}
         {/* ============================ Directors ====================================================== */}
+        {/* Quentin Tarantino - not found - trim all spaces */}
         <div className="border border-black p-2">
           <h1>Directors</h1>
           <div>
@@ -624,22 +692,7 @@ export const AddNewMovie = ({
                         key={director.key}
                         className="mr-2 flex w-max items-center gap-1 rounded-xl bg-purple-300 p-2 dark:bg-purple-700"
                       >
-                        <TooltipTrigger
-                          onClick={(e) => {
-                            console.log("????????????????????");
-
-                            // e.stopPropagation();
-                            // e.preventDefault();
-                            // setActionTimesList((prev) =>
-                            //   prev.filter(
-                            //     (actionTimePrev) =>
-                            //       actionTimePrev.key !== actionTime.key,
-                            //   ),
-                            // );
-                          }}
-                          asChild
-                          className="text-left"
-                        >
+                        <TooltipTrigger asChild className="text-left">
                           <span>{director.full_name}</span>
                         </TooltipTrigger>
                         <CircleXIcon
@@ -690,12 +743,7 @@ export const AddNewMovie = ({
                     .includes(specification.key),
                 )?.name
               : "Select specification..."} */}
-                <ChevronsUpDown
-                  className="opacity-50"
-                  onClick={(e) => {
-                    console.log("????????????????????");
-                  }}
-                />
+                <ChevronsUpDown className="opacity-50" />
               </Button>
             </PopoverTrigger>
 
@@ -790,27 +838,11 @@ export const AddNewMovie = ({
                         key={genre.key}
                         className="mr-2 flex w-max items-center gap-1 rounded-xl bg-purple-300 p-2 dark:bg-purple-700"
                       >
-                        <TooltipTrigger
-                          onClick={(e) => {
-                            console.log("????????????????????");
-
-                            // e.stopPropagation();
-                            // e.preventDefault();
-                            // setGenresList((prev) =>
-                            //   prev.filter(
-                            //     (genrePrev) => genrePrev.key !== genre.key,
-                            //   ),
-                            // );
-                          }}
-                          asChild
-                          className="text-left"
-                        >
+                        <TooltipTrigger asChild className="text-left">
                           <span>{genre.name}</span>
                         </TooltipTrigger>
                         <Input
                           onChange={(e) => {
-                            console.log("scec ref", +e.target.value);
-
                             const a = genresRef.current.find(
                               (genrePrev) => genrePrev.key === genre.key,
                             );
@@ -894,12 +926,7 @@ export const AddNewMovie = ({
                 className="h-max w-max justify-between"
               >
                 {"Select genres..."}
-                <ChevronsUpDown
-                  className="opacity-50"
-                  onClick={(e) => {
-                    console.log("????????????????????");
-                  }}
-                />
+                <ChevronsUpDown className="opacity-50" />
               </Button>
             </PopoverTrigger>
 
@@ -985,28 +1012,11 @@ export const AddNewMovie = ({
                         key={subgenre.key}
                         className="mr-2 flex w-max items-center gap-1 rounded-xl bg-purple-300 p-2 dark:bg-purple-700"
                       >
-                        <TooltipTrigger
-                          onClick={(e) => {
-                            console.log("????????????????????");
-
-                            // e.stopPropagation();
-                            // e.preventDefault();
-                            // setSubgenresList((prev) =>
-                            //   prev.filter(
-                            //     (subgenrePrev) =>
-                            //       subgenrePrev.key !== subgenre.key,
-                            //   ),
-                            // );
-                          }}
-                          asChild
-                          className="text-left"
-                        >
+                        <TooltipTrigger asChild className="text-left">
                           <span>{subgenre.name}</span>
                         </TooltipTrigger>
                         <Input
                           onChange={(e) => {
-                            console.log("scec ref", +e.target.value);
-
                             const a = subgenresRef.current.find(
                               (genrePrev) => genrePrev.key === subgenre.key,
                             );
@@ -1076,12 +1086,7 @@ export const AddNewMovie = ({
                 className="h-max w-max justify-between"
               >
                 {"Select subgenres..."}
-                <ChevronsUpDown
-                  className="opacity-50"
-                  onClick={(e) => {
-                    console.log("????????????????????");
-                  }}
-                />
+                <ChevronsUpDown className="opacity-50" />
               </Button>
             </PopoverTrigger>
 
@@ -1165,27 +1170,11 @@ export const AddNewMovie = ({
                         key={spec.key}
                         className="mr-2 flex w-max items-center gap-1 rounded-xl bg-purple-300 p-2 dark:bg-purple-700"
                       >
-                        <TooltipTrigger
-                          onClick={(e) => {
-                            console.log("????????????????????");
-
-                            // e.stopPropagation();
-                            // e.preventDefault();
-                            // setSpecificationKey((prev) =>
-                            //   prev.filter(
-                            //     (specification) => specification.key !== spec.key,
-                            //   ),
-                            // );
-                          }}
-                          asChild
-                          className="text-left"
-                        >
+                        <TooltipTrigger asChild className="text-left">
                           <span>{spec.name}</span>
                         </TooltipTrigger>
                         <Input
                           onChange={(e) => {
-                            console.log("scec ref", +e.target.value);
-
                             const a = specRef.current.find(
                               (specification) => specification.key === spec.key,
                             );
@@ -1260,12 +1249,7 @@ export const AddNewMovie = ({
                     .includes(specification.key),
                 )?.name
               : "Select specification..."} */}
-                <ChevronsUpDown
-                  className="opacity-50"
-                  onClick={(e) => {
-                    console.log("????????????????????");
-                  }}
-                />
+                <ChevronsUpDown className="opacity-50" />
               </Button>
             </PopoverTrigger>
 
@@ -1351,27 +1335,11 @@ export const AddNewMovie = ({
                         key={keyword.key}
                         className="mr-2 flex w-max items-center gap-1 rounded-xl bg-purple-300 p-2 dark:bg-purple-700"
                       >
-                        <TooltipTrigger
-                          onClick={(e) => {
-                            console.log("????????????????????");
-
-                            // e.stopPropagation();
-                            // e.preventDefault();
-                            // setKeywordsList((prev) =>
-                            //   prev.filter(
-                            //     (keywordPrev) => keywordPrev.key !== keyword.key,
-                            //   ),
-                            // );
-                          }}
-                          asChild
-                          className="text-left"
-                        >
+                        <TooltipTrigger asChild className="text-left">
                           <span>{keyword.name}</span>
                         </TooltipTrigger>
                         <Input
                           onChange={(e) => {
-                            console.log("scec ref", +e.target.value);
-
                             const a = keywordsRef.current.find(
                               (keywordsPrev) =>
                                 keywordsPrev.key === keyword.key,
@@ -1448,12 +1416,7 @@ export const AddNewMovie = ({
                     .includes(specification.key),
                 )?.name
               : "Select specification..."} */}
-                <ChevronsUpDown
-                  className="opacity-50"
-                  onClick={(e) => {
-                    console.log("????????????????????");
-                  }}
-                />
+                <ChevronsUpDown className="opacity-50" />
               </Button>
             </PopoverTrigger>
 
@@ -1538,28 +1501,11 @@ export const AddNewMovie = ({
                         key={actionTime.key}
                         className="mr-2 flex w-max items-center gap-1 rounded-xl bg-purple-300 p-2 dark:bg-purple-700"
                       >
-                        <TooltipTrigger
-                          onClick={(e) => {
-                            console.log("????????????????????");
-
-                            // e.stopPropagation();
-                            // e.preventDefault();
-                            // setActionTimesList((prev) =>
-                            //   prev.filter(
-                            //     (actionTimePrev) =>
-                            //       actionTimePrev.key !== actionTime.key,
-                            //   ),
-                            // );
-                          }}
-                          asChild
-                          className="text-left"
-                        >
+                        <TooltipTrigger asChild className="text-left">
                           <span>{actionTime.name}</span>
                         </TooltipTrigger>
                         <Input
                           onChange={(e) => {
-                            console.log("scec ref", +e.target.value);
-
                             const a = actionTimesRef.current.find(
                               (actionTImePrev) =>
                                 actionTImePrev.key === actionTime.key,
@@ -1637,12 +1583,7 @@ export const AddNewMovie = ({
                     .includes(specification.key),
                 )?.name
               : "Select specification..."} */}
-                <ChevronsUpDown
-                  className="opacity-50"
-                  onClick={(e) => {
-                    console.log("????????????????????");
-                  }}
-                />
+                <ChevronsUpDown className="opacity-50" />
               </Button>
             </PopoverTrigger>
 
@@ -1756,7 +1697,12 @@ export const AddNewMovie = ({
           }}
           ratingRef={ratingRef}
         />
-        <Button onClick={addMovie}>Submit</Button>
+
+        {!isSubmitting ? (
+          <Button onClick={addMovie}>Submit</Button>
+        ) : (
+          <div>Spinner</div>
+        )}
         {/*===================================  Report an issue ============================= */}
         {/* <Card className="w-[700px]">
         <CardHeader>

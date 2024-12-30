@@ -1,15 +1,17 @@
 "use client";
-import { Control, Controller, useForm, useWatch } from "react-hook-form";
+
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { FormField } from "./form-field";
 import { TypeActorScheme } from "@/types/general";
 import { ActorScheme } from "@/types/zod-scheme";
 import { useRouter } from "next/navigation";
-import { addNewActor, addNewMovie } from "@/app/actions";
+import { addNewActor } from "@/app/actions";
 import { toast } from "sonner";
-import { ActorIn, ActorOut, BodyAPICreateActor } from "@/orval_api/model";
+import { ActorOut, BodyAPICreateActor } from "@/orval_api/model";
 import { formatKey } from "@/lib/utils";
+import { Button } from "../ui/button";
 
 type Props = {
   setActorsList: Dispatch<SetStateAction<ActorOut[]>>;
@@ -23,6 +25,7 @@ export const AddNewActor = ({ setActorsList, actorsRef }: Props) => {
     handleSubmit,
     formState: { errors, isSubmitting },
     watch,
+    reset,
   } = useForm<TypeActorScheme>({
     resolver: zodResolver(ActorScheme),
     defaultValues: {
@@ -60,6 +63,10 @@ export const AddNewActor = ({ setActorsList, actorsRef }: Props) => {
     router.refresh();
   };
 
+  const clearForm = () => {
+    reset();
+  };
+
   return (
     <div className="text-textOrange flex items-center gap-3 font-bold">
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
@@ -67,6 +74,10 @@ export const AddNewActor = ({ setActorsList, actorsRef }: Props) => {
           <div className="text-4xl font-semibold text-animeneutral-light">
             Add New Actor
           </div>
+
+          <Button variant="link" onClick={clearForm}>
+            Clear
+          </Button>
 
           <FormField
             type="text"
@@ -76,23 +87,6 @@ export const AddNewActor = ({ setActorsList, actorsRef }: Props) => {
             error={errors.key}
             labelWidth={52}
             value={formatKey(watchFields)}
-          />
-
-          <FormField
-            type="text"
-            label="First Name UK"
-            name="first_name_uk"
-            register={register}
-            error={errors.first_name_uk}
-            labelWidth={50}
-          />
-          <FormField
-            type="text"
-            label="Last Name UK"
-            name="last_name_uk"
-            register={register}
-            error={errors.last_name_uk}
-            labelWidth={56}
           />
 
           <FormField
@@ -111,6 +105,23 @@ export const AddNewActor = ({ setActorsList, actorsRef }: Props) => {
             register={register}
             error={errors.last_name_en}
             labelWidth={94}
+          />
+
+          <FormField
+            type="text"
+            label="First Name UK"
+            name="first_name_uk"
+            register={register}
+            error={errors.first_name_uk}
+            labelWidth={50}
+          />
+          <FormField
+            type="text"
+            label="Last Name UK"
+            name="last_name_uk"
+            register={register}
+            error={errors.last_name_uk}
+            labelWidth={56}
           />
 
           <FormField
@@ -133,20 +144,20 @@ export const AddNewActor = ({ setActorsList, actorsRef }: Props) => {
 
           <FormField
             type="text"
-            label="Born in (UK)"
-            name="born_in_uk"
-            register={register}
-            error={errors.born_in_uk}
-            labelWidth={42}
-          />
-
-          <FormField
-            type="text"
             label="Born in (EN)"
             name="born_in_en"
             register={register}
             error={errors.born_in_en}
             labelWidth={94}
+          />
+
+          <FormField
+            type="text"
+            label="Born in (UK)"
+            name="born_in_uk"
+            register={register}
+            error={errors.born_in_uk}
+            labelWidth={42}
           />
 
           <FormField

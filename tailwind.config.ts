@@ -266,6 +266,18 @@ export default {
           p2: "#F7A9C7",
           g: "#B0BCCD",
         },
+
+        // Rose Quartz & Serenity
+        rosequartz: "#F7CAC9",
+        serenity: "#92A8D1",
+        // Lavender
+        lavender: "#E6E6FA",
+        // Peach
+        peach: "#FFE5B4",
+        // Ivory
+        ivory: "#FFFFF0",
+        // Light Blue
+        lightblue: "#ADD8E6",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
