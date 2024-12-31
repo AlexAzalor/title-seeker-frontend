@@ -10,6 +10,12 @@ export default function Home() {
     <>
       <main className="flex min-h-screen flex-col items-center gap-5 p-12">
         <h1 className="text-4xl">{t("title")}</h1>
+        <h1>
+          НЕ треба тратити час на дурню типу для зручності і т.д НЕ ТРЕБА!
+        </h1>
+        <h1>ГОЛОВНЕ ЛОГІКА І ФУНКЦІОНАЛЬНІСТЬ!!!!!!!!!!!!!</h1>
+        <h1>1.5 години..... і це одна з...</h1>
+        <h1>ПРОСТО ЗАПИШИ ІДЕЮ НА ПОТІМ!</h1>
         <Slider />
         <GoogleLogin />
       </main>

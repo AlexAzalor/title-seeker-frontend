@@ -2,6 +2,8 @@ import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { ButtonSwitchServer } from "../button-server";
 import { ModeToggle } from "../toggles/theme-toggle";
+import { Button } from "../ui/button";
+import { PlusCircle } from "lucide-react";
 
 // import { LanguageSwitcher } from "./LanguageSwitcher";
 // import { ModeToggle } from "./ModeToggle";
@@ -46,6 +48,12 @@ export const Header = () => {
 
       <SideMenuPanel /> */}
 
+      <Link href="/add-movie">
+        <Button>
+          <PlusCircle />
+          Add Movie
+        </Button>
+      </Link>
       <div>
         <Link href="/dashboard">Dashboard</Link>
       </div>

@@ -1,49 +1,47 @@
 "use client";
 
-import { useOptimistic, useReducer, useState, useTransition } from "react";
-import { RateSlider } from "./rate-slider";
+import { RefObject, useReducer, useState } from "react";
+
 import {
   MovieOutUserRating,
   RatingCriterion,
-  UserRateMovieIn,
+  UserRatingCriteria,
 } from "@/orval_api/model";
-import { rateMovie, updateRateMovie } from "@/app/actions";
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import {
   assertNever,
   checkRatingChanges,
   FULL_MAX,
   getRatingCriteriaState,
-  MIN_RATE,
   RateCriteriesEnum,
   RATING_MAX,
   SF_MAX,
   updateRateReducer,
   VS_MAX,
-} from "./utils";
+} from "../rating/utils";
+import { RateSlider } from "../rating/rate-slider";
 // const VISUAL_EFFECTS_ON = false;
 // const SCARE_FACTOR_ON = false;
 // const BOTH_ON = VISUAL_EFFECTS_ON && SCARE_FACTOR_ON;
-
+const MIN_RATE = 0.01;
 const SHOW_RATE_VALUES = false;
 // const SUBSTRACT_RATE = 0.5;
 
 type Props = {
-  movieKey: string;
+  // movieKey: string;
   ratingCriteria?: MovieOutUserRating;
   criteriaType: RatingCriterion;
+  ratingRef: RefObject<UserRatingCriteria>;
 };
 
-export const RateCriteria = ({
-  movieKey,
-  ratingCriteria,
+export const RateMovie = ({
   criteriaType,
+  ratingCriteria,
+  ratingRef,
 }: Props) => {
-  const router = useRouter();
   const [showValues, setShowValues] = useState(SHOW_RATE_VALUES);
-  const [ratingState, setRatingState] = useOptimistic(0);
-  const [isPending, startTransition] = useTransition();
+  // const [ratingState, setRatingState] = useOptimistic(0);
+  // const [isPending, startTransition] = useTransition();
 
   // useActionState();
   // useOptimistic();
@@ -150,36 +148,18 @@ export const RateCriteria = ({
         isFull,
       )
     ) {
+      toast.error("No changes to save");
       return;
     }
 
-    const data: UserRateMovieIn = {
-      movie_key: movieKey,
-      uuid: "some_uuid",
+    const data: UserRatingCriteria & { rating: number } = {
       rating: calculateRating(),
       ...state,
     };
 
-    if (ratingCriteria) {
-      try {
-        startTransition(() => {
-          setRatingState(data.rating);
-        });
-        await updateRateMovie(data);
-        toast.success("Rating UPDATED");
-      } catch {
-        toast.error("Error occured");
-      }
-    } else {
-      try {
-        await rateMovie(data);
-        toast.success("Rating ADDED");
-      } catch {
-        toast.error("Error occured");
-      }
-    }
+    ratingRef.current = data;
 
-    router.refresh();
+    toast.info("Rating saved");
   };
 
   const actingMax = isFull
@@ -205,8 +185,8 @@ export const RateCriteria = ({
   return (
     <div className="w-[500px]">
       <h1>Rate: {calculateRating()}</h1>
-      <h1>Optimistic: {ratingState}</h1>
-      {isPending && <div>...pending...</div>}
+      {/* <h1>Optimistic: {ratingState}</h1>
+      {isPending && <div>...pending...</div>} */}
       {/* add tooltip or warning text or smth or modal? */}
       <button className="rounded-md bg-red-300 p-1" onClick={handleShowValues}>
         Show values
@@ -333,7 +313,7 @@ export const RateCriteria = ({
       )}
 
       <button className="mt-5 bg-orange-400 p-2" onClick={handleRateMovie}>
-        Rate movie
+        Save rating
       </button>
     </div>
   );

@@ -14,6 +14,7 @@ export function RateSlider({
     <div className="flex items-center gap-3">
       <Slider
         defaultValue={defaultValue}
+        value={value}
         max={max}
         step={0.01}
         className={cn("h-3 w-[60%]", className)}
