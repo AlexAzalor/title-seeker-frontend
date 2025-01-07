@@ -6,7 +6,7 @@ import {
   APICreateMovieParams,
   BodyAPICreateMovie,
   DirectorOut,
-  FormData,
+  MovieFormData,
   GenreOut,
   GenreOutSubgenres,
   KeywordOut,
@@ -221,7 +221,7 @@ export const AddNewMovie = ({
       return;
     }
 
-    const newMovieData: FormData = {
+    const newMovieData: MovieFormData = {
       // id: movieIdRef.current,
       key: convertToSlug(movieKey),
       title_uk: titleUkRef.current,
@@ -269,16 +269,22 @@ export const AddNewMovie = ({
 
     if (response.status === 400) {
       toast.error(response?.message);
+      setIsSubmitting(false);
+
+      throw new Error(response?.message);
     }
 
     if (response.status === 422) {
       toast.error("Validation error");
+      setIsSubmitting(false);
+
+      throw new Error("Validation error");
     }
     setIsSubmitting(false);
   };
 
   const saveFormDataToLocalstorage = () => {
-    const newMovieData: FormData = {
+    const newMovieData: MovieFormData = {
       // id: movieIdRef.current,
       key: convertToSlug(movieKey),
       title_uk: titleUkRef.current,
@@ -325,7 +331,7 @@ export const AddNewMovie = ({
   const getDataFromLocalStorage = () => {
     const data = localStorage.getItem("newMovieData");
     if (data) {
-      const parsedData: FormData = JSON.parse(data);
+      const parsedData: MovieFormData = JSON.parse(data);
       console.log("parsedData: ", parsedData);
       setMovieKey(parsedData.key);
       movieKeyRef.current = parsedData.key;

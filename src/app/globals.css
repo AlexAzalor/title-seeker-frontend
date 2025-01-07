@@ -5,8 +5,8 @@
 :root {
   /* --background: #ffffff;
   --foreground: #29589a; */
-  /* @apply dark:bg-[#29589a]; */
-  @apply bg-[#F7CAC9] dark:bg-[#A678C1];
+  @apply dark:bg-[#29589a];
+  /* @apply bg-[#F7CAC9] dark:bg-[#A678C1]; */
 
   --card: 0 0% 100%;
   --card-foreground: 240 10% 3.9%;
