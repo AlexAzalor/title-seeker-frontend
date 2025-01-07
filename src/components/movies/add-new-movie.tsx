@@ -17,6 +17,7 @@ import {
   SpecificationOut,
   SubgenreOut,
   UserRatingCriteria,
+  MoviePreCreateDataTemporaryMovie,
 } from "@/orval_api/model";
 // import { Input } from "@/components/ui/input";
 // import { Card, CardHeader } from "@/components/ui/card";
@@ -106,6 +107,7 @@ type Props = {
   genres: GenreOut[];
   keywords: KeywordOut[];
   actionTimes: ActionTimeOut[];
+  temporaryMovie?: MoviePreCreateDataTemporaryMovie;
 };
 
 export const AddNewMovie = ({
@@ -116,6 +118,7 @@ export const AddNewMovie = ({
   genres,
   keywords,
   actionTimes,
+  temporaryMovie,
 }: Props) => {
   const router = useRouter();
   const [date, setDate] = useState<Date | undefined>(new Date());
@@ -164,17 +167,17 @@ export const AddNewMovie = ({
   const actionTimesRef = useRef<MovieFilterField[]>([]);
 
   // const ratingCriteriaRef = useRef<RatingCriterion>(RatingCriterion.basic);
-  const [ratingCriteria, setRatingCriteria] = useState<RatingCriterion>(
-    RatingCriterion.basic,
+  const [ratingCriteriaType, setRatingCriteriaType] = useState<RatingCriterion>(
+    temporaryMovie?.rating_criterion_type || RatingCriterion.basic,
   );
 
   const movieIdRef = useRef<number>(newMovieId);
 
-  const movieKeyRef = useRef<string>("");
-  const [movieKey, setMovieKey] = useState("");
+  const movieKeyRef = useRef<string>(temporaryMovie?.key || "");
+  const [movieKey, setMovieKey] = useState(temporaryMovie?.key || "");
 
   const titleUkRef = useRef<string>("");
-  const titleEnRef = useRef<string>("");
+  const titleEnRef = useRef<string>(temporaryMovie?.title_en || "");
   const descriptionUkRef = useRef<string>("");
   const descriptionEnRef = useRef<string>("");
   const releaseDateRef = useRef<string>("");
@@ -202,9 +205,11 @@ export const AddNewMovie = ({
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const ratingData = temporaryMovie?.rating_criteria || INITIAL_RATE;
+
   const ratingRef = useRef<UserRatingCriteria & { rating: number }>({
-    ...INITIAL_RATE,
-    rating: 0,
+    ...ratingData,
+    rating: temporaryMovie?.rating || 0,
   });
   const addMovie = async () => {
     setIsSubmitting(true);
@@ -247,7 +252,7 @@ export const AddNewMovie = ({
       specifications: specRef.current,
       keywords: keywordsRef.current,
       action_times: actionTimesRef.current,
-      rating_criterion_type: ratingCriteria,
+      rating_criterion_type: ratingCriteriaType,
       rating_criteria: ratingRef.current,
       rating: ratingRef.current.rating,
       // file: fileRef.current,
@@ -258,10 +263,13 @@ export const AddNewMovie = ({
     // Save data to local storage
     localStorage.setItem("newMovieData", JSON.stringify(newMovieData));
 
-    const response = await addNewMovie({
-      form_data: newMovieData,
-      file: fileRef.current,
-    });
+    const response = await addNewMovie(
+      {
+        form_data: newMovieData,
+        file: fileRef.current,
+      },
+      !!temporaryMovie,
+    );
 
     if (response.status === 201) {
       toast.success(response?.message);
@@ -310,7 +318,7 @@ export const AddNewMovie = ({
       specifications: specRef.current,
       keywords: keywordsRef.current,
       action_times: actionTimesRef.current,
-      rating_criterion_type: ratingCriteria,
+      rating_criterion_type: ratingCriteriaType,
       // rating_criteria: ratingDataState,
       rating_criteria: ratingRef.current,
       rating: ratingRef.current.rating,
@@ -516,7 +524,7 @@ export const AddNewMovie = ({
       actionTimesRef.current = parsedData.action_times;
 
       // Rating
-      setRatingCriteria(parsedData.rating_criterion_type);
+      setRatingCriteriaType(parsedData.rating_criterion_type);
       ratingRef.current = parsedData.rating_criteria as any;
 
       router.refresh();
@@ -577,7 +585,7 @@ export const AddNewMovie = ({
           <div className="flex-1 basis-6">
             <Label htmlFor="movie-key">Movie key</Label>
             <Input
-              value={convertToSlug(movieKey)}
+              value={temporaryMovie?.key || convertToSlug(movieKey)}
               disabled
               id="movie-key"
               type="text"
@@ -1928,9 +1936,9 @@ export const AddNewMovie = ({
           <Label htmlFor="rating-criteria">Rating Criteria</Label>
           <Select
             onValueChange={(value: RatingCriterion) => {
-              setRatingCriteria(value);
+              setRatingCriteriaType(value);
             }}
-            defaultValue={ratingCriteria}
+            defaultValue={ratingCriteriaType}
           >
             <SelectTrigger id="rating-criteria">
               <SelectValue placeholder="Select" />
@@ -1948,20 +1956,22 @@ export const AddNewMovie = ({
           </Select>
         </div>
         <RateMovie
-          criteriaType={ratingCriteria}
-          ratingCriteria={{
-            ...INITIAL_RATE,
-            scare_factor:
-              ratingCriteria === RatingCriterion.scare_factor ||
-              ratingCriteria === RatingCriterion.full
-                ? 0.01
-                : undefined,
-            visual_effects:
-              ratingCriteria === RatingCriterion.visual_effects ||
-              ratingCriteria === RatingCriterion.full
-                ? 0.01
-                : undefined,
-          }}
+          criteriaType={ratingCriteriaType}
+          ratingCriteria={
+            temporaryMovie?.rating_criteria || {
+              ...INITIAL_RATE,
+              scare_factor:
+                ratingCriteriaType === RatingCriterion.scare_factor ||
+                ratingCriteriaType === RatingCriterion.full
+                  ? 0.01
+                  : undefined,
+              visual_effects:
+                ratingCriteriaType === RatingCriterion.visual_effects ||
+                ratingCriteriaType === RatingCriterion.full
+                  ? 0.01
+                  : undefined,
+            }
+          }
           ratingRef={ratingRef}
         />
 

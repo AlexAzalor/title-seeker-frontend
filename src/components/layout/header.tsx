@@ -54,6 +54,13 @@ export const Header = () => {
           Add Movie
         </Button>
       </Link>
+
+      <Link href="/quick-add-movie">
+        <Button>
+          <PlusCircle />
+          Quickly add Movie
+        </Button>
+      </Link>
       <div>
         <Link href="/dashboard">Dashboard</Link>
       </div>

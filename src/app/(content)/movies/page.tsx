@@ -13,11 +13,35 @@ export default async function MoviesPage() {
 
   const { aPIGetMovies } = getMovies();
   const {
-    data: { movies },
+    data: { movies, temporary_movies },
   } = await aPIGetMovies({ lang }, backendURL);
 
   return (
     <div className="min-h-screen">
+      {!!temporary_movies.length && (
+        <div>
+          <h1>Temporary Movies</h1>
+          <div className="flex gap-5">
+            {temporary_movies.map((movie) => (
+              <Link
+                href={{
+                  pathname: "/add-movie",
+                  query: { temp_movie_key: movie.key },
+                }}
+                key={movie.key}
+                className="bg-gray-600 p-4"
+              >
+                <div className="text-xl">{movie.title_en}</div>
+                <div>
+                  Rating:{" "}
+                  <span className="text-lg font-bold">{movie.rating}</span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
+
       <h1 className="p-5 text-3xl">{t("navigation.movies")}</h1>
       <div className="grid grid-cols-5 gap-4">
         {movies.map((movie) => (

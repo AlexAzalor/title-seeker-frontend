@@ -1,10 +1,16 @@
 import { FieldError, UseFormRegister } from "react-hook-form";
 import { z } from "zod";
-import { ActorScheme, GenreScheme, SubgenreScheme } from "./zod-scheme";
+import {
+  ActorScheme,
+  GenreScheme,
+  MovieScheme,
+  SubgenreScheme,
+} from "./zod-scheme";
 import {
   BodyAPICreateActor,
   BodyAPICreateGenre,
   BodyAPICreateSubgenre,
+  QuickMovieFormData,
 } from "@/orval_api/model";
 import { HTMLInputTypeAttribute } from "react";
 
@@ -51,6 +57,25 @@ export type SubgenreFormFieldProps = {
   type: HTMLInputTypeAttribute;
   name: SubgenreFieldNames;
   register: UseFormRegister<TypeSubgenreScheme>;
+  error: FieldError | undefined;
+  labelWidth?: number;
+  label: string;
+  value?: string;
+};
+
+//////////// Quick Movie Form Field //////////////
+
+export type MovieFieldNames = keyof Pick<
+  QuickMovieFormData,
+  "title_en" | "key"
+>;
+
+export type TypeMovieScheme = z.infer<typeof MovieScheme>;
+
+export type MovieFormFieldProps = {
+  type: HTMLInputTypeAttribute;
+  name: MovieFieldNames;
+  register: UseFormRegister<TypeMovieScheme>;
   error: FieldError | undefined;
   labelWidth?: number;
   label: string;

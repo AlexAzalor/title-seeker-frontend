@@ -188,7 +188,11 @@ export const RateMovie = ({
       {/* <h1>Optimistic: {ratingState}</h1>
       {isPending && <div>...pending...</div>} */}
       {/* add tooltip or warning text or smth or modal? */}
-      <button className="rounded-md bg-red-300 p-1" onClick={handleShowValues}>
+      <button
+        type="button"
+        className="rounded-md bg-red-300 p-1"
+        onClick={handleShowValues}
+      >
         Show values
       </button>
       <div>
@@ -312,7 +316,11 @@ export const RateMovie = ({
         </div>
       )}
 
-      <button className="mt-5 bg-orange-400 p-2" onClick={handleRateMovie}>
+      <button
+        type="button"
+        className="mt-5 bg-orange-400 p-2"
+        onClick={handleRateMovie}
+      >
         Save rating
       </button>
     </div>

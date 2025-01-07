@@ -9,6 +9,7 @@ import {
   BodyAPICreateMovie,
   BodyAPICreateSubgenre,
   Language,
+  QuickMovieFormData,
   UserRateMovieIn,
 } from "@/orval_api/model";
 import { getMovies } from "@/orval_api/movies/movies";
@@ -43,6 +44,7 @@ export async function rateMovie(data: UserRateMovieIn) {
 export async function addNewMovie(
   // data: APICreateMovieParams,
   act: BodyAPICreateMovie,
+  tempMovie: boolean = false,
 ) {
   const locale = await getLocale();
   const lang = Language[locale as keyof typeof Language];
@@ -52,7 +54,7 @@ export async function addNewMovie(
   try {
     const a: AxiosResponse = await aPICreateMovie(
       act,
-      { lang },
+      { lang, temp_movie: tempMovie },
       {
         baseURL: backendURL.baseURL,
       },
@@ -203,6 +205,27 @@ export async function addNewActionTime(data: BodyAPICreateGenre) {
       message: "Action Time created",
       newGenre: a.data,
     };
+  } catch (error: any) {
+    return { status: error.status, message: error.response?.data.detail };
+  }
+}
+
+export async function quicklyAddNewMovie(data: QuickMovieFormData) {
+  const locale = await getLocale();
+  const lang = Language[locale as keyof typeof Language];
+
+  const { aPIQuickAddMovie } = getMovies();
+
+  try {
+    const a: AxiosResponse = await aPIQuickAddMovie(
+      data,
+      { lang },
+      {
+        baseURL: backendURL.baseURL,
+      },
+    );
+
+    return { status: a.status, message: "Movie add to JSON" };
   } catch (error: any) {
     return { status: error.status, message: error.response?.data.detail };
   }

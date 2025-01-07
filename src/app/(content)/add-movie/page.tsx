@@ -4,7 +4,16 @@ import { Language } from "@/orval_api/model";
 import { getMovies } from "@/orval_api/movies/movies";
 import { getLocale } from "next-intl/server";
 
-export default async function AddMoviePage() {
+type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
+export default async function AddMoviePage(props: {
+  searchParams: SearchParams;
+}) {
+  const searchParams = await props.searchParams;
+  const tempMovieKey =
+    typeof searchParams.temp_movie_key === "string"
+      ? searchParams.temp_movie_key
+      : null;
+
   const locale = await getLocale();
   const lang = Language[locale as keyof typeof Language];
 
@@ -19,8 +28,12 @@ export default async function AddMoviePage() {
       genres,
       keywords,
       action_times,
+      temporary_movie,
     },
-  } = await aPIGetPreCreateData({ lang }, backendURL);
+  } = await aPIGetPreCreateData(
+    { lang, temp_movie_key: tempMovieKey },
+    backendURL,
+  );
 
   return (
     <div className="">
@@ -34,6 +47,7 @@ export default async function AddMoviePage() {
         genres={genres}
         keywords={keywords}
         actionTimes={action_times}
+        temporaryMovie={temporary_movie}
       />
     </div>
   );

@@ -86,3 +86,10 @@ export const SubgenreScheme = z
     parent_genre_key: z.string().trim(),
   })
   .refine((data) => (data.key = formatKey([data.name_en])));
+
+export const MovieScheme = z
+  .object({
+    key: z.string().trim(),
+    title_en: z.string().min(1, { message: "title_en is required" }).trim(),
+  })
+  .refine((data) => (data.key = formatKey([data.title_en])));
