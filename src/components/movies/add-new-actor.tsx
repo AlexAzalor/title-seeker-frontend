@@ -2,24 +2,21 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Dispatch, SetStateAction } from "react";
 import { FormField } from "./form-field";
 import { TypeActorScheme } from "@/types/general";
 import { ActorScheme } from "@/types/zod-scheme";
 import { useRouter } from "next/navigation";
 import { addNewActor } from "@/app/actions";
 import { toast } from "sonner";
-import { ActorOut, BodyAPICreateActor } from "@/orval_api/model";
+import { BodyAPICreateActor } from "@/orval_api/model";
 import { formatKey } from "@/lib/utils";
 import { Button } from "../ui/button";
 
 type Props = {
-  setActorsList: Dispatch<SetStateAction<ActorOut[]>>;
-  // setActorsList: (d: ActorOut[]) => void;
-  actorsRef: any;
+  appendActor: any;
 };
 
-export const AddNewActor = ({ setActorsList, actorsRef }: Props) => {
+export const AddNewActor = ({ appendActor }: Props) => {
   const {
     register,
     handleSubmit,
@@ -44,16 +41,16 @@ export const AddNewActor = ({ setActorsList, actorsRef }: Props) => {
       file: data.file[0],
     };
 
-    console.log("========= DATA form actor: ", dataToSend);
-
     const response = await addNewActor(dataToSend);
 
     if (response.status === 201) {
       toast.success(response?.message);
-      setActorsList((prev) => [...prev, response.newActor]);
-      actorsRef.current.push({
+      appendActor({
+        actor_name: response.newActor.full_name,
         key: response.newActor.key,
+        character_key: "",
       });
+
       // clear form
     }
 

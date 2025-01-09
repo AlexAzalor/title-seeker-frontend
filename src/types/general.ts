@@ -4,12 +4,14 @@ import {
   ActorScheme,
   GenreScheme,
   MovieScheme,
+  QuickMovieScheme,
   SubgenreScheme,
 } from "./zod-scheme";
 import {
   BodyAPICreateActor,
   BodyAPICreateGenre,
   BodyAPICreateSubgenre,
+  MovieFormData,
   QuickMovieFormData,
 } from "@/orval_api/model";
 import { HTMLInputTypeAttribute } from "react";
@@ -65,17 +67,34 @@ export type SubgenreFormFieldProps = {
 
 //////////// Quick Movie Form Field //////////////
 
-export type MovieFieldNames = keyof Pick<
+export type QuickMovieFieldNames = keyof Pick<
   QuickMovieFormData,
   "title_en" | "key"
 >;
 
-export type TypeMovieScheme = z.infer<typeof MovieScheme>;
+export type QuickMovieType = z.infer<typeof QuickMovieScheme>;
+
+export type QuickMovieFormFieldProps = {
+  type: HTMLInputTypeAttribute;
+  name: QuickMovieFieldNames;
+  register: UseFormRegister<QuickMovieType>;
+  error: FieldError | undefined;
+  labelWidth?: number;
+  label: string;
+  value?: string;
+};
+
+///// Move
+export type MovieFieldNames =
+  | keyof Pick<MovieFormData, "key" | "title_en" | "title_uk">
+  | "file";
+
+export type MovieSchemeType = z.infer<typeof MovieScheme>;
 
 export type MovieFormFieldProps = {
   type: HTMLInputTypeAttribute;
   name: MovieFieldNames;
-  register: UseFormRegister<TypeMovieScheme>;
+  register: UseFormRegister<MovieSchemeType>;
   error: FieldError | undefined;
   labelWidth?: number;
   label: string;

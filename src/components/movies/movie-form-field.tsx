@@ -1,11 +1,33 @@
 "use client";
 
+import { HTMLInputTypeAttribute } from "react";
 import { cn } from "@/lib/utils";
-import { MovieFormFieldProps } from "@/types/general";
+import {
+  FieldError,
+  FieldValues,
+  Path,
+  UseFormRegister,
+} from "react-hook-form";
 
-const passwordInputs = ["key"];
+const FORM_FIELD = ["key"];
 
-export const MovieFormField = ({
+type FieldProps<
+  TFormValues extends FieldValues,
+  TFieldName extends Path<TFormValues>,
+> = {
+  type: HTMLInputTypeAttribute;
+  name: TFieldName;
+  register: UseFormRegister<TFormValues>;
+  error: FieldError | undefined;
+  labelWidth?: number;
+  label: string;
+  value?: string;
+};
+
+export const MovieFormField = <
+  TFormValues extends FieldValues,
+  TFieldName extends Path<TFormValues>,
+>({
   type,
   name,
   register,
@@ -13,20 +35,20 @@ export const MovieFormField = ({
   labelWidth,
   label,
   value,
-}: MovieFormFieldProps) => {
+}: FieldProps<TFormValues, TFieldName>) => {
   return (
     <>
       <div className="relative mt-7 h-[50px] w-full">
         <input
-          value={passwordInputs.includes(name) ? value : undefined}
-          disabled={passwordInputs.includes(name)}
+          value={FORM_FIELD.includes(name) ? value : undefined}
+          disabled={FORM_FIELD.includes(name)}
           placeholder=" "
           autoComplete="new-password"
           type={type}
           {...register(name)}
           className={cn(
             "input box-border h-full w-full rounded-[12px] border-0 bg-animeprimary-light px-5 py-1 text-[18px] text-animeprimary-dark outline-0 [&:focus~.cut]:translate-y-[8px] [&:focus~.placeholder]:translate-x-[10px] [&:focus~.placeholder]:translate-y-[-30px] [&:focus~.placeholder]:scale-75 [&:focus~.placeholder]:text-animeneutral [&:not(:placeholder-shown)~.cut]:translate-y-[8px] [&:not(:placeholder-shown)~.placeholder]:translate-x-[10px] [&:not(:placeholder-shown)~.placeholder]:translate-y-[-30px] [&:not(:placeholder-shown)~.placeholder]:scale-75 [&:not(:placeholder-shown)~.placeholder]:text-animeneutral",
-            passwordInputs.includes(name) && "disabled:bg-gray-200",
+            FORM_FIELD.includes(name) && "disabled:bg-gray-200",
           )}
         />
 

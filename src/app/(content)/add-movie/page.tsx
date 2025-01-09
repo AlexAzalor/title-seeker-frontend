@@ -1,3 +1,4 @@
+import { MovieFormWizard } from "@/components/movies/add-movie/movie-form-wizard";
 import { AddNewMovie } from "@/components/movies/add-new-movie";
 import { backendURL } from "@/lib/constants";
 import { Language } from "@/orval_api/model";
@@ -39,7 +40,16 @@ export default async function AddMoviePage(props: {
     <div className="">
       <h1 className="text-2xl">Add new Movie</h1>
 
-      <AddNewMovie
+      <MovieFormWizard
+        actors={actors}
+        directors={directors}
+        genres={genres}
+        specifications={specifications}
+        keywords={keywords}
+        actionTimes={action_times}
+      />
+
+      {/* <AddNewMovie
         newMovieId={next_movie_id}
         actors={actors}
         directors={directors}
@@ -48,7 +58,7 @@ export default async function AddMoviePage(props: {
         keywords={keywords}
         actionTimes={action_times}
         temporaryMovie={temporary_movie}
-      />
+      /> */}
     </div>
   );
 }

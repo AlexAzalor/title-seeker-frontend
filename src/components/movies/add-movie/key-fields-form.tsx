@@ -1,21 +1,12 @@
-"use client";
-
-import { formatKey } from "@/lib/utils";
-import {
-  QuickMovieFormData,
-  RatingCriterion,
-  UserRatingCriteria,
-} from "@/orval_api/model";
-import { MovieFormField } from "./movie-form-field";
+import { use, useRef, useState } from "react";
+import { MovieFormContext } from "./movie-form-wizard";
 import { useForm } from "react-hook-form";
-import { QuickMovieType } from "@/types/general";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { QuickMovieScheme } from "@/types/zod-scheme";
-import { quicklyAddNewMovie } from "@/app/actions";
-import { toast } from "sonner";
-import { RateMovie } from "./rate-movie";
-import { INITIAL_RATE } from "../rating/utils";
-import { useRef, useState } from "react";
+import { MovieScheme } from "@/types/zod-scheme";
+import { MovieSchemeType } from "@/types/general";
+import { formatKey } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { MovieFormField } from "../movie-form-field";
 
 import { Label } from "@/components/ui/label";
 import {
@@ -25,9 +16,26 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Button } from "../ui/button";
+import {
+  MovieFormData,
+  RatingCriterion,
+  UserRatingCriteria,
+} from "@/orval_api/model";
+import { INITIAL_RATE } from "@/components/rating/utils";
+import { RateMovie } from "../rate-movie";
+import { toast } from "sonner";
 
-export const QuicklyAddNewMovie = () => {
+type MovieKeyFields = Pick<
+  MovieFormData,
+  | "key"
+  | "title_en"
+  | "title_uk"
+  | "rating"
+  | "rating_criteria"
+  | "rating_criterion_type"
+>;
+
+export const KeyFieldsForm = () => {
   const [ratingCriteria, setRatingCriteria] = useState<RatingCriterion>(
     RatingCriterion.basic,
   );
@@ -37,13 +45,14 @@ export const QuicklyAddNewMovie = () => {
     rating: 0,
   });
 
+  const { setMovieFormData, handleNext } = use(MovieFormContext);
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
     watch,
-  } = useForm<QuickMovieType>({
-    resolver: zodResolver(QuickMovieScheme),
+  } = useForm<MovieSchemeType>({
+    resolver: zodResolver(MovieScheme),
     defaultValues: {
       key: "",
       title_en: "",
@@ -51,35 +60,31 @@ export const QuicklyAddNewMovie = () => {
   });
   const watchFields = watch(["title_en"]);
 
-  const onSubmit = async (data: QuickMovieType) => {
+  const onSubmit = async (data: MovieSchemeType) => {
     if (ratingRef.current.rating < 1) {
       toast.error("Rating must be more than 1");
       return;
     }
 
-    const dataToSend: QuickMovieFormData = {
-      ...data,
+    const { file, ...restData } = data;
+
+    const dataToSend: MovieKeyFields = {
+      ...restData,
       rating: ratingRef.current.rating,
       rating_criterion_type: ratingCriteria,
       rating_criteria: ratingRef.current,
     };
 
-    console.log("DATA to API: ", dataToSend);
+    setMovieFormData((prev) => ({
+      ...prev,
+      form_data: {
+        ...prev.form_data,
+        ...dataToSend,
+      },
+      file: file[0],
+    }));
 
-    const response = await quicklyAddNewMovie(dataToSend);
-
-    if (response.status === 201) {
-      toast.success(response?.message);
-    }
-
-    if (response.status === 400) {
-      toast.error(response?.message);
-      throw new Error(response?.message);
-    }
-    if (response.status === 409) {
-      toast.error(response?.message);
-      throw new Error(response?.message);
-    }
+    handleNext();
   };
 
   return (
@@ -87,8 +92,18 @@ export const QuicklyAddNewMovie = () => {
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
         <div className="box-border h-max rounded-[20px] bg-animeprimary p-5">
           <div className="text-4xl font-semibold text-animeneutral-light">
-            Add New Director
+            <h1>Key Fields Form</h1>
           </div>
+
+          <MovieFormField
+            type="text"
+            label="Key"
+            name="key"
+            register={register}
+            error={errors.key}
+            labelWidth={52}
+            value={formatKey(watchFields)}
+          />
 
           <MovieFormField
             type="text"
@@ -101,12 +116,20 @@ export const QuicklyAddNewMovie = () => {
 
           <MovieFormField
             type="text"
-            label="Key"
-            name="key"
+            label="Title UK"
+            name="title_uk"
             register={register}
-            error={errors.key}
-            labelWidth={52}
-            value={formatKey(watchFields)}
+            error={errors.title_uk}
+            labelWidth={64}
+          />
+
+          <MovieFormField
+            type="file"
+            label="Title EN"
+            name="file"
+            register={register}
+            error={errors.title_en}
+            labelWidth={64}
           />
 
           <div className="grid gap-2">

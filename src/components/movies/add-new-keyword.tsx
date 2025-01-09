@@ -2,23 +2,20 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Dispatch, SetStateAction } from "react";
 import { FormField } from "./form-field";
 import { TypeGenreScheme } from "@/types/general";
 import { GenreScheme } from "@/types/zod-scheme";
 import { useRouter } from "next/navigation";
-import { addNewGenre, addNewKeyword, addNewSpecification } from "@/app/actions";
+import { addNewKeyword } from "@/app/actions";
 import { toast } from "sonner";
-import { BodyAPICreateGenre, GenreOut } from "@/orval_api/model";
+import { BodyAPICreateGenre } from "@/orval_api/model";
 import { formatKey } from "@/lib/utils";
 
 type Props = {
-  setKeywordsList: Dispatch<SetStateAction<GenreOut[]>>;
-  // setActorsList: (d: ActorOut[]) => void;
-  keywordsRef: any;
+  appendKeyword: any;
 };
 
-export const AddNewKeyword = ({ setKeywordsList, keywordsRef }: Props) => {
+export const AddNewKeyword = ({ appendKeyword }: Props) => {
   const {
     register,
     handleSubmit,
@@ -40,16 +37,11 @@ export const AddNewKeyword = ({ setKeywordsList, keywordsRef }: Props) => {
       ...data,
     };
 
-    console.log("========= DATA form SPEC: ", dataToSend);
-
     const response = await addNewKeyword(dataToSend);
 
     if (response.status === 201) {
       toast.success(response?.message);
-      setKeywordsList((prev) => [...prev, response.newGenre]);
-      keywordsRef.current.push({
-        key: response.newGenre.key,
-      });
+      appendKeyword(response.newGenre);
       // clear form
     }
 

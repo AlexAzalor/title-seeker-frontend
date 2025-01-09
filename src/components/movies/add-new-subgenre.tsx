@@ -4,13 +4,12 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Dispatch, SetStateAction } from "react";
 import { FormField } from "./form-field";
-import { TypeGenreScheme, TypeSubgenreScheme } from "@/types/general";
-import { GenreScheme, SubgenreScheme } from "@/types/zod-scheme";
+import { TypeSubgenreScheme } from "@/types/general";
+import { SubgenreScheme } from "@/types/zod-scheme";
 import { useRouter } from "next/navigation";
-import { addNewGenre, addNewSubgenre } from "@/app/actions";
+import { addNewSubgenre } from "@/app/actions";
 import { toast } from "sonner";
 import {
-  BodyAPICreateGenre,
   BodyAPICreateSubgenre,
   GenreOut,
   SubgenreOut,
@@ -20,16 +19,13 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 
 type Props = {
-  setSubgenresList: Dispatch<SetStateAction<SubgenreOut[]>>;
-  // setActorsList: (d: ActorOut[]) => void;
-  subgenresRef: any;
+  appendSubgenre: any;
   genresList: GenreOut[];
   setSubgenres: Dispatch<SetStateAction<SubgenreOut[]>>;
 };
 
 export const AddNewSubgenre = ({
-  setSubgenresList,
-  subgenresRef,
+  appendSubgenre,
   genresList,
   setSubgenres,
 }: Props) => {
@@ -54,17 +50,15 @@ export const AddNewSubgenre = ({
       ...data,
     };
 
-    console.log("========= DATA form GENRE: ", dataToSend);
-
     const response = await addNewSubgenre(dataToSend);
 
     if (response.status === 201) {
       toast.success(response?.message);
-      setSubgenresList((prev) => [...prev, response.newGenre]);
-      setSubgenres((prev) => [...prev, response.newGenre]);
-      subgenresRef.current.push({
-        key: response.newGenre.key,
+      appendSubgenre({
+        ...response.newGenre,
+        subgenre_parent_key: response.newGenre.parent_genre_key,
       });
+      setSubgenres((prev) => [...prev, response.newGenre]);
       // clear form
     }
 

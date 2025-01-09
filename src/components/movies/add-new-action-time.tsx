@@ -2,31 +2,21 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Dispatch, SetStateAction } from "react";
 import { FormField } from "./form-field";
 import { TypeGenreScheme } from "@/types/general";
 import { GenreScheme } from "@/types/zod-scheme";
 import { useRouter } from "next/navigation";
-import {
-  addNewActionTime,
-  addNewGenre,
-  addNewKeyword,
-  addNewSpecification,
-} from "@/app/actions";
+import { addNewActionTime } from "@/app/actions";
 import { toast } from "sonner";
-import { BodyAPICreateGenre, GenreOut } from "@/orval_api/model";
+import { BodyAPICreateGenre } from "@/orval_api/model";
 import { formatKey } from "@/lib/utils";
 
 type Props = {
-  setActionTimesList: Dispatch<SetStateAction<GenreOut[]>>;
-  // setActorsList: (d: ActorOut[]) => void;
-  actionTimesRef: any;
+  appendActionTime: any;
+  actionTimesRef?: any;
 };
 
-export const AddNewActionTime = ({
-  setActionTimesList,
-  actionTimesRef,
-}: Props) => {
+export const AddNewActionTime = ({ appendActionTime }: Props) => {
   const {
     register,
     handleSubmit,
@@ -48,16 +38,11 @@ export const AddNewActionTime = ({
       ...data,
     };
 
-    console.log("========= DATA form SPEC: ", dataToSend);
-
     const response = await addNewActionTime(dataToSend);
 
     if (response.status === 201) {
       toast.success(response?.message);
-      setActionTimesList((prev) => [...prev, response.newGenre]);
-      actionTimesRef.current.push({
-        key: response.newGenre.key,
-      });
+      appendActionTime(response.newGenre);
       // clear form
     }
 

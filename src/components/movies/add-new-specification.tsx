@@ -2,26 +2,20 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Dispatch, SetStateAction } from "react";
 import { FormField } from "./form-field";
 import { TypeGenreScheme } from "@/types/general";
 import { GenreScheme } from "@/types/zod-scheme";
 import { useRouter } from "next/navigation";
-import { addNewGenre, addNewSpecification } from "@/app/actions";
+import { addNewSpecification } from "@/app/actions";
 import { toast } from "sonner";
-import { BodyAPICreateGenre, GenreOut } from "@/orval_api/model";
+import { BodyAPICreateGenre } from "@/orval_api/model";
 import { formatKey } from "@/lib/utils";
 
 type Props = {
-  setSpecificationsList: Dispatch<SetStateAction<GenreOut[]>>;
-  // setActorsList: (d: ActorOut[]) => void;
-  specRef: any;
+  appendSpecification: any;
 };
 
-export const AddNewSpecification = ({
-  setSpecificationsList,
-  specRef,
-}: Props) => {
+export const AddNewSpecification = ({ appendSpecification }: Props) => {
   const {
     register,
     handleSubmit,
@@ -43,16 +37,11 @@ export const AddNewSpecification = ({
       ...data,
     };
 
-    console.log("========= DATA form SPEC: ", dataToSend);
-
     const response = await addNewSpecification(dataToSend);
 
     if (response.status === 201) {
       toast.success(response?.message);
-      setSpecificationsList((prev) => [...prev, response.newGenre]);
-      specRef.current.push({
-        key: response.newGenre.key,
-      });
+      appendSpecification(response.newGenre);
       // clear form
     }
 

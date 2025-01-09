@@ -2,23 +2,20 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Dispatch, SetStateAction } from "react";
 import { FormField } from "./form-field";
 import { TypeGenreScheme } from "@/types/general";
 import { GenreScheme } from "@/types/zod-scheme";
 import { useRouter } from "next/navigation";
 import { addNewGenre } from "@/app/actions";
 import { toast } from "sonner";
-import { BodyAPICreateGenre, GenreOut } from "@/orval_api/model";
+import { BodyAPICreateGenre } from "@/orval_api/model";
 import { formatKey } from "@/lib/utils";
 
 type Props = {
-  setGenresList: Dispatch<SetStateAction<GenreOut[]>>;
-  // setActorsList: (d: ActorOut[]) => void;
-  genresRef: any;
+  appendGenre: any;
 };
 
-export const AddNewGenre = ({ setGenresList, genresRef }: Props) => {
+export const AddNewGenre = ({ appendGenre }: Props) => {
   const {
     register,
     handleSubmit,
@@ -40,16 +37,11 @@ export const AddNewGenre = ({ setGenresList, genresRef }: Props) => {
       ...data,
     };
 
-    console.log("========= DATA form GENRE: ", dataToSend);
-
     const response = await addNewGenre(dataToSend);
 
     if (response.status === 201) {
       toast.success(response?.message);
-      setGenresList((prev) => [...prev, response.newGenre]);
-      genresRef.current.push({
-        key: response.newGenre.key,
-      });
+      appendGenre(response.newGenre);
       // clear form
     }
 

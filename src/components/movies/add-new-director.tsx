@@ -2,23 +2,20 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Dispatch, SetStateAction } from "react";
 import { FormField } from "./form-field";
 import { TypeActorScheme } from "@/types/general";
 import { ActorScheme } from "@/types/zod-scheme";
 import { useRouter } from "next/navigation";
 import { addNewDirector } from "@/app/actions";
 import { toast } from "sonner";
-import { BodyAPICreateActor, DirectorOut } from "@/orval_api/model";
+import { BodyAPICreateActor } from "@/orval_api/model";
 import { formatKey } from "@/lib/utils";
 
 type Props = {
-  setDirectorsList: Dispatch<SetStateAction<DirectorOut[]>>;
-  // setActorsList: (d: ActorOut[]) => void;
-  directorsRef: any;
+  appendDirector: any;
 };
 
-export const AddNewDirector = ({ setDirectorsList, directorsRef }: Props) => {
+export const AddNewDirector = ({ appendDirector }: Props) => {
   const {
     register,
     handleSubmit,
@@ -42,16 +39,11 @@ export const AddNewDirector = ({ setDirectorsList, directorsRef }: Props) => {
       file: data.file[0],
     };
 
-    console.log("========= DATA form DIRECTOR: ", dataToSend);
-
     const response = await addNewDirector(dataToSend);
 
     if (response.status === 201) {
       toast.success(response?.message);
-      setDirectorsList((prev) => [...prev, response.newDirector]);
-      directorsRef.current.push({
-        key: response.newDirector.key,
-      });
+      appendDirector(response.newDirector);
       // clear form
     }
 
