@@ -1,6 +1,6 @@
 "use client";
 
-import { HTMLInputTypeAttribute } from "react";
+import React, { HTMLInputTypeAttribute, InputHTMLAttributes } from "react";
 import { cn } from "@/lib/utils";
 import {
   FieldError,
@@ -22,7 +22,7 @@ type FieldProps<
   labelWidth?: number;
   label: string;
   value?: string;
-};
+} & InputHTMLAttributes<HTMLInputElement>;
 
 export const MovieFormField = <
   TFormValues extends FieldValues,
@@ -35,6 +35,7 @@ export const MovieFormField = <
   labelWidth,
   label,
   value,
+  ...inputProps
 }: FieldProps<TFormValues, TFieldName>) => {
   return (
     <>
@@ -50,6 +51,7 @@ export const MovieFormField = <
             "input box-border h-full w-full rounded-[12px] border-0 bg-animeprimary-light px-5 py-1 text-[18px] text-animeprimary-dark outline-0 [&:focus~.cut]:translate-y-[8px] [&:focus~.placeholder]:translate-x-[10px] [&:focus~.placeholder]:translate-y-[-30px] [&:focus~.placeholder]:scale-75 [&:focus~.placeholder]:text-animeneutral [&:not(:placeholder-shown)~.cut]:translate-y-[8px] [&:not(:placeholder-shown)~.placeholder]:translate-x-[10px] [&:not(:placeholder-shown)~.placeholder]:translate-y-[-30px] [&:not(:placeholder-shown)~.placeholder]:scale-75 [&:not(:placeholder-shown)~.placeholder]:text-animeneutral",
             FORM_FIELD.includes(name) && "disabled:bg-gray-200",
           )}
+          {...inputProps}
         />
 
         <div

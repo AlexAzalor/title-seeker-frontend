@@ -47,6 +47,7 @@ export default async function AddMoviePage(props: {
         specifications={specifications}
         keywords={keywords}
         actionTimes={action_times}
+        temporaryMovie={temporary_movie}
       />
 
       {/* <AddNewMovie

@@ -49,12 +49,33 @@ export type MovieInfoFieldNames = Pick<
 export type PeopleSchemeType = z.infer<typeof ActorsListScheme>;
 
 export const PeopleFieldsForm = ({ actors, directors }: Props) => {
-  const { setMovieFormData, handleNext } = use(MovieFormContext);
+  const { setMovieFormData, handleNext, handlePrev } = use(MovieFormContext);
+
+  const savedData = localStorage.getItem("new-movie-data");
+  const parsedData: MovieFormData = JSON.parse(savedData || "{}");
 
   const [openActor, setOpenActor] = useState(false);
   const [openDirector, setOpenDirector] = useState(false);
   const [openDirectorFormModal, setOpenDirectorFormModal] = useState(false);
   const [openActorFormModal, setOpenActorFormModal] = useState(false);
+
+  const defaultActors = parsedData?.actors_keys?.map((a) => {
+    return {
+      actor_name: actors.find((actor) => actor.key === a.key)?.full_name || "",
+      character_key: a.character_key,
+      character_name_en: a.character_name_en,
+      character_name_uk: a.character_name_uk,
+      key: a.key,
+    };
+  });
+
+  const defaultDirectors = parsedData?.directors_keys?.map((d) => {
+    return {
+      full_name:
+        directors.find((director) => director.key === d)?.full_name || "",
+      key: d,
+    };
+  });
 
   const {
     control,
@@ -65,7 +86,7 @@ export const PeopleFieldsForm = ({ actors, directors }: Props) => {
   } = useForm({
     resolver: zodResolver(ActorsListScheme),
     defaultValues: {
-      actors: [
+      actors: defaultActors || [
         {
           actor_name: "",
           character_key: "",
@@ -74,7 +95,7 @@ export const PeopleFieldsForm = ({ actors, directors }: Props) => {
           key: "",
         },
       ],
-      directors: [{ full_name: "", key: "" }],
+      directors: defaultDirectors || [{ full_name: "", key: "" }],
     },
   });
 
@@ -111,6 +132,14 @@ export const PeopleFieldsForm = ({ actors, directors }: Props) => {
         ...dataToSend,
       },
     }));
+
+    localStorage.setItem(
+      "new-movie-data",
+      JSON.stringify({
+        ...parsedData,
+        ...dataToSend,
+      }),
+    );
 
     handleNext();
   };
@@ -343,6 +372,10 @@ export const PeopleFieldsForm = ({ actors, directors }: Props) => {
             className="mt-7 h-12 w-full cursor-pointer rounded-xl border-0 text-center text-lg transition-all duration-200 hover:rounded-md"
           >
             Submit
+          </Button>
+
+          <Button type="button" variant="link" onClick={handlePrev}>
+            back
           </Button>
         </form>
       </div>

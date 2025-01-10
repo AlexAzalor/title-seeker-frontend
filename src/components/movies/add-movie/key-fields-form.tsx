@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/select";
 import {
   MovieFormData,
+  MoviePreCreateDataTemporaryMovie,
   RatingCriterion,
   UserRatingCriteria,
 } from "@/orval_api/model";
@@ -35,17 +36,31 @@ type MovieKeyFields = Pick<
   | "rating_criterion_type"
 >;
 
-export const KeyFieldsForm = () => {
+type Props = {
+  temporaryMovie?: MoviePreCreateDataTemporaryMovie;
+};
+
+export const KeyFieldsForm = ({ temporaryMovie }: Props) => {
+  const { setMovieFormData, handleNext } = use(MovieFormContext);
+
+  const savedData = localStorage.getItem("new-movie-data");
+  const parsedData: MovieFormData = JSON.parse(savedData || "{}");
+
   const [ratingCriteria, setRatingCriteria] = useState<RatingCriterion>(
-    RatingCriterion.basic,
+    temporaryMovie?.rating_criterion_type ||
+      parsedData.rating_criterion_type ||
+      RatingCriterion.basic,
   );
 
+  const ratingData =
+    temporaryMovie?.rating_criteria ||
+    parsedData.rating_criteria ||
+    INITIAL_RATE;
   const ratingRef = useRef<UserRatingCriteria & { rating: number }>({
-    ...INITIAL_RATE,
-    rating: 0,
+    ...ratingData,
+    rating: temporaryMovie?.rating || parsedData.rating || 0,
   });
 
-  const { setMovieFormData, handleNext } = use(MovieFormContext);
   const {
     register,
     handleSubmit,
@@ -54,8 +69,9 @@ export const KeyFieldsForm = () => {
   } = useForm<MovieSchemeType>({
     resolver: zodResolver(MovieScheme),
     defaultValues: {
-      key: "",
-      title_en: "",
+      key: temporaryMovie?.key || parsedData.key || "",
+      title_en: temporaryMovie?.title_en || parsedData.title_en || "",
+      title_uk: parsedData.title_uk || "",
     },
   });
   const watchFields = watch(["title_en"]);
@@ -83,6 +99,14 @@ export const KeyFieldsForm = () => {
       },
       file: file[0],
     }));
+
+    localStorage.setItem(
+      "new-movie-data",
+      JSON.stringify({
+        ...parsedData,
+        ...dataToSend,
+      }),
+    );
 
     handleNext();
   };
@@ -128,7 +152,7 @@ export const KeyFieldsForm = () => {
             label="Title EN"
             name="file"
             register={register}
-            error={errors.title_en}
+            error={errors.file}
             labelWidth={64}
           />
 
@@ -158,19 +182,22 @@ export const KeyFieldsForm = () => {
 
           <RateMovie
             criteriaType={ratingCriteria}
-            ratingCriteria={{
-              ...INITIAL_RATE,
-              scare_factor:
-                ratingCriteria === RatingCriterion.scare_factor ||
-                ratingCriteria === RatingCriterion.full
-                  ? 0.01
-                  : undefined,
-              visual_effects:
-                ratingCriteria === RatingCriterion.visual_effects ||
-                ratingCriteria === RatingCriterion.full
-                  ? 0.01
-                  : undefined,
-            }}
+            ratingCriteria={
+              temporaryMovie?.rating_criteria ||
+              parsedData.rating_criteria || {
+                ...INITIAL_RATE,
+                scare_factor:
+                  ratingCriteria === RatingCriterion.scare_factor ||
+                  ratingCriteria === RatingCriterion.full
+                    ? 0.01
+                    : undefined,
+                visual_effects:
+                  ratingCriteria === RatingCriterion.visual_effects ||
+                  ratingCriteria === RatingCriterion.full
+                    ? 0.01
+                    : undefined,
+              }
+            }
             ratingRef={ratingRef}
           />
 

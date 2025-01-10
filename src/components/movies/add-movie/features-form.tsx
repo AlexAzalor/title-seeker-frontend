@@ -60,7 +60,11 @@ export const FeaturesForm = ({
   keywords,
   actionTimes,
 }: Props) => {
-  const { setMovieFormData, handleNext } = use(MovieFormContext);
+  const { setMovieFormData, handleNext, handlePrev } = use(MovieFormContext);
+
+  const savedData = localStorage.getItem("new-movie-data");
+  const parsedData: MovieFormData = JSON.parse(savedData || "{}");
+
   const [openSpecificationFormModal, setOpenSpecificationFormModal] =
     useState(false);
   const [openKeywordFormModal, setOpenKeywordFormModal] = useState(false);
@@ -77,21 +81,21 @@ export const FeaturesForm = ({
   } = useForm({
     resolver: zodResolver(MovieFeatureList),
     defaultValues: {
-      specifications: [
+      specifications: parsedData.specifications || [
         {
           name: "",
           key: "",
           percentage_match: 0,
         },
       ],
-      keywords: [
+      keywords: parsedData.keywords || [
         {
           name: "",
           key: "",
           percentage_match: 0,
         },
       ],
-      action_times: [
+      action_times: parsedData.action_times || [
         {
           name: "",
           key: "",
@@ -138,10 +142,18 @@ export const FeaturesForm = ({
     setMovieFormData((prev) => ({
       ...prev,
       form_data: {
-        ...prev.form_data,
+        ...parsedData,
         ...dataToSend,
       },
     }));
+
+    localStorage.setItem(
+      "new-movie-data",
+      JSON.stringify({
+        ...parsedData,
+        ...dataToSend,
+      }),
+    );
 
     handleNext();
   };
@@ -497,6 +509,10 @@ export const FeaturesForm = ({
             className="mt-7 h-12 w-full cursor-pointer rounded-xl border-0 text-center text-lg transition-all duration-200 hover:rounded-md"
           >
             Submit
+          </Button>
+
+          <Button type="button" variant="link" onClick={handlePrev}>
+            back
           </Button>
         </form>
       </div>

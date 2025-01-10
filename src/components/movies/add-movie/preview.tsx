@@ -1,5 +1,7 @@
+import { Button } from "@/components/ui/button";
 import { formatDate } from "@/lib/utils";
 import { MovieFormData } from "@/orval_api/model";
+import { toast } from "sonner";
 
 type Props = {
   movieFormData: MovieFormData;
@@ -7,6 +9,13 @@ type Props = {
 };
 
 export const Preview = ({ movieFormData, file }: Props) => {
+  const clearForm = () => {
+    localStorage.removeItem("new-movie-data");
+    toast.success("Form cleared");
+
+    window.location.reload();
+  };
+
   return (
     <div>
       <div>
@@ -28,7 +37,10 @@ export const Preview = ({ movieFormData, file }: Props) => {
             <span className="text-xl font-bold">{movieFormData.title_uk}</span>
           </div>
           <div>
-            Poster: <span className="text-xl font-bold">{file.name}</span>
+            Poster:{" "}
+            <span className="text-xl font-bold">
+              {file?.name || "No poster"}
+            </span>
           </div>
         </div>
 
@@ -259,6 +271,9 @@ export const Preview = ({ movieFormData, file }: Props) => {
             </div>
           ))}
         </div>
+        <Button variant="destructive" onClick={clearForm}>
+          Clear form
+        </Button>
       </div>
     </div>
   );

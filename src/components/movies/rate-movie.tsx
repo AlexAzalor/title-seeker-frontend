@@ -31,6 +31,7 @@ type Props = {
   // movieKey: string;
   ratingCriteria?: MovieOutUserRating;
   criteriaType: RatingCriterion;
+  /**Only to save state */
   ratingRef: RefObject<UserRatingCriteria>;
 };
 

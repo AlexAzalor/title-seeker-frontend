@@ -45,14 +45,30 @@ export type MovieInfoFieldNames = Pick<MovieFormData, "genres" | "subgenres">;
 export type GenreSchemeType = z.infer<typeof GenreSchemeList>;
 
 export const GenreFieldsForm = ({ genres }: Props) => {
-  const { setMovieFormData, handleNext } = use(MovieFormContext);
-  const [openGenres, setOpenGenres] = useState(false);
+  const { setMovieFormData, handleNext, handlePrev } = use(MovieFormContext);
 
+  const savedData = localStorage.getItem("new-movie-data");
+  const parsedData: MovieFormData = JSON.parse(savedData || "{}");
+
+  const [openGenres, setOpenGenres] = useState(false);
   const [openSubgenres, setOpenSubgenres] = useState(false);
   const [openGenreFormModal, setOpenGenreFormModal] = useState(false);
   const [openSubgenreFormModal, setOpenSubgenreFormModal] = useState(false);
 
-  const [subgenres, setSubgenres] = useState<SubgenreOut[]>([]);
+  const genresKeys = parsedData.genres?.map((g) => g.key);
+
+  const [subgenres, setSubgenres] = useState<SubgenreOut[]>(
+    genresKeys
+      ? genres
+          .map(
+            (g) =>
+              g.subgenres?.filter((e) =>
+                genresKeys.includes(e.parent_genre_key),
+              ) || [],
+          )
+          .flat()
+      : [],
+  );
 
   const {
     control,
@@ -62,22 +78,24 @@ export const GenreFieldsForm = ({ genres }: Props) => {
   } = useForm({
     resolver: zodResolver(GenreSchemeList),
     defaultValues: {
-      genres: [
-        {
-          name: "",
-          key: "",
-          percentage_match: 0,
-          subgenre_parent_key: "",
-        },
-      ],
-      subgenres: [
-        {
-          name: "",
-          key: "",
-          percentage_match: 0,
-          subgenre_parent_key: "",
-        },
-      ],
+      genres: parsedData?.genres?.length
+        ? parsedData.genres
+        : [
+            {
+              name: "",
+              key: "",
+              percentage_match: 0,
+            },
+          ],
+      subgenres: parsedData?.subgenres?.length
+        ? parsedData.subgenres
+        : [
+            {
+              name: "",
+              key: "",
+              percentage_match: 0,
+            },
+          ],
     },
   });
 
@@ -112,6 +130,14 @@ export const GenreFieldsForm = ({ genres }: Props) => {
         ...dataToSend,
       },
     }));
+
+    localStorage.setItem(
+      "new-movie-data",
+      JSON.stringify({
+        ...parsedData,
+        ...dataToSend,
+      }),
+    );
 
     handleNext();
   };
@@ -202,7 +228,6 @@ export const GenreFieldsForm = ({ genres }: Props) => {
                               appendGenre({
                                 name: currentValue,
                                 percentage_match: 0,
-                                subgenre_parent_key: "",
                                 key: genre.key,
                               });
 
@@ -370,6 +395,10 @@ export const GenreFieldsForm = ({ genres }: Props) => {
             className="mt-7 h-12 w-full cursor-pointer rounded-xl border-0 text-center text-lg transition-all duration-200 hover:rounded-md"
           >
             Submit
+          </Button>
+
+          <Button type="button" variant="link" onClick={handlePrev}>
+            back
           </Button>
         </form>
       </div>

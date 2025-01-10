@@ -12,6 +12,7 @@ import {
   GenreOut,
   KeywordOut,
   MovieFormData,
+  MoviePreCreateDataTemporaryMovie,
   SpecificationOut,
 } from "@/orval_api/model";
 import { GenreFieldsForm } from "./genre-fields-form";
@@ -25,10 +26,12 @@ export const MovieFormContext = createContext<{
   movieFormData: BodyAPICreateMovie;
   setMovieFormData: Dispatch<SetStateAction<BodyAPICreateMovie>>;
   handleNext: () => void;
+  handlePrev: () => void;
 }>({
   movieFormData: {} as BodyAPICreateMovie,
   setMovieFormData: () => {},
   handleNext: () => {},
+  handlePrev: () => {},
 });
 
 type Props = {
@@ -39,6 +42,7 @@ type Props = {
   specifications: SpecificationOut[];
   keywords: KeywordOut[];
   actionTimes: ActionTimeOut[];
+  temporaryMovie?: MoviePreCreateDataTemporaryMovie;
 };
 
 export const MovieFormWizard = ({
@@ -48,6 +52,7 @@ export const MovieFormWizard = ({
   specifications,
   keywords,
   actionTimes,
+  temporaryMovie,
 }: Props) => {
   const [movieFormData, setMovieFormData] = useState<BodyAPICreateMovie>({
     form_data: {} as MovieFormData,
@@ -55,34 +60,53 @@ export const MovieFormWizard = ({
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  console.log("=== MOVIE FORM DATA ===", movieFormData);
+  console.log(
+    "%c === MOVIE FORM DATA === ",
+    "color: black; background-color: coral; font-weight: 700",
+    movieFormData,
+  );
 
   const handleNext = () => {
     // updateFormData(stepData);
     setCurrentStep(currentStep + 1);
   };
 
+  const handlePrev = () => {
+    setCurrentStep(currentStep - 1);
+  };
+
   const addMovie = async () => {
     setIsSubmitting(true);
 
-    console.log("DATA TO API: ", movieFormData);
+    console.log(
+      "%c DATA TO API: ",
+      "color: black; background-color: lightBlue; font-weight: 700",
+      movieFormData,
+    );
 
     const { form_data, file } = movieFormData;
 
+    if (!file) {
+      toast.error("Poster is required");
+      setIsSubmitting(false);
+      return;
+    }
+
     // Save data to local storage
-    localStorage.setItem("newMovieData", JSON.stringify(form_data));
+    // localStorage.setItem("newMovieData", JSON.stringify(form_data));
 
     const response = await addNewMovie(
       {
         form_data,
         file,
       },
-      // !!temporaryMovie,
+      !!temporaryMovie,
     );
 
     // To separate func error handling
     if (response.status === 201) {
       toast.success(response?.message);
+      localStorage.removeItem("new-movie-data");
     }
 
     if (response.status === 400) {
@@ -109,8 +133,15 @@ export const MovieFormWizard = ({
   };
 
   return (
-    <MovieFormContext value={{ movieFormData, setMovieFormData, handleNext }}>
-      {currentStep === 1 && <KeyFieldsForm />}
+    <MovieFormContext
+      value={{ movieFormData, setMovieFormData, handleNext, handlePrev }}
+    >
+      <div>wizard steps</div>
+      <progress id="file" max="6" value={currentStep}>
+        70%
+      </progress>
+
+      {currentStep === 1 && <KeyFieldsForm temporaryMovie={temporaryMovie} />}
       {currentStep === 2 && <InfoFieldsForm />}
       {currentStep === 3 && (
         <PeopleFieldsForm actors={actors} directors={directors} />

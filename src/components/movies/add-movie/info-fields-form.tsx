@@ -35,7 +35,10 @@ export type MovieFormFieldProps = {
 };
 
 export const InfoFieldsForm = () => {
-  const { setMovieFormData, handleNext } = use(MovieFormContext);
+  const { setMovieFormData, handleNext, handlePrev } = use(MovieFormContext);
+
+  const savedData = localStorage.getItem("new-movie-data");
+  const parsedData: MovieFormData = JSON.parse(savedData || "{}");
 
   const {
     register,
@@ -43,6 +46,17 @@ export const InfoFieldsForm = () => {
     formState: { errors, isSubmitting },
   } = useForm<MovieInfoSchemeType>({
     resolver: zodResolver(MovieInfoScheme),
+    defaultValues: {
+      description_en: parsedData.description_en || "",
+      description_uk: parsedData.description_uk || "",
+      release_date: parsedData.release_date || undefined,
+      duration: parsedData.duration || undefined,
+      budget: parsedData.budget || undefined,
+      domestic_gross: parsedData.domestic_gross || undefined,
+      worldwide_gross: parsedData.worldwide_gross || undefined,
+      location_en: parsedData.location_en || "",
+      location_uk: parsedData.location_uk || "",
+    },
   });
 
   const onSubmit = async (data: MovieInfoSchemeType) => {
@@ -57,6 +71,14 @@ export const InfoFieldsForm = () => {
         ...dataToSend,
       },
     }));
+
+    localStorage.setItem(
+      "new-movie-data",
+      JSON.stringify({
+        ...parsedData,
+        ...dataToSend,
+      }),
+    );
 
     handleNext();
   };
@@ -95,6 +117,8 @@ export const InfoFieldsForm = () => {
             error={errors.release_date}
             labelWidth={64}
           />
+          {parsedData && <div>{parsedData.release_date || "No date"}</div>}
+
           <MovieFormField
             type="text"
             label="Duration"
@@ -154,6 +178,10 @@ export const InfoFieldsForm = () => {
           ) : (
             <div>Spinner</div>
           )}
+
+          <Button type="button" variant="link" onClick={handlePrev}>
+            back
+          </Button>
         </div>
       </form>
     </div>
