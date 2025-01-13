@@ -21,6 +21,7 @@ import { Preview } from "./preview";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { addNewMovie } from "@/app/actions";
+import { errorHandling } from "@/lib/utils";
 
 export const MovieFormContext = createContext<{
   movieFormData: BodyAPICreateMovie;
@@ -57,7 +58,7 @@ export const MovieFormWizard = ({
   const [movieFormData, setMovieFormData] = useState<BodyAPICreateMovie>({
     form_data: {} as MovieFormData,
   });
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(3);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   console.log(
@@ -67,12 +68,15 @@ export const MovieFormWizard = ({
   );
 
   const handleNext = () => {
-    // updateFormData(stepData);
     setCurrentStep(currentStep + 1);
   };
 
   const handlePrev = () => {
     setCurrentStep(currentStep - 1);
+  };
+
+  const endSubmitting = () => {
+    setIsSubmitting(false);
   };
 
   const addMovie = async () => {
@@ -88,48 +92,22 @@ export const MovieFormWizard = ({
 
     if (!file) {
       toast.error("Poster is required");
-      setIsSubmitting(false);
+      endSubmitting();
       return;
     }
 
-    // Save data to local storage
-    // localStorage.setItem("newMovieData", JSON.stringify(form_data));
+    const response = await addNewMovie({ form_data, file }, !!temporaryMovie);
 
-    const response = await addNewMovie(
-      {
-        form_data,
-        file,
-      },
-      !!temporaryMovie,
-    );
+    errorHandling(response, endSubmitting);
 
-    // To separate func error handling
-    if (response.status === 201) {
-      toast.success(response?.message);
-      localStorage.removeItem("new-movie-data");
-    }
+    endSubmitting();
+  };
 
-    if (response.status === 400) {
-      toast.error(response?.message);
-      setIsSubmitting(false);
+  const clearForm = () => {
+    localStorage.removeItem("new-movie-data");
+    toast.success("Form cleared");
 
-      throw new Error(response?.message);
-    }
-
-    if (response.status === 409) {
-      toast.error(response?.message);
-      setIsSubmitting(false);
-
-      throw new Error(response?.message);
-    }
-
-    if (response.status === 422) {
-      toast.error("Validation error");
-      setIsSubmitting(false);
-
-      throw new Error("Validation error");
-    }
-    setIsSubmitting(false);
+    window.location.reload();
   };
 
   return (
@@ -170,6 +148,10 @@ export const MovieFormWizard = ({
           )}
         </div>
       )}
+
+      <Button variant="destructive" onClick={clearForm}>
+        Clear form
+      </Button>
     </MovieFormContext>
   );
 };

@@ -144,7 +144,7 @@ export const MovieInfoScheme = z.object({
   location_en: z.string().min(1, { message: "Value is required" }).trim(),
 });
 
-const ActorSchemeType = z
+export const ActorSchemeType = z
   .object({
     actor_name: z.string().trim(),
     character_key: z.string().trim(),
@@ -160,7 +160,7 @@ const ActorSchemeType = z
   })
   .refine((data) => (data.character_key = formatKey([data.character_name_en])));
 
-const DirectorSchemeType = z.object({
+export const DirectorSchemeType = z.object({
   full_name: z.string().trim(),
   key: z.string().trim(),
 });

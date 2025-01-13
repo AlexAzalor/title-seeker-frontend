@@ -8,14 +8,6 @@ import { formatKey } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { MovieFormField } from "../movie-form-field";
 
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import {
   MovieFormData,
   MoviePreCreateDataTemporaryMovie,
@@ -25,6 +17,7 @@ import {
 import { INITIAL_RATE } from "@/components/rating/utils";
 import { RateMovie } from "../rate-movie";
 import { toast } from "sonner";
+import { RatingTypeSelector } from "../ui/rating-type-selector";
 
 type MovieKeyFields = Pick<
   MovieFormData,
@@ -111,6 +104,10 @@ export const KeyFieldsForm = ({ temporaryMovie }: Props) => {
     handleNext();
   };
 
+  const handleSelectRatingType = (value: RatingCriterion) => {
+    setRatingCriteria(value);
+  };
+
   return (
     <div className="text-textOrange flex items-center gap-3 font-bold">
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
@@ -156,29 +153,10 @@ export const KeyFieldsForm = ({ temporaryMovie }: Props) => {
             labelWidth={64}
           />
 
-          <div className="grid gap-2">
-            <Label htmlFor="rating-criteria">Rating Criteria</Label>
-            <Select
-              onValueChange={(value: RatingCriterion) => {
-                setRatingCriteria(value);
-              }}
-              defaultValue={ratingCriteria}
-            >
-              <SelectTrigger id="rating-criteria">
-                <SelectValue placeholder="Select" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value={RatingCriterion.basic}>Basic</SelectItem>
-                <SelectItem value={RatingCriterion.visual_effects}>
-                  Visual Effects
-                </SelectItem>
-                <SelectItem value={RatingCriterion.scare_factor}>
-                  Scary Factor
-                </SelectItem>
-                <SelectItem value={RatingCriterion.full}>Full</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+          <RatingTypeSelector
+            onValueChange={handleSelectRatingType}
+            defaultValue={ratingCriteria}
+          />
 
           <RateMovie
             criteriaType={ratingCriteria}

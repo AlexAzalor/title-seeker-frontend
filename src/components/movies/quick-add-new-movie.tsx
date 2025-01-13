@@ -17,15 +17,8 @@ import { RateMovie } from "./rate-movie";
 import { INITIAL_RATE } from "../rating/utils";
 import { useRef, useState } from "react";
 
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Button } from "../ui/button";
+import { RatingTypeSelector } from "./ui/rating-type-selector";
 
 export const QuicklyAddNewMovie = () => {
   const [ratingCriteria, setRatingCriteria] = useState<RatingCriterion>(
@@ -82,6 +75,10 @@ export const QuicklyAddNewMovie = () => {
     }
   };
 
+  const handleSelectRatingType = (value: RatingCriterion) => {
+    setRatingCriteria(value);
+  };
+
   return (
     <div className="text-textOrange flex items-center gap-3 font-bold">
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
@@ -109,29 +106,10 @@ export const QuicklyAddNewMovie = () => {
             value={formatKey(watchFields)}
           />
 
-          <div className="grid gap-2">
-            <Label htmlFor="rating-criteria">Rating Criteria</Label>
-            <Select
-              onValueChange={(value: RatingCriterion) => {
-                setRatingCriteria(value);
-              }}
-              defaultValue={ratingCriteria}
-            >
-              <SelectTrigger id="rating-criteria">
-                <SelectValue placeholder="Select" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value={RatingCriterion.basic}>Basic</SelectItem>
-                <SelectItem value={RatingCriterion.visual_effects}>
-                  Visual Effects
-                </SelectItem>
-                <SelectItem value={RatingCriterion.scare_factor}>
-                  Scary Factor
-                </SelectItem>
-                <SelectItem value={RatingCriterion.full}>Full</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+          <RatingTypeSelector
+            onValueChange={handleSelectRatingType}
+            defaultValue={ratingCriteria}
+          />
 
           <RateMovie
             criteriaType={ratingCriteria}

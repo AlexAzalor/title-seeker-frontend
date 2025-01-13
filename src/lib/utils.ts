@@ -1,4 +1,5 @@
 import { clsx, type ClassValue } from "clsx";
+import { toast } from "sonner";
 import { twMerge } from "tailwind-merge";
 
 type IntlOptions = Intl.DateTimeFormatOptions;
@@ -42,3 +43,31 @@ export function convertToISOString(dateString: string) {
 export function formatKey(names: string[]) {
   return convertToSlug(names.join(" "));
 }
+
+export const errorHandling = (response: any, endSubmitting: () => void) => {
+  if (response.status === 201) {
+    toast.success(response?.message);
+    localStorage.removeItem("new-movie-data");
+  }
+
+  if (response.status === 400) {
+    toast.error(response?.message);
+    endSubmitting();
+
+    throw new Error(response?.message);
+  }
+
+  if (response.status === 409) {
+    toast.error(response?.message);
+    endSubmitting();
+
+    throw new Error(response?.message);
+  }
+
+  if (response.status === 422) {
+    toast.error("Validation error");
+    endSubmitting();
+
+    throw new Error("Validation error");
+  }
+};

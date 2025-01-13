@@ -1,40 +1,21 @@
-import { Button } from "@/components/ui/button";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "@/components/ui/command";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { cn, formatKey } from "@/lib/utils";
-import { ActorOut, DirectorOut, MovieFormData } from "@/orval_api/model";
+import { use, useMemo, useState } from "react";
+import { useFieldArray, useForm } from "react-hook-form";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
+import dynamic from "next/dynamic";
+
+import { z } from "zod";
 import { ActorsListScheme } from "@/types/zod-scheme";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Check, ChevronsUpDown } from "lucide-react";
-import { use, useState } from "react";
-import { useFieldArray, useForm } from "react-hook-form";
-import { z } from "zod";
+import { toast } from "sonner";
+import type { ActorOut, DirectorOut, MovieFormData } from "@/orval_api/model";
+
+import { Button } from "@/components/ui/button";
+import { formatKey } from "@/lib/utils";
 import { AddNewDirector } from "../add-new-director";
 import { AddNewActor } from "../add-new-actor";
 import { MovieFormContext } from "./movie-form-wizard";
+import { ItemsListSelector } from "../ui/items-list-selector";
+const ModalMovie = dynamic(() => import("./modal-movie"));
 
 type Props = {
   actors: ActorOut[];
@@ -51,31 +32,52 @@ export type PeopleSchemeType = z.infer<typeof ActorsListScheme>;
 export const PeopleFieldsForm = ({ actors, directors }: Props) => {
   const { setMovieFormData, handleNext, handlePrev } = use(MovieFormContext);
 
-  const savedData = localStorage.getItem("new-movie-data");
-  const parsedData: MovieFormData = JSON.parse(savedData || "{}");
+  // const savedData = localStorage.getItem("new-movie-data");
+  // const parsedData: MovieFormData = JSON.parse(savedData || "{}");
 
-  const [openActor, setOpenActor] = useState(false);
-  const [openDirector, setOpenDirector] = useState(false);
+  const parsedData = useLocalStorage<MovieFormData>(
+    "new-movie-data",
+    {} as MovieFormData,
+  );
+
+  // const parsedData = useMemo(() => {
+  //   try {
+  //     const savedData = localStorage.getItem("new-movie-data");
+  //     return JSON.parse(savedData || "{}") as MovieFormData;
+  //   } catch (error) {
+  //     console.error("Error parsing local storage data", error);
+  //     toast.error("Error parsing local storage data");
+  //     return {} as MovieFormData;
+  //   }
+  // }, []);
+
+  // const [openActor, setOpenActor] = useState(false);
+  // const [openDirector, setOpenDirector] = useState(false);
   const [openDirectorFormModal, setOpenDirectorFormModal] = useState(false);
   const [openActorFormModal, setOpenActorFormModal] = useState(false);
 
-  const defaultActors = parsedData?.actors_keys?.map((a) => {
-    return {
-      actor_name: actors.find((actor) => actor.key === a.key)?.full_name || "",
-      character_key: a.character_key,
-      character_name_en: a.character_name_en,
-      character_name_uk: a.character_name_uk,
-      key: a.key,
-    };
-  });
+  const defaultActors = useMemo(() => {
+    return parsedData?.actors_keys?.map((a) => {
+      return {
+        actor_name:
+          actors.find((actor) => actor.key === a.key)?.full_name || "",
+        character_key: a.character_key,
+        character_name_en: a.character_name_en,
+        character_name_uk: a.character_name_uk,
+        key: a.key,
+      };
+    });
+  }, [actors, parsedData?.actors_keys]);
 
-  const defaultDirectors = parsedData?.directors_keys?.map((d) => {
-    return {
-      full_name:
-        directors.find((director) => director.key === d)?.full_name || "",
-      key: d,
-    };
-  });
+  const defaultDirectors = useMemo(() => {
+    return parsedData?.directors_keys?.map((d) => {
+      return {
+        full_name:
+          directors.find((director) => director.key === d)?.full_name || "",
+        key: d,
+      };
+    });
+  }, [directors, parsedData?.directors_keys]);
 
   const {
     control,
@@ -133,15 +135,20 @@ export const PeopleFieldsForm = ({ actors, directors }: Props) => {
       },
     }));
 
-    localStorage.setItem(
-      "new-movie-data",
-      JSON.stringify({
-        ...parsedData,
-        ...dataToSend,
-      }),
-    );
+    try {
+      localStorage.setItem(
+        "new-movie-data",
+        JSON.stringify({
+          ...parsedData,
+          ...dataToSend,
+        }),
+      );
 
-    handleNext();
+      handleNext();
+    } catch (error) {
+      console.error("Error saving data to local storage", error);
+      toast.error("Error saving data to local storage");
+    }
   };
 
   return (
@@ -174,94 +181,32 @@ export const PeopleFieldsForm = ({ actors, directors }: Props) => {
             </div>
           ))}
 
-          <Popover open={openActor} onOpenChange={setOpenActor}>
-            <PopoverTrigger asChild>
-              <Button
-                type="button"
-                variant="outline"
-                role="combobox"
-                // aria-expanded={openSpec}
-                className="h-max w-max justify-between"
-              >
-                {"Select actor..."}
-                <ChevronsUpDown className="opacity-50" />
-              </Button>
-            </PopoverTrigger>
+          <ItemsListSelector
+            items={actors}
+            onOpenModal={() => setOpenActorFormModal(true)}
+            onSelect={(currentValue, actorKey) => {
+              const is_actor_selected = actorFields.find(
+                (actor) => actor.key === actorKey,
+              );
 
-            <PopoverContent className="w-[200px] p-0">
-              <Command>
-                <CommandInput placeholder="Search actors..." className="h-9" />
-                <CommandList>
-                  <CommandEmpty>
-                    No actor found.{" "}
-                    {/* after add set value from this input to form's input */}
-                    <Button
-                      variant="link"
-                      onClick={() => setOpenActorFormModal(true)}
-                    >
-                      Add?
-                    </Button>
-                  </CommandEmpty>
-
-                  <TooltipProvider>
-                    <CommandGroup className="text-left">
-                      {/* need switch lang to search actors */}
-                      {actors.map((actor) => (
-                        <CommandItem
-                          key={actor.key}
-                          value={actor.full_name}
-                          onSelect={(currentValue) => {
-                            console.log("currentValue", currentValue);
-
-                            if (
-                              !actorFields.find(
-                                (actorPrev) => actorPrev.key === actor.key,
-                              )
-                            ) {
-                              appendActor({
-                                actor_name: currentValue,
-                                // character_key: formatKey([currentValue]),
-                                character_key: "",
-                                character_name_en: "",
-                                character_name_uk: "",
-                                key: actor.key,
-                              });
-                            } else {
-                              removeActor(
-                                actorFields.findIndex(
-                                  (actorPrev) => actorPrev.key === actor.key,
-                                ),
-                              );
-                            }
-                          }}
-                        >
-                          <Tooltip>
-                            <TooltipTrigger className="text-left">
-                              {actor.full_name}
-                            </TooltipTrigger>
-                            <TooltipContent>
-                              <p>{"Some short info?"}</p>
-                            </TooltipContent>
-                          </Tooltip>
-                          {/* {specification.name} */}
-                          <Check
-                            className={cn(
-                              "ml-auto",
-                              actorFields
-                                .map((actorPrev) => actorPrev.key)
-                                .includes(actor.key)
-                                ? "opacity-100"
-                                : "opacity-0",
-                            )}
-                          />
-                        </CommandItem>
-                      ))}
-                    </CommandGroup>
-                  </TooltipProvider>
-                </CommandList>
-              </Command>
-            </PopoverContent>
-          </Popover>
+              if (!is_actor_selected) {
+                appendActor({
+                  actor_name: currentValue,
+                  character_key: "",
+                  character_name_en: "",
+                  character_name_uk: "",
+                  key: actorKey,
+                });
+              } else {
+                removeActor(
+                  actorFields.findIndex(
+                    (actorPrev) => actorPrev.key === actorKey,
+                  ),
+                );
+              }
+            }}
+            checkIconStyle={actorFields}
+          />
 
           <h2>Directors</h2>
           {directorFields.map((field, index) => (
@@ -278,94 +223,27 @@ export const PeopleFieldsForm = ({ actors, directors }: Props) => {
             </div>
           ))}
 
-          <Popover open={openDirector} onOpenChange={setOpenDirector}>
-            <PopoverTrigger asChild>
-              <Button
-                type="button"
-                variant="outline"
-                role="combobox"
-                className="h-max w-max justify-between"
-              >
-                {"Select director..."}
-                <ChevronsUpDown className="opacity-50" />
-              </Button>
-            </PopoverTrigger>
+          <ItemsListSelector
+            items={directors}
+            onOpenModal={() => setOpenDirectorFormModal(true)}
+            onSelect={(currentValue, key) => {
+              const is_director_selected = directorFields.find(
+                (director) => director.key === key,
+              );
 
-            <PopoverContent className="w-[200px] p-0">
-              <Command>
-                <CommandInput
-                  placeholder="Search directors..."
-                  className="h-9"
-                />
-                <CommandList>
-                  <CommandEmpty>
-                    No director found.{" "}
-                    {/* after add new item, set value from this input to form's input */}
-                    <Button
-                      variant="link"
-                      onClick={() => setOpenDirectorFormModal(true)}
-                    >
-                      Add?
-                    </Button>
-                  </CommandEmpty>
-
-                  <TooltipProvider>
-                    <CommandGroup className="text-left">
-                      {/* need switch lang to search actors */}
-                      {directors.map((director) => (
-                        <CommandItem
-                          key={director.key}
-                          value={director.full_name}
-                          onSelect={(currentValue) => {
-                            console.log("currentValue", currentValue);
-
-                            if (
-                              !directorFields.find(
-                                (directorPrev) =>
-                                  directorPrev.key === director.key,
-                              )
-                            ) {
-                              appendDirector({
-                                full_name: currentValue,
-                                key: director.key,
-                              });
-                            } else {
-                              removeDirector(
-                                directorFields.findIndex(
-                                  (directorPrev) =>
-                                    directorPrev.key === director.key,
-                                ),
-                              );
-                            }
-                          }}
-                        >
-                          <Tooltip>
-                            <TooltipTrigger className="text-left">
-                              {director.full_name}
-                            </TooltipTrigger>
-                            <TooltipContent>
-                              <p>{"Some short info?"}</p>
-                            </TooltipContent>
-                          </Tooltip>
-                          {/* {specification.name} */}
-                          <Check
-                            className={cn(
-                              "ml-auto",
-                              directorFields
-                                .map((actorPrev) => actorPrev.key)
-                                .includes(director.key)
-                                ? "opacity-100"
-                                : "opacity-0",
-                            )}
-                          />
-                        </CommandItem>
-                      ))}
-                    </CommandGroup>
-                  </TooltipProvider>
-                </CommandList>
-              </Command>
-            </PopoverContent>
-          </Popover>
+              if (!is_director_selected) {
+                appendDirector({
+                  full_name: currentValue,
+                  key: key,
+                });
+              } else {
+                removeDirector(
+                  directorFields.findIndex((director) => director.key === key),
+                );
+              }
+            }}
+            checkIconStyle={directorFields}
+          />
 
           <Button
             type="submit"
@@ -380,26 +258,21 @@ export const PeopleFieldsForm = ({ actors, directors }: Props) => {
         </form>
       </div>
 
-      <Dialog open={openActorFormModal} onOpenChange={setOpenActorFormModal}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Are you absolutely sure?</DialogTitle>
-            <AddNewActor appendActor={appendActor} />
-          </DialogHeader>
-        </DialogContent>
-      </Dialog>
-
-      <Dialog
-        open={openDirectorFormModal}
-        onOpenChange={setOpenDirectorFormModal}
+      <ModalMovie
+        title="Actors"
+        open={openActorFormModal}
+        setOpen={setOpenActorFormModal}
       >
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Director</DialogTitle>
-            <AddNewDirector appendDirector={appendDirector} />
-          </DialogHeader>
-        </DialogContent>
-      </Dialog>
+        <AddNewActor appendActor={appendActor} />
+      </ModalMovie>
+
+      <ModalMovie
+        title="Director"
+        open={openDirectorFormModal}
+        setOpen={setOpenDirectorFormModal}
+      >
+        <AddNewDirector appendDirector={appendDirector} />
+      </ModalMovie>
     </>
   );
 };
