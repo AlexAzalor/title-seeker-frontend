@@ -1,10 +1,10 @@
 import { use, useRef, useState } from "react";
-import { MovieFormContext } from "./movie-form-wizard";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { MovieScheme } from "@/types/zod-scheme";
-import { MovieSchemeType } from "@/types/general";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { formatKey } from "@/lib/utils";
+import { MovieSchemeType } from "@/types/general";
+import { MovieFormContext } from "./movie-form-wizard";
 import { Button } from "@/components/ui/button";
 import { MovieFormField } from "../movie-form-field";
 
@@ -18,6 +18,7 @@ import { INITIAL_RATE } from "@/components/rating/utils";
 import { RateMovie } from "../rate-movie";
 import { toast } from "sonner";
 import { RatingTypeSelector } from "../ui/rating-type-selector";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 
 type MovieKeyFields = Pick<
   MovieFormData,
@@ -36,8 +37,10 @@ type Props = {
 export const KeyFieldsForm = ({ temporaryMovie }: Props) => {
   const { setMovieFormData, handleNext } = use(MovieFormContext);
 
-  const savedData = localStorage.getItem("new-movie-data");
-  const parsedData: MovieFormData = JSON.parse(savedData || "{}");
+  const parsedData = useLocalStorage<MovieFormData>(
+    "new-movie-data",
+    {} as MovieFormData,
+  );
 
   const [ratingCriteria, setRatingCriteria] = useState<RatingCriterion>(
     temporaryMovie?.rating_criterion_type ||
@@ -92,6 +95,9 @@ export const KeyFieldsForm = ({ temporaryMovie }: Props) => {
       },
       file: file[0],
     }));
+
+    // Check key for uniqueness
+    // Check immidiatly with debounce or on submit?
 
     localStorage.setItem(
       "new-movie-data",

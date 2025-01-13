@@ -58,7 +58,7 @@ export const Actors = ({ actors }: Props) => {
 
       <div className="grid grid-cols-4 gap-4">
         {actors
-          .sort((a, b) => a.full_name.localeCompare(b.full_name))
+          .sort((a, b) => a.name.localeCompare(b.name))
           .map((actor) => (
             <div
               key={actor.key}
@@ -70,7 +70,7 @@ export const Actors = ({ actors }: Props) => {
               )}
               onClick={() => onClick(actor.key)}
             >
-              {actor.full_name}
+              {actor.name}
             </div>
           ))}
       </div>

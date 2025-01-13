@@ -1,40 +1,23 @@
-import { Button } from "@/components/ui/button";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "@/components/ui/command";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { cn } from "@/lib/utils";
-import { GenreOut, MovieFormData, SubgenreOut } from "@/orval_api/model";
-import { GenreSchemeList } from "@/types/zod-scheme";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Check, ChevronsUpDown } from "lucide-react";
 import { use, useState } from "react";
+import dynamic from "next/dynamic";
 import { useFieldArray, useForm } from "react-hook-form";
+
 import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { GenreSchemeList } from "@/types/zod-scheme";
+import type { GenreOut, MovieFormData, SubgenreOut } from "@/orval_api/model";
+
+import { Button } from "@/components/ui/button";
 import { MovieFormContext } from "./movie-form-wizard";
 import { AddNewGenre } from "../add-new-genre";
 import { AddNewSubgenre } from "../add-new-subgenre";
+import { ItemsListSelector } from "../ui/items-list-selector";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
+const ModalMovie = dynamic(() => import("./modal-movie"));
+
+const checkGenreType = (item: GenreOut | SubgenreOut): item is GenreOut => {
+  return (item as GenreOut).subgenres !== undefined;
+};
 
 type Props = {
   genres: GenreOut[];
@@ -47,13 +30,13 @@ export type GenreSchemeType = z.infer<typeof GenreSchemeList>;
 export const GenreFieldsForm = ({ genres }: Props) => {
   const { setMovieFormData, handleNext, handlePrev } = use(MovieFormContext);
 
-  const savedData = localStorage.getItem("new-movie-data");
-  const parsedData: MovieFormData = JSON.parse(savedData || "{}");
-
-  const [openGenres, setOpenGenres] = useState(false);
-  const [openSubgenres, setOpenSubgenres] = useState(false);
   const [openGenreFormModal, setOpenGenreFormModal] = useState(false);
   const [openSubgenreFormModal, setOpenSubgenreFormModal] = useState(false);
+
+  const parsedData = useLocalStorage<MovieFormData>(
+    "new-movie-data",
+    {} as MovieFormData,
+  );
 
   const genresKeys = parsedData.genres?.map((g) => g.key);
 
@@ -78,24 +61,8 @@ export const GenreFieldsForm = ({ genres }: Props) => {
   } = useForm({
     resolver: zodResolver(GenreSchemeList),
     defaultValues: {
-      genres: parsedData?.genres?.length
-        ? parsedData.genres
-        : [
-            {
-              name: "",
-              key: "",
-              percentage_match: 0,
-            },
-          ],
-      subgenres: parsedData?.subgenres?.length
-        ? parsedData.subgenres
-        : [
-            {
-              name: "",
-              key: "",
-              percentage_match: 0,
-            },
-          ],
+      genres: parsedData?.genres?.length ? parsedData.genres : [],
+      subgenres: parsedData?.subgenres?.length ? parsedData.subgenres : [],
     },
   });
 
@@ -155,6 +122,10 @@ export const GenreFieldsForm = ({ genres }: Props) => {
                 placeholder="Percentage match"
               />
 
+              {errors.genres?.[index]?.percentage_match && (
+                <p>{errors.genres[index].percentage_match.message}</p>
+              )}
+
               <button
                 type="button"
                 onClick={() => {
@@ -165,121 +136,59 @@ export const GenreFieldsForm = ({ genres }: Props) => {
                         subgenrePrev.parent_genre_key !== field.key,
                     ),
                   );
-                  removeSubgenre(
-                    subgenreFields.findIndex(
-                      (subgenrePrev) =>
-                        subgenrePrev.subgenre_parent_key === field.key,
-                    ),
+
+                  const indices = subgenreFields.flatMap((val, index) =>
+                    val.subgenre_parent_key === field.key ? index : [],
                   );
+
+                  if (indices.length) {
+                    removeSubgenre(indices);
+                  }
                 }}
               >
                 Remove Actor
               </button>
-              {errors.genres?.[index]?.name && (
-                <p>{errors.genres[index].name.message}</p>
+
+              {errors.genres && errors.genres.message && (
+                <p>{errors.genres.message}</p>
               )}
             </div>
           ))}
 
-          <Popover open={openGenres} onOpenChange={setOpenGenres}>
-            <PopoverTrigger asChild>
-              <Button
-                type="button"
-                variant="outline"
-                role="combobox"
-                // aria-expanded={openSpec}
-                className="h-max w-max justify-between"
-              >
-                {"Select genre..."}
-                <ChevronsUpDown className="opacity-50" />
-              </Button>
-            </PopoverTrigger>
+          {errors.genres && errors.genres.message && (
+            <span className="text-sm text-red-500">
+              {errors.genres.message}
+            </span>
+          )}
 
-            <PopoverContent className="w-[200px] p-0">
-              <Command>
-                <CommandInput placeholder="Search genres..." className="h-9" />
-                <CommandList>
-                  <CommandEmpty>
-                    No genre found.{" "}
-                    {/* after add set value from this input to form's input */}
-                    <Button
-                      variant="link"
-                      onClick={() => setOpenGenreFormModal(true)}
-                    >
-                      Add?
-                    </Button>
-                  </CommandEmpty>
+          <ItemsListSelector
+            items={genres}
+            onOpenModal={() => setOpenGenreFormModal(true)}
+            onSelect={(currentValue, key, genre) => {
+              if (!genreFields.find((genrePrev) => genrePrev.key === key)) {
+                appendGenre({
+                  name: currentValue,
+                  percentage_match: 0,
+                  key: key,
+                });
 
-                  <TooltipProvider>
-                    <CommandGroup className="text-left">
-                      {/* need switch lang to search actors */}
-                      {genres.map((genre) => (
-                        <CommandItem
-                          key={genre.key}
-                          value={genre.name}
-                          onSelect={(currentValue) => {
-                            console.log("currentValue", currentValue);
+                if (genre && checkGenreType(genre) && genre.subgenres?.length) {
+                  setSubgenres((prev) => [...prev, ...(genre.subgenres || [])]);
+                }
+              } else {
+                removeGenre(
+                  genreFields.findIndex((genrePrev) => genrePrev.key === key),
+                );
 
-                            if (
-                              !genreFields.find(
-                                (genrePrev) => genrePrev.key === genre.key,
-                              )
-                            ) {
-                              appendGenre({
-                                name: currentValue,
-                                percentage_match: 0,
-                                key: genre.key,
-                              });
-
-                              if (genre.subgenres && genre.subgenres.length) {
-                                setSubgenres((prev) => [
-                                  ...prev,
-                                  ...(genre.subgenres || []),
-                                ]);
-                              }
-                            } else {
-                              removeGenre(
-                                genreFields.findIndex(
-                                  (genrePrev) => genrePrev.key === genre.key,
-                                ),
-                              );
-
-                              setSubgenres((prev) =>
-                                prev.filter(
-                                  (subgenrePrev) =>
-                                    subgenrePrev.parent_genre_key !== genre.key,
-                                ),
-                              );
-                            }
-                          }}
-                        >
-                          <Tooltip>
-                            <TooltipTrigger className="text-left">
-                              {genre.name}
-                            </TooltipTrigger>
-                            <TooltipContent>
-                              <p>{"Some short info?"}</p>
-                            </TooltipContent>
-                          </Tooltip>
-                          {/* {specification.name} */}
-                          <Check
-                            className={cn(
-                              "ml-auto",
-                              genreFields
-                                .map((genrePrev) => genrePrev.key)
-                                .includes(genre.key)
-                                ? "opacity-100"
-                                : "opacity-0",
-                            )}
-                          />
-                        </CommandItem>
-                      ))}
-                    </CommandGroup>
-                  </TooltipProvider>
-                </CommandList>
-              </Command>
-            </PopoverContent>
-          </Popover>
+                setSubgenres((prev) =>
+                  prev.filter(
+                    (subgenrePrev) => subgenrePrev.parent_genre_key !== key,
+                  ),
+                );
+              }
+            }}
+            checkIconStyle={genreFields}
+          />
 
           <h2>Subgenres</h2>
           {subgenreFields.map((field, index) => (
@@ -290,6 +199,10 @@ export const GenreFieldsForm = ({ genres }: Props) => {
                 placeholder="Percentage match"
               />
 
+              {errors.subgenres?.[index]?.percentage_match && (
+                <p>{errors.subgenres[index].percentage_match.message}</p>
+              )}
+
               <button type="button" onClick={() => removeSubgenre(index)}>
                 Remove Subgenre
               </button>
@@ -299,97 +212,35 @@ export const GenreFieldsForm = ({ genres }: Props) => {
             </div>
           ))}
 
-          <Popover open={openSubgenres} onOpenChange={setOpenSubgenres}>
-            <PopoverTrigger asChild>
-              <Button
-                type="button"
-                variant="outline"
-                role="combobox"
-                // aria-expanded={openSpec}
-                className="h-max w-max justify-between"
-              >
-                {"Select subgenre..."}
-                <ChevronsUpDown className="opacity-50" />
-              </Button>
-            </PopoverTrigger>
+          <ItemsListSelector
+            items={subgenres}
+            onOpenModal={() => setOpenSubgenreFormModal(true)}
+            onSelect={(currentValue, key, subgenre) => {
+              if (
+                !subgenreFields.find(
+                  (subgenrePrev) => subgenrePrev.key === key,
+                ) &&
+                subgenre
+              ) {
+                appendSubgenre({
+                  name: currentValue,
+                  percentage_match: 0,
+                  subgenre_parent_key: !checkGenreType(subgenre)
+                    ? subgenre.parent_genre_key
+                    : "",
+                  key: key,
+                });
+              } else {
+                removeSubgenre(
+                  subgenreFields.findIndex(
+                    (subgenrePrev) => subgenrePrev.key === key,
+                  ),
+                );
+              }
+            }}
+            checkIconStyle={subgenreFields}
+          />
 
-            <PopoverContent className="w-[200px] p-0">
-              <Command>
-                <CommandInput
-                  placeholder="Search subgenres..."
-                  className="h-9"
-                />
-                <CommandList>
-                  <CommandEmpty>
-                    No subgenre found.{" "}
-                    {/* after add set value from this input to form's input */}
-                    <Button
-                      variant="link"
-                      onClick={() => setOpenSubgenreFormModal(true)}
-                    >
-                      Add?
-                    </Button>
-                  </CommandEmpty>
-
-                  <TooltipProvider>
-                    <CommandGroup className="text-left">
-                      {/* need switch lang to search actors */}
-                      {subgenres.map((subgenre) => (
-                        <CommandItem
-                          key={subgenre.key}
-                          value={subgenre.name}
-                          onSelect={(currentValue) => {
-                            console.log("currentValue", currentValue);
-
-                            if (
-                              !subgenreFields.find(
-                                (subgenrePrev) =>
-                                  subgenrePrev.key === subgenre.key,
-                              )
-                            ) {
-                              appendSubgenre({
-                                name: currentValue,
-                                percentage_match: 0,
-                                subgenre_parent_key: subgenre.parent_genre_key,
-                                key: subgenre.key,
-                              });
-                            } else {
-                              removeSubgenre(
-                                subgenreFields.findIndex(
-                                  (subgenrePrev) =>
-                                    subgenrePrev.key === subgenre.key,
-                                ),
-                              );
-                            }
-                          }}
-                        >
-                          <Tooltip>
-                            <TooltipTrigger className="text-left">
-                              {subgenre.name}
-                            </TooltipTrigger>
-                            <TooltipContent>
-                              <p>{"Some short info?"}</p>
-                            </TooltipContent>
-                          </Tooltip>
-                          {/* {specification.name} */}
-                          <Check
-                            className={cn(
-                              "ml-auto",
-                              subgenreFields
-                                .map((subgenrePrev) => subgenrePrev.key)
-                                .includes(subgenre.key)
-                                ? "opacity-100"
-                                : "opacity-0",
-                            )}
-                          />
-                        </CommandItem>
-                      ))}
-                    </CommandGroup>
-                  </TooltipProvider>
-                </CommandList>
-              </Command>
-            </PopoverContent>
-          </Popover>
           <Button
             type="submit"
             className="mt-7 h-12 w-full cursor-pointer rounded-xl border-0 text-center text-lg transition-all duration-200 hover:rounded-md"
@@ -403,30 +254,25 @@ export const GenreFieldsForm = ({ genres }: Props) => {
         </form>
       </div>
 
-      <Dialog open={openGenreFormModal} onOpenChange={setOpenGenreFormModal}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Director</DialogTitle>
-            <AddNewGenre appendGenre={appendGenre} />
-          </DialogHeader>
-        </DialogContent>
-      </Dialog>
-
-      <Dialog
-        open={openSubgenreFormModal}
-        onOpenChange={setOpenSubgenreFormModal}
+      <ModalMovie
+        title="Genre"
+        open={openGenreFormModal}
+        setOpen={setOpenGenreFormModal}
       >
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Director</DialogTitle>
-            <AddNewSubgenre
-              appendSubgenre={appendSubgenre}
-              setSubgenres={setSubgenres}
-              genresList={genreFields}
-            />
-          </DialogHeader>
-        </DialogContent>
-      </Dialog>
+        <AddNewGenre appendGenre={appendGenre} />
+      </ModalMovie>
+
+      <ModalMovie
+        title="Subgenre"
+        open={openSubgenreFormModal}
+        setOpen={setOpenSubgenreFormModal}
+      >
+        <AddNewSubgenre
+          appendSubgenre={appendSubgenre}
+          setSubgenres={setSubgenres}
+          genresList={genreFields}
+        />
+      </ModalMovie>
     </>
   );
 };

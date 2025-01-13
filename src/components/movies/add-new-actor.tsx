@@ -46,7 +46,7 @@ export const AddNewActor = ({ appendActor }: Props) => {
     if (response.status === 201) {
       toast.success(response?.message);
       appendActor({
-        actor_name: response.newActor.full_name,
+        name: response.newActor.name,
         key: response.newActor.key,
         character_key: "",
       });

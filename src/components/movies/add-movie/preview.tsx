@@ -10,10 +10,15 @@ type Props = {
 
 export const Preview = ({ movieFormData, file }: Props) => {
   const clearForm = () => {
-    localStorage.removeItem("new-movie-data");
-    toast.success("Form cleared");
+    try {
+      localStorage.removeItem("new-movie-data");
+      toast.success("Form cleared");
 
-    window.location.reload();
+      window.location.reload();
+    } catch (error) {
+      console.error(error);
+      toast.error("Error clearing form");
+    }
   };
 
   return (

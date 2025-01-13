@@ -146,7 +146,7 @@ export const MovieInfoScheme = z.object({
 
 export const ActorSchemeType = z
   .object({
-    actor_name: z.string().trim(),
+    name: z.string().trim(),
     character_key: z.string().trim(),
     character_name_en: z
       .string()
@@ -161,7 +161,7 @@ export const ActorSchemeType = z
   .refine((data) => (data.character_key = formatKey([data.character_name_en])));
 
 export const DirectorSchemeType = z.object({
-  full_name: z.string().trim(),
+  name: z.string().trim(),
   key: z.string().trim(),
 });
 
@@ -186,7 +186,9 @@ export const GenreSchemeField = z.object({
 });
 
 export const GenreSchemeList = z.object({
-  genres: z.array(GenreSchemeField).min(1),
+  genres: z
+    .array(GenreSchemeField)
+    .min(1, { message: "At least one Genre must be selected" }),
   subgenres: z.array(GenreSchemeField),
 });
 
@@ -201,7 +203,13 @@ export const MovieFeatureField = z.object({
 });
 
 export const MovieFeatureList = z.object({
-  specifications: z.array(MovieFeatureField).min(1),
-  keywords: z.array(MovieFeatureField).min(1),
-  action_times: z.array(MovieFeatureField).min(1),
+  specifications: z
+    .array(MovieFeatureField)
+    .min(1, { message: "At least one Specification must be selected" }),
+  keywords: z
+    .array(MovieFeatureField)
+    .min(1, { message: "At least one Keyword must be selected" }),
+  action_times: z
+    .array(MovieFeatureField)
+    .min(1, { message: "At least one Action Time must be selected" }),
 });

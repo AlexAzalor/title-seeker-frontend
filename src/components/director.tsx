@@ -58,7 +58,7 @@ export const Directors = ({ directors }: Props) => {
 
       <div className="grid grid-cols-1 gap-4">
         {directors
-          .sort((a, b) => a.full_name.localeCompare(b.full_name))
+          .sort((a, b) => a.name.localeCompare(b.name))
           .map((director) => (
             <div
               key={director.key}
@@ -70,7 +70,7 @@ export const Directors = ({ directors }: Props) => {
               )}
               onClick={() => onClick(director.key)}
             >
-              {director.full_name}
+              {director.name}
             </div>
           ))}
       </div>

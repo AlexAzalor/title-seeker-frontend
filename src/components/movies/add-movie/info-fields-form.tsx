@@ -43,7 +43,7 @@ export const InfoFieldsForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<MovieInfoSchemeType>({
     resolver: zodResolver(MovieInfoScheme),
     defaultValues: {
@@ -59,7 +59,7 @@ export const InfoFieldsForm = () => {
     },
   });
 
-  const onSubmit = async (data: MovieInfoSchemeType) => {
+  const onSubmit = (data: MovieInfoSchemeType) => {
     const dataToSend: MovieInfoFieldNames = {
       ...data,
     };
@@ -168,16 +168,12 @@ export const InfoFieldsForm = () => {
             labelWidth={64}
           />
 
-          {!isSubmitting ? (
-            <Button
-              type="submit"
-              className="mt-7 h-12 w-full cursor-pointer rounded-xl border-0 text-center text-lg transition-all duration-200 hover:rounded-md"
-            >
-              Submit
-            </Button>
-          ) : (
-            <div>Spinner</div>
-          )}
+          <Button
+            type="submit"
+            className="mt-7 h-12 w-full cursor-pointer rounded-xl border-0 text-center text-lg transition-all duration-200 hover:rounded-md"
+          >
+            Submit
+          </Button>
 
           <Button type="button" variant="link" onClick={handlePrev}>
             back

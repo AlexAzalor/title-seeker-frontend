@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Check, ChevronsUpDown } from "lucide-react";
 
-import { z } from "zod";
-import { ActorSchemeType, DirectorSchemeType } from "@/types/zod-scheme";
+import type { GenreOut, SubgenreOut } from "@/orval_api/model";
+import { cn } from "@/lib/utils";
+
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -23,22 +24,23 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { cn } from "@/lib/utils";
-import type { ActorOut, DirectorOut } from "@/orval_api/model";
 
 type Props<Datum, T> = {
   items: Datum[];
-  onSelect: (value: string, itemKey: string) => void;
+  onSelect: (
+    value: string,
+    itemKey: string,
+    genre: GenreOut | SubgenreOut,
+  ) => void;
   onOpenModal: () => void;
   checkIconStyle: T[];
 };
 
-export type ASchemeType = z.infer<typeof ActorSchemeType>;
-export type DSchemeType = z.infer<typeof DirectorSchemeType>;
+type ItemFields = { key: string; name: string };
 
 export const ItemsListSelector = <
-  Datum extends ActorOut | DirectorOut,
-  T extends ASchemeType | DSchemeType,
+  Datum extends ItemFields,
+  T extends ItemFields,
 >({
   items,
   onSelect,
@@ -76,16 +78,16 @@ export const ItemsListSelector = <
 
             <TooltipProvider>
               <CommandGroup className="text-left">
-                {/* need switch lang to search actors */}
+                {/* need switch lang to search items */}
                 {items.map((item) => (
                   <CommandItem
                     key={item.key}
-                    value={item.full_name}
-                    onSelect={(value) => onSelect(value, item.key)}
+                    value={item.name}
+                    onSelect={(value) => onSelect(value, item.key, item)}
                   >
                     <Tooltip>
                       <TooltipTrigger className="text-left">
-                        {item.full_name}
+                        {item.name}
                       </TooltipTrigger>
                       <TooltipContent>
                         <p>{"Some short info?"}</p>

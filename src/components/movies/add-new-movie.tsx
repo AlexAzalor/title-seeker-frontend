@@ -363,12 +363,12 @@ export const AddNewMovie = ({
           if (!actorData) {
             return {
               key: actor.key,
-              full_name: "Not found",
+              name: "Not found",
             };
           }
           return {
             key: actor.key,
-            full_name: actorData.full_name,
+            name: actorData.name,
           };
         });
       });
@@ -388,18 +388,18 @@ export const AddNewMovie = ({
           if (!directorData) {
             return {
               key: director,
-              full_name: "Not found",
+              name: "Not found",
             };
           }
           return {
             key: director,
-            full_name: directorData.full_name,
+            name: directorData.name,
           };
         });
       });
       directorsRef.current = parsedData.directors_keys.map((director) => ({
         key: director,
-        full_name: "",
+        name: "",
       }));
 
       // Genres
@@ -754,7 +754,7 @@ export const AddNewMovie = ({
                         className="mr-2 flex w-max items-center gap-1 rounded-xl bg-purple-300 p-2 dark:bg-purple-700"
                       >
                         <TooltipTrigger asChild className="text-left">
-                          <span>{actor.full_name}</span>
+                          <span>{actor.name}</span>
                         </TooltipTrigger>
                         <Input
                           defaultValue={
@@ -882,13 +882,13 @@ export const AddNewMovie = ({
                       {actors.map((actor) => (
                         <CommandItem
                           key={actor.key}
-                          value={actor.full_name}
+                          value={actor.name}
                           onSelect={(currentValue) => {
                             setActorsList((prev) =>
                               currentValue ===
                               prev.find(
                                 (actorPrev) => actorPrev.key === actor.key,
-                              )?.full_name
+                              )?.name
                                 ? prev.filter(
                                     (actorPrev) => actorPrev.key !== actor.key,
                                   )
@@ -900,7 +900,7 @@ export const AddNewMovie = ({
                         >
                           <Tooltip>
                             <TooltipTrigger className="text-left">
-                              {actor.full_name}
+                              {actor.name}
                             </TooltipTrigger>
                             <TooltipContent>
                               <p>{"Some short info?"}</p>
@@ -942,7 +942,7 @@ export const AddNewMovie = ({
                         className="mr-2 flex w-max items-center gap-1 rounded-xl bg-purple-300 p-2 dark:bg-purple-700"
                       >
                         <TooltipTrigger asChild className="text-left">
-                          <span>{director.full_name}</span>
+                          <span>{director.name}</span>
                         </TooltipTrigger>
                         <CircleXIcon
                           className="cursor-pointer"
@@ -1018,14 +1018,14 @@ export const AddNewMovie = ({
                       {directors.map((director) => (
                         <CommandItem
                           key={director.key}
-                          value={director.full_name}
+                          value={director.name}
                           onSelect={(currentValue) => {
                             setDirectorsList((prev) =>
                               currentValue ===
                               prev.find(
                                 (directorPrev) =>
                                   directorPrev.key === director.key,
-                              )?.full_name
+                              )?.name
                                 ? prev.filter(
                                     (directorPrev) =>
                                       directorPrev.key !== director.key,
@@ -1039,7 +1039,7 @@ export const AddNewMovie = ({
                             if (!a) {
                               directorsRef.current.push({
                                 key: director.key,
-                                full_name: director.full_name,
+                                name: director.name,
                               });
                             }
 
@@ -1048,7 +1048,7 @@ export const AddNewMovie = ({
                         >
                           <Tooltip>
                             <TooltipTrigger className="text-left">
-                              {director.full_name}
+                              {director.name}
                             </TooltipTrigger>
                             <TooltipContent>
                               <p>{"Some short info?"}</p>

@@ -58,7 +58,7 @@ export const MovieFormWizard = ({
   const [movieFormData, setMovieFormData] = useState<BodyAPICreateMovie>({
     form_data: {} as MovieFormData,
   });
-  const [currentStep, setCurrentStep] = useState(3);
+  const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   console.log(

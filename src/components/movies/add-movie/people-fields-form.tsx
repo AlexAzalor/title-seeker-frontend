@@ -43,8 +43,7 @@ export const PeopleFieldsForm = ({ actors, directors }: Props) => {
   const defaultActors = useMemo(() => {
     return parsedData?.actors_keys?.map((a) => {
       return {
-        actor_name:
-          actors.find((actor) => actor.key === a.key)?.full_name || "",
+        name: actors.find((actor) => actor.key === a.key)?.name || "",
         character_key: a.character_key,
         character_name_en: a.character_name_en,
         character_name_uk: a.character_name_uk,
@@ -56,8 +55,7 @@ export const PeopleFieldsForm = ({ actors, directors }: Props) => {
   const defaultDirectors = useMemo(() => {
     return parsedData?.directors_keys?.map((d) => {
       return {
-        full_name:
-          directors.find((director) => director.key === d)?.full_name || "",
+        name: directors.find((director) => director.key === d)?.name || "",
         key: d,
       };
     });
@@ -134,7 +132,7 @@ export const PeopleFieldsForm = ({ actors, directors }: Props) => {
           <h2>Actors</h2>
           {actorFields.map((field, index) => (
             <div key={field.id}>
-              <input {...register(`actors.${index}.actor_name`)} disabled />
+              <input {...register(`actors.${index}.name`)} disabled />
               <input
                 {...register(`actors.${index}.character_name_en`)}
                 placeholder="Character name EN"
@@ -169,24 +167,22 @@ export const PeopleFieldsForm = ({ actors, directors }: Props) => {
           <ItemsListSelector
             items={actors}
             onOpenModal={() => setOpenActorFormModal(true)}
-            onSelect={(currentValue, actorKey) => {
+            onSelect={(currentValue, key) => {
               const is_actor_selected = actorFields.find(
-                (actor) => actor.key === actorKey,
+                (actor) => actor.key === key,
               );
 
               if (!is_actor_selected) {
                 appendActor({
-                  actor_name: currentValue,
+                  name: currentValue,
                   character_key: "",
                   character_name_en: "",
                   character_name_uk: "",
-                  key: actorKey,
+                  key: key,
                 });
               } else {
                 removeActor(
-                  actorFields.findIndex(
-                    (actorPrev) => actorPrev.key === actorKey,
-                  ),
+                  actorFields.findIndex((actorPrev) => actorPrev.key === key),
                 );
               }
             }}
@@ -196,7 +192,7 @@ export const PeopleFieldsForm = ({ actors, directors }: Props) => {
           <h2>Directors</h2>
           {directorFields.map((field, index) => (
             <div key={field.id}>
-              <input {...register(`directors.${index}.full_name`)} disabled />
+              <input {...register(`directors.${index}.name`)} disabled />
               <input {...register(`directors.${index}.key`)} disabled />
 
               <button type="button" onClick={() => removeDirector(index)}>
@@ -221,7 +217,7 @@ export const PeopleFieldsForm = ({ actors, directors }: Props) => {
 
               if (!is_director_selected) {
                 appendDirector({
-                  full_name: currentValue,
+                  name: currentValue,
                   key: key,
                 });
               } else {
