@@ -166,8 +166,12 @@ export const DirectorSchemeType = z.object({
 });
 
 export const ActorsListScheme = z.object({
-  actors: z.array(ActorSchemeType).min(1),
-  directors: z.array(DirectorSchemeType).min(1),
+  actors: z
+    .array(ActorSchemeType)
+    .min(1, { message: "At least one Actor must be selected" }),
+  directors: z
+    .array(DirectorSchemeType)
+    .min(1, { message: "At least one Director must be selected" }),
 });
 
 export const GenreSchemeField = z.object({

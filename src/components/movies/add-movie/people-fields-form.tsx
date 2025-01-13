@@ -32,29 +32,13 @@ export type PeopleSchemeType = z.infer<typeof ActorsListScheme>;
 export const PeopleFieldsForm = ({ actors, directors }: Props) => {
   const { setMovieFormData, handleNext, handlePrev } = use(MovieFormContext);
 
-  // const savedData = localStorage.getItem("new-movie-data");
-  // const parsedData: MovieFormData = JSON.parse(savedData || "{}");
+  const [openDirectorFormModal, setOpenDirectorFormModal] = useState(false);
+  const [openActorFormModal, setOpenActorFormModal] = useState(false);
 
   const parsedData = useLocalStorage<MovieFormData>(
     "new-movie-data",
     {} as MovieFormData,
   );
-
-  // const parsedData = useMemo(() => {
-  //   try {
-  //     const savedData = localStorage.getItem("new-movie-data");
-  //     return JSON.parse(savedData || "{}") as MovieFormData;
-  //   } catch (error) {
-  //     console.error("Error parsing local storage data", error);
-  //     toast.error("Error parsing local storage data");
-  //     return {} as MovieFormData;
-  //   }
-  // }, []);
-
-  // const [openActor, setOpenActor] = useState(false);
-  // const [openDirector, setOpenDirector] = useState(false);
-  const [openDirectorFormModal, setOpenDirectorFormModal] = useState(false);
-  const [openActorFormModal, setOpenActorFormModal] = useState(false);
 
   const defaultActors = useMemo(() => {
     return parsedData?.actors_keys?.map((a) => {
@@ -88,16 +72,8 @@ export const PeopleFieldsForm = ({ actors, directors }: Props) => {
   } = useForm({
     resolver: zodResolver(ActorsListScheme),
     defaultValues: {
-      actors: defaultActors || [
-        {
-          actor_name: "",
-          character_key: "",
-          character_name_en: "",
-          character_name_uk: "",
-          key: "",
-        },
-      ],
-      directors: defaultDirectors || [{ full_name: "", key: "" }],
+      actors: defaultActors || undefined,
+      directors: defaultDirectors || undefined,
     },
   });
 
@@ -178,8 +154,17 @@ export const PeopleFieldsForm = ({ actors, directors }: Props) => {
               {errors.actors?.[index]?.character_name_en && (
                 <p>{errors.actors[index].character_name_en.message}</p>
               )}
+              {errors.actors?.[index]?.character_name_uk && (
+                <p>{errors.actors[index].character_name_uk.message}</p>
+              )}
             </div>
           ))}
+
+          {errors.actors && errors.actors.message && (
+            <span className="text-sm text-red-500">
+              {errors.actors.message}
+            </span>
+          )}
 
           <ItemsListSelector
             items={actors}
@@ -217,11 +202,14 @@ export const PeopleFieldsForm = ({ actors, directors }: Props) => {
               <button type="button" onClick={() => removeDirector(index)}>
                 Remove Director
               </button>
-              {errors.directors?.[index]?.full_name && (
-                <p>{errors.directors[index].full_name.message}</p>
-              )}
             </div>
           ))}
+
+          {errors.directors && (
+            <span className="text-sm text-red-500">
+              {errors.directors.message}
+            </span>
+          )}
 
           <ItemsListSelector
             items={directors}
