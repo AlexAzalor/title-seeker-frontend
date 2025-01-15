@@ -1,13 +1,14 @@
 import { HTMLInputTypeAttribute, use } from "react";
-import { MovieFormContext } from "./movie-form-wizard";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { FieldError, useForm, UseFormRegister } from "react-hook-form";
+
+import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { MovieInfoScheme } from "@/types/zod-scheme";
+import type { MovieFormData } from "@/orval_api/model";
+import { MovieFormContext } from "./movie-form-wizard";
 import { Button } from "@/components/ui/button";
 import { MovieFormField } from "../movie-form-field";
-
-import { MovieFormData } from "@/orval_api/model";
-import { z } from "zod";
 
 export type MovieInfoFieldNames = Pick<
   MovieFormData,
@@ -37,8 +38,10 @@ export type MovieFormFieldProps = {
 export const InfoFieldsForm = () => {
   const { setMovieFormData, handleNext, handlePrev } = use(MovieFormContext);
 
-  const savedData = localStorage.getItem("new-movie-data");
-  const parsedData: MovieFormData = JSON.parse(savedData || "{}");
+  const parsedData = useLocalStorage<MovieFormData>(
+    "new-movie-data",
+    {} as MovieFormData,
+  );
 
   const {
     register,

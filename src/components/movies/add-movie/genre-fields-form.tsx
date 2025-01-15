@@ -1,4 +1,4 @@
-import { use, useState } from "react";
+import { Suspense, use, useState } from "react";
 import dynamic from "next/dynamic";
 import { useFieldArray, useForm } from "react-hook-form";
 
@@ -61,8 +61,8 @@ export const GenreFieldsForm = ({ genres }: Props) => {
   } = useForm({
     resolver: zodResolver(GenreSchemeList),
     defaultValues: {
-      genres: parsedData?.genres?.length ? parsedData.genres : [],
-      subgenres: parsedData?.subgenres?.length ? parsedData.subgenres : [],
+      genres: parsedData.genres,
+      subgenres: parsedData.subgenres,
     },
   });
 
@@ -84,7 +84,7 @@ export const GenreFieldsForm = ({ genres }: Props) => {
     name: "subgenres",
   });
 
-  const onSubmit = (data: GenreSchemeType) => {
+  const onSubmit = async (data: GenreSchemeType) => {
     const dataToSend: MovieInfoFieldNames = {
       genres: data.genres,
       subgenres: data.subgenres,
@@ -254,25 +254,27 @@ export const GenreFieldsForm = ({ genres }: Props) => {
         </form>
       </div>
 
-      <ModalMovie
-        title="Genre"
-        open={openGenreFormModal}
-        setOpen={setOpenGenreFormModal}
-      >
-        <AddNewGenre appendGenre={appendGenre} />
-      </ModalMovie>
+      <Suspense>
+        <ModalMovie
+          title="Genre"
+          open={openGenreFormModal}
+          setOpen={setOpenGenreFormModal}
+        >
+          <AddNewGenre appendGenre={appendGenre} />
+        </ModalMovie>
 
-      <ModalMovie
-        title="Subgenre"
-        open={openSubgenreFormModal}
-        setOpen={setOpenSubgenreFormModal}
-      >
-        <AddNewSubgenre
-          appendSubgenre={appendSubgenre}
-          setSubgenres={setSubgenres}
-          genresList={genreFields}
-        />
-      </ModalMovie>
+        <ModalMovie
+          title="Subgenre"
+          open={openSubgenreFormModal}
+          setOpen={setOpenSubgenreFormModal}
+        >
+          <AddNewSubgenre
+            appendSubgenre={appendSubgenre}
+            setSubgenres={setSubgenres}
+            genresList={genreFields}
+          />
+        </ModalMovie>
+      </Suspense>
     </>
   );
 };

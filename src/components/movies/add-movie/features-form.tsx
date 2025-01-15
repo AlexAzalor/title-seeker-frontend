@@ -1,4 +1,4 @@
-import { use, useState } from "react";
+import { Suspense, use, useState } from "react";
 import dynamic from "next/dynamic";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 
@@ -299,29 +299,31 @@ export const FeaturesForm = ({
         </form>
       </div>
 
-      <ModalMovie
-        title="Specification"
-        open={openSpecificationFormModal}
-        setOpen={setOpenSpecificationFormModal}
-      >
-        <AddNewSpecification appendSpecification={appendSpecification} />
-      </ModalMovie>
+      <Suspense>
+        <ModalMovie
+          title="Specification"
+          open={openSpecificationFormModal}
+          setOpen={setOpenSpecificationFormModal}
+        >
+          <AddNewSpecification appendSpecification={appendSpecification} />
+        </ModalMovie>
 
-      <ModalMovie
-        title="Keyword"
-        open={openKeywordFormModal}
-        setOpen={setOpenKeywordFormModal}
-      >
-        <AddNewKeyword appendKeyword={appendKeyword} />
-      </ModalMovie>
+        <ModalMovie
+          title="Keyword"
+          open={openKeywordFormModal}
+          setOpen={setOpenKeywordFormModal}
+        >
+          <AddNewKeyword appendKeyword={appendKeyword} />
+        </ModalMovie>
 
-      <ModalMovie
-        title="Action Time"
-        open={openActionTimeFormModal}
-        setOpen={setOpenActionTimeFormModal}
-      >
-        <AddNewActionTime appendActionTime={appendActionTime} />
-      </ModalMovie>
+        <ModalMovie
+          title="Action Time"
+          open={openActionTimeFormModal}
+          setOpen={setOpenActionTimeFormModal}
+        >
+          <AddNewActionTime appendActionTime={appendActionTime} />
+        </ModalMovie>
+      </Suspense>
     </>
   );
 };

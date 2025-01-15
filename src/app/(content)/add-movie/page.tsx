@@ -37,7 +37,7 @@ export default async function AddMoviePage(props: {
   );
 
   return (
-    <div className="">
+    <div className="mx-auto w-[1400px]">
       <h1 className="text-2xl">Add new Movie</h1>
 
       <MovieFormWizard

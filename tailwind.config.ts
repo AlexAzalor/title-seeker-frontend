@@ -287,6 +287,7 @@ export default {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        progress: "progress 0.5s ease-out",
       },
       keyframes: {
         "accordion-down": {
@@ -303,6 +304,14 @@ export default {
           },
           to: {
             height: "0",
+          },
+        },
+        progress: {
+          "0%": {
+            width: "0",
+          },
+          "100%": {
+            width: "96px",
           },
         },
       },

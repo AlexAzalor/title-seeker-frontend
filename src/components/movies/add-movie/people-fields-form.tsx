@@ -1,4 +1,4 @@
-import { use, useMemo, useState } from "react";
+import { Suspense, use, useMemo, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import dynamic from "next/dynamic";
@@ -242,21 +242,23 @@ export const PeopleFieldsForm = ({ actors, directors }: Props) => {
         </form>
       </div>
 
-      <ModalMovie
-        title="Actors"
-        open={openActorFormModal}
-        setOpen={setOpenActorFormModal}
-      >
-        <AddNewActor appendActor={appendActor} />
-      </ModalMovie>
+      <Suspense>
+        <ModalMovie
+          title="Actors"
+          open={openActorFormModal}
+          setOpen={setOpenActorFormModal}
+        >
+          <AddNewActor appendActor={appendActor} />
+        </ModalMovie>
 
-      <ModalMovie
-        title="Director"
-        open={openDirectorFormModal}
-        setOpen={setOpenDirectorFormModal}
-      >
-        <AddNewDirector appendDirector={appendDirector} />
-      </ModalMovie>
+        <ModalMovie
+          title="Director"
+          open={openDirectorFormModal}
+          setOpen={setOpenDirectorFormModal}
+        >
+          <AddNewDirector appendDirector={appendDirector} />
+        </ModalMovie>
+      </Suspense>
     </>
   );
 };

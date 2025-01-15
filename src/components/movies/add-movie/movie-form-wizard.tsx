@@ -22,6 +22,8 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { addNewMovie } from "@/app/actions";
 import { errorHandling } from "@/lib/utils";
+import { Separator } from "@/components/ui/separator";
+import { FormStep } from "../ui/form-step";
 
 export const MovieFormContext = createContext<{
   movieFormData: BodyAPICreateMovie;
@@ -61,6 +63,8 @@ export const MovieFormWizard = ({
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const [comletedSteps, setCompletedSteps] = useState<number[]>([]);
+
   console.log(
     "%c === MOVIE FORM DATA === ",
     "color: black; background-color: coral; font-weight: 700",
@@ -69,6 +73,10 @@ export const MovieFormWizard = ({
 
   const handleNext = () => {
     setCurrentStep(currentStep + 1);
+
+    if (!comletedSteps.includes(currentStep)) {
+      setCompletedSteps([...comletedSteps, currentStep]);
+    }
   };
 
   const handlePrev = () => {
@@ -101,6 +109,8 @@ export const MovieFormWizard = ({
     errorHandling(response, endSubmitting);
 
     endSubmitting();
+
+    // redirect to movie page
   };
 
   const clearForm = () => {
@@ -118,6 +128,59 @@ export const MovieFormWizard = ({
       <progress id="file" max="6" value={currentStep}>
         70%
       </progress>
+
+      <div className="mx-5 flex items-center justify-center gap-4">
+        <FormStep
+          title="Title/Rate"
+          step={1}
+          comletedSteps={comletedSteps}
+          goToStep={() => setCurrentStep(1)}
+          currentStep={currentStep}
+        />
+
+        <FormStep
+          step={2}
+          title="Info"
+          comletedSteps={comletedSteps}
+          goToStep={() => setCurrentStep(2)}
+          currentStep={currentStep}
+        />
+
+        <FormStep
+          step={3}
+          title="People"
+          comletedSteps={comletedSteps}
+          goToStep={() => setCurrentStep(3)}
+          currentStep={currentStep}
+        />
+
+        <FormStep
+          step={4}
+          title="Genres"
+          comletedSteps={comletedSteps}
+          goToStep={() => setCurrentStep(4)}
+          currentStep={currentStep}
+        />
+
+        <FormStep
+          step={5}
+          title="Features"
+          comletedSteps={comletedSteps}
+          goToStep={() => setCurrentStep(5)}
+          currentStep={currentStep}
+        />
+
+        <FormStep
+          step={6}
+          title="Summary"
+          comletedSteps={comletedSteps}
+          goToStep={() => setCurrentStep(6)}
+          currentStep={currentStep}
+          lastStep
+        />
+      </div>
+
+      <Separator className="my-12" />
 
       {currentStep === 1 && <KeyFieldsForm temporaryMovie={temporaryMovie} />}
       {currentStep === 2 && <InfoFieldsForm />}
