@@ -7,12 +7,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { GenreSchemeList } from "@/types/zod-scheme";
 import type { GenreOut, MovieFormData, SubgenreOut } from "@/orval_api/model";
 
-import { Button } from "@/components/ui/button";
 import { MovieFormContext } from "./movie-form-wizard";
 import { AddNewGenre } from "../add-new-genre";
 import { AddNewSubgenre } from "../add-new-subgenre";
 import { ItemsListSelector } from "../ui/items-list-selector";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { FormButtons } from "../ui/form-buttons";
 const ModalMovie = dynamic(() => import("./modal-movie"));
 
 const checkGenreType = (item: GenreOut | SubgenreOut): item is GenreOut => {
@@ -241,16 +241,7 @@ export const GenreFieldsForm = ({ genres }: Props) => {
             checkIconStyle={subgenreFields}
           />
 
-          <Button
-            type="submit"
-            className="mt-7 h-12 w-full cursor-pointer rounded-xl border-0 text-center text-lg transition-all duration-200 hover:rounded-md"
-          >
-            Submit
-          </Button>
-
-          <Button type="button" variant="link" onClick={handlePrev}>
-            back
-          </Button>
+          <FormButtons handlePrev={handlePrev} />
         </form>
       </div>
 

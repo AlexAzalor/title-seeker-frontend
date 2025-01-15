@@ -5,7 +5,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { formatKey } from "@/lib/utils";
 import { MovieSchemeType } from "@/types/general";
 import { MovieFormContext } from "./movie-form-wizard";
-import { Button } from "@/components/ui/button";
 import { MovieFormField } from "../movie-form-field";
 
 import {
@@ -19,6 +18,7 @@ import { RateMovie } from "../rate-movie";
 import { toast } from "sonner";
 import { RatingTypeSelector } from "../ui/rating-type-selector";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { FormButtons } from "../ui/form-buttons";
 
 type MovieKeyFields = Pick<
   MovieFormData,
@@ -115,12 +115,17 @@ export const KeyFieldsForm = ({ temporaryMovie }: Props) => {
   };
 
   return (
-    <div className="text-textOrange flex items-center gap-3 font-bold">
+    <div className="text-textOrange flex items-center justify-center gap-3 font-bold">
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
-        <div className="box-border h-max rounded-[20px] bg-animeprimary p-5">
-          <div className="text-4xl font-semibold text-animeneutral-light">
-            <h1>Key Fields Form</h1>
-          </div>
+        <div className="mb-7 grid grid-cols-2 gap-4">
+          <MovieFormField
+            type="text"
+            label="Title EN"
+            name="title_en"
+            register={register}
+            error={errors.title_en}
+            labelWidth={64}
+          />
 
           <MovieFormField
             type="text"
@@ -130,15 +135,6 @@ export const KeyFieldsForm = ({ temporaryMovie }: Props) => {
             error={errors.key}
             labelWidth={52}
             value={formatKey(watchFields)}
-          />
-
-          <MovieFormField
-            type="text"
-            label="Title EN"
-            name="title_en"
-            register={register}
-            error={errors.title_en}
-            labelWidth={64}
           />
 
           <MovieFormField
@@ -158,44 +154,35 @@ export const KeyFieldsForm = ({ temporaryMovie }: Props) => {
             error={errors.file}
             labelWidth={64}
           />
-
-          <RatingTypeSelector
-            onValueChange={handleSelectRatingType}
-            defaultValue={ratingCriteria}
-          />
-
-          <RateMovie
-            criteriaType={ratingCriteria}
-            ratingCriteria={
-              temporaryMovie?.rating_criteria ||
-              parsedData.rating_criteria || {
-                ...INITIAL_RATE,
-                scare_factor:
-                  ratingCriteria === RatingCriterion.scare_factor ||
-                  ratingCriteria === RatingCriterion.full
-                    ? 0.01
-                    : undefined,
-                visual_effects:
-                  ratingCriteria === RatingCriterion.visual_effects ||
-                  ratingCriteria === RatingCriterion.full
-                    ? 0.01
-                    : undefined,
-              }
-            }
-            ratingRef={ratingRef}
-          />
-
-          {!isSubmitting ? (
-            <Button
-              type="submit"
-              className="mt-7 h-12 w-full cursor-pointer rounded-xl border-0 text-center text-lg transition-all duration-200 hover:rounded-md"
-            >
-              Submit
-            </Button>
-          ) : (
-            <div>Spinner</div>
-          )}
         </div>
+
+        <RatingTypeSelector
+          onValueChange={handleSelectRatingType}
+          defaultValue={ratingCriteria}
+        />
+
+        <RateMovie
+          criteriaType={ratingCriteria}
+          ratingCriteria={
+            temporaryMovie?.rating_criteria ||
+            parsedData.rating_criteria || {
+              ...INITIAL_RATE,
+              scare_factor:
+                ratingCriteria === RatingCriterion.scare_factor ||
+                ratingCriteria === RatingCriterion.full
+                  ? 0.01
+                  : undefined,
+              visual_effects:
+                ratingCriteria === RatingCriterion.visual_effects ||
+                ratingCriteria === RatingCriterion.full
+                  ? 0.01
+                  : undefined,
+            }
+          }
+          ratingRef={ratingRef}
+        />
+
+        {!isSubmitting ? <FormButtons isFirstStep /> : <div>Spinner</div>}
       </form>
     </div>
   );

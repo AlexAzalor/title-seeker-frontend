@@ -9,12 +9,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import type { ActorOut, DirectorOut, MovieFormData } from "@/orval_api/model";
 
-import { Button } from "@/components/ui/button";
 import { formatKey } from "@/lib/utils";
 import { AddNewDirector } from "../add-new-director";
 import { AddNewActor } from "../add-new-actor";
 import { MovieFormContext } from "./movie-form-wizard";
 import { ItemsListSelector } from "../ui/items-list-selector";
+import { FormButtons } from "../ui/form-buttons";
 const ModalMovie = dynamic(() => import("./modal-movie"));
 
 type Props = {
@@ -229,16 +229,7 @@ export const PeopleFieldsForm = ({ actors, directors }: Props) => {
             checkIconStyle={directorFields}
           />
 
-          <Button
-            type="submit"
-            className="mt-7 h-12 w-full cursor-pointer rounded-xl border-0 text-center text-lg transition-all duration-200 hover:rounded-md"
-          >
-            Submit
-          </Button>
-
-          <Button type="button" variant="link" onClick={handlePrev}>
-            back
-          </Button>
+          <FormButtons handlePrev={handlePrev} />
         </form>
       </div>
 

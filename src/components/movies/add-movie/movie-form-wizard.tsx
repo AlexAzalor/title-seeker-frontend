@@ -18,12 +18,12 @@ import {
 import { GenreFieldsForm } from "./genre-fields-form";
 import { FeaturesForm } from "./features-form";
 import { Preview } from "./preview";
-import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { addNewMovie } from "@/app/actions";
 import { errorHandling } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 import { FormStepper } from "../ui/form-stepper";
+import { FormButtons } from "../ui/form-buttons";
 
 export const MovieFormContext = createContext<{
   movieFormData: BodyAPICreateMovie;
@@ -117,22 +117,17 @@ export const MovieFormWizard = ({
     // redirect to movie page
   };
 
-  const clearForm = () => {
-    localStorage.removeItem("new-movie-data");
-    toast.success("Form cleared");
+  // const clearForm = () => {
+  //   localStorage.removeItem("new-movie-data");
+  //   toast.success("Form cleared");
 
-    window.location.reload();
-  };
+  //   window.location.reload();
+  // };
 
   return (
     <MovieFormContext
       value={{ movieFormData, setMovieFormData, handleNext, handlePrev }}
     >
-      <div>wizard steps</div>
-      <progress id="file" max="6" value={currentStep}>
-        70%
-      </progress>
-
       <FormStepper
         completedSteps={completedSteps}
         currentStep={currentStep}
@@ -164,16 +159,16 @@ export const MovieFormWizard = ({
       {currentStep === 6 && (
         <div>
           {!isSubmitting ? (
-            <Button onClick={addMovie}>Submit data</Button>
+            <FormButtons title="Submit" handlePrev={addMovie} />
           ) : (
             <div>Spinner</div>
           )}
         </div>
       )}
 
-      <Button variant="destructive" onClick={clearForm}>
+      {/* <Button variant="destructive" onClick={clearForm}>
         Clear form
-      </Button>
+      </Button> */}
     </MovieFormContext>
   );
 };

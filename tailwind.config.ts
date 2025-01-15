@@ -320,6 +320,10 @@ export default {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      boxShadow: {
+        "form-layout": "0px 5px 16px rgba(8, 15, 52, 0.06)",
+        "input-default": "0px 2px 6px rgba(19, 18, 66, 0.07)",
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],

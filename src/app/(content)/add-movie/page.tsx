@@ -1,9 +1,8 @@
-import { MovieFormWizard } from "@/components/movies/add-movie/movie-form-wizard";
-import { AddNewMovie } from "@/components/movies/add-new-movie";
+import { getLocale } from "next-intl/server";
 import { backendURL } from "@/lib/constants";
 import { Language } from "@/orval_api/model";
 import { getMovies } from "@/orval_api/movies/movies";
-import { getLocale } from "next-intl/server";
+import { MovieFormWizard } from "@/components/movies/add-movie/movie-form-wizard";
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 export default async function AddMoviePage(props: {
@@ -22,6 +21,7 @@ export default async function AddMoviePage(props: {
 
   const {
     data: {
+      // remove unnecessary fields
       next_movie_id,
       actors,
       directors,
@@ -37,9 +37,7 @@ export default async function AddMoviePage(props: {
   );
 
   return (
-    <div className="mx-auto w-[1400px]">
-      <h1 className="text-2xl">Add new Movie</h1>
-
+    <div className="shadow-form-layout mx-auto my-5 w-[1400px] rounded-[34px] border border-[#EFF0F7] p-9">
       <MovieFormWizard
         actors={actors}
         directors={directors}
@@ -49,17 +47,6 @@ export default async function AddMoviePage(props: {
         actionTimes={action_times}
         temporaryMovie={temporary_movie}
       />
-
-      {/* <AddNewMovie
-        newMovieId={next_movie_id}
-        actors={actors}
-        directors={directors}
-        specifications={specifications}
-        genres={genres}
-        keywords={keywords}
-        actionTimes={action_times}
-        temporaryMovie={temporary_movie}
-      /> */}
     </div>
   );
 }

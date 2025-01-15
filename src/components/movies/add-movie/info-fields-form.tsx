@@ -7,8 +7,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { MovieInfoScheme } from "@/types/zod-scheme";
 import type { MovieFormData } from "@/orval_api/model";
 import { MovieFormContext } from "./movie-form-wizard";
-import { Button } from "@/components/ui/button";
 import { MovieFormField } from "../movie-form-field";
+import { FormButtons } from "../ui/form-buttons";
 
 export type MovieInfoFieldNames = Pick<
   MovieFormData,
@@ -87,13 +87,9 @@ export const InfoFieldsForm = () => {
   };
 
   return (
-    <div className="text-textOrange flex items-center gap-3 font-bold">
+    <div className="text-textOrange flex items-center justify-center gap-3 font-bold">
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
-        <div className="box-border h-max rounded-[20px] bg-animeprimary p-5">
-          <div className="text-4xl font-semibold text-animeneutral-light">
-            <h1>Key Fields Form</h1>
-          </div>
-
+        <div className="grid grid-cols-3 gap-4">
           <MovieFormField
             type="text"
             label="Description EN"
@@ -105,6 +101,31 @@ export const InfoFieldsForm = () => {
 
           <MovieFormField
             type="text"
+            label="Location EN"
+            name="location_en"
+            register={register}
+            error={errors.location_en}
+            labelWidth={64}
+          />
+
+          <div>
+            <MovieFormField
+              type="date"
+              label="Release date"
+              name="release_date"
+              register={register}
+              error={errors.release_date}
+              labelWidth={64}
+            />
+            {parsedData && (
+              <div className="text-[#6F6C90]">
+                {parsedData.release_date || "No date"}
+              </div>
+            )}
+          </div>
+
+          <MovieFormField
+            type="text"
             label="Description UK"
             name="description_uk"
             register={register}
@@ -113,29 +134,22 @@ export const InfoFieldsForm = () => {
           />
 
           <MovieFormField
-            type="date"
-            label="Release date"
-            name="release_date"
+            type="text"
+            label="Location UK"
+            name="location_uk"
             register={register}
-            error={errors.release_date}
+            error={errors.location_uk}
             labelWidth={64}
           />
-          {parsedData && <div>{parsedData.release_date || "No date"}</div>}
+        </div>
 
+        <div className="grid grid-cols-2 gap-4">
           <MovieFormField
             type="text"
             label="Duration"
             name="duration"
             register={register}
             error={errors.duration}
-            labelWidth={64}
-          />
-          <MovieFormField
-            type="text"
-            label="Budget"
-            name="budget"
-            register={register}
-            error={errors.budget}
             labelWidth={64}
           />
           <MovieFormField
@@ -148,40 +162,23 @@ export const InfoFieldsForm = () => {
           />
           <MovieFormField
             type="text"
+            label="Budget"
+            name="budget"
+            register={register}
+            error={errors.budget}
+            labelWidth={64}
+          />
+          <MovieFormField
+            type="text"
             label="Worldwide gross"
             name="worldwide_gross"
             register={register}
             error={errors.worldwide_gross}
             labelWidth={64}
           />
-          <MovieFormField
-            type="text"
-            label="Location EN"
-            name="location_en"
-            register={register}
-            error={errors.location_en}
-            labelWidth={64}
-          />
-          <MovieFormField
-            type="text"
-            label="Location UK"
-            name="location_uk"
-            register={register}
-            error={errors.location_uk}
-            labelWidth={64}
-          />
-
-          <Button
-            type="submit"
-            className="mt-7 h-12 w-full cursor-pointer rounded-xl border-0 text-center text-lg transition-all duration-200 hover:rounded-md"
-          >
-            Submit
-          </Button>
-
-          <Button type="button" variant="link" onClick={handlePrev}>
-            back
-          </Button>
         </div>
+
+        <FormButtons handlePrev={handlePrev} />
       </form>
     </div>
   );

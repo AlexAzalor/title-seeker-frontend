@@ -7,7 +7,6 @@ import { useFieldArray, useForm } from "react-hook-form";
 import { MovieFeatureList } from "@/types/zod-scheme";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { Button } from "@/components/ui/button";
 import {
   ActionTimeOut,
   KeywordOut,
@@ -19,6 +18,7 @@ import { AddNewSpecification } from "../add-new-specification";
 import { AddNewKeyword } from "../add-new-keyword";
 import { AddNewActionTime } from "../add-new-action-time";
 import { ItemsListSelector } from "../ui/items-list-selector";
+import { FormButtons } from "../ui/form-buttons";
 
 const ModalMovie = dynamic(() => import("./modal-movie"));
 
@@ -286,16 +286,7 @@ export const FeaturesForm = ({
             checkIconStyle={keywordFields}
           />
 
-          <Button
-            type="submit"
-            className="mt-7 h-12 w-full cursor-pointer rounded-xl border-0 text-center text-lg transition-all duration-200 hover:rounded-md"
-          >
-            Submit
-          </Button>
-
-          <Button type="button" variant="link" onClick={handlePrev}>
-            back
-          </Button>
+          <FormButtons handlePrev={handlePrev} />
         </form>
       </div>
 

@@ -44,7 +44,7 @@ export const FormStep = ({
             (isStepCompleted || completedSteps.length === lastFormStep) &&
               "cursor-pointer bg-[#4A3AFF] dark:bg-[#495AFF]",
             (currentEditableStep || firstEditableStep) &&
-              "cursor-pointer border-4 dark:border-[#495AFF]",
+              "cursor-pointer border-4 border-[#495AFF]",
           )}
         >
           <div>
