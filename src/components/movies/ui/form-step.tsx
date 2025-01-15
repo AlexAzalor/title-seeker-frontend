@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 type Props = {
   title: string;
   step: number;
-  comletedSteps: number[];
+  completedSteps: number[];
   goToStep: () => void;
   lastStep?: boolean;
   currentStep: number;
@@ -13,12 +13,18 @@ type Props = {
 export const FormStep = ({
   title,
   step,
-  comletedSteps,
+  completedSteps,
   goToStep,
   lastStep,
   currentStep,
 }: Props) => {
-  const last = 6;
+  const summaryStep = 6;
+  const lastFormStep = 5;
+  const isLastStep = step === summaryStep;
+  const isStepCompleted = completedSteps.includes(step);
+  const currentEditableStep = Math.max(...completedSteps) + 1 === step;
+  const firstEditableStep = completedSteps.length === 0 && step === 1;
+
   return (
     <>
       <div
@@ -29,31 +35,22 @@ export const FormStep = ({
       >
         <div
           onClick={() => {
-            if (
-              comletedSteps.includes(step) ||
-              (comletedSteps.includes(5) && step === last) ||
-              Math.max(...comletedSteps) + 1 === step
-            ) {
+            if (isStepCompleted || currentEditableStep) {
               goToStep();
             }
           }}
           className={cn(
-            "grid h-8 w-8 place-content-center rounded-full",
-            comletedSteps.includes(step) || comletedSteps.length === 5
-              ? "cursor-pointer bg-[#4A3AFF] dark:bg-[#495AFF]"
-              : "select-none bg-[#EFF0F6] text-[#6F6C90]",
-            comletedSteps.length &&
-              Math.max(...comletedSteps) + 1 === step &&
-              "cursor-pointer border-4 dark:border-[#495AFF]",
-            comletedSteps.length === 0 &&
-              step === 1 &&
+            "grid h-8 w-8 select-none place-content-center rounded-full bg-[#EFF0F6] text-[#6F6C90]",
+            (isStepCompleted || completedSteps.length === lastFormStep) &&
+              "cursor-pointer bg-[#4A3AFF] dark:bg-[#495AFF]",
+            (currentEditableStep || firstEditableStep) &&
               "cursor-pointer border-4 dark:border-[#495AFF]",
           )}
         >
           <div>
-            {step === last ? (
-              <SummaryIcon color={comletedSteps.length >= 5} />
-            ) : comletedSteps.includes(step) ? (
+            {isLastStep ? (
+              <SummaryIcon color={completedSteps.length >= lastFormStep} />
+            ) : isStepCompleted ? (
               <CheckIcon />
             ) : (
               <p className="text-lg font-bold">{step}</p>
@@ -70,7 +67,7 @@ export const FormStep = ({
           <div
             className={cn(
               "grid h-2 w-24 place-content-center rounded-3xl fill-mode-both",
-              comletedSteps.includes(step) &&
+              isStepCompleted &&
                 "animate-progress bg-[#4A3AFF] dark:bg-[#495AFF]",
             )}
           ></div>
