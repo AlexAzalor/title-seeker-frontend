@@ -200,6 +200,7 @@ export const RateMovie = ({
           // className="[&_[role=slider]]:h-4 [&_[role=slider]]:w-4"
           defaultValue={[ratingCriteriaState.acting]}
           onValueChange={(value) => updateCriterionValue(value, "acting")}
+          disabled={showValues}
         />
       </div>
       <div>
@@ -212,6 +213,7 @@ export const RateMovie = ({
           onValueChange={(value) =>
             updateCriterionValue(value, "plot_storyline")
           }
+          disabled={showValues}
         />
       </div>
       <div>
@@ -222,6 +224,7 @@ export const RateMovie = ({
           min={MIN_RATE}
           defaultValue={[ratingCriteriaState.music]}
           onValueChange={(value) => updateCriterionValue(value, "music")}
+          disabled={showValues}
         />
       </div>
       <div>
@@ -234,6 +237,7 @@ export const RateMovie = ({
           onValueChange={(value) =>
             updateCriterionValue(value, "re_watchability")
           }
+          disabled={showValues}
         />
       </div>
       <div>
@@ -246,6 +250,7 @@ export const RateMovie = ({
           onValueChange={(value) =>
             updateCriterionValue(value, "emotional_impact")
           }
+          disabled={showValues}
         />
       </div>
       <div>
@@ -256,6 +261,7 @@ export const RateMovie = ({
           min={MIN_RATE}
           defaultValue={[ratingCriteriaState.dialogue]}
           onValueChange={(value) => updateCriterionValue(value, "dialogue")}
+          disabled={showValues}
         />
       </div>
       <div>
@@ -268,6 +274,7 @@ export const RateMovie = ({
           onValueChange={(value) =>
             updateCriterionValue(value, "production_design")
           }
+          disabled={showValues}
         />
       </div>
 
@@ -279,6 +286,7 @@ export const RateMovie = ({
           min={MIN_RATE}
           defaultValue={[ratingCriteriaState.duration]}
           onValueChange={(value) => updateCriterionValue(value, "duration")}
+          disabled={showValues}
         />
       </div>
 
@@ -293,6 +301,7 @@ export const RateMovie = ({
             onValueChange={(value) =>
               updateCriterionValue(value, "visual_effects")
             }
+            disabled={showValues}
           />
         </div>
       )}
@@ -308,6 +317,7 @@ export const RateMovie = ({
             onValueChange={(value) =>
               updateCriterionValue(value, "scare_factor")
             }
+            disabled={showValues}
           />
         </div>
       )}

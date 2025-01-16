@@ -71,3 +71,16 @@ export const errorHandling = (response: any, endSubmitting: () => void) => {
     throw new Error("Validation error");
   }
 };
+
+export function formattedDuration(duration: number, lang = "uk") {
+  const hours = Math.floor(duration / 60);
+  const minutes = duration % 60;
+
+  if (lang === "en") {
+    return `${hours}h ${minutes}m`;
+  } else if (lang === "uk") {
+    return `${hours}г ${minutes}хв`;
+  } else {
+    throw new Error("Unsupported language");
+  }
+}

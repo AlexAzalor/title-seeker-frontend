@@ -19,7 +19,7 @@ function ModalMovie({ children, title, open, setOpen, description }: Props) {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{title}</DialogTitle>
+          <DialogTitle className="self-center">{title}</DialogTitle>
           {description && <DialogDescription>{description}</DialogDescription>}
           {children}
         </DialogHeader>

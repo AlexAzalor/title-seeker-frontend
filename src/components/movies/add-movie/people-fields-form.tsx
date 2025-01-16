@@ -128,7 +128,7 @@ export const PeopleFieldsForm = ({ actors, directors }: Props) => {
 
   return (
     <>
-      <div className="text-textOrange flex items-center justify-center gap-3 font-bold">
+      <div className="flex items-center justify-center gap-3 font-bold">
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">
           <div className="mb-5 flex w-full flex-col items-center gap-2">
             <h1 className="text-[#2D26A5]">Actors</h1>
@@ -277,7 +277,7 @@ export const PeopleFieldsForm = ({ actors, directors }: Props) => {
 
       <Suspense>
         <ModalMovie
-          title="Actors"
+          title="Add new Actor"
           open={openActorFormModal}
           setOpen={setOpenActorFormModal}
         >
@@ -285,7 +285,7 @@ export const PeopleFieldsForm = ({ actors, directors }: Props) => {
         </ModalMovie>
 
         <ModalMovie
-          title="Director"
+          title="Add new Director"
           open={openDirectorFormModal}
           setOpen={setOpenDirectorFormModal}
         >

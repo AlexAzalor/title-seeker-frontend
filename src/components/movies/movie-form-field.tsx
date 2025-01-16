@@ -22,6 +22,7 @@ type FieldProps<
   labelWidth?: number;
   label: string;
   value?: string;
+  formattedValue?: string;
 } & InputHTMLAttributes<HTMLInputElement>;
 
 export const MovieFormField = <
@@ -35,6 +36,7 @@ export const MovieFormField = <
   labelWidth,
   label,
   value,
+  formattedValue,
   ...inputProps
 }: FieldProps<TFormValues, TFieldName>) => {
   return (
@@ -52,6 +54,10 @@ export const MovieFormField = <
           )}
           {...inputProps}
         />
+
+        {formattedValue && (
+          <span className="absolute right-4 top-1/4">{formattedValue}</span>
+        )}
 
         <div
           className="cut absolute left-[20px] top-[-20px] h-[20px] translate-y-0 rounded-[10px] transition-transform duration-200"

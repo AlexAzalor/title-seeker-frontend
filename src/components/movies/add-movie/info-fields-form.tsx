@@ -47,7 +47,9 @@ export const InfoFieldsForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isDirty },
+    // getFieldState,
+    // getFieldState("budget").isDirty
   } = useForm<MovieInfoSchemeType>({
     resolver: zodResolver(MovieInfoScheme),
     defaultValues: {

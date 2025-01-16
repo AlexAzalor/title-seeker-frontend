@@ -3,7 +3,6 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Dispatch, SetStateAction } from "react";
-import { FormField } from "./form-field";
 import { TypeSubgenreScheme } from "@/types/general";
 import { SubgenreScheme } from "@/types/zod-scheme";
 import { useRouter } from "next/navigation";
@@ -17,6 +16,9 @@ import {
 import { formatKey } from "@/lib/utils";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
+import { FormWrapper } from "./ui/form-wrapper";
+import { MovieFormField } from "./movie-form-field";
+import { TextareaFormField } from "./textarea-form-field";
 
 type Props = {
   appendSubgenre: any;
@@ -69,83 +71,60 @@ export const AddNewSubgenre = ({
   };
 
   return (
-    <div className="text-textOrange flex items-center gap-3 font-bold">
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
-        <div className="box-border h-max w-[320px] rounded-[20px] bg-animeprimary p-5">
-          <div className="text-4xl font-semibold text-animeneutral-light">
-            Add New Director
-          </div>
+    <FormWrapper onSubmit={handleSubmit(onSubmit)} isSubmitting={isSubmitting}>
+      <div className="flex flex-col gap-2">
+        {!!genresList.length &&
+          genresList.map((genre) => (
+            <Label key={genre.key} className="flex items-center gap-2">
+              <Input
+                className="h-5 w-5"
+                type="radio"
+                value={genre.key}
+                {...register("parent_genre_key")}
+              />
+              <span>{genre.name}</span>
+            </Label>
+          ))}
+      </div>
 
-          {genresList.length > 0 &&
-            genresList.map((genre) => (
-              <Label key={genre.key}>
-                {genre.name}
-                <Input
-                  className="h-5 w-5"
-                  type="radio"
-                  value={genre.key}
-                  {...register("parent_genre_key")}
-                />
-              </Label>
-            ))}
+      <MovieFormField
+        type="text"
+        label="Key"
+        name="key"
+        register={register}
+        error={errors.key}
+        value={formatKey(watchFields)}
+      />
 
-          <FormField
-            type="text"
-            label="Key"
-            name="key"
-            register={register}
-            error={errors.key}
-            labelWidth={52}
-            value={formatKey(watchFields)}
-          />
+      <MovieFormField
+        type="text"
+        label="name_uk"
+        name="name_uk"
+        register={register}
+        error={errors.name_uk}
+      />
 
-          <FormField
-            type="text"
-            label="name_uk"
-            name="name_uk"
-            register={register}
-            error={errors.name_uk}
-            labelWidth={50}
-          />
+      <MovieFormField
+        type="text"
+        label="name_en"
+        name="name_en"
+        register={register}
+        error={errors.name_en}
+      />
 
-          <FormField
-            type="text"
-            label="name_en"
-            name="name_en"
-            register={register}
-            error={errors.name_en}
-            labelWidth={94}
-          />
+      <TextareaFormField
+        label="description_uk"
+        name="description_uk"
+        register={register}
+        error={errors.description_uk}
+      />
 
-          <FormField
-            type="text"
-            label="description_uk"
-            name="description_uk"
-            register={register}
-            error={errors.description_uk}
-            labelWidth={94}
-          />
-          <FormField
-            type="text"
-            label="description_en"
-            name="description_en"
-            register={register}
-            error={errors.description_en}
-            labelWidth={94}
-          />
-
-          {!isSubmitting ? (
-            <button
-              type="submit"
-              className="bg-buttonBg text-whiteText active:bg-buttonBgDark hover:bg-buttonBgHover hover:shadow-buttonShadow mt-7 h-12 w-full cursor-pointer rounded-xl border-0 text-center text-lg transition-all duration-200 hover:rounded-md hover:text-white"
-            >
-              Submit
-            </button>
-          ) : (
-            <div>Spinner</div>
-          )}
-        </div>
-      </form>
-    </div>
+      <TextareaFormField
+        label="description_en"
+        name="description_en"
+        register={register}
+        error={errors.description_en}
+      />
+    </FormWrapper>
   );
 };

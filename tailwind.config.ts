@@ -283,6 +283,20 @@ export default {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+        "custom-gradient": `linear-gradient(
+          to right,
+          #D6D1FF,
+          #B4AFFF,
+          #938EFF,
+          #726CFF,
+          #4A3AFF,
+          #4035E6,
+          #362FCC,
+          #2C29B2,
+          #222399,
+          #181D7F
+        )`,
+        // "linear-gradient(to bottom, rgba(74, 58, 255, 1), rgba(66, 53, 232, 1), rgba(59, 48, 210, 1), rgba(52, 43, 187, 1), rgba(45, 38, 165, 1), rgba(39, 31, 143, 1), rgba(33, 25, 121, 1), rgba(27, 18, 99, 1), rgba(21, 12, 77, 1), rgba(44, 0, 62, 1))",
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -328,3 +342,77 @@ export default {
   },
   plugins: [require("tailwindcss-animate")],
 } satisfies Config;
+
+// background: linear-gradient(to bottom,
+//   #4A3AFF,
+//   #4235E8,
+//   #3B30D2,
+//   #342BBB,
+//   #2D26A5,
+//   #271F8F,
+//   #211979,
+//   #1B1263,
+//   #150C4D,
+//   #2C003E
+// );
+
+// #252154
+// Light Tones of #4A3AFF
+// #726CFF
+// A slightly brighter tone with more softness.
+// #938EFF
+// Noticeably lighter but still retains the vibrant bluish-purple.
+// #B4AFFF
+// A pastel-like tone, great for a softer palette.
+// #D6D1FF
+// Very light, almost a lavender hue.
+// #F7F4FF
+// Almost white, with a hint of bluish-purple.
+// Dark Tones of #4A3AFF
+// #4035E6
+// A slightly deeper and richer tone.
+// #362FCC
+// Noticeably darker but retains the vibrancy.
+// #2C29B2
+// A deep and intense purple-blue.
+// #222399
+// Much darker, nearing indigo shades.
+// #181D7F
+// Extremely dark, a deep midnight blue.
+
+// Gradient Transition Colors
+// #4A3AFF (Default Color)
+// Vibrant bluish-purple.
+// #4235E8
+// Slightly darker, more blue-dominant.
+// #3B30D2
+// A balanced deep blue-purple tone.
+// #342BBB
+// Rich purple, leaning darker.
+// #2D26A5
+// Deep indigo tone, with reduced brightness.
+// #271F8F
+// A dark, moody purple tone.
+// #211979
+// A dark blue with hints of purple.
+// #1B1263
+// Approaching indigo, very dark.
+// #150C4D
+// Almost blackened indigo with subtle color hints.
+// #2C003E (Dark Purple/Indigo)
+// The final deep, dark indigo.
+
+// background: linear-gradient(
+//   to right,
+//   #F7F4FF,
+//   #D6D1FF,
+//   #B4AFFF,
+//   #938EFF,
+//   #726CFF,
+//   #4A3AFF,
+//   #4035E6,
+//   #362FCC,
+//   #2C29B2,
+//   #222399,
+//   #181D7F
+// );
