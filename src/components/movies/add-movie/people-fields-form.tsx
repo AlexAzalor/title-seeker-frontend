@@ -15,6 +15,7 @@ import { AddNewActor } from "../add-new-actor";
 import { MovieFormContext } from "./movie-form-wizard";
 import { ItemsListSelector } from "../ui/items-list-selector";
 import { FormButtons } from "../ui/form-buttons";
+import { MovieFormField } from "../movie-form-field";
 const ModalMovie = dynamic(() => import("./modal-movie"));
 
 type Props = {
@@ -127,108 +128,149 @@ export const PeopleFieldsForm = ({ actors, directors }: Props) => {
 
   return (
     <>
-      <div className="text-textOrange flex items-center gap-3 font-bold">
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
-          <h2>Actors</h2>
-          {actorFields.map((field, index) => (
-            <div key={field.id}>
-              <input {...register(`actors.${index}.name`)} disabled />
-              <input
-                {...register(`actors.${index}.character_name_en`)}
-                placeholder="Character name EN"
-              />
-              <input
-                {...register(`actors.${index}.character_name_uk`)}
-                placeholder="Character name uk"
-              />
-              <input
-                {...register(`actors.${index}.character_key`)}
-                value={formatKey([watchFields[index].character_name_en])}
-                disabled
-              />
-              <button type="button" onClick={() => removeActor(index)}>
-                Remove Actor
-              </button>
-              {errors.actors?.[index]?.character_name_en && (
-                <p>{errors.actors[index].character_name_en.message}</p>
-              )}
-              {errors.actors?.[index]?.character_name_uk && (
-                <p>{errors.actors[index].character_name_uk.message}</p>
-              )}
-            </div>
-          ))}
-
-          {errors.actors && errors.actors.message && (
-            <span className="text-sm text-red-500">
-              {errors.actors.message}
-            </span>
-          )}
-
-          <ItemsListSelector
-            items={actors}
-            onOpenModal={() => setOpenActorFormModal(true)}
-            onSelect={(currentValue, key) => {
-              const is_actor_selected = actorFields.find(
-                (actor) => actor.key === key,
-              );
-
-              if (!is_actor_selected) {
-                appendActor({
-                  name: currentValue,
-                  character_key: "",
-                  character_name_en: "",
-                  character_name_uk: "",
-                  key: key,
-                });
-              } else {
-                removeActor(
-                  actorFields.findIndex((actorPrev) => actorPrev.key === key),
+      <div className="text-textOrange flex items-center justify-center gap-3 font-bold">
+        <form onSubmit={handleSubmit(onSubmit)} className="w-full">
+          <div className="mb-5 flex w-full flex-col items-center gap-2">
+            <h1 className="text-[#2D26A5]">Actors</h1>
+            <ItemsListSelector
+              items={actors}
+              onOpenModal={() => setOpenActorFormModal(true)}
+              onSelect={(currentValue, key) => {
+                const is_actor_selected = actorFields.find(
+                  (actor) => actor.key === key,
                 );
-              }
-            }}
-            checkIconStyle={actorFields}
-          />
 
-          <h2>Directors</h2>
-          {directorFields.map((field, index) => (
-            <div key={field.id}>
-              <input {...register(`directors.${index}.name`)} disabled />
-              <input {...register(`directors.${index}.key`)} disabled />
+                if (!is_actor_selected) {
+                  appendActor({
+                    name: currentValue,
+                    character_key: "",
+                    character_name_en: "",
+                    character_name_uk: "",
+                    key: key,
+                  });
+                } else {
+                  removeActor(
+                    actorFields.findIndex((actorPrev) => actorPrev.key === key),
+                  );
+                }
+              }}
+              checkIconStyle={actorFields}
+            />
 
-              <button type="button" onClick={() => removeDirector(index)}>
-                Remove Director
-              </button>
-            </div>
-          ))}
+            {actorFields.map((field, index) => (
+              <div key={field.id} className="grid grid-cols-4 gap-4">
+                <MovieFormField
+                  type="text"
+                  label="Actor name"
+                  name={`actors.${index}.name`}
+                  register={register}
+                  error={undefined}
+                  labelWidth={64}
+                  disabled
+                />
 
-          {errors.directors && (
-            <span className="text-sm text-red-500">
-              {errors.directors.message}
-            </span>
-          )}
+                <MovieFormField
+                  type="text"
+                  label="Character name en"
+                  name={`actors.${index}.character_name_en`}
+                  register={register}
+                  error={
+                    errors.actors?.[index]?.character_name_en &&
+                    errors.actors[index].character_name_en
+                  }
+                  labelWidth={64}
+                />
 
-          <ItemsListSelector
-            items={directors}
-            onOpenModal={() => setOpenDirectorFormModal(true)}
-            onSelect={(currentValue, key) => {
-              const is_director_selected = directorFields.find(
-                (director) => director.key === key,
-              );
+                <MovieFormField
+                  type="text"
+                  label="Character name uk"
+                  name={`actors.${index}.character_name_uk`}
+                  register={register}
+                  error={
+                    errors.actors?.[index]?.character_name_uk &&
+                    errors.actors[index].character_name_uk
+                  }
+                  labelWidth={64}
+                />
 
-              if (!is_director_selected) {
-                appendDirector({
-                  name: currentValue,
-                  key: key,
-                });
-              } else {
-                removeDirector(
-                  directorFields.findIndex((director) => director.key === key),
+                <div className="flex items-center gap-2">
+                  <MovieFormField
+                    type="text"
+                    label="Character key"
+                    name={`actors.${index}.character_key`}
+                    register={register}
+                    error={undefined}
+                    value={formatKey([watchFields[index].character_name_en])}
+                    labelWidth={64}
+                    disabled
+                  />
+
+                  <button type="button" onClick={() => removeActor(index)}>
+                    X
+                  </button>
+                </div>
+              </div>
+            ))}
+
+            {errors.actors && errors.actors.message && (
+              <span className="text-sm text-red-500">
+                {errors.actors.message}
+              </span>
+            )}
+          </div>
+
+          <div className="mb-5 flex w-full flex-col items-center gap-2">
+            <h1 className="text-[#2D26A5]">Directors</h1>
+            <ItemsListSelector
+              items={directors}
+              onOpenModal={() => setOpenDirectorFormModal(true)}
+              onSelect={(currentValue, key) => {
+                const is_director_selected = directorFields.find(
+                  (director) => director.key === key,
                 );
-              }
-            }}
-            checkIconStyle={directorFields}
-          />
 
+                if (!is_director_selected) {
+                  appendDirector({
+                    name: currentValue,
+                    key: key,
+                  });
+                } else {
+                  removeDirector(
+                    directorFields.findIndex(
+                      (director) => director.key === key,
+                    ),
+                  );
+                }
+              }}
+              checkIconStyle={directorFields}
+            />
+
+            <div className="flex flex-wrap gap-2">
+              {directorFields.map((field, index) => (
+                <div key={field.id} className="flex items-center gap-2">
+                  <MovieFormField
+                    type="text"
+                    label="Director name"
+                    name={`directors.${index}.name`}
+                    register={register}
+                    error={undefined}
+                    labelWidth={64}
+                    disabled
+                  />
+
+                  <button type="button" onClick={() => removeDirector(index)}>
+                    X
+                  </button>
+                </div>
+              ))}
+            </div>
+
+            {errors.directors && (
+              <span className="text-sm text-red-500">
+                {errors.directors.message}
+              </span>
+            )}
+          </div>
           <FormButtons handlePrev={handlePrev} />
         </form>
       </div>

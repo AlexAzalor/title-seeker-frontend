@@ -116,7 +116,10 @@ export const KeyFieldsForm = ({ temporaryMovie }: Props) => {
 
   return (
     <div className="text-textOrange flex items-center justify-center gap-3 font-bold">
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex w-full flex-col items-center gap-2"
+      >
         <div className="mb-7 grid grid-cols-2 gap-4">
           <MovieFormField
             type="text"
@@ -156,31 +159,33 @@ export const KeyFieldsForm = ({ temporaryMovie }: Props) => {
           />
         </div>
 
-        <RatingTypeSelector
-          onValueChange={handleSelectRatingType}
-          defaultValue={ratingCriteria}
-        />
+        <div className="w-[594px]">
+          <RatingTypeSelector
+            onValueChange={handleSelectRatingType}
+            defaultValue={ratingCriteria}
+          />
 
-        <RateMovie
-          criteriaType={ratingCriteria}
-          ratingCriteria={
-            temporaryMovie?.rating_criteria ||
-            parsedData.rating_criteria || {
-              ...INITIAL_RATE,
-              scare_factor:
-                ratingCriteria === RatingCriterion.scare_factor ||
-                ratingCriteria === RatingCriterion.full
-                  ? 0.01
-                  : undefined,
-              visual_effects:
-                ratingCriteria === RatingCriterion.visual_effects ||
-                ratingCriteria === RatingCriterion.full
-                  ? 0.01
-                  : undefined,
+          <RateMovie
+            criteriaType={ratingCriteria}
+            ratingCriteria={
+              temporaryMovie?.rating_criteria ||
+              parsedData.rating_criteria || {
+                ...INITIAL_RATE,
+                scare_factor:
+                  ratingCriteria === RatingCriterion.scare_factor ||
+                  ratingCriteria === RatingCriterion.full
+                    ? 0.01
+                    : undefined,
+                visual_effects:
+                  ratingCriteria === RatingCriterion.visual_effects ||
+                  ratingCriteria === RatingCriterion.full
+                    ? 0.01
+                    : undefined,
+              }
             }
-          }
-          ratingRef={ratingRef}
-        />
+            ratingRef={ratingRef}
+          />
+        </div>
 
         {!isSubmitting ? <FormButtons isFirstStep /> : <div>Spinner</div>}
       </form>

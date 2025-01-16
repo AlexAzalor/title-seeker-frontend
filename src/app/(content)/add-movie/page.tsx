@@ -37,7 +37,7 @@ export default async function AddMoviePage(props: {
   );
 
   return (
-    <div className="shadow-form-layout mx-auto my-5 w-[1400px] rounded-[34px] border border-[#EFF0F7] p-9">
+    <div className="h-screen">
       <MovieFormWizard
         actors={actors}
         directors={directors}

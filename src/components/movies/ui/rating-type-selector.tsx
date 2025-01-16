@@ -15,8 +15,8 @@ type Props = {
 
 export const RatingTypeSelector = ({ defaultValue, onValueChange }: Props) => {
   return (
-    <div className="grid gap-2">
-      <Label htmlFor="rating-criteria">Rating Criteria</Label>
+    <div className="mb-4 grid w-72 gap-2">
+      <Label htmlFor="rating-criteria">Rating Type</Label>
       <Select onValueChange={onValueChange} defaultValue={defaultValue}>
         <SelectTrigger id="rating-criteria">
           <SelectValue placeholder="Select" />

@@ -20,10 +20,12 @@ import {
   VS_MAX,
 } from "../rating/utils";
 import { RateSlider } from "../rating/rate-slider";
+import { Switch } from "../ui/switch";
+import { Label } from "../ui/label";
 // const VISUAL_EFFECTS_ON = false;
 // const SCARE_FACTOR_ON = false;
 // const BOTH_ON = VISUAL_EFFECTS_ON && SCARE_FACTOR_ON;
-const MIN_RATE = 0.01;
+const MIN_RATE = 0.001;
 const SHOW_RATE_VALUES = false;
 // const SUBSTRACT_RATE = 0.5;
 
@@ -109,8 +111,8 @@ export const RateMovie = ({
     }
   };
 
-  const handleShowValues = () => {
-    setShowValues((prev) => !prev);
+  const handleShowValues = (show: boolean) => {
+    setShowValues(show);
   };
 
   const calculateRating = () => {
@@ -184,18 +186,11 @@ export const RateMovie = ({
       : RATING_MAX.re_watchability;
 
   return (
-    <div className="w-[500px]">
-      <h1>Rate: {calculateRating()}</h1>
+    <div className="">
+      {/* <h1>Rate: {calculateRating()}</h1> */}
       {/* <h1>Optimistic: {ratingState}</h1>
       {isPending && <div>...pending...</div>} */}
       {/* add tooltip or warning text or smth or modal? */}
-      <button
-        type="button"
-        className="rounded-md bg-red-300 p-1"
-        onClick={handleShowValues}
-      >
-        Show values
-      </button>
       <div>
         Acting
         <RateSlider
@@ -303,7 +298,7 @@ export const RateMovie = ({
       )}
 
       {!!ratingCriteriaState.scare_factor && (
-        <div>
+        <div className="">
           Scare Factor
           <RateSlider
             value={showValues ? [scare_factor || 0] : undefined}
@@ -317,9 +312,18 @@ export const RateMovie = ({
         </div>
       )}
 
+      <div className="mt-3 flex items-center justify-between">
+        <div className="flex items-center space-x-2">
+          <Switch id="show-values" onCheckedChange={handleShowValues} />
+          <Label htmlFor="show-values">Show values</Label>
+        </div>
+
+        {showValues && <div>Total: {calculateRating()}</div>}
+      </div>
+
       <button
         type="button"
-        className="mt-5 bg-orange-400 p-2"
+        className="mt-5 w-full rounded-2xl bg-[#4A3AFF] p-2 text-white transition-colors duration-200 hover:bg-[#342BBB]"
         onClick={handleRateMovie}
       >
         Save rating

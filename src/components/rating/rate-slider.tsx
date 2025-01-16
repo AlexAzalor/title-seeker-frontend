@@ -11,16 +11,16 @@ export function RateSlider({
   ...props
 }: SliderProps) {
   return (
-    <div className="flex items-center gap-3">
+    <div className="relative mb-1 flex items-center gap-3">
       <Slider
         defaultValue={defaultValue}
         value={value}
         max={max}
         step={0.01}
-        className={cn("h-3 w-[60%]", className)}
+        className={cn("mr-10 h-3", className)}
         {...props}
       />
-      <span>{value && value}</span>
+      <span className="absolute right-0">{value && value}</span>
     </div>
   );
 }

@@ -9,6 +9,7 @@ import type { MovieFormData } from "@/orval_api/model";
 import { MovieFormContext } from "./movie-form-wizard";
 import { MovieFormField } from "../movie-form-field";
 import { FormButtons } from "../ui/form-buttons";
+import { TextareaFormField } from "../textarea-form-field";
 
 export type MovieInfoFieldNames = Pick<
   MovieFormData,
@@ -88,48 +89,47 @@ export const InfoFieldsForm = () => {
 
   return (
     <div className="text-textOrange flex items-center justify-center gap-3 font-bold">
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
-        <div className="grid grid-cols-3 gap-4">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex w-full flex-col items-center gap-2"
+      >
+        <TextareaFormField
+          label="Description EN"
+          name="description_en"
+          register={register}
+          error={errors.description_en}
+        />
+
+        <TextareaFormField
+          label="Description UK"
+          name="description_uk"
+          register={register}
+          error={errors.description_uk}
+        />
+
+        <div>
           <MovieFormField
-            type="text"
-            label="Description EN"
-            name="description_en"
+            type="date"
+            label="Release date"
+            name="release_date"
             register={register}
-            error={errors.description_en}
+            error={errors.release_date}
             labelWidth={64}
           />
+          {parsedData && (
+            <div className="text-[#6F6C90]">
+              {parsedData.release_date || ""}
+            </div>
+          )}
+        </div>
 
+        <div className="grid grid-flow-row grid-cols-2 gap-4">
           <MovieFormField
             type="text"
             label="Location EN"
             name="location_en"
             register={register}
             error={errors.location_en}
-            labelWidth={64}
-          />
-
-          <div>
-            <MovieFormField
-              type="date"
-              label="Release date"
-              name="release_date"
-              register={register}
-              error={errors.release_date}
-              labelWidth={64}
-            />
-            {parsedData && (
-              <div className="text-[#6F6C90]">
-                {parsedData.release_date || "No date"}
-              </div>
-            )}
-          </div>
-
-          <MovieFormField
-            type="text"
-            label="Description UK"
-            name="description_uk"
-            register={register}
-            error={errors.description_uk}
             labelWidth={64}
           />
 
@@ -144,6 +144,7 @@ export const InfoFieldsForm = () => {
         </div>
 
         <div className="grid grid-cols-2 gap-4">
+          {/* show formated value of this inputs */}
           <MovieFormField
             type="text"
             label="Duration"
@@ -152,14 +153,7 @@ export const InfoFieldsForm = () => {
             error={errors.duration}
             labelWidth={64}
           />
-          <MovieFormField
-            type="text"
-            label="Domestic gross"
-            name="domestic_gross"
-            register={register}
-            error={errors.domestic_gross}
-            labelWidth={64}
-          />
+
           <MovieFormField
             type="text"
             label="Budget"
@@ -168,6 +162,16 @@ export const InfoFieldsForm = () => {
             error={errors.budget}
             labelWidth={64}
           />
+
+          <MovieFormField
+            type="text"
+            label="Domestic gross"
+            name="domestic_gross"
+            register={register}
+            error={errors.domestic_gross}
+            labelWidth={64}
+          />
+
           <MovieFormField
             type="text"
             label="Worldwide gross"
@@ -177,7 +181,6 @@ export const InfoFieldsForm = () => {
             labelWidth={64}
           />
         </div>
-
         <FormButtons handlePrev={handlePrev} />
       </form>
     </div>

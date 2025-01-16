@@ -57,14 +57,14 @@ export const ItemsListSelector = <
           variant="outline"
           role="combobox"
           // aria-expanded={openSpec}
-          className="h-max w-max justify-between"
+          className="h-max w-64 justify-between"
         >
           {"Select item..."}
           <ChevronsUpDown className="opacity-50" />
         </Button>
       </PopoverTrigger>
 
-      <PopoverContent className="w-[200px] p-0">
+      <PopoverContent className="w-64 p-0">
         <Command>
           <CommandInput placeholder="Search items..." className="h-9" />
           <CommandList>

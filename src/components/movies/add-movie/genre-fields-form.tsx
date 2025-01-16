@@ -13,6 +13,7 @@ import { AddNewSubgenre } from "../add-new-subgenre";
 import { ItemsListSelector } from "../ui/items-list-selector";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { FormButtons } from "../ui/form-buttons";
+import { MovieFormField } from "../movie-form-field";
 const ModalMovie = dynamic(() => import("./modal-movie"));
 
 const checkGenreType = (item: GenreOut | SubgenreOut): item is GenreOut => {
@@ -111,135 +112,173 @@ export const GenreFieldsForm = ({ genres }: Props) => {
 
   return (
     <>
-      <div className="text-textOrange flex items-center gap-3 font-bold">
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
-          <h2>Genres</h2>
-          {genreFields.map((field, index) => (
-            <div key={field.id}>
-              <input {...register(`genres.${index}.name`)} disabled />
-              <input
-                {...register(`genres.${index}.percentage_match`)}
-                placeholder="Percentage match"
-              />
+      <div className="text-textOrange flex items-center justify-center gap-3 font-bold">
+        <form onSubmit={handleSubmit(onSubmit)} className="w-full">
+          <div className="mb-5 flex w-full flex-col items-center gap-2">
+            <h1 className="text-[#2D26A5]">Genres</h1>
+            <ItemsListSelector
+              items={genres}
+              onOpenModal={() => setOpenGenreFormModal(true)}
+              onSelect={(currentValue, key, genre) => {
+                if (!genreFields.find((genrePrev) => genrePrev.key === key)) {
+                  appendGenre({
+                    name: currentValue,
+                    percentage_match: 0,
+                    key: key,
+                  });
 
-              {errors.genres?.[index]?.percentage_match && (
-                <p>{errors.genres[index].percentage_match.message}</p>
-              )}
+                  if (
+                    genre &&
+                    checkGenreType(genre) &&
+                    genre.subgenres?.length
+                  ) {
+                    setSubgenres((prev) => [
+                      ...prev,
+                      ...(genre.subgenres || []),
+                    ]);
+                  }
+                } else {
+                  removeGenre(
+                    genreFields.findIndex((genrePrev) => genrePrev.key === key),
+                  );
 
-              <button
-                type="button"
-                onClick={() => {
-                  removeGenre(index);
                   setSubgenres((prev) =>
                     prev.filter(
-                      (subgenrePrev) =>
-                        subgenrePrev.parent_genre_key !== field.key,
+                      (subgenrePrev) => subgenrePrev.parent_genre_key !== key,
                     ),
                   );
-
-                  const indices = subgenreFields.flatMap((val, index) =>
-                    val.subgenre_parent_key === field.key ? index : [],
-                  );
-
-                  if (indices.length) {
-                    removeSubgenre(indices);
-                  }
-                }}
-              >
-                Remove Actor
-              </button>
-
-              {errors.genres && errors.genres.message && (
-                <p>{errors.genres.message}</p>
-              )}
-            </div>
-          ))}
-
-          {errors.genres && errors.genres.message && (
-            <span className="text-sm text-red-500">
-              {errors.genres.message}
-            </span>
-          )}
-
-          <ItemsListSelector
-            items={genres}
-            onOpenModal={() => setOpenGenreFormModal(true)}
-            onSelect={(currentValue, key, genre) => {
-              if (!genreFields.find((genrePrev) => genrePrev.key === key)) {
-                appendGenre({
-                  name: currentValue,
-                  percentage_match: 0,
-                  key: key,
-                });
-
-                if (genre && checkGenreType(genre) && genre.subgenres?.length) {
-                  setSubgenres((prev) => [...prev, ...(genre.subgenres || [])]);
                 }
-              } else {
-                removeGenre(
-                  genreFields.findIndex((genrePrev) => genrePrev.key === key),
-                );
+              }}
+              checkIconStyle={genreFields}
+            />
 
-                setSubgenres((prev) =>
-                  prev.filter(
-                    (subgenrePrev) => subgenrePrev.parent_genre_key !== key,
-                  ),
-                );
-              }
-            }}
-            checkIconStyle={genreFields}
-          />
+            {genreFields.map((field, index) => (
+              <div key={field.id} className="grid grid-cols-2 gap-4">
+                <MovieFormField
+                  type="text"
+                  label="Name"
+                  name={`genres.${index}.name`}
+                  register={register}
+                  error={undefined}
+                  labelWidth={64}
+                  disabled
+                />
 
-          <h2>Subgenres</h2>
-          {subgenreFields.map((field, index) => (
-            <div key={field.id}>
-              <input {...register(`subgenres.${index}.name`)} disabled />
-              <input
-                {...register(`subgenres.${index}.percentage_match`)}
-                placeholder="Percentage match"
-              />
+                <div className="flex items-center gap-2">
+                  <MovieFormField
+                    type="text"
+                    label="Percentage match"
+                    name={`genres.${index}.percentage_match`}
+                    register={register}
+                    error={
+                      errors.genres?.[index]?.percentage_match &&
+                      errors.genres[index].percentage_match
+                    }
+                    labelWidth={64}
+                  />
 
-              {errors.subgenres?.[index]?.percentage_match && (
-                <p>{errors.subgenres[index].percentage_match.message}</p>
-              )}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      removeGenre(index);
+                      setSubgenres((prev) =>
+                        prev.filter(
+                          (subgenrePrev) =>
+                            subgenrePrev.parent_genre_key !== field.key,
+                        ),
+                      );
 
-              <button type="button" onClick={() => removeSubgenre(index)}>
-                Remove Subgenre
-              </button>
-              {errors.subgenres?.[index]?.name && (
-                <p>{errors.subgenres[index].name.message}</p>
-              )}
-            </div>
-          ))}
+                      const indices = subgenreFields.flatMap((val, index) =>
+                        val.subgenre_parent_key === field.key ? index : [],
+                      );
 
-          <ItemsListSelector
-            items={subgenres}
-            onOpenModal={() => setOpenSubgenreFormModal(true)}
-            onSelect={(currentValue, key, subgenre) => {
-              if (
-                !subgenreFields.find(
-                  (subgenrePrev) => subgenrePrev.key === key,
-                ) &&
-                subgenre
-              ) {
-                appendSubgenre({
-                  name: currentValue,
-                  percentage_match: 0,
-                  subgenre_parent_key: !checkGenreType(subgenre)
-                    ? subgenre.parent_genre_key
-                    : "",
-                  key: key,
-                });
-              } else {
-                removeSubgenre(
-                  subgenreFields.findIndex(
+                      if (indices.length) {
+                        removeSubgenre(indices);
+                      }
+                    }}
+                  >
+                    X
+                  </button>
+                </div>
+
+                {errors.genres && errors.genres.message && (
+                  <p>{errors.genres.message}</p>
+                )}
+              </div>
+            ))}
+
+            {errors.genres && errors.genres.message && (
+              <span className="text-sm text-red-500">
+                {errors.genres.message}
+              </span>
+            )}
+          </div>
+
+          <div className="mb-5 flex w-full flex-col items-center gap-2">
+            <h1 className="text-[#2D26A5]">Subgenres</h1>
+            <ItemsListSelector
+              items={subgenres}
+              onOpenModal={() => setOpenSubgenreFormModal(true)}
+              onSelect={(currentValue, key, subgenre) => {
+                if (
+                  !subgenreFields.find(
                     (subgenrePrev) => subgenrePrev.key === key,
-                  ),
-                );
-              }
-            }}
-            checkIconStyle={subgenreFields}
-          />
+                  ) &&
+                  subgenre
+                ) {
+                  appendSubgenre({
+                    name: currentValue,
+                    percentage_match: 0,
+                    subgenre_parent_key: !checkGenreType(subgenre)
+                      ? subgenre.parent_genre_key
+                      : "",
+                    key: key,
+                  });
+                } else {
+                  removeSubgenre(
+                    subgenreFields.findIndex(
+                      (subgenrePrev) => subgenrePrev.key === key,
+                    ),
+                  );
+                }
+              }}
+              checkIconStyle={subgenreFields}
+            />
+            {subgenreFields.map((field, index) => (
+              <div key={field.id} className="grid grid-cols-2 gap-4">
+                <MovieFormField
+                  type="text"
+                  label="Name"
+                  name={`subgenres.${index}.name`}
+                  register={register}
+                  error={undefined}
+                  labelWidth={64}
+                  disabled
+                />
+
+                <div className="flex items-center gap-2">
+                  <MovieFormField
+                    type="text"
+                    label="Percentage match"
+                    name={`subgenres.${index}.percentage_match`}
+                    register={register}
+                    error={
+                      errors.subgenres?.[index]?.percentage_match &&
+                      errors.subgenres[index].percentage_match
+                    }
+                    labelWidth={64}
+                  />
+
+                  <button type="button" onClick={() => removeSubgenre(index)}>
+                    X
+                  </button>
+                </div>
+                {errors.subgenres?.[index]?.name && (
+                  <p>{errors.subgenres[index].name.message}</p>
+                )}
+              </div>
+            ))}
+          </div>
 
           <FormButtons handlePrev={handlePrev} />
         </form>

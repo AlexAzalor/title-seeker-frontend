@@ -128,47 +128,53 @@ export const MovieFormWizard = ({
     <MovieFormContext
       value={{ movieFormData, setMovieFormData, handleNext, handlePrev }}
     >
-      <FormStepper
-        completedSteps={completedSteps}
-        currentStep={currentStep}
-        onStepChange={handleCurrentStep}
-      />
-
-      <Separator className="my-12" />
-
-      {currentStep === 1 && <KeyFieldsForm temporaryMovie={temporaryMovie} />}
-      {currentStep === 2 && <InfoFieldsForm />}
-      {currentStep === 3 && (
-        <PeopleFieldsForm actors={actors} directors={directors} />
-      )}
-      {currentStep === 4 && <GenreFieldsForm genres={genres} />}
-      {currentStep === 5 && (
-        <FeaturesForm
-          specifications={specifications}
-          keywords={keywords}
-          actionTimes={actionTimes}
+      <div className="mx-auto my-5 w-[1400px] rounded-[34px] border border-[#EFF0F7] p-9 shadow-form-layout">
+        <FormStepper
+          completedSteps={completedSteps}
+          currentStep={currentStep}
+          onStepChange={handleCurrentStep}
         />
-      )}
-      {currentStep === 6 && movieFormData && movieFormData.form_data.key && (
-        <Preview
-          movieFormData={movieFormData.form_data}
-          file={movieFormData.file as File}
-        />
-      )}
 
-      {currentStep === 6 && (
-        <div>
-          {!isSubmitting ? (
-            <FormButtons title="Submit" handlePrev={addMovie} />
-          ) : (
-            <div>Spinner</div>
-          )}
-        </div>
-      )}
+        <Separator className="my-12" />
 
-      {/* <Button variant="destructive" onClick={clearForm}>
+        {currentStep === 1 && <KeyFieldsForm temporaryMovie={temporaryMovie} />}
+        {currentStep === 2 && <InfoFieldsForm />}
+        {currentStep === 3 && (
+          <PeopleFieldsForm actors={actors} directors={directors} />
+        )}
+        {currentStep === 4 && <GenreFieldsForm genres={genres} />}
+        {currentStep === 5 && (
+          <FeaturesForm
+            specifications={specifications}
+            keywords={keywords}
+            actionTimes={actionTimes}
+          />
+        )}
+        {currentStep === 6 && movieFormData && movieFormData.form_data.key && (
+          <Preview
+            movieFormData={movieFormData.form_data}
+            file={movieFormData.file as File}
+          />
+        )}
+
+        {currentStep === 6 && (
+          <div>
+            {!isSubmitting ? (
+              <FormButtons
+                title="Submit"
+                handlePrev={handlePrev}
+                onSubmit={addMovie}
+              />
+            ) : (
+              <div>Spinner</div>
+            )}
+          </div>
+        )}
+
+        {/* <Button variant="link" onClick={clearForm} className="mx-auto">
         Clear form
       </Button> */}
+      </div>
     </MovieFormContext>
   );
 };
