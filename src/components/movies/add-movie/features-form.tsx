@@ -20,6 +20,7 @@ import { AddNewActionTime } from "../add-new-action-time";
 import { ItemsListSelector } from "../ui/items-list-selector";
 import { FormButtons } from "../ui/form-buttons";
 import { MovieFormField } from "../movie-form-field";
+import { SliderFormField } from "../ui/slider-form-field";
 
 const ModalMovie = dynamic(() => import("./modal-movie"));
 
@@ -58,6 +59,7 @@ export const FeaturesForm = ({
     register,
     handleSubmit,
     formState: { errors },
+    getValues,
   } = useForm({
     resolver: zodResolver(MovieFeatureList),
     defaultValues: {
@@ -125,7 +127,7 @@ export const FeaturesForm = ({
       <div className="text-textOrange flex items-center justify-center gap-3 font-bold">
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">
           <div className="mb-5 flex w-full flex-col items-center gap-2">
-            <h1 className="text-[#2D26A5]">Specifications</h1>
+            <h1 className="text-[#4035E6]">Specifications</h1>
             <p className="text-[#6F6C90]">Subtext</p>
             <ItemsListSelector
               items={specifications}
@@ -163,28 +165,16 @@ export const FeaturesForm = ({
                   disabled
                 />
 
-                <div className="flex items-center gap-2">
-                  <MovieFormField
-                    type="text"
-                    label="Percentage match"
-                    name={`specifications.${index}.percentage_match`}
-                    register={register}
-                    error={
-                      errors.specifications?.[index]?.percentage_match &&
-                      errors.specifications[index].percentage_match
-                    }
-                    labelWidth={64}
-                  />
-
-                  <button
-                    type="button"
-                    onClick={() => {
-                      removeSpecification(index);
-                    }}
-                  >
-                    X
-                  </button>
-                </div>
+                <SliderFormField
+                  name={`specifications.${index}.percentage_match`}
+                  register={register}
+                  defaultValue={getValues}
+                  error={
+                    errors.specifications?.[index]?.percentage_match &&
+                    errors.specifications[index].percentage_match
+                  }
+                  onClickButton={() => removeSpecification(index)}
+                />
               </div>
             ))}
 
@@ -196,7 +186,7 @@ export const FeaturesForm = ({
           </div>
 
           <div className="mb-5 flex w-full flex-col items-center gap-2">
-            <h1 className="text-[#2D26A5]">Keyword</h1>
+            <h1 className="text-[#4035E6]">Keyword</h1>
             <p className="text-[#6F6C90]">Subtext</p>
             <ItemsListSelector
               items={keywords}
@@ -232,27 +222,16 @@ export const FeaturesForm = ({
                   disabled
                 />
 
-                <div className="flex items-center gap-2">
-                  <MovieFormField
-                    type="text"
-                    label="Percentage match"
-                    name={`keywords.${index}.percentage_match`}
-                    register={register}
-                    error={
-                      errors.keywords?.[index]?.percentage_match &&
-                      errors.keywords[index].percentage_match
-                    }
-                    labelWidth={64}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => {
-                      removeKeyword(index);
-                    }}
-                  >
-                    X
-                  </button>
-                </div>
+                <SliderFormField
+                  name={`keywords.${index}.percentage_match`}
+                  register={register}
+                  defaultValue={getValues}
+                  error={
+                    errors.keywords?.[index]?.percentage_match &&
+                    errors.keywords[index].percentage_match
+                  }
+                  onClickButton={() => removeKeyword(index)}
+                />
               </div>
             ))}
 
@@ -264,7 +243,7 @@ export const FeaturesForm = ({
           </div>
 
           <div className="mb-5 flex w-full flex-col items-center gap-2">
-            <h1 className="text-[#2D26A5]">Action Times</h1>
+            <h1 className="text-[#4035E6]">Action Times</h1>
             <p className="text-[#6F6C90]">Subtext</p>
             <ItemsListSelector
               items={actionTimes}
@@ -302,28 +281,16 @@ export const FeaturesForm = ({
                   disabled
                 />
 
-                <div className="flex items-center gap-2">
-                  <MovieFormField
-                    type="text"
-                    label="Percentage match"
-                    name={`action_times.${index}.percentage_match`}
-                    register={register}
-                    error={
-                      errors.action_times?.[index]?.percentage_match &&
-                      errors.action_times[index].percentage_match
-                    }
-                    labelWidth={64}
-                  />
-
-                  <button
-                    type="button"
-                    onClick={() => {
-                      removeActionTimes(index);
-                    }}
-                  >
-                    X
-                  </button>
-                </div>
+                <SliderFormField
+                  name={`action_times.${index}.percentage_match`}
+                  register={register}
+                  defaultValue={getValues}
+                  error={
+                    errors.action_times?.[index]?.percentage_match &&
+                    errors.action_times[index].percentage_match
+                  }
+                  onClickButton={() => removeActionTimes(index)}
+                />
               </div>
             ))}
 

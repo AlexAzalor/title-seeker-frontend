@@ -14,6 +14,8 @@ import { ItemsListSelector } from "../ui/items-list-selector";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { FormButtons } from "../ui/form-buttons";
 import { MovieFormField } from "../movie-form-field";
+import { SliderFormField } from "../ui/slider-form-field";
+
 const ModalMovie = dynamic(() => import("./modal-movie"));
 
 const checkGenreType = (item: GenreOut | SubgenreOut): item is GenreOut => {
@@ -59,6 +61,7 @@ export const GenreFieldsForm = ({ genres }: Props) => {
     register,
     handleSubmit,
     formState: { errors },
+    getValues,
   } = useForm({
     resolver: zodResolver(GenreSchemeList),
     defaultValues: {
@@ -160,46 +163,35 @@ export const GenreFieldsForm = ({ genres }: Props) => {
                   name={`genres.${index}.name`}
                   register={register}
                   error={undefined}
-                  labelWidth={64}
                   disabled
                 />
 
-                <div className="flex items-center gap-2">
-                  <MovieFormField
-                    type="text"
-                    label="Percentage match"
-                    name={`genres.${index}.percentage_match`}
-                    register={register}
-                    error={
-                      errors.genres?.[index]?.percentage_match &&
-                      errors.genres[index].percentage_match
+                <SliderFormField
+                  name={`genres.${index}.percentage_match`}
+                  register={register}
+                  defaultValue={getValues}
+                  error={
+                    errors.genres?.[index]?.percentage_match &&
+                    errors.genres[index].percentage_match
+                  }
+                  onClickButton={() => {
+                    removeGenre(index);
+                    setSubgenres((prev) =>
+                      prev.filter(
+                        (subgenrePrev) =>
+                          subgenrePrev.parent_genre_key !== field.key,
+                      ),
+                    );
+
+                    const indices = subgenreFields.flatMap((val, index) =>
+                      val.subgenre_parent_key === field.key ? index : [],
+                    );
+
+                    if (indices.length) {
+                      removeSubgenre(indices);
                     }
-                    labelWidth={64}
-                  />
-
-                  <button
-                    type="button"
-                    onClick={() => {
-                      removeGenre(index);
-                      setSubgenres((prev) =>
-                        prev.filter(
-                          (subgenrePrev) =>
-                            subgenrePrev.parent_genre_key !== field.key,
-                        ),
-                      );
-
-                      const indices = subgenreFields.flatMap((val, index) =>
-                        val.subgenre_parent_key === field.key ? index : [],
-                      );
-
-                      if (indices.length) {
-                        removeSubgenre(indices);
-                      }
-                    }}
-                  >
-                    X
-                  </button>
-                </div>
+                  }}
+                />
 
                 {errors.genres && errors.genres.message && (
                   <p>{errors.genres.message}</p>
@@ -256,23 +248,17 @@ export const GenreFieldsForm = ({ genres }: Props) => {
                   disabled
                 />
 
-                <div className="flex items-center gap-2">
-                  <MovieFormField
-                    type="text"
-                    label="Percentage match"
-                    name={`subgenres.${index}.percentage_match`}
-                    register={register}
-                    error={
-                      errors.subgenres?.[index]?.percentage_match &&
-                      errors.subgenres[index].percentage_match
-                    }
-                    labelWidth={64}
-                  />
+                <SliderFormField
+                  name={`subgenres.${index}.percentage_match`}
+                  register={register}
+                  defaultValue={getValues}
+                  error={
+                    errors.subgenres?.[index]?.percentage_match &&
+                    errors.subgenres[index].percentage_match
+                  }
+                  onClickButton={() => removeSubgenre(index)}
+                />
 
-                  <button type="button" onClick={() => removeSubgenre(index)}>
-                    X
-                  </button>
-                </div>
                 {errors.subgenres?.[index]?.name && (
                   <p>{errors.subgenres[index].name.message}</p>
                 )}

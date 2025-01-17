@@ -37,7 +37,7 @@ export default async function AddMoviePage(props: {
   );
 
   return (
-    <div className="h-screen">
+    <div className="min-h-screen">
       <MovieFormWizard
         actors={actors}
         directors={directors}

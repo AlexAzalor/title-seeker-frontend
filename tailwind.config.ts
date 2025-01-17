@@ -337,6 +337,11 @@ export default {
       boxShadow: {
         "form-layout": "0px 5px 16px rgba(8, 15, 52, 0.06)",
         "input-default": "0px 2px 6px rgba(19, 18, 66, 0.07)",
+        "input-light-mode":
+          "0px 4px 8px rgba(250, 250, 250, 0.06), 0px 1px 3px rgba(250, 250, 250, 250.04)",
+        "neon-purple":
+          "0 0 6px rgba(74, 58, 255, 0.6), 0 0 6px rgba(74, 58, 255, 0.5), 0 0 6px rgba(74, 58, 255, 0.4), 0 0 6px rgba(74, 58, 255, 0.3)",
+        "dark-form-layout": "0px 21px 69px rgba(0, 0, 0, 0.29)",
       },
     },
   },

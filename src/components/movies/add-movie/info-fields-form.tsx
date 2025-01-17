@@ -10,6 +10,7 @@ import { MovieFormContext } from "./movie-form-wizard";
 import { MovieFormField } from "../movie-form-field";
 import { FormButtons } from "../ui/form-buttons";
 import { TextareaFormField } from "../textarea-form-field";
+import { cleanNumberValue } from "@/lib/utils";
 
 export type MovieInfoFieldNames = Pick<
   MovieFormData,
@@ -48,6 +49,7 @@ export const InfoFieldsForm = () => {
     register,
     handleSubmit,
     formState: { errors, isDirty },
+    watch,
     // getFieldState,
     // getFieldState("budget").isDirty
   } = useForm<MovieInfoSchemeType>({
@@ -64,6 +66,12 @@ export const InfoFieldsForm = () => {
       location_uk: parsedData.location_uk || "",
     },
   });
+
+  const [budget, domesticGross, worldwide_gross] = watch([
+    "budget",
+    "domestic_gross",
+    "worldwide_gross",
+  ]);
 
   const onSubmit = (data: MovieInfoSchemeType) => {
     const dataToSend: MovieInfoFieldNames = {
@@ -162,6 +170,7 @@ export const InfoFieldsForm = () => {
             name="budget"
             register={register}
             error={errors.budget}
+            value={cleanNumberValue(budget)}
             labelWidth={64}
           />
 
@@ -171,7 +180,7 @@ export const InfoFieldsForm = () => {
             name="domestic_gross"
             register={register}
             error={errors.domestic_gross}
-            labelWidth={64}
+            value={cleanNumberValue(domesticGross)}
           />
 
           <MovieFormField
@@ -180,7 +189,7 @@ export const InfoFieldsForm = () => {
             name="worldwide_gross"
             register={register}
             error={errors.worldwide_gross}
-            labelWidth={64}
+            value={cleanNumberValue(worldwide_gross)}
           />
         </div>
         <FormButtons handlePrev={handlePrev} />

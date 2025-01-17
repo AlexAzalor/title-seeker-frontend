@@ -84,3 +84,7 @@ export function formattedDuration(duration: number, lang = "uk") {
     throw new Error("Unsupported language");
   }
 }
+
+export function cleanNumberValue(value: number) {
+  return String(value).replace(/,/g, "");
+}
