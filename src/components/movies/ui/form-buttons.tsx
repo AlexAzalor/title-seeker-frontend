@@ -15,17 +15,17 @@ export const FormButtons = ({
   onSubmit,
 }: Props) => {
   return (
-    <div className="mt-7 flex w-full justify-between">
+    <div className="mt-7 flex w-full items-center justify-between">
       <Button
         type="button"
         className={cn(
-          "h-16 w-[164px] rounded-[56px] border border-[#4A3AFF] text-lg text-[#4A3AFF] hover:text-[#4A3AFF]",
-          isFirstStep && "invisible",
+          !isFirstStep &&
+            "h-16 w-[164px] rounded-[56px] border border-[#4A3AFF] text-lg text-[#4A3AFF] hover:text-[#4A3AFF]",
         )}
-        variant="outline"
+        variant={isFirstStep ? "link" : "outline"}
         onClick={handlePrev}
       >
-        Previous step
+        {isFirstStep ? "Clear form" : "Previous step"}
       </Button>
 
       <Button

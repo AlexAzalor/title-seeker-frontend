@@ -1,4 +1,4 @@
-import { use, useRef, useState } from "react";
+import { use, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { MovieScheme } from "@/types/zod-scheme";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -16,7 +16,6 @@ import {
 import { INITIAL_RATE } from "@/components/rating/utils";
 import { RateMovie } from "../rate-movie";
 import { toast } from "sonner";
-import { RatingTypeSelector } from "../ui/rating-type-selector";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { FormButtons } from "../ui/form-buttons";
 
@@ -30,30 +29,32 @@ type MovieKeyFields = Pick<
   | "rating_criterion_type"
 >;
 
+export type RatingDataOut = {
+  rating: number;
+  ratingCriterionType: RatingCriterion;
+  ratingData: UserRatingCriteria;
+};
+
 type Props = {
   temporaryMovie?: MoviePreCreateDataTemporaryMovie;
 };
 
 export const KeyFieldsForm = ({ temporaryMovie }: Props) => {
-  const { setMovieFormData, handleNext } = use(MovieFormContext);
+  const { setMovieFormData, handleNext, clearForm } = use(MovieFormContext);
 
   const parsedData = useLocalStorage<MovieFormData>(
     "new-movie-data",
     {} as MovieFormData,
   );
 
-  const [ratingCriteria, setRatingCriteria] = useState<RatingCriterion>(
-    temporaryMovie?.rating_criterion_type ||
-      parsedData.rating_criterion_type ||
-      RatingCriterion.basic,
-  );
-
   const ratingData =
     temporaryMovie?.rating_criteria ||
     parsedData.rating_criteria ||
     INITIAL_RATE;
-  const ratingRef = useRef<UserRatingCriteria & { rating: number }>({
-    ...ratingData,
+
+  const ratingRef = useRef<RatingDataOut>({
+    ratingData,
+    ratingCriterionType: RatingCriterion.basic,
     rating: temporaryMovie?.rating || parsedData.rating || 0,
   });
 
@@ -83,8 +84,8 @@ export const KeyFieldsForm = ({ temporaryMovie }: Props) => {
     const dataToSend: MovieKeyFields = {
       ...restData,
       rating: ratingRef.current.rating,
-      rating_criterion_type: ratingCriteria,
-      rating_criteria: ratingRef.current,
+      rating_criterion_type: ratingRef.current.ratingCriterionType,
+      rating_criteria: ratingRef.current.ratingData,
     };
 
     setMovieFormData((prev) => ({
@@ -108,10 +109,6 @@ export const KeyFieldsForm = ({ temporaryMovie }: Props) => {
     );
 
     handleNext();
-  };
-
-  const handleSelectRatingType = (value: RatingCriterion) => {
-    setRatingCriteria(value);
   };
 
   return (
@@ -159,35 +156,17 @@ export const KeyFieldsForm = ({ temporaryMovie }: Props) => {
           />
         </div>
 
-        <div className="w-[594px]">
-          <RatingTypeSelector
-            onValueChange={handleSelectRatingType}
-            defaultValue={ratingCriteria}
-          />
+        <RateMovie
+          ratingRef={ratingRef}
+          temporaryMovie={temporaryMovie}
+          parsedData={parsedData}
+        />
 
-          <RateMovie
-            criteriaType={ratingCriteria}
-            ratingCriteria={
-              temporaryMovie?.rating_criteria ||
-              parsedData.rating_criteria || {
-                ...INITIAL_RATE,
-                scare_factor:
-                  ratingCriteria === RatingCriterion.scare_factor ||
-                  ratingCriteria === RatingCriterion.full
-                    ? 0.01
-                    : undefined,
-                visual_effects:
-                  ratingCriteria === RatingCriterion.visual_effects ||
-                  ratingCriteria === RatingCriterion.full
-                    ? 0.01
-                    : undefined,
-              }
-            }
-            ratingRef={ratingRef}
-          />
-        </div>
-
-        {!isSubmitting ? <FormButtons isFirstStep /> : <div>Spinner</div>}
+        {!isSubmitting ? (
+          <FormButtons handlePrev={clearForm} isFirstStep />
+        ) : (
+          <span className="loader"></span>
+        )}
       </form>
     </div>
   );

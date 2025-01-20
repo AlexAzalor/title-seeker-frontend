@@ -137,7 +137,7 @@ export const QuicklyAddNewMovie = () => {
               Submit
             </Button>
           ) : (
-            <div>Spinner</div>
+            <span className="loader"></span>
           )}
         </div>
       </form>

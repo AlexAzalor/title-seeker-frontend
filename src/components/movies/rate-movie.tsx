@@ -1,66 +1,72 @@
 "use client";
 
-import { RefObject, useReducer, useState } from "react";
+import { RefObject, useCallback, useState } from "react";
 
 import {
+  MovieFormData,
   MovieOutUserRating,
+  MoviePreCreateDataTemporaryMovie,
   RatingCriterion,
-  UserRatingCriteria,
+  UserRateMovieIn,
 } from "@/orval_api/model";
 import { toast } from "sonner";
 import {
-  assertNever,
   checkRatingChanges,
+  FULL_INITIAL_RATE,
   FULL_MAX,
-  getRatingCriteriaState,
-  RateCriteriesEnum,
+  getMaxValue,
+  INITIAL_RATE,
   RATING_MAX,
+  SF_INITIAL_RATE,
   SF_MAX,
-  updateRateReducer,
+  VE_INITIAL_RATE,
   VS_MAX,
 } from "../rating/utils";
 import { RateSlider } from "../rating/rate-slider";
 import { Switch } from "../ui/switch";
 import { Label } from "../ui/label";
-// const VISUAL_EFFECTS_ON = false;
-// const SCARE_FACTOR_ON = false;
-// const BOTH_ON = VISUAL_EFFECTS_ON && SCARE_FACTOR_ON;
-const MIN_RATE = 0.001;
-const SHOW_RATE_VALUES = false;
-// const SUBSTRACT_RATE = 0.5;
+import { RatingTypeSelector } from "./ui/rating-type-selector";
+import { RatingDataOut } from "./add-movie/key-fields-form";
 
 type Props = {
-  // movieKey: string;
-  ratingCriteria?: MovieOutUserRating;
-  criteriaType: RatingCriterion;
-  /**Only to save state */
-  ratingRef: RefObject<UserRatingCriteria>;
+  ratingRef: RefObject<RatingDataOut>;
+  temporaryMovie?: MoviePreCreateDataTemporaryMovie;
+  parsedData?: MovieFormData;
+  movieRateData?: MovieOutUserRating;
+  type?: RatingCriterion;
+  onRateSubmit?: (data: UserRateMovieIn) => Promise<void>;
+  movieKey?: string;
 };
 
 export const RateMovie = ({
-  criteriaType,
-  ratingCriteria,
   ratingRef,
+  temporaryMovie,
+  parsedData,
+  movieRateData,
+  type,
+  onRateSubmit,
+  movieKey,
 }: Props) => {
-  const [showValues, setShowValues] = useState(SHOW_RATE_VALUES);
-  // const [ratingState, setRatingState] = useOptimistic(0);
-  // const [isPending, startTransition] = useTransition();
+  const [showValues, setShowValues] = useState(false);
 
-  // useActionState();
-  // useOptimistic();
-
-  const isVisualEffects = criteriaType === RatingCriterion.visual_effects;
-  const isScareFactor = criteriaType === RatingCriterion.scare_factor;
-  const isFull = criteriaType === RatingCriterion.full;
-
-  const ratingCriteriaState = getRatingCriteriaState(
-    isVisualEffects,
-    isScareFactor,
-    isFull,
-    ratingCriteria,
+  const [ratingCriteria, setRatingCriteria] = useState<RatingCriterion>(
+    type ||
+      temporaryMovie?.rating_criterion_type ||
+      parsedData?.rating_criterion_type ||
+      RatingCriterion.basic,
   );
 
-  const [state, dispatch] = useReducer(updateRateReducer, ratingCriteriaState);
+  const isVisualEffects = ratingCriteria === RatingCriterion.visual_effects;
+  const isScareFactor = ratingCriteria === RatingCriterion.scare_factor;
+  const isFull = ratingCriteria === RatingCriterion.full;
+
+  const [states, setStates] = useState(
+    movieRateData ||
+      temporaryMovie?.rating_criteria ||
+      parsedData?.rating_criteria ||
+      INITIAL_RATE,
+  );
+
   const {
     acting,
     plot_storyline,
@@ -72,252 +78,245 @@ export const RateMovie = ({
     duration,
     visual_effects,
     scare_factor,
-  } = state;
+  } = states;
 
-  const updateCriterionValue = (value: number[], type: RateCriteriesEnum) => {
-    switch (type) {
-      case "acting":
-        dispatch({ type, value: value[0] });
-        break;
-      case "plot_storyline":
-        dispatch({ type, value: value[0] });
-        break;
-      case "music":
-        dispatch({ type, value: value[0] });
-        break;
-      case "re_watchability":
-        dispatch({ type, value: value[0] });
-        break;
-      case "emotional_impact":
-        dispatch({ type, value: value[0] });
-        break;
-      case "dialogue":
-        dispatch({ type, value: value[0] });
-        break;
-      case "production_design":
-        dispatch({ type, value: value[0] });
-        break;
-      case "duration":
-        dispatch({ type, value: value[0] });
-        break;
-      case "visual_effects":
-        dispatch({ type, value: value[0] });
-        break;
-      case "scare_factor":
-        dispatch({ type, value: value[0] });
-        break;
-      default:
-        assertNever(type);
-    }
+  const updateState = (value: number[], key: string) => {
+    setStates((prev) => ({ ...prev, [key]: value[0] }));
   };
 
   const handleShowValues = (show: boolean) => {
     setShowValues(show);
   };
 
-  const calculateRating = () => {
-    let sumRate =
-      acting +
-      plot_storyline +
-      music +
-      re_watchability +
-      emotional_impact +
-      dialogue +
-      production_design +
-      duration;
+  const calculateRating = useCallback(() => {
+    const ratingData: number[] = Object.values(states);
 
-    if (isVisualEffects && visual_effects) {
-      sumRate += visual_effects;
-    }
-
-    if (isScareFactor && scare_factor) {
-      sumRate += scare_factor;
-    }
-
-    if (isFull && visual_effects && scare_factor) {
-      sumRate += visual_effects + scare_factor;
-    }
+    const sumRate = ratingData.reduce(
+      (sum, val) => Number(sum) + Number(val),
+      0,
+    );
 
     return Number(sumRate.toFixed(2));
-  };
+  }, [states]);
+
+  const determineRatingChanges = useCallback(() => {
+    return checkRatingChanges(
+      states,
+      temporaryMovie?.rating_criteria || parsedData?.rating_criteria,
+      isVisualEffects,
+      isScareFactor,
+      isFull,
+    );
+  }, [
+    states,
+    temporaryMovie,
+    parsedData,
+    isVisualEffects,
+    isScareFactor,
+    isFull,
+  ]);
 
   const handleRateMovie = async () => {
-    if (
-      checkRatingChanges(
-        state,
-        ratingCriteria,
-        isVisualEffects,
-        isScareFactor,
-        isFull,
-      )
-    ) {
-      toast.error("No changes to save");
+    console.log("!!!!1!!!", onRateSubmit, movieKey);
+
+    if (determineRatingChanges()) {
+      toast.warning("No changes to save");
       return;
     }
 
-    const data: UserRatingCriteria & { rating: number } = {
-      rating: calculateRating(),
-      ...state,
-    };
+    if (onRateSubmit && movieKey) {
+      console.log("!!!!!!!");
 
-    ratingRef.current = data;
+      const data: UserRateMovieIn = {
+        movie_key: movieKey,
+        uuid: "some_uuid",
+        rating: calculateRating(),
+        rating_criteria: states,
+      };
+      await onRateSubmit(data);
+    } else {
+      const data: RatingDataOut = {
+        rating: calculateRating(),
+        ratingCriterionType: ratingCriteria,
+        ratingData: states,
+      };
 
-    toast.info("Rating saved");
+      ratingRef.current = data;
+
+      toast.info("Rating saved");
+    }
   };
 
-  const actingMax = isFull
-    ? FULL_MAX.acting
-    : isVisualEffects
-      ? VS_MAX.acting
-      : isScareFactor
-        ? SF_MAX.acting
-        : RATING_MAX.acting;
-  const plotStorylineMax = isFull
-    ? FULL_MAX.plot_storyline
-    : isVisualEffects
-      ? VS_MAX.plot_storyline
-      : isScareFactor
-        ? SF_MAX.plot_storyline
-        : RATING_MAX.plot_storyline;
-  const reWathcabilityMax = isFull
-    ? FULL_MAX.re_watchability
-    : isScareFactor
-      ? SF_MAX.re_watchability
-      : RATING_MAX.re_watchability;
+  const actingMax = getMaxValue(
+    isFull,
+    isVisualEffects,
+    isScareFactor,
+    FULL_MAX.acting,
+    VS_MAX.acting,
+    SF_MAX.acting,
+    RATING_MAX.acting,
+  );
+
+  const plotStorylineMax = getMaxValue(
+    isFull,
+    isVisualEffects,
+    isScareFactor,
+    FULL_MAX.plot_storyline,
+    VS_MAX.plot_storyline,
+    SF_MAX.plot_storyline,
+    RATING_MAX.plot_storyline,
+  );
+
+  const reWatchabilityMax = getMaxValue(
+    isFull,
+    false, // Visual Effects not applicable for re-watchability
+    isScareFactor,
+    FULL_MAX.re_watchability,
+    null, // Not applicable for Visual Effects
+    SF_MAX.re_watchability,
+    RATING_MAX.re_watchability,
+  );
+
+  const handleSelectRatingType = (value: RatingCriterion) => {
+    setRatingCriteria(value);
+
+    if (value === RatingCriterion.basic) {
+      setStates(INITIAL_RATE);
+      return;
+    }
+    if (value === RatingCriterion.visual_effects) {
+      setStates(VE_INITIAL_RATE);
+      return;
+    }
+    if (value === RatingCriterion.scare_factor) {
+      setStates(SF_INITIAL_RATE);
+      return;
+    }
+    if (value === RatingCriterion.full) {
+      setStates(FULL_INITIAL_RATE);
+      return;
+    }
+  };
 
   return (
-    <div className="">
-      {/* <h1>Rate: {calculateRating()}</h1> */}
-      {/* <h1>Optimistic: {ratingState}</h1>
-      {isPending && <div>...pending...</div>} */}
-      {/* add tooltip or warning text or smth or modal? */}
+    <div className="w-[594px]">
+      {!onRateSubmit && !movieKey && (
+        <RatingTypeSelector
+          onValueChange={handleSelectRatingType}
+          defaultValue={ratingCriteria}
+        />
+      )}
+
       <div>
         Acting
         <RateSlider
-          value={showValues ? [acting] : undefined}
+          value={acting}
+          showValue={showValues}
           max={actingMax}
-          min={MIN_RATE}
-          // className="[&_[role=slider]]:h-4 [&_[role=slider]]:w-4"
-          defaultValue={[ratingCriteriaState.acting]}
-          onValueChange={(value) => updateCriterionValue(value, "acting")}
-          disabled={showValues}
+          defaultValue={acting}
+          onValueChange={(value) => updateState(value, "acting")}
         />
       </div>
+
       <div>
         Plot/Storyline
         <RateSlider
-          value={showValues ? [plot_storyline] : undefined}
+          value={plot_storyline}
           max={plotStorylineMax}
-          min={MIN_RATE}
-          defaultValue={[ratingCriteriaState.plot_storyline]}
-          onValueChange={(value) =>
-            updateCriterionValue(value, "plot_storyline")
-          }
-          disabled={showValues}
+          showValue={showValues}
+          defaultValue={plot_storyline}
+          onValueChange={(value) => updateState(value, "plot_storyline")}
         />
       </div>
+
       <div>
         Music
         <RateSlider
-          value={showValues ? [music] : undefined}
+          value={music}
           max={RATING_MAX.music}
-          min={MIN_RATE}
-          defaultValue={[ratingCriteriaState.music]}
-          onValueChange={(value) => updateCriterionValue(value, "music")}
-          disabled={showValues}
+          showValue={showValues}
+          defaultValue={music}
+          onValueChange={(value) => updateState(value, "music")}
         />
       </div>
+
       <div>
         Re-watchability
         <RateSlider
-          value={showValues ? [re_watchability] : undefined}
-          max={reWathcabilityMax}
-          min={MIN_RATE}
-          defaultValue={[ratingCriteriaState.re_watchability]}
-          onValueChange={(value) =>
-            updateCriterionValue(value, "re_watchability")
-          }
-          disabled={showValues}
+          value={re_watchability}
+          max={reWatchabilityMax}
+          defaultValue={re_watchability}
+          onValueChange={(value) => updateState(value, "re_watchability")}
+          showValue={showValues}
         />
       </div>
+
       <div>
         Emotional Impact
         <RateSlider
-          value={showValues ? [emotional_impact] : undefined}
+          value={emotional_impact}
           max={RATING_MAX.emotional_impact}
-          min={MIN_RATE}
-          defaultValue={[ratingCriteriaState.emotional_impact]}
-          onValueChange={(value) =>
-            updateCriterionValue(value, "emotional_impact")
-          }
-          disabled={showValues}
+          defaultValue={emotional_impact}
+          onValueChange={(value) => updateState(value, "emotional_impact")}
+          showValue={showValues}
         />
       </div>
+
       <div>
         Dialogue
         <RateSlider
-          value={showValues ? [dialogue] : undefined}
+          value={dialogue}
           max={RATING_MAX.dialogue}
-          min={MIN_RATE}
-          defaultValue={[ratingCriteriaState.dialogue]}
-          onValueChange={(value) => updateCriterionValue(value, "dialogue")}
-          disabled={showValues}
+          defaultValue={dialogue}
+          onValueChange={(value) => updateState(value, "dialogue")}
+          showValue={showValues}
         />
       </div>
+
       <div>
         Production Design
         <RateSlider
-          value={showValues ? [production_design] : undefined}
+          value={production_design}
           max={RATING_MAX.production_design}
-          min={MIN_RATE}
-          defaultValue={[ratingCriteriaState.production_design]}
-          onValueChange={(value) =>
-            updateCriterionValue(value, "production_design")
-          }
-          disabled={showValues}
+          defaultValue={production_design}
+          onValueChange={(value) => updateState(value, "production_design")}
+          showValue={showValues}
         />
       </div>
 
       <div>
         Duration
         <RateSlider
-          value={showValues ? [duration] : undefined}
+          value={duration}
           max={RATING_MAX.duration}
-          min={MIN_RATE}
-          defaultValue={[ratingCriteriaState.duration]}
-          onValueChange={(value) => updateCriterionValue(value, "duration")}
-          disabled={showValues}
+          defaultValue={duration}
+          onValueChange={(value) => updateState(value, "duration")}
+          showValue={showValues}
         />
       </div>
 
-      {!!ratingCriteriaState.visual_effects && (
+      {!!visual_effects && (
         <div>
           Visual Effects
           <RateSlider
-            value={showValues ? [visual_effects || 0] : undefined}
+            value={visual_effects || 0}
             max={isFull ? FULL_MAX.visual_effects : RATING_MAX.visual_effects}
-            min={MIN_RATE}
-            defaultValue={[ratingCriteriaState.visual_effects]}
-            onValueChange={(value) =>
-              updateCriterionValue(value, "visual_effects")
-            }
-            disabled={showValues}
+            defaultValue={visual_effects}
+            onValueChange={(value) => updateState(value, "visual_effects")}
+            showValue={showValues}
           />
         </div>
       )}
 
-      {!!ratingCriteriaState.scare_factor && (
+      {!!scare_factor && (
         <div className="">
           Scare Factor
           <RateSlider
-            value={showValues ? [scare_factor || 0] : undefined}
+            value={scare_factor || 0}
             max={isFull ? FULL_MAX.scare_factor : RATING_MAX.scare_factor}
-            min={MIN_RATE}
-            defaultValue={[ratingCriteriaState.scare_factor]}
-            onValueChange={(value) =>
-              updateCriterionValue(value, "scare_factor")
-            }
-            disabled={showValues}
+            defaultValue={scare_factor}
+            onValueChange={(value) => updateState(value, "scare_factor")}
+            showValue={showValues}
           />
         </div>
       )}

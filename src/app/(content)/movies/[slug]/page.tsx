@@ -7,7 +7,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import Image from "next/image";
 import { formatDate } from "@/lib/utils";
 import Link from "next/link";
-import { RateCriteria } from "@/components/rating/rate-criteria";
+import { MovieRateBox } from "@/components/movies/movie-page/movie-rate-box";
 
 export default async function DynamicPage({ params }: PageProps) {
   const { slug: movie_key } = await params;
@@ -158,21 +158,7 @@ export default async function DynamicPage({ params }: PageProps) {
             ))}
           </div>
         </div>
-
-        <div>
-          <RateCriteria
-            movieKey={data.key}
-            ratingCriteria={data.user_rating}
-            criteriaType={data.rating_criterion}
-          />
-
-          {data.ratings?.map((rating) => (
-            <div key={rating.uuid}>
-              <div>{rating.rating}</div>
-              <div>{rating.comment}</div>
-            </div>
-          ))}
-        </div>
+        <MovieRateBox data={data} ratingData={data.user_rating} />
       </div>
     </div>
   );

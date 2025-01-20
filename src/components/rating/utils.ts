@@ -1,5 +1,4 @@
 import { MovieOutUserRating, UserRatingCriteria } from "@/orval_api/model";
-import { toast } from "sonner";
 
 export type RateCriteriesEnum = keyof UserRatingCriteria;
 
@@ -26,6 +25,7 @@ export type StaticRatingType = Omit<UserRatingCriteria, ExtraRateCriteria> & {
 
 export const MIN_RATE = 0.01;
 
+/**BASIC Initial Rate */
 export const INITIAL_RATE: UserRatingCriteria = {
   acting: MIN_RATE,
   plot_storyline: MIN_RATE,
@@ -37,6 +37,22 @@ export const INITIAL_RATE: UserRatingCriteria = {
   duration: MIN_RATE,
   // visual_effects: MIN_RATE,
   // scare_factor: MIN_RATE,
+};
+
+export const VE_INITIAL_RATE = {
+  ...INITIAL_RATE,
+  visual_effects: MIN_RATE,
+};
+
+export const SF_INITIAL_RATE = {
+  ...INITIAL_RATE,
+  scare_factor: MIN_RATE,
+};
+
+export const FULL_INITIAL_RATE = {
+  ...INITIAL_RATE,
+  visual_effects: MIN_RATE,
+  scare_factor: MIN_RATE,
 };
 
 export const RATING_MAX: StaticRatingType = {
@@ -131,7 +147,7 @@ export function assertNever(x: never): never {
 
 export function updateRateReducer(
   state: UserRatingCriteria,
-  action: RatingAction,
+  action: RatingAction | { type: "reset" },
   // action: RatingAction | { type: UpdState; value: UserRatingCriteria },
 ): UserRatingCriteria {
   if (!action) {
@@ -158,6 +174,8 @@ export function updateRateReducer(
       return { ...state, scare_factor: action.value };
     case "visual_effects":
       return { ...state, visual_effects: action.value };
+    case "reset":
+      return INITIAL_RATE;
     default:
       return assertNever(action); // Ensure all cases are handled
   }
@@ -256,15 +274,29 @@ export const checkRatingChanges = (
       criteriaKeys.push("visual_effects", "scare_factor");
     }
 
-    const isEqual = criteriaKeys.every(
+    const isSame = criteriaKeys.every(
       (key) => state[key] === ratingCriteria[key],
     );
 
-    if (isEqual) {
-      toast.warning("Please rate at least one criteria before submitting");
+    if (isSame) {
       return true;
     }
 
     return false;
   }
+};
+
+export const getMaxValue = (
+  isFull: boolean,
+  isVisualEffects: boolean,
+  isScareFactor: boolean,
+  fullMax: number,
+  vsMax: number | null,
+  sfMax: number,
+  defaultMax: number,
+) => {
+  if (isFull) return fullMax;
+  if (isVisualEffects) return vsMax || defaultMax;
+  if (isScareFactor) return sfMax;
+  return defaultMax;
 };

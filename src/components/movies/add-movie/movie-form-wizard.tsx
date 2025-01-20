@@ -30,11 +30,13 @@ export const MovieFormContext = createContext<{
   setMovieFormData: Dispatch<SetStateAction<BodyAPICreateMovie>>;
   handleNext: () => void;
   handlePrev: () => void;
+  clearForm?: () => void;
 }>({
   movieFormData: {} as BodyAPICreateMovie,
   setMovieFormData: () => {},
   handleNext: () => {},
   handlePrev: () => {},
+  clearForm: () => {},
 });
 
 type Props = {
@@ -117,18 +119,24 @@ export const MovieFormWizard = ({
     // redirect to movie page
   };
 
-  // const clearForm = () => {
-  //   localStorage.removeItem("new-movie-data");
-  //   toast.success("Form cleared");
+  const clearForm = () => {
+    localStorage.removeItem("new-movie-data");
+    toast.success("Form cleared");
 
-  //   window.location.reload();
-  // };
+    window.location.reload();
+  };
 
   return (
     <MovieFormContext
-      value={{ movieFormData, setMovieFormData, handleNext, handlePrev }}
+      value={{
+        movieFormData,
+        setMovieFormData,
+        handleNext,
+        handlePrev,
+        clearForm,
+      }}
     >
-      <div className="dark:shadow-dark-form-layout mx-auto my-5 w-[1400px] rounded-[34px] border border-[#EFF0F7] p-9 shadow-form-layout dark:border-[#211979]">
+      <div className="mx-auto my-5 w-[1400px] rounded-[34px] border border-[#EFF0F7] p-9 shadow-form-layout dark:border-[#211979] dark:shadow-dark-form-layout">
         <FormStepper
           completedSteps={completedSteps}
           currentStep={currentStep}
@@ -156,7 +164,6 @@ export const MovieFormWizard = ({
             file={movieFormData.file as File}
           />
         )}
-
         {currentStep === 6 && (
           <div>
             {!isSubmitting ? (
@@ -166,7 +173,7 @@ export const MovieFormWizard = ({
                 onSubmit={addMovie}
               />
             ) : (
-              <div>Spinner</div>
+              <span className="loader"></span>
             )}
           </div>
         )}

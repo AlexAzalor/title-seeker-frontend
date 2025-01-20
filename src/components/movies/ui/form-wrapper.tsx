@@ -20,7 +20,9 @@ export const FormWrapper = ({ children, onSubmit, isSubmitting }: Props) => {
             Add
           </Button>
         ) : (
-          <div>Spinner</div>
+          <div>
+            <span className="loader"></span>
+          </div>
         )}
       </form>
     </div>
