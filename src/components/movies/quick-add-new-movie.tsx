@@ -14,19 +14,16 @@ import { QuickMovieScheme } from "@/types/zod-scheme";
 import { quicklyAddNewMovie } from "@/app/actions";
 import { toast } from "sonner";
 import { RateMovie } from "./rate-movie";
-import { INITIAL_RATE } from "../rating/utils";
-import { useRef, useState } from "react";
 
-import { Button } from "../ui/button";
-import { RatingTypeSelector } from "./ui/rating-type-selector";
+import { useRef } from "react";
+
+import { RatingDataOut } from "./add-movie/key-fields-form";
+import { FormWrapper } from "./ui/form-wrapper";
 
 export const QuicklyAddNewMovie = () => {
-  const [ratingCriteria, setRatingCriteria] = useState<RatingCriterion>(
-    RatingCriterion.basic,
-  );
-
-  const ratingRef = useRef<UserRatingCriteria & { rating: number }>({
-    ...INITIAL_RATE,
+  const ratingRef = useRef<RatingDataOut>({
+    ratingData: {} as UserRatingCriteria,
+    ratingCriterionType: RatingCriterion.basic,
     rating: 0,
   });
 
@@ -53,11 +50,9 @@ export const QuicklyAddNewMovie = () => {
     const dataToSend: QuickMovieFormData = {
       ...data,
       rating: ratingRef.current.rating,
-      rating_criterion_type: ratingCriteria,
-      rating_criteria: ratingRef.current,
+      rating_criterion_type: ratingRef.current.ratingCriterionType,
+      rating_criteria: ratingRef.current.ratingData,
     };
-
-    console.log("DATA to API: ", dataToSend);
 
     const response = await quicklyAddNewMovie(dataToSend);
 
@@ -75,72 +70,32 @@ export const QuicklyAddNewMovie = () => {
     }
   };
 
-  const handleSelectRatingType = (value: RatingCriterion) => {
-    setRatingCriteria(value);
-  };
-
   return (
-    <div className="text-textOrange flex items-center gap-3 font-bold">
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
-        <div className="box-border h-max rounded-[20px] bg-animeprimary p-5">
-          <div className="text-4xl font-semibold text-animeneutral-light">
-            Add New Director
-          </div>
+    <FormWrapper
+      onSubmit={handleSubmit(onSubmit)}
+      isSubmitting={isSubmitting}
+      buttonTitle="Submit"
+    >
+      <MovieFormField
+        type="text"
+        label="Title EN"
+        name="title_en"
+        register={register}
+        error={errors.title_en}
+        labelWidth={64}
+      />
 
-          <MovieFormField
-            type="text"
-            label="Title EN"
-            name="title_en"
-            register={register}
-            error={errors.title_en}
-            labelWidth={64}
-          />
+      <MovieFormField
+        type="text"
+        label="Key"
+        name="key"
+        register={register}
+        error={errors.key}
+        labelWidth={52}
+        value={formatKey(watchFields)}
+      />
 
-          <MovieFormField
-            type="text"
-            label="Key"
-            name="key"
-            register={register}
-            error={errors.key}
-            labelWidth={52}
-            value={formatKey(watchFields)}
-          />
-
-          <RatingTypeSelector
-            onValueChange={handleSelectRatingType}
-            defaultValue={ratingCriteria}
-          />
-
-          <RateMovie
-            criteriaType={ratingCriteria}
-            ratingCriteria={{
-              ...INITIAL_RATE,
-              scare_factor:
-                ratingCriteria === RatingCriterion.scare_factor ||
-                ratingCriteria === RatingCriterion.full
-                  ? 0.01
-                  : undefined,
-              visual_effects:
-                ratingCriteria === RatingCriterion.visual_effects ||
-                ratingCriteria === RatingCriterion.full
-                  ? 0.01
-                  : undefined,
-            }}
-            ratingRef={ratingRef}
-          />
-
-          {!isSubmitting ? (
-            <Button
-              type="submit"
-              className="mt-7 h-12 w-full cursor-pointer rounded-xl border-0 text-center text-lg transition-all duration-200 hover:rounded-md"
-            >
-              Submit
-            </Button>
-          ) : (
-            <span className="loader"></span>
-          )}
-        </div>
-      </form>
-    </div>
+      <RateMovie ratingRef={ratingRef} />
+    </FormWrapper>
   );
 };

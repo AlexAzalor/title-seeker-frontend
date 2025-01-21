@@ -75,40 +75,21 @@ export const Preview = ({ movieFormData, file }: Props) => {
             </span>
           </div>
           <div>
+            Dialogue:{" "}
+            <span className="text-xl font-bold">
+              {movieFormData.rating_criteria.script_dialogue}
+            </span>
+          </div>
+          <div>
             Music:{" "}
             <span className="text-xl font-bold">
               {movieFormData.rating_criteria.music}
-            </span>
-          </div>
-
-          <div>
-            Re-watchability:{" "}
-            <span className="text-xl font-bold">
-              {movieFormData.rating_criteria.re_watchability}
-            </span>
-          </div>
-          <div>
-            Emotional Impact:{" "}
-            <span className="text-xl font-bold">
-              {movieFormData.rating_criteria.emotional_impact}
-            </span>
-          </div>
-          <div>
-            Dialogue:{" "}
-            <span className="text-xl font-bold">
-              {movieFormData.rating_criteria.dialogue}
             </span>
           </div>
           <div>
             Production Design:{" "}
             <span className="text-xl font-bold">
               {movieFormData.rating_criteria.production_design}
-            </span>
-          </div>
-          <div>
-            Duration:{" "}
-            <span className="text-xl font-bold">
-              {movieFormData.rating_criteria.duration}
             </span>
           </div>
           <div>
@@ -121,6 +102,18 @@ export const Preview = ({ movieFormData, file }: Props) => {
             Scare Factor:{" "}
             <span className="text-xl font-bold">
               {movieFormData.rating_criteria.scare_factor || "N/A"}
+            </span>
+          </div>
+          <div>
+            Humor:{" "}
+            <span className="text-xl font-bold">
+              {movieFormData.rating_criteria.humor || "N/A"}
+            </span>
+          </div>
+          <div>
+            Animation/Cartoon:{" "}
+            <span className="text-xl font-bold">
+              {movieFormData.rating_criteria.animation_cartoon || "N/A"}
             </span>
           </div>
         </div>

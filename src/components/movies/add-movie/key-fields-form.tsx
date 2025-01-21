@@ -54,7 +54,8 @@ export const KeyFieldsForm = ({ temporaryMovie }: Props) => {
 
   const ratingRef = useRef<RatingDataOut>({
     ratingData,
-    ratingCriterionType: RatingCriterion.basic,
+    ratingCriterionType:
+      temporaryMovie?.rating_criterion_type || RatingCriterion.basic,
     rating: temporaryMovie?.rating || parsedData.rating || 0,
   });
 
@@ -117,7 +118,7 @@ export const KeyFieldsForm = ({ temporaryMovie }: Props) => {
         onSubmit={handleSubmit(onSubmit)}
         className="flex w-full flex-col items-center gap-2"
       >
-        <div className="mb-7 grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-4">
           <MovieFormField
             type="text"
             label="Title EN"

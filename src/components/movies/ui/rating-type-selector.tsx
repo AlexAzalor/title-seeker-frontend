@@ -29,7 +29,10 @@ export const RatingTypeSelector = ({ defaultValue, onValueChange }: Props) => {
           <SelectItem value={RatingCriterion.scare_factor}>
             Scary Factor
           </SelectItem>
-          <SelectItem value={RatingCriterion.full}>Full</SelectItem>
+          <SelectItem value={RatingCriterion.humor}>Humor</SelectItem>
+          <SelectItem value={RatingCriterion.animation_cartoon}>
+            Animation/Cartoon
+          </SelectItem>
         </SelectContent>
       </Select>
     </div>
