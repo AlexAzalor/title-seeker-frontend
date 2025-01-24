@@ -42,27 +42,31 @@ export default async function MoviesPage() {
         </div>
       )}
 
-      <h1 className="p-5 text-3xl">{t("navigation.movies")}</h1>
-      <div className="grid grid-cols-5 gap-4">
+      <div className="my-5 grid grid-cols-5 gap-4">
         {movies.map((movie) => (
           <Link
             key={movie.key}
-            className="bg-purple-400 p-4 text-lg"
+            className="w-[340px] rounded-[34px] border border-[#EFF0F7] p-6 shadow-form-layout dark:border-[#211979] dark:shadow-dark-form-layout"
             href={`/movies/${movie.key}`}
           >
-            {movie.poster && (
-              <Image
-                src={`http://127.0.0.1:5002/api/movies/poster/${movie.poster}`}
-                alt="Actor Avatar"
-                height={100}
-                width={50}
-              />
-            )}
-            <div>{movie.title}</div>
-            <div>
-              {movie.release_date
-                ? formatDate(movie.release_date, lang)
-                : "no date"}
+            <div className="flex gap-4">
+              {movie.poster && (
+                <Image
+                  src={`http://127.0.0.1:5002/api/movies/poster/${movie.poster}`}
+                  alt="Actor Avatar"
+                  height={100}
+                  width={50}
+                />
+              )}
+              <div>
+                <div className="text-xl font-bold">{movie.title}</div>
+                <div>
+                  {movie.release_date
+                    ? formatDate(movie.release_date, lang)
+                    : "no date"}
+                </div>
+                <div>1h 30m</div>
+              </div>
             </div>
           </Link>
         ))}

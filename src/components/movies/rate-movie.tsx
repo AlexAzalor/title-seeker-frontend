@@ -262,6 +262,7 @@ export const RateMovie = ({
 
       <RateSlider
         title="Acting"
+        type="acting"
         value={acting}
         showValue={showValues}
         max={actingMax}
@@ -271,6 +272,7 @@ export const RateMovie = ({
 
       <RateSlider
         title="Plot/Storyline"
+        type="plot_storyline"
         value={plot_storyline}
         max={plotStorylineMax}
         showValue={showValues}
@@ -280,6 +282,7 @@ export const RateMovie = ({
 
       <RateSlider
         title="Script/Dialogue"
+        type="script_dialogue"
         value={script_dialogue}
         max={scriptDialogueMax}
         defaultValue={script_dialogue}
@@ -289,6 +292,7 @@ export const RateMovie = ({
 
       <RateSlider
         title="Music"
+        type="music"
         value={music}
         max={musicMax}
         showValue={showValues}
@@ -298,6 +302,7 @@ export const RateMovie = ({
 
       <RateSlider
         title="Enjoyment"
+        type="enjoyment"
         value={enjoyment}
         max={RATING_MAX.enjoyment}
         showValue={showValues}
@@ -307,6 +312,7 @@ export const RateMovie = ({
 
       <RateSlider
         title="Production Design"
+        type="production_design"
         value={production_design}
         max={productionDesignMax}
         defaultValue={production_design}
@@ -317,6 +323,7 @@ export const RateMovie = ({
       {!!visual_effects && (
         <RateSlider
           title="Visual Effects"
+          type="visual_effects"
           value={visual_effects || 0}
           max={RATING_MAX.visual_effects}
           defaultValue={visual_effects}
@@ -328,6 +335,7 @@ export const RateMovie = ({
       {!!scare_factor && (
         <RateSlider
           title="Scare Factor"
+          type="scare_factor"
           value={scare_factor || 0}
           max={RATING_MAX.scare_factor}
           defaultValue={scare_factor}
@@ -339,6 +347,7 @@ export const RateMovie = ({
       {!!humor && (
         <RateSlider
           title="Humor"
+          type="humor"
           value={humor || 0}
           max={RATING_MAX.humor}
           defaultValue={humor}
@@ -350,6 +359,7 @@ export const RateMovie = ({
       {!!animation_cartoon && (
         <RateSlider
           title="Animation/Cartoon"
+          type="animation_cartoon"
           value={animation_cartoon || 0}
           max={RATING_MAX.animation_cartoon}
           defaultValue={animation_cartoon}
