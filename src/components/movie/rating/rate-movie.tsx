@@ -24,12 +24,12 @@ import {
   SF_MAX,
   VE_INITIAL_RATE,
   VS_MAX,
-} from "../rating/utils";
-import { RateSlider } from "../rating/rate-slider";
-import { Switch } from "../ui/switch";
-import { Label } from "../ui/label";
-import { RatingTypeSelector } from "./ui/rating-type-selector";
-import { RatingDataOut } from "./add-movie/key-fields-form";
+} from "./utils";
+import { RateSlider } from "./rate-slider";
+import { Switch } from "../../ui/switch";
+import { Label } from "../../ui/label";
+import { RatingTypeSelector } from "../ui/rating-type-selector";
+import { RatingDataOut } from "../add-movie/key-fields-form";
 
 type Props = {
   ratingRef: RefObject<RatingDataOut>;

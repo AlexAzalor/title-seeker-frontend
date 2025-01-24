@@ -5,19 +5,20 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { TypeGenreScheme } from "@/types/general";
 import { GenreScheme } from "@/types/zod-scheme";
 import { useRouter } from "next/navigation";
-import { addNewKeyword } from "@/app/actions";
+import { addNewActionTime } from "@/app/actions";
 import { toast } from "sonner";
 import { BodyAPICreateGenre } from "@/orval_api/model";
 import { formatKey } from "@/lib/utils";
-import { FormWrapper } from "./ui/form-wrapper";
-import { MovieFormField } from "./movie-form-field";
-import { TextareaFormField } from "./textarea-form-field";
+import { FormWrapper } from "../ui/form-wrapper";
+import { FormField } from "../ui/form-field";
+import { TextareaFormField } from "../ui/textarea-form-field";
 
 type Props = {
-  appendKeyword: any;
+  appendActionTime: any;
+  actionTimesRef?: any;
 };
 
-export const AddNewKeyword = ({ appendKeyword }: Props) => {
+export const AddNewActionTime = ({ appendActionTime }: Props) => {
   const {
     register,
     handleSubmit,
@@ -39,11 +40,11 @@ export const AddNewKeyword = ({ appendKeyword }: Props) => {
       ...data,
     };
 
-    const response = await addNewKeyword(dataToSend);
+    const response = await addNewActionTime(dataToSend);
 
     if (response.status === 201) {
       toast.success(response?.message);
-      appendKeyword(response.newGenre);
+      appendActionTime(response.newGenre);
       // clear form
     }
 
@@ -55,7 +56,7 @@ export const AddNewKeyword = ({ appendKeyword }: Props) => {
 
   return (
     <FormWrapper onSubmit={handleSubmit(onSubmit)} isSubmitting={isSubmitting}>
-      <MovieFormField
+      <FormField
         type="text"
         label="Key"
         name="key"
@@ -64,7 +65,7 @@ export const AddNewKeyword = ({ appendKeyword }: Props) => {
         value={formatKey(watchFields)}
       />
 
-      <MovieFormField
+      <FormField
         type="text"
         label="name_uk"
         name="name_uk"
@@ -72,7 +73,7 @@ export const AddNewKeyword = ({ appendKeyword }: Props) => {
         error={errors.name_uk}
       />
 
-      <MovieFormField
+      <FormField
         type="text"
         label="name_en"
         name="name_en"

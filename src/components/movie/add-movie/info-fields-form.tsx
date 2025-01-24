@@ -7,9 +7,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { MovieInfoScheme } from "@/types/zod-scheme";
 import type { MovieFormData } from "@/orval_api/model";
 import { MovieFormContext } from "./movie-form-wizard";
-import { MovieFormField } from "../movie-form-field";
+import { FormField } from "../ui/form-field";
 import { FormButtons } from "../ui/form-buttons";
-import { TextareaFormField } from "../textarea-form-field";
+import { TextareaFormField } from "../ui/textarea-form-field";
 import { cleanNumberValue } from "@/lib/utils";
 
 export type MovieInfoFieldNames = Pick<
@@ -118,7 +118,7 @@ export const InfoFieldsForm = () => {
         />
 
         <div>
-          <MovieFormField
+          <FormField
             type="date"
             label="Release date"
             name="release_date"
@@ -134,7 +134,7 @@ export const InfoFieldsForm = () => {
         </div>
 
         <div className="grid grid-flow-row grid-cols-2 gap-4">
-          <MovieFormField
+          <FormField
             type="text"
             label="Location EN"
             name="location_en"
@@ -143,7 +143,7 @@ export const InfoFieldsForm = () => {
             labelWidth={64}
           />
 
-          <MovieFormField
+          <FormField
             type="text"
             label="Location UK"
             name="location_uk"
@@ -155,7 +155,7 @@ export const InfoFieldsForm = () => {
 
         <div className="grid grid-cols-2 gap-4">
           {/* show formated value of this inputs */}
-          <MovieFormField
+          <FormField
             type="text"
             label="Duration"
             name="duration"
@@ -164,7 +164,7 @@ export const InfoFieldsForm = () => {
             labelWidth={64}
           />
 
-          <MovieFormField
+          <FormField
             type="text"
             label="Budget"
             name="budget"
@@ -174,7 +174,7 @@ export const InfoFieldsForm = () => {
             labelWidth={64}
           />
 
-          <MovieFormField
+          <FormField
             type="text"
             label="Domestic gross"
             name="domestic_gross"
@@ -183,7 +183,7 @@ export const InfoFieldsForm = () => {
             value={cleanNumberValue(domesticGross)}
           />
 
-          <MovieFormField
+          <FormField
             type="text"
             label="Worldwide gross"
             name="worldwide_gross"

@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import { Slider } from "@/components/ui/slider";
 import { MIN_RATE, RATING_TOOLTIP } from "./utils";
-import { TooltipWrapper } from "../custom/tooltip-wrapper";
+import { TooltipWrapper } from "../../custom/tooltip-wrapper";
 import { InfoIcon } from "lucide-react";
 import { UserRatingCriteria } from "@/orval_api/model";
 

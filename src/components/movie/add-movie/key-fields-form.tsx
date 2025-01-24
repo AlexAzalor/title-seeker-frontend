@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { formatKey } from "@/lib/utils";
 import { MovieSchemeType } from "@/types/general";
 import { MovieFormContext } from "./movie-form-wizard";
-import { MovieFormField } from "../movie-form-field";
+import { FormField } from "../ui/form-field";
 
 import {
   MovieFormData,
@@ -13,8 +13,8 @@ import {
   RatingCriterion,
   UserRatingCriteria,
 } from "@/orval_api/model";
-import { INITIAL_RATE } from "@/components/rating/utils";
-import { RateMovie } from "../rate-movie";
+import { INITIAL_RATE } from "@/components/movie/rating/utils";
+import { RateMovie } from "../rating/rate-movie";
 import { toast } from "sonner";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { FormButtons } from "../ui/form-buttons";
@@ -119,7 +119,7 @@ export const KeyFieldsForm = ({ temporaryMovie }: Props) => {
         className="flex w-full flex-col items-center gap-2"
       >
         <div className="grid grid-cols-2 gap-4">
-          <MovieFormField
+          <FormField
             type="text"
             label="Title EN"
             name="title_en"
@@ -128,7 +128,7 @@ export const KeyFieldsForm = ({ temporaryMovie }: Props) => {
             labelWidth={64}
           />
 
-          <MovieFormField
+          <FormField
             type="text"
             label="Key"
             name="key"
@@ -138,7 +138,7 @@ export const KeyFieldsForm = ({ temporaryMovie }: Props) => {
             value={formatKey(watchFields)}
           />
 
-          <MovieFormField
+          <FormField
             type="text"
             label="Title UK"
             name="title_uk"
@@ -147,7 +147,7 @@ export const KeyFieldsForm = ({ temporaryMovie }: Props) => {
             labelWidth={64}
           />
 
-          <MovieFormField
+          <FormField
             type="file"
             label="Title EN"
             name="file"

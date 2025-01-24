@@ -14,11 +14,11 @@ import {
   SubgenreOut,
 } from "@/orval_api/model";
 import { formatKey } from "@/lib/utils";
-import { Input } from "../ui/input";
-import { Label } from "../ui/label";
-import { FormWrapper } from "./ui/form-wrapper";
-import { MovieFormField } from "./movie-form-field";
-import { TextareaFormField } from "./textarea-form-field";
+import { Input } from "../../ui/input";
+import { Label } from "../../ui/label";
+import { FormWrapper } from "../ui/form-wrapper";
+import { FormField } from "../ui/form-field";
+import { TextareaFormField } from "../ui/textarea-form-field";
 
 type Props = {
   appendSubgenre: any;
@@ -87,7 +87,7 @@ export const AddNewSubgenre = ({
           ))}
       </div>
 
-      <MovieFormField
+      <FormField
         type="text"
         label="Key"
         name="key"
@@ -96,7 +96,7 @@ export const AddNewSubgenre = ({
         value={formatKey(watchFields)}
       />
 
-      <MovieFormField
+      <FormField
         type="text"
         label="name_uk"
         name="name_uk"
@@ -104,7 +104,7 @@ export const AddNewSubgenre = ({
         error={errors.name_uk}
       />
 
-      <MovieFormField
+      <FormField
         type="text"
         label="name_en"
         name="name_en"

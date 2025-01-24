@@ -7,7 +7,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import Image from "next/image";
 import { formatDate } from "@/lib/utils";
 import Link from "next/link";
-import { MovieRateBox } from "@/components/movies/movie-page/movie-rate-box";
+import { MovieRateBox } from "@/components/movie/movie-rate-box";
 
 export default async function DynamicPage({ params }: PageProps) {
   const { slug: movie_key } = await params;

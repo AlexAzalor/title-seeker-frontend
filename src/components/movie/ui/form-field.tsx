@@ -1,7 +1,6 @@
 "use client";
 
 import React, { HTMLInputTypeAttribute, InputHTMLAttributes } from "react";
-import { cn } from "@/lib/utils";
 import {
   FieldError,
   FieldValues,
@@ -25,7 +24,7 @@ type FieldProps<
   formattedValue?: string;
 } & InputHTMLAttributes<HTMLInputElement>;
 
-export const MovieFormField = <
+export const FormField = <
   TFormValues extends FieldValues,
   TFieldName extends Path<TFormValues>,
 >({

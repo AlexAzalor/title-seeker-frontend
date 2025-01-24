@@ -14,15 +14,15 @@ import {
   SpecificationOut,
 } from "@/orval_api/model";
 import { MovieFormContext } from "./movie-form-wizard";
-import { AddNewSpecification } from "../add-new-specification";
-import { AddNewKeyword } from "../add-new-keyword";
-import { AddNewActionTime } from "../add-new-action-time";
+import { AddNewSpecification } from "../add-movies-parts/add-new-specification";
+import { AddNewKeyword } from "../add-movies-parts/add-new-keyword";
+import { AddNewActionTime } from "../add-movies-parts/add-new-action-time";
 import { ItemsListSelector } from "../ui/items-list-selector";
 import { FormButtons } from "../ui/form-buttons";
-import { MovieFormField } from "../movie-form-field";
+import { FormField } from "../ui/form-field";
 import { SliderFormField } from "../ui/slider-form-field";
 
-const ModalMovie = dynamic(() => import("./modal-movie"));
+const ModalMovie = dynamic(() => import("../ui/modal-movie"));
 
 type Props = {
   specifications: SpecificationOut[];
@@ -155,7 +155,7 @@ export const FeaturesForm = ({
             />
             {specificationFields.map((field, index) => (
               <div key={field.id} className="grid grid-cols-2 gap-4">
-                <MovieFormField
+                <FormField
                   type="text"
                   label="Name"
                   name={`specifications.${index}.name`}
@@ -212,7 +212,7 @@ export const FeaturesForm = ({
             />
             {keywordFields.map((field, index) => (
               <div key={field.id} className="grid grid-cols-2 gap-4">
-                <MovieFormField
+                <FormField
                   type="text"
                   label="Name"
                   name={`keywords.${index}.name`}
@@ -271,7 +271,7 @@ export const FeaturesForm = ({
             />
             {actionTimeFields.map((field, index) => (
               <div key={field.id} className="grid grid-cols-2 gap-4">
-                <MovieFormField
+                <FormField
                   type="text"
                   label="Name"
                   name={`action_times.${index}.name`}

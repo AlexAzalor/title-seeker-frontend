@@ -14,7 +14,7 @@ type Props = {
   description?: string;
 };
 
-function ModalMovie({ children, title, open, setOpen, description }: Props) {
+function ModalWindow({ children, title, open, setOpen, description }: Props) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent>
@@ -32,4 +32,4 @@ function ModalMovie({ children, title, open, setOpen, description }: Props) {
   );
 }
 
-export default ModalMovie;
+export default ModalWindow;

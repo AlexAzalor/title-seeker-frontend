@@ -8,15 +8,15 @@ import { GenreSchemeList } from "@/types/zod-scheme";
 import type { GenreOut, MovieFormData, SubgenreOut } from "@/orval_api/model";
 
 import { MovieFormContext } from "./movie-form-wizard";
-import { AddNewGenre } from "../add-new-genre";
-import { AddNewSubgenre } from "../add-new-subgenre";
+import { AddNewGenre } from "../add-movies-parts/add-new-genre";
+import { AddNewSubgenre } from "../add-movies-parts/add-new-subgenre";
 import { ItemsListSelector } from "../ui/items-list-selector";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { FormButtons } from "../ui/form-buttons";
-import { MovieFormField } from "../movie-form-field";
+import { FormField } from "../ui/form-field";
 import { SliderFormField } from "../ui/slider-form-field";
 
-const ModalMovie = dynamic(() => import("./modal-movie"));
+const ModalMovie = dynamic(() => import("../ui/modal-movie"));
 
 const checkGenreType = (item: GenreOut | SubgenreOut): item is GenreOut => {
   return (item as GenreOut).subgenres !== undefined;
@@ -157,7 +157,7 @@ export const GenreFieldsForm = ({ genres }: Props) => {
 
             {genreFields.map((field, index) => (
               <div key={field.id} className="grid grid-cols-2 gap-4">
-                <MovieFormField
+                <FormField
                   type="text"
                   label="Name"
                   name={`genres.${index}.name`}
@@ -238,7 +238,7 @@ export const GenreFieldsForm = ({ genres }: Props) => {
             />
             {subgenreFields.map((field, index) => (
               <div key={field.id} className="grid grid-cols-2 gap-4">
-                <MovieFormField
+                <FormField
                   type="text"
                   label="Name"
                   name={`subgenres.${index}.name`}

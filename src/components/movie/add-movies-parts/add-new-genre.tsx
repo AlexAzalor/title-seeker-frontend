@@ -9,9 +9,9 @@ import { addNewGenre } from "@/app/actions";
 import { toast } from "sonner";
 import { BodyAPICreateGenre } from "@/orval_api/model";
 import { formatKey } from "@/lib/utils";
-import { FormWrapper } from "./ui/form-wrapper";
-import { MovieFormField } from "./movie-form-field";
-import { TextareaFormField } from "./textarea-form-field";
+import { FormWrapper } from "../ui/form-wrapper";
+import { FormField } from "../ui/form-field";
+import { TextareaFormField } from "../ui/textarea-form-field";
 
 type Props = {
   appendGenre: any;
@@ -55,7 +55,7 @@ export const AddNewGenre = ({ appendGenre }: Props) => {
 
   return (
     <FormWrapper onSubmit={handleSubmit(onSubmit)} isSubmitting={isSubmitting}>
-      <MovieFormField
+      <FormField
         type="text"
         label="Key"
         name="key"
@@ -64,7 +64,7 @@ export const AddNewGenre = ({ appendGenre }: Props) => {
         value={formatKey(watchFields)}
       />
 
-      <MovieFormField
+      <FormField
         type="text"
         label="name_uk"
         name="name_uk"
@@ -72,7 +72,7 @@ export const AddNewGenre = ({ appendGenre }: Props) => {
         error={errors.name_uk}
       />
 
-      <MovieFormField
+      <FormField
         type="text"
         label="name_en"
         name="name_en"

@@ -5,20 +5,19 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { TypeGenreScheme } from "@/types/general";
 import { GenreScheme } from "@/types/zod-scheme";
 import { useRouter } from "next/navigation";
-import { addNewActionTime } from "@/app/actions";
+import { addNewKeyword } from "@/app/actions";
 import { toast } from "sonner";
 import { BodyAPICreateGenre } from "@/orval_api/model";
 import { formatKey } from "@/lib/utils";
-import { FormWrapper } from "./ui/form-wrapper";
-import { MovieFormField } from "./movie-form-field";
-import { TextareaFormField } from "./textarea-form-field";
+import { FormWrapper } from "../ui/form-wrapper";
+import { FormField } from "../ui/form-field";
+import { TextareaFormField } from "../ui/textarea-form-field";
 
 type Props = {
-  appendActionTime: any;
-  actionTimesRef?: any;
+  appendKeyword: any;
 };
 
-export const AddNewActionTime = ({ appendActionTime }: Props) => {
+export const AddNewKeyword = ({ appendKeyword }: Props) => {
   const {
     register,
     handleSubmit,
@@ -40,11 +39,11 @@ export const AddNewActionTime = ({ appendActionTime }: Props) => {
       ...data,
     };
 
-    const response = await addNewActionTime(dataToSend);
+    const response = await addNewKeyword(dataToSend);
 
     if (response.status === 201) {
       toast.success(response?.message);
-      appendActionTime(response.newGenre);
+      appendKeyword(response.newGenre);
       // clear form
     }
 
@@ -56,7 +55,7 @@ export const AddNewActionTime = ({ appendActionTime }: Props) => {
 
   return (
     <FormWrapper onSubmit={handleSubmit(onSubmit)} isSubmitting={isSubmitting}>
-      <MovieFormField
+      <FormField
         type="text"
         label="Key"
         name="key"
@@ -65,7 +64,7 @@ export const AddNewActionTime = ({ appendActionTime }: Props) => {
         value={formatKey(watchFields)}
       />
 
-      <MovieFormField
+      <FormField
         type="text"
         label="name_uk"
         name="name_uk"
@@ -73,7 +72,7 @@ export const AddNewActionTime = ({ appendActionTime }: Props) => {
         error={errors.name_uk}
       />
 
-      <MovieFormField
+      <FormField
         type="text"
         label="name_en"
         name="name_en"

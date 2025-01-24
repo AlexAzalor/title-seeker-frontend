@@ -1,4 +1,4 @@
-import { QuicklyAddNewMovie } from "@/components/movies/quick-add-new-movie";
+import { QuicklyAddNewMovie } from "@/components/movie/quick-add-new-movie";
 
 export default async function QuickAddMoviePage() {
   return (

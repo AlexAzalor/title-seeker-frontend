@@ -11,8 +11,8 @@ import {
   UserRateMovieIn,
   UserRatingCriteria,
 } from "@/orval_api/model";
-import { RateMovie } from "../rate-movie";
-import { RatingDataOut } from "../add-movie/key-fields-form";
+import { RateMovie } from "./rating/rate-movie";
+import { RatingDataOut } from "./add-movie/key-fields-form";
 
 type Props = {
   data: MovieOut;

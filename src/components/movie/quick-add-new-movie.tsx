@@ -6,14 +6,14 @@ import {
   RatingCriterion,
   UserRatingCriteria,
 } from "@/orval_api/model";
-import { MovieFormField } from "./movie-form-field";
+import { FormField } from "./ui/form-field";
 import { useForm } from "react-hook-form";
 import { QuickMovieType } from "@/types/general";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { QuickMovieScheme } from "@/types/zod-scheme";
 import { quicklyAddNewMovie } from "@/app/actions";
 import { toast } from "sonner";
-import { RateMovie } from "./rate-movie";
+import { RateMovie } from "./rating/rate-movie";
 
 import { useRef } from "react";
 
@@ -76,7 +76,7 @@ export const QuicklyAddNewMovie = () => {
       isSubmitting={isSubmitting}
       buttonTitle="Submit"
     >
-      <MovieFormField
+      <FormField
         type="text"
         label="Title EN"
         name="title_en"
@@ -85,7 +85,7 @@ export const QuicklyAddNewMovie = () => {
         labelWidth={64}
       />
 
-      <MovieFormField
+      <FormField
         type="text"
         label="Key"
         name="key"

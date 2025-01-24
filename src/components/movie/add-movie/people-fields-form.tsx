@@ -10,13 +10,13 @@ import { toast } from "sonner";
 import type { ActorOut, DirectorOut, MovieFormData } from "@/orval_api/model";
 
 import { formatKey } from "@/lib/utils";
-import { AddNewDirector } from "../add-new-director";
-import { AddNewActor } from "../add-new-actor";
+import { AddNewDirector } from "../add-movies-parts/add-new-director";
+import { AddNewActor } from "../add-movies-parts/add-new-actor";
 import { MovieFormContext } from "./movie-form-wizard";
 import { ItemsListSelector } from "../ui/items-list-selector";
 import { FormButtons } from "../ui/form-buttons";
-import { MovieFormField } from "../movie-form-field";
-const ModalMovie = dynamic(() => import("./modal-movie"));
+import { FormField } from "../ui/form-field";
+const ModalMovie = dynamic(() => import("../ui/modal-movie"));
 
 type Props = {
   actors: ActorOut[];
@@ -159,7 +159,7 @@ export const PeopleFieldsForm = ({ actors, directors }: Props) => {
 
             {actorFields.map((field, index) => (
               <div key={field.id} className="grid grid-cols-4 gap-4">
-                <MovieFormField
+                <FormField
                   type="text"
                   label="Actor name"
                   name={`actors.${index}.name`}
@@ -169,7 +169,7 @@ export const PeopleFieldsForm = ({ actors, directors }: Props) => {
                   disabled
                 />
 
-                <MovieFormField
+                <FormField
                   type="text"
                   label="Character name en"
                   name={`actors.${index}.character_name_en`}
@@ -181,7 +181,7 @@ export const PeopleFieldsForm = ({ actors, directors }: Props) => {
                   labelWidth={64}
                 />
 
-                <MovieFormField
+                <FormField
                   type="text"
                   label="Character name uk"
                   name={`actors.${index}.character_name_uk`}
@@ -194,7 +194,7 @@ export const PeopleFieldsForm = ({ actors, directors }: Props) => {
                 />
 
                 <div className="flex items-center gap-2">
-                  <MovieFormField
+                  <FormField
                     type="text"
                     label="Character key"
                     name={`actors.${index}.character_key`}
@@ -248,7 +248,7 @@ export const PeopleFieldsForm = ({ actors, directors }: Props) => {
             <div className="flex flex-wrap gap-2">
               {directorFields.map((field, index) => (
                 <div key={field.id} className="flex items-center gap-2">
-                  <MovieFormField
+                  <FormField
                     type="text"
                     label="Director name"
                     name={`directors.${index}.name`}

@@ -5,24 +5,23 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { TypeActorScheme } from "@/types/general";
 import { ActorScheme } from "@/types/zod-scheme";
 import { useRouter } from "next/navigation";
-import { addNewActor } from "@/app/actions";
+import { addNewDirector } from "@/app/actions";
 import { toast } from "sonner";
 import { BodyAPICreateActor } from "@/orval_api/model";
 import { formatKey } from "@/lib/utils";
-import { MovieFormField } from "./movie-form-field";
-import { FormWrapper } from "./ui/form-wrapper";
+import { FormWrapper } from "../ui/form-wrapper";
+import { FormField } from "../ui/form-field";
 
 type Props = {
-  appendActor: any;
+  appendDirector: any;
 };
 
-export const AddNewActor = ({ appendActor }: Props) => {
+export const AddNewDirector = ({ appendDirector }: Props) => {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
     watch,
-    reset,
   } = useForm<TypeActorScheme>({
     resolver: zodResolver(ActorScheme),
     defaultValues: {
@@ -41,16 +40,11 @@ export const AddNewActor = ({ appendActor }: Props) => {
       file: data.file[0],
     };
 
-    const response = await addNewActor(dataToSend);
+    const response = await addNewDirector(dataToSend);
 
     if (response.status === 201) {
       toast.success(response?.message);
-      appendActor({
-        name: response.newActor.name,
-        key: response.newActor.key,
-        character_key: "",
-      });
-
+      appendDirector(response.newDirector);
       // clear form
     }
 
@@ -62,7 +56,7 @@ export const AddNewActor = ({ appendActor }: Props) => {
 
   return (
     <FormWrapper onSubmit={handleSubmit(onSubmit)} isSubmitting={isSubmitting}>
-      <MovieFormField
+      <FormField
         type="text"
         label="Key"
         name="key"
@@ -71,7 +65,7 @@ export const AddNewActor = ({ appendActor }: Props) => {
         value={formatKey(watchFields)}
       />
 
-      <MovieFormField
+      <FormField
         type="text"
         label="First Name EN"
         name="first_name_en"
@@ -79,7 +73,7 @@ export const AddNewActor = ({ appendActor }: Props) => {
         error={errors.first_name_en}
       />
 
-      <MovieFormField
+      <FormField
         type="text"
         label="Last Name EN"
         name="last_name_en"
@@ -87,15 +81,14 @@ export const AddNewActor = ({ appendActor }: Props) => {
         error={errors.last_name_en}
       />
 
-      <MovieFormField
+      <FormField
         type="text"
         label="First Name UK"
         name="first_name_uk"
         register={register}
         error={errors.first_name_uk}
       />
-
-      <MovieFormField
+      <FormField
         type="text"
         label="Last Name UK"
         name="last_name_uk"
@@ -103,7 +96,7 @@ export const AddNewActor = ({ appendActor }: Props) => {
         error={errors.last_name_uk}
       />
 
-      <MovieFormField
+      <FormField
         type="date"
         label="Born"
         name="born"
@@ -111,7 +104,7 @@ export const AddNewActor = ({ appendActor }: Props) => {
         error={errors.born}
       />
 
-      <MovieFormField
+      <FormField
         type="date"
         label="Died"
         name="died"
@@ -119,7 +112,7 @@ export const AddNewActor = ({ appendActor }: Props) => {
         error={errors.died}
       />
 
-      <MovieFormField
+      <FormField
         type="text"
         label="Born in (EN)"
         name="born_in_en"
@@ -127,7 +120,7 @@ export const AddNewActor = ({ appendActor }: Props) => {
         error={errors.born_in_en}
       />
 
-      <MovieFormField
+      <FormField
         type="text"
         label="Born in (UK)"
         name="born_in_uk"
@@ -135,7 +128,7 @@ export const AddNewActor = ({ appendActor }: Props) => {
         error={errors.born_in_uk}
       />
 
-      <MovieFormField
+      <FormField
         type="file"
         label="Avatar"
         name="file"

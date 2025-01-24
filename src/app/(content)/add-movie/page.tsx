@@ -2,7 +2,7 @@ import { getLocale } from "next-intl/server";
 import { backendURL } from "@/lib/constants";
 import { Language } from "@/orval_api/model";
 import { getMovies } from "@/orval_api/movies/movies";
-import { MovieFormWizard } from "@/components/movies/add-movie/movie-form-wizard";
+import { MovieFormWizard } from "@/components/movie/add-movie/movie-form-wizard";
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 export default async function AddMoviePage(props: {
