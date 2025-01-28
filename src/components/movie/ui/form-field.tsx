@@ -1,6 +1,10 @@
 "use client";
 
-import React, { HTMLInputTypeAttribute, InputHTMLAttributes } from "react";
+import React, {
+  HTMLInputTypeAttribute,
+  InputHTMLAttributes,
+  memo,
+} from "react";
 import {
   FieldError,
   FieldValues,
@@ -24,7 +28,7 @@ type FieldProps<
   formattedValue?: string;
 } & InputHTMLAttributes<HTMLInputElement>;
 
-export const FormField = <
+const FormField = <
   TFormValues extends FieldValues,
   TFieldName extends Path<TFormValues>,
 >({
@@ -72,3 +76,7 @@ export const FormField = <
     </>
   );
 };
+
+const FormFieldMemo = memo(FormField) as typeof FormField;
+
+export { FormFieldMemo as FormField };

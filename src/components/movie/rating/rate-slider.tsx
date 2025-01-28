@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { cn } from "@/lib/utils";
 import { Slider } from "@/components/ui/slider";
 import { MIN_RATE, RATING_TOOLTIP } from "./utils";
@@ -17,10 +18,10 @@ type Props = {
   defaultValue: number;
   max: number;
   className?: string;
-  onValueChange: (value: number[]) => void;
+  onValueChange: (value: number[], key: RatingType) => void;
 };
 
-export function RateSlider({
+function RateSlider({
   title,
   type,
   showValue,
@@ -34,6 +35,7 @@ export function RateSlider({
     <div>
       <div className="mb-1 flex items-center gap-1">
         <span>{title}</span>
+
         <TooltipWrapper content={RATING_TOOLTIP[type] || "Rate the movie"}>
           <InfoIcon className="h-4 w-4" />
         </TooltipWrapper>
@@ -47,8 +49,7 @@ export function RateSlider({
           max={max}
           step={0.01}
           className={cn("mr-10 h-3", className)}
-          onValueChange={onValueChange}
-          // disabled={showValue}
+          onValueChange={(value) => onValueChange(value, type)}
         />
 
         {showValue && <span className="absolute right-0">{value}</span>}
@@ -59,3 +60,7 @@ export function RateSlider({
     </div>
   );
 }
+
+const RateSliderMemo = memo(RateSlider);
+
+export { RateSliderMemo as RateSlider };

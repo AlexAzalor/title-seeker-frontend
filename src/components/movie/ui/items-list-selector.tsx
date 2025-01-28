@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { memo, useState } from "react";
 import { Check, ChevronsUpDown } from "lucide-react";
 
 import type { GenreOut, SubgenreOut } from "@/orval_api/model";
@@ -38,10 +38,7 @@ type Props<Datum, T> = {
 
 type ItemFields = { key: string; name: string };
 
-export const ItemsListSelector = <
-  Datum extends ItemFields,
-  T extends ItemFields,
->({
+const ItemsListSelector = <Datum extends ItemFields, T extends ItemFields>({
   items,
   onSelect,
   onOpenModal,
@@ -59,7 +56,7 @@ export const ItemsListSelector = <
           // aria-expanded={openSpec}
           className="h-max w-64 justify-between dark:text-[#938EFF] hover:dark:text-[#4A3AFF]"
         >
-          {"Select item..."}
+          Select item...
           <ChevronsUpDown className="opacity-50" />
         </Button>
       </PopoverTrigger>
@@ -112,3 +109,7 @@ export const ItemsListSelector = <
     </Popover>
   );
 };
+
+const ItemsListSelectorMemo = memo(ItemsListSelector);
+
+export { ItemsListSelectorMemo as ItemsListSelector };

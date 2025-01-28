@@ -1,6 +1,6 @@
 "use client";
 
-import { RefObject, useCallback, useMemo, useState } from "react";
+import { memo, RefObject, useCallback, useMemo, useState } from "react";
 
 import {
   MovieFormData,
@@ -41,7 +41,7 @@ type Props = {
   movieKey?: string;
 };
 
-export const RateMovie = ({
+const RateMovie = ({
   ratingRef,
   temporaryMovie,
   parsedData,
@@ -85,13 +85,16 @@ export const RateMovie = ({
     animation_cartoon,
   } = states;
 
-  const updateState = (value: number[], key: keyof UserRatingCriteria) => {
-    setStates((prev) => ({ ...prev, [key]: value[0] }));
-  };
+  const updateState = useCallback(
+    (value: number[], key: keyof UserRatingCriteria) => {
+      setStates((prev) => ({ ...prev, [key]: value[0] }));
+    },
+    [],
+  );
 
-  const handleShowValues = (show: boolean) => {
+  const handleShowValues = useCallback((show: boolean) => {
     setShowValues(show);
-  };
+  }, []);
 
   const calculateRating = useCallback(() => {
     const ratingData: number[] = Object.values(states);
@@ -226,7 +229,7 @@ export const RateMovie = ({
     };
   }, [isAnimationCartoon, isHumor, isScareFactor, isVisualEffects]);
 
-  const handleSelectRatingType = (value: RatingCriterion) => {
+  const handleSelectRatingType = useCallback((value: RatingCriterion) => {
     setRatingCriteria(value);
 
     if (value === RatingCriterion.basic) {
@@ -249,7 +252,7 @@ export const RateMovie = ({
       setStates(AC_INITIAL_RATE);
       return;
     }
-  };
+  }, []);
 
   return (
     <div className="w-[594px] py-6">
@@ -267,7 +270,7 @@ export const RateMovie = ({
         showValue={showValues}
         max={actingMax}
         defaultValue={acting}
-        onValueChange={(value) => updateState(value, "acting")}
+        onValueChange={updateState}
       />
 
       <RateSlider
@@ -277,7 +280,7 @@ export const RateMovie = ({
         max={plotStorylineMax}
         showValue={showValues}
         defaultValue={plot_storyline}
-        onValueChange={(value) => updateState(value, "plot_storyline")}
+        onValueChange={updateState}
       />
 
       <RateSlider
@@ -286,7 +289,7 @@ export const RateMovie = ({
         value={script_dialogue}
         max={scriptDialogueMax}
         defaultValue={script_dialogue}
-        onValueChange={(value) => updateState(value, "script_dialogue")}
+        onValueChange={updateState}
         showValue={showValues}
       />
 
@@ -297,7 +300,7 @@ export const RateMovie = ({
         max={musicMax}
         showValue={showValues}
         defaultValue={music}
-        onValueChange={(value) => updateState(value, "music")}
+        onValueChange={updateState}
       />
 
       <RateSlider
@@ -307,7 +310,7 @@ export const RateMovie = ({
         max={RATING_MAX.enjoyment}
         showValue={showValues}
         defaultValue={enjoyment}
-        onValueChange={(value) => updateState(value, "enjoyment")}
+        onValueChange={updateState}
       />
 
       <RateSlider
@@ -316,7 +319,7 @@ export const RateMovie = ({
         value={production_design}
         max={productionDesignMax}
         defaultValue={production_design}
-        onValueChange={(value) => updateState(value, "production_design")}
+        onValueChange={updateState}
         showValue={showValues}
       />
 
@@ -327,7 +330,7 @@ export const RateMovie = ({
           value={visual_effects || 0}
           max={RATING_MAX.visual_effects}
           defaultValue={visual_effects}
-          onValueChange={(value) => updateState(value, "visual_effects")}
+          onValueChange={updateState}
           showValue={showValues}
         />
       )}
@@ -339,7 +342,7 @@ export const RateMovie = ({
           value={scare_factor || 0}
           max={RATING_MAX.scare_factor}
           defaultValue={scare_factor}
-          onValueChange={(value) => updateState(value, "scare_factor")}
+          onValueChange={updateState}
           showValue={showValues}
         />
       )}
@@ -351,7 +354,7 @@ export const RateMovie = ({
           value={humor || 0}
           max={RATING_MAX.humor}
           defaultValue={humor}
-          onValueChange={(value) => updateState(value, "humor")}
+          onValueChange={updateState}
           showValue={showValues}
         />
       )}
@@ -363,7 +366,7 @@ export const RateMovie = ({
           value={animation_cartoon || 0}
           max={RATING_MAX.animation_cartoon}
           defaultValue={animation_cartoon}
-          onValueChange={(value) => updateState(value, "animation_cartoon")}
+          onValueChange={updateState}
           showValue={showValues}
         />
       )}
@@ -387,3 +390,7 @@ export const RateMovie = ({
     </div>
   );
 };
+
+const RateMovieMemo = memo(RateMovie);
+
+export { RateMovieMemo as RateMovie };

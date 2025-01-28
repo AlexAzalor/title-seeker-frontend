@@ -23,7 +23,7 @@ type FieldProps<
   value?: string;
 } & TextareaHTMLAttributes<HTMLTextAreaElement>;
 
-export const TextareaFormField = <
+const TextareaFormField = <
   TFormValues extends FieldValues,
   TFieldName extends Path<TFormValues>,
 >({
@@ -67,3 +67,9 @@ export const TextareaFormField = <
     </>
   );
 };
+
+const TextareaFormFieldMemo = React.memo(
+  TextareaFormField,
+) as typeof TextareaFormField;
+
+export { TextareaFormFieldMemo as TextareaFormField };

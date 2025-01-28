@@ -1,4 +1,4 @@
-import { Suspense, use, useMemo, useState } from "react";
+import { Suspense, use, useCallback, useMemo, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import dynamic from "next/dynamic";
@@ -126,6 +126,55 @@ export const PeopleFieldsForm = ({ actors, directors }: Props) => {
     }
   };
 
+  const handleOpenDirectorFormModal = useCallback(() => {
+    setOpenDirectorFormModal(true);
+  }, []);
+
+  const handleOpenActorFormModal = useCallback(() => {
+    setOpenActorFormModal(true);
+  }, []);
+
+  const handleSelectActor = useCallback(
+    (currentValue: string, key: string) => {
+      const is_actor_selected = actorFields.find((actor) => actor.key === key);
+
+      if (!is_actor_selected) {
+        appendActor({
+          name: currentValue,
+          character_key: "",
+          character_name_en: "",
+          character_name_uk: "",
+          key: key,
+        });
+      } else {
+        removeActor(
+          actorFields.findIndex((actorPrev) => actorPrev.key === key),
+        );
+      }
+    },
+    [actorFields, appendActor, removeActor],
+  );
+
+  const handleSelectDerector = useCallback(
+    (currentValue: string, key: string) => {
+      const is_director_selected = directorFields.find(
+        (director) => director.key === key,
+      );
+
+      if (!is_director_selected) {
+        appendDirector({
+          name: currentValue,
+          key: key,
+        });
+      } else {
+        removeDirector(
+          directorFields.findIndex((director) => director.key === key),
+        );
+      }
+    },
+    [directorFields, appendDirector, removeDirector],
+  );
+
   return (
     <>
       <div className="flex items-center justify-center gap-3 font-bold">
@@ -134,26 +183,8 @@ export const PeopleFieldsForm = ({ actors, directors }: Props) => {
             <h1 className="text-[#2D26A5]">Actors</h1>
             <ItemsListSelector
               items={actors}
-              onOpenModal={() => setOpenActorFormModal(true)}
-              onSelect={(currentValue, key) => {
-                const is_actor_selected = actorFields.find(
-                  (actor) => actor.key === key,
-                );
-
-                if (!is_actor_selected) {
-                  appendActor({
-                    name: currentValue,
-                    character_key: "",
-                    character_name_en: "",
-                    character_name_uk: "",
-                    key: key,
-                  });
-                } else {
-                  removeActor(
-                    actorFields.findIndex((actorPrev) => actorPrev.key === key),
-                  );
-                }
-              }}
+              onOpenModal={handleOpenActorFormModal}
+              onSelect={handleSelectActor}
               checkIconStyle={actorFields}
             />
 
@@ -223,25 +254,8 @@ export const PeopleFieldsForm = ({ actors, directors }: Props) => {
             <h1 className="text-[#2D26A5]">Directors</h1>
             <ItemsListSelector
               items={directors}
-              onOpenModal={() => setOpenDirectorFormModal(true)}
-              onSelect={(currentValue, key) => {
-                const is_director_selected = directorFields.find(
-                  (director) => director.key === key,
-                );
-
-                if (!is_director_selected) {
-                  appendDirector({
-                    name: currentValue,
-                    key: key,
-                  });
-                } else {
-                  removeDirector(
-                    directorFields.findIndex(
-                      (director) => director.key === key,
-                    ),
-                  );
-                }
-              }}
+              onOpenModal={handleOpenDirectorFormModal}
+              onSelect={handleSelectDerector}
               checkIconStyle={directorFields}
             />
 

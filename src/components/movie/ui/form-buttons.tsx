@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -8,12 +9,7 @@ type Props = {
   onSubmit?: () => void;
 };
 
-export const FormButtons = ({
-  title,
-  handlePrev,
-  isFirstStep,
-  onSubmit,
-}: Props) => {
+const FormButtons = ({ title, handlePrev, isFirstStep, onSubmit }: Props) => {
   return (
     <div className="mt-7 flex w-full items-center justify-between">
       <Button
@@ -38,3 +34,7 @@ export const FormButtons = ({
     </div>
   );
 };
+
+const FormButtonsMemo = memo(FormButtons);
+
+export { FormButtonsMemo as FormButtons };

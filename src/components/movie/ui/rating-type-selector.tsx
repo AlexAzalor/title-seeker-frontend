@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -13,7 +14,7 @@ type Props = {
   onValueChange: (value: RatingCriterion) => void;
 };
 
-export const RatingTypeSelector = ({ defaultValue, onValueChange }: Props) => {
+const RatingTypeSelector = ({ defaultValue, onValueChange }: Props) => {
   return (
     <div className="mb-4 grid w-72 gap-2">
       <Label htmlFor="rating-criteria">Rating Type</Label>
@@ -38,3 +39,7 @@ export const RatingTypeSelector = ({ defaultValue, onValueChange }: Props) => {
     </div>
   );
 };
+
+const RatingTypeSelectorMemo = memo(RatingTypeSelector);
+
+export { RatingTypeSelectorMemo as RatingTypeSelector };
