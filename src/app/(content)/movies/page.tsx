@@ -46,7 +46,7 @@ export default async function MoviesPage() {
         {movies.map((movie) => (
           <Link
             key={movie.key}
-            className="grid h-[158px] w-[340px] grid-cols-[1fr,3fr] items-center gap-2 rounded-[34px] border border-[#EFF0F7] p-6 shadow-form-layout dark:border-[#211979] dark:shadow-dark-form-layout"
+            className="grid h-[158px] w-[340px] grid-cols-[1fr_3fr] items-center gap-2 rounded-[34px] border border-[#EFF0F7] p-6 shadow-form-layout dark:border-[#211979] dark:shadow-dark-form-layout"
             href={`/movies/${movie.key}`}
           >
             {movie.poster && (

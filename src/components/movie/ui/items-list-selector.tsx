@@ -54,7 +54,7 @@ const ItemsListSelector = <Datum extends ItemFields, T extends ItemFields>({
           variant="outline"
           role="combobox"
           // aria-expanded={openSpec}
-          className="h-max w-64 justify-between dark:text-[#938EFF] hover:dark:text-[#4A3AFF]"
+          className="h-max w-64 justify-between dark:text-[#938EFF] dark:hover:text-[#4A3AFF]"
         >
           Select item...
           <ChevronsUpDown className="opacity-50" />
