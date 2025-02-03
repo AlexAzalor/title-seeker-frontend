@@ -8,6 +8,7 @@ import { ThemeProvider } from "@/components/providers/theme-provider";
 import AuthProvider from "@/components/providers/auth-provider";
 // import { Toaster } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
+import Script from "next/script";
 // import { after } from "next/server";
 
 const geistSans = localFont({
@@ -47,6 +48,7 @@ export default async function RootLayout({
       <body
       // className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        {/* <Script src="https://unpkg.com/react-scan/dist/auto.global.js" async /> */}
         <ThemeProvider>
           <NextIntlClientProvider messages={messages}>
             <AuthProvider>
