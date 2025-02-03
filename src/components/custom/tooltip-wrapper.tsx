@@ -7,14 +7,18 @@ import {
 type Props = {
   children: React.ReactNode;
   content: string | React.ReactNode;
+  asChild?: boolean;
+  side?: "top" | "right" | "bottom" | "left";
 };
 
-export const TooltipWrapper = ({ children, content }: Props) => {
+export const TooltipWrapper = ({ children, content, asChild, side }: Props) => {
   return (
     <TooltipProvider delayDuration={300}>
       <Tooltip>
-        <TooltipTrigger>{children}</TooltipTrigger>
-        <TooltipContent className="w-[684px]">{content}</TooltipContent>
+        <TooltipTrigger asChild={asChild}>{children}</TooltipTrigger>
+        <TooltipContent side={side} className="w-[684px]">
+          {content}
+        </TooltipContent>
       </Tooltip>
     </TooltipProvider>
   );

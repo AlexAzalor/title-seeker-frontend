@@ -8,6 +8,8 @@ import Image from "next/image";
 import { formatDate } from "@/lib/utils";
 import Link from "next/link";
 import { MovieRateBox } from "@/components/movie/movie-rate-box";
+import { GenresList } from "@/components/movie/movie-page/genres-list";
+import { FeaturesList } from "@/components/movie/movie-page/features-list";
 
 export default async function DynamicPage({ params }: PageProps) {
   const { slug: movie_key } = await params;
@@ -49,70 +51,13 @@ export default async function DynamicPage({ params }: PageProps) {
 
       <div className="flex items-center justify-between gap-6">
         <div>
-          <div className="flex gap-4 border">
-            {data.genres?.map((genre) => (
-              <Link
-                href={`/super-search/?genre_name=${genre.key}`}
-                className="border border-red-400 p-2"
-                key={genre.key}
-              >
-                {genre.name}
-                <div>{genre.percentage_match}% match</div>
-              </Link>
-            ))}
-          </div>
+          <GenresList data={data} />
 
-          <div className="flex gap-4 border">
-            {data.subgenres?.map((subgenre) => (
-              <Link
-                href={`/super-search/?genre_name=${subgenre.parent_genre.key}&subgenre_name=${subgenre.key}`}
-                className="border border-red-400 p-2"
-                key={subgenre.key}
-              >
-                {subgenre.name}
-                <div>{subgenre.percentage_match}% match</div>
-              </Link>
-            ))}
-          </div>
-
-          <div className="flex gap-4 border">
-            {data.specifications?.map((specification) => (
-              <Link
-                href={`/super-search/?specification_name=${specification.key}`}
-                className="border border-red-400 p-2"
-                key={specification.key}
-              >
-                {specification.name}
-                <div>{specification.percentage_match}% match</div>
-              </Link>
-            ))}
-          </div>
-
-          <div className="flex gap-4 border">
-            {data.keywords?.map((keyword) => (
-              <Link
-                href={`/super-search/?keyword_name=${keyword.key}`}
-                className="border border-red-400 p-2"
-                key={keyword.key}
-              >
-                {keyword.name}
-                <div>{keyword.percentage_match}% match</div>
-              </Link>
-            ))}
-          </div>
-
-          <div className="flex gap-4 border">
-            {data.action_times?.map((action_time) => (
-              <Link
-                href={`/super-search/?action_time_name=${action_time.key}`}
-                className="border border-red-400 p-2"
-                key={action_time.key}
-              >
-                {action_time.name}
-                <div>{action_time.percentage_match}% match</div>
-              </Link>
-            ))}
-          </div>
+          <FeaturesList
+            specifications={data.specifications}
+            keywords={data.keywords}
+            action_times={data.action_times}
+          />
 
           <p>{data.description}</p>
 

@@ -342,6 +342,16 @@ export default {
         "neon-purple":
           "0 0 6px rgba(74, 58, 255, 0.6), 0 0 6px rgba(74, 58, 255, 0.5), 0 0 6px rgba(74, 58, 255, 0.4), 0 0 6px rgba(74, 58, 255, 0.3)",
         "dark-form-layout": "0px 21px 69px rgba(0, 0, 0, 0.29)",
+        "neon-border-fill":
+          "0px 0px 0px 0px #4a3aff, 0 0 10px #4a3aff, 0 0 6px #4a3aff, inset 0 0 10px #4a3aff",
+        // "neon-subgenre":
+        //   "0px 0px 0px 0px #9d4eff,0 0 10px #9d4eff,0 0 6px #9d4eff,inset 0 0 26px #9d4eff",
+        "movie-specification":
+          "0px 0px 0px 0px #64fcfe, 0 0 10px #64fcfe, 0 0 6px #64fcfe, inset 0 0 10px #64fcfe",
+        "movie-keyword":
+          "0px 0px 0px 0px #FFC55C, 0 0 10px #FFC55C, 0 0 6px #FFC55C, inset 0 0 10px #FFC55C",
+        "movie-action-time":
+          "0px 0px 0px 0px #92A8D1, 0 0 10px #92A8D1, 0 0 6px #92A8D1, inset 0 0 10px #92A8D1",
       },
     },
   },
