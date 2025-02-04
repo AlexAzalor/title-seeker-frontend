@@ -9,6 +9,7 @@ import {
 } from "@/orval_api/model";
 import { InfoIcon } from "lucide-react";
 import Link from "next/link";
+import { percentageMatchColor } from "../utils";
 
 type QueryKeys = "specification_name" | "keyword_name" | "action_time_name";
 
@@ -25,7 +26,7 @@ export const ItemFeature = ({ data, queryKey, color }: Props) => {
         <Link
           href={`/super-search/?${queryKey}=${item.key}`}
           className={cn(
-            "relative flex min-h-14 min-w-28 items-center rounded-xl border-2 text-center transition-shadow",
+            "relative flex min-h-14 min-w-28 items-center rounded-xl border-2 transition-shadow",
             queryKey === "specification_name" &&
               "hover:shadow-movie-specification dark:border-[#64fcfe]",
             queryKey === "keyword_name" &&
@@ -51,15 +52,13 @@ export const ItemFeature = ({ data, queryKey, color }: Props) => {
             )}
           />
 
-          <div className="relative z-10 mx-auto flex items-center gap-2 px-2">
+          <div className="relative mx-auto flex items-center gap-2 px-2">
             <span>{item.name}</span>
             <TooltipWrapper
-              content={
-                <div>
-                  <h1>{item.percentage_match}%</h1>
-                  {item.description}
-                </div>
-              }
+              content={percentageMatchColor(
+                item.percentage_match,
+                item.description,
+              )}
             >
               <InfoIcon className="h-4 w-4" />
             </TooltipWrapper>

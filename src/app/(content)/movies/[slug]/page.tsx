@@ -48,6 +48,7 @@ export default async function DynamicPage({ params }: PageProps) {
       <div>{data.duration}</div>
       <div>{data.domestic_gross}</div>
       <div>{data.worldwide_gross}</div>
+      <div>{data.location}</div>
 
       <div className="flex items-center justify-between gap-6">
         <div>

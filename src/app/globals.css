@@ -474,6 +474,92 @@
   background: rgb(157 78 255 / 0.4);
 }
 
+.circle-border {
+  /* border: 1px solid rgb(102 126 255); */
+  animation: highlight-color 1.5s infinite alternate;
+}
+.circle-border2 {
+  /* border: 1px solid rgb(102 126 255); */
+  animation: less-match 1.5s infinite alternate;
+}
+
+/* #F7F4FF,
+ #D6D1FF,
+   #B4AFFF,
+   #938EFF,
+   #726CFF,
+   #4A3AFF,
+   #4035E6,
+   #362FCC,
+   #2C29B2,
+   #222399,
+   #181D7F */
+
+@keyframes less-match {
+  from {
+    box-shadow:
+      0 0 5px rgba(255, 76, 76, 0.5),
+      0 0 10px rgba(255, 76, 76, 0.4),
+      0 0 15px rgba(255, 76, 76, 0.3);
+  }
+  to {
+    box-shadow:
+      0 0 20px rgba(255, 76, 76, 1),
+      0 0 30px rgba(255, 76, 76, 0.9),
+      0 0 40px rgba(255, 76, 76, 0.8);
+  }
+}
+@keyframes highlight-color {
+  from {
+    box-shadow:
+      0 0 5px rgba(102, 126, 255, 0.5),
+      0 0 10px rgba(102, 126, 255, 0.4),
+      0 0 15px rgba(102, 126, 255, 0.3);
+  }
+  to {
+    box-shadow:
+      0 0 20px rgba(102, 126, 255, 1),
+      0 0 30px rgba(102, 126, 255, 0.9),
+      0 0 40px rgba(102, 126, 255, 0.8);
+  }
+  /* from {
+    box-shadow:
+      0 0 5px rgba(73, 229, 255, 0.5),
+      0 0 10px rgba(73, 229, 255, 0.4),
+      0 0 15px rgba(73, 229, 255, 0.3);
+  }
+  to {
+    box-shadow:
+      0 0 20px rgba(73, 229, 255, 1),
+      0 0 30px rgba(73, 229, 255, 0.9),
+      0 0 40px rgba(73, 229, 255, 0.8);
+  } */
+  /* from {
+    box-shadow:
+      0 0 5px rgba(255, 76, 76, 0.5),
+      0 0 10px rgba(255, 76, 76, 0.4),
+      0 0 15px rgba(255, 76, 76, 0.3);
+  }
+  to {
+    box-shadow:
+      0 0 20px rgba(255, 76, 76, 1),
+      0 0 30px rgba(255, 76, 76, 0.9),
+      0 0 40px rgba(255, 76, 76, 0.8);
+  } */
+  /* from {
+    box-shadow:
+      0 0 5px rgba(74, 58, 255, 0.5),
+      0 0 10px rgba(74, 58, 255, 0.4),
+      0 0 15px rgba(74, 58, 255, 0.3);
+  }
+  to {
+    box-shadow:
+      0 0 20px rgba(74, 58, 255, 1),
+      0 0 30px rgba(74, 58, 255, 0.9),
+      0 0 40px rgba(74, 58, 255, 0.8);
+  } */
+}
+
 /* .movie-specification {
   border-color: #64fcfe;
   box-shadow:
