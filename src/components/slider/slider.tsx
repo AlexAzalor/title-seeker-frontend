@@ -29,6 +29,7 @@ export const Slider = () => {
       className="max-h-300 w-full max-w-500"
       onMouseEnter={plugin.current.stop}
       onMouseLeave={() => plugin.current.play()}
+      opts={{ loop: true, dragFree: true }}
     >
       <CarouselContent>
         {Array.from({ length: 5 }).map((_, index) => (

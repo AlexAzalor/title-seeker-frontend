@@ -17,9 +17,17 @@ export const GenresList = ({ data }: Props) => {
   const [hoveredSubgenre, setHoveredSubgenre] = useState<string | null>(null);
 
   return (
-    <div className="my-3">
-      <div className={cn("mb-4 flex gap-4")}>
-        {data.genres?.map((genre) => (
+    <div>
+      <div className="mb-4 flex items-center gap-4">
+        <div className="flex items-center gap-1">
+          <h2 className="base-neon-text movie-genre-text text-2xl">Genres</h2>
+
+          <TooltipWrapper content="fdfsffsd fdsfs dfdsf">
+            <InfoIcon className="h-4 w-4" />
+          </TooltipWrapper>
+        </div>
+
+        {data.genres?.slice(0, 5).map((genre) => (
           <Link
             key={genre.key}
             href={`/super-search/?genre_name=${genre.key}`}
@@ -51,38 +59,49 @@ export const GenresList = ({ data }: Props) => {
         ))}
       </div>
 
-      <div className={cn("flex gap-4")}>
-        {data.subgenres?.map((subgenre) => (
-          <Link
-            href={`/super-search/?genre_name=${subgenre.parent_genre.key}&subgenre_name=${subgenre.key}`}
-            className={cn(
-              "hover:shadow-neon-border-fill relative flex min-h-14 min-w-28 items-center rounded-xl border-2 transition-shadow dark:border-[#9d4eff]",
-              hoveredGenre === subgenre.parent_genre.key &&
-                "shadow-neon-border-fill",
-            )}
-            key={subgenre.key}
-            onMouseEnter={() => setHoveredSubgenre(subgenre.parent_genre.key)}
-            onMouseLeave={() => setHoveredSubgenre(null)}
-          >
-            <div
-              style={{ width: `${subgenre.percentage_match}%` }}
-              className="neon-fill neon-subgenre absolute size-full rounded-lg border dark:border-[#9d4eff]"
-            />
+      {!!data.subgenres?.length && (
+        <div className="flex gap-4">
+          <div className="flex items-center gap-1">
+            <h2 className="base-neon-text movie-subgenre-text text-2xl">
+              Subgenres
+            </h2>
 
-            <div className="relative mx-auto flex items-center gap-2 px-2">
-              <span>{subgenre.name}</span>
-              <TooltipWrapper
-                content={percentageMatchColor(
-                  subgenre.percentage_match,
-                  subgenre.description,
-                )}
-              >
-                <InfoIcon className="h-4 w-4" />
-              </TooltipWrapper>
-            </div>
-          </Link>
-        ))}
-      </div>
+            <TooltipWrapper content="fdfsffsd fdsfs dfdsf">
+              <InfoIcon className="h-4 w-4" />
+            </TooltipWrapper>
+          </div>
+          {data.subgenres?.map((subgenre) => (
+            <Link
+              href={`/super-search/?genre_name=${subgenre.parent_genre.key}&subgenre_name=${subgenre.key}`}
+              className={cn(
+                "hover:shadow-neon-border-fill relative flex min-h-14 min-w-28 items-center rounded-xl border-2 transition-shadow dark:border-[#9d4eff]",
+                hoveredGenre === subgenre.parent_genre.key &&
+                  "shadow-neon-border-fill",
+              )}
+              key={subgenre.key}
+              onMouseEnter={() => setHoveredSubgenre(subgenre.parent_genre.key)}
+              onMouseLeave={() => setHoveredSubgenre(null)}
+            >
+              <div
+                style={{ width: `${subgenre.percentage_match}%` }}
+                className="neon-fill neon-subgenre absolute size-full rounded-lg border dark:border-[#9d4eff]"
+              />
+
+              <div className="relative mx-auto flex items-center gap-2 px-2">
+                <span>{subgenre.name}</span>
+                <TooltipWrapper
+                  content={percentageMatchColor(
+                    subgenre.percentage_match,
+                    subgenre.description,
+                  )}
+                >
+                  <InfoIcon className="h-4 w-4" />
+                </TooltipWrapper>
+              </div>
+            </Link>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

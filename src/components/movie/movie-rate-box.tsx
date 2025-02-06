@@ -56,12 +56,7 @@ export const MovieRateBox = ({ data, ratingData }: Props) => {
         movieKey={data.key}
       />
 
-      {data.ratings?.map((rating) => (
-        <div key={rating.uuid}>
-          <div>{rating.rating}</div>
-          <div>{rating.comment}</div>
-        </div>
-      ))}
+      {/* comments? */}
     </div>
   );
 };

@@ -613,3 +613,137 @@
     inset 0 0 20px #4a3aff,
     inset 0 0 30px #4a3aff;
 } */
+
+.rating-box {
+  --color-rating: #4ba3c7;
+  /* --color-rating: #64fcfe; */
+  /* --color-rating: #4a3aff; */
+  /* --color-rating: #ff6347; */
+  /* box-sizing: border-box; */
+  width: 250px;
+  height: 100px;
+  /* background-repeat: no-repeat; */
+  border-radius: 1rem;
+  border: 0.15rem solid white;
+  box-shadow:
+    inset 0 0 0 0.2rem var(--color-rating),
+    inset 0 0 1rem 0.3rem var(--color-rating),
+    inset 1rem 1rem 0.4rem rgba(0, 0, 0, 0.6),
+    0 0 0 0.2rem var(--color-rating),
+    0 0 1rem 0.3rem var(--color-rating),
+    1rem 1rem 0.4rem rgba(0, 0, 0, 0.6);
+}
+
+.rating-text {
+  --lights: #4a3aff;
+  /* width: 0.15em;
+    height: 8em;
+    left: 28%;
+    top: 50%;
+    margin-top: -4em;
+    background-color: white;
+    border-radius: 1em; */
+  /* box-shadow:
+    0 0 0 0.2em #ff6347,
+    0 0 1em 0.3em #ff6347,
+    1em 1em 0.4em 0.2em rgba(0, 0, 0, 0.6); */
+
+  text-shadow:
+    0 0 0.5vh var(--lights),
+    0 0 0.5vh var(--lights),
+    0 0 0.5vh var(--lights),
+    0 0 0.5vh var(--lights),
+    0 0 1vh var(--lights);
+}
+
+.movie-duration {
+  /* --lights: #5e3a7c; */
+  --lights: #ff6347;
+  text-shadow:
+    0 0 0.5vh var(--lights),
+    0 0 0.5vh var(--lights),
+    0 0 0.5vh var(--lights),
+    0 0 0.5vh var(--lights),
+    0 0 1vh var(--lights);
+}
+.movie-release-date {
+  --lights: #89245c;
+  /* --lights: #607d8b; */
+  /* --lights: #b39275; */
+  /* --lights: #ffdab9; */
+  text-shadow:
+    0 0 0.5vh var(--lights),
+    0 0 0.5vh var(--lights),
+    0 0 0.5vh var(--lights),
+    0 0 0.5vh var(--lights),
+    0 0 1vh var(--lights);
+}
+.movie-location {
+  --lights: #7d729e;
+  /* --lights: #7d729e; */
+  text-shadow:
+    0 0 0.5vh var(--lights),
+    0 0 0.5vh var(--lights),
+    0 0 0.5vh var(--lights),
+    0 0 0.5vh var(--lights),
+    0 0 1vh var(--lights);
+}
+.movie-money {
+  /* --lights: #8c2642; */
+  /* --lights: #756300; */
+  --lights: #a38a00;
+  text-shadow:
+    0 0 0.5vh var(--lights),
+    0 0 0.5vh var(--lights),
+    0 0 0.5vh var(--lights),
+    0 0 0.5vh var(--lights),
+    0 0 1vh var(--lights);
+}
+
+.base-neon-text {
+  text-shadow:
+    0 0 0.5vh var(--lights),
+    0 0 0.5vh var(--lights),
+    0 0 0.5vh var(--lights),
+    0 0 0.5vh var(--lights),
+    0 0 1vh var(--lights);
+}
+
+.movie-genre-text {
+  --lights: #4a3aff78;
+}
+.movie-subgenre-text {
+  --lights: #9d4eff78;
+}
+.movie-spec-text {
+  --lights: #64fcfe78;
+}
+.movie-keywords-text {
+  --lights: #ffc55c78;
+}
+.movie-act-time-text {
+  --lights: #92a8d178;
+}
+
+/* #e6c0a2 – Slightly darker
+#ccaa8c – More muted and earthy
+#b39275 – Even deeper, a warm brownish peach
+#997b5f – A rich, dusky peach tone
+#80634a – A deep, warm brown with peach undertones */
+
+/* Eyeshadow Shades
+#5E3A7C – Deep purple with a hint of shimmer
+#8A567E – Dark mauve for blending and depth
+#3D275D – Smoky indigo for outer corners
+#A97C50 – Warm bronze for a touch of glow
+#5D4037 – Deep brown for grounding the look
+Eyeliner & Mascara
+#1C1237 – Intense dark purple-black
+#0A0515 – Charcoal black for a bold liner
+Blush & Contour
+#734A4A – Muted plum for a sculpted cheek
+#5A3E3E – Deep rosewood for warmth
+Lipstick Shades
+#6E1F32 – Dark cherry red for drama
+#8C2642 – Rich berry wine
+#5C1A25 – Vampy burgundy for a bold statement */
