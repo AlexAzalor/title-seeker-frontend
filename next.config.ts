@@ -4,6 +4,7 @@ import createNextIntlPlugin from "next-intl/plugin";
 const withNextIntl = createNextIntlPlugin();
 
 const nextConfig: NextConfig = {
+  output: "standalone",
   experimental: {
     serverActions: {
       bodySizeLimit: "3mb",
@@ -19,10 +20,10 @@ const nextConfig: NextConfig = {
         protocol: "http",
         hostname: "127.0.0.1",
       },
-      // {
-      //   protocol: "https",
-      //   hostname: "[name].s3.amazonaws.com",
-      // },
+      {
+        protocol: "https",
+        hostname: "api.titleseeker.com",
+      },
     ],
     dangerouslyAllowSVG: true,
     contentDispositionType: "attachment",
