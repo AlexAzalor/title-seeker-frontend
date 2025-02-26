@@ -24,14 +24,21 @@ export const FeaturesList = ({
         data={specifications}
         color="#64fcfe"
         queryKey="specification_name"
+        title="Specifications"
       />
 
-      <ItemFeature data={keywords} color="#FFC55C" queryKey="keyword_name" />
+      <ItemFeature
+        data={keywords}
+        color="#FFC55C"
+        queryKey="keyword_name"
+        title="Keywords"
+      />
 
       <ItemFeature
         data={action_times}
         color="#92A8D1"
         queryKey="action_time_name"
+        title="Action Times"
       />
     </div>
   );

@@ -21,6 +21,9 @@ import { ItemsListSelector } from "../ui/items-list-selector";
 import { FormButtons } from "../ui/form-buttons";
 import { FormField } from "../ui/form-field";
 import { SliderFormField } from "../ui/slider-form-field";
+import { TooltipWrapper } from "@/components/custom/tooltip-wrapper";
+import { InfoIcon } from "lucide-react";
+import { movieComponents } from "@/lib/constants";
 
 const ModalMovie = dynamic(() => import("../ui/modal-movie"));
 
@@ -127,8 +130,13 @@ export const FeaturesForm = ({
       <div className="text-textOrange flex items-center justify-center gap-3 font-bold">
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">
           <div className="mb-5 flex w-full flex-col items-center gap-2">
-            <h1 className="text-[#4035E6]">Specifications</h1>
-            <p className="text-[#6F6C90]">Subtext</p>
+            <div className="flex items-center gap-2">
+              <h1 className="text-[#4035E6]">Specifications</h1>
+              <TooltipWrapper content={movieComponents.specification}>
+                <InfoIcon className="h-4 w-4" />
+              </TooltipWrapper>
+            </div>
+
             <ItemsListSelector
               items={specifications}
               onOpenModal={() => setOpenSpecificationFormModal(true)}
@@ -186,8 +194,12 @@ export const FeaturesForm = ({
           </div>
 
           <div className="mb-5 flex w-full flex-col items-center gap-2">
-            <h1 className="text-[#4035E6]">Keyword</h1>
-            <p className="text-[#6F6C90]">Subtext</p>
+            <div className="flex items-center gap-2">
+              <h1 className="text-[#4035E6]">Keyword</h1>
+              <TooltipWrapper content={movieComponents.keyword}>
+                <InfoIcon className="h-4 w-4" />
+              </TooltipWrapper>
+            </div>
             <ItemsListSelector
               items={keywords}
               onOpenModal={() => setOpenKeywordFormModal(true)}
@@ -243,8 +255,12 @@ export const FeaturesForm = ({
           </div>
 
           <div className="mb-5 flex w-full flex-col items-center gap-2">
-            <h1 className="text-[#4035E6]">Action Times</h1>
-            <p className="text-[#6F6C90]">Subtext</p>
+            <div className="flex items-center gap-2">
+              <h1 className="text-[#4035E6]">Action Times</h1>
+              <TooltipWrapper content={movieComponents.actionTime}>
+                <InfoIcon className="h-4 w-4" />
+              </TooltipWrapper>
+            </div>
             <ItemsListSelector
               items={actionTimes}
               onOpenModal={() => setOpenActionTimeFormModal(true)}

@@ -1,6 +1,9 @@
 #!/bin/bash
 
-DEV_API_URL=http://127.0.0.1:5002
+# DEV_API_URL=http://127.0.0.1:5002
+
+# temporary solution (no domain name)
+DEV_API_URL=http://127.0.0.1:5002/api
 
 if [ -z "$1" ]
 then

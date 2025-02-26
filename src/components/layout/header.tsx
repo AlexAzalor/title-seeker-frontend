@@ -14,7 +14,7 @@ export const Header = () => {
   const navigationKeys = Object.keys(t.raw("navigation"));
 
   return (
-    <header className="flex items-center justify-between bg-[#77c9fb] px-[16px] py-4 shadow shadow-gray-200 sm:px-[40px] lg:px-[160px]">
+    <header className="flex items-center justify-between bg-[#77c9fb] px-[16px] py-4 shadow-sm shadow-gray-200 sm:px-[40px] lg:px-[160px]">
       <div>
         <Link href="/">Logo</Link>
       </div>
