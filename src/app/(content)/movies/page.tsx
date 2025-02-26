@@ -46,7 +46,7 @@ export default async function MoviesPage() {
         {movies.map((movie) => (
           <Link
             key={movie.key}
-            className="grid h-[158px] w-[340px] grid-cols-[1fr_3fr] items-center gap-2 rounded-[34px] border border-[#EFF0F7] p-6 shadow-form-layout dark:border-[#211979] dark:shadow-dark-form-layout"
+            className="shadow-form-layout dark:shadow-dark-form-layout grid h-[158px] w-[340px] grid-cols-[1fr_3fr] items-center gap-2 rounded-[34px] border border-[#EFF0F7] p-6 dark:border-[#211979]"
             href={`/movies/${movie.key}`}
           >
             {movie.poster && (
@@ -58,18 +58,18 @@ export default async function MoviesPage() {
               />
             )}
             <div className="flex h-full flex-col justify-between self-start">
-              <div className="text-xl font-bold">
+              <p title={movie.title} className="text-xl font-bold">
                 {movie.title.length > 40
                   ? movie.title.slice(0, 40) + "..."
                   : movie.title}
-              </div>
+              </p>
               <div>
                 {movie.release_date
                   ? formatDate(movie.release_date, lang)
                   : "no date"}
               </div>
               <div className="flex gap-1">
-                <div>1h 30m</div>|<div>Action: 50%</div>
+                <div>{movie.duration}</div>|<div>{movie.main_genre}</div>
               </div>
             </div>
           </Link>

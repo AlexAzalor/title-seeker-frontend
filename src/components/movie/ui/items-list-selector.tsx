@@ -36,7 +36,7 @@ type Props<Datum, T> = {
   checkIconStyle: T[];
 };
 
-type ItemFields = { key: string; name: string };
+type ItemFields = { key: string; name: string; description?: string };
 
 const ItemsListSelector = <Datum extends ItemFields, T extends ItemFields>({
   items,
@@ -82,14 +82,18 @@ const ItemsListSelector = <Datum extends ItemFields, T extends ItemFields>({
                     value={item.name}
                     onSelect={(value) => onSelect(value, item.key, item)}
                   >
-                    <Tooltip>
-                      <TooltipTrigger className="text-left">
-                        {item.name}
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>{"Some short info?"}</p>
-                      </TooltipContent>
-                    </Tooltip>
+                    {!!item.description ? (
+                      <Tooltip>
+                        <TooltipTrigger className="w-full text-left">
+                          {item.name}
+                        </TooltipTrigger>
+                        <TooltipContent className="w-[684px]">
+                          <p>{item.description}</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    ) : (
+                      <p>{item.name}</p>
+                    )}
 
                     <Check
                       className={cn(

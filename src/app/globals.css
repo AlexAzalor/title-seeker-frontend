@@ -214,6 +214,7 @@
   /* --background: #ffffff;
   --foreground: #29589a; */
   /* @apply dark:bg-[#29589a]; */
+  /* The color #0D0B26 is a very dark shade of blue-violet. It can be described as "Midnight Purple", "Deep Indigo", or "Dark Periwinkle", depending on the context. */
   @apply dark:bg-[#0D0B26];
   /* @apply bg-[#F7CAC9] dark:bg-[#A678C1]; */
   /* dark:text-[#ABB7C2] */

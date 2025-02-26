@@ -27,7 +27,7 @@ export const GenresList = ({ data }: Props) => {
           </TooltipWrapper>
         </div>
 
-        {data.genres?.slice(0, 5).map((genre) => (
+        {data.genres?.map((genre) => (
           <Link
             key={genre.key}
             href={`/super-search/?genre_name=${genre.key}`}

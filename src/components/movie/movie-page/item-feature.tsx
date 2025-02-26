@@ -10,6 +10,7 @@ import {
   MovieSpecification,
 } from "@/orval_api/model";
 import { TooltipWrapper } from "@/components/custom/tooltip-wrapper";
+import { movieComponents } from "@/lib/constants";
 
 type QueryKeys = "specification_name" | "keyword_name" | "action_time_name";
 
@@ -21,6 +22,12 @@ type Props = {
 };
 
 export const ItemFeature = ({ data, queryKey, color, title }: Props) => {
+  const tooltipContent =
+    queryKey === "specification_name"
+      ? movieComponents.specification
+      : queryKey === "keyword_name"
+        ? movieComponents.keyword
+        : movieComponents.actionTime;
   return (
     <div>
       <div className="flex gap-4">
@@ -36,7 +43,7 @@ export const ItemFeature = ({ data, queryKey, color, title }: Props) => {
             {title}
           </h2>
 
-          <TooltipWrapper content="fdfsffsd fdsfs dfdsf">
+          <TooltipWrapper content={tooltipContent}>
             <InfoIcon className="h-4 w-4" />
           </TooltipWrapper>
         </div>
