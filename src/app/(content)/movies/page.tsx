@@ -2,7 +2,7 @@ import Image from "next/image";
 import { getLocale, getTranslations } from "next-intl/server";
 import Link from "next/link";
 import { getMovies } from "@/orval_api/movies/movies";
-import { backendURL } from "@/lib/constants";
+import { backendURL, IMAGE_URL } from "@/lib/constants";
 import { Language } from "@/orval_api/model";
 import { formatDate } from "@/lib/utils";
 
@@ -51,7 +51,7 @@ export default async function MoviesPage() {
           >
             {movie.poster && (
               <Image
-                src={`http://127.0.0.1:5002/api/movies/poster/${movie.poster}`}
+                src={`${IMAGE_URL}/api/movies/poster/${movie.poster}`}
                 alt="Actor Avatar"
                 height={200}
                 width={100}

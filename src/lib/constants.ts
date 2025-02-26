@@ -2,6 +2,7 @@
  * @access For server side only.
  */
 export const backendURL = { baseURL: process.env.API_URL };
+export const IMAGE_URL = process.env.API_URL ?? "issues with env";
 
 export const movieComponents = {
   specification:

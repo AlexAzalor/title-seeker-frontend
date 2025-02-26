@@ -1,7 +1,11 @@
 import { memo, useState } from "react";
 import { Check, ChevronsUpDown } from "lucide-react";
 
-import type { GenreOut, SubgenreOut } from "@/orval_api/model";
+import type {
+  GenreOut,
+  GenreOutDescription,
+  SubgenreOut,
+} from "@/orval_api/model";
 import { cn } from "@/lib/utils";
 
 import { Button } from "@/components/ui/button";
@@ -36,7 +40,11 @@ type Props<Datum, T> = {
   checkIconStyle: T[];
 };
 
-type ItemFields = { key: string; name: string; description?: string };
+type ItemFields = {
+  key: string;
+  name: string;
+  description?: string | GenreOutDescription;
+};
 
 const ItemsListSelector = <Datum extends ItemFields, T extends ItemFields>({
   items,

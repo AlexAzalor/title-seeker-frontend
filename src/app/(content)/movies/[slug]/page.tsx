@@ -1,4 +1,4 @@
-import { backendURL } from "@/lib/constants";
+import { backendURL, IMAGE_URL } from "@/lib/constants";
 import { Language } from "@/orval_api/model";
 import { getMovies } from "@/orval_api/movies/movies";
 
@@ -29,7 +29,7 @@ export default async function DynamicPage({ params }: PageProps) {
 
       <div className="flex items-center">
         <Image
-          src={`http://127.0.0.1:5002/api/movies/poster/${data.poster}`}
+          src={`${IMAGE_URL}/api/movies/poster/${data.poster}`}
           alt="Actor Avatar"
           height={400}
           width={300}
