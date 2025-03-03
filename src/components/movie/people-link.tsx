@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { MovieActor, MovieDirector } from "@/orval_api/model";
-import { IMAGE_URL } from "@/lib/constants";
+import { AVATAR_URL } from "@/lib/constants";
 
 type Props = {
   person: MovieActor | MovieDirector;
@@ -18,7 +18,7 @@ export const PersonLink = ({ linkQueryParam, person, type }: Props) => {
     >
       <div className="size-18 rounded-full">
         <Image
-          src={`${IMAGE_URL}/api/avatars/${type}/${person.avatar_url}`}
+          src={`${AVATAR_URL}/${type}/${person.avatar_url}`}
           alt={`${type === "actors" ? "Actor" : "Director"} Avatar`}
           className="size-18 rounded-full object-cover"
           height={72}

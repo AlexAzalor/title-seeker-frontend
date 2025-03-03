@@ -1,9 +1,9 @@
-import { backendURL, IMAGE_URL } from "@/lib/constants";
+import { backendURL, POSTER_URL } from "@/lib/constants";
 import { Language } from "@/orval_api/model";
 import { getMovies } from "@/orval_api/movies/movies";
 
 import { PageProps } from "@/types/general";
-import { getLocale, getTranslations } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 import { formatDate } from "@/lib/utils";
 import { MovieRateBox } from "@/components/movie/movie-rate-box";
@@ -12,12 +12,13 @@ import { FeaturesList } from "@/components/movie/movie-page/features-list";
 import { ExpandableText } from "@/components/custom/expandable-text";
 import { MovieCrew } from "@/components/movie/movie-crew";
 import { MovieMoney } from "@/components/movie/movie-money";
+import { getLocaleFunc } from "../page";
 
 export default async function DynamicPage({ params }: PageProps) {
   const { slug: movie_key } = await params;
 
   const t = await getTranslations("HomePage");
-  const locale = await getLocale();
+  const locale = await getLocaleFunc();
   const lang = Language[locale as keyof typeof Language];
 
   const { aPIGetMovie } = getMovies();
@@ -29,7 +30,7 @@ export default async function DynamicPage({ params }: PageProps) {
 
       <div className="flex items-center">
         <Image
-          src={`${IMAGE_URL}/api/movies/poster/${data.poster}`}
+          src={`${POSTER_URL}/posters/${data.poster}`}
           alt="Actor Avatar"
           height={400}
           width={300}

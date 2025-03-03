@@ -1,7 +1,7 @@
 import { getLocale } from "next-intl/server";
 import Link from "next/link";
 import { getMovies } from "@/orval_api/movies/movies";
-import { backendURL, IMAGE_URL } from "@/lib/constants";
+import { backendURL, POSTER_URL } from "@/lib/constants";
 import { Language, MovieSearchOut } from "@/orval_api/model";
 import Image from "next/image";
 import { formatDate } from "@/lib/utils";
@@ -92,7 +92,7 @@ export default async function SuperSearchPage(props: {
               {movie.poster && (
                 <Image
                   className="h-28 w-max"
-                  src={`${IMAGE_URL}/api/movies/poster/${movie.poster}`}
+                  src={`${POSTER_URL}/posters/${movie.poster}`}
                   alt="Actor Avatar"
                   height={100}
                   width={50}

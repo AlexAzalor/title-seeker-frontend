@@ -2,13 +2,18 @@ import Image from "next/image";
 import { getLocale, getTranslations } from "next-intl/server";
 import Link from "next/link";
 import { getMovies } from "@/orval_api/movies/movies";
-import { backendURL, IMAGE_URL } from "@/lib/constants";
+import { backendURL, POSTER_URL } from "@/lib/constants";
 import { Language } from "@/orval_api/model";
 import { formatDate } from "@/lib/utils";
+import { cache } from "react";
+
+export const getLocaleFunc = cache(async () => {
+  return await getLocale();
+});
 
 export default async function MoviesPage() {
   const t = await getTranslations("HomePage");
-  const locale = await getLocale();
+  const locale = await getLocaleFunc();
   const lang = Language[locale as keyof typeof Language];
 
   const { aPIGetMovies } = getMovies();
@@ -51,7 +56,7 @@ export default async function MoviesPage() {
           >
             {movie.poster && (
               <Image
-                src={`${IMAGE_URL}/api/movies/poster/${movie.poster}`}
+                src={`${POSTER_URL}/posters/${movie.poster}`}
                 alt="Actor Avatar"
                 height={200}
                 width={100}
