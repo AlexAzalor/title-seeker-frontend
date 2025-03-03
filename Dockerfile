@@ -1,4 +1,7 @@
-FROM node:18-alpine AS base
+# Alpine - if your project is small and mostly JavaScript-based.
+# Regular (node:18) or slim (node:18-slim) - If you hit compatibility issues (bcrypt, sharp, puppeteer).
+# FROM node:18-alpine AS base
+FROM node:23.9.0-alpine AS base
 
 # Install dependencies only when needed
 FROM base AS deps

@@ -24,6 +24,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "api.titleseeker.com",
       },
+      {
+        protocol: "https",
+        hostname: "static.titleseeker.com",
+      },
     ],
     dangerouslyAllowSVG: true,
     contentDispositionType: "attachment",
