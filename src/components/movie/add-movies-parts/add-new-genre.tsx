@@ -14,7 +14,7 @@ import { FormField } from "../ui/form-field";
 import { TextareaFormField } from "../ui/textarea-form-field";
 
 type Props = {
-  appendGenre: any;
+  appendGenre: (newGenre: any) => void;
 };
 
 export const AddNewGenre = ({ appendGenre }: Props) => {

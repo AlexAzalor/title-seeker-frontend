@@ -37,7 +37,7 @@ type Props<Datum, T> = {
     genre: GenreOut | SubgenreOut,
   ) => void;
   onOpenModal: () => void;
-  checkIconStyle: T[];
+  checkIconStyle: T[] | string[];
 };
 
 type ItemFields = {
@@ -81,7 +81,7 @@ const ItemsListSelector = <Datum extends ItemFields, T extends ItemFields>({
               </Button>
             </CommandEmpty>
 
-            <TooltipProvider>
+            <TooltipProvider delayDuration={1000}>
               <CommandGroup className="text-left">
                 {/* need switch lang to search items */}
                 {items.map((item) => (
@@ -106,7 +106,11 @@ const ItemsListSelector = <Datum extends ItemFields, T extends ItemFields>({
                     <Check
                       className={cn(
                         "ml-auto",
-                        checkIconStyle.find((e) => e.key === item.key)
+                        checkIconStyle.find((e) =>
+                          typeof e === "string"
+                            ? e === item.key
+                            : e.key === item.key,
+                        )
                           ? "opacity-100"
                           : "opacity-0",
                       )}

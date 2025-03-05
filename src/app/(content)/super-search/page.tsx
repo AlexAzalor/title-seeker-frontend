@@ -54,6 +54,8 @@ export default async function SuperSearchPage(props: {
       ? [searchParams.action_time_name]
       : searchParams.action_time_name;
 
+  const exactMatch = searchParams.exact_match;
+
   const {
     data: { movies },
   } = await aPISearchMovies(
@@ -66,6 +68,7 @@ export default async function SuperSearchPage(props: {
       specification_name: specificationNamesList,
       keyword_name: keywordNamesList,
       action_time_name: actionTimeNamesList,
+      exact_match: exactMatch,
     },
     {
       baseURL: backendURL.baseURL,
@@ -81,12 +84,12 @@ export default async function SuperSearchPage(props: {
 
   return (
     <div className="min-h-screen">
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-wrap gap-4">
         {moviesList.length ? (
           moviesList.map((movie) => (
             <Link
               key={movie.key}
-              className="flex w-[350px] items-center justify-around bg-purple-400 p-4 text-lg"
+              className="flex w-[298px] items-center justify-around bg-purple-400 p-4 text-lg"
               href={`/movies/${movie.key}`}
             >
               {movie.poster && (

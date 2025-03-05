@@ -1,31 +1,82 @@
 "use client";
-import { cn } from "@/lib/utils";
-import { GenreOut } from "@/orval_api/model";
+
+import { Suspense, useMemo, useState } from "react";
+import dynamic from "next/dynamic";
+import { GenreOut, SubgenreOut } from "@/orval_api/model";
 import { useRouter, useSearchParams } from "next/navigation";
+import { ItemsListSelector } from "./movie/ui/items-list-selector";
+
+import { AddNewGenre } from "./movie/add-movies-parts/add-new-genre";
+import { AddNewSubgenre } from "./movie/add-movies-parts/add-new-subgenre";
+import { Checkbox } from "./ui/checkbox";
+import { Label } from "./ui/label";
+
+const ModalMovie = dynamic(() => import("./movie/ui/modal-movie"));
 
 type Props = {
   genres: GenreOut[];
+  subgenres: SubgenreOut[];
 };
 
-const GENRE = "genre_name";
-const SUBGENRE = "subgenre_name";
+export const GENRE = "genre_name";
+export const SUBGENRE = "subgenre_name";
+export const EXACT_MATCH = "exact_match";
 
 export const Genres = ({ genres }: Props) => {
-  const route = useRouter();
+  const router = useRouter();
+
+  const [openGenreFormModal, setOpenGenreFormModal] = useState(false);
+  const [openSubgenreFormModal, setOpenSubgenreFormModal] = useState(false);
 
   const currentSearchParams = useSearchParams();
-  const currentSelectedActors = currentSearchParams.getAll(GENRE);
+  const currentSelectedGenres = currentSearchParams.getAll(GENRE);
   const currentSelectedSubgenres = currentSearchParams.getAll(SUBGENRE);
+  const currentExactMatch = currentSearchParams.get(EXACT_MATCH);
+
+  const selectedGenres = useMemo(() => {
+    return genres.filter(
+      (g) => currentSelectedGenres.includes(g.key) && g.subgenres?.length,
+    );
+  }, [currentSelectedGenres, genres]);
+
+  const availableSubgenres = useMemo(() => {
+    if (!currentSelectedGenres.length) {
+      return [];
+    }
+
+    const subgenres = selectedGenres.map((e) => e.subgenres).flat();
+
+    return subgenres;
+  }, [currentSelectedGenres.length, selectedGenres]);
+
+  const [subgenres, setSubgenres] = useState<SubgenreOut[]>(
+    availableSubgenres || [],
+  );
 
   const deleteGenreParam = (name: string, type: string) => {
     const updatedSearchParams = new URLSearchParams(
       currentSearchParams.toString(),
     );
+
+    if (subgenres.length) {
+      const filtredSubgenres = subgenres.filter(
+        (subgenre) => subgenre.parent_genre_key === name,
+      );
+      if (filtredSubgenres.length) {
+        for (const subgenre of filtredSubgenres) {
+          updatedSearchParams.delete(SUBGENRE, subgenre.key);
+        }
+
+        setSubgenres((prev) =>
+          prev.filter((subgenre) => subgenre.parent_genre_key !== name),
+        );
+      }
+    }
+
     updatedSearchParams.delete(type, name);
     window.history.pushState(null, "", "?" + updatedSearchParams.toString());
 
-    // route.refresh();
-    route.replace("/super-search" + "?" + updatedSearchParams.toString(), {
+    router.replace("/super-search" + "?" + updatedSearchParams.toString(), {
       scroll: false,
     });
   };
@@ -45,7 +96,7 @@ export const Genres = ({ genres }: Props) => {
     const updatedSearchParams = new URLSearchParams(
       currentSearchParams.toString(),
     );
-    // updatedSearchParams.set("genre", query);
+
     if (genre && genreType && !currentSearchParams.has(genreType, genre)) {
       updatedSearchParams.append(genreType, genre);
     }
@@ -53,73 +104,119 @@ export const Genres = ({ genres }: Props) => {
 
     window.history.pushState(null, "", "?" + updatedSearchParams.toString());
 
-    // route.refresh();
-    route.replace("/super-search" + "?" + updatedSearchParams.toString(), {
+    router.replace("/super-search" + "?" + updatedSearchParams.toString(), {
       scroll: false,
     });
-
-    // window.location.reload();
   }
 
   const clearAllFilters = () => {
     const updatedSearchParams = new URLSearchParams();
     window.history.pushState(null, "", "?" + updatedSearchParams.toString());
 
-    route.replace("/super-search" + "?" + updatedSearchParams.toString(), {
+    router.replace("/super-search" + "?" + updatedSearchParams.toString(), {
       scroll: false,
     });
+
+    setSubgenres([]);
   };
 
+  const checkGenreType = (item: GenreOut | SubgenreOut): item is GenreOut => {
+    return (item as GenreOut).subgenres !== undefined;
+  };
+
+  function handleExactMatch() {
+    if (currentSearchParams.has(EXACT_MATCH)) {
+      deleteGenreParam("true", EXACT_MATCH);
+
+      return;
+    }
+
+    const updatedSearchParams = new URLSearchParams(
+      currentSearchParams.toString(),
+    );
+
+    updatedSearchParams.append(EXACT_MATCH, "true");
+
+    window.history.pushState(null, "", "?" + updatedSearchParams.toString());
+
+    router.replace("/super-search" + "?" + updatedSearchParams.toString(), {
+      scroll: false,
+    });
+  }
+
   return (
-    <div>
-      <h1>Genres</h1>
+    <>
+      <div>
+        <Label onClick={handleExactMatch} className="flex gap-3 p-5">
+          <span>Exact match</span>
+          <Checkbox checked={!!currentExactMatch} />
+        </Label>
+        <button
+          className="cursor-pointer bg-red-500 p-4"
+          onClick={clearAllFilters}
+        >
+          Clear all filters
+        </button>
+        <h1>Genres</h1>
 
-      <button
-        className="cursor-pointer bg-red-500 p-4"
-        onClick={clearAllFilters}
-      >
-        Clear all filters
-      </button>
+        <ItemsListSelector
+          items={genres}
+          onOpenModal={() => setOpenGenreFormModal(true)}
+          onSelect={(currentValue, key, genre) => {
+            updateSearchParameters(genre.key, GENRE);
 
-      <div className="grid grid-cols-3 gap-4">
-        {genres.map((genre) => (
-          <div key={genre.key}>
-            <div
-              className={cn(
-                "cursor-pointer border border-blue-300 p-3",
-                currentSelectedActors.includes(genre.key) ? "bg-green-400" : "",
-              )}
-              onClick={() => updateSearchParameters(genre.key, GENRE)}
-            >
-              {genre.name}
-            </div>
+            if (!currentSelectedGenres.find((genrePrev) => genrePrev === key)) {
+              if (genre && checkGenreType(genre) && genre.subgenres?.length) {
+                setSubgenres((prev) => [...prev, ...(genre.subgenres || [])]);
+              }
+            } else {
+              setSubgenres((prev) =>
+                prev.filter(
+                  (subgenrePrev) => subgenrePrev.parent_genre_key !== key,
+                ),
+              );
+            }
+          }}
+          checkIconStyle={currentSelectedGenres}
+        />
 
-            <div className="">
-              {genre.subgenres?.map((subgenre) => (
-                <div
-                  key={subgenre.key}
-                  className={cn(
-                    "cursor-pointer border border-red-300 p-1",
-                    currentSelectedSubgenres.includes(subgenre.key)
-                      ? "bg-red-200"
-                      : "",
-                  )}
-                  onClick={() =>
-                    updateSearchParameters(
-                      subgenre.key,
-                      SUBGENRE,
-                      genre.key,
-                      GENRE,
-                    )
-                  }
-                >
-                  {subgenre.name}
-                </div>
-              ))}
-            </div>
-          </div>
-        ))}
+        <h1>Subgenres</h1>
+        <ItemsListSelector
+          items={subgenres}
+          onOpenModal={() => setOpenSubgenreFormModal(true)}
+          onSelect={(currentValue, key, subgenre) => {
+            updateSearchParameters(
+              key,
+              SUBGENRE,
+              subgenre.parent_genre_key,
+              GENRE,
+            );
+          }}
+          checkIconStyle={currentSelectedSubgenres}
+        />
       </div>
-    </div>
+
+      <Suspense>
+        <ModalMovie
+          title="Genre"
+          open={openGenreFormModal}
+          setOpen={setOpenGenreFormModal}
+        >
+          <AddNewGenre appendGenre={() => {}} />
+        </ModalMovie>
+
+        <ModalMovie
+          title="Subgenre"
+          open={openSubgenreFormModal}
+          setOpen={setOpenSubgenreFormModal}
+        >
+          <AddNewSubgenre
+            appendSubgenre={() => {}}
+            setSubgenres={setSubgenres}
+            genresList={selectedGenres}
+          />
+        </ModalMovie>
+      </Suspense>
+    </>
   );
 };

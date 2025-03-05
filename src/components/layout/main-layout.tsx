@@ -11,7 +11,7 @@ export const MainLayout = async ({
     <div className="mx-auto min-h-screen">
       <Header />
 
-      <div className="mx-auto grid place-content-center">{children}</div>
+      <div className="mx-auto grid place-items-center">{children}</div>
 
       <footer className="grid h-20 place-content-center bg-black">
         Footer

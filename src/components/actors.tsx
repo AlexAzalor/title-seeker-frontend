@@ -1,28 +1,36 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+import { Suspense, useCallback, useState } from "react";
+import dynamic from "next/dynamic";
 import { ActorOut } from "@/orval_api/model";
 import { useRouter, useSearchParams } from "next/navigation";
+import { ItemsListSelector } from "./movie/ui/items-list-selector";
+import { AddNewActor } from "./movie/add-movies-parts/add-new-actor";
+
+const ModalMovie = dynamic(() => import("./movie/ui/modal-movie"));
+
+export const ACTOR = "actor_name";
 
 type Props = {
   actors: ActorOut[];
 };
 
 export const Actors = ({ actors }: Props) => {
-  const route = useRouter();
+  const router = useRouter();
+
+  const [openActorFormModal, setOpenActorFormModal] = useState(false);
 
   const currentSearchParams = useSearchParams();
-  const currentSelectedActors = currentSearchParams.getAll("actor_name");
+  const currentSelectedActors = currentSearchParams.getAll(ACTOR);
 
   const deleteActorParam = (name: string) => {
     const updatedSearchParams = new URLSearchParams(
       currentSearchParams.toString(),
     );
-    updatedSearchParams.delete("actor_name", name);
+    updatedSearchParams.delete(ACTOR, name);
     window.history.pushState(null, "", "?" + updatedSearchParams.toString());
 
-    // route.refresh();
-    route.replace("/super-search" + "?" + updatedSearchParams.toString(), {
+    router.replace("/super-search" + "?" + updatedSearchParams.toString(), {
       scroll: false,
     });
   };
@@ -30,7 +38,7 @@ export const Actors = ({ actors }: Props) => {
   function onClick(name: string) {
     const query = name;
 
-    if (currentSearchParams.has("actor_name", query)) {
+    if (currentSearchParams.has(ACTOR, query)) {
       deleteActorParam(query);
 
       return;
@@ -39,41 +47,42 @@ export const Actors = ({ actors }: Props) => {
     const updatedSearchParams = new URLSearchParams(
       currentSearchParams.toString(),
     );
-    // updatedSearchParams.set("genre", query);
-    updatedSearchParams.append("actor_name", query);
+
+    updatedSearchParams.append(ACTOR, query);
 
     window.history.pushState(null, "", "?" + updatedSearchParams.toString());
 
-    // route.refresh();
-    route.replace("/super-search" + "?" + updatedSearchParams.toString(), {
+    router.replace("/super-search" + "?" + updatedSearchParams.toString(), {
       scroll: false,
     });
-
-    // window.location.reload();
   }
 
-  return (
-    <div>
-      <h1>Actors</h1>
+  const handleOpenActorFormModal = useCallback(() => {
+    setOpenActorFormModal(true);
+  }, []);
 
-      <div className="grid grid-cols-4 gap-4">
-        {actors
-          .sort((a, b) => a.name.localeCompare(b.name))
-          .map((actor) => (
-            <div
-              key={actor.key}
-              className={cn(
-                "cursor-pointer border border-blue-300 p-1",
-                currentSelectedActors.includes(actor.key)
-                  ? "bg-purple-400"
-                  : "",
-              )}
-              onClick={() => onClick(actor.key)}
-            >
-              {actor.name}
-            </div>
-          ))}
+  return (
+    <>
+      <div>
+        <h1>Actors</h1>
+
+        <ItemsListSelector
+          items={actors}
+          onOpenModal={handleOpenActorFormModal}
+          onSelect={(v, key) => onClick(key)}
+          checkIconStyle={currentSelectedActors}
+        />
       </div>
-    </div>
+
+      <Suspense>
+        <ModalMovie
+          title="Add new Actor"
+          open={openActorFormModal}
+          setOpen={setOpenActorFormModal}
+        >
+          <AddNewActor appendActor={() => {}} />
+        </ModalMovie>
+      </Suspense>
+    </>
   );
 };

@@ -1,3 +1,4 @@
+import { PropsWithChildren } from "react";
 import { Language } from "@/orval_api/model";
 import { getLocale } from "next-intl/server";
 import { backendURL } from "@/lib/constants";
@@ -6,8 +7,12 @@ import { getMovies } from "@/orval_api/movies/movies";
 import { Genres } from "./genres";
 import { Actors } from "./actors";
 import { Directors } from "./director";
-import { PropsWithChildren } from "react";
 import { MovieFilters } from "./movie-filters";
+import { SelectedFilters } from "./selected-filters";
+
+export const SPEC = "specification_name";
+export const KEYWORD = "keyword_name";
+export const ACTION_TIME = "action_time_name";
 
 export const FilterFetchWrapper = async ({ children }: PropsWithChildren) => {
   const locale = await getLocale();
@@ -16,22 +21,46 @@ export const FilterFetchWrapper = async ({ children }: PropsWithChildren) => {
   const { aPIGetMovieFilters } = getMovies();
 
   const {
-    data: { genres, actors, directors, specifications, keywords, action_times },
+    data: {
+      genres,
+      subgenres,
+      actors,
+      directors,
+      specifications,
+      keywords,
+      action_times,
+    },
   } = await aPIGetMovieFilters({ lang }, backendURL);
 
   return (
-    <div className="flex justify-between gap-6">
-      <Genres genres={genres} />
+    <div className="grid grid-cols-[minmax(200px,1fr)_minmax(1240px,2fr)_minmax(200px,1fr)] grid-rows-[auto_1fr] justify-items-center gap-4 p-4">
+      <SelectedFilters>
+        <div>
+          <Genres genres={genres} subgenres={subgenres} />
 
-      <MovieFilters data={specifications} param_key="specification_name" />
-      <MovieFilters data={keywords} param_key="keyword_name" />
-      <MovieFilters data={action_times} param_key="action_time_name" />
+          <MovieFilters
+            title="Specification"
+            data={specifications}
+            param_key={SPEC}
+          />
+          <MovieFilters title="Keyword" data={keywords} param_key={KEYWORD} />
+          <MovieFilters
+            title="Action Time"
+            data={action_times}
+            param_key={ACTION_TIME}
+          />
 
-      <Actors actors={actors} />
+          <Actors actors={actors} />
 
-      <Directors directors={directors} />
+          <Directors directors={directors} />
+        </div>
 
-      {children}
+        {children}
+
+        <div>
+          <h1>Other filters</h1>
+        </div>
+      </SelectedFilters>
     </div>
   );
 };
