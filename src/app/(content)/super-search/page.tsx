@@ -54,7 +54,7 @@ export default async function SuperSearchPage(props: {
       ? [searchParams.action_time_name]
       : searchParams.action_time_name;
 
-  const exactMatch = searchParams.exact_match;
+  const exactMatch = searchParams.exact_match as any;
 
   const {
     data: { movies },
@@ -83,8 +83,8 @@ export default async function SuperSearchPage(props: {
   console.log("moviesList", moviesList.length);
 
   return (
-    <div className="min-h-screen">
-      <div className="flex flex-wrap gap-4">
+    <div>
+      <div className="flex flex-wrap gap-4 p-3">
         {moviesList.length ? (
           moviesList.map((movie) => (
             <Link

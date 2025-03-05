@@ -188,7 +188,7 @@ export const Genres = ({ genres }: Props) => {
             updateSearchParameters(
               key,
               SUBGENRE,
-              subgenre.parent_genre_key,
+              (subgenre as SubgenreOut).parent_genre_key,
               GENRE,
             );
           }}

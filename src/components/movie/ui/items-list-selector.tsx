@@ -31,11 +31,7 @@ import {
 
 type Props<Datum, T> = {
   items: Datum[];
-  onSelect: (
-    value: string,
-    itemKey: string,
-    genre: GenreOut | SubgenreOut,
-  ) => void;
+  onSelect: (value: string, itemKey: string, genre: any) => void;
   onOpenModal: () => void;
   checkIconStyle: T[] | string[];
 };

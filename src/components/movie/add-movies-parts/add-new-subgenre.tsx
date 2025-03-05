@@ -22,7 +22,7 @@ import { TextareaFormField } from "../ui/textarea-form-field";
 
 type Props = {
   appendSubgenre: any;
-  genresList: GenreOut[];
+  genresList: any;
   setSubgenres: Dispatch<SetStateAction<SubgenreOut[]>>;
 };
 
@@ -74,7 +74,7 @@ export const AddNewSubgenre = ({
     <FormWrapper onSubmit={handleSubmit(onSubmit)} isSubmitting={isSubmitting}>
       <div className="flex flex-col gap-2">
         {!!genresList.length &&
-          genresList.map((genre) => (
+          genresList.map((genre: any) => (
             <Label key={genre.key} className="flex items-center gap-2">
               <Input
                 className="h-5 w-5"
