@@ -10,6 +10,7 @@ import { AddNewGenre } from "./movie/add-movies-parts/add-new-genre";
 import { AddNewSubgenre } from "./movie/add-movies-parts/add-new-subgenre";
 import { Checkbox } from "./ui/checkbox";
 import { Label } from "./ui/label";
+import { Button } from "./ui/button";
 
 const ModalMovie = dynamic(() => import("./movie/ui/modal-movie"));
 
@@ -147,16 +148,22 @@ export const Genres = ({ genres }: Props) => {
   return (
     <>
       <div>
-        <Label onClick={handleExactMatch} className="flex gap-3 p-5">
-          <span>Exact match</span>
-          <Checkbox checked={!!currentExactMatch} />
-        </Label>
-        <button
-          className="cursor-pointer bg-red-500 p-4"
+        <Button
+          className="mb-4 cursor-pointer"
+          variant="destructive"
           onClick={clearAllFilters}
         >
           Clear all filters
-        </button>
+        </Button>
+
+        <Label
+          onClick={handleExactMatch}
+          className="my-2 flex cursor-pointer items-center gap-3 text-xl"
+        >
+          <span>Exact match</span>
+          <Checkbox checked={!!currentExactMatch} className="cursor-pointer" />
+        </Label>
+
         <h1>Genres</h1>
 
         <ItemsListSelector

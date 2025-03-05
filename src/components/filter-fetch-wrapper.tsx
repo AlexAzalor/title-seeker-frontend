@@ -53,8 +53,11 @@ export const FilterFetchWrapper = async ({ children }: PropsWithChildren) => {
               className="dark:border-[#211979]"
               autoSaveId="super-search-body"
             >
-              <ResizablePanel defaultSize={25} className="flex justify-center">
-                <div className="overflow-auto">
+              <ResizablePanel
+                defaultSize={25}
+                className="flex justify-center p-2"
+              >
+                <div className="flex flex-col gap-4 overflow-auto">
                   <Genres genres={genres} subgenres={subgenres} />
 
                   <MovieFilters
@@ -82,7 +85,7 @@ export const FilterFetchWrapper = async ({ children }: PropsWithChildren) => {
               <ResizableHandle withHandle className="dark:bg-[#211979]" />
 
               <ResizablePanel defaultSize={52}>
-                <ScrollArea type="auto" className="h-full rounded-md">
+                <ScrollArea type="auto" className="mx-1 h-full rounded-md">
                   {children}
                 </ScrollArea>
               </ResizablePanel>
