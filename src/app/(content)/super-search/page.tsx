@@ -2,7 +2,7 @@ import { getLocale } from "next-intl/server";
 import Link from "next/link";
 import { getMovies } from "@/orval_api/movies/movies";
 import { backendURL, POSTER_URL } from "@/lib/constants";
-import { Language, MovieSearchOut } from "@/orval_api/model";
+import { Language, MoviePreviewOut } from "@/orval_api/model";
 import Image from "next/image";
 import { formatDate } from "@/lib/utils";
 
@@ -19,9 +19,9 @@ export default async function SuperSearchPage(props: {
   const locale = await getLocale();
   const lang = Language[locale as keyof typeof Language];
 
-  let moviesList: MovieSearchOut[] = [];
+  let moviesList: MoviePreviewOut[] = [];
 
-  const { aPISearchMovies } = getMovies();
+  const { aPISuperSearchMovies } = getMovies();
 
   const genreNamesList =
     typeof searchParams.genre_name === "string"
@@ -58,7 +58,7 @@ export default async function SuperSearchPage(props: {
 
   const {
     data: { movies },
-  } = await aPISearchMovies(
+  } = await aPISuperSearchMovies(
     {
       lang,
       genre_name: genreNamesList,

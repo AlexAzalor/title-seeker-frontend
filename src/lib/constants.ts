@@ -3,7 +3,7 @@
  */
 export const backendURL = { baseURL: process.env.API_URL };
 export const ENVIROMENT = process.env.NODE_ENV;
-export const IMAGE_URL = process.env.API_URL ?? "issues with env";
+export const IMAGE_URL = process.env.API_URL ?? process.env.NEXT_PUBLIC_API_URL;
 export const POSTER_URL =
   ENVIROMENT === "production"
     ? process.env.S3_IMAGE_BASE_URL
