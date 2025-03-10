@@ -27,22 +27,19 @@ export const ButtonSwitch = ({ locale }: Props) => {
   };
 
   return (
-    <>
-      <div>Selected: {locale}</div>
-      <Select
-        defaultValue={locale}
-        onValueChange={(e) => handleLanguageChange(e)}
-      >
-        <SelectTrigger className="max-w-max">
-          <SelectValue placeholder={locale} />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectGroup>
-            <SelectItem value="uk">uk</SelectItem>
-            <SelectItem value="en">en</SelectItem>
-          </SelectGroup>
-        </SelectContent>
-      </Select>
-    </>
+    <Select
+      defaultValue={locale}
+      onValueChange={(e) => handleLanguageChange(e)}
+    >
+      <SelectTrigger className="max-w-max">
+        <SelectValue placeholder={locale} />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectGroup>
+          <SelectItem value="uk">uk</SelectItem>
+          <SelectItem value="en">en</SelectItem>
+        </SelectGroup>
+      </SelectContent>
+    </Select>
   );
 };

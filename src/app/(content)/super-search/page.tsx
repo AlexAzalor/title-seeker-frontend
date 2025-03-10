@@ -15,6 +15,18 @@ export default async function SuperSearchPage(props: {
   searchParams: SearchParams;
 }) {
   const searchParams = await props.searchParams;
+  const paramsKeys = Object.keys(searchParams);
+
+  if (
+    !paramsKeys.length ||
+    (paramsKeys.length === 1 && paramsKeys.includes("exact_match"))
+  ) {
+    return (
+      <h2 className="mx-auto">
+        Please select at least one filter to search for movies
+      </h2>
+    );
+  }
 
   const locale = await getLocale();
   const lang = Language[locale as keyof typeof Language];
@@ -83,46 +95,42 @@ export default async function SuperSearchPage(props: {
   console.log("moviesList", moviesList.length);
 
   return (
-    <div>
-      <div className="flex flex-wrap gap-4 p-3">
-        {moviesList.length ? (
-          moviesList.map((movie) => (
-            <Link
-              key={movie.key}
-              className="shadow-form-layout dark:shadow-dark-form-layout grid h-[158px] w-[340px] grid-cols-[1fr_3fr] items-center gap-2 rounded-[34px] border border-[#EFF0F7] p-6 dark:border-[#211979]"
-              href={`/movies/${movie.key}`}
-            >
-              {movie.poster && (
-                <Image
-                  src={`${POSTER_URL}/posters/${movie.poster}`}
-                  alt="Actor Avatar"
-                  height={200}
-                  width={100}
-                />
-              )}
-              <div className="flex h-full flex-col justify-between self-start">
-                <p title={movie.title} className="text-xl font-bold">
-                  {movie.title.length > 40
-                    ? movie.title.slice(0, 40) + "..."
-                    : movie.title}
-                </p>
-                <div>
-                  {movie.release_date
-                    ? formatDate(movie.release_date, lang)
-                    : "no date"}
-                </div>
-                <div className="flex gap-1">
-                  <div>{movie.duration}</div>|<div>{movie.main_genre}</div>
-                </div>
+    <>
+      {moviesList.length ? (
+        moviesList.map((movie) => (
+          <Link
+            key={movie.key}
+            className="shadow-form-layout dark:shadow-dark-form-layout grid h-[158px] w-[340px] grid-cols-[1fr_3fr] items-center gap-2 rounded-[34px] border border-[#EFF0F7] p-6 dark:border-[#211979]"
+            href={`/movies/${movie.key}`}
+          >
+            {movie.poster && (
+              <Image
+                src={`${POSTER_URL}/posters/${movie.poster}`}
+                alt="Actor Avatar"
+                height={200}
+                width={100}
+              />
+            )}
+            <div className="flex h-full flex-col justify-between self-start">
+              <p title={movie.title} className="text-xl font-bold">
+                {movie.title.length > 40
+                  ? movie.title.slice(0, 40) + "..."
+                  : movie.title}
+              </p>
+              <div>
+                {movie.release_date
+                  ? formatDate(movie.release_date, lang)
+                  : "no date"}
               </div>
-            </Link>
-          ))
-        ) : (
-          <div className="flex w-[350px] items-center justify-around bg-red-400 p-4 text-lg">
-            No movies found
-          </div>
-        )}
-      </div>
-    </div>
+              <div className="flex gap-1">
+                <div>{movie.duration}</div>|<div>{movie.main_genre}</div>
+              </div>
+            </div>
+          </Link>
+        ))
+      ) : (
+        <h2 className="mx-auto mt-10">No movies found with selected filters</h2>
+      )}
+    </>
   );
 }

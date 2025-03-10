@@ -4,7 +4,7 @@ import { ButtonSwitchServer } from "../button-server";
 import { ModeToggle } from "../toggles/theme-toggle";
 import { Button } from "../ui/button";
 import { PlusCircle } from "lucide-react";
-import { Search } from "../search-bar";
+import { Search } from "../search";
 
 // import { LanguageSwitcher } from "./LanguageSwitcher";
 // import { ModeToggle } from "./ModeToggle";

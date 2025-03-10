@@ -20,7 +20,7 @@ export const GenresList = ({ data }: Props) => {
     <div>
       <div className="mb-4 flex items-center gap-4">
         <div className="flex items-center gap-1">
-          <h2 className="base-neon-text movie-genre-text text-2xl">Genres</h2>
+          <p className="base-neon-text movie-genre-text text-2xl">Genres</p>
 
           <TooltipWrapper content="fdfsffsd fdsfs dfdsf">
             <InfoIcon className="h-4 w-4" />
@@ -40,7 +40,7 @@ export const GenresList = ({ data }: Props) => {
           >
             <div
               style={{ width: `${genre.percentage_match}%` }}
-              className="neon-fill neon-border absolute size-full rounded-lg border dark:border-[#4A3AFF]"
+              className="neon-border absolute size-full rounded-lg border dark:border-[#4A3AFF]"
             />
 
             <div className="relative mx-auto flex items-center gap-2 px-1">
@@ -62,9 +62,9 @@ export const GenresList = ({ data }: Props) => {
       {!!data.subgenres?.length && (
         <div className="flex gap-4">
           <div className="flex items-center gap-1">
-            <h2 className="base-neon-text movie-subgenre-text text-2xl">
+            <p className="base-neon-text movie-subgenre-text text-2xl">
               Subgenres
-            </h2>
+            </p>
 
             <TooltipWrapper content="fdfsffsd fdsfs dfdsf">
               <InfoIcon className="h-4 w-4" />
@@ -84,7 +84,7 @@ export const GenresList = ({ data }: Props) => {
             >
               <div
                 style={{ width: `${subgenre.percentage_match}%` }}
-                className="neon-fill neon-subgenre absolute size-full rounded-lg border dark:border-[#9d4eff]"
+                className="neon-subgenre absolute size-full rounded-lg border dark:border-[#9d4eff]"
               />
 
               <div className="relative mx-auto flex items-center gap-2 px-2">

@@ -32,7 +32,7 @@ export const ItemFeature = ({ data, queryKey, color, title }: Props) => {
     <div>
       <div className="flex gap-4">
         <div className="flex items-center gap-1">
-          <h2
+          <p
             className={cn(
               "base-neon-text text-2xl",
               queryKey === "specification_name" && "movie-spec-text",
@@ -41,7 +41,7 @@ export const ItemFeature = ({ data, queryKey, color, title }: Props) => {
             )}
           >
             {title}
-          </h2>
+          </p>
 
           <TooltipWrapper content={tooltipContent}>
             <InfoIcon className="h-4 w-4" />

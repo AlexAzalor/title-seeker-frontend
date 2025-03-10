@@ -51,7 +51,7 @@ export const MovieCrew = ({ actors, directors }: Props) => {
         )}
       </div>
 
-      <h2 className="text-3xl font-bold">Directors</h2>
+      <p className="text-3xl font-bold">Directors</p>
       <div className="flex gap-3">
         {directors?.map((director) => (
           <PersonLink
