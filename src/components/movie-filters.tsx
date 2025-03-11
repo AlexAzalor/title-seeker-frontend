@@ -6,6 +6,7 @@ import { ActionTimeOut, KeywordOut, SpecificationOut } from "@/orval_api/model";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ItemsListSelector } from "./movie/ui/items-list-selector";
 import { AddNewSpecification } from "./movie/add-movies-parts/add-new-specification";
+import { DEFAULT_RANGE, extractWord } from "./super-search/enhance-search";
 
 const ModalMovie = dynamic(() => import("./movie/ui/modal-movie"));
 
@@ -18,11 +19,10 @@ type Props = {
 export const MovieFilters = ({ data, param_key, title }: Props) => {
   const route = useRouter();
 
-  const [openSpecificationFormModal, setOpenSpecificationFormModal] =
-    useState(false);
+  const [openFilterFormModal, setOpenFilterFormModal] = useState(false);
 
   const currentSearchParams = useSearchParams();
-  const currentSelectedSpecifications = currentSearchParams.getAll(param_key);
+  const currentSelectedFilter = currentSearchParams.getAll(param_key);
 
   const deleteSpecificationParam = (name: string) => {
     const updatedSearchParams = new URLSearchParams(
@@ -39,8 +39,9 @@ export const MovieFilters = ({ data, param_key, title }: Props) => {
   function onClick(name: string) {
     const query = name;
 
-    if (currentSearchParams.has(param_key, query)) {
-      deleteSpecificationParam(query);
+    const item = currentSelectedFilter.find((e) => e.includes(name));
+    if (item) {
+      deleteSpecificationParam(item);
 
       return;
     }
@@ -49,7 +50,7 @@ export const MovieFilters = ({ data, param_key, title }: Props) => {
       currentSearchParams.toString(),
     );
 
-    updatedSearchParams.append(param_key, query);
+    updatedSearchParams.append(param_key, query + `(${DEFAULT_RANGE.join()})`);
 
     window.history.pushState(null, "", "?" + updatedSearchParams.toString());
 
@@ -65,23 +66,21 @@ export const MovieFilters = ({ data, param_key, title }: Props) => {
 
         <ItemsListSelector
           items={data}
-          onOpenModal={() => setOpenSpecificationFormModal(true)}
+          onOpenModal={() => setOpenFilterFormModal(true)}
           onSelect={(currentValue, key, genre) => {
             onClick(genre.key);
           }}
-          checkIconStyle={currentSelectedSpecifications}
+          checkIconStyle={currentSelectedFilter.map((e) => extractWord(e))}
         />
       </div>
 
       <Suspense>
         <ModalMovie
           title="Specification"
-          open={openSpecificationFormModal}
-          setOpen={setOpenSpecificationFormModal}
+          open={openFilterFormModal}
+          setOpen={setOpenFilterFormModal}
         >
-          <AddNewSpecification
-            appendSpecification={currentSelectedSpecifications}
-          />
+          <AddNewSpecification appendSpecification={currentSelectedFilter} />
         </ModalMovie>
       </Suspense>
     </>

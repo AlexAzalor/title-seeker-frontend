@@ -11,6 +11,7 @@ import { AddNewSubgenre } from "./movie/add-movies-parts/add-new-subgenre";
 import { Checkbox } from "./ui/checkbox";
 import { Label } from "./ui/label";
 import { Button } from "./ui/button";
+import { DEFAULT_RANGE, extractWord } from "./super-search/enhance-search";
 
 const ModalMovie = dynamic(() => import("./movie/ui/modal-movie"));
 
@@ -36,7 +37,9 @@ export const Genres = ({ genres }: Props) => {
 
   const selectedGenres = useMemo(() => {
     return genres.filter(
-      (g) => currentSelectedGenres.includes(g.key) && g.subgenres?.length,
+      (g) =>
+        currentSelectedGenres.map((e) => extractWord(e)).includes(g.key) &&
+        g.subgenres?.length,
     );
   }, [currentSelectedGenres, genres]);
 
@@ -60,12 +63,19 @@ export const Genres = ({ genres }: Props) => {
     );
 
     if (subgenres.length) {
-      const filtredSubgenres = subgenres.filter(
-        (subgenre) => subgenre.parent_genre_key === name,
+      const filtredSubgenres = subgenres.filter((subgenre) =>
+        name.includes(subgenre.parent_genre_key),
       );
+
       if (filtredSubgenres.length) {
         for (const subgenre of filtredSubgenres) {
-          updatedSearchParams.delete(SUBGENRE, subgenre.key);
+          const subgenreKey = currentSelectedSubgenres.find((e) =>
+            e.includes(subgenre.key),
+          );
+
+          if (subgenreKey) {
+            updatedSearchParams.delete(SUBGENRE, subgenreKey);
+          }
         }
 
         setSubgenres((prev) =>
@@ -85,12 +95,19 @@ export const Genres = ({ genres }: Props) => {
   function updateSearchParameters(
     name: string,
     type: string,
-    genre?: string,
-    genreType?: string,
+    // genre?: string,
+    // genreType?: string,
   ) {
-    if (currentSearchParams.has(type, name)) {
-      deleteGenreParam(name, type);
+    const isGenre = currentSelectedGenres.find((e) => e.includes(name));
+    const isSubgenre = currentSelectedSubgenres.find((e) => e.includes(name));
 
+    if (isGenre) {
+      deleteGenreParam(isGenre, type);
+      return;
+    }
+
+    if (isSubgenre) {
+      deleteGenreParam(isSubgenre, type);
       return;
     }
 
@@ -98,10 +115,7 @@ export const Genres = ({ genres }: Props) => {
       currentSearchParams.toString(),
     );
 
-    if (genre && genreType && !currentSearchParams.has(genreType, genre)) {
-      updatedSearchParams.append(genreType, genre);
-    }
-    updatedSearchParams.append(type, name);
+    updatedSearchParams.append(type, name + `(${DEFAULT_RANGE.join()})`);
 
     window.history.pushState(null, "", "?" + updatedSearchParams.toString());
 
@@ -172,7 +186,11 @@ export const Genres = ({ genres }: Props) => {
           onSelect={(currentValue, key, genre) => {
             updateSearchParameters(genre.key, GENRE);
 
-            if (!currentSelectedGenres.find((genrePrev) => genrePrev === key)) {
+            if (
+              !currentSelectedGenres
+                .map((e) => extractWord(e))
+                .find((genrePrev) => genrePrev === key)
+            ) {
               if (genre && checkGenreType(genre) && genre.subgenres?.length) {
                 setSubgenres((prev) => [...prev, ...(genre.subgenres || [])]);
               }
@@ -184,22 +202,17 @@ export const Genres = ({ genres }: Props) => {
               );
             }
           }}
-          checkIconStyle={currentSelectedGenres}
+          checkIconStyle={currentSelectedGenres.map((e) => extractWord(e))}
         />
 
         <h1>Subgenres</h1>
         <ItemsListSelector
           items={subgenres}
           onOpenModal={() => setOpenSubgenreFormModal(true)}
-          onSelect={(currentValue, key, subgenre) => {
-            updateSearchParameters(
-              key,
-              SUBGENRE,
-              (subgenre as SubgenreOut).parent_genre_key,
-              GENRE,
-            );
+          onSelect={(currentValue, key) => {
+            updateSearchParameters(key, SUBGENRE);
           }}
-          checkIconStyle={currentSelectedSubgenres}
+          checkIconStyle={currentSelectedSubgenres.map((e) => extractWord(e))}
         />
       </div>
 

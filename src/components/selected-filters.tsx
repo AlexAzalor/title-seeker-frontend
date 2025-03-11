@@ -1,15 +1,30 @@
 "use client";
 
-import { PropsWithChildren } from "react";
+import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { EXACT_MATCH, GENRE, SUBGENRE } from "./genres";
 import { ACTION_TIME, KEYWORD, SPEC } from "./filter-fetch-wrapper";
 import { ACTOR } from "./actors";
 import { DIRECTOR } from "./director";
 import { ResizableHandle, ResizablePanel } from "./ui/resizable";
+import { cn } from "@/lib/utils";
+import { TooltipWrapper } from "./custom/tooltip-wrapper";
+import { CircleX, InfoIcon } from "lucide-react";
+import { GenreOutPlus, SubgenreOutPlus } from "@/orval_api/model";
+import { percentageMatchColor } from "./movie/utils";
+import { cleanString, extractValues } from "./super-search/enhance-search";
 
-export const SelectedFilters = ({ children }: PropsWithChildren) => {
+type Props = {
+  genres: GenreOutPlus[];
+  subgenres: SubgenreOutPlus[];
+  children: React.ReactNode;
+};
+
+export const SelectedFilters = ({ children, genres, subgenres }: Props) => {
   const router = useRouter();
+
+  const [hoveredGenre, setHoveredGenre] = useState<string | null>(null);
+  const [hoveredSubgenre, setHoveredSubgenre] = useState<string | null>(null);
 
   const currentSearchParams = useSearchParams();
   const currentSelectedGenres = currentSearchParams.getAll(GENRE);
@@ -26,6 +41,24 @@ export const SelectedFilters = ({ children }: PropsWithChildren) => {
       currentSearchParams.toString(),
     );
 
+    if (subgenres.length) {
+      const filtredSubgenres = subgenres.filter((subgenre) =>
+        genre.includes(subgenre.parent_genre_key),
+      );
+
+      if (filtredSubgenres.length) {
+        for (const subgenre of filtredSubgenres) {
+          const subgenreKey = currentSelectedSubgenres.find((e) =>
+            e.includes(subgenre.key),
+          );
+
+          if (subgenreKey) {
+            updatedSearchParams.delete(SUBGENRE, subgenreKey);
+          }
+        }
+      }
+    }
+
     updatedSearchParams.delete(type, genre);
 
     window.history.pushState(null, "", "?" + updatedSearchParams.toString());
@@ -39,32 +72,98 @@ export const SelectedFilters = ({ children }: PropsWithChildren) => {
     <>
       <ResizablePanel defaultSize={4}>
         <div className="col-span-3 min-h-25 w-full">
-          <h1 className="text-center">Selected filters</h1>
+          <h1 className="mb-3 text-center text-5xl">Advanced title search</h1>
 
           <div className="flex flex-wrap justify-center gap-2">
-            {currentSelectedGenres.map((genre) => (
-              <div
-                key={genre}
-                className="flex items-center space-x-2 border-1 border-[#4A3AFF] p-1 text-[#4A3AFF]"
-              >
-                <span>{genre}</span>
-                <button onClick={() => deleteGenre(genre, GENRE)}>X</button>
-              </div>
-            ))}
-            {currentSelectedSubgenres.map((subgenre) => (
-              <div
-                key={subgenre}
-                className="flex items-center space-x-2 border-1 border-[#9d4eff] p-1 text-[#9d4eff]"
-              >
-                <span>{subgenre}</span>
-                <button
-                  className="cursor-pointer"
-                  onClick={() => deleteGenre(subgenre, SUBGENRE)}
+            {currentSelectedGenres.map((g) => {
+              const genre = cleanString(g);
+              const genreData = genres.find((g) => g.key === genre);
+              if (!genreData) {
+                return null;
+              }
+
+              const genrePM = extractValues(g);
+
+              return (
+                <div
+                  key={genre}
+                  className={cn(
+                    "hover:shadow-neon-border-fill relative flex min-h-10 min-w-28 items-center rounded-xl border-2 transition-shadow dark:border-[#4A3AFF]",
+                    hoveredSubgenre === genre && "shadow-neon-border-fill",
+                  )}
+                  onMouseEnter={() => setHoveredGenre(genre)}
+                  onMouseLeave={() => setHoveredGenre(null)}
                 >
-                  X
-                </button>
-              </div>
-            ))}
+                  <div
+                    style={{
+                      minWidth: `${genrePM[0]}%`,
+                      maxWidth: `${genrePM[1]}%`,
+                    }}
+                    className="neon-border absolute size-full rounded-lg border dark:border-[#4A3AFF]"
+                  />
+
+                  <div className="relative mx-auto flex items-center gap-2 px-1">
+                    <span>{genre}</span>
+                    <TooltipWrapper
+                      asChild
+                      content={percentageMatchColor(50, genreData.description)}
+                    >
+                      <InfoIcon className="h-4 w-4" />
+                    </TooltipWrapper>
+                  </div>
+
+                  <CircleX
+                    className="absolute top-0 right-0 h-6 w-6 cursor-pointer"
+                    onClick={() => deleteGenre(g, GENRE)}
+                  />
+                </div>
+              );
+            })}
+            {currentSelectedSubgenres.map((subg) => {
+              const subgenre = cleanString(subg);
+              const subgenreData = subgenres.find((s) => s.key === subgenre);
+              if (!subgenreData) {
+                return null;
+              }
+
+              return (
+                <div
+                  className={cn(
+                    "hover:shadow-neon-border-fill relative flex min-h-14 min-w-28 items-center rounded-xl border-2 transition-shadow dark:border-[#9d4eff]",
+                    hoveredGenre === subgenreData.parent_genre_key &&
+                      "shadow-neon-border-fill",
+                  )}
+                  key={subgenre}
+                  onMouseEnter={() =>
+                    setHoveredSubgenre(subgenreData.parent_genre_key)
+                  }
+                  onMouseLeave={() => setHoveredSubgenre(null)}
+                >
+                  <div
+                    style={{ width: `${subgenreData.percentage_match}%` }}
+                    className="neon-subgenre absolute size-full rounded-lg border dark:border-[#9d4eff]"
+                  />
+
+                  <div className="relative mx-auto flex items-center gap-2 px-2">
+                    <span>{subgenre}</span>
+                    <TooltipWrapper
+                      content={percentageMatchColor(
+                        subgenreData.percentage_match,
+                        subgenreData.description,
+                      )}
+                    >
+                      <InfoIcon className="h-4 w-4" />
+                    </TooltipWrapper>
+                  </div>
+
+                  <CircleX
+                    className="absolute top-0 right-0 h-6 w-6 cursor-pointer"
+                    onClick={() => deleteGenre(subg, SUBGENRE)}
+                  />
+                </div>
+              );
+            })}
+
             {currentSelectedSpecifications.map((spec) => (
               <div
                 key={spec}
@@ -79,6 +178,7 @@ export const SelectedFilters = ({ children }: PropsWithChildren) => {
                 </button>
               </div>
             ))}
+
             {currentSelectedKeywords.map((keyword) => (
               <div
                 key={keyword}
@@ -93,6 +193,7 @@ export const SelectedFilters = ({ children }: PropsWithChildren) => {
                 </button>
               </div>
             ))}
+
             {currentSelectedActionTimes.map((actionTime) => (
               <div
                 key={actionTime}
@@ -107,6 +208,7 @@ export const SelectedFilters = ({ children }: PropsWithChildren) => {
                 </button>
               </div>
             ))}
+
             {currentSelectedActors.map((actor) => (
               <div
                 key={actor}
@@ -121,6 +223,7 @@ export const SelectedFilters = ({ children }: PropsWithChildren) => {
                 </button>
               </div>
             ))}
+
             {currentSelectedDirectors.map((director) => (
               <div
                 key={director}

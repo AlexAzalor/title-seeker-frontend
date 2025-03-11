@@ -15,6 +15,7 @@ import {
   ResizablePanelGroup,
 } from "./ui/resizable";
 import { ScrollArea } from "./ui/scroll-area";
+import { EnhanceSearch } from "./super-search/enhance-search";
 
 export const SPEC = "specification_name";
 export const KEYWORD = "keyword_name";
@@ -38,6 +39,8 @@ export const FilterFetchWrapper = async ({ children }: PropsWithChildren) => {
     },
   } = await aPIGetMovieFilters({ lang }, backendURL);
 
+  // do calculations on server side
+
   // "grid grid-cols-[minmax(200px,1fr)_minmax(1240px,2fr)_minmax(200px,1fr)] grid-rows-[auto_1fr] justify-items-center gap-4 p-4"
   return (
     <div className="h-screen w-full">
@@ -46,7 +49,7 @@ export const FilterFetchWrapper = async ({ children }: PropsWithChildren) => {
         className="rounded-lg p-4"
         autoSaveId="super-search"
       >
-        <SelectedFilters>
+        <SelectedFilters genres={genres} subgenres={subgenres}>
           <ResizablePanel defaultSize={50} className="">
             <ResizablePanelGroup
               direction="horizontal"
@@ -93,12 +96,7 @@ export const FilterFetchWrapper = async ({ children }: PropsWithChildren) => {
               <ResizableHandle withHandle className="dark:bg-[#211979]" />
 
               <ResizablePanel defaultSize={25} className="flex justify-center">
-                <div className="overflow-auto">
-                  <h1>Other filters</h1>
-                  <div>filter one</div>
-                  <div>filter two</div>
-                  <div>filter three</div>
-                </div>
+                <EnhanceSearch />
               </ResizablePanel>
             </ResizablePanelGroup>
           </ResizablePanel>
