@@ -1,3 +1,6 @@
+import { ACTION_TIME, KEYWORD, SPEC } from "@/components/filter-fetch-wrapper";
+import { GENRE, SUBGENRE } from "@/components/genres";
+
 import { clsx, type ClassValue } from "clsx";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { ReadonlyURLSearchParams } from "next/navigation";
@@ -108,20 +111,21 @@ export function handleSearchParams(
   router: AppRouterInstance,
   searchParams?: ReadonlyURLSearchParams,
 ) {
-  const updatedSearchParams = new URLSearchParams(
+  const urlSearchParams = new URLSearchParams(
     searchParams ? searchParams.toString() : undefined,
   );
 
   function refreshPage() {
-    window.history.pushState(null, "", "?" + updatedSearchParams.toString());
+    // Creates a history to go back to previous search parameters
+    window.history.pushState(null, "", "?" + urlSearchParams.toString());
 
     // To refresh the page with the new search parameters
-    router.replace("/super-search" + "?" + updatedSearchParams.toString(), {
+    router.replace("/super-search" + "?" + urlSearchParams.toString(), {
       scroll: false,
     });
   }
 
-  return { updatedSearchParams, refreshPage };
+  return { urlSearchParams, refreshPage };
 }
 
 /**
@@ -133,22 +137,76 @@ export function modifyGenresSearchParams(
   valueToDelete: string | undefined,
   searchParams: ReadonlyURLSearchParams,
   router: AppRouterInstance,
-  callback?: (value: string, updatedSearchParams: URLSearchParams) => void,
+  callback?: (value: string, urlSearchParams: URLSearchParams) => void,
 ) {
-  const { updatedSearchParams, refreshPage } = handleSearchParams(
+  const { urlSearchParams, refreshPage } = handleSearchParams(
     router,
     searchParams,
   );
 
   if (callback) {
-    callback(value, updatedSearchParams);
+    callback(value, urlSearchParams);
   }
 
   if (!!valueToDelete) {
-    updatedSearchParams.delete(key, valueToDelete);
+    urlSearchParams.delete(key, valueToDelete);
   } else {
-    updatedSearchParams.append(key, value);
+    urlSearchParams.append(key, value);
   }
 
   refreshPage();
 }
+
+export const cleanString = (str: string) => str.replace(/\(.*?\)/g, "");
+
+export const DEFAULT_RANGE = [10, 100];
+export const extractValues = (str: string): number[] => {
+  const match = str.match(/\((.*?)\)/);
+
+  if (match) {
+    return match[1].split(",").map(Number);
+  }
+
+  return DEFAULT_RANGE;
+};
+
+export const extractWord = (str: string): string => {
+  const match = str.match(/^[^\(]+/);
+  return match ? match[0].trim() : "";
+};
+
+export const formatSearchParams = (
+  currentSearchParams: ReadonlyURLSearchParams,
+) => {
+  const currentSelectedGenres = currentSearchParams.getAll(GENRE);
+  const currentSelectedSubgenres = currentSearchParams.getAll(SUBGENRE);
+  const currentSelectedSpecifications = currentSearchParams.getAll(SPEC);
+  const currentSelectedKeywords = currentSearchParams.getAll(KEYWORD);
+  const currentSelectedActionTimes = currentSearchParams.getAll(ACTION_TIME);
+
+  const showForm = () => {
+    return (
+      currentSelectedGenres.length > 0 ||
+      currentSelectedSubgenres.length > 0 ||
+      currentSelectedSpecifications.length > 0 ||
+      currentSelectedKeywords.length > 0 ||
+      currentSelectedActionTimes.length > 0
+    );
+  };
+
+  const formatData = (params: string[]) => {
+    return params.map((param) => ({
+      name: extractWord(param),
+      percentage_match: extractValues(param),
+    }));
+  };
+
+  return {
+    formatGenreData: formatData(currentSelectedGenres),
+    formatSubgenreData: formatData(currentSelectedSubgenres),
+    formatSpecificationData: formatData(currentSelectedSpecifications),
+    formatKeywordData: formatData(currentSelectedKeywords),
+    formatActionTimeData: formatData(currentSelectedActionTimes),
+    showForm: showForm(),
+  };
+};

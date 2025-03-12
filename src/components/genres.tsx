@@ -11,8 +11,13 @@ import { AddNewSubgenre } from "./movie/add-movies-parts/add-new-subgenre";
 import { Checkbox } from "./ui/checkbox";
 import { Label } from "./ui/label";
 import { Button } from "./ui/button";
-import { DEFAULT_RANGE, extractWord } from "./super-search/enhance-search";
-import { handleSearchParams, modifyGenresSearchParams } from "@/lib/utils";
+
+import {
+  DEFAULT_RANGE,
+  extractWord,
+  handleSearchParams,
+  modifyGenresSearchParams,
+} from "@/lib/utils";
 
 const ModalMovie = dynamic(() => import("./movie/ui/modal-movie"));
 
@@ -60,7 +65,7 @@ export const Genres = ({ genres }: Props) => {
 
   const deleteSubgenresParams = (
     value: string,
-    updatedSearchParams: URLSearchParams,
+    urlSearchParams: URLSearchParams,
   ) => {
     if (subgenres.length) {
       const filtredSubgenres = subgenres.filter((subgenre) =>
@@ -74,7 +79,7 @@ export const Genres = ({ genres }: Props) => {
           );
 
           if (subgenreKey) {
-            updatedSearchParams.delete(SUBGENRE, subgenreKey);
+            urlSearchParams.delete(SUBGENRE, subgenreKey);
           }
         }
 
@@ -94,6 +99,7 @@ export const Genres = ({ genres }: Props) => {
     if (key === GENRE) {
       modifyGenresSearchParams(
         key,
+        // action(10,100)
         value + `(${DEFAULT_RANGE.join()})`,
         genreToDelete,
         currentSearchParams,

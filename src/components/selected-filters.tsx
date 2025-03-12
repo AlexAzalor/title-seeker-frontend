@@ -7,12 +7,16 @@ import { ACTION_TIME, KEYWORD, SPEC } from "./filter-fetch-wrapper";
 import { ACTOR } from "./actors";
 import { DIRECTOR } from "./director";
 import { ResizableHandle, ResizablePanel } from "./ui/resizable";
-import { cn, modifyGenresSearchParams } from "@/lib/utils";
+import {
+  cleanString,
+  cn,
+  extractValues,
+  modifyGenresSearchParams,
+} from "@/lib/utils";
 import { TooltipWrapper } from "./custom/tooltip-wrapper";
 import { CircleX, InfoIcon } from "lucide-react";
 import { GenreOutPlus, SubgenreOutPlus } from "@/orval_api/model";
 import { percentageMatchColor } from "./movie/utils";
-import { cleanString, extractValues } from "./super-search/enhance-search";
 
 type Props = {
   genres: GenreOutPlus[];
@@ -36,10 +40,7 @@ export const SelectedFilters = ({ children, genres, subgenres }: Props) => {
   const currentSelectedDirectors = currentSearchParams.getAll(DIRECTOR);
   const currentExactMatch = currentSearchParams.get(EXACT_MATCH);
 
-  const deleteSubgenres = (
-    genre: string,
-    updatedSearchParams: URLSearchParams,
-  ) => {
+  const deleteSubgenres = (genre: string, urlSearchParams: URLSearchParams) => {
     if (subgenres.length) {
       const filtredSubgenres = subgenres.filter((subgenre) =>
         genre.includes(subgenre.parent_genre_key),
@@ -52,7 +53,7 @@ export const SelectedFilters = ({ children, genres, subgenres }: Props) => {
           );
 
           if (subgenreKey) {
-            updatedSearchParams.delete(SUBGENRE, subgenreKey);
+            urlSearchParams.delete(SUBGENRE, subgenreKey);
           }
         }
       }

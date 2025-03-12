@@ -2,11 +2,7 @@
 
 import { useEffect } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
-import {
-  ReadonlyURLSearchParams,
-  useRouter,
-  useSearchParams,
-} from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import { EnhanceSearchScheme } from "@/types/zod-scheme";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -15,60 +11,15 @@ import { Button } from "../ui/button";
 import { GENRE, SUBGENRE } from "../genres";
 
 import { ACTION_TIME, KEYWORD, SPEC } from "../filter-fetch-wrapper";
-import { SearchFormValue, SearchValue } from "@/lib/utils";
+import {
+  cleanString,
+  extractValues,
+  extractWord,
+  formatSearchParams,
+  SearchFormValue,
+  SearchValue,
+} from "@/lib/utils";
 import { EnhancedFormSlider } from "./enhance-form-slider";
-
-export const cleanString = (str: string) => str.replace(/\(.*?\)/g, "");
-
-export const DEFAULT_RANGE = [10, 100];
-export const extractValues = (str: string): number[] => {
-  const match = str.match(/\((.*?)\)/);
-
-  if (match) {
-    return match[1].split(",").map(Number);
-  }
-
-  return DEFAULT_RANGE;
-};
-
-export const extractWord = (str: string): string => {
-  const match = str.match(/^[^\(]+/);
-  return match ? match[0].trim() : "";
-};
-
-const formatSearchParams = (currentSearchParams: ReadonlyURLSearchParams) => {
-  const currentSelectedGenres = currentSearchParams.getAll(GENRE);
-  const currentSelectedSubgenres = currentSearchParams.getAll(SUBGENRE);
-  const currentSelectedSpecifications = currentSearchParams.getAll(SPEC);
-  const currentSelectedKeywords = currentSearchParams.getAll(KEYWORD);
-  const currentSelectedActionTimes = currentSearchParams.getAll(ACTION_TIME);
-
-  const showForm = () => {
-    return (
-      currentSelectedGenres.length > 0 ||
-      currentSelectedSubgenres.length > 0 ||
-      currentSelectedSpecifications.length > 0 ||
-      currentSelectedKeywords.length > 0 ||
-      currentSelectedActionTimes.length > 0
-    );
-  };
-
-  const getData = (params: string[]) => {
-    return params.map((param) => ({
-      name: extractWord(param),
-      percentage_match: extractValues(param),
-    }));
-  };
-
-  return {
-    formatGenreData: getData(currentSelectedGenres),
-    formatSubgenreData: getData(currentSelectedSubgenres),
-    formatSpecificationData: getData(currentSelectedSpecifications),
-    formatKeywordData: getData(currentSelectedKeywords),
-    formatActionTimeData: getData(currentSelectedActionTimes),
-    showForm: showForm(),
-  };
-};
 
 export const EnhanceSearch = () => {
   const router = useRouter();
@@ -99,6 +50,7 @@ export const EnhanceSearch = () => {
     },
   });
 
+  // Need to apply new form sliders when the search parameters change
   useEffect(() => {
     const getItems = (key: string) => {
       const paramsItemsList = currentSearchParams.getAll(key);
@@ -150,40 +102,36 @@ export const EnhanceSearch = () => {
       return;
     }
 
-    const updatedSearchParams = new URLSearchParams(
-      currentSearchParams.toString(),
-    );
+    const urlSearchParams = new URLSearchParams(currentSearchParams.toString());
 
     const keysList = [GENRE, SUBGENRE, SPEC, KEYWORD, ACTION_TIME];
 
-    for (const item of keysList) {
-      updatedSearchParams.delete(item);
+    // First we delete all the search parameters because they are dynamic and then we add the old and updated ones
+    for (const key of keysList) {
+      urlSearchParams.delete(key);
     }
 
-    function getData(data: SearchValue[], key: string) {
+    function constructSearchQuery(data: SearchValue[], key: string) {
       const itemsList = data.map(
         (item) =>
+          // action(10,100)
           `${cleanString(item.name)}(${item.percentage_match.toString()})`,
       );
 
       for (const item of itemsList) {
-        updatedSearchParams.append(key, item);
-        window.history.pushState(
-          null,
-          "",
-          "?" + updatedSearchParams.toString(),
-        );
+        urlSearchParams.append(key, item);
+        window.history.pushState(null, "", "?" + urlSearchParams.toString());
       }
     }
 
-    getData(data.genres, GENRE);
-    getData(data.subgenres, SUBGENRE);
-    getData(data.specifications, SPEC);
-    getData(data.keywords, KEYWORD);
-    getData(data.action_times, ACTION_TIME);
+    constructSearchQuery(data.genres, GENRE);
+    constructSearchQuery(data.subgenres, SUBGENRE);
+    constructSearchQuery(data.specifications, SPEC);
+    constructSearchQuery(data.keywords, KEYWORD);
+    constructSearchQuery(data.action_times, ACTION_TIME);
 
     // To refresh the page with the new search parameters
-    router.replace("/super-search" + "?" + updatedSearchParams.toString(), {
+    router.replace("/super-search" + "?" + urlSearchParams.toString(), {
       scroll: false,
     });
   };
@@ -194,37 +142,52 @@ export const EnhanceSearch = () => {
 
       {showForm && (
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-          <EnhancedFormSlider
-            name="genres"
-            control={control}
-            itemsList={genresFields}
-          />
+          {!!genresFields.length && (
+            <EnhancedFormSlider
+              name="genres"
+              control={control}
+              itemsList={genresFields}
+            />
+          )}
 
-          <EnhancedFormSlider
-            name="subgenres"
-            control={control}
-            itemsList={subgenresFields}
-          />
+          {!!subgenresFields.length && (
+            <EnhancedFormSlider
+              name="subgenres"
+              control={control}
+              itemsList={subgenresFields}
+            />
+          )}
 
-          <EnhancedFormSlider
-            name="specifications"
-            control={control}
-            itemsList={specificationsFields}
-          />
+          {!!specificationsFields.length && (
+            <EnhancedFormSlider
+              name="specifications"
+              control={control}
+              itemsList={specificationsFields}
+            />
+          )}
 
-          <EnhancedFormSlider
-            name="keywords"
-            control={control}
-            itemsList={keywordsFields}
-          />
+          {!!keywordsFields.length && (
+            <EnhancedFormSlider
+              name="keywords"
+              control={control}
+              itemsList={keywordsFields}
+            />
+          )}
 
-          <EnhancedFormSlider
-            name="action_times"
-            control={control}
-            itemsList={actionTimesFields}
-          />
+          {!!actionTimesFields.length && (
+            <EnhancedFormSlider
+              name="action_times"
+              control={control}
+              itemsList={actionTimesFields}
+            />
+          )}
 
-          <Button type="submit">Submit</Button>
+          <Button
+            className="mt-5 w-full rounded-2xl bg-[#4A3AFF] p-2 text-white transition-colors duration-200 hover:bg-[#342BBB]"
+            type="submit"
+          >
+            Submit
+          </Button>
         </form>
       )}
     </div>
