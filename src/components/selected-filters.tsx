@@ -1,34 +1,42 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { EXACT_MATCH, GENRE, SUBGENRE } from "./genres";
 import { ACTION_TIME, KEYWORD, SPEC } from "./filter-fetch-wrapper";
 import { ACTOR } from "./actors";
 import { DIRECTOR } from "./director";
 import { ResizableHandle, ResizablePanel } from "./ui/resizable";
+import { cleanString, modifyGenresSearchParams } from "@/lib/utils";
+
 import {
-  cleanString,
-  cn,
-  extractValues,
-  modifyGenresSearchParams,
-} from "@/lib/utils";
-import { TooltipWrapper } from "./custom/tooltip-wrapper";
-import { CircleX, InfoIcon } from "lucide-react";
-import { GenreOutPlus, SubgenreOutPlus } from "@/orval_api/model";
-import { percentageMatchColor } from "./movie/utils";
+  ActionTimeOut,
+  GenreOutPlus,
+  KeywordOut,
+  SpecificationOut,
+  SubgenreOutPlus,
+} from "@/orval_api/model";
+
+import { FilterBrick } from "./filter-brick";
+import { HoverBrick } from "./hover-brick";
 
 type Props = {
+  children: React.ReactNode;
   genres: GenreOutPlus[];
   subgenres: SubgenreOutPlus[];
-  children: React.ReactNode;
+  specifications: SpecificationOut[];
+  keywords: KeywordOut[];
+  action_times: ActionTimeOut[];
 };
 
-export const SelectedFilters = ({ children, genres, subgenres }: Props) => {
+export const SelectedFilters = ({
+  children,
+  genres,
+  subgenres,
+  specifications,
+  keywords,
+  action_times,
+}: Props) => {
   const router = useRouter();
-
-  const [hoveredGenre, setHoveredGenre] = useState<string | null>(null);
-  const [hoveredSubgenre, setHoveredSubgenre] = useState<string | null>(null);
 
   const currentSearchParams = useSearchParams();
   const currentSelectedGenres = currentSearchParams.getAll(GENRE);
@@ -60,11 +68,11 @@ export const SelectedFilters = ({ children, genres, subgenres }: Props) => {
     }
   };
 
-  const deleteGenre = (genre: string, type: string) => {
+  const deleteSearchParam = (value: string, key: string) => {
     modifyGenresSearchParams(
-      type,
-      genre,
-      genre,
+      key,
+      value,
+      value,
       currentSearchParams,
       router,
       deleteSubgenres,
@@ -78,139 +86,67 @@ export const SelectedFilters = ({ children, genres, subgenres }: Props) => {
           <h1 className="mb-3 text-center text-5xl">Advanced title search</h1>
 
           <div className="flex flex-wrap justify-center gap-2">
-            {currentSelectedGenres.map((g) => {
-              const genre = cleanString(g);
-              const genreData = genres.find((g) => g.key === genre);
-              if (!genreData) {
-                return null;
-              }
+            <HoverBrick
+              genreItemsList={currentSelectedGenres}
+              subgenreItemsList={currentSelectedSubgenres}
+              genres={genres}
+              subgenres={subgenres}
+              deleteSearchParam={deleteSearchParam}
+            />
 
-              const genrePM = extractValues(g);
-
-              return (
-                <div
-                  key={genre}
-                  className={cn(
-                    "hover:shadow-neon-border-fill relative flex min-h-10 min-w-28 items-center rounded-xl border-2 transition-shadow dark:border-[#4A3AFF]",
-                    hoveredSubgenre === genre && "shadow-neon-border-fill",
-                  )}
-                  onMouseEnter={() => setHoveredGenre(genre)}
-                  onMouseLeave={() => setHoveredGenre(null)}
-                >
-                  <div
-                    style={{
-                      minWidth: `${genrePM[0]}%`,
-                      maxWidth: `${genrePM[1]}%`,
-                    }}
-                    className="neon-border absolute size-full rounded-lg border dark:border-[#4A3AFF]"
-                  />
-
-                  <div className="relative mx-auto flex items-center gap-2 px-1">
-                    <span>{genre}</span>
-                    <TooltipWrapper
-                      asChild
-                      content={percentageMatchColor(50, genreData.description)}
-                    >
-                      <InfoIcon className="h-4 w-4" />
-                    </TooltipWrapper>
-                  </div>
-
-                  <CircleX
-                    className="absolute top-0 right-0 h-6 w-6 cursor-pointer"
-                    onClick={() => deleteGenre(g, GENRE)}
-                  />
-                </div>
-              );
-            })}
-            {currentSelectedSubgenres.map((subg) => {
-              const subgenre = cleanString(subg);
-              const subgenreData = subgenres.find((s) => s.key === subgenre);
-              if (!subgenreData) {
+            {currentSelectedSpecifications.map((spec) => {
+              const specification = cleanString(spec);
+              const sData = specifications.find((g) => g.key === specification);
+              if (!sData) {
                 return null;
               }
 
               return (
-                <div
-                  className={cn(
-                    "hover:shadow-neon-border-fill relative flex min-h-14 min-w-28 items-center rounded-xl border-2 transition-shadow dark:border-[#9d4eff]",
-                    hoveredGenre === subgenreData.parent_genre_key &&
-                      "shadow-neon-border-fill",
-                  )}
-                  key={subgenre}
-                  onMouseEnter={() =>
-                    setHoveredSubgenre(subgenreData.parent_genre_key)
-                  }
-                  onMouseLeave={() => setHoveredSubgenre(null)}
-                >
-                  <div
-                    style={{ width: `${subgenreData.percentage_match}%` }}
-                    className="neon-subgenre absolute size-full rounded-lg border dark:border-[#9d4eff]"
-                  />
-
-                  <div className="relative mx-auto flex items-center gap-2 px-2">
-                    <span>{subgenre}</span>
-                    <TooltipWrapper
-                      content={percentageMatchColor(
-                        subgenreData.percentage_match,
-                        subgenreData.description,
-                      )}
-                    >
-                      <InfoIcon className="h-4 w-4" />
-                    </TooltipWrapper>
-                  </div>
-
-                  <CircleX
-                    className="absolute top-0 right-0 h-6 w-6 cursor-pointer"
-                    onClick={() => deleteGenre(subg, SUBGENRE)}
-                  />
-                </div>
+                <FilterBrick
+                  key={spec}
+                  type={SPEC}
+                  searchParam={spec}
+                  deleteItem={deleteSearchParam}
+                  itemData={sData}
+                />
               );
             })}
 
-            {currentSelectedSpecifications.map((spec) => (
-              <div
-                key={spec}
-                className="flex items-center space-x-2 border-1 border-[#64fcfe] p-1 text-[#64fcfe]"
-              >
-                <span>{spec}</span>
-                <button
-                  className="cursor-pointer"
-                  onClick={() => deleteGenre(spec, SPEC)}
-                >
-                  X
-                </button>
-              </div>
-            ))}
+            {currentSelectedKeywords.map((k) => {
+              const keyword = cleanString(k);
+              const kData = keywords.find((g) => g.key === keyword);
+              if (!kData) {
+                return null;
+              }
 
-            {currentSelectedKeywords.map((keyword) => (
-              <div
-                key={keyword}
-                className="flex items-center space-x-2 border-1 border-[#FFC55C] p-1 text-[#FFC55C]"
-              >
-                <span>{keyword}</span>
-                <button
-                  className="cursor-pointer"
-                  onClick={() => deleteGenre(keyword, KEYWORD)}
-                >
-                  X
-                </button>
-              </div>
-            ))}
+              return (
+                <FilterBrick
+                  key={k}
+                  type={KEYWORD}
+                  searchParam={k}
+                  deleteItem={deleteSearchParam}
+                  itemData={kData}
+                />
+              );
+            })}
 
-            {currentSelectedActionTimes.map((actionTime) => (
-              <div
-                key={actionTime}
-                className="flex items-center space-x-2 border-1 border-[#92A8D1] p-1 text-[#92A8D1]"
-              >
-                <span>{actionTime}</span>
-                <button
-                  className="cursor-pointer"
-                  onClick={() => deleteGenre(actionTime, ACTION_TIME)}
-                >
-                  X
-                </button>
-              </div>
-            ))}
+            {currentSelectedActionTimes.map((a) => {
+              const actionTime = cleanString(a);
+              const aData = action_times.find((g) => g.key === actionTime);
+              if (!aData) {
+                return null;
+              }
+
+              return (
+                <FilterBrick
+                  key={a}
+                  type={ACTION_TIME}
+                  searchParam={a}
+                  deleteItem={deleteSearchParam}
+                  itemData={aData}
+                />
+              );
+            })}
 
             {currentSelectedActors.map((actor) => (
               <div
@@ -220,7 +156,7 @@ export const SelectedFilters = ({ children, genres, subgenres }: Props) => {
                 <span>{actor}</span>
                 <button
                   className="cursor-pointer"
-                  onClick={() => deleteGenre(actor, ACTOR)}
+                  onClick={() => deleteSearchParam(actor, ACTOR)}
                 >
                   X
                 </button>
@@ -235,7 +171,7 @@ export const SelectedFilters = ({ children, genres, subgenres }: Props) => {
                 <span>{director}</span>
                 <button
                   className="cursor-pointer"
-                  onClick={() => deleteGenre(director, DIRECTOR)}
+                  onClick={() => deleteSearchParam(director, DIRECTOR)}
                 >
                   X
                 </button>
@@ -247,7 +183,9 @@ export const SelectedFilters = ({ children, genres, subgenres }: Props) => {
                 <span>{currentExactMatch}</span>
                 <button
                   className="cursor-pointer"
-                  onClick={() => deleteGenre(currentExactMatch, EXACT_MATCH)}
+                  onClick={() =>
+                    deleteSearchParam(currentExactMatch, EXACT_MATCH)
+                  }
                 >
                   X
                 </button>

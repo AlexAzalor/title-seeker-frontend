@@ -49,7 +49,13 @@ export const FilterFetchWrapper = async ({ children }: PropsWithChildren) => {
         className="rounded-lg p-4"
         autoSaveId="super-search"
       >
-        <SelectedFilters genres={genres} subgenres={subgenres}>
+        <SelectedFilters
+          genres={genres}
+          subgenres={subgenres}
+          specifications={specifications}
+          keywords={keywords}
+          action_times={action_times}
+        >
           <ResizablePanel defaultSize={50} className="">
             <ResizablePanelGroup
               direction="horizontal"
