@@ -12,6 +12,7 @@ import { Checkbox } from "./ui/checkbox";
 import { Label } from "./ui/label";
 import { Button } from "./ui/button";
 import { DEFAULT_RANGE, extractWord } from "./super-search/enhance-search";
+import { handleSearchParams, modifyGenresSearchParams } from "@/lib/utils";
 
 const ModalMovie = dynamic(() => import("./movie/ui/modal-movie"));
 
@@ -57,14 +58,13 @@ export const Genres = ({ genres }: Props) => {
     availableSubgenres || [],
   );
 
-  const deleteGenreParam = (name: string, type: string) => {
-    const updatedSearchParams = new URLSearchParams(
-      currentSearchParams.toString(),
-    );
-
+  const deleteSubgenresParams = (
+    value: string,
+    updatedSearchParams: URLSearchParams,
+  ) => {
     if (subgenres.length) {
       const filtredSubgenres = subgenres.filter((subgenre) =>
-        name.includes(subgenre.parent_genre_key),
+        value.includes(subgenre.parent_genre_key),
       );
 
       if (filtredSubgenres.length) {
@@ -79,58 +79,46 @@ export const Genres = ({ genres }: Props) => {
         }
 
         setSubgenres((prev) =>
-          prev.filter((subgenre) => subgenre.parent_genre_key !== name),
+          prev.filter((subgenre) => subgenre.parent_genre_key !== value),
         );
       }
     }
-
-    updatedSearchParams.delete(type, name);
-    window.history.pushState(null, "", "?" + updatedSearchParams.toString());
-
-    router.replace("/super-search" + "?" + updatedSearchParams.toString(), {
-      scroll: false,
-    });
   };
 
-  function updateSearchParameters(
-    name: string,
-    type: string,
-    // genre?: string,
-    // genreType?: string,
-  ) {
-    const isGenre = currentSelectedGenres.find((e) => e.includes(name));
-    const isSubgenre = currentSelectedSubgenres.find((e) => e.includes(name));
-
-    if (isGenre) {
-      deleteGenreParam(isGenre, type);
-      return;
-    }
-
-    if (isSubgenre) {
-      deleteGenreParam(isSubgenre, type);
-      return;
-    }
-
-    const updatedSearchParams = new URLSearchParams(
-      currentSearchParams.toString(),
+  function updateSearchParameters(value: string, key: string) {
+    const genreToDelete = currentSelectedGenres.find((e) => e.includes(value));
+    const subgenreToDelete = currentSelectedSubgenres.find((e) =>
+      e.includes(value),
     );
 
-    updatedSearchParams.append(type, name + `(${DEFAULT_RANGE.join()})`);
+    if (key === GENRE) {
+      modifyGenresSearchParams(
+        key,
+        value + `(${DEFAULT_RANGE.join()})`,
+        genreToDelete,
+        currentSearchParams,
+        router,
+        deleteSubgenresParams,
+      );
+      return;
+    }
 
-    window.history.pushState(null, "", "?" + updatedSearchParams.toString());
-
-    router.replace("/super-search" + "?" + updatedSearchParams.toString(), {
-      scroll: false,
-    });
+    if (key === SUBGENRE) {
+      modifyGenresSearchParams(
+        key,
+        value + `(${DEFAULT_RANGE.join()})`,
+        subgenreToDelete,
+        currentSearchParams,
+        router,
+        deleteSubgenresParams,
+      );
+      return;
+    }
   }
 
   const clearAllFilters = () => {
-    const updatedSearchParams = new URLSearchParams();
-    window.history.pushState(null, "", "?" + updatedSearchParams.toString());
-
-    router.replace("/super-search" + "?" + updatedSearchParams.toString(), {
-      scroll: false,
-    });
+    const { refreshPage } = handleSearchParams(router);
+    refreshPage();
 
     setSubgenres([]);
   };
@@ -140,23 +128,14 @@ export const Genres = ({ genres }: Props) => {
   };
 
   function handleExactMatch() {
-    if (currentSearchParams.has(EXACT_MATCH)) {
-      deleteGenreParam("true", EXACT_MATCH);
-
-      return;
-    }
-
-    const updatedSearchParams = new URLSearchParams(
-      currentSearchParams.toString(),
+    modifyGenresSearchParams(
+      EXACT_MATCH,
+      "true",
+      currentSearchParams.has(EXACT_MATCH) ? "true" : "",
+      currentSearchParams,
+      router,
+      deleteSubgenresParams,
     );
-
-    updatedSearchParams.append(EXACT_MATCH, "true");
-
-    window.history.pushState(null, "", "?" + updatedSearchParams.toString());
-
-    router.replace("/super-search" + "?" + updatedSearchParams.toString(), {
-      scroll: false,
-    });
   }
 
   return (

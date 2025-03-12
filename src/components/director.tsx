@@ -6,6 +6,7 @@ import { DirectorOut } from "@/orval_api/model";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ItemsListSelector } from "./movie/ui/items-list-selector";
 import { AddNewDirector } from "./movie/add-movies-parts/add-new-director";
+import { modifyGenresSearchParams } from "@/lib/utils";
 
 const ModalMovie = dynamic(() => import("./movie/ui/modal-movie"));
 
@@ -23,38 +24,14 @@ export const Directors = ({ directors }: Props) => {
   const currentSearchParams = useSearchParams();
   const currentSelectedDirectors = currentSearchParams.getAll(DIRECTOR);
 
-  const deleteDirectorParam = (name: string) => {
-    const updatedSearchParams = new URLSearchParams(
-      currentSearchParams.toString(),
+  function searchByDirectors(name: string) {
+    modifyGenresSearchParams(
+      DIRECTOR,
+      name,
+      currentSearchParams.has(DIRECTOR, name) ? name : undefined,
+      currentSearchParams,
+      router,
     );
-    updatedSearchParams.delete(DIRECTOR, name);
-    window.history.pushState(null, "", "?" + updatedSearchParams.toString());
-
-    router.replace("/super-search" + "?" + updatedSearchParams.toString(), {
-      scroll: false,
-    });
-  };
-
-  function onClick(name: string) {
-    const query = name;
-
-    if (currentSearchParams.has(DIRECTOR, query)) {
-      deleteDirectorParam(query);
-
-      return;
-    }
-
-    const updatedSearchParams = new URLSearchParams(
-      currentSearchParams.toString(),
-    );
-
-    updatedSearchParams.append(DIRECTOR, query);
-
-    window.history.pushState(null, "", "?" + updatedSearchParams.toString());
-
-    router.replace("/super-search" + "?" + updatedSearchParams.toString(), {
-      scroll: false,
-    });
   }
 
   const handleOpenDirectorFormModal = useCallback(() => {
@@ -69,7 +46,7 @@ export const Directors = ({ directors }: Props) => {
         <ItemsListSelector
           items={directors}
           onOpenModal={handleOpenDirectorFormModal}
-          onSelect={(v, key) => onClick(key)}
+          onSelect={(v, key) => searchByDirectors(key)}
           checkIconStyle={currentSelectedDirectors}
         />
       </div>

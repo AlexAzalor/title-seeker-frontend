@@ -1,8 +1,23 @@
 import { clsx, type ClassValue } from "clsx";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { ReadonlyURLSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import { twMerge } from "tailwind-merge";
 
 type IntlOptions = Intl.DateTimeFormatOptions;
+
+export type SearchValue = {
+  name: string;
+  percentage_match: number[];
+};
+
+export type SearchFormValue = {
+  genres: SearchValue[];
+  subgenres: SearchValue[];
+  specifications: SearchValue[];
+  keywords: SearchValue[];
+  action_times: SearchValue[];
+};
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -87,4 +102,53 @@ export function formattedDuration(duration: number, lang = "uk") {
 
 export function cleanNumberValue(value: number) {
   return String(value).replace(/,/g, "");
+}
+
+export function handleSearchParams(
+  router: AppRouterInstance,
+  searchParams?: ReadonlyURLSearchParams,
+) {
+  const updatedSearchParams = new URLSearchParams(
+    searchParams ? searchParams.toString() : undefined,
+  );
+
+  function refreshPage() {
+    window.history.pushState(null, "", "?" + updatedSearchParams.toString());
+
+    // To refresh the page with the new search parameters
+    router.replace("/super-search" + "?" + updatedSearchParams.toString(), {
+      scroll: false,
+    });
+  }
+
+  return { updatedSearchParams, refreshPage };
+}
+
+/**
+ * ?key=value&key2=value2...
+ */
+export function modifyGenresSearchParams(
+  key: string,
+  value: string,
+  valueToDelete: string | undefined,
+  searchParams: ReadonlyURLSearchParams,
+  router: AppRouterInstance,
+  callback?: (value: string, updatedSearchParams: URLSearchParams) => void,
+) {
+  const { updatedSearchParams, refreshPage } = handleSearchParams(
+    router,
+    searchParams,
+  );
+
+  if (callback) {
+    callback(value, updatedSearchParams);
+  }
+
+  if (!!valueToDelete) {
+    updatedSearchParams.delete(key, valueToDelete);
+  } else {
+    updatedSearchParams.append(key, value);
+  }
+
+  refreshPage();
 }

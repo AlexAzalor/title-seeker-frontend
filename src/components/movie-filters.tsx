@@ -7,6 +7,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { ItemsListSelector } from "./movie/ui/items-list-selector";
 import { AddNewSpecification } from "./movie/add-movies-parts/add-new-specification";
 import { DEFAULT_RANGE, extractWord } from "./super-search/enhance-search";
+import { modifyGenresSearchParams } from "@/lib/utils";
 
 const ModalMovie = dynamic(() => import("./movie/ui/modal-movie"));
 
@@ -17,46 +18,22 @@ type Props = {
 };
 
 export const MovieFilters = ({ data, param_key, title }: Props) => {
-  const route = useRouter();
+  const router = useRouter();
 
   const [openFilterFormModal, setOpenFilterFormModal] = useState(false);
 
   const currentSearchParams = useSearchParams();
   const currentSelectedFilter = currentSearchParams.getAll(param_key);
 
-  const deleteSpecificationParam = (name: string) => {
-    const updatedSearchParams = new URLSearchParams(
-      currentSearchParams.toString(),
-    );
-    updatedSearchParams.delete(param_key, name);
-    window.history.pushState(null, "", "?" + updatedSearchParams.toString());
-
-    route.replace("/super-search" + "?" + updatedSearchParams.toString(), {
-      scroll: false,
-    });
-  };
-
   function onClick(name: string) {
-    const query = name;
-
     const item = currentSelectedFilter.find((e) => e.includes(name));
-    if (item) {
-      deleteSpecificationParam(item);
-
-      return;
-    }
-
-    const updatedSearchParams = new URLSearchParams(
-      currentSearchParams.toString(),
+    modifyGenresSearchParams(
+      param_key,
+      name + `(${DEFAULT_RANGE.join()})`,
+      item,
+      currentSearchParams,
+      router,
     );
-
-    updatedSearchParams.append(param_key, query + `(${DEFAULT_RANGE.join()})`);
-
-    window.history.pushState(null, "", "?" + updatedSearchParams.toString());
-
-    route.replace("/super-search" + "?" + updatedSearchParams.toString(), {
-      scroll: false,
-    });
   }
 
   return (

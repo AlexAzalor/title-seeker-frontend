@@ -217,8 +217,9 @@ export const MovieFeatureList = z.object({
 export const EnhanceSearchField = z.object({
   name: z.string().trim(),
   percentage_match: z.array(z.number()),
-  type: z.string().trim(),
 });
+
+export type EnhanceSearchType = z.infer<typeof EnhanceSearchField>;
 
 export const EnhanceSearchScheme = z.object({
   genres: z.array(EnhanceSearchField),

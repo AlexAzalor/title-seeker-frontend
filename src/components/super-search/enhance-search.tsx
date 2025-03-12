@@ -1,17 +1,22 @@
 "use client";
 
-import { Fragment, useEffect, useMemo } from "react";
+import { useEffect } from "react";
+import { useFieldArray, useForm } from "react-hook-form";
+import {
+  ReadonlyURLSearchParams,
+  useRouter,
+  useSearchParams,
+} from "next/navigation";
 
-import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { EnhanceSearchScheme } from "@/types/zod-scheme";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Button } from "../ui/button";
 import { GENRE, SUBGENRE } from "../genres";
-import { useRouter, useSearchParams } from "next/navigation";
-import { Slider } from "../ui/slider";
-import { Separator } from "../ui/separator";
+
 import { ACTION_TIME, KEYWORD, SPEC } from "../filter-fetch-wrapper";
+import { SearchFormValue, SearchValue } from "@/lib/utils";
+import { EnhancedFormSlider } from "./enhance-form-slider";
 
 export const cleanString = (str: string) => str.replace(/\(.*?\)/g, "");
 
@@ -31,17 +36,14 @@ export const extractWord = (str: string): string => {
   return match ? match[0].trim() : "";
 };
 
-export const EnhanceSearch = () => {
-  const router = useRouter();
-
-  const currentSearchParams = useSearchParams();
+const formatSearchParams = (currentSearchParams: ReadonlyURLSearchParams) => {
   const currentSelectedGenres = currentSearchParams.getAll(GENRE);
   const currentSelectedSubgenres = currentSearchParams.getAll(SUBGENRE);
   const currentSelectedSpecifications = currentSearchParams.getAll(SPEC);
   const currentSelectedKeywords = currentSearchParams.getAll(KEYWORD);
   const currentSelectedActionTimes = currentSearchParams.getAll(ACTION_TIME);
 
-  const showForm = useMemo(() => {
+  const showForm = () => {
     return (
       currentSelectedGenres.length > 0 ||
       currentSelectedSubgenres.length > 0 ||
@@ -49,63 +51,37 @@ export const EnhanceSearch = () => {
       currentSelectedKeywords.length > 0 ||
       currentSelectedActionTimes.length > 0
     );
-  }, [
-    currentSelectedGenres,
-    currentSelectedSubgenres,
-    currentSelectedSpecifications,
-    currentSelectedKeywords,
-    currentSelectedActionTimes,
-  ]);
+  };
 
-  const formatGenreData = useMemo(() => {
-    return (
-      currentSelectedGenres.map((genre) => ({
-        name: extractWord(genre),
-        percentage_match: extractValues(genre),
-        type: GENRE,
-      })) || []
-    );
-  }, [currentSelectedGenres]);
+  const getData = (params: string[]) => {
+    return params.map((param) => ({
+      name: extractWord(param),
+      percentage_match: extractValues(param),
+    }));
+  };
 
-  const formatSubgenreData = useMemo(() => {
-    return (
-      currentSelectedSubgenres.map((subgenre) => ({
-        name: extractWord(subgenre),
-        percentage_match: extractValues(subgenre),
-        type: SUBGENRE,
-      })) || []
-    );
-  }, [currentSelectedSubgenres]);
+  return {
+    formatGenreData: getData(currentSelectedGenres),
+    formatSubgenreData: getData(currentSelectedSubgenres),
+    formatSpecificationData: getData(currentSelectedSpecifications),
+    formatKeywordData: getData(currentSelectedKeywords),
+    formatActionTimeData: getData(currentSelectedActionTimes),
+    showForm: showForm(),
+  };
+};
 
-  const formatSpecificationData = useMemo(() => {
-    return (
-      currentSelectedSpecifications.map((spec) => ({
-        name: extractWord(spec),
-        percentage_match: extractValues(spec),
-        type: SPEC,
-      })) || []
-    );
-  }, [currentSelectedSpecifications]);
+export const EnhanceSearch = () => {
+  const router = useRouter();
 
-  const formatKeywordData = useMemo(() => {
-    return (
-      currentSelectedKeywords.map((keyword) => ({
-        name: extractWord(keyword),
-        percentage_match: extractValues(keyword),
-        type: KEYWORD,
-      })) || []
-    );
-  }, [currentSelectedKeywords]);
-
-  const formatActionTimeData = useMemo(() => {
-    return (
-      currentSelectedActionTimes.map((actionTime) => ({
-        name: extractWord(actionTime),
-        percentage_match: extractValues(actionTime),
-        type: ACTION_TIME,
-      })) || []
-    );
-  }, [currentSelectedActionTimes]);
+  const currentSearchParams = useSearchParams();
+  const {
+    formatGenreData,
+    formatSubgenreData,
+    formatSpecificationData,
+    formatKeywordData,
+    formatActionTimeData,
+    showForm,
+  } = formatSearchParams(currentSearchParams);
 
   const {
     control,
@@ -123,60 +99,25 @@ export const EnhanceSearch = () => {
     },
   });
 
-  // Effect to update the form when query params change
   useEffect(() => {
-    const itemsFromParams = currentSearchParams.getAll(GENRE);
-    const itemsFromSubParams = currentSearchParams.getAll(SUBGENRE);
-    const itemsFromSpecParams = currentSearchParams.getAll(SPEC);
-    const itemsFormKeywords = currentSearchParams.getAll(KEYWORD);
-    const itemsFormActionTimes = currentSearchParams.getAll(ACTION_TIME);
+    const getItems = (key: string) => {
+      const paramsItemsList = currentSearchParams.getAll(key);
 
-    const items =
-      itemsFromParams.map((genre) => ({
-        name: extractWord(genre),
-        percentage_match: extractValues(genre),
-        type: GENRE,
-      })) || [];
-    const itemsSubgenres =
-      itemsFromSubParams.map((subgenre) => ({
-        name: extractWord(subgenre),
-        percentage_match: extractValues(subgenre),
-        type: SUBGENRE,
-      })) || [];
-    const itemsSpec =
-      itemsFromSpecParams.map((spec) => ({
-        name: extractWord(spec),
-        percentage_match: extractValues(spec),
-        type: SPEC,
-      })) || [];
+      const items = paramsItemsList.map((item) => ({
+        name: extractWord(item),
+        percentage_match: extractValues(item),
+      }));
 
-    const itemsKeywords =
-      itemsFormKeywords.map((keyword) => ({
-        name: extractWord(keyword),
-        percentage_match: extractValues(keyword),
-        type: KEYWORD,
-      })) || [];
+      return items;
+    };
 
-    const itemsActionTimes =
-      itemsFormActionTimes.map((actionTime) => ({
-        name: extractWord(actionTime),
-        percentage_match: extractValues(actionTime),
-        type: ACTION_TIME,
-      })) || [];
-
-    try {
-      if (Array.isArray(items)) {
-        reset({
-          genres: items,
-          subgenres: itemsSubgenres,
-          specifications: itemsSpec,
-          keywords: itemsKeywords,
-          action_times: itemsActionTimes,
-        }); // Reset form with new values
-      }
-    } catch {
-      console.error("Invalid JSON in query params");
-    }
+    reset({
+      genres: getItems(GENRE),
+      subgenres: getItems(SUBGENRE),
+      specifications: getItems(SPEC),
+      keywords: getItems(KEYWORD),
+      action_times: getItems(ACTION_TIME),
+    }); // Reset form with new values
   }, [currentSearchParams, reset]);
 
   const { fields: genresFields } = useFieldArray({
@@ -204,20 +145,7 @@ export const EnhanceSearch = () => {
     name: "action_times",
   });
 
-  const onSubmit = (data: {
-    genres: { name: string; percentage_match: number[]; type: string }[];
-    subgenres: { name: string; percentage_match: number[]; type: string }[];
-    specifications: {
-      name: string;
-      percentage_match: number[];
-      type: string;
-    }[];
-    keywords: { name: string; percentage_match: number[]; type: string }[];
-    action_times: { name: string; percentage_match: number[]; type: string }[];
-  }) => {
-    console.log("isDirty", isDirty);
-    console.log("FORM data", data);
-
+  const onSubmit = (data: SearchFormValue) => {
     if (!isDirty) {
       return;
     }
@@ -225,51 +153,36 @@ export const EnhanceSearch = () => {
     const updatedSearchParams = new URLSearchParams(
       currentSearchParams.toString(),
     );
-    updatedSearchParams.delete(GENRE);
-    updatedSearchParams.delete(SUBGENRE);
-    updatedSearchParams.delete(SPEC);
-    updatedSearchParams.delete(KEYWORD);
-    updatedSearchParams.delete(ACTION_TIME);
 
-    for (const genre of data.genres) {
-      updatedSearchParams.append(
-        GENRE,
-        cleanString(genre.name) + `(${genre.percentage_match.toString()})`,
-      );
-      window.history.pushState(null, "", "?" + updatedSearchParams.toString());
+    const keysList = [GENRE, SUBGENRE, SPEC, KEYWORD, ACTION_TIME];
+
+    for (const item of keysList) {
+      updatedSearchParams.delete(item);
     }
 
-    for (const subgenre of data.subgenres) {
-      updatedSearchParams.append(
-        SUBGENRE,
-        cleanString(subgenre.name) +
-          `(${subgenre.percentage_match.toString()})`,
+    function getData(data: SearchValue[], key: string) {
+      const itemsList = data.map(
+        (item) =>
+          `${cleanString(item.name)}(${item.percentage_match.toString()})`,
       );
-      window.history.pushState(null, "", "?" + updatedSearchParams.toString());
-    }
-    for (const spec of data.specifications) {
-      updatedSearchParams.append(
-        SPEC,
-        cleanString(spec.name) + `(${spec.percentage_match.toString()})`,
-      );
-      window.history.pushState(null, "", "?" + updatedSearchParams.toString());
-    }
-    for (const keyword of data.keywords) {
-      updatedSearchParams.append(
-        KEYWORD,
-        cleanString(keyword.name) + `(${keyword.percentage_match.toString()})`,
-      );
-      window.history.pushState(null, "", "?" + updatedSearchParams.toString());
-    }
-    for (const actionTime of data.action_times) {
-      updatedSearchParams.append(
-        ACTION_TIME,
-        cleanString(actionTime.name) +
-          `(${actionTime.percentage_match.toString()})`,
-      );
-      window.history.pushState(null, "", "?" + updatedSearchParams.toString());
+
+      for (const item of itemsList) {
+        updatedSearchParams.append(key, item);
+        window.history.pushState(
+          null,
+          "",
+          "?" + updatedSearchParams.toString(),
+        );
+      }
     }
 
+    getData(data.genres, GENRE);
+    getData(data.subgenres, SUBGENRE);
+    getData(data.specifications, SPEC);
+    getData(data.keywords, KEYWORD);
+    getData(data.action_times, ACTION_TIME);
+
+    // To refresh the page with the new search parameters
     router.replace("/super-search" + "?" + updatedSearchParams.toString(), {
       scroll: false,
     });
@@ -281,172 +194,37 @@ export const EnhanceSearch = () => {
 
       {showForm && (
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-          {genresFields.map((field, index) => (
-            <Fragment key={field.id}>
-              <p>{field.name}</p>
-              <Controller
-                control={control}
-                name={`genres.${index}.percentage_match`}
-                render={({
-                  field: { onChange, value },
-                  fieldState: { error },
-                }) => (
-                  <>
-                    <span>{value.join(" - ")}</span>
-                    <Slider
-                      range
-                      defaultValue={value}
-                      onValueChange={onChange}
-                      step={1}
-                      max={100}
-                      minStepsBetweenThumbs={10}
-                    />
-                    {error && (
-                      <span className="text-sm text-red-500">
-                        {error.message}
-                      </span>
-                    )}
-                  </>
-                )}
-              />
-            </Fragment>
-          ))}
+          <EnhancedFormSlider
+            name="genres"
+            control={control}
+            itemsList={genresFields}
+          />
 
-          <Separator className="my-4" />
+          <EnhancedFormSlider
+            name="subgenres"
+            control={control}
+            itemsList={subgenresFields}
+          />
 
-          {subgenresFields.map((field, index) => (
-            <Fragment key={field.id}>
-              <p>{field.name}</p>
-              <Controller
-                control={control}
-                name={`subgenres.${index}.percentage_match`}
-                render={({
-                  field: { onChange, value },
-                  fieldState: { error },
-                }) => (
-                  <>
-                    <span>{value.join(" - ")}</span>
-                    <Slider
-                      range
-                      defaultValue={value}
-                      onValueChange={onChange}
-                      step={1}
-                      max={100}
-                      minStepsBetweenThumbs={10}
-                    />
-                    {error && (
-                      <span className="text-sm text-red-500">
-                        {error.message}
-                      </span>
-                    )}
-                  </>
-                )}
-              />
-            </Fragment>
-          ))}
+          <EnhancedFormSlider
+            name="specifications"
+            control={control}
+            itemsList={specificationsFields}
+          />
 
-          <Separator className="my-4" />
+          <EnhancedFormSlider
+            name="keywords"
+            control={control}
+            itemsList={keywordsFields}
+          />
 
-          {specificationsFields.map((field, index) => (
-            <Fragment key={field.id}>
-              <p>{field.name}</p>
-              <Controller
-                control={control}
-                name={`specifications.${index}.percentage_match`}
-                render={({
-                  field: { onChange, value },
-                  fieldState: { error },
-                }) => (
-                  <>
-                    <span>{value.join(" - ")}</span>
-                    <Slider
-                      range
-                      defaultValue={value}
-                      onValueChange={onChange}
-                      step={1}
-                      max={100}
-                      minStepsBetweenThumbs={10}
-                    />
-                    {error && (
-                      <span className="text-sm text-red-500">
-                        {error.message}
-                      </span>
-                    )}
-                  </>
-                )}
-              />
-            </Fragment>
-          ))}
+          <EnhancedFormSlider
+            name="action_times"
+            control={control}
+            itemsList={actionTimesFields}
+          />
 
-          <Separator className="my-4" />
-
-          {keywordsFields.map((field, index) => (
-            <Fragment key={field.id}>
-              <p>{field.name}</p>
-              <Controller
-                control={control}
-                name={`keywords.${index}.percentage_match`}
-                render={({
-                  field: { onChange, value },
-                  fieldState: { error },
-                }) => (
-                  <>
-                    <span>{value.join(" - ")}</span>
-                    <Slider
-                      range
-                      defaultValue={value}
-                      onValueChange={onChange}
-                      step={1}
-                      max={100}
-                      minStepsBetweenThumbs={10}
-                    />
-                    {error && (
-                      <span className="text-sm text-red-500">
-                        {error.message}
-                      </span>
-                    )}
-                  </>
-                )}
-              />
-            </Fragment>
-          ))}
-
-          <Separator className="my-4" />
-
-          {actionTimesFields.map((field, index) => (
-            <Fragment key={field.id}>
-              <p>{field.name}</p>
-              <Controller
-                control={control}
-                name={`action_times.${index}.percentage_match`}
-                render={({
-                  field: { onChange, value },
-                  fieldState: { error },
-                }) => (
-                  <>
-                    <span>{value.join(" - ")}</span>
-                    <Slider
-                      range
-                      defaultValue={value}
-                      onValueChange={onChange}
-                      step={1}
-                      max={100}
-                      minStepsBetweenThumbs={10}
-                    />
-                    {error && (
-                      <span className="text-sm text-red-500">
-                        {error.message}
-                      </span>
-                    )}
-                  </>
-                )}
-              />
-            </Fragment>
-          ))}
-
-          <Button type="submit" onClick={() => {}}>
-            Submit
-          </Button>
+          <Button type="submit">Submit</Button>
         </form>
       )}
     </div>

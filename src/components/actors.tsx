@@ -6,6 +6,7 @@ import { ActorOut } from "@/orval_api/model";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ItemsListSelector } from "./movie/ui/items-list-selector";
 import { AddNewActor } from "./movie/add-movies-parts/add-new-actor";
+import { modifyGenresSearchParams } from "@/lib/utils";
 
 const ModalMovie = dynamic(() => import("./movie/ui/modal-movie"));
 
@@ -23,38 +24,14 @@ export const Actors = ({ actors }: Props) => {
   const currentSearchParams = useSearchParams();
   const currentSelectedActors = currentSearchParams.getAll(ACTOR);
 
-  const deleteActorParam = (name: string) => {
-    const updatedSearchParams = new URLSearchParams(
-      currentSearchParams.toString(),
+  function searchByActors(name: string) {
+    modifyGenresSearchParams(
+      ACTOR,
+      name,
+      currentSearchParams.has(ACTOR, name) ? name : undefined,
+      currentSearchParams,
+      router,
     );
-    updatedSearchParams.delete(ACTOR, name);
-    window.history.pushState(null, "", "?" + updatedSearchParams.toString());
-
-    router.replace("/super-search" + "?" + updatedSearchParams.toString(), {
-      scroll: false,
-    });
-  };
-
-  function onClick(name: string) {
-    const query = name;
-
-    if (currentSearchParams.has(ACTOR, query)) {
-      deleteActorParam(query);
-
-      return;
-    }
-
-    const updatedSearchParams = new URLSearchParams(
-      currentSearchParams.toString(),
-    );
-
-    updatedSearchParams.append(ACTOR, query);
-
-    window.history.pushState(null, "", "?" + updatedSearchParams.toString());
-
-    router.replace("/super-search" + "?" + updatedSearchParams.toString(), {
-      scroll: false,
-    });
   }
 
   const handleOpenActorFormModal = useCallback(() => {
@@ -69,7 +46,7 @@ export const Actors = ({ actors }: Props) => {
         <ItemsListSelector
           items={actors}
           onOpenModal={handleOpenActorFormModal}
-          onSelect={(v, key) => onClick(key)}
+          onSelect={(v, key) => searchByActors(key)}
           checkIconStyle={currentSelectedActors}
         />
       </div>

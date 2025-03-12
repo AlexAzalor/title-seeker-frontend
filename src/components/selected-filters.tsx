@@ -7,7 +7,7 @@ import { ACTION_TIME, KEYWORD, SPEC } from "./filter-fetch-wrapper";
 import { ACTOR } from "./actors";
 import { DIRECTOR } from "./director";
 import { ResizableHandle, ResizablePanel } from "./ui/resizable";
-import { cn } from "@/lib/utils";
+import { cn, modifyGenresSearchParams } from "@/lib/utils";
 import { TooltipWrapper } from "./custom/tooltip-wrapper";
 import { CircleX, InfoIcon } from "lucide-react";
 import { GenreOutPlus, SubgenreOutPlus } from "@/orval_api/model";
@@ -36,11 +36,10 @@ export const SelectedFilters = ({ children, genres, subgenres }: Props) => {
   const currentSelectedDirectors = currentSearchParams.getAll(DIRECTOR);
   const currentExactMatch = currentSearchParams.get(EXACT_MATCH);
 
-  const deleteGenre = (genre: string, type: string) => {
-    const updatedSearchParams = new URLSearchParams(
-      currentSearchParams.toString(),
-    );
-
+  const deleteSubgenres = (
+    genre: string,
+    updatedSearchParams: URLSearchParams,
+  ) => {
     if (subgenres.length) {
       const filtredSubgenres = subgenres.filter((subgenre) =>
         genre.includes(subgenre.parent_genre_key),
@@ -58,14 +57,17 @@ export const SelectedFilters = ({ children, genres, subgenres }: Props) => {
         }
       }
     }
+  };
 
-    updatedSearchParams.delete(type, genre);
-
-    window.history.pushState(null, "", "?" + updatedSearchParams.toString());
-
-    router.replace("/super-search" + "?" + updatedSearchParams.toString(), {
-      scroll: false,
-    });
+  const deleteGenre = (genre: string, type: string) => {
+    modifyGenresSearchParams(
+      type,
+      genre,
+      genre,
+      currentSearchParams,
+      router,
+      deleteSubgenres,
+    );
   };
 
   return (
