@@ -165,6 +165,10 @@
     0 0 6px #ffc55c, inset 0 0 10px #ffc55c;
   --shadow-movie-action-time: 0px 0px 0px 0px #92a8d1, 0 0 10px #92a8d1,
     0 0 6px #92a8d1, inset 0 0 10px #92a8d1;
+  --shadow-movie-actor: 0px 0px 0px 0px #90ee90, 0 0 10px #90ee90,
+    0 0 6px #90ee90, inset 0 0 10px #90ee90;
+  --shadow-movie-director: 0px 0px 0px 0px #f08080, 0 0 10px #f08080,
+    0 0 6px #f08080, inset 0 0 10px #f08080;
 
   @keyframes accordion-down {
     from {

@@ -6,10 +6,12 @@ import { ACTION_TIME, KEYWORD, SPEC } from "./filter-fetch-wrapper";
 import { ACTOR } from "./actors";
 import { DIRECTOR } from "./director";
 import { ResizableHandle, ResizablePanel } from "./ui/resizable";
-import { cleanString, modifyGenresSearchParams } from "@/lib/utils";
+import { modifyGenresSearchParams } from "@/lib/utils";
 
 import {
   ActionTimeOut,
+  ActorOut,
+  DirectorOut,
   GenreOutPlus,
   KeywordOut,
   SpecificationOut,
@@ -26,6 +28,8 @@ type Props = {
   specifications: SpecificationOut[];
   keywords: KeywordOut[];
   action_times: ActionTimeOut[];
+  actors: ActorOut[];
+  directors: DirectorOut[];
 };
 
 export const SelectedFilters = ({
@@ -35,6 +39,8 @@ export const SelectedFilters = ({
   specifications,
   keywords,
   action_times,
+  actors,
+  directors,
 }: Props) => {
   const router = useRouter();
 
@@ -94,89 +100,37 @@ export const SelectedFilters = ({
               deleteSearchParam={deleteSearchParam}
             />
 
-            {currentSelectedSpecifications.map((spec) => {
-              const specification = cleanString(spec);
-              const sData = specifications.find((g) => g.key === specification);
-              if (!sData) {
-                return null;
-              }
+            <FilterBrick
+              type={SPEC}
+              searchParamsList={currentSelectedSpecifications}
+              data={specifications}
+              deleteItem={deleteSearchParam}
+            />
+            <FilterBrick
+              type={KEYWORD}
+              searchParamsList={currentSelectedKeywords}
+              data={keywords}
+              deleteItem={deleteSearchParam}
+            />
+            <FilterBrick
+              type={ACTION_TIME}
+              searchParamsList={currentSelectedActionTimes}
+              data={action_times}
+              deleteItem={deleteSearchParam}
+            />
 
-              return (
-                <FilterBrick
-                  key={spec}
-                  type={SPEC}
-                  searchParam={spec}
-                  deleteItem={deleteSearchParam}
-                  itemData={sData}
-                />
-              );
-            })}
-
-            {currentSelectedKeywords.map((k) => {
-              const keyword = cleanString(k);
-              const kData = keywords.find((g) => g.key === keyword);
-              if (!kData) {
-                return null;
-              }
-
-              return (
-                <FilterBrick
-                  key={k}
-                  type={KEYWORD}
-                  searchParam={k}
-                  deleteItem={deleteSearchParam}
-                  itemData={kData}
-                />
-              );
-            })}
-
-            {currentSelectedActionTimes.map((a) => {
-              const actionTime = cleanString(a);
-              const aData = action_times.find((g) => g.key === actionTime);
-              if (!aData) {
-                return null;
-              }
-
-              return (
-                <FilterBrick
-                  key={a}
-                  type={ACTION_TIME}
-                  searchParam={a}
-                  deleteItem={deleteSearchParam}
-                  itemData={aData}
-                />
-              );
-            })}
-
-            {currentSelectedActors.map((actor) => (
-              <div
-                key={actor}
-                className="flex items-center space-x-2 border-1 border-green-500 p-1 text-green-500"
-              >
-                <span>{actor}</span>
-                <button
-                  className="cursor-pointer"
-                  onClick={() => deleteSearchParam(actor, ACTOR)}
-                >
-                  X
-                </button>
-              </div>
-            ))}
-
-            {currentSelectedDirectors.map((director) => (
-              <div
-                key={director}
-                className="flex items-center space-x-2 border-1 border-red-500 p-1 text-red-500"
-              >
-                <span>{director}</span>
-                <button
-                  className="cursor-pointer"
-                  onClick={() => deleteSearchParam(director, DIRECTOR)}
-                >
-                  X
-                </button>
-              </div>
-            ))}
+            <FilterBrick
+              type={ACTOR}
+              searchParamsList={currentSelectedActors}
+              data={actors}
+              deleteItem={deleteSearchParam}
+            />
+            <FilterBrick
+              type={DIRECTOR}
+              searchParamsList={currentSelectedDirectors}
+              data={directors}
+              deleteItem={deleteSearchParam}
+            />
 
             {currentExactMatch && (
               <div className="flex items-center space-x-2 border-1 border-black p-1 text-black dark:border-white dark:text-white">

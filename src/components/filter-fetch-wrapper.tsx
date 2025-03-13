@@ -55,6 +55,8 @@ export const FilterFetchWrapper = async ({ children }: PropsWithChildren) => {
           specifications={specifications}
           keywords={keywords}
           action_times={action_times}
+          actors={actors}
+          directors={directors}
         >
           <ResizablePanel defaultSize={50} className="">
             <ResizablePanelGroup
