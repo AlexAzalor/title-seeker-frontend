@@ -14,6 +14,7 @@ import { GENRE, SUBGENRE } from "./genres";
 import { ACTION_TIME, KEYWORD, SPEC } from "./filter-fetch-wrapper";
 import { ACTOR } from "./actors";
 import { DIRECTOR } from "./director";
+import { getFilterColor } from "./movie/utils";
 
 type Data = {
   key: string;
@@ -33,17 +34,6 @@ type Props<ItemData extends Data> = {
   hoveredGenre?: string | null;
 };
 
-const getColor = (type: string) =>
-  ({
-    [GENRE]: "#4A3AFF",
-    [SUBGENRE]: "#9d4eff",
-    [SPEC]: "#64fcfe",
-    [KEYWORD]: "#FFC55C",
-    [ACTION_TIME]: "#92A8D1",
-    [ACTOR]: "#90ee90",
-    [DIRECTOR]: "#f08080",
-  })[type] || "#000";
-
 export const FilterBrick = <ItemData extends Data>({
   data,
   searchParamsList,
@@ -55,7 +45,7 @@ export const FilterBrick = <ItemData extends Data>({
   hoveredGenre,
 }: Props<ItemData>) => {
   const color = useMemo(() => {
-    return getColor(type);
+    return getFilterColor(type);
   }, [type]);
 
   return searchParamsList.map((searchParam) => {

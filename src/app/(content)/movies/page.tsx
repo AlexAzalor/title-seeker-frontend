@@ -5,15 +5,15 @@ import { getMovies } from "@/orval_api/movies/movies";
 import { backendURL, POSTER_URL } from "@/lib/constants";
 import { Language } from "@/orval_api/model";
 import { formatDate } from "@/lib/utils";
-import { cache } from "react";
+// import { cache } from "react";
 
-export const getLocaleFunc = cache(async () => {
-  return await getLocale();
-});
+// export const getLocaleFunc = cache(async () => {
+//   return await getLocale();
+// });
 
 export default async function MoviesPage() {
   const t = await getTranslations("HomePage");
-  const locale = await getLocaleFunc();
+  const locale = await getLocale();
   const lang = Language[locale as keyof typeof Language];
 
   const { aPIGetMovies } = getMovies();

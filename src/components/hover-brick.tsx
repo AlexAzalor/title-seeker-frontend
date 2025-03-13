@@ -1,11 +1,11 @@
 import { FilterBrick } from "./filter-brick";
 import { GENRE, SUBGENRE } from "./genres";
 import { useState } from "react";
-import { GenreOutPlus, SubgenreOutPlus } from "@/orval_api/model";
+import { GenreOut, SubgenreOut } from "@/orval_api/model";
 
 type Props = {
-  genres: GenreOutPlus[];
-  subgenres: SubgenreOutPlus[];
+  genres: GenreOut[];
+  subgenres: SubgenreOut[];
   genreItemsList: string[];
   subgenreItemsList: string[];
   deleteSearchParam: (genre: string, type: string) => void;

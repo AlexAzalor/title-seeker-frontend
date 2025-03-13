@@ -7,7 +7,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { EnhanceSearchScheme } from "@/types/zod-scheme";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { Button } from "../ui/button";
 import { GENRE, SUBGENRE } from "../genres";
 
 import { ACTION_TIME, KEYWORD, SPEC } from "../filter-fetch-wrapper";
@@ -182,12 +181,12 @@ export const EnhanceSearch = () => {
             />
           )}
 
-          <Button
-            className="mt-5 w-full rounded-2xl bg-[#4A3AFF] p-2 text-white transition-colors duration-200 hover:bg-[#342BBB]"
+          <button
+            className="mt-5 w-full rounded-2xl bg-[#4A3AFF] p-2 text-white transition-colors duration-200 hover:bg-[#342BBB] dark:bg-[#4A3AFF]"
             type="submit"
           >
             Submit
-          </Button>
+          </button>
         </form>
       )}
     </div>

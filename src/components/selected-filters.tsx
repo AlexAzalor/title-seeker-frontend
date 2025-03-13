@@ -12,10 +12,10 @@ import {
   ActionTimeOut,
   ActorOut,
   DirectorOut,
-  GenreOutPlus,
+  GenreOut,
   KeywordOut,
   SpecificationOut,
-  SubgenreOutPlus,
+  SubgenreOut,
 } from "@/orval_api/model";
 
 import { FilterBrick } from "./filter-brick";
@@ -24,8 +24,8 @@ import { CircleX } from "lucide-react";
 
 type Props = {
   children: React.ReactNode;
-  genres: GenreOutPlus[];
-  subgenres: SubgenreOutPlus[];
+  genres: GenreOut[];
+  subgenres: SubgenreOut[];
   specifications: SpecificationOut[];
   keywords: KeywordOut[];
   action_times: ActionTimeOut[];
