@@ -169,6 +169,10 @@
     0 0 6px #90ee90, inset 0 0 10px #90ee90;
   --shadow-movie-director: 0px 0px 0px 0px #f08080, 0 0 10px #f08080,
     0 0 6px #f08080, inset 0 0 10px #f08080;
+  --shadow-movie-exact-match: 0px 0px 0px 0px #000000, 0 0 10px #000000,
+    0 0 6px #000000, inset 0 0 10px #000000;
+  --shadow-movie-exact-match-light: 0px 0px 0px 0px #ffffff, 0 0 10px #ffffff,
+    0 0 6px #ffffff, inset 0 0 10px #ffffff;
 
   @keyframes accordion-down {
     from {

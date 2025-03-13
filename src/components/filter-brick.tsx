@@ -1,9 +1,9 @@
 import { useMemo } from "react";
 import { CircleX, InfoIcon } from "lucide-react";
 import { TooltipWrapper } from "./custom/tooltip-wrapper";
-import { cleanString, cn } from "@/lib/utils";
+import { cleanString, cn, extractValues } from "@/lib/utils";
 import { GENRE, SUBGENRE } from "./genres";
-import { percentageMatchColor } from "./movie/utils";
+// import { percentageMatchColor } from "./movie/utils";
 // import {
 //   ActionTimeOut,
 //   GenreOutPlus,
@@ -33,6 +33,17 @@ type Props<ItemData extends Data> = {
   hoveredGenre?: string | null;
 };
 
+const getColor = (type: string) =>
+  ({
+    [GENRE]: "#4A3AFF",
+    [SUBGENRE]: "#9d4eff",
+    [SPEC]: "#64fcfe",
+    [KEYWORD]: "#FFC55C",
+    [ACTION_TIME]: "#92A8D1",
+    [ACTOR]: "#90ee90",
+    [DIRECTOR]: "#f08080",
+  })[type] || "#000";
+
 export const FilterBrick = <ItemData extends Data>({
   data,
   searchParamsList,
@@ -44,28 +55,7 @@ export const FilterBrick = <ItemData extends Data>({
   hoveredGenre,
 }: Props<ItemData>) => {
   const color = useMemo(() => {
-    if (type === GENRE) {
-      return "#4A3AFF";
-    }
-    if (type === SUBGENRE) {
-      return "#9d4eff";
-    }
-    if (type === SPEC) {
-      return "#64fcfe";
-    }
-    if (type === KEYWORD) {
-      return "#FFC55C";
-    }
-    if (type === ACTION_TIME) {
-      return "#92A8D1";
-    }
-    if (type === ACTOR) {
-      return "#90ee90";
-    }
-    if (type === DIRECTOR) {
-      return "#f08080";
-    }
-    return "";
+    return getColor(type);
   }, [type]);
 
   return searchParamsList.map((searchParam) => {
@@ -75,12 +65,13 @@ export const FilterBrick = <ItemData extends Data>({
     if (!item) {
       return null;
     }
+    const itemPercentMatchRange = extractValues(searchParam);
 
     return (
       <div
         key={searchParam}
         className={cn(
-          "hover:shadow-neon-border-fill relative flex min-h-10 min-w-28 items-center rounded-xl border-2 transition-shadow",
+          "hover:shadow-neon-border-fill group relative flex min-h-12 min-w-28 items-center rounded-xl border-2 transition-shadow",
           type === GENRE && "dark:border-[#4A3AFF]",
           type === SUBGENRE && "dark:border-[#9d4eff]",
           hoveredSubgenre === cleanSearchParam &&
@@ -110,10 +101,10 @@ export const FilterBrick = <ItemData extends Data>({
       >
         <div
           style={{
-            width: `${50}%`,
+            // width: `${50}%`,
             borderColor: color,
             boxShadow: `0px 0px 0px 0px ${color}, 0 0 10px ${color}, 0 0 6px ${color}, inset 0 0 12px ${color}`,
-            background: color + "66",
+            // background: color + "66",
           }}
           className={cn(
             "absolute size-full rounded-lg border",
@@ -127,17 +118,22 @@ export const FilterBrick = <ItemData extends Data>({
           )}
         />
 
-        <div className="relative mx-auto flex items-center gap-1 px-1">
+        <div className="relative mx-auto flex items-center gap-1 px-2">
           {item.description && (
             <TooltipWrapper
               asChild
-              content={percentageMatchColor(50, item.description)}
+              // content={percentageMatchColor(50, item.description)}
+              content={item.description}
             >
-              <InfoIcon className="h-4 w-4" />
+              <InfoIcon className="h-4 w-4 opacity-50 transition-opacity group-hover:opacity-100" />
             </TooltipWrapper>
           )}
-          <span>{item.name}</span>
-
+          <div className="flex flex-col items-center leading-4">
+            <p style={{ fontWeight: "bold" }}>{item.name}</p>
+            {![ACTOR, DIRECTOR].includes(type) && (
+              <p className="text-sm">({itemPercentMatchRange.join("-")})</p>
+            )}
+          </div>
           <CircleX
             className="top-0 right-0 h-4 w-4 cursor-pointer"
             onClick={() => deleteItem(searchParam, type)}

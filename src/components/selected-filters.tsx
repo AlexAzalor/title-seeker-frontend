@@ -20,6 +20,7 @@ import {
 
 import { FilterBrick } from "./filter-brick";
 import { HoverBrick } from "./hover-brick";
+import { CircleX } from "lucide-react";
 
 type Props = {
   children: React.ReactNode;
@@ -133,16 +134,14 @@ export const SelectedFilters = ({
             />
 
             {currentExactMatch && (
-              <div className="flex items-center space-x-2 border-1 border-black p-1 text-black dark:border-white dark:text-white">
-                <span>{currentExactMatch}</span>
-                <button
-                  className="cursor-pointer"
+              <div className="hover:shadow-movie-exact-match dark:hover:shadow-movie-exact-match-light flex items-center space-x-1 rounded-xl border-1 border-black p-1 font-bold text-black transition-shadow dark:border-white dark:text-white">
+                <span>Exact match</span>
+                <CircleX
+                  className="top-0 right-0 h-4 w-4 cursor-pointer"
                   onClick={() =>
                     deleteSearchParam(currentExactMatch, EXACT_MATCH)
                   }
-                >
-                  X
-                </button>
+                />
               </div>
             )}
           </div>
