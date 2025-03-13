@@ -213,3 +213,18 @@ export const MovieFeatureList = z.object({
     .array(MovieFeatureField)
     .min(1, { message: "At least one Action Time must be selected" }),
 });
+
+export const EnhanceSearchField = z.object({
+  name: z.string().trim(),
+  percentage_match: z.array(z.number()),
+});
+
+export type EnhanceSearchType = z.infer<typeof EnhanceSearchField>;
+
+export const EnhanceSearchScheme = z.object({
+  genres: z.array(EnhanceSearchField),
+  subgenres: z.array(EnhanceSearchField),
+  specifications: z.array(EnhanceSearchField),
+  keywords: z.array(EnhanceSearchField),
+  action_times: z.array(EnhanceSearchField),
+});

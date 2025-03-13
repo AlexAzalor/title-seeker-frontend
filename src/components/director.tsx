@@ -1,79 +1,65 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+import { Suspense, useCallback, useState } from "react";
+import dynamic from "next/dynamic";
 import { DirectorOut } from "@/orval_api/model";
 import { useRouter, useSearchParams } from "next/navigation";
+import { ItemsListSelector } from "./movie/ui/items-list-selector";
+import { AddNewDirector } from "./movie/add-movies-parts/add-new-director";
+import { modifyGenresSearchParams } from "@/lib/utils";
+
+const ModalMovie = dynamic(() => import("./movie/ui/modal-movie"));
+
+export const DIRECTOR = "director_name";
 
 type Props = {
   directors: DirectorOut[];
 };
 
 export const Directors = ({ directors }: Props) => {
-  const route = useRouter();
+  const router = useRouter();
+
+  const [openDirectorFormModal, setOpenDirectorFormModal] = useState(false);
 
   const currentSearchParams = useSearchParams();
-  const currentSelectedDirectors = currentSearchParams.getAll("director_name");
+  const currentSelectedDirectors = currentSearchParams.getAll(DIRECTOR);
 
-  const deleteDirectorParam = (name: string) => {
-    const updatedSearchParams = new URLSearchParams(
-      currentSearchParams.toString(),
+  function searchByDirectors(name: string) {
+    modifyGenresSearchParams(
+      DIRECTOR,
+      name,
+      currentSearchParams.has(DIRECTOR, name) ? name : undefined,
+      currentSearchParams,
+      router,
     );
-    updatedSearchParams.delete("director_name", name);
-    window.history.pushState(null, "", "?" + updatedSearchParams.toString());
-
-    // route.refresh();
-    route.replace("/super-search" + "?" + updatedSearchParams.toString(), {
-      scroll: false,
-    });
-  };
-
-  function onClick(name: string) {
-    const query = name;
-
-    if (currentSearchParams.has("director_name", query)) {
-      deleteDirectorParam(query);
-
-      return;
-    }
-
-    const updatedSearchParams = new URLSearchParams(
-      currentSearchParams.toString(),
-    );
-    // updatedSearchParams.set("genre", query);
-    updatedSearchParams.append("director_name", query);
-
-    window.history.pushState(null, "", "?" + updatedSearchParams.toString());
-
-    // route.refresh();
-    route.replace("/super-search" + "?" + updatedSearchParams.toString(), {
-      scroll: false,
-    });
-
-    // window.location.reload();
   }
 
-  return (
-    <div>
-      <h1>Directors</h1>
+  const handleOpenDirectorFormModal = useCallback(() => {
+    setOpenDirectorFormModal(true);
+  }, []);
 
-      <div className="grid grid-cols-1 gap-4">
-        {directors
-          .sort((a, b) => a.name.localeCompare(b.name))
-          .map((director) => (
-            <div
-              key={director.key}
-              className={cn(
-                "cursor-pointer border border-black p-1",
-                currentSelectedDirectors.includes(director.key)
-                  ? "bg-gray-400"
-                  : "",
-              )}
-              onClick={() => onClick(director.key)}
-            >
-              {director.name}
-            </div>
-          ))}
+  return (
+    <>
+      <div>
+        <h1>Directors</h1>
+
+        <ItemsListSelector
+          items={directors}
+          onOpenModal={handleOpenDirectorFormModal}
+          onSelect={(v, key) => searchByDirectors(key)}
+          checkIconStyle={currentSelectedDirectors}
+        />
       </div>
-    </div>
+
+      <Suspense>
+        <ModalMovie
+          title="Add new Director"
+          open={openDirectorFormModal}
+          setOpen={setOpenDirectorFormModal}
+        >
+          <AddNewDirector appendDirector={() => {}} />
+        </ModalMovie>
+      </Suspense>
+    </>
   );
 };

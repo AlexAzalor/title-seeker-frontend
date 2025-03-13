@@ -3,16 +3,14 @@
  */
 export const backendURL = { baseURL: process.env.API_URL };
 export const ENVIROMENT = process.env.NODE_ENV;
-export const IMAGE_URL = process.env.API_URL ?? "issues with env";
+export const IMAGE_URL = process.env.API_URL ?? process.env.NEXT_PUBLIC_API_URL;
+export const S3_IMAGE =
+  process.env.S3_IMAGE_BASE_URL ?? process.env.NEXT_PUBLIC_S3_IMAGE_BASE_URL;
 export const POSTER_URL =
-  ENVIROMENT === "production"
-    ? process.env.S3_IMAGE_BASE_URL
-    : IMAGE_URL + "/api/movies";
+  ENVIROMENT === "production" ? S3_IMAGE : IMAGE_URL + "/api/movies";
 
 export const AVATAR_URL =
-  ENVIROMENT === "production"
-    ? process.env.S3_IMAGE_BASE_URL
-    : IMAGE_URL + "/api/avatars";
+  ENVIROMENT === "production" ? S3_IMAGE : IMAGE_URL + "/api/avatars";
 
 export const movieComponents = {
   specification:

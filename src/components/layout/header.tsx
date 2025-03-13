@@ -4,6 +4,7 @@ import { ButtonSwitchServer } from "../button-server";
 import { ModeToggle } from "../toggles/theme-toggle";
 import { Button } from "../ui/button";
 import { PlusCircle } from "lucide-react";
+import { Search } from "../search";
 
 // import { LanguageSwitcher } from "./LanguageSwitcher";
 // import { ModeToggle } from "./ModeToggle";
@@ -19,13 +20,6 @@ export const Header = () => {
         <Link href="/">Logo</Link>
       </div>
 
-      <div className="flex flex-col items-center">
-        <input className="bg-white px-1 text-black" type="text" />
-        <Link className="text-xs" href="/super-search">
-          Extendet search
-        </Link>
-      </div>
-
       <nav className="hidden items-center justify-center sm:flex">
         <ul className="flex items-center space-x-5">
           {navigationKeys.map((key) => (
@@ -37,6 +31,10 @@ export const Header = () => {
       </nav>
 
       <ButtonSwitchServer />
+
+      <div className="flex flex-col items-center">
+        <Search />
+      </div>
 
       <ModeToggle />
 

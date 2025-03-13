@@ -10,6 +10,7 @@ import {
   BodyAPICreateSubgenre,
   Language,
   QuickMovieFormData,
+  TitleType,
   UserRateMovieIn,
 } from "@/orval_api/model";
 import { getMovies } from "@/orval_api/movies/movies";
@@ -226,6 +227,26 @@ export async function quicklyAddNewMovie(data: QuickMovieFormData) {
     );
 
     return { status: a.status, message: "Movie add to JSON" };
+  } catch (error: any) {
+    return { status: error.status, message: error.response?.data.detail };
+  }
+}
+
+export async function searchTitles(query: string, titleType: TitleType) {
+  const locale = await getLocale();
+  const lang = Language[locale as keyof typeof Language];
+
+  const { aPISearch } = getMovies();
+
+  try {
+    const result: AxiosResponse = await aPISearch(
+      { lang, query, title_type: titleType },
+      {
+        baseURL: backendURL.baseURL,
+      },
+    );
+
+    return result.data;
   } catch (error: any) {
     return { status: error.status, message: error.response?.data.detail };
   }

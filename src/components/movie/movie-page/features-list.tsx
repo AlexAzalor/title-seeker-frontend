@@ -6,6 +6,7 @@ import {
   MovieSpecification,
 } from "@/orval_api/model";
 import { ItemFeature } from "./item-feature";
+import { ACTION_TIME, KEYWORD, SPEC } from "@/components/filter-fetch-wrapper";
 
 type Props = {
   specifications: MovieSpecification[];
@@ -22,22 +23,15 @@ export const FeaturesList = ({
     <div className="my-4 flex flex-col gap-4">
       <ItemFeature
         data={specifications}
-        color="#64fcfe"
-        queryKey="specification_name"
+        queryKey={SPEC}
         title="Specifications"
       />
 
-      <ItemFeature
-        data={keywords}
-        color="#FFC55C"
-        queryKey="keyword_name"
-        title="Keywords"
-      />
+      <ItemFeature data={keywords} queryKey={KEYWORD} title="Keywords" />
 
       <ItemFeature
         data={action_times}
-        color="#92A8D1"
-        queryKey="action_time_name"
+        queryKey={ACTION_TIME}
         title="Action Times"
       />
     </div>

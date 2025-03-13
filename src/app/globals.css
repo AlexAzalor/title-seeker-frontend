@@ -165,6 +165,14 @@
     0 0 6px #ffc55c, inset 0 0 10px #ffc55c;
   --shadow-movie-action-time: 0px 0px 0px 0px #92a8d1, 0 0 10px #92a8d1,
     0 0 6px #92a8d1, inset 0 0 10px #92a8d1;
+  --shadow-movie-actor: 0px 0px 0px 0px #90ee90, 0 0 10px #90ee90,
+    0 0 6px #90ee90, inset 0 0 10px #90ee90;
+  --shadow-movie-director: 0px 0px 0px 0px #f08080, 0 0 10px #f08080,
+    0 0 6px #f08080, inset 0 0 10px #f08080;
+  --shadow-movie-exact-match: 0px 0px 0px 0px #000000, 0 0 10px #000000,
+    0 0 6px #000000, inset 0 0 10px #000000;
+  --shadow-movie-exact-match-light: 0px 0px 0px 0px #ffffff, 0 0 10px #ffffff,
+    0 0 6px #ffffff, inset 0 0 10px #ffffff;
 
   @keyframes accordion-down {
     from {
@@ -208,6 +216,22 @@
   ::file-selector-button {
     border-color: var(--color-gray-200, currentColor);
   }
+
+  button {
+    cursor: pointer;
+  }
+
+  h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  h2 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    line-height: 1.2;
+  }
 }
 
 :root {
@@ -249,12 +273,6 @@
   --sidebar-accent-foreground: 240 5.9% 10%;
   --sidebar-border: 220 13% 91%;
   --sidebar-ring: 240 5% 64.9%;
-
-  h1 {
-    font-size: 2rem;
-    font-weight: 700;
-    line-height: 1.2;
-  }
 }
 
 /* @media (prefers-color-scheme: dark) {

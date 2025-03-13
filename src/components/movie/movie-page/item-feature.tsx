@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { InfoIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { percentageMatchColor } from "../utils";
+import { getFilterColor, percentageMatchColor } from "../utils";
 import {
   MovieActionTime,
   MovieKeyword,
@@ -11,37 +11,43 @@ import {
 } from "@/orval_api/model";
 import { TooltipWrapper } from "@/components/custom/tooltip-wrapper";
 import { movieComponents } from "@/lib/constants";
+import { ACTION_TIME, KEYWORD, SPEC } from "@/components/filter-fetch-wrapper";
+import { useMemo } from "react";
 
-type QueryKeys = "specification_name" | "keyword_name" | "action_time_name";
+type QueryKeys = typeof SPEC | typeof KEYWORD | typeof ACTION_TIME;
 
 type Props = {
   data: MovieSpecification[] | MovieKeyword[] | MovieActionTime[];
   queryKey: QueryKeys;
-  color: string;
   title: string;
 };
 
-export const ItemFeature = ({ data, queryKey, color, title }: Props) => {
+export const ItemFeature = ({ data, queryKey, title }: Props) => {
   const tooltipContent =
-    queryKey === "specification_name"
+    queryKey === SPEC
       ? movieComponents.specification
-      : queryKey === "keyword_name"
+      : queryKey === KEYWORD
         ? movieComponents.keyword
         : movieComponents.actionTime;
+
+  const color = useMemo(() => {
+    return getFilterColor(queryKey);
+  }, [queryKey]);
+
   return (
     <div>
       <div className="flex gap-4">
         <div className="flex items-center gap-1">
-          <h2
+          <p
             className={cn(
               "base-neon-text text-2xl",
-              queryKey === "specification_name" && "movie-spec-text",
-              queryKey === "keyword_name" && "movie-keywords-text",
-              queryKey === "action_time_name" && "movie-act-time-text",
+              queryKey === SPEC && "movie-spec-text",
+              queryKey === KEYWORD && "movie-keywords-text",
+              queryKey === ACTION_TIME && "movie-act-time-text",
             )}
           >
             {title}
-          </h2>
+          </p>
 
           <TooltipWrapper content={tooltipContent}>
             <InfoIcon className="h-4 w-4" />
@@ -53,11 +59,11 @@ export const ItemFeature = ({ data, queryKey, color, title }: Props) => {
             href={`/super-search/?${queryKey}=${item.key}`}
             className={cn(
               "relative flex min-h-14 min-w-28 items-center rounded-xl border-2 transition-shadow",
-              queryKey === "specification_name" &&
+              queryKey === SPEC &&
                 "hover:shadow-movie-specification dark:border-[#64fcfe]",
-              queryKey === "keyword_name" &&
+              queryKey === KEYWORD &&
                 "hover:shadow-movie-keyword dark:border-[#FFC55C]",
-              queryKey === "action_time_name" &&
+              queryKey === ACTION_TIME &&
                 "hover:shadow-movie-action-time dark:border-[#92A8D1]",
             )}
             key={item.key}
@@ -72,9 +78,9 @@ export const ItemFeature = ({ data, queryKey, color, title }: Props) => {
               }}
               className={cn(
                 "absolute size-full rounded-lg border",
-                queryKey === "specification_name" && "dark:border-[#64fcfe]",
-                queryKey === "action_time_name" && "dark:border-[#92A8D1]",
-                queryKey === "keyword_name" && "dark:border-[#FFC55C]",
+                queryKey === SPEC && "dark:border-[#64fcfe]",
+                queryKey === KEYWORD && "dark:border-[#FFC55C]",
+                queryKey === ACTION_TIME && "dark:border-[#92A8D1]",
               )}
             />
             <div className="relative mx-auto flex items-center gap-2 px-2">
