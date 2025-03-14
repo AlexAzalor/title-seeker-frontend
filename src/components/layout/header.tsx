@@ -5,6 +5,7 @@ import { ModeToggle } from "../toggles/theme-toggle";
 import { Button } from "../ui/button";
 import { PlusCircle } from "lucide-react";
 import { Search } from "../search";
+import { POSTER_URL } from "@/lib/constants";
 
 // import { LanguageSwitcher } from "./LanguageSwitcher";
 // import { ModeToggle } from "./ModeToggle";
@@ -33,7 +34,7 @@ export const Header = () => {
       <ButtonSwitchServer />
 
       <div className="flex flex-col items-center">
-        <Search />
+        <Search posterURL={POSTER_URL ?? "NO POSTER"} />
       </div>
 
       <ModeToggle />

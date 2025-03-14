@@ -31,11 +31,14 @@ import { Button } from "./ui/button";
 
 import { MovieSearchOut, TitleType } from "@/orval_api/model";
 import { cn, formatDate } from "@/lib/utils";
-import { POSTER_URL } from "@/lib/constants";
 
 const MIN_CHARACTERS = 3;
 
-export const Search = () => {
+type Props = {
+  posterURL: string;
+};
+
+export const Search = ({ posterURL }: Props) => {
   const lang = useLocale();
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState<TitleType>(TitleType.movies);
@@ -202,7 +205,7 @@ export const Search = () => {
                 onClick={() => handleChooseTitle(title)}
               >
                 <Image
-                  src={`${POSTER_URL}/posters/${title.poster}`}
+                  src={`${posterURL}/posters/${title.poster}`}
                   alt="Actor Avatar"
                   height={60}
                   width={40}
@@ -232,7 +235,7 @@ export const Search = () => {
                       }}
                     >
                       <Image
-                        src={`${POSTER_URL}/posters/${title.poster}`}
+                        src={`${posterURL}/posters/${title.poster}`}
                         alt="Title Poster"
                         height={60}
                         width={40}
