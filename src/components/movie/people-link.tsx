@@ -1,15 +1,21 @@
 import Link from "next/link";
 import Image from "next/image";
 import { MovieActor, MovieDirector } from "@/orval_api/model";
-import { AVATAR_URL } from "@/lib/constants";
+// import { AVATAR_URL } from "@/lib/constants";
 
 type Props = {
   person: MovieActor | MovieDirector;
   linkQueryParam: string;
   type: "actors" | "directors";
+  avatarURL: string;
 };
 
-export const PersonLink = ({ linkQueryParam, person, type }: Props) => {
+export const PersonLink = ({
+  linkQueryParam,
+  person,
+  type,
+  avatarURL,
+}: Props) => {
   return (
     <Link
       href={`/super-search/?${linkQueryParam}=${person.key}`}
@@ -18,14 +24,14 @@ export const PersonLink = ({ linkQueryParam, person, type }: Props) => {
     >
       <div className="size-18 rounded-full">
         <Image
-          src={`${AVATAR_URL}/${type}/${person.avatar_url}`}
+          src={`${avatarURL}/${type}/${person.avatar_url}`}
           alt={`${type === "actors" ? "Actor" : "Director"} Avatar`}
           className="size-18 rounded-full object-cover"
           height={72}
           width={72}
         />
       </div>
-      <div className="text-center">
+      <div className="w-[152px] text-center lg:w-auto">
         <div className="text-xl font-bold">
           {person.first_name + " " + person.last_name}
         </div>

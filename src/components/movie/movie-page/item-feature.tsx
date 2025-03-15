@@ -35,25 +35,25 @@ export const ItemFeature = ({ data, queryKey, title }: Props) => {
   }, [queryKey]);
 
   return (
-    <div>
-      <div className="flex gap-4">
-        <div className="flex items-center gap-1">
-          <p
-            className={cn(
-              "base-neon-text text-2xl",
-              queryKey === SPEC && "movie-spec-text",
-              queryKey === KEYWORD && "movie-keywords-text",
-              queryKey === ACTION_TIME && "movie-act-time-text",
-            )}
-          >
-            {title}
-          </p>
+    <div className="flex flex-col items-start gap-4 lg:flex-row lg:items-center">
+      <div className="flex items-center gap-1">
+        <p
+          className={cn(
+            "base-neon-text text-2xl",
+            queryKey === SPEC && "movie-spec-text",
+            queryKey === KEYWORD && "movie-keywords-text",
+            queryKey === ACTION_TIME && "movie-act-time-text",
+          )}
+        >
+          {title}
+        </p>
 
-          <TooltipWrapper content={tooltipContent}>
-            <InfoIcon className="h-4 w-4" />
-          </TooltipWrapper>
-        </div>
+        <TooltipWrapper content={tooltipContent}>
+          <InfoIcon className="h-4 w-4" />
+        </TooltipWrapper>
+      </div>
 
+      <div className="flex flex-wrap gap-4">
         {data.map((item) => (
           <Link
             href={`/super-search/?${queryKey}=${item.key}`}

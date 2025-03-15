@@ -39,6 +39,11 @@ function RateSlider({
         <TooltipWrapper content={RATING_TOOLTIP[type] || "Rate the movie"}>
           <InfoIcon className="h-4 w-4" />
         </TooltipWrapper>
+
+        <div className="flex items-end gap-1 lg:hidden">
+          {showValue && <span className="">{value}</span>}
+          {showValue && <span className="text-sm font-normal">({max})</span>}
+        </div>
       </div>
 
       <div className="relative mb-1 flex items-center gap-3">
@@ -48,13 +53,17 @@ function RateSlider({
           min={MIN_RATE}
           max={max}
           step={0.01}
-          className={cn("mr-10 h-3", className)}
+          className={cn("h-3 lg:mr-10", className)}
           onValueChange={(value) => onValueChange(value, type)}
         />
 
-        {showValue && <span className="absolute right-0">{value}</span>}
         {showValue && (
-          <span className="absolute -right-9 text-sm font-normal">({max})</span>
+          <span className="absolute right-0 hidden lg:block">{value}</span>
+        )}
+        {showValue && (
+          <span className="absolute -right-9 hidden text-sm font-normal lg:block">
+            ({max})
+          </span>
         )}
       </div>
     </div>

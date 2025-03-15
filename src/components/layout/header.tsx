@@ -6,6 +6,7 @@ import { Button } from "../ui/button";
 import { PlusCircle } from "lucide-react";
 import { Search } from "../search";
 import { POSTER_URL } from "@/lib/constants";
+import { SidebarTrigger } from "../ui/sidebar";
 
 // import { LanguageSwitcher } from "./LanguageSwitcher";
 // import { ModeToggle } from "./ModeToggle";
@@ -21,7 +22,7 @@ export const Header = () => {
         <Link href="/">Logo</Link>
       </div>
 
-      <nav className="hidden items-center justify-center sm:flex">
+      <nav className="hidden items-center justify-center lg:flex">
         <ul className="flex items-center space-x-5">
           {navigationKeys.map((key) => (
             <li key={key}>
@@ -31,14 +32,18 @@ export const Header = () => {
         </ul>
       </nav>
 
-      <ButtonSwitchServer />
+      <div className="hidden lg:block">
+        <ButtonSwitchServer />
+      </div>
 
       <div className="flex flex-col items-center">
         <Search posterURL={POSTER_URL ?? "NO POSTER"} />
       </div>
 
-      <ModeToggle />
-
+      <div className="hidden lg:block">
+        <ModeToggle />
+      </div>
+      <SidebarTrigger />
       {/* <div className="flex items-center gap-2">
         <LanguageSwitcher />
 
@@ -47,23 +52,23 @@ export const Header = () => {
 
       <SideMenuPanel /> */}
 
-      <Link href="/add-movie">
+      <Link href="/add-movie" className="hidden lg:block">
         <Button>
           <PlusCircle />
           Add Movie
         </Button>
       </Link>
 
-      <Link href="/quick-add-movie">
+      <Link href="/quick-add-movie" className="hidden lg:block">
         <Button>
           <PlusCircle />
           Quickly add Movie
         </Button>
       </Link>
-      <div>
+      <div className="hidden lg:block">
         <Link href="/dashboard">Dashboard</Link>
       </div>
-      <div>
+      <div className="hidden lg:block">
         <Link href="/login">Login</Link>
       </div>
     </header>

@@ -9,6 +9,8 @@ import AuthProvider from "@/components/providers/auth-provider";
 // import { Toaster } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
 import Script from "next/script";
+import { SidebarProvider } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/layout/app-sidebar";
 // import { after } from "next/server";
 
 const geistSans = localFont({
@@ -52,7 +54,12 @@ export default async function RootLayout({
         <ThemeProvider>
           <NextIntlClientProvider messages={messages}>
             <AuthProvider>
-              <MainLayout>{children}</MainLayout>
+              <SidebarProvider defaultOpen={false}>
+                <MainLayout>
+                  <AppSidebar />
+                  {children}
+                </MainLayout>
+              </SidebarProvider>
             </AuthProvider>
           </NextIntlClientProvider>
         </ThemeProvider>

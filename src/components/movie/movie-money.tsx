@@ -13,7 +13,7 @@ export const MovieMoney = ({
   worldwideGross,
 }: Props) => {
   return (
-    <div className="place-self-start self-center text-lg">
+    <div className="place-self-center self-center text-lg lg:place-self-start">
       <TooltipWrapper
         asChild
         className="max-w-80"

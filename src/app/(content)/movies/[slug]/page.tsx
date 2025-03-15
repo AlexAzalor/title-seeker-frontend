@@ -1,4 +1,4 @@
-import { backendURL, POSTER_URL } from "@/lib/constants";
+import { AVATAR_URL, backendURL, POSTER_URL } from "@/lib/constants";
 import { Language } from "@/orval_api/model";
 import { getMovies } from "@/orval_api/movies/movies";
 
@@ -24,10 +24,10 @@ export default async function DynamicPage({ params }: PageProps) {
   const { data } = await aPIGetMovie(movie_key, { lang }, backendURL);
 
   return (
-    <div className="min-h-screen max-w-[1280px]">
-      <h1 className="py-5 text-3xl">{data.title}</h1>
+    <div className="container min-h-screen max-w-[1280px] px-4 lg:px-0">
+      <h1 className="py-5 text-center text-3xl lg:text-left">{data.title}</h1>
 
-      <div className="flex items-center">
+      <div className="flex flex-col items-center xl:flex-row">
         <Image
           src={`${POSTER_URL}/posters/${data.poster}`}
           alt="Actor Avatar"
@@ -54,7 +54,7 @@ export default async function DynamicPage({ params }: PageProps) {
         </div>
       </div>
 
-      <div className="my-4 grid w-full grid-cols-3 place-items-center">
+      <div className="my-4 grid w-full grid-cols-1 place-items-center lg:grid-cols-3">
         <MovieMoney
           budget={data.budget}
           domesticGross={data.domestic_gross}
@@ -87,11 +87,15 @@ export default async function DynamicPage({ params }: PageProps) {
         </div>
       </div>
 
-      <div className="flex justify-between gap-6">
+      <div className="flex flex-col justify-between gap-6 lg:flex-row">
         <div className="pt-6">
           <ExpandableText text={data.description} />
 
-          <MovieCrew actors={data.actors} directors={data.directors} />
+          <MovieCrew
+            avatarURL={AVATAR_URL || "NO URL!!!"}
+            actors={data.actors}
+            directors={data.directors}
+          />
         </div>
 
         <MovieRateBox data={data} ratingData={data.user_rating} />
