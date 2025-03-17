@@ -1,5 +1,5 @@
 import { memo } from "react";
-import { Check } from "lucide-react";
+import { Check, Info } from "lucide-react";
 
 import type { GenreOutDescription } from "@/orval_api/model";
 import { cn } from "@/lib/utils";
@@ -13,12 +13,7 @@ import {
   CommandList,
 } from "@/components/ui/command";
 
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { TooltipWrapper } from "@/components/custom/tooltip-wrapper";
 
 type Props<Datum, T> = {
   title?: string;
@@ -51,44 +46,33 @@ const ItemsListSelector = <Datum extends ItemFields, T extends ItemFields>({
             Add?
           </Button>
         </CommandEmpty>
-        <TooltipProvider delayDuration={1000}>
-          <CommandGroup className="text-left">
-            {/* need switch lang to search items */}
-            {items.map((item) => (
-              <CommandItem
-                key={item.key}
-                value={item.name}
-                onSelect={(value) => onSelect(value, item.key, item)}
-              >
-                {!!item.description ? (
-                  <Tooltip>
-                    <TooltipTrigger className="w-full text-left">
-                      {item.name}
-                    </TooltipTrigger>
-                    <TooltipContent className="w-[684px]">
-                      <p>{item.description}</p>
-                    </TooltipContent>
-                  </Tooltip>
-                ) : (
-                  <p>{item.name}</p>
-                )}
 
-                <Check
-                  className={cn(
-                    "ml-auto",
-                    checkIconStyle.find((e) =>
-                      typeof e === "string"
-                        ? e === item.key
-                        : e.key === item.key,
-                    )
-                      ? "opacity-100"
-                      : "opacity-0",
-                  )}
-                />
-              </CommandItem>
-            ))}
-          </CommandGroup>
-        </TooltipProvider>
+        <CommandGroup className="text-left">
+          {/* need switch lang to search items */}
+          {items.map((item) => (
+            <CommandItem
+              key={item.key}
+              value={item.name}
+              onSelect={(value) => onSelect(value, item.key, item)}
+            >
+              <p>{item.name}</p>
+              <TooltipWrapper content={item.description}>
+                <Info className="ml-2" />
+              </TooltipWrapper>
+
+              <Check
+                className={cn(
+                  "ml-auto",
+                  checkIconStyle.find((e) =>
+                    typeof e === "string" ? e === item.key : e.key === item.key,
+                  )
+                    ? "opacity-100"
+                    : "opacity-0",
+                )}
+              />
+            </CommandItem>
+          ))}
+        </CommandGroup>
       </CommandList>
     </>
   );

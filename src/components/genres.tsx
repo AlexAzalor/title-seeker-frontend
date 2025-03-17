@@ -158,7 +158,7 @@ export const Genres = ({ genres }: Props) => {
 
         <Label
           onClick={handleExactMatch}
-          className="my-2 flex cursor-pointer items-center gap-3 text-xl"
+          className="my-2 flex w-max cursor-pointer items-center gap-3 text-xl"
         >
           <span>Exact match</span>
           <Checkbox checked={!!currentExactMatch} className="cursor-pointer" />

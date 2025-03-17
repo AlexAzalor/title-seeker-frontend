@@ -8,6 +8,8 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+import { Button } from "../ui/button";
+import { cn } from "@/lib/utils";
 
 type Props = {
   children: React.ReactNode;
@@ -19,13 +21,19 @@ type Props = {
 export const SideMenuPanel = ({ children, side, type, handleOnly }: Props) => {
   return (
     <Drawer direction={side} handleOnly={handleOnly}>
-      <DrawerTrigger className="bg-Dark-cyan m-1 p-1 lg:hidden">
-        {type}
+      <DrawerTrigger asChild className="lg:hidden">
+        <Button variant="secondary">{type}</Button>
       </DrawerTrigger>
-      <DrawerContent>
+      <DrawerContent
+        className={cn(
+          "p-3",
+          side === "left" && "rounded-r-3xl",
+          side === "right" && "rounded-l-3xl",
+        )}
+      >
         <DrawerHeader>
-          <DrawerTitle>Are you absolutely sure?</DrawerTitle>
-          <DrawerDescription>This action cannot be undone.</DrawerDescription>
+          <DrawerTitle className="text-center font-bold">{type}</DrawerTitle>
+          <DrawerDescription>Select filters to start</DrawerDescription>
         </DrawerHeader>
         {children}
       </DrawerContent>

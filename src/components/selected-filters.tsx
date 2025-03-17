@@ -21,6 +21,9 @@ import {
 import { FilterBrick } from "./filter-brick";
 import { HoverBrick } from "./hover-brick";
 import { CircleX } from "lucide-react";
+import { FiltersList } from "./filters-list";
+import { SideMenuPanel } from "./super-search/side-menu-panel";
+import { EnhanceSearch } from "./super-search/enhance-search";
 
 type Props = {
   children: React.ReactNode;
@@ -88,12 +91,31 @@ export const SelectedFilters = ({
 
   return (
     <>
-      <ResizablePanel defaultSize={4}>
+      <ResizablePanel defaultSize={8}>
         <div className="col-span-3 min-h-25 w-full">
           <h1 className="mb-3 text-center lg:text-5xl">
             Advanced title search
           </h1>
 
+          <div className="mb-2 flex justify-between">
+            <SideMenuPanel side="left" type="Filters">
+              <FiltersList
+                {...{
+                  genres,
+                  subgenres,
+                  specifications,
+                  keywords,
+                  action_times,
+                  actors,
+                  directors,
+                }}
+              />
+            </SideMenuPanel>
+
+            <SideMenuPanel side="right" type="Enhance Search" handleOnly>
+              <EnhanceSearch />
+            </SideMenuPanel>
+          </div>
           <div className="flex flex-wrap justify-center gap-2">
             <HoverBrick
               genreItemsList={currentSelectedGenres}
