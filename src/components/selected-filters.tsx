@@ -90,7 +90,9 @@ export const SelectedFilters = ({
     <>
       <ResizablePanel defaultSize={4}>
         <div className="col-span-3 min-h-25 w-full">
-          <h1 className="mb-3 text-center text-5xl">Advanced title search</h1>
+          <h1 className="mb-3 text-center lg:text-5xl">
+            Advanced title search
+          </h1>
 
           <div className="flex flex-wrap justify-center gap-2">
             <HoverBrick
@@ -148,7 +150,7 @@ export const SelectedFilters = ({
         </div>
       </ResizablePanel>
 
-      <ResizableHandle className="dark:bg-[#211979]" />
+      <ResizableHandle withHandle className="dark:bg-[#211979]" />
 
       {children}
     </>

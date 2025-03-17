@@ -47,7 +47,7 @@ export default async function MoviesPage() {
         </div>
       )}
 
-      <div className="my-5 grid grid-cols-5 gap-4">
+      <div className="my-5 grid grid-cols-1 gap-4 lg:grid-cols-5">
         {movies.map((movie) => (
           <Link
             key={movie.key}

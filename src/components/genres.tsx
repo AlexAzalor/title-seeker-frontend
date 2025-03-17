@@ -18,6 +18,7 @@ import {
   handleSearchParams,
   modifyGenresSearchParams,
 } from "@/lib/utils";
+import { ResponsiveWrapper } from "./movie/ui/responsive-wrapper";
 
 const ModalMovie = dynamic(() => import("./movie/ui/modal-movie"));
 
@@ -146,7 +147,7 @@ export const Genres = ({ genres }: Props) => {
 
   return (
     <>
-      <div>
+      <div className="flex flex-col gap-4">
         <Button
           className="mb-4 cursor-pointer"
           variant="destructive"
@@ -163,42 +164,45 @@ export const Genres = ({ genres }: Props) => {
           <Checkbox checked={!!currentExactMatch} className="cursor-pointer" />
         </Label>
 
-        <h1>Genres</h1>
+        <ResponsiveWrapper title="Genres">
+          <ItemsListSelector
+            title="Genres"
+            items={genres}
+            onOpenModal={() => setOpenGenreFormModal(true)}
+            onSelect={(currentValue, key, genre) => {
+              updateSearchParameters(genre.key, GENRE);
 
-        <ItemsListSelector
-          items={genres}
-          onOpenModal={() => setOpenGenreFormModal(true)}
-          onSelect={(currentValue, key, genre) => {
-            updateSearchParameters(genre.key, GENRE);
-
-            if (
-              !currentSelectedGenres
-                .map((e) => extractWord(e))
-                .find((genrePrev) => genrePrev === key)
-            ) {
-              if (genre && checkGenreType(genre) && genre.subgenres?.length) {
-                setSubgenres((prev) => [...prev, ...(genre.subgenres || [])]);
+              if (
+                !currentSelectedGenres
+                  .map((e) => extractWord(e))
+                  .find((genrePrev) => genrePrev === key)
+              ) {
+                if (genre && checkGenreType(genre) && genre.subgenres?.length) {
+                  setSubgenres((prev) => [...prev, ...(genre.subgenres || [])]);
+                }
+              } else {
+                setSubgenres((prev) =>
+                  prev.filter(
+                    (subgenrePrev) => subgenrePrev.parent_genre_key !== key,
+                  ),
+                );
               }
-            } else {
-              setSubgenres((prev) =>
-                prev.filter(
-                  (subgenrePrev) => subgenrePrev.parent_genre_key !== key,
-                ),
-              );
-            }
-          }}
-          checkIconStyle={currentSelectedGenres.map((e) => extractWord(e))}
-        />
+            }}
+            checkIconStyle={currentSelectedGenres.map((e) => extractWord(e))}
+          />
+        </ResponsiveWrapper>
 
-        <h1>Subgenres</h1>
-        <ItemsListSelector
-          items={subgenres}
-          onOpenModal={() => setOpenSubgenreFormModal(true)}
-          onSelect={(currentValue, key) => {
-            updateSearchParameters(key, SUBGENRE);
-          }}
-          checkIconStyle={currentSelectedSubgenres.map((e) => extractWord(e))}
-        />
+        <ResponsiveWrapper title="Subgenres">
+          <ItemsListSelector
+            title="Subgenres"
+            items={subgenres}
+            onOpenModal={() => setOpenSubgenreFormModal(true)}
+            onSelect={(currentValue, key) => {
+              updateSearchParameters(key, SUBGENRE);
+            }}
+            checkIconStyle={currentSelectedSubgenres.map((e) => extractWord(e))}
+          />
+        </ResponsiveWrapper>
       </div>
 
       <Suspense>

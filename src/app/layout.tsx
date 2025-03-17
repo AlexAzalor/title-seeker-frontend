@@ -48,6 +48,7 @@ export default async function RootLayout({
   return (
     <html lang={locale}>
       <body
+      // className="!pointer-events-auto !cursor-auto"
       // className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {/* <Script src="https://unpkg.com/react-scan/dist/auto.global.js" async /> */}
