@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import { Card, CardContent } from "../ui/card";
+import { Card, CardContent } from "../../ui/card";
 import Autoplay from "embla-carousel-autoplay";
 import Image from "next/image";
 import {
@@ -11,7 +11,7 @@ import {
   CarouselItem,
   CarouselPrevious,
   CarouselNext,
-} from "../ui/carousel";
+} from "../../ui/carousel";
 
 const imagesSource = [
   "/static/screen-2.png",
@@ -20,6 +20,7 @@ const imagesSource = [
   "/static/screen-5.png",
 ];
 
+// This carousel for the Games page
 export const Slider = () => {
   const plugin = React.useRef(Autoplay({ delay: 5000 }));
 
