@@ -1,3 +1,4 @@
+// "use client";
 import * as React from "react";
 
 // import { SearchForm } from "@/components/search-form"
@@ -17,7 +18,6 @@ import {
 } from "@/components/ui/sidebar";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
-import { VersionSwitcher } from "../version-switcher";
 import { NavUser } from "../nav-user";
 import { ButtonSwitchServer } from "../button-server";
 import { ModeToggle } from "../toggles/theme-toggle";
@@ -26,45 +26,38 @@ import { PlusCircle } from "lucide-react";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const t = useTranslations("HomePage");
+
   const navigationKeys = Object.keys(t.raw("navigation"));
   return (
     <Sidebar {...props}>
       <SidebarHeader>
-        <VersionSwitcher versions={["1", "2", "3"]} defaultVersion="1" />
+        <Link href="/quick-add-movie">
+          <Button className="w-full">
+            <PlusCircle />
+            Quickly add new Movie
+          </Button>
+        </Link>
       </SidebarHeader>
       <SidebarContent>
         {/* We create a SidebarGroup for each parent. */}
 
         <SidebarGroup>
-          <SidebarGroupLabel>Content</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-xl">Content</SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu>
+            <SidebarMenu className="mb-3">
               {navigationKeys.map((item) => (
                 <SidebarMenuItem key={item}>
-                  <SidebarMenuButton asChild>
-                    <Link href={`/${item}`}>{t(`navigation.${item}`)}</Link>
+                  <SidebarMenuButton asChild closeOnClick size="lg">
+                    <Link className="text-2xl" href={`/${item}`}>
+                      {t(`navigation.${item}`)}
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
 
+            <SidebarGroupLabel className="text-xl">Features</SidebarGroupLabel>
             <div className="flex flex-col gap-3">
-              <ButtonSwitchServer />
-              <ModeToggle />
-              <Link href="/add-movie" className="">
-                <Button>
-                  <PlusCircle />
-                  Add Movie
-                </Button>
-              </Link>
-
-              <Link href="/quick-add-movie" className="">
-                <Button>
-                  <PlusCircle />
-                  Quickly add Movie
-                </Button>
-              </Link>
-
               <div className="">
                 <Link href="/dashboard">Dashboard</Link>
               </div>
@@ -74,13 +67,18 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarContent>
 
       <SidebarFooter>
+        <div className="flex items-center justify-between">
+          <ButtonSwitchServer />
+          <ModeToggle />
+        </div>
         <NavUser
           user={{
-            name: "shadcn",
-            email: "m@example.com",
+            name: "User",
+            email: "user@example.com",
             avatar: "/static/avatars/069.jpg",
           }}
         />
+        <span>version: 1.0.0</span>
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
