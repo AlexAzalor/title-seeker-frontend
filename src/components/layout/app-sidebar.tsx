@@ -58,9 +58,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
             <SidebarGroupLabel className="text-xl">Features</SidebarGroupLabel>
             <div className="flex flex-col gap-3">
-              <div className="">
-                <Link href="/dashboard">Dashboard</Link>
-              </div>
+              <Link href="/dashboard">Dashboard</Link>
+            </div>
+
+            <div className="flex flex-col gap-3">
+              <Link href="/dashboard">Settings</Link>
             </div>
           </SidebarGroupContent>
         </SidebarGroup>
@@ -80,7 +82,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         />
         <span>version: 1.0.0</span>
       </SidebarFooter>
-      <SidebarRail />
+      {/* <SidebarRail /> */}
     </Sidebar>
   );
 }

@@ -27,7 +27,7 @@ export const LastWatched = ({ posterURL }: Props) => {
             <Link
               key={title.key}
               href={`/movies/${title.key}`}
-              className="flex w-full items-center gap-2 border"
+              className="flex w-full items-center gap-2"
             >
               <Image
                 src={`${posterURL}/posters/${title.poster}`}

@@ -823,3 +823,11 @@ Lipstick Shades
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 }
+
+.logo {
+  text-shadow:
+    0 0 10px azure,
+    0 0 20px aqua,
+    0 0 30px #4a3aff,
+    0 0 40px #181d7f;
+}
