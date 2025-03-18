@@ -18,18 +18,10 @@ type Props = {
 };
 
 export const MovieCrew = ({ actors, avatarURL, directors }: Props) => {
-  const isMobile = useIsMobile();
-  console.log("isMobile", isMobile);
-
   const mq = useMediaQuery("(max-width: 1024px)");
-  console.log("mq", mq);
-
-  const actorsLength = mq ? 3 : 5;
+  const actorsLength = mq ? 2 : 5;
   return (
     <>
-      <span>isMobile: {`${isMobile}`}</span>
-      <br />
-      <span>mq: {`${mq}`}</span>
       <div className="my-4 select-none">
         {actors?.length > actorsLength ? (
           <Carousel
@@ -52,8 +44,8 @@ export const MovieCrew = ({ actors, avatarURL, directors }: Props) => {
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious className="relative top-0 left-0 translate-none" />
-            <CarouselNext className="relative top-0 left-0 translate-none" />
+            <CarouselPrevious className="relative top-0 left-0 hidden translate-none lg:inline-flex" />
+            <CarouselNext className="relative top-0 left-0 hidden translate-none lg:inline-flex" />
           </Carousel>
         ) : (
           <div className="flex gap-3">
