@@ -7,6 +7,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { ItemsListSelector } from "./movie/ui/items-list-selector";
 import { AddNewActor } from "./movie/add-movies-parts/add-new-actor";
 import { modifyGenresSearchParams } from "@/lib/utils";
+import { ResponsiveWrapper } from "./movie/ui/responsive-wrapper";
 
 const ModalMovie = dynamic(() => import("./movie/ui/modal-movie"));
 
@@ -41,14 +42,15 @@ export const Actors = ({ actors }: Props) => {
   return (
     <>
       <div>
-        <h1>Actors</h1>
-
-        <ItemsListSelector
-          items={actors}
-          onOpenModal={handleOpenActorFormModal}
-          onSelect={(v, key) => searchByActors(key)}
-          checkIconStyle={currentSelectedActors}
-        />
+        <ResponsiveWrapper title="Actors">
+          <ItemsListSelector
+            title="Actors"
+            items={actors}
+            onOpenModal={handleOpenActorFormModal}
+            onSelect={(v, key) => searchByActors(key)}
+            checkIconStyle={currentSelectedActors}
+          />
+        </ResponsiveWrapper>
       </div>
 
       <Suspense>

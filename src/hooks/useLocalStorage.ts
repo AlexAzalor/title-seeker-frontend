@@ -4,8 +4,21 @@ import { toast } from "sonner";
 export const useLocalStorage = <T extends object>(
   key: string,
   initialValue: T,
-): T => {
+) => {
   const dataRef = useRef<T>(initialValue);
+
+  const setData = (data: T) => {
+    try {
+      localStorage.setItem(key, JSON.stringify(data));
+      dataRef.current = data;
+    } catch (error) {
+      console.error(
+        `Error saving data to local storage for key "${key}"`,
+        error,
+      );
+      toast.error(`Error saving data to local storage for key "${key}"`);
+    }
+  };
 
   if (!dataRef.current.hasOwnProperty("key")) {
     try {
@@ -18,5 +31,5 @@ export const useLocalStorage = <T extends object>(
     }
   }
 
-  return dataRef.current;
+  return { data: dataRef.current, setData };
 };

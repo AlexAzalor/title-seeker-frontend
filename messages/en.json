@@ -1,13 +1,23 @@
 {
   "HomePage": {
-    "title": "Hello world!",
+    "title": "Title Seeker",
+    "subTitle": "Flexibility, speed, and simplicity will allow you to find the desired title at any time and place!",
     "navigation": {
       "movies": "Movies",
       "tvseries": "TV Series",
       "anime": "Anime",
       "games": "Games"
     },
-
-    "description": "Next.js 14 introduces enhanced internationalization (i18n) features, empowering developers to effortlessly manage translations, locale-based routing, and content localization for globally accessible web applications. <br /> <br />This also piggy-backs built-in support for multiple locales, dynamic content loading, and robust fallback handling."
-  }
+    "description": "There are times when you want to watch a good movie, especially when you are not in the mood or when you have already watched everything you wanted, but instead of watching it, you spend a lot of time searching for the desired movie in hundreds of lists and compilations, and as a result - you do not watch anything.",
+    "solution": "This platform was created to solve this problem!",
+    "keyFeatures": {
+      "title": "Key features:",
+      "keys": {
+        "first": "Movie search with many filters that will help narrow down the list as much as possible.",
+        "second": "The ability to rate movies and form your own movie lists, have statistics and much more (only for registered users).",
+        "third": "The mobile version of the site will allow you to do almost everything that is available on the desktop with maximum adaptability and speed."
+      }
+    }
+  },
+  "notImplemented": "not implemented yet"
 }

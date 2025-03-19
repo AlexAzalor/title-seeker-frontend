@@ -136,8 +136,8 @@ export const EnhanceSearch = () => {
   };
 
   return (
-    <div className="mx-6 w-full">
-      <h2>Enhance Search</h2>
+    <div className="overflow-auto pr-2 lg:mx-6 lg:w-full">
+      <h2 className="hidden lg:block">Enhance Search</h2>
 
       {showForm && (
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">

@@ -12,6 +12,7 @@ import {
   extractWord,
   modifyGenresSearchParams,
 } from "@/lib/utils";
+import { ResponsiveWrapper } from "./movie/ui/responsive-wrapper";
 
 const ModalMovie = dynamic(() => import("./movie/ui/modal-movie"));
 
@@ -43,16 +44,17 @@ export const MovieFilters = ({ data, param_key, title }: Props) => {
   return (
     <>
       <div>
-        <h1>{title}</h1>
-
-        <ItemsListSelector
-          items={data}
-          onOpenModal={() => setOpenFilterFormModal(true)}
-          onSelect={(currentValue, key, genre) => {
-            onClick(genre.key);
-          }}
-          checkIconStyle={currentSelectedFilter.map((e) => extractWord(e))}
-        />
+        <ResponsiveWrapper title={title}>
+          <ItemsListSelector
+            title={title}
+            items={data}
+            onOpenModal={() => setOpenFilterFormModal(true)}
+            onSelect={(currentValue, key, genre) => {
+              onClick(genre.key);
+            }}
+            checkIconStyle={currentSelectedFilter.map((e) => extractWord(e))}
+          />
+        </ResponsiveWrapper>
       </div>
 
       <Suspense>

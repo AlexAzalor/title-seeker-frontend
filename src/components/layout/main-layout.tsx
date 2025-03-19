@@ -8,7 +8,7 @@ export const MainLayout = async ({
   children: React.ReactNode;
 }) => {
   return (
-    <div className="mx-auto min-h-screen">
+    <div className="mx-auto min-h-screen w-full">
       <Header />
 
       <div className="mx-auto grid place-items-center">{children}</div>

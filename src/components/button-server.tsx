@@ -9,7 +9,7 @@ export const ButtonSwitchServer = async () => {
 
   return (
     <>
-      <ButtonSwitch locale={cookieStore.get("locale")?.value || "en"} />
+      <ButtonSwitch locale={cookieStore.get("locale")?.value || "uk"} />
     </>
   );
 };

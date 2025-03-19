@@ -52,7 +52,7 @@ export const FeaturesForm = ({
   const [openKeywordFormModal, setOpenKeywordFormModal] = useState(false);
   const [openActionTimeFormModal, setOpenActionTimeFormModal] = useState(false);
 
-  const parsedData = useLocalStorage<MovieFormData>(
+  const { data: parsedData } = useLocalStorage<MovieFormData>(
     "new-movie-data",
     {} as MovieFormData,
   );

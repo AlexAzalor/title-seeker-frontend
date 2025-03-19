@@ -1,70 +1,80 @@
+import Image from "next/image";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { ButtonSwitchServer } from "../button-server";
 import { ModeToggle } from "../toggles/theme-toggle";
 import { Button } from "../ui/button";
-import { PlusCircle } from "lucide-react";
+import { LogIn, PlusCircle } from "lucide-react";
 import { Search } from "../search";
 import { POSTER_URL } from "@/lib/constants";
-
-// import { LanguageSwitcher } from "./LanguageSwitcher";
-// import { ModeToggle } from "./ModeToggle";
-// import { SideMenuPanel } from "./SideMenuPanel";
+import { SidebarTrigger } from "../ui/sidebar";
 
 export const Header = () => {
   const t = useTranslations("HomePage");
   const navigationKeys = Object.keys(t.raw("navigation"));
 
+  const registeredUser = true;
+
   return (
     <header className="flex items-center justify-between bg-[#77c9fb] px-[16px] py-4 shadow-sm shadow-gray-200 sm:px-[40px] lg:px-[160px]">
-      <div>
-        <Link href="/">Logo</Link>
+      <div className="flex items-center justify-between gap-10">
+        <Link href="/" className="flex items-center gap-2">
+          <Image
+            src={"/logo.jpg"}
+            alt="Logo"
+            width={50}
+            height={50}
+            className="rounded-full"
+          />
+
+          <p className="logo hidden text-xl font-bold text-white lg:block">
+            Title Seeker
+          </p>
+        </Link>
+
+        <nav className="hidden items-center justify-center lg:flex">
+          <ul className="flex items-center space-x-5">
+            {navigationKeys.map((key) => (
+              <li key={key}>
+                <Link href={`/${key}`} className="text-white">
+                  {t(`navigation.${key}`)}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
       </div>
 
-      <nav className="hidden items-center justify-center sm:flex">
-        <ul className="flex items-center space-x-5">
-          {navigationKeys.map((key) => (
-            <li key={key}>
-              <Link href={`/${key}`}>{t(`navigation.${key}`)}</Link>
-            </li>
-          ))}
-        </ul>
-      </nav>
+      <Search posterURL={POSTER_URL ?? "NO POSTER"} />
 
-      <ButtonSwitchServer />
+      <div className="flex items-center gap-2">
+        <Link href="/add-movie" className="hidden lg:block">
+          <Button>
+            <PlusCircle />
+            Add Movie
+          </Button>
+        </Link>
 
-      <div className="flex flex-col items-center">
-        <Search posterURL={POSTER_URL ?? "NO POSTER"} />
-      </div>
+        <Link href="/quick-add-movie" className="hidden lg:block">
+          <Button>
+            <PlusCircle />
+            Quickly add Movie
+          </Button>
+        </Link>
 
-      <ModeToggle />
+        {registeredUser ? (
+          <SidebarTrigger />
+        ) : (
+          <div className="hidden items-center gap-2 lg:flex">
+            <ButtonSwitchServer />
 
-      {/* <div className="flex items-center gap-2">
-        <LanguageSwitcher />
+            <ModeToggle />
 
-        <ModeToggle />
-      </div>
-
-      <SideMenuPanel /> */}
-
-      <Link href="/add-movie">
-        <Button>
-          <PlusCircle />
-          Add Movie
-        </Button>
-      </Link>
-
-      <Link href="/quick-add-movie">
-        <Button>
-          <PlusCircle />
-          Quickly add Movie
-        </Button>
-      </Link>
-      <div>
-        <Link href="/dashboard">Dashboard</Link>
-      </div>
-      <div>
-        <Link href="/login">Login</Link>
+            <Link href="/login">
+              <LogIn color="black" width={30} height={30} />
+            </Link>
+          </div>
+        )}
       </div>
     </header>
   );

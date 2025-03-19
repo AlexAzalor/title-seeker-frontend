@@ -40,7 +40,7 @@ export type MovieFormFieldProps = {
 export const InfoFieldsForm = () => {
   const { setMovieFormData, handleNext, handlePrev } = use(MovieFormContext);
 
-  const parsedData = useLocalStorage<MovieFormData>(
+  const { data: parsedData } = useLocalStorage<MovieFormData>(
     "new-movie-data",
     {} as MovieFormData,
   );

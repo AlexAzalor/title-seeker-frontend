@@ -4,10 +4,6 @@ import { getLocale } from "next-intl/server";
 import { backendURL } from "@/lib/constants";
 import { getMovies } from "@/orval_api/movies/movies";
 
-import { Genres } from "./genres";
-import { Actors } from "./actors";
-import { Directors } from "./director";
-import { MovieFilters } from "./movie-filters";
 import { SelectedFilters } from "./selected-filters";
 import {
   ResizableHandle,
@@ -16,6 +12,7 @@ import {
 } from "./ui/resizable";
 import { ScrollArea } from "./ui/scroll-area";
 import { EnhanceSearch } from "./super-search/enhance-search";
+import { FiltersList } from "./filters-list";
 
 export const SPEC = "specification_name";
 export const KEYWORD = "keyword_name";
@@ -42,8 +39,10 @@ export const FilterFetchWrapper = async ({ children }: PropsWithChildren) => {
   // do calculations on server side
 
   // "grid grid-cols-[minmax(200px,1fr)_minmax(1240px,2fr)_minmax(200px,1fr)] grid-rows-[auto_1fr] justify-items-center gap-4 p-4"
+
+  // filter-fetch-wrapper.tsx => layout.tsx => page.tsx (movie list)
   return (
-    <div className="h-screen w-full">
+    <div className="Filter-Fetch-Wrapper h-screen w-full">
       <ResizablePanelGroup
         direction="vertical"
         className="rounded-lg p-4"
@@ -66,34 +65,25 @@ export const FilterFetchWrapper = async ({ children }: PropsWithChildren) => {
             >
               <ResizablePanel
                 defaultSize={25}
-                className="flex justify-center p-2"
+                className="hidden justify-center p-2 lg:flex"
               >
-                <div className="flex flex-col gap-4 overflow-auto">
-                  <Genres genres={genres} subgenres={subgenres} />
-
-                  <MovieFilters
-                    title="Specification"
-                    data={specifications}
-                    param_key={SPEC}
-                  />
-                  <MovieFilters
-                    title="Keyword"
-                    data={keywords}
-                    param_key={KEYWORD}
-                  />
-                  <MovieFilters
-                    title="Action Time"
-                    data={action_times}
-                    param_key={ACTION_TIME}
-                  />
-
-                  <Actors actors={actors} />
-
-                  <Directors directors={directors} />
-                </div>
+                <FiltersList
+                  {...{
+                    genres,
+                    subgenres,
+                    specifications,
+                    keywords,
+                    action_times,
+                    actors,
+                    directors,
+                  }}
+                />
               </ResizablePanel>
 
-              <ResizableHandle withHandle className="dark:bg-[#211979]" />
+              <ResizableHandle
+                withHandle
+                className="hidden lg:flex dark:bg-[#211979]"
+              />
 
               <ResizablePanel defaultSize={52}>
                 <ScrollArea type="auto" className="mx-1 h-full rounded-md">
@@ -101,9 +91,15 @@ export const FilterFetchWrapper = async ({ children }: PropsWithChildren) => {
                 </ScrollArea>
               </ResizablePanel>
 
-              <ResizableHandle withHandle className="dark:bg-[#211979]" />
+              <ResizableHandle
+                withHandle
+                className="hidden lg:flex dark:bg-[#211979]"
+              />
 
-              <ResizablePanel defaultSize={25} className="flex justify-center">
+              <ResizablePanel
+                defaultSize={25}
+                className="hidden justify-center lg:flex"
+              >
                 <EnhanceSearch />
               </ResizablePanel>
             </ResizablePanelGroup>

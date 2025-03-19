@@ -8,7 +8,7 @@ export default function SuperSearchLayout({
   return (
     <FilterFetchWrapper>
       <div>
-        <div className="flex flex-wrap gap-4 p-3">{children}</div>
+        <div className="flex flex-wrap gap-4 py-3 lg:px-3">{children}</div>
       </div>
     </FilterFetchWrapper>
   );

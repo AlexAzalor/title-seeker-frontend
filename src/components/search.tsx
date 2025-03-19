@@ -45,7 +45,7 @@ export const Search = ({ posterURL }: Props) => {
   const [warning, setWarning] = useState(false);
   const [titles, setTitles] = useState<MovieSearchOut[]>([]);
 
-  const parsedData = useLocalStorage<MovieSearchOut[]>(
+  const { data: parsedData, setData } = useLocalStorage<MovieSearchOut[]>(
     "recent_search",
     [] as MovieSearchOut[],
   );
@@ -89,7 +89,7 @@ export const Search = ({ posterURL }: Props) => {
       duration: title.duration,
     });
 
-    localStorage.setItem("recent_search", JSON.stringify(data));
+    setData(data);
   };
 
   const handleTabChange = useCallback((tab: TitleType) => {
@@ -113,11 +113,11 @@ export const Search = ({ posterURL }: Props) => {
   };
 
   return (
-    <>
-      <div className="flex gap-1">
+    <div className="flex flex-1 flex-col items-center">
+      <div className="mx-2 flex gap-1 lg:mx-0">
         <div
           onClick={() => setOpen(true)}
-          className="relative flex cursor-pointer items-center"
+          className="relative flex w-30 cursor-pointer items-center lg:w-50"
         >
           <SearchIcon className="absolute mr-2 ml-2 h-4 w-4 shrink-0 opacity-50" />
           <Input
@@ -297,6 +297,6 @@ export const Search = ({ posterURL }: Props) => {
           </CommandGroup>{" "}
         </CommandList>
       </CommandDialog>
-    </>
+    </div>
   );
 };

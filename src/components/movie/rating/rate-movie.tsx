@@ -255,7 +255,7 @@ const RateMovie = ({
   }, []);
 
   return (
-    <div className="w-[594px] py-6">
+    <div className="max-w-[594px] py-6 lg:w-[594px]">
       {!onRateSubmit && !movieKey && (
         <RatingTypeSelector
           onValueChange={handleSelectRatingType}

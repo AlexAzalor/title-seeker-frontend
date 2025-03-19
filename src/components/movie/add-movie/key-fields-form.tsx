@@ -42,7 +42,7 @@ type Props = {
 export const KeyFieldsForm = ({ temporaryMovie }: Props) => {
   const { setMovieFormData, handleNext, clearForm } = use(MovieFormContext);
 
-  const parsedData = useLocalStorage<MovieFormData>(
+  const { data: parsedData } = useLocalStorage<MovieFormData>(
     "new-movie-data",
     {} as MovieFormData,
   );
