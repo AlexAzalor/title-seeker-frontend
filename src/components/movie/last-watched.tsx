@@ -1,49 +1,82 @@
 "use client";
 
 import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { formatDate } from "@/lib/utils";
-import { MovieSearchOut } from "@/orval_api/model";
-import { useLocale } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
+import { Card, CardContent } from "../ui/card";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselPrevious,
+  CarouselNext,
+} from "../ui/carousel";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 type Props = {
   posterURL: string;
 };
 export const LastWatched = ({ posterURL }: Props) => {
-  const lang = useLocale();
+  const isMobile = useMediaQuery("(max-width: 640px)");
 
-  const parsedData = useLocalStorage<MovieSearchOut[]>(
-    "recent_search",
-    [] as MovieSearchOut[],
-  );
+  const { data: parsedData } = useLocalStorage<
+    { key: string; poster: string }[]
+  >("last_watched", [] as { key: string; poster: string }[]);
 
   return (
     parsedData.length > 0 && (
       <>
         <h2 className="text-2xl font-bold">Last Watched</h2>
 
-        <div className="flex flex-col gap-5 lg:flex-row">
-          {parsedData.reverse().map((title) => (
-            <Link
-              key={title.key}
-              href={`/movies/${title.key}`}
-              className="flex w-full items-center gap-2"
-            >
-              <Image
-                src={`${posterURL}/posters/${title.poster}`}
-                alt="Title Poster"
-                height={100}
-                width={80}
-              />
-              <div>
-                <p className="text-lg font-bold">{`${title.title_en} (${title.title_uk})`}</p>
-                <span>{formatDate(title.release_date, lang)}</span>
-                {" | "}
-                <span>{title.main_genre}</span>
-              </div>
-            </Link>
-          ))}
-        </div>
+        {isMobile ? (
+          <Carousel className="w-full" opts={{ dragFree: true }}>
+            <CarouselContent className="-ml-1 max-w-[340px] lg:max-w-none">
+              {parsedData.reverse().map((title) => (
+                <CarouselItem
+                  key={title.key}
+                  className="basis-auto pl-1 md:basis-1/2 lg:basis-1/10"
+                >
+                  <div className="p-1">
+                    <Card className="">
+                      <CardContent className="flex aspect-square items-center justify-center p-2">
+                        <Link
+                          href={`/movies/${title.key}`}
+                          key={title.key}
+                          className="flex flex-col items-center justify-start gap-3"
+                        >
+                          <Image
+                            src={`${posterURL}/posters/${title.poster}`}
+                            alt="Title Poster"
+                            height={100}
+                            width={80}
+                          />
+                        </Link>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="hidden lg:flex" />
+            <CarouselNext className="hidden lg:flex" />
+          </Carousel>
+        ) : (
+          <div className="flex flex-col gap-5 lg:flex-row">
+            {parsedData.reverse().map((title) => (
+              <Link
+                key={title.key}
+                href={`/movies/${title.key}`}
+                className="flex w-full items-center gap-2"
+              >
+                <Image
+                  src={`${posterURL}/posters/${title.poster}`}
+                  alt="Title Poster"
+                  height={100}
+                  width={80}
+                />
+              </Link>
+            ))}
+          </div>
+        )}
       </>
     )
   );

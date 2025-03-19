@@ -36,7 +36,7 @@ export const GenreFieldsForm = ({ genres }: Props) => {
   const [openGenreFormModal, setOpenGenreFormModal] = useState(false);
   const [openSubgenreFormModal, setOpenSubgenreFormModal] = useState(false);
 
-  const parsedData = useLocalStorage<MovieFormData>(
+  const { data: parsedData } = useLocalStorage<MovieFormData>(
     "new-movie-data",
     {} as MovieFormData,
   );

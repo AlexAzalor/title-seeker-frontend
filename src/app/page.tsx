@@ -1,4 +1,5 @@
 // import { GoogleLogin } from "@/components/google-login";
+import { useTranslations } from "next-intl";
 import { ActorsCarousel } from "@/components/movie/actors-carousel";
 import { FetchWrapper } from "@/components/movie/fetch-wrapper";
 import { LastWatched } from "@/components/movie/last-watched";
@@ -7,8 +8,6 @@ import { AVATAR_URL, POSTER_URL } from "@/lib/constants";
 import { getActors } from "@/orval_api/actors/actors";
 import { ActorsList, MovieCarouselList } from "@/orval_api/model";
 import { getMovies } from "@/orval_api/movies/movies";
-
-import { useTranslations } from "next-intl";
 
 export default function Home() {
   const t = useTranslations("HomePage");

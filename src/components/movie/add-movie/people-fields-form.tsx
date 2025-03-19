@@ -36,7 +36,7 @@ export const PeopleFieldsForm = ({ actors, directors }: Props) => {
   const [openDirectorFormModal, setOpenDirectorFormModal] = useState(false);
   const [openActorFormModal, setOpenActorFormModal] = useState(false);
 
-  const parsedData = useLocalStorage<MovieFormData>(
+  const { data: parsedData } = useLocalStorage<MovieFormData>(
     "new-movie-data",
     {} as MovieFormData,
   );

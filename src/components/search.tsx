@@ -45,7 +45,7 @@ export const Search = ({ posterURL }: Props) => {
   const [warning, setWarning] = useState(false);
   const [titles, setTitles] = useState<MovieSearchOut[]>([]);
 
-  const parsedData = useLocalStorage<MovieSearchOut[]>(
+  const { data: parsedData, setData } = useLocalStorage<MovieSearchOut[]>(
     "recent_search",
     [] as MovieSearchOut[],
   );
@@ -89,7 +89,7 @@ export const Search = ({ posterURL }: Props) => {
       duration: title.duration,
     });
 
-    localStorage.setItem("recent_search", JSON.stringify(data));
+    setData(data);
   };
 
   const handleTabChange = useCallback((tab: TitleType) => {
