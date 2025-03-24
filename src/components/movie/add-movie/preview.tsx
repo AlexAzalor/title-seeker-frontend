@@ -48,6 +48,20 @@ export const Preview = ({ movieFormData, file }: Props) => {
             </span>
           </div>
 
+          <h2 className="mt-4">Shared Universe</h2>
+          <div>
+            Base movie key:{" "}
+            <span className="text-xl font-bold">
+              {movieFormData.shared_universe_key}
+            </span>
+          </div>
+          <div>
+            Collection order:{" "}
+            <span className="text-xl font-bold">
+              {movieFormData.shared_universe_order}
+            </span>
+          </div>
+
           <h2 className="mt-4">Related Movie</h2>
           <div>
             Base movie key:{" "}

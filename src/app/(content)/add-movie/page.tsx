@@ -21,8 +21,6 @@ export default async function AddMoviePage(props: {
 
   const {
     data: {
-      // remove unnecessary fields
-      next_movie_id,
       actors,
       directors,
       specifications,
@@ -30,6 +28,7 @@ export default async function AddMoviePage(props: {
       keywords,
       action_times,
       temporary_movie,
+      shared_universes,
     },
   } = await aPIGetPreCreateData(
     { lang, temp_movie_key: tempMovieKey },
@@ -46,6 +45,7 @@ export default async function AddMoviePage(props: {
         keywords={keywords}
         actionTimes={action_times}
         temporaryMovie={temporary_movie}
+        shared_universes={shared_universes}
       />
     </div>
   );

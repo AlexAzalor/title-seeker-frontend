@@ -25,25 +25,25 @@ export const FormStepper = ({
         currentStep={currentStep}
       />
       <FormStep
-        title="Related Movie"
+        title="Shared Universe"
         step={2}
         completedSteps={completedSteps}
         goToStep={() => onStepChange(2)}
         currentStep={currentStep}
         isStepSkipped={stepsSkipped?.includes(2)}
       />
-
       <FormStep
+        title="Related Movie"
         step={3}
-        title="Info"
         completedSteps={completedSteps}
         goToStep={() => onStepChange(3)}
         currentStep={currentStep}
+        isStepSkipped={stepsSkipped?.includes(3)}
       />
 
       <FormStep
         step={4}
-        title="People"
+        title="Info"
         completedSteps={completedSteps}
         goToStep={() => onStepChange(4)}
         currentStep={currentStep}
@@ -51,7 +51,7 @@ export const FormStepper = ({
 
       <FormStep
         step={5}
-        title="Genres"
+        title="People"
         completedSteps={completedSteps}
         goToStep={() => onStepChange(5)}
         currentStep={currentStep}
@@ -59,7 +59,7 @@ export const FormStepper = ({
 
       <FormStep
         step={6}
-        title="Features"
+        title="Genres"
         completedSteps={completedSteps}
         goToStep={() => onStepChange(6)}
         currentStep={currentStep}
@@ -67,9 +67,17 @@ export const FormStepper = ({
 
       <FormStep
         step={7}
-        title="Summary"
+        title="Features"
         completedSteps={completedSteps}
         goToStep={() => onStepChange(7)}
+        currentStep={currentStep}
+      />
+
+      <FormStep
+        step={8}
+        title="Summary"
+        completedSteps={completedSteps}
+        goToStep={() => onStepChange(8)}
         currentStep={currentStep}
         lastStep
       />

@@ -5,8 +5,9 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
+import { Info } from "lucide-react";
 type Props = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   content: string | React.ReactNode;
   asChild?: boolean;
   side?: "top" | "right" | "bottom" | "left";
@@ -14,7 +15,7 @@ type Props = {
 };
 
 export const TooltipWrapper = ({
-  children,
+  children = <Info />,
   content,
   asChild,
   side,

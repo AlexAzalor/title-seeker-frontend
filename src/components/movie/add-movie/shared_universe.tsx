@@ -1,6 +1,6 @@
 import { use } from "react";
-import { useForm } from "react-hook-form";
-import { RelatedMovieField, RelatedMovieType } from "@/types/zod-scheme";
+import { Controller, useForm } from "react-hook-form";
+import { SharedUniverseFields, SharedUniverseType } from "@/types/zod-scheme";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { MovieFormContext } from "./movie-form-wizard";
 import { FormField } from "../ui/form-field";
@@ -8,17 +8,18 @@ import { FormField } from "../ui/form-field";
 import {
   MovieFormData,
   RatingCriterion,
-  RelatedMovie,
+  SharedUniversePreCreateOut,
   UserRatingCriteria,
 } from "@/orval_api/model";
 
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { FormButtons } from "../ui/form-buttons";
-import { TypeSelector } from "./type-selector";
+import { ResponsiveWrapper } from "../ui/responsive-wrapper";
+import { ItemsListSelector } from "../ui/items-list-selector";
 
 export type MovieKeyFields = Pick<
   MovieFormData,
-  "base_movie_key" | "collection_order" | "relation_type"
+  "shared_universe_key" | "shared_universe_order"
 >;
 
 export type RatingDataOut = {
@@ -27,7 +28,11 @@ export type RatingDataOut = {
   ratingData: UserRatingCriteria;
 };
 
-export const RelatedMovieForm = () => {
+type Props = {
+  shared_universes: SharedUniversePreCreateOut[];
+};
+
+export const SharedUniverseForm = ({ shared_universes }: Props) => {
   const { setMovieFormData, handleNext, clearForm, setSkipSteps } =
     use(MovieFormContext);
 
@@ -42,12 +47,11 @@ export const RelatedMovieForm = () => {
     formState: { errors, isSubmitting },
     control,
     unregister,
-  } = useForm<RelatedMovieType>({
-    resolver: zodResolver(RelatedMovieField),
+  } = useForm<SharedUniverseType>({
+    resolver: zodResolver(SharedUniverseFields),
     defaultValues: {
-      base_movie_key: parsedData.base_movie_key || "",
-      collection_order: parsedData.collection_order || undefined,
-      relation_type: parsedData.relation_type || RelatedMovie.base,
+      shared_universe_key: parsedData.shared_universe_key || "",
+      shared_universe_order: parsedData.shared_universe_order || undefined,
     },
   });
 
@@ -71,30 +75,30 @@ export const RelatedMovieForm = () => {
     handleNext();
   };
 
-  const onSubmit = async (data: RelatedMovieType) => {
+  const onSubmit = async (data: SharedUniverseType) => {
+    console.log("data", data);
+
     const dataToSend: MovieKeyFields = {
       ...data,
-      relation_type: data.relation_type as RelatedMovie,
     };
 
     if (setSkipSteps) {
-      setSkipSteps((prev) => prev.filter((step) => step !== 3));
+      setSkipSteps((prev) => prev.filter((step) => step !== 2));
     }
 
     handleFormData(dataToSend);
   };
 
   const skipStep = () => {
-    unregister(["base_movie_key", "collection_order", "relation_type"]);
+    unregister(["shared_universe_key", "shared_universe_order"]);
 
     const dataToSend: MovieKeyFields = {
-      base_movie_key: undefined,
-      collection_order: undefined,
-      relation_type: undefined,
+      shared_universe_key: "",
+      shared_universe_order: undefined,
     };
 
     if (setSkipSteps) {
-      setSkipSteps((prev) => [...prev, 3]);
+      setSkipSteps((prev) => [...prev, 2]);
     }
 
     handleFormData(dataToSend);
@@ -107,29 +111,33 @@ export const RelatedMovieForm = () => {
         className="flex w-full flex-col items-center gap-2"
       >
         <div className="grid grid-cols-2 gap-4">
-          <FormField
-            type="text"
-            label="Base movie key"
-            name="base_movie_key"
-            register={register}
-            error={errors.base_movie_key}
-            labelWidth={64}
-          />
-
-          <FormField
-            type="text"
-            label="Collection order"
-            name="collection_order"
-            register={register}
-            error={errors.collection_order}
-            labelWidth={52}
-          />
-
-          <TypeSelector
-            name="relation_type"
+          <Controller
             control={control}
-            defaultValue={parsedData.relation_type as RelatedMovie}
-            error={errors.relation_type}
+            name="shared_universe_key"
+            render={({ field: { onChange, value }, fieldState: { error } }) => (
+              <div>
+                <div>{value}</div>
+                <ResponsiveWrapper title="Select Shared Universe">
+                  <ItemsListSelector
+                    items={shared_universes}
+                    onOpenModal={() => {}}
+                    onSelect={(value, key) => onChange(key)}
+                    checkIconStyle={[value]}
+                  />
+                </ResponsiveWrapper>
+
+                {error && <span className="text-red-500">{error.message}</span>}
+              </div>
+            )}
+          />
+
+          <FormField
+            type="text"
+            label="Order"
+            name="shared_universe_order"
+            register={register}
+            error={errors.shared_universe_order}
+            labelWidth={52}
           />
         </div>
 

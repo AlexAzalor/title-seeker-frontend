@@ -13,6 +13,7 @@ import {
   KeywordOut,
   MovieFormData,
   MoviePreCreateDataTemporaryMovie,
+  SharedUniversePreCreateOut,
   SpecificationOut,
 } from "@/orval_api/model";
 import { GenreFieldsForm } from "./genre-fields-form";
@@ -25,6 +26,7 @@ import { Separator } from "@/components/ui/separator";
 import { FormStepper } from "../ui/form-stepper";
 import { FormButtons } from "../ui/form-buttons";
 import { RelatedMovieForm } from "./related-movie-form";
+import { SharedUniverseForm } from "./shared_universe";
 
 export const MovieFormContext = createContext<{
   movieFormData: BodyAPICreateMovie;
@@ -53,6 +55,7 @@ type Props = {
   keywords: KeywordOut[];
   actionTimes: ActionTimeOut[];
   temporaryMovie?: MoviePreCreateDataTemporaryMovie;
+  shared_universes: SharedUniversePreCreateOut[];
 };
 
 export const MovieFormWizard = ({
@@ -63,6 +66,7 @@ export const MovieFormWizard = ({
   keywords,
   actionTimes,
   temporaryMovie,
+  shared_universes,
 }: Props) => {
   const [movieFormData, setMovieFormData] = useState<BodyAPICreateMovie>({
     form_data: {} as MovieFormData,
@@ -154,26 +158,29 @@ export const MovieFormWizard = ({
         <Separator className="my-12" />
 
         {currentStep === 1 && <KeyFieldsForm temporaryMovie={temporaryMovie} />}
-        {currentStep === 2 && <RelatedMovieForm />}
-        {currentStep === 3 && <InfoFieldsForm />}
-        {currentStep === 4 && (
+        {currentStep === 2 && (
+          <SharedUniverseForm shared_universes={shared_universes} />
+        )}
+        {currentStep === 3 && <RelatedMovieForm />}
+        {currentStep === 4 && <InfoFieldsForm />}
+        {currentStep === 5 && (
           <PeopleFieldsForm actors={actors} directors={directors} />
         )}
-        {currentStep === 5 && <GenreFieldsForm genres={genres} />}
-        {currentStep === 6 && (
+        {currentStep === 6 && <GenreFieldsForm genres={genres} />}
+        {currentStep === 7 && (
           <FeaturesForm
             specifications={specifications}
             keywords={keywords}
             actionTimes={actionTimes}
           />
         )}
-        {currentStep === 7 && movieFormData && movieFormData.form_data.key && (
+        {currentStep === 8 && movieFormData && movieFormData.form_data.key && (
           <Preview
             movieFormData={movieFormData.form_data}
             file={movieFormData.file as File}
           />
         )}
-        {currentStep === 7 && (
+        {currentStep === 8 && (
           <div>
             {!isSubmitting ? (
               <FormButtons

@@ -240,3 +240,15 @@ export const RelatedMovieField = z.object({
 });
 
 export type RelatedMovieType = z.infer<typeof RelatedMovieField>;
+
+export const SharedUniverseFields = z.object({
+  shared_universe_key: z
+    .string()
+    .trim()
+    .min(1, { message: "Value is required" }),
+  shared_universe_order: z.coerce
+    .number()
+    .min(1, { message: "Value is required" }),
+});
+
+export type SharedUniverseType = z.infer<typeof SharedUniverseFields>;

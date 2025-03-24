@@ -21,8 +21,8 @@ export const FormStep = ({
   currentStep,
   isStepSkipped,
 }: Props) => {
-  const summaryStep = 7;
-  const lastFormStep = 6;
+  const summaryStep = 8;
+  const lastFormStep = 7;
   const isLastStep = step === summaryStep;
   const isStepCompleted = completedSteps.includes(step);
   const currentEditableStep = Math.max(...completedSteps) + 1 === step;

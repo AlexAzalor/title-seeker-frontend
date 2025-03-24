@@ -15,6 +15,7 @@ import { MovieCrew } from "@/components/movie/movie-crew";
 import { MovieMoney } from "@/components/movie/movie-money";
 
 import { LastWatchedWrapper } from "@/components/movie/last-watched-wrapper";
+import { TooltipWrapper } from "@/components/custom/tooltip-wrapper";
 
 export default async function DynamicPage({ params }: PageProps) {
   const { slug: movie_key } = await params;
@@ -126,6 +127,46 @@ export default async function DynamicPage({ params }: PageProps) {
 
           <MovieRateBox data={data} ratingData={data.user_rating} />
         </div>
+
+        {!!data.shared_universe && (
+          <div className="border-cold9 flex flex-grow-1 flex-col border-1">
+            <Link
+              href={`/super-search/?universe=${data.shared_universe.key}`}
+              scroll={false}
+              className="flex items-center gap-4 text-2xl"
+            >
+              {data.shared_universe.name}
+            </Link>
+            <div>
+              <TooltipWrapper
+                content={data.shared_universe.description}
+                className="text-center"
+              />
+            </div>
+            {data.shared_universe.movies.map((movie) => (
+              <Link
+                href={`/movies/${movie.key}`}
+                key={movie.key}
+                scroll={false}
+                className={cn(
+                  "flex items-center gap-4",
+                  data.key === movie.key ? "bg-cold9 select-none" : "bg-cold8",
+                )}
+              >
+                <Image
+                  src={`${POSTER_URL}/posters/${movie.poster}`}
+                  alt="Actor Avatar"
+                  height={60}
+                  width={40}
+                />
+                <div>
+                  <div className="text-lg">{movie.title}</div>
+                  <div>{movie.order}</div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
       </div>
     </LastWatchedWrapper>
   );
