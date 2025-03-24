@@ -47,6 +47,26 @@ export const Preview = ({ movieFormData, file }: Props) => {
               {file?.name || "No poster"}
             </span>
           </div>
+
+          <h2 className="mt-4">Related Movie</h2>
+          <div>
+            Base movie key:{" "}
+            <span className="text-xl font-bold">
+              {movieFormData.base_movie_key}
+            </span>
+          </div>
+          <div>
+            Collection order:{" "}
+            <span className="text-xl font-bold">
+              {movieFormData.collection_order}
+            </span>
+          </div>
+          <div>
+            Relation Type:{" "}
+            <span className="text-xl font-bold">
+              {movieFormData.relation_type}
+            </span>
+          </div>
         </div>
 
         <div className="border-2">

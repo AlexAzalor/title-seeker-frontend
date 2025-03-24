@@ -1,4 +1,6 @@
+import { use } from "react";
 import { FormStep } from "./form-step";
+import { MovieFormContext } from "../add-movie/movie-form-wizard";
 
 type Props = {
   onStepChange: (step: number) => void;
@@ -11,6 +13,8 @@ export const FormStepper = ({
   currentStep,
   onStepChange,
 }: Props) => {
+  const { stepsSkipped } = use(MovieFormContext);
+
   return (
     <div className="mx-5 flex items-center justify-center gap-4">
       <FormStep
@@ -20,18 +24,18 @@ export const FormStepper = ({
         goToStep={() => onStepChange(1)}
         currentStep={currentStep}
       />
-
       <FormStep
+        title="Related Movie"
         step={2}
-        title="Info"
         completedSteps={completedSteps}
         goToStep={() => onStepChange(2)}
         currentStep={currentStep}
+        isStepSkipped={stepsSkipped?.includes(2)}
       />
 
       <FormStep
         step={3}
-        title="People"
+        title="Info"
         completedSteps={completedSteps}
         goToStep={() => onStepChange(3)}
         currentStep={currentStep}
@@ -39,7 +43,7 @@ export const FormStepper = ({
 
       <FormStep
         step={4}
-        title="Genres"
+        title="People"
         completedSteps={completedSteps}
         goToStep={() => onStepChange(4)}
         currentStep={currentStep}
@@ -47,7 +51,7 @@ export const FormStepper = ({
 
       <FormStep
         step={5}
-        title="Features"
+        title="Genres"
         completedSteps={completedSteps}
         goToStep={() => onStepChange(5)}
         currentStep={currentStep}
@@ -55,9 +59,17 @@ export const FormStepper = ({
 
       <FormStep
         step={6}
-        title="Summary"
+        title="Features"
         completedSteps={completedSteps}
         goToStep={() => onStepChange(6)}
+        currentStep={currentStep}
+      />
+
+      <FormStep
+        step={7}
+        title="Summary"
+        completedSteps={completedSteps}
+        goToStep={() => onStepChange(7)}
         currentStep={currentStep}
         lastStep
       />

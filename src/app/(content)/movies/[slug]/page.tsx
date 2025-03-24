@@ -1,11 +1,12 @@
+import Link from "next/link";
+import Image from "next/image";
 import { AVATAR_URL, backendURL, POSTER_URL } from "@/lib/constants";
 import { Language } from "@/orval_api/model";
 import { getMovies } from "@/orval_api/movies/movies";
 
 import { PageProps } from "@/types/general";
 import { getLocale, getTranslations } from "next-intl/server";
-import Image from "next/image";
-import { formatDate } from "@/lib/utils";
+import { cn, formatDate } from "@/lib/utils";
 import { MovieRateBox } from "@/components/movie/movie-rate-box";
 import { GenresList } from "@/components/movie/movie-page/genres-list";
 import { FeaturesList } from "@/components/movie/movie-page/features-list";
@@ -50,11 +51,33 @@ export default async function DynamicPage({ params }: PageProps) {
 
           {/* some text that say about absence of related movie, because it may be confusing sometimes */}
           {/* different box color? */}
-          <div className="border-cold9 flex flex-grow-1 flex-col items-center border-1">
-            <div>Some related movie 1</div>
-            <div>Some related movie 2</div>
-            <div>Some related movie 3</div>
-          </div>
+          {!!data.related_movies && (
+            <div className="border-cold9 flex flex-grow-1 flex-col border-1">
+              {data.related_movies.map((movie) => (
+                <Link
+                  href={`/movies/${movie.key}`}
+                  key={movie.key}
+                  className={cn(
+                    "flex items-center gap-4",
+                    data.key === movie.key
+                      ? "bg-cold9 select-none"
+                      : "bg-cold8",
+                  )}
+                >
+                  <Image
+                    src={`${POSTER_URL}/posters/${movie.poster}`}
+                    alt="Actor Avatar"
+                    height={60}
+                    width={40}
+                  />
+                  <div>
+                    <div className="text-lg">{movie.title}</div>
+                    <div>{movie.relation_type}</div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="my-4 grid w-full grid-cols-1 place-items-center lg:grid-cols-3">

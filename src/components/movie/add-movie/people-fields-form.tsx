@@ -16,6 +16,7 @@ import { MovieFormContext } from "./movie-form-wizard";
 import { ItemsListSelector } from "../ui/items-list-selector";
 import { FormButtons } from "../ui/form-buttons";
 import { FormField } from "../ui/form-field";
+import { ResponsiveWrapper } from "../ui/responsive-wrapper";
 const ModalMovie = dynamic(() => import("../ui/modal-movie"));
 
 type Props = {
@@ -181,12 +182,15 @@ export const PeopleFieldsForm = ({ actors, directors }: Props) => {
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">
           <div className="mb-5 flex w-full flex-col items-center gap-2">
             <h1 className="text-[#2D26A5]">Actors</h1>
-            <ItemsListSelector
-              items={actors}
-              onOpenModal={handleOpenActorFormModal}
-              onSelect={handleSelectActor}
-              checkIconStyle={actorFields}
-            />
+
+            <ResponsiveWrapper title="Add new Actor">
+              <ItemsListSelector
+                items={actors}
+                onOpenModal={handleOpenActorFormModal}
+                onSelect={handleSelectActor}
+                checkIconStyle={actorFields}
+              />
+            </ResponsiveWrapper>
 
             {actorFields.map((field, index) => (
               <div key={field.id} className="grid grid-cols-4 gap-4">
@@ -252,12 +256,15 @@ export const PeopleFieldsForm = ({ actors, directors }: Props) => {
 
           <div className="mb-5 flex w-full flex-col items-center gap-2">
             <h1 className="text-[#2D26A5]">Directors</h1>
-            <ItemsListSelector
-              items={directors}
-              onOpenModal={handleOpenDirectorFormModal}
-              onSelect={handleSelectDerector}
-              checkIconStyle={directorFields}
-            />
+
+            <ResponsiveWrapper title="Add new Director">
+              <ItemsListSelector
+                items={directors}
+                onOpenModal={handleOpenDirectorFormModal}
+                onSelect={handleSelectDerector}
+                checkIconStyle={directorFields}
+              />
+            </ResponsiveWrapper>
 
             <div className="flex flex-wrap gap-2">
               {directorFields.map((field, index) => (

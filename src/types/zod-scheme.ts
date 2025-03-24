@@ -228,3 +228,15 @@ export const EnhanceSearchScheme = z.object({
   keywords: z.array(EnhanceSearchField),
   action_times: z.array(EnhanceSearchField),
 });
+
+export const RelatedMovieField = z.object({
+  base_movie_key: z.string().trim().min(1, { message: "Value is required" }),
+  collection_order: z.coerce
+    .number({
+      invalid_type_error: "Value must be a number",
+    })
+    .min(1, { message: "Value is required" }),
+  relation_type: z.string().min(1, { message: "Value is required" }),
+});
+
+export type RelatedMovieType = z.infer<typeof RelatedMovieField>;

@@ -24,6 +24,7 @@ import { SliderFormField } from "../ui/slider-form-field";
 import { TooltipWrapper } from "@/components/custom/tooltip-wrapper";
 import { InfoIcon } from "lucide-react";
 import { movieComponents } from "@/lib/constants";
+import { ResponsiveWrapper } from "../ui/responsive-wrapper";
 
 const ModalMovie = dynamic(() => import("../ui/modal-movie"));
 
@@ -137,30 +138,33 @@ export const FeaturesForm = ({
               </TooltipWrapper>
             </div>
 
-            <ItemsListSelector
-              items={specifications}
-              onOpenModal={() => setOpenSpecificationFormModal(true)}
-              onSelect={(currentValue, key) => {
-                if (
-                  !specificationFields.find(
-                    (specificationPrev) => specificationPrev.key === key,
-                  )
-                ) {
-                  appendSpecification({
-                    name: currentValue,
-                    percentage_match: 0,
-                    key: key,
-                  });
-                } else {
-                  removeSpecification(
-                    specificationFields.findIndex(
+            <ResponsiveWrapper title="Add new Specification">
+              <ItemsListSelector
+                items={specifications}
+                onOpenModal={() => setOpenSpecificationFormModal(true)}
+                onSelect={(currentValue, key) => {
+                  if (
+                    !specificationFields.find(
                       (specificationPrev) => specificationPrev.key === key,
-                    ),
-                  );
-                }
-              }}
-              checkIconStyle={specificationFields}
-            />
+                    )
+                  ) {
+                    appendSpecification({
+                      name: currentValue,
+                      percentage_match: 0,
+                      key: key,
+                    });
+                  } else {
+                    removeSpecification(
+                      specificationFields.findIndex(
+                        (specificationPrev) => specificationPrev.key === key,
+                      ),
+                    );
+                  }
+                }}
+                checkIconStyle={specificationFields}
+              />
+            </ResponsiveWrapper>
+
             {specificationFields.map((field, index) => (
               <div key={field.id} className="grid grid-cols-2 gap-4">
                 <FormField
@@ -200,28 +204,34 @@ export const FeaturesForm = ({
                 <InfoIcon className="h-4 w-4" />
               </TooltipWrapper>
             </div>
-            <ItemsListSelector
-              items={keywords}
-              onOpenModal={() => setOpenKeywordFormModal(true)}
-              onSelect={(currentValue, key) => {
-                if (
-                  !keywordFields.find((keywordPrev) => keywordPrev.key === key)
-                ) {
-                  appendKeyword({
-                    name: currentValue,
-                    percentage_match: 0,
-                    key: key,
-                  });
-                } else {
-                  removeKeyword(
-                    keywordFields.findIndex(
+
+            <ResponsiveWrapper title="Add new Keyword">
+              <ItemsListSelector
+                items={keywords}
+                onOpenModal={() => setOpenKeywordFormModal(true)}
+                onSelect={(currentValue, key) => {
+                  if (
+                    !keywordFields.find(
                       (keywordPrev) => keywordPrev.key === key,
-                    ),
-                  );
-                }
-              }}
-              checkIconStyle={keywordFields}
-            />
+                    )
+                  ) {
+                    appendKeyword({
+                      name: currentValue,
+                      percentage_match: 0,
+                      key: key,
+                    });
+                  } else {
+                    removeKeyword(
+                      keywordFields.findIndex(
+                        (keywordPrev) => keywordPrev.key === key,
+                      ),
+                    );
+                  }
+                }}
+                checkIconStyle={keywordFields}
+              />
+            </ResponsiveWrapper>
+
             {keywordFields.map((field, index) => (
               <div key={field.id} className="grid grid-cols-2 gap-4">
                 <FormField
@@ -261,30 +271,34 @@ export const FeaturesForm = ({
                 <InfoIcon className="h-4 w-4" />
               </TooltipWrapper>
             </div>
-            <ItemsListSelector
-              items={actionTimes}
-              onOpenModal={() => setOpenActionTimeFormModal(true)}
-              onSelect={(currentValue, key) => {
-                if (
-                  !actionTimeFields.find(
-                    (actionTimePrev) => actionTimePrev.key === key,
-                  )
-                ) {
-                  appendActionTime({
-                    name: currentValue,
-                    percentage_match: 0,
-                    key: key,
-                  });
-                } else {
-                  removeActionTimes(
-                    actionTimeFields.findIndex(
+
+            <ResponsiveWrapper title="Add new Action Time">
+              <ItemsListSelector
+                items={actionTimes}
+                onOpenModal={() => setOpenActionTimeFormModal(true)}
+                onSelect={(currentValue, key) => {
+                  if (
+                    !actionTimeFields.find(
                       (actionTimePrev) => actionTimePrev.key === key,
-                    ),
-                  );
-                }
-              }}
-              checkIconStyle={keywordFields}
-            />
+                    )
+                  ) {
+                    appendActionTime({
+                      name: currentValue,
+                      percentage_match: 0,
+                      key: key,
+                    });
+                  } else {
+                    removeActionTimes(
+                      actionTimeFields.findIndex(
+                        (actionTimePrev) => actionTimePrev.key === key,
+                      ),
+                    );
+                  }
+                }}
+                checkIconStyle={keywordFields}
+              />
+            </ResponsiveWrapper>
+
             {actionTimeFields.map((field, index) => (
               <div key={field.id} className="grid grid-cols-2 gap-4">
                 <FormField

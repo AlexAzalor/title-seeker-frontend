@@ -24,6 +24,7 @@ import { errorHandling } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 import { FormStepper } from "../ui/form-stepper";
 import { FormButtons } from "../ui/form-buttons";
+import { RelatedMovieForm } from "./related-movie-form";
 
 export const MovieFormContext = createContext<{
   movieFormData: BodyAPICreateMovie;
@@ -31,12 +32,16 @@ export const MovieFormContext = createContext<{
   handleNext: () => void;
   handlePrev: () => void;
   clearForm?: () => void;
+  stepsSkipped?: number[];
+  setSkipSteps?: Dispatch<SetStateAction<number[]>>;
 }>({
   movieFormData: {} as BodyAPICreateMovie,
   setMovieFormData: () => {},
   handleNext: () => {},
   handlePrev: () => {},
   clearForm: () => {},
+  stepsSkipped: [],
+  setSkipSteps: () => {},
 });
 
 type Props = {
@@ -66,6 +71,7 @@ export const MovieFormWizard = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
+  const [stepsSkipped, setSkipSteps] = useState<number[]>([]);
 
   console.log(
     "%c === MOVIE FORM DATA === ",
@@ -134,9 +140,11 @@ export const MovieFormWizard = ({
         handleNext,
         handlePrev,
         clearForm,
+        stepsSkipped,
+        setSkipSteps,
       }}
     >
-      <div className="mx-auto my-5 w-[1400px] rounded-[34px] border border-[#EFF0F7] p-9 shadow-form-layout dark:border-[#211979] dark:shadow-dark-form-layout">
+      <div className="shadow-form-layout dark:shadow-dark-form-layout mx-auto my-5 w-[1400px] rounded-[34px] border border-[#EFF0F7] p-9 dark:border-[#211979]">
         <FormStepper
           completedSteps={completedSteps}
           currentStep={currentStep}
@@ -146,25 +154,26 @@ export const MovieFormWizard = ({
         <Separator className="my-12" />
 
         {currentStep === 1 && <KeyFieldsForm temporaryMovie={temporaryMovie} />}
-        {currentStep === 2 && <InfoFieldsForm />}
-        {currentStep === 3 && (
+        {currentStep === 2 && <RelatedMovieForm />}
+        {currentStep === 3 && <InfoFieldsForm />}
+        {currentStep === 4 && (
           <PeopleFieldsForm actors={actors} directors={directors} />
         )}
-        {currentStep === 4 && <GenreFieldsForm genres={genres} />}
-        {currentStep === 5 && (
+        {currentStep === 5 && <GenreFieldsForm genres={genres} />}
+        {currentStep === 6 && (
           <FeaturesForm
             specifications={specifications}
             keywords={keywords}
             actionTimes={actionTimes}
           />
         )}
-        {currentStep === 6 && movieFormData && movieFormData.form_data.key && (
+        {currentStep === 7 && movieFormData && movieFormData.form_data.key && (
           <Preview
             movieFormData={movieFormData.form_data}
             file={movieFormData.file as File}
           />
         )}
-        {currentStep === 6 && (
+        {currentStep === 7 && (
           <div>
             {!isSubmitting ? (
               <FormButtons
