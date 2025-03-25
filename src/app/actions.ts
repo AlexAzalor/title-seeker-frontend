@@ -10,6 +10,7 @@ import {
   BodyAPICreateSubgenre,
   Language,
   QuickMovieFormData,
+  SharedUniversePreCreateOut,
   TitleType,
   UserRateMovieIn,
 } from "@/orval_api/model";
@@ -21,6 +22,7 @@ import { getSubgenres } from "@/orval_api/subgenres/subgenres";
 import { getSpecifications } from "@/orval_api/specifications/specifications";
 import { getKeywords } from "@/orval_api/keywords/keywords";
 import { getActionTimes } from "@/orval_api/action-times/action-times";
+import { getSharedUniverses } from "@/orval_api/shared-universes/shared-universes";
 import { AxiosResponse } from "axios";
 import { getLocale } from "next-intl/server";
 
@@ -183,6 +185,28 @@ export async function addNewKeyword(data: BodyAPICreateGenre) {
       status: a.status,
       message: "Keyword created",
       newGenre: a.data,
+    };
+  } catch (error: any) {
+    return { status: error.status, message: error.response?.data.detail };
+  }
+}
+export async function addNewUniverse(data: BodyAPICreateGenre) {
+  const locale = await getLocale();
+  const lang = Language[locale as keyof typeof Language];
+
+  const { aPICreateSharedUniverse } = getSharedUniverses();
+
+  try {
+    const a: AxiosResponse = await aPICreateSharedUniverse(
+      data,
+      { lang },
+      backendURL,
+    );
+    // I do this on Zod project
+    return {
+      status: a.status,
+      message: "Keyword created",
+      newItem: a.data as SharedUniversePreCreateOut,
     };
   } catch (error: any) {
     return { status: error.status, message: error.response?.data.detail };

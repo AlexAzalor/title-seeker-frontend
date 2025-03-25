@@ -56,9 +56,12 @@ const ItemsListSelector = <Datum extends ItemFields, T extends ItemFields>({
               onSelect={(value) => onSelect(value, item.key, item)}
             >
               <p>{item.name}</p>
-              <TooltipWrapper content={item.description}>
-                <Info className="ml-2" />
-              </TooltipWrapper>
+
+              {!!item.description && (
+                <TooltipWrapper content={item.description}>
+                  <Info className="ml-2" />
+                </TooltipWrapper>
+              )}
 
               <Check
                 className={cn(

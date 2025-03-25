@@ -1,5 +1,5 @@
 import { use } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { RelatedMovieField, RelatedMovieType } from "@/types/zod-scheme";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { MovieFormContext } from "./movie-form-wizard";
@@ -7,6 +7,7 @@ import { FormField } from "../ui/form-field";
 
 import {
   MovieFormData,
+  MovieOutShort,
   RatingCriterion,
   RelatedMovie,
   UserRatingCriteria,
@@ -15,6 +16,8 @@ import {
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { FormButtons } from "../ui/form-buttons";
 import { TypeSelector } from "./type-selector";
+import { ResponsiveWrapper } from "../ui/responsive-wrapper";
+import { ItemsListSelector } from "../ui/items-list-selector";
 
 export type MovieKeyFields = Pick<
   MovieFormData,
@@ -27,7 +30,11 @@ export type RatingDataOut = {
   ratingData: UserRatingCriteria;
 };
 
-export const RelatedMovieForm = () => {
+type Props = {
+  baseMovies: MovieOutShort[];
+};
+
+export const RelatedMovieForm = ({ baseMovies }: Props) => {
   const { setMovieFormData, handleNext, clearForm, setSkipSteps } =
     use(MovieFormContext);
 
@@ -106,14 +113,27 @@ export const RelatedMovieForm = () => {
         onSubmit={handleSubmit(onSubmit)}
         className="flex w-full flex-col items-center gap-2"
       >
+        <h1>if base movie - skip</h1>
+
         <div className="grid grid-cols-2 gap-4">
-          <FormField
-            type="text"
-            label="Base movie key"
+          <Controller
+            control={control}
             name="base_movie_key"
-            register={register}
-            error={errors.base_movie_key}
-            labelWidth={64}
+            render={({ field: { onChange, value }, fieldState: { error } }) => (
+              <div>
+                <div>{value}</div>
+                <ResponsiveWrapper title="Select Shared Universe">
+                  <ItemsListSelector
+                    items={baseMovies}
+                    onOpenModal={() => {}}
+                    onSelect={(value, key) => onChange(key)}
+                    checkIconStyle={[value]}
+                  />
+                </ResponsiveWrapper>
+
+                {error && <span className="text-red-500">{error.message}</span>}
+              </div>
+            )}
           />
 
           <FormField
