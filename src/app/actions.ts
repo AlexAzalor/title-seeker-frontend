@@ -5,9 +5,11 @@ import { getUsers } from "@/orval_api/users/users";
 import { backendURL } from "@/lib/constants";
 import {
   BodyAPICreateActor,
+  BodyAPICreateCharacter,
   BodyAPICreateGenre,
   BodyAPICreateMovie,
   BodyAPICreateSubgenre,
+  CharacterOut,
   Language,
   QuickMovieFormData,
   SharedUniversePreCreateOut,
@@ -23,6 +25,7 @@ import { getSpecifications } from "@/orval_api/specifications/specifications";
 import { getKeywords } from "@/orval_api/keywords/keywords";
 import { getActionTimes } from "@/orval_api/action-times/action-times";
 import { getSharedUniverses } from "@/orval_api/shared-universes/shared-universes";
+import { getCharacters } from "@/orval_api/characters/characters";
 import { AxiosResponse } from "axios";
 import { getLocale } from "next-intl/server";
 
@@ -212,6 +215,30 @@ export async function addNewUniverse(data: BodyAPICreateGenre) {
     return { status: error.status, message: error.response?.data.detail };
   }
 }
+
+export async function addNewCharacter(data: BodyAPICreateCharacter) {
+  const locale = await getLocale();
+  const lang = Language[locale as keyof typeof Language];
+
+  const { aPICreateCharacter } = getCharacters();
+
+  try {
+    const result: AxiosResponse = await aPICreateCharacter(
+      data,
+      { lang },
+      backendURL,
+    );
+    // I do this on Zod project
+    return {
+      status: result.status,
+      message: "Character created",
+      newItem: result.data as CharacterOut,
+    };
+  } catch (error: any) {
+    return { status: error.status, message: error.response?.data.detail };
+  }
+}
+
 export async function addNewActionTime(data: BodyAPICreateGenre) {
   const locale = await getLocale();
   const lang = Language[locale as keyof typeof Language];

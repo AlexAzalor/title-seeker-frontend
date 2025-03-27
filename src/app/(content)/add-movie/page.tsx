@@ -30,6 +30,7 @@ export default async function AddMoviePage(props: {
       temporary_movie,
       shared_universes,
       base_movies,
+      characters,
     },
   } = await aPIGetPreCreateData(
     { lang, temp_movie_key: tempMovieKey },
@@ -48,6 +49,7 @@ export default async function AddMoviePage(props: {
         temporaryMovie={temporary_movie}
         shared_universes={shared_universes}
         base_movies={base_movies}
+        characters={characters}
       />
     </div>
   );

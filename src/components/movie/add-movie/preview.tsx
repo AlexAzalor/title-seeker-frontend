@@ -211,23 +211,12 @@ export const Preview = ({ movieFormData, file }: Props) => {
           {movieFormData.actors_keys.map((actor) => (
             <div key={actor.key} className="border border-orange-300 p-2">
               <div>
+                ACTOR Key:{" "}
+                <span className="text-xl font-bold">{actor.key}</span>
+              </div>
+              <div>
                 Character key:{" "}
                 <span className="text-xl font-bold">{actor.character_key}</span>
-              </div>
-              <div>
-                Character name EN:{" "}
-                <span className="text-xl font-bold">
-                  {actor.character_name_en}
-                </span>
-              </div>
-              <div>
-                Character name UK:{" "}
-                <span className="text-xl font-bold">
-                  {actor.character_name_uk}
-                </span>
-              </div>
-              <div>
-                Key: <span className="text-xl font-bold">{actor.key}</span>
               </div>
             </div>
           ))}

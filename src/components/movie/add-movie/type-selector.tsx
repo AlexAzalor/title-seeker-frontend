@@ -20,6 +20,7 @@ type Props = {
 };
 
 const TYPE_LIST = [
+  { value: RelatedMovie.base, label: "Base" },
   { value: RelatedMovie.sequel, label: "Sequel" },
   { value: RelatedMovie.prequel, label: "Prequel" },
   { value: RelatedMovie.spin_off, label: "Spin-off" },

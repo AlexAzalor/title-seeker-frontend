@@ -8,6 +8,7 @@ import {
   ActionTimeOut,
   ActorOut,
   BodyAPICreateMovie,
+  CharacterOut,
   DirectorOut,
   GenreOut,
   KeywordOut,
@@ -58,6 +59,7 @@ type Props = {
   temporaryMovie?: MoviePreCreateDataTemporaryMovie;
   shared_universes: SharedUniversePreCreateOut[];
   base_movies: MovieOutShort[];
+  characters: CharacterOut[];
 };
 
 export const MovieFormWizard = ({
@@ -70,6 +72,7 @@ export const MovieFormWizard = ({
   temporaryMovie,
   shared_universes,
   base_movies,
+  characters,
 }: Props) => {
   const [movieFormData, setMovieFormData] = useState<BodyAPICreateMovie>({
     form_data: {} as MovieFormData,
@@ -167,7 +170,11 @@ export const MovieFormWizard = ({
         {currentStep === 3 && <RelatedMovieForm baseMovies={base_movies} />}
         {currentStep === 4 && <InfoFieldsForm />}
         {currentStep === 5 && (
-          <PeopleFieldsForm actors={actors} directors={directors} />
+          <PeopleFieldsForm
+            actors={actors}
+            directors={directors}
+            characters={characters}
+          />
         )}
         {currentStep === 6 && <GenreFieldsForm genres={genres} />}
         {currentStep === 7 && (

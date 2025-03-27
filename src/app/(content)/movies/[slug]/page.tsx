@@ -161,7 +161,6 @@ export default async function DynamicPage({ params }: PageProps) {
                 />
                 <div>
                   <div className="text-lg">{movie.title}</div>
-                  <div>{movie.order}</div>
                 </div>
               </Link>
             ))}
