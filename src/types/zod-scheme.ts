@@ -249,6 +249,6 @@ export const CharacterFields = z
     name_uk: z.string().trim().min(1, { message: "Value is required" }),
     name_en: z.string().trim().min(1, { message: "Value is required" }),
   })
-  .refine((data) => (data.key = formatKey([data.name_uk])));
+  .refine((data) => (data.key = formatKey([data.name_en])));
 
 export type CharacterType = z.infer<typeof CharacterFields>;

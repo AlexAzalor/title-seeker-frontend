@@ -67,32 +67,32 @@ export const AddNewActionTime = ({ appendActionTime }: Props) => {
 
       <FormField
         type="text"
-        label="name_uk"
-        name="name_uk"
-        register={register}
-        error={errors.name_uk}
-      />
-
-      <FormField
-        type="text"
-        label="name_en"
+        label="Name En"
         name="name_en"
         register={register}
         error={errors.name_en}
       />
 
-      <TextareaFormField
-        label="description_uk"
-        name="description_uk"
+      <FormField
+        type="text"
+        label="Name Uk"
+        name="name_uk"
         register={register}
-        error={errors.description_uk}
+        error={errors.name_uk}
       />
 
       <TextareaFormField
-        label="description_en"
+        label="Description En"
         name="description_en"
         register={register}
         error={errors.description_en}
+      />
+
+      <TextareaFormField
+        label="Description Uk"
+        name="description_uk"
+        register={register}
+        error={errors.description_uk}
       />
     </FormWrapper>
   );

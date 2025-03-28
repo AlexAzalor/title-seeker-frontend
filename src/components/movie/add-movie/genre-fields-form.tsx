@@ -280,7 +280,7 @@ export const GenreFieldsForm = ({ genres }: Props) => {
 
       <Suspense>
         <ModalMovie
-          title="Genre"
+          title="Add new genre"
           open={openGenreFormModal}
           setOpen={setOpenGenreFormModal}
         >
@@ -288,7 +288,7 @@ export const GenreFieldsForm = ({ genres }: Props) => {
         </ModalMovie>
 
         <ModalMovie
-          title="Subgenre"
+          title="Add new subgenre"
           open={openSubgenreFormModal}
           setOpen={setOpenSubgenreFormModal}
         >

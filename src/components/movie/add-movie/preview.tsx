@@ -91,7 +91,7 @@ export const Preview = ({ movieFormData, file }: Props) => {
           </div>
           <div>
             Rating criterion type:{" "}
-            <span className="text-xl font-bold">
+            <span className="text-2xl font-bold underline">
               {movieFormData.rating_criterion_type}
             </span>
           </div>
@@ -118,6 +118,12 @@ export const Preview = ({ movieFormData, file }: Props) => {
             Music:{" "}
             <span className="text-xl font-bold">
               {movieFormData.rating_criteria.music}
+            </span>
+          </div>
+          <div>
+            Enjoyment:{" "}
+            <span className="text-xl font-bold">
+              {movieFormData.rating_criteria.enjoyment}
             </span>
           </div>
           <div>

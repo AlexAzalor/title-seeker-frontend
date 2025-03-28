@@ -98,32 +98,32 @@ export const AddNewSubgenre = ({
 
       <FormField
         type="text"
-        label="name_uk"
-        name="name_uk"
-        register={register}
-        error={errors.name_uk}
-      />
-
-      <FormField
-        type="text"
-        label="name_en"
+        label="Name en"
         name="name_en"
         register={register}
         error={errors.name_en}
       />
 
-      <TextareaFormField
-        label="description_uk"
-        name="description_uk"
+      <FormField
+        type="text"
+        label="Name uk"
+        name="name_uk"
         register={register}
-        error={errors.description_uk}
+        error={errors.name_uk}
       />
 
       <TextareaFormField
-        label="description_en"
+        label="Description en"
         name="description_en"
         register={register}
         error={errors.description_en}
+      />
+
+      <TextareaFormField
+        label="Description uk"
+        name="description_uk"
+        register={register}
+        error={errors.description_uk}
       />
     </FormWrapper>
   );
