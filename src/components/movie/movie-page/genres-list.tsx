@@ -7,6 +7,7 @@ import { InfoIcon } from "lucide-react";
 import type { MovieOut } from "@/orval_api/model";
 import { TooltipWrapper } from "@/components/custom/tooltip-wrapper";
 import { percentageMatchColor } from "../utils";
+import { movieComponents } from "@/lib/constants";
 
 type Props = {
   data: MovieOut;
@@ -17,12 +18,12 @@ export const GenresList = ({ data }: Props) => {
   const [hoveredSubgenre, setHoveredSubgenre] = useState<string | null>(null);
 
   return (
-    <div>
-      <div className="mb-4 flex flex-col items-start gap-4 lg:flex-row lg:items-center">
+    <div className="flex flex-wrap gap-4">
+      <div className="">
         <div className="flex items-center gap-1">
-          <p className="base-neon-text movie-genre-text text-2xl">Genres</p>
+          <p className="base-neon-text movie-genre-text text-xl">Genres</p>
 
-          <TooltipWrapper content="fdfsffsd fdsfs dfdsf">
+          <TooltipWrapper content={movieComponents.genre}>
             <InfoIcon className="h-4 w-4" />
           </TooltipWrapper>
         </div>
@@ -33,7 +34,7 @@ export const GenresList = ({ data }: Props) => {
               key={genre.key}
               href={`/super-search/?genre_name=${genre.key}`}
               className={cn(
-                "hover:shadow-neon-border-fill relative flex min-h-14 min-w-28 items-center rounded-xl border-2 transition-shadow dark:border-[#4A3AFF]",
+                "hover:shadow-neon-border-fill relative flex h-max w-max items-center rounded-xl border-2 transition-shadow dark:border-[#4A3AFF]",
                 hoveredSubgenre === genre.key && "shadow-neon-border-fill",
               )}
               onMouseEnter={() => setHoveredGenre(genre.key)}
@@ -44,7 +45,7 @@ export const GenresList = ({ data }: Props) => {
                 className="neon-border absolute size-full rounded-lg border dark:border-[#4A3AFF]"
               />
 
-              <div className="relative mx-auto flex items-center gap-2 px-1">
+              <div className="relative mx-auto flex items-center gap-2 p-2">
                 <span>{genre.name}</span>
                 <TooltipWrapper
                   asChild
@@ -62,13 +63,13 @@ export const GenresList = ({ data }: Props) => {
       </div>
 
       {!!data.subgenres?.length && (
-        <div className="flex flex-col items-start gap-4 lg:flex-row lg:items-center">
+        <div className="">
           <div className="flex items-center gap-1">
-            <p className="base-neon-text movie-subgenre-text text-2xl">
+            <p className="base-neon-text movie-subgenre-text text-xl">
               Subgenres
             </p>
 
-            <TooltipWrapper content="fdfsffsd fdsfs dfdsf">
+            <TooltipWrapper content={movieComponents.subgenre}>
               <InfoIcon className="h-4 w-4" />
             </TooltipWrapper>
           </div>
@@ -78,7 +79,7 @@ export const GenresList = ({ data }: Props) => {
               <Link
                 href={`/super-search/?genre_name=${subgenre.parent_genre.key}&subgenre_name=${subgenre.key}`}
                 className={cn(
-                  "hover:shadow-neon-border-fill relative flex min-h-14 min-w-28 items-center rounded-xl border-2 transition-shadow dark:border-[#9d4eff]",
+                  "hover:shadow-neon-border-fill relative flex items-center rounded-xl border-2 transition-shadow dark:border-[#9d4eff]",
                   hoveredGenre === subgenre.parent_genre.key &&
                     "shadow-neon-border-fill",
                 )}
@@ -93,7 +94,7 @@ export const GenresList = ({ data }: Props) => {
                   className="neon-subgenre absolute size-full rounded-lg border dark:border-[#9d4eff]"
                 />
 
-                <div className="relative mx-auto flex items-center gap-2 px-2">
+                <div className="relative mx-auto flex items-center gap-2 p-2">
                   <span>{subgenre.name}</span>
                   <TooltipWrapper
                     content={percentageMatchColor(

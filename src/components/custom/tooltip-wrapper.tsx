@@ -15,7 +15,7 @@ type Props = {
 };
 
 export const TooltipWrapper = ({
-  children = <Info />,
+  children = <Info height={16} width={16} />,
   content,
   asChild,
   side,

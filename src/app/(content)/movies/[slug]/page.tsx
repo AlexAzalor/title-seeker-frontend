@@ -1,12 +1,16 @@
-import Link from "next/link";
+import { Suspense } from "react";
 import Image from "next/image";
 import { AVATAR_URL, backendURL, POSTER_URL } from "@/lib/constants";
-import { Language } from "@/orval_api/model";
+import {
+  APIGetSimilarMoviesParams,
+  Language,
+  SimilarMovieOutList,
+} from "@/orval_api/model";
 import { getMovies } from "@/orval_api/movies/movies";
 
 import { PageProps } from "@/types/general";
 import { getLocale, getTranslations } from "next-intl/server";
-import { cn, formatDate } from "@/lib/utils";
+import { formatDate } from "@/lib/utils";
 import { MovieRateBox } from "@/components/movie/movie-rate-box";
 import { GenresList } from "@/components/movie/movie-page/genres-list";
 import { FeaturesList } from "@/components/movie/movie-page/features-list";
@@ -15,7 +19,10 @@ import { MovieCrew } from "@/components/movie/movie-crew";
 import { MovieMoney } from "@/components/movie/movie-money";
 
 import { LastWatchedWrapper } from "@/components/movie/last-watched-wrapper";
-import { TooltipWrapper } from "@/components/custom/tooltip-wrapper";
+
+import { RelatedSimilarList } from "@/components/movie/movie-page/related-similar-list";
+import { MoviesCollection } from "@/components/movie/movie-page/movies-collection";
+import { FetchWrapper } from "@/components/movie/fetch-wrapper";
 
 export default async function DynamicPage({ params }: PageProps) {
   const { slug: movie_key } = await params;
@@ -24,8 +31,41 @@ export default async function DynamicPage({ params }: PageProps) {
   const locale = await getLocale();
   const lang = Language[locale as keyof typeof Language];
 
-  const { aPIGetMovie } = getMovies();
+  const { aPIGetMovie, aPIGetSimilarMovies } = getMovies();
   const { data } = await aPIGetMovie(movie_key, { lang }, backendURL);
+
+  // need refactor?
+  const relatedMoviesFetcher = (bottom?: boolean) => {
+    return (
+      <Suspense
+        fallback={
+          <div className="shadow-form-layout dark:shadow-dark-form-layout min-w-76 rounded-[34px] border border-[#EFF0F7] p-5 dark:border-[#211979]">
+            Loading...
+          </div>
+        }
+      >
+        <FetchWrapper<
+          SimilarMovieOutList,
+          APIGetSimilarMoviesParams,
+          typeof aPIGetSimilarMovies
+        >
+          apiFetch={aPIGetSimilarMovies}
+          params={{ movie_key }}
+        >
+          {({ result }) => (
+            <RelatedSimilarList
+              type="similar"
+              name="Similar Movies"
+              movies={result.data.similar_movies}
+              posterUrl={POSTER_URL || "NO URL!!!"}
+              currentMovieKey={data.key}
+              bottom={bottom}
+            />
+          )}
+        </FetchWrapper>
+      </Suspense>
+    );
+  };
 
   return (
     <LastWatchedWrapper movie={{ key: movie_key, poster: data.poster }}>
@@ -50,35 +90,19 @@ export default async function DynamicPage({ params }: PageProps) {
             />
           </div>
 
-          {/* some text that say about absence of related movie, because it may be confusing sometimes */}
-          {/* different box color? */}
-          {!!data.related_movies && (
-            <div className="border-cold9 flex flex-grow-1 flex-col border-1">
-              {data.related_movies.map((movie) => (
-                <Link
-                  href={`/movies/${movie.key}`}
-                  key={movie.key}
-                  className={cn(
-                    "flex items-center gap-4",
-                    data.key === movie.key
-                      ? "bg-cold9 select-none"
-                      : "bg-cold8",
-                  )}
-                >
-                  <Image
-                    src={`${POSTER_URL}/posters/${movie.poster}`}
-                    alt="Actor Avatar"
-                    height={60}
-                    width={40}
-                  />
-                  <div>
-                    <div className="text-lg">{movie.title}</div>
-                    <div>{movie.relation_type}</div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          )}
+          <div className="ml-auto">
+            {data.related_movies?.length ? (
+              <RelatedSimilarList
+                type="related"
+                name="Related Movies"
+                movies={data.related_movies}
+                posterUrl={POSTER_URL || "NO URL!!!"}
+                currentMovieKey={data.key}
+              />
+            ) : (
+              relatedMoviesFetcher()
+            )}
+          </div>
         </div>
 
         <div className="my-4 grid w-full grid-cols-1 place-items-center lg:grid-cols-3">
@@ -114,7 +138,7 @@ export default async function DynamicPage({ params }: PageProps) {
           </div>
         </div>
 
-        <div className="flex flex-col justify-between gap-6 lg:flex-row">
+        <div className="mb-4 flex flex-col justify-between gap-6 lg:flex-row">
           <div className="pt-6">
             <ExpandableText text={data.description} />
 
@@ -128,46 +152,16 @@ export default async function DynamicPage({ params }: PageProps) {
           <MovieRateBox data={data} ratingData={data.user_rating} />
         </div>
 
-        {!!data.shared_universe && (
-          <div className="border-cold9 flex flex-grow-1 flex-col border-1">
-            <Link
-              href={`/super-search/?universe=${data.shared_universe.key}`}
-              scroll={false}
-              className="flex items-center gap-4 text-2xl"
-            >
-              {data.shared_universe.name}
-            </Link>
-            <div>
-              <TooltipWrapper
-                content={data.shared_universe.description}
-                className="text-center"
-              />
-            </div>
-            {data.shared_universe.movies.map((movie) => (
-              <Link
-                href={`/movies/${movie.key}`}
-                key={movie.key}
-                scroll={false}
-                className={cn(
-                  "flex items-center gap-4",
-                  data.key === movie.key ? "bg-cold9 select-none" : "bg-cold8",
-                )}
-              >
-                <Image
-                  src={`${POSTER_URL}/posters/${movie.poster}`}
-                  alt="Actor Avatar"
-                  height={60}
-                  width={40}
-                />
-                <div>
-                  <div className="text-lg">
-                    {movie.order}. {movie.title}
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
+        {!!data.shared_universe && data.shared_universe_order && (
+          <MoviesCollection
+            data={data.shared_universe}
+            posterUrl={POSTER_URL || "NO URL!!!"}
+            currentMovieKey={data.key}
+            index={data.shared_universe_order - 1}
+          />
         )}
+
+        {!!data.related_movies?.length && relatedMoviesFetcher(true)}
       </div>
     </LastWatchedWrapper>
   );

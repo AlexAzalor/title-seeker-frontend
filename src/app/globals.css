@@ -5,6 +5,7 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
+  /* --dark-hover-bg: #1a183d; */
   /* Responsive */
   --breakpoint-xs: 30rem;
   /* --breakpoint-xl: 64rem; 1024px */

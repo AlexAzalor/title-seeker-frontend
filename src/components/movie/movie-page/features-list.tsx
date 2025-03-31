@@ -20,7 +20,7 @@ export const FeaturesList = ({
   action_times,
 }: Props) => {
   return (
-    <div className="my-4 flex flex-col gap-4">
+    <div className="my-4 flex flex-wrap gap-4">
       <ItemFeature
         data={specifications}
         queryKey={SPEC}
