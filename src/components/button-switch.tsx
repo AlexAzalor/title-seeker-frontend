@@ -34,10 +34,10 @@ export const ButtonSwitch = ({ locale }: Props) => {
       <SelectTrigger className="max-w-max">
         <SelectValue placeholder={locale} />
       </SelectTrigger>
-      <SelectContent>
+      <SelectContent side="top">
         <SelectGroup>
-          <SelectItem value="uk">uk</SelectItem>
-          <SelectItem value="en">en</SelectItem>
+          <SelectItem value="uk">Українська</SelectItem>
+          <SelectItem value="en">English</SelectItem>
         </SelectGroup>
       </SelectContent>
     </Select>

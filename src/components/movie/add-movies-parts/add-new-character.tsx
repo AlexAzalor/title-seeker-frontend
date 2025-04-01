@@ -1,49 +1,61 @@
 "use client";
 
-import { useForm } from "react-hook-form";
+import { useForm, UseFormSetValue } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { TypeGenreScheme } from "@/types/general";
-import { GenreScheme } from "@/types/zod-scheme";
+
+import { CharacterFields, CharacterType } from "@/types/zod-scheme";
 import { useRouter } from "next/navigation";
-import { addNewKeyword } from "@/app/actions";
+import { addNewCharacter } from "@/app/actions";
 import { toast } from "sonner";
-import { BodyAPICreateGenre } from "@/orval_api/model";
+import { BodyAPICreateCharacter } from "@/orval_api/model";
 import { formatKey } from "@/lib/utils";
 import { FormWrapper } from "../ui/form-wrapper";
 import { FormField } from "../ui/form-field";
-import { TextareaFormField } from "../ui/textarea-form-field";
+import { PeopleSchemeType } from "../add-movie/people-fields-form";
 
 type Props = {
-  appendKeyword: any;
+  setValue: UseFormSetValue<PeopleSchemeType>;
+  characterIndexField: number | null;
 };
 
-export const AddNewKeyword = ({ appendKeyword }: Props) => {
+export const AddNewCharacter = ({ setValue, characterIndexField }: Props) => {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
     watch,
-  } = useForm<TypeGenreScheme>({
-    resolver: zodResolver(GenreScheme),
+  } = useForm<CharacterType>({
+    resolver: zodResolver(CharacterFields),
     defaultValues: {
       key: "",
       name_en: "",
+      name_uk: "",
     },
   });
-  const router = useRouter();
 
   const watchFields = watch(["name_en"]);
 
-  const onSubmit = async (data: TypeGenreScheme) => {
-    const dataToSend: BodyAPICreateGenre = {
+  const onSubmit = async (data: CharacterType) => {
+    console.log("data", data);
+
+    const dataToSend: BodyAPICreateCharacter = {
       ...data,
     };
 
-    const response = await addNewKeyword(dataToSend);
+    const response = await addNewCharacter(dataToSend);
 
-    if (response.status === 201) {
+    console.log("response", response);
+
+    if (response && response.status === 201) {
       toast.success(response?.message);
-      appendKeyword(response.newGenre);
+
+      if (characterIndexField !== null) {
+        setValue(
+          `actors.${characterIndexField}.character_key`,
+          response.newItem!.key,
+        );
+      }
       // clear form
     }
 
@@ -66,7 +78,7 @@ export const AddNewKeyword = ({ appendKeyword }: Props) => {
 
       <FormField
         type="text"
-        label="Name En"
+        label="name_en"
         name="name_en"
         register={register}
         error={errors.name_en}
@@ -74,24 +86,10 @@ export const AddNewKeyword = ({ appendKeyword }: Props) => {
 
       <FormField
         type="text"
-        label="Name Uk"
+        label="name_uk"
         name="name_uk"
         register={register}
         error={errors.name_uk}
-      />
-
-      <TextareaFormField
-        label="Description En"
-        name="description_en"
-        register={register}
-        error={errors.description_en}
-      />
-
-      <TextareaFormField
-        label="Description Uk"
-        name="description_uk"
-        register={register}
-        error={errors.description_uk}
       />
     </FormWrapper>
   );

@@ -47,6 +47,40 @@ export const Preview = ({ movieFormData, file }: Props) => {
               {file?.name || "No poster"}
             </span>
           </div>
+
+          <h2 className="mt-4">Shared Universe</h2>
+          <div>
+            Base movie key:{" "}
+            <span className="text-xl font-bold">
+              {movieFormData.shared_universe_key}
+            </span>
+          </div>
+          <div>
+            Collection order:{" "}
+            <span className="text-xl font-bold">
+              {movieFormData.shared_universe_order}
+            </span>
+          </div>
+
+          <h2 className="mt-4">Related Movie</h2>
+          <div>
+            Base movie key:{" "}
+            <span className="text-xl font-bold">
+              {movieFormData.base_movie_key}
+            </span>
+          </div>
+          <div>
+            Collection order:{" "}
+            <span className="text-xl font-bold">
+              {movieFormData.collection_order}
+            </span>
+          </div>
+          <div>
+            Relation Type:{" "}
+            <span className="text-xl font-bold">
+              {movieFormData.relation_type}
+            </span>
+          </div>
         </div>
 
         <div className="border-2">
@@ -57,7 +91,7 @@ export const Preview = ({ movieFormData, file }: Props) => {
           </div>
           <div>
             Rating criterion type:{" "}
-            <span className="text-xl font-bold">
+            <span className="text-2xl font-bold underline">
               {movieFormData.rating_criterion_type}
             </span>
           </div>
@@ -84,6 +118,12 @@ export const Preview = ({ movieFormData, file }: Props) => {
             Music:{" "}
             <span className="text-xl font-bold">
               {movieFormData.rating_criteria.music}
+            </span>
+          </div>
+          <div>
+            Enjoyment:{" "}
+            <span className="text-xl font-bold">
+              {movieFormData.rating_criteria.enjoyment}
             </span>
           </div>
           <div>
@@ -177,23 +217,12 @@ export const Preview = ({ movieFormData, file }: Props) => {
           {movieFormData.actors_keys.map((actor) => (
             <div key={actor.key} className="border border-orange-300 p-2">
               <div>
+                ACTOR Key:{" "}
+                <span className="text-xl font-bold">{actor.key}</span>
+              </div>
+              <div>
                 Character key:{" "}
                 <span className="text-xl font-bold">{actor.character_key}</span>
-              </div>
-              <div>
-                Character name EN:{" "}
-                <span className="text-xl font-bold">
-                  {actor.character_name_en}
-                </span>
-              </div>
-              <div>
-                Character name UK:{" "}
-                <span className="text-xl font-bold">
-                  {actor.character_name_uk}
-                </span>
-              </div>
-              <div>
-                Key: <span className="text-xl font-bold">{actor.key}</span>
               </div>
             </div>
           ))}

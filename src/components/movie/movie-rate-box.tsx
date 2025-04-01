@@ -47,16 +47,12 @@ export const MovieRateBox = ({ data, ratingData }: Props) => {
   };
 
   return (
-    <div>
-      <RateMovie
-        ratingRef={ratingRef}
-        movieRateData={data.user_rating}
-        type={data.rating_criterion}
-        onRateSubmit={submitRating}
-        movieKey={data.key}
-      />
-
-      {/* comments? */}
-    </div>
+    <RateMovie
+      ratingRef={ratingRef}
+      movieRateData={data.user_rating}
+      type={data.rating_criterion}
+      onRateSubmit={submitRating}
+      movieKey={data.key}
+    />
   );
 };

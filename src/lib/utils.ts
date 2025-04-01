@@ -65,7 +65,7 @@ export function formatKey(names: string[]) {
 export const errorHandling = (response: any, endSubmitting: () => void) => {
   if (response.status === 201) {
     toast.success(response?.message);
-    localStorage.removeItem("new-movie-data");
+    // localStorage.removeItem("new-movie-data");
   }
 
   if (response.status === 400) {

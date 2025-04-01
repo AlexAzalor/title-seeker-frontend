@@ -7,9 +7,16 @@ type Props = {
   handlePrev?: () => void;
   isFirstStep?: boolean;
   onSubmit?: () => void;
+  skipStep?: () => void;
 };
 
-const FormButtons = ({ title, handlePrev, isFirstStep, onSubmit }: Props) => {
+const FormButtons = ({
+  title,
+  handlePrev,
+  isFirstStep,
+  onSubmit,
+  skipStep,
+}: Props) => {
   return (
     <div className="mt-7 flex w-full items-center justify-between">
       <Button
@@ -23,6 +30,17 @@ const FormButtons = ({ title, handlePrev, isFirstStep, onSubmit }: Props) => {
       >
         {isFirstStep ? "Clear form" : "Previous step"}
       </Button>
+
+      {skipStep && (
+        <Button
+          type="submit"
+          variant="outline"
+          className="h-10 w-[124px] rounded-[56px] border border-[#4A3AFF] text-lg text-[#4A3AFF] hover:text-[#4A3AFF]"
+          onClick={skipStep}
+        >
+          <p>Skip</p>
+        </Button>
+      )}
 
       <Button
         type="submit"

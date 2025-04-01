@@ -1,7 +1,7 @@
 import { memo } from "react";
 import { Check, Info } from "lucide-react";
 
-import type { GenreOutDescription } from "@/orval_api/model";
+import type { ActorOutNameUk, GenreOutDescription } from "@/orval_api/model";
 import { cn } from "@/lib/utils";
 
 import { Button } from "@/components/ui/button";
@@ -27,6 +27,7 @@ type ItemFields = {
   key: string;
   name: string;
   description?: string | GenreOutDescription;
+  name_uk?: ActorOutNameUk;
 };
 
 const ItemsListSelector = <Datum extends ItemFields, T extends ItemFields>({
@@ -52,13 +53,16 @@ const ItemsListSelector = <Datum extends ItemFields, T extends ItemFields>({
           {items.map((item) => (
             <CommandItem
               key={item.key}
-              value={item.name}
+              value={item.name + " " + item.name_uk}
               onSelect={(value) => onSelect(value, item.key, item)}
             >
               <p>{item.name}</p>
-              <TooltipWrapper content={item.description}>
-                <Info className="ml-2" />
-              </TooltipWrapper>
+
+              {!!item.description && (
+                <TooltipWrapper content={item.description}>
+                  <Info className="ml-2" />
+                </TooltipWrapper>
+              )}
 
               <Check
                 className={cn(

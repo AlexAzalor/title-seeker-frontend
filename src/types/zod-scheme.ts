@@ -144,28 +144,18 @@ export const MovieInfoScheme = z.object({
   location_en: z.string().min(1, { message: "Value is required" }).trim(),
 });
 
-export const ActorSchemeType = z
-  .object({
-    name: z.string().trim(),
-    character_key: z.string().trim(),
-    character_name_en: z
-      .string()
-      .min(1, { message: "character_name_en is required" })
-      .trim(),
-    character_name_uk: z
-      .string()
-      .min(1, { message: "character_name_uk is required" })
-      .trim(),
-    key: z.string().trim(),
-  })
-  .refine((data) => (data.character_key = formatKey([data.character_name_en])));
+export const ActorSchemeType = z.object({
+  name: z.string().trim(),
+  key: z.string().trim(),
+  character_key: z.string().trim(),
+});
 
 export const DirectorSchemeType = z.object({
   name: z.string().trim(),
   key: z.string().trim(),
 });
 
-export const ActorsListScheme = z.object({
+export const MovieCrewListScheme = z.object({
   actors: z
     .array(ActorSchemeType)
     .min(1, { message: "At least one Actor must be selected" }),
@@ -228,3 +218,37 @@ export const EnhanceSearchScheme = z.object({
   keywords: z.array(EnhanceSearchField),
   action_times: z.array(EnhanceSearchField),
 });
+
+export const RelatedMovieField = z.object({
+  base_movie_key: z.string().trim().min(1, { message: "Value is required" }),
+  collection_order: z.coerce
+    .number({
+      invalid_type_error: "Value must be a number",
+    })
+    .min(1, { message: "Value is required" }),
+  relation_type: z.string().min(1, { message: "Value is required" }),
+});
+
+export type RelatedMovieType = z.infer<typeof RelatedMovieField>;
+
+export const SharedUniverseFields = z.object({
+  shared_universe_key: z
+    .string()
+    .trim()
+    .min(1, { message: "Value is required" }),
+  shared_universe_order: z.coerce
+    .number()
+    .min(1, { message: "Value is required" }),
+});
+
+export type SharedUniverseType = z.infer<typeof SharedUniverseFields>;
+
+export const CharacterFields = z
+  .object({
+    key: z.string().trim(),
+    name_uk: z.string().trim().min(1, { message: "Value is required" }),
+    name_en: z.string().trim().min(1, { message: "Value is required" }),
+  })
+  .refine((data) => (data.key = formatKey([data.name_en])));
+
+export type CharacterType = z.infer<typeof CharacterFields>;

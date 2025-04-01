@@ -8,11 +8,14 @@ import {
   ActionTimeOut,
   ActorOut,
   BodyAPICreateMovie,
+  CharacterOut,
   DirectorOut,
   GenreOut,
   KeywordOut,
   MovieFormData,
+  MovieOutShort,
   MoviePreCreateDataTemporaryMovie,
+  SharedUniversePreCreateOut,
   SpecificationOut,
 } from "@/orval_api/model";
 import { GenreFieldsForm } from "./genre-fields-form";
@@ -24,6 +27,8 @@ import { errorHandling } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 import { FormStepper } from "../ui/form-stepper";
 import { FormButtons } from "../ui/form-buttons";
+import { RelatedMovieForm } from "./related-movie-form";
+import { SharedUniverseForm } from "./shared_universe";
 
 export const MovieFormContext = createContext<{
   movieFormData: BodyAPICreateMovie;
@@ -31,12 +36,16 @@ export const MovieFormContext = createContext<{
   handleNext: () => void;
   handlePrev: () => void;
   clearForm?: () => void;
+  stepsSkipped?: number[];
+  setSkipSteps?: Dispatch<SetStateAction<number[]>>;
 }>({
   movieFormData: {} as BodyAPICreateMovie,
   setMovieFormData: () => {},
   handleNext: () => {},
   handlePrev: () => {},
   clearForm: () => {},
+  stepsSkipped: [],
+  setSkipSteps: () => {},
 });
 
 type Props = {
@@ -48,6 +57,9 @@ type Props = {
   keywords: KeywordOut[];
   actionTimes: ActionTimeOut[];
   temporaryMovie?: MoviePreCreateDataTemporaryMovie;
+  shared_universes: SharedUniversePreCreateOut[];
+  base_movies: MovieOutShort[];
+  characters: CharacterOut[];
 };
 
 export const MovieFormWizard = ({
@@ -58,6 +70,9 @@ export const MovieFormWizard = ({
   keywords,
   actionTimes,
   temporaryMovie,
+  shared_universes,
+  base_movies,
+  characters,
 }: Props) => {
   const [movieFormData, setMovieFormData] = useState<BodyAPICreateMovie>({
     form_data: {} as MovieFormData,
@@ -66,6 +81,7 @@ export const MovieFormWizard = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
+  const [stepsSkipped, setSkipSteps] = useState<number[]>([]);
 
   console.log(
     "%c === MOVIE FORM DATA === ",
@@ -134,9 +150,11 @@ export const MovieFormWizard = ({
         handleNext,
         handlePrev,
         clearForm,
+        stepsSkipped,
+        setSkipSteps,
       }}
     >
-      <div className="mx-auto my-5 w-[1400px] rounded-[34px] border border-[#EFF0F7] p-9 shadow-form-layout dark:border-[#211979] dark:shadow-dark-form-layout">
+      <div className="shadow-form-layout dark:shadow-dark-form-layout mx-auto my-5 w-[1400px] rounded-[34px] border border-[#EFF0F7] p-9 dark:border-[#211979]">
         <FormStepper
           completedSteps={completedSteps}
           currentStep={currentStep}
@@ -146,25 +164,33 @@ export const MovieFormWizard = ({
         <Separator className="my-12" />
 
         {currentStep === 1 && <KeyFieldsForm temporaryMovie={temporaryMovie} />}
-        {currentStep === 2 && <InfoFieldsForm />}
-        {currentStep === 3 && (
-          <PeopleFieldsForm actors={actors} directors={directors} />
+        {currentStep === 2 && (
+          <SharedUniverseForm shared_universes={shared_universes} />
         )}
-        {currentStep === 4 && <GenreFieldsForm genres={genres} />}
+        {currentStep === 3 && <RelatedMovieForm baseMovies={base_movies} />}
+        {currentStep === 4 && <InfoFieldsForm />}
         {currentStep === 5 && (
+          <PeopleFieldsForm
+            actors={actors}
+            directors={directors}
+            characters={characters}
+          />
+        )}
+        {currentStep === 6 && <GenreFieldsForm genres={genres} />}
+        {currentStep === 7 && (
           <FeaturesForm
             specifications={specifications}
             keywords={keywords}
             actionTimes={actionTimes}
           />
         )}
-        {currentStep === 6 && movieFormData && movieFormData.form_data.key && (
+        {currentStep === 8 && movieFormData && movieFormData.form_data.key && (
           <Preview
             movieFormData={movieFormData.form_data}
             file={movieFormData.file as File}
           />
         )}
-        {currentStep === 6 && (
+        {currentStep === 8 && (
           <div>
             {!isSubmitting ? (
               <FormButtons

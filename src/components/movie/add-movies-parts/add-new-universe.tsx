@@ -1,11 +1,11 @@
 "use client";
 
-import { useForm } from "react-hook-form";
+import { useForm, UseFormSetValue } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TypeGenreScheme } from "@/types/general";
-import { GenreScheme } from "@/types/zod-scheme";
+import { GenreScheme, SharedUniverseType } from "@/types/zod-scheme";
 import { useRouter } from "next/navigation";
-import { addNewKeyword } from "@/app/actions";
+import { addNewUniverse } from "@/app/actions";
 import { toast } from "sonner";
 import { BodyAPICreateGenre } from "@/orval_api/model";
 import { formatKey } from "@/lib/utils";
@@ -14,10 +14,10 @@ import { FormField } from "../ui/form-field";
 import { TextareaFormField } from "../ui/textarea-form-field";
 
 type Props = {
-  appendKeyword: any;
+  setValue: UseFormSetValue<SharedUniverseType>;
 };
 
-export const AddNewKeyword = ({ appendKeyword }: Props) => {
+export const AddNewUniverse = ({ setValue }: Props) => {
   const {
     register,
     handleSubmit,
@@ -39,11 +39,14 @@ export const AddNewKeyword = ({ appendKeyword }: Props) => {
       ...data,
     };
 
-    const response = await addNewKeyword(dataToSend);
+    const response = await addNewUniverse(dataToSend);
 
-    if (response.status === 201) {
+    console.log("response", response);
+
+    if (response && response.status === 201) {
       toast.success(response?.message);
-      appendKeyword(response.newGenre);
+
+      setValue("shared_universe_key", response.newItem!.key);
       // clear form
     }
 
@@ -66,7 +69,7 @@ export const AddNewKeyword = ({ appendKeyword }: Props) => {
 
       <FormField
         type="text"
-        label="Name En"
+        label="name_en"
         name="name_en"
         register={register}
         error={errors.name_en}
@@ -74,21 +77,21 @@ export const AddNewKeyword = ({ appendKeyword }: Props) => {
 
       <FormField
         type="text"
-        label="Name Uk"
+        label="name_uk"
         name="name_uk"
         register={register}
         error={errors.name_uk}
       />
 
       <TextareaFormField
-        label="Description En"
+        label="description_en"
         name="description_en"
         register={register}
         error={errors.description_en}
       />
 
       <TextareaFormField
-        label="Description Uk"
+        label="description_uk"
         name="description_uk"
         register={register}
         error={errors.description_uk}

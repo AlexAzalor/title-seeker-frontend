@@ -66,6 +66,11 @@ export default async function SuperSearchPage(props: {
       ? [searchParams.action_time_name]
       : searchParams.action_time_name;
 
+  const universesList =
+    typeof searchParams.universe === "string"
+      ? [searchParams.universe]
+      : searchParams.universe;
+
   const exactMatch = searchParams.exact_match as any;
 
   const {
@@ -81,6 +86,7 @@ export default async function SuperSearchPage(props: {
       keyword_name: keywordNamesList,
       action_time_name: actionTimeNamesList,
       exact_match: exactMatch,
+      universe: universesList,
     },
     {
       baseURL: backendURL.baseURL,

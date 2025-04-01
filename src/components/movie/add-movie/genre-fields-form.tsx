@@ -15,6 +15,7 @@ import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { FormButtons } from "../ui/form-buttons";
 import { FormField } from "../ui/form-field";
 import { SliderFormField } from "../ui/slider-form-field";
+import { ResponsiveWrapper } from "../ui/responsive-wrapper";
 
 const ModalMovie = dynamic(() => import("../ui/modal-movie"));
 
@@ -119,41 +120,45 @@ export const GenreFieldsForm = ({ genres }: Props) => {
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">
           <div className="mb-5 flex w-full flex-col items-center gap-2">
             <h1 className="text-[#2D26A5]">Genres</h1>
-            <ItemsListSelector
-              items={genres}
-              onOpenModal={() => setOpenGenreFormModal(true)}
-              onSelect={(currentValue, key, genre) => {
-                if (!genreFields.find((genrePrev) => genrePrev.key === key)) {
-                  appendGenre({
-                    name: currentValue,
-                    percentage_match: 0,
-                    key: key,
-                  });
+            <ResponsiveWrapper title="Genres">
+              <ItemsListSelector
+                items={genres}
+                onOpenModal={() => setOpenGenreFormModal(true)}
+                onSelect={(currentValue, key, genre) => {
+                  if (!genreFields.find((genrePrev) => genrePrev.key === key)) {
+                    appendGenre({
+                      name: currentValue,
+                      percentage_match: 0,
+                      key: key,
+                    });
 
-                  if (
-                    genre &&
-                    checkGenreType(genre) &&
-                    genre.subgenres?.length
-                  ) {
-                    setSubgenres((prev) => [
-                      ...prev,
-                      ...(genre.subgenres || []),
-                    ]);
+                    if (
+                      genre &&
+                      checkGenreType(genre) &&
+                      genre.subgenres?.length
+                    ) {
+                      setSubgenres((prev) => [
+                        ...prev,
+                        ...(genre.subgenres || []),
+                      ]);
+                    }
+                  } else {
+                    removeGenre(
+                      genreFields.findIndex(
+                        (genrePrev) => genrePrev.key === key,
+                      ),
+                    );
+
+                    setSubgenres((prev) =>
+                      prev.filter(
+                        (subgenrePrev) => subgenrePrev.parent_genre_key !== key,
+                      ),
+                    );
                   }
-                } else {
-                  removeGenre(
-                    genreFields.findIndex((genrePrev) => genrePrev.key === key),
-                  );
-
-                  setSubgenres((prev) =>
-                    prev.filter(
-                      (subgenrePrev) => subgenrePrev.parent_genre_key !== key,
-                    ),
-                  );
-                }
-              }}
-              checkIconStyle={genreFields}
-            />
+                }}
+                checkIconStyle={genreFields}
+              />
+            </ResponsiveWrapper>
 
             {genreFields.map((field, index) => (
               <div key={field.id} className="grid grid-cols-2 gap-4">
@@ -208,34 +213,37 @@ export const GenreFieldsForm = ({ genres }: Props) => {
 
           <div className="mb-5 flex w-full flex-col items-center gap-2">
             <h1 className="text-[#2D26A5]">Subgenres</h1>
-            <ItemsListSelector
-              items={subgenres}
-              onOpenModal={() => setOpenSubgenreFormModal(true)}
-              onSelect={(currentValue, key, subgenre) => {
-                if (
-                  !subgenreFields.find(
-                    (subgenrePrev) => subgenrePrev.key === key,
-                  ) &&
-                  subgenre
-                ) {
-                  appendSubgenre({
-                    name: currentValue,
-                    percentage_match: 0,
-                    subgenre_parent_key: !checkGenreType(subgenre)
-                      ? subgenre.parent_genre_key
-                      : "",
-                    key: key,
-                  });
-                } else {
-                  removeSubgenre(
-                    subgenreFields.findIndex(
+            <ResponsiveWrapper title="Subgenres">
+              <ItemsListSelector
+                items={subgenres}
+                onOpenModal={() => setOpenSubgenreFormModal(true)}
+                onSelect={(currentValue, key, subgenre) => {
+                  if (
+                    !subgenreFields.find(
                       (subgenrePrev) => subgenrePrev.key === key,
-                    ),
-                  );
-                }
-              }}
-              checkIconStyle={subgenreFields}
-            />
+                    ) &&
+                    subgenre
+                  ) {
+                    appendSubgenre({
+                      name: currentValue,
+                      percentage_match: 0,
+                      subgenre_parent_key: !checkGenreType(subgenre)
+                        ? subgenre.parent_genre_key
+                        : "",
+                      key: key,
+                    });
+                  } else {
+                    removeSubgenre(
+                      subgenreFields.findIndex(
+                        (subgenrePrev) => subgenrePrev.key === key,
+                      ),
+                    );
+                  }
+                }}
+                checkIconStyle={subgenreFields}
+              />
+            </ResponsiveWrapper>
+
             {subgenreFields.map((field, index) => (
               <div key={field.id} className="grid grid-cols-2 gap-4">
                 <FormField
@@ -272,7 +280,7 @@ export const GenreFieldsForm = ({ genres }: Props) => {
 
       <Suspense>
         <ModalMovie
-          title="Genre"
+          title="Add new genre"
           open={openGenreFormModal}
           setOpen={setOpenGenreFormModal}
         >
@@ -280,7 +288,7 @@ export const GenreFieldsForm = ({ genres }: Props) => {
         </ModalMovie>
 
         <ModalMovie
-          title="Subgenre"
+          title="Add new subgenre"
           open={openSubgenreFormModal}
           setOpen={setOpenSubgenreFormModal}
         >

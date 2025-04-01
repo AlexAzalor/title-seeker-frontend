@@ -6,7 +6,12 @@ import { LastWatched } from "@/components/movie/last-watched";
 import { MoviesCarousel } from "@/components/movie/movie-carousel";
 import { AVATAR_URL, POSTER_URL } from "@/lib/constants";
 import { getActors } from "@/orval_api/actors/actors";
-import { ActorsList, MovieCarouselList } from "@/orval_api/model";
+import {
+  ActorsList,
+  APIGetRandomListParams,
+  APIGetTopMoviesCountActorsParams,
+  MovieCarouselList,
+} from "@/orval_api/model";
 import { getMovies } from "@/orval_api/movies/movies";
 
 export default function Home() {
@@ -33,8 +38,13 @@ export default function Home() {
           ))}
         </ul>
 
-        <FetchWrapper<MovieCarouselList, typeof aPIGetRandomList>
+        <FetchWrapper<
+          MovieCarouselList,
+          APIGetRandomListParams,
+          typeof aPIGetRandomList
+        >
           apiFetch={aPIGetRandomList}
+          params={{}}
         >
           {({ result, lang }) => (
             <MoviesCarousel
@@ -46,8 +56,13 @@ export default function Home() {
           )}
         </FetchWrapper>
 
-        <FetchWrapper<ActorsList, typeof aPIGetTopMoviesCountActors>
+        <FetchWrapper<
+          ActorsList,
+          APIGetTopMoviesCountActorsParams,
+          typeof aPIGetTopMoviesCountActors
+        >
           apiFetch={aPIGetTopMoviesCountActors}
+          params={{}}
         >
           {({ result, lang }) => (
             <ActorsCarousel
