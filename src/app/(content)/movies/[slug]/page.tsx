@@ -23,6 +23,7 @@ import { LastWatchedWrapper } from "@/components/movie/last-watched-wrapper";
 import { RelatedSimilarList } from "@/components/movie/movie-page/related-similar-list";
 import { MoviesCollection } from "@/components/movie/movie-page/movies-collection";
 import { FetchWrapper } from "@/components/movie/fetch-wrapper";
+import { Spinner } from "@/components/spinner";
 
 export default async function DynamicPage({ params }: PageProps) {
   const { slug: movie_key } = await params;
@@ -40,7 +41,7 @@ export default async function DynamicPage({ params }: PageProps) {
       <Suspense
         fallback={
           <div className="shadow-form-layout dark:shadow-dark-form-layout min-w-76 rounded-[34px] border border-[#EFF0F7] p-5 dark:border-[#211979]">
-            Loading...
+            <Spinner className="mx-auto w-fit" />
           </div>
         }
       >
@@ -73,12 +74,15 @@ export default async function DynamicPage({ params }: PageProps) {
         <h1 className="py-5 text-center text-3xl lg:text-left">{data.title}</h1>
 
         <div className="flex flex-col items-center xl:flex-row">
-          <Image
-            src={`${POSTER_URL}/posters/${data.poster}`}
-            alt="Actor Avatar"
-            height={400}
-            width={300}
-          />
+          <div className="">
+            <Image
+              src={`${POSTER_URL}/posters/${data.poster}`}
+              alt="Movie Poster"
+              className="h-[450px] w-[300px] max-w-none"
+              height={450}
+              width={300}
+            />
+          </div>
 
           <div className="mx-6">
             <GenresList data={data} />
@@ -90,7 +94,7 @@ export default async function DynamicPage({ params }: PageProps) {
             />
           </div>
 
-          <div className="ml-auto">
+          <div className="lg:ml-auto">
             {data.related_movies?.length ? (
               <RelatedSimilarList
                 type="related"
@@ -105,7 +109,7 @@ export default async function DynamicPage({ params }: PageProps) {
           </div>
         </div>
 
-        <div className="my-4 grid w-full grid-cols-1 place-items-center lg:grid-cols-3">
+        <div className="my-4 grid w-full grid-cols-1 place-items-center gap-3 lg:grid-cols-3">
           <MovieMoney
             budget={data.budget}
             domesticGross={data.domestic_gross}
@@ -149,19 +153,27 @@ export default async function DynamicPage({ params }: PageProps) {
             />
           </div>
 
-          <MovieRateBox data={data} ratingData={data.user_rating} />
+          <div className="hidden lg:block">
+            <MovieRateBox data={data} ratingData={data.user_rating} />
+          </div>
         </div>
 
-        {!!data.shared_universe && data.shared_universe_order && (
-          <MoviesCollection
-            data={data.shared_universe}
-            posterUrl={POSTER_URL || "NO URL!!!"}
-            currentMovieKey={data.key}
-            index={data.shared_universe_order - 1}
-          />
-        )}
+        <div className="flex flex-col justify-between lg:flex-row lg:gap-6">
+          {!!data.shared_universe && data.shared_universe_order && (
+            <div className="w-full">
+              <MoviesCollection
+                data={data.shared_universe}
+                posterUrl={POSTER_URL || "NO URL!!!"}
+                currentMovieKey={data.key}
+                index={data.shared_universe_order - 1}
+              />
+            </div>
+          )}
 
-        {!!data.related_movies?.length && relatedMoviesFetcher(true)}
+          {!!data.related_movies?.length && (
+            <div className="w-full">{relatedMoviesFetcher(true)}</div>
+          )}
+        </div>
       </div>
     </LastWatchedWrapper>
   );

@@ -34,7 +34,7 @@ export const SliderFormField = <
       <div className="relative w-full">
         <Slider
           defaultValue={[defaultValue(name)]}
-          step={1}
+          step={10}
           // @ts-expect-error - The `max` type is different from the `Slider` component and `React Hook Form`
           max={100}
           {...register(name)}

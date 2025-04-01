@@ -29,10 +29,10 @@ export const RelatedSimilarList = ({
     <div
       className={cn(
         "shadow-form-layout dark:shadow-dark-form-layout w-76 rounded-[34px] border border-[#EFF0F7] p-5 dark:border-[#211979]",
-        bottom && "mb-4 w-auto min-w-76",
+        bottom && "mb-4 w-full min-w-76",
       )}
     >
-      <h4 className="text-lg">{name}</h4>
+      <h4 className={cn("text-lg", bottom && "p-2 text-2xl")}>{name}</h4>
 
       <div className="flex max-h-80 flex-grow-1 flex-col gap-1 overflow-y-auto">
         {movies.map((movie) => (

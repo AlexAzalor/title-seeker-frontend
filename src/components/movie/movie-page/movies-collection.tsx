@@ -40,7 +40,7 @@ export const MoviesCollection = ({
 
   return (
     <>
-      <div className="shadow-form-layout dark:shadow-dark-form-layout mb-4 flex flex-grow-1 flex-col rounded-[34px] border border-[#EFF0F7] p-5 dark:border-[#211979]">
+      <div className="shadow-form-layout dark:shadow-dark-form-layout mb-4 flex w-full flex-col rounded-[34px] border border-[#EFF0F7] p-5 dark:border-[#211979]">
         <Link
           href={`/super-search/?universe=${data.key}`}
           scroll={false}
@@ -51,7 +51,10 @@ export const MoviesCollection = ({
           <TooltipWrapper content={data.description} className="text-center" />
         </Link>
 
-        <div ref={listRef} className="flex h-43 flex-col gap-1 overflow-y-auto">
+        <div
+          ref={listRef}
+          className="flex max-h-80 flex-col gap-1 overflow-y-auto"
+        >
           {data.movies.map((movie, i) => (
             <Link
               ref={index === i ? activeItemRef : null}

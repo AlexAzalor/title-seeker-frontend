@@ -13,6 +13,11 @@ const Command = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof CommandPrimitive>
 >(({ className, ...props }, ref) => (
   <CommandPrimitive
+    // My custom filter
+    filter={(value, search) => {
+      if (value.toLowerCase().includes(search.toLowerCase().trim())) return 1;
+      return 0;
+    }}
     ref={ref}
     className={cn(
       "flex h-full w-full flex-col overflow-hidden rounded-md bg-white text-neutral-950 dark:bg-neutral-950 dark:text-neutral-50",
@@ -27,7 +32,6 @@ const CommandDialog = ({ children, ...props }: DialogProps) => {
   return (
     <Dialog {...props}>
       <DialogContent
-        // autoFocus={false}
         onOpenAutoFocus={(e) => e.preventDefault()}
         className="overflow-hidden p-0 shadow-lg"
       >

@@ -1,5 +1,5 @@
 "use client";
-import { useIsMobile } from "@/hooks/use-mobile";
+
 import {
   Carousel,
   CarouselContent,
@@ -63,17 +63,40 @@ export const MovieCrew = ({ actors, avatarURL, directors }: Props) => {
       </div>
 
       <p className="text-3xl font-bold">Directors</p>
-      <div className="flex gap-3">
-        {directors?.map((director) => (
-          <PersonLink
-            avatarURL={avatarURL}
-            key={director.key}
-            person={director}
-            linkQueryParam="director_name"
-            type="directors"
-          />
-        ))}
-      </div>
+      {directors?.length > actorsLength ? (
+        <Carousel opts={{ dragFree: true }} className="w-full lg:max-w-[640px]">
+          <CarouselContent className="-ml-1 max-w-[340px] lg:max-w-none">
+            {directors?.map((director) => (
+              <CarouselItem
+                key={director.key}
+                className="basis-auto pl-1 md:basis-1/2 lg:basis-1/5"
+              >
+                <PersonLink
+                  avatarURL={avatarURL}
+                  key={director.key}
+                  person={director}
+                  linkQueryParam="director_name"
+                  type="directors"
+                />
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious className="relative top-0 left-0 hidden translate-none lg:inline-flex" />
+          <CarouselNext className="relative top-0 left-0 hidden translate-none lg:inline-flex" />
+        </Carousel>
+      ) : (
+        <div className="flex gap-3">
+          {directors?.map((director) => (
+            <PersonLink
+              avatarURL={avatarURL}
+              key={director.key}
+              person={director}
+              linkQueryParam="director_name"
+              type="directors"
+            />
+          ))}
+        </div>
+      )}
     </>
   );
 };

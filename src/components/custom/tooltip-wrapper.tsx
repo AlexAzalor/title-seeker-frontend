@@ -1,3 +1,7 @@
+"use client";
+
+import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { Info } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -5,7 +9,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
-import { Info } from "lucide-react";
+
 type Props = {
   children?: React.ReactNode;
   content: string | React.ReactNode;
@@ -21,6 +25,13 @@ export const TooltipWrapper = ({
   side,
   className,
 }: Props) => {
+  const isMobile = useMediaQuery("(max-width: 640px)");
+
+  if (isMobile) {
+    return null;
+  }
+
+  // TODO: add tooltip for mobile - dropdown or modal
   return (
     <TooltipProvider delayDuration={300}>
       <Tooltip>
