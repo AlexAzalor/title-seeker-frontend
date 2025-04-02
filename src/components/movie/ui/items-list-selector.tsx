@@ -1,7 +1,7 @@
 import { memo } from "react";
 import { Check, Info } from "lucide-react";
 
-import type { ActorOutNameUk, GenreOutDescription } from "@/orval_api/model";
+import type { GenreOutDescription } from "@/orval_api/model";
 import { cn } from "@/lib/utils";
 
 import { Button } from "@/components/ui/button";
@@ -27,7 +27,6 @@ type ItemFields = {
   key: string;
   name: string;
   description?: string | GenreOutDescription;
-  name_uk?: ActorOutNameUk;
 };
 
 const ItemsListSelector = <Datum extends ItemFields, T extends ItemFields>({
@@ -53,7 +52,7 @@ const ItemsListSelector = <Datum extends ItemFields, T extends ItemFields>({
           {items.map((item) => (
             <CommandItem
               key={item.key}
-              value={item.name + " " + item.name_uk}
+              value={item.name}
               onSelect={(value) => onSelect(value, item.key, item)}
             >
               <p>{item.name}</p>

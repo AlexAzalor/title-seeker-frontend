@@ -69,112 +69,118 @@ export default async function DynamicPage({ params }: PageProps) {
   };
 
   return (
-    <LastWatchedWrapper movie={{ key: movie_key, poster: data.poster }}>
-      <div className="container min-h-screen max-w-[1280px] px-4 lg:px-0">
-        <h1 className="py-5 text-center text-3xl lg:text-left">{data.title}</h1>
+    <>
+      <title>{`${data.title} (${new Date(data.release_date).getFullYear()}) | Title Seeker`}</title>
 
-        <div className="flex flex-col items-center xl:flex-row">
-          <div className="">
-            <Image
-              src={`${POSTER_URL}/posters/${data.poster}`}
-              alt="Movie Poster"
-              className="h-[450px] w-[300px] max-w-none"
-              height={450}
-              width={300}
-            />
-          </div>
+      <LastWatchedWrapper movie={{ key: movie_key, poster: data.poster }}>
+        <div className="container min-h-screen max-w-[1280px] px-4 lg:px-0">
+          <h1 className="py-5 text-center text-3xl lg:text-left">
+            {data.title}
+          </h1>
 
-          <div className="mx-6">
-            <GenresList data={data} />
-
-            <FeaturesList
-              specifications={data.specifications}
-              keywords={data.keywords}
-              action_times={data.action_times}
-            />
-          </div>
-
-          <div className="lg:ml-auto">
-            {data.related_movies?.length ? (
-              <RelatedSimilarList
-                type="related"
-                name="Related Movies"
-                movies={data.related_movies}
-                posterUrl={POSTER_URL || "NO URL!!!"}
-                currentMovieKey={data.key}
+          <div className="flex flex-col items-center xl:flex-row">
+            <div className="">
+              <Image
+                src={`${POSTER_URL}/posters/${data.poster}`}
+                alt="Movie Poster"
+                className="h-[450px] w-[300px] max-w-none"
+                height={450}
+                width={300}
               />
-            ) : (
-              relatedMoviesFetcher()
-            )}
+            </div>
+
+            <div className="mx-6">
+              <GenresList data={data} />
+
+              <FeaturesList
+                specifications={data.specifications}
+                keywords={data.keywords}
+                action_times={data.action_times}
+              />
+            </div>
+
+            <div className="lg:ml-auto">
+              {data.related_movies?.length ? (
+                <RelatedSimilarList
+                  type="related"
+                  name="Related Movies"
+                  movies={data.related_movies}
+                  posterUrl={POSTER_URL || "NO URL!!!"}
+                  currentMovieKey={data.key}
+                />
+              ) : (
+                relatedMoviesFetcher()
+              )}
+            </div>
           </div>
-        </div>
 
-        <div className="my-4 grid w-full grid-cols-1 place-items-center gap-3 lg:grid-cols-3">
-          <MovieMoney
-            budget={data.budget}
-            domesticGross={data.domestic_gross}
-            worldwideGross={data.worldwide_gross}
-          />
+          <div className="my-4 grid w-full grid-cols-1 place-items-center gap-3 lg:grid-cols-3">
+            <MovieMoney
+              budget={data.budget}
+              domesticGross={data.domestic_gross}
+              worldwideGross={data.worldwide_gross}
+            />
 
-          <div className="rating-text2 text-center text-2xl">
-            <div className="movie-duration">{data.duration}</div>
-            {data.release_date ? (
-              <div className="movie-release-date">
-                {formatDate(data.release_date, lang)}
+            <div className="rating-text2 text-center text-2xl">
+              <div className="movie-duration">{data.duration}</div>
+              {data.release_date ? (
+                <div className="movie-release-date">
+                  {formatDate(data.release_date, lang)}
+                </div>
+              ) : (
+                "no release date"
+              )}
+              <div title={data.location} className="movie-location">
+                {data.location.length >= 30
+                  ? data.location.slice(0, 30) + "..."
+                  : data.location}
               </div>
-            ) : (
-              "no release date"
-            )}
-            <div title={data.location} className="movie-location">
-              {data.location.length >= 30
-                ? data.location.slice(0, 30) + "..."
-                : data.location}
+            </div>
+
+            <div className="rating-box grid place-content-center text-5xl">
+              <span className="relative">
+                <span className="rating-text">{data.average_rating}</span>{" "}
+                <span className="absolute bottom-0 ml-1 text-xl text-gray-300">
+                  ({data.ratings_count})
+                </span>
+              </span>
             </div>
           </div>
 
-          <div className="rating-box grid place-content-center text-5xl">
-            <span className="relative">
-              <span className="rating-text">{data.average_rating}</span>{" "}
-              <span className="absolute bottom-0 ml-1 text-xl text-gray-300">
-                ({data.ratings_count})
-              </span>
-            </span>
-          </div>
-        </div>
+          <div className="mb-4 flex flex-col justify-between gap-6 lg:flex-row">
+            <div className="pt-6">
+              <ExpandableText text={data.description} />
 
-        <div className="mb-4 flex flex-col justify-between gap-6 lg:flex-row">
-          <div className="pt-6">
-            <ExpandableText text={data.description} />
-
-            <MovieCrew
-              avatarURL={AVATAR_URL || "NO URL!!!"}
-              actors={data.actors}
-              directors={data.directors}
-            />
-          </div>
-
-          <div className="hidden lg:block">
-            <MovieRateBox data={data} ratingData={data.user_rating} />
-          </div>
-        </div>
-
-        <div className="flex flex-col justify-between lg:flex-row lg:gap-6">
-          {!!data.shared_universe && data.shared_universe_order && (
-            <div className="w-full">
-              <MoviesCollection
-                data={data.shared_universe}
-                posterUrl={POSTER_URL || "NO URL!!!"}
-                currentMovieKey={data.key}
-                index={data.shared_universe_order - 1}
+              <MovieCrew
+                avatarURL={AVATAR_URL || "NO URL!!!"}
+                actors={data.actors}
+                directors={data.directors}
               />
             </div>
-          )}
 
-          {!!data.related_movies?.length && (
-            <div className="w-full">{relatedMoviesFetcher(true)}</div>
-          )}
+            <div className="hidden lg:block">
+              <MovieRateBox data={data} ratingData={data.user_rating} />
+            </div>
+          </div>
+
+          <div className="flex flex-col justify-between lg:flex-row lg:gap-6">
+            {!!data.shared_universe && data.shared_universe_order && (
+              <div className="w-full">
+                <MoviesCollection
+                  data={data.shared_universe}
+                  posterUrl={POSTER_URL || "NO URL!!!"}
+                  currentMovieKey={data.key}
+                  index={data.shared_universe_order - 1}
+                />
+              </div>
+            )}
+
+            {!!data.related_movies?.length && (
+              <div className="w-full">{relatedMoviesFetcher(true)}</div>
+            )}
+          </div>
         </div>
-      </div>
-    </LastWatchedWrapper>
+      </LastWatchedWrapper>
+    </>
   );
 }

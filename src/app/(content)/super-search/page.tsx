@@ -5,6 +5,11 @@ import { backendURL, POSTER_URL } from "@/lib/constants";
 import { Language, MoviePreviewOut } from "@/orval_api/model";
 import Image from "next/image";
 import { formatDate } from "@/lib/utils";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Super Search | Title Seeker",
+};
 
 export const revalidate = 10;
 

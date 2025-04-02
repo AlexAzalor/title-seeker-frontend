@@ -29,7 +29,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   const navigationKeys = Object.keys(t.raw("navigation"));
   return (
-    <Sidebar {...props}>
+    <Sidebar {...props} className="dark:border-r-black">
       <SidebarHeader>
         <Link href="/quick-add-movie">
           <Button className="w-full">
@@ -38,7 +38,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </Button>
         </Link>
       </SidebarHeader>
-      <SidebarContent>
+      <SidebarContent className="dark:border-r-[#211979]">
         {/* We create a SidebarGroup for each parent. */}
 
         <SidebarGroup>
