@@ -32,9 +32,7 @@ export const PersonLink = ({
         />
       </div>
       <div className="w-[152px] text-center lg:w-auto">
-        <div className="text-xl font-bold">
-          {person.first_name + " " + person.last_name}
-        </div>
+        <div className="text-xl font-bold">{person.full_name}</div>
         {type === "actors" && "character_name" in person && (
           <span className="text-sm">{person.character_name}</span>
         )}
