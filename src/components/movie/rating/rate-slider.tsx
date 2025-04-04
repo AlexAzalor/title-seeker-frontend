@@ -1,3 +1,4 @@
+import { useSession } from "next-auth/react";
 import { memo } from "react";
 import { cn } from "@/lib/utils";
 import { Slider } from "@/components/ui/slider";
@@ -31,6 +32,8 @@ function RateSlider({
   defaultValue,
   onValueChange,
 }: Props) {
+  const session = useSession();
+
   return (
     <div>
       <div className="mb-1 flex items-center gap-1">
@@ -49,6 +52,7 @@ function RateSlider({
       <div className="relative mb-1 flex items-center gap-3">
         <Slider
           defaultValue={[defaultValue]}
+          disabled={session.status !== "authenticated"}
           value={[value]}
           min={MIN_RATE}
           max={max}

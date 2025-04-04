@@ -1,5 +1,6 @@
 import React from "react";
 import { Header } from "./header";
+import { auth } from "@/auth";
 // import Header from "./Header";
 
 export const MainLayout = async ({
@@ -7,9 +8,12 @@ export const MainLayout = async ({
 }: {
   children: React.ReactNode;
 }) => {
+  const session = await auth();
+  console.log("[MainLayout] Session: ", session);
+
   return (
     <div className="mx-auto min-h-screen w-full">
-      <Header />
+      <Header session={session} />
 
       <div className="mx-auto grid place-items-center">{children}</div>
 

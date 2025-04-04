@@ -1,6 +1,7 @@
 "use client";
 
 import { memo, RefObject, useCallback, useMemo, useState } from "react";
+import { useSession } from "next-auth/react";
 
 import {
   MovieFormData,
@@ -50,6 +51,7 @@ const RateMovie = ({
   onRateSubmit,
   movieKey,
 }: Props) => {
+  const session = useSession();
   const [showValues, setShowValues] = useState(false);
 
   const [ratingCriteria, setRatingCriteria] = useState<RatingCriterion>(
@@ -371,22 +373,26 @@ const RateMovie = ({
         />
       )}
 
-      <div className="mt-3 flex items-center justify-between">
-        <div className="flex items-center space-x-2">
-          <Switch id="show-values" onCheckedChange={handleShowValues} />
-          <Label htmlFor="show-values">Show values</Label>
-        </div>
+      {session.status === "authenticated" && (
+        <>
+          <div className="mt-3 flex items-center justify-between">
+            <div className="flex items-center space-x-2">
+              <Switch id="show-values" onCheckedChange={handleShowValues} />
+              <Label htmlFor="show-values">Show values</Label>
+            </div>
 
-        {showValues && <div>Total: {calculateRating()}</div>}
-      </div>
+            {showValues && <div>Total: {calculateRating()}</div>}
+          </div>
 
-      <button
-        type="button"
-        className="mt-5 w-full rounded-2xl bg-[#4A3AFF] p-2 text-white transition-colors duration-200 hover:bg-[#342BBB]"
-        onClick={handleRateMovie}
-      >
-        Save rating
-      </button>
+          <button
+            type="button"
+            className="mt-5 w-full rounded-2xl bg-[#4A3AFF] p-2 text-white transition-colors duration-200 hover:bg-[#342BBB]"
+            onClick={handleRateMovie}
+          >
+            Save rating
+          </button>
+        </>
+      )}
     </div>
   );
 };

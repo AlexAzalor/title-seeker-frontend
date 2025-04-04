@@ -1,5 +1,4 @@
 // "use client";
-import * as React from "react";
 
 // import { SearchForm } from "@/components/search-form"
 // import { VersionSwitcher } from "@/components/version-switcher"
@@ -23,21 +22,35 @@ import { ButtonSwitchServer } from "../button-server";
 import { ModeToggle } from "../toggles/theme-toggle";
 import { Button } from "../ui/button";
 import { PlusCircle } from "lucide-react";
+import { getTranslations } from "next-intl/server";
+import { auth } from "@/auth";
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const t = useTranslations("HomePage");
+export async function AppSidebar({
+  ...props
+}: React.ComponentProps<typeof Sidebar>) {
+  const session = await auth();
 
+  if (!session) {
+    return null;
+  }
+
+  console.log("AppSidebar session", session);
+
+  const t = await getTranslations("HomePage");
   const navigationKeys = Object.keys(t.raw("navigation"));
+
   return (
     <Sidebar {...props} className="dark:border-r-black">
-      <SidebarHeader>
-        <Link href="/quick-add-movie">
-          <Button className="w-full">
-            <PlusCircle />
-            Quickly add new Movie
-          </Button>
-        </Link>
-      </SidebarHeader>
+      {session.user.role === "admin" && (
+        <SidebarHeader>
+          <Link href="/quick-add-movie">
+            <Button className="w-full">
+              <PlusCircle />
+              Quickly add new Movie
+            </Button>
+          </Link>
+        </SidebarHeader>
+      )}
       <SidebarContent className="dark:border-r-[#211979]">
         {/* We create a SidebarGroup for each parent. */}
 
@@ -62,7 +75,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             </div>
 
             <div className="flex flex-col gap-3">
-              <Link href="/dashboard">Settings</Link>
+              <Link href="/settings">Settings</Link>
+            </div>
+            <div className="flex flex-col gap-3">
+              <Link href="/profile">Profile</Link>
             </div>
           </SidebarGroupContent>
         </SidebarGroup>
@@ -75,9 +91,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </div>
         <NavUser
           user={{
-            name: "User",
-            email: "user@example.com",
-            avatar: "/static/avatars/069.jpg",
+            name: session.user.name ?? "User",
+            email: session.user.email ?? "example@com",
+            avatar: session.user.image ?? "",
           }}
         />
         <span>version: 1.0.0</span>
