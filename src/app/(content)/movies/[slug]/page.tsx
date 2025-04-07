@@ -1,3 +1,4 @@
+import { auth } from "@/auth";
 import { Suspense } from "react";
 import Image from "next/image";
 import { AVATAR_URL, backendURL, POSTER_URL } from "@/lib/constants";
@@ -10,7 +11,7 @@ import { getMovies } from "@/orval_api/movies/movies";
 
 import { PageProps } from "@/types/general";
 import { getLocale, getTranslations } from "next-intl/server";
-import { formatDate } from "@/lib/utils";
+import { cn, formatDate } from "@/lib/utils";
 import { MovieRateBox } from "@/components/movie/movie-rate-box";
 import { GenresList } from "@/components/movie/movie-page/genres-list";
 import { FeaturesList } from "@/components/movie/movie-page/features-list";
@@ -28,12 +29,18 @@ import { Spinner } from "@/components/spinner";
 export default async function DynamicPage({ params }: PageProps) {
   const { slug: movie_key } = await params;
 
+  const session = await auth();
+
   const t = await getTranslations("HomePage");
   const locale = await getLocale();
   const lang = Language[locale as keyof typeof Language];
 
   const { aPIGetMovie, aPIGetSimilarMovies } = getMovies();
-  const { data } = await aPIGetMovie(movie_key, { lang }, backendURL);
+  const { data } = await aPIGetMovie(
+    movie_key,
+    { lang, user_uuid: session?.user.uuid },
+    backendURL,
+  );
 
   // need refactor?
   const relatedMoviesFetcher = (bottom?: boolean) => {
@@ -137,13 +144,55 @@ export default async function DynamicPage({ params }: PageProps) {
               </div>
             </div>
 
-            <div className="rating-box grid place-content-center text-5xl">
-              <span className="relative">
-                <span className="rating-text">{data.average_rating}</span>{" "}
-                <span className="absolute bottom-0 ml-1 text-xl text-gray-300">
-                  ({data.ratings_count})
+            <div className="flex items-center gap-3">
+              <div className="rating-box grid place-content-center text-5xl">
+                <span className="relative">
+                  <span className="rating-text">
+                    {session?.user.role === "owner"
+                      ? data.owner_rating
+                      : data.user_rating || data.overall_average_rating}
+                  </span>{" "}
+                  {!data.user_rating && session?.user.role !== "owner" && (
+                    <span className="absolute bottom-0 ml-1 text-xl text-gray-300">
+                      ({data.ratings_count})
+                    </span>
+                  )}
                 </span>
-              </span>
+              </div>
+
+              <div>
+                {(data.user_rating || session?.user.role === "owner") && (
+                  <div
+                    title="Overall Rating"
+                    className={cn(
+                      "user-rating-box relative mb-3 grid h-[46px] w-[124px] place-content-center text-2xl",
+                      session?.user.role === "owner" &&
+                        "mb-0 h-[100px] text-3xl",
+                    )}
+                  >
+                    <span className="relative">
+                      <span className="rating-text">
+                        {data.overall_average_rating}
+                      </span>{" "}
+                      <span className="absolute bottom-0 ml-1 text-sm text-gray-400 dark:text-gray-300">
+                        ({data.ratings_count})
+                      </span>
+                    </span>
+                  </div>
+                )}
+
+                {session?.user.role !== "owner" && (
+                  <div
+                    title="Owner Rating"
+                    className={cn(
+                      "owner-rating-box rating-text relative grid h-[100px] w-[124px] place-content-center text-3xl",
+                      data.user_rating && "h-[46px] text-2xl",
+                    )}
+                  >
+                    {data.owner_rating}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
 
@@ -159,7 +208,14 @@ export default async function DynamicPage({ params }: PageProps) {
             </div>
 
             <div className="hidden lg:block">
-              <MovieRateBox data={data} ratingData={data.user_rating} />
+              <MovieRateBox
+                movieKey={data.key}
+                ratingType={data.rating_criterion}
+                isOwner={session?.user.role === "owner"}
+                isUserRated={!!data.user_rating}
+                userRatingData={data.user_rating_criteria}
+                overallRatingCriteria={data.overall_average_rating_criteria}
+              />
             </div>
           </div>
 

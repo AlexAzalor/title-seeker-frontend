@@ -48,15 +48,25 @@ export async function getSession() {
 }
 
 export async function updateRateMovie(data: UserRateMovieIn) {
+  const currentUser = await getSession();
+  if (!currentUser) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
   const { aPIUpdateRateMovie } = getUsers();
 
-  await aPIUpdateRateMovie("user_uuid", data, backendURL);
+  await aPIUpdateRateMovie(currentUser.uuid, data, backendURL);
 }
 
 export async function rateMovie(data: UserRateMovieIn) {
+  const currentUser = await getSession();
+  if (!currentUser) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
   const { aPIRateMovie } = getUsers();
 
-  await aPIRateMovie("user_uuid", data, backendURL);
+  await aPIRateMovie(currentUser.uuid, data, backendURL);
 }
 
 export async function addNewMovie(
@@ -281,7 +291,7 @@ export async function addNewActionTime(data: BodyAPICreateGenre) {
 export async function quicklyAddNewMovie(data: QuickMovieFormData) {
   const currentUser = await getSession();
 
-  if (currentUser?.role !== "admin") {
+  if (currentUser?.role !== "owner") {
     return { status: 403, message: "You are not allowed to do this" };
   }
 
@@ -293,7 +303,7 @@ export async function quicklyAddNewMovie(data: QuickMovieFormData) {
   try {
     const a: AxiosResponse = await aPIQuickAddMovie(
       data,
-      { lang, user_uuid: "c97b57c8-584b-493c-b112-28c1740740b7" },
+      { lang, user_uuid: currentUser.uuid },
       {
         baseURL: backendURL.baseURL,
       },

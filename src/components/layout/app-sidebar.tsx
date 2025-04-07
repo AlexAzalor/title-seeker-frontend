@@ -41,7 +41,7 @@ export async function AppSidebar({
 
   return (
     <Sidebar {...props} className="dark:border-r-black">
-      {session.user.role === "admin" && (
+      {session.user.role === "owner" && (
         <SidebarHeader>
           <Link href="/quick-add-movie">
             <Button className="w-full">

@@ -9,7 +9,6 @@ export const MainLayout = async ({
   children: React.ReactNode;
 }) => {
   const session = await auth();
-  console.log("[MainLayout] Session: ", session);
 
   return (
     <div className="mx-auto min-h-screen w-full">

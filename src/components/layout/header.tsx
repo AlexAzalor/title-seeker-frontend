@@ -55,7 +55,7 @@ export const Header = ({ session }: Props) => {
       {!session && <GoogleLogin />}
 
       <div className="flex items-center gap-2">
-        {session?.user.role === "admin" && (
+        {session?.user.role === "owner" && (
           <>
             <Link href="/add-movie" className="hidden lg:block">
               <Button>

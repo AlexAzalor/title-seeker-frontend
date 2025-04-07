@@ -38,7 +38,7 @@ const ItemsListSelector = <Datum extends ItemFields, T extends ItemFields>({
 }: Props<Datum, T>) => {
   const session = useSession();
 
-  const isAdmin = session.data?.user.role === "admin";
+  const isAdmin = session.data?.user.role === "owner";
 
   return (
     <>

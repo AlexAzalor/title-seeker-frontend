@@ -5,7 +5,6 @@ import { useSession } from "next-auth/react";
 
 import {
   MovieFormData,
-  MovieOutUserRating,
   MoviePreCreateDataTemporaryMovie,
   RatingCriterion,
   UserRateMovieIn,
@@ -36,7 +35,7 @@ type Props = {
   ratingRef: RefObject<RatingDataOut>;
   temporaryMovie?: MoviePreCreateDataTemporaryMovie;
   parsedData?: MovieFormData;
-  movieRateData?: MovieOutUserRating;
+  movieRateData?: UserRatingCriteria;
   type?: RatingCriterion;
   onRateSubmit?: (data: UserRateMovieIn) => Promise<void>;
   movieKey?: string;

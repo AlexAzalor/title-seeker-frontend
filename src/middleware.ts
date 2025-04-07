@@ -6,7 +6,7 @@ const ADMIN_ROUTES = ["/add-movie", "/quick-add-movie"];
 
 export default auth((req) => {
   if (
-    req.auth?.user.role !== "admin" &&
+    req.auth?.user.role !== "owner" &&
     ADMIN_ROUTES.includes(req.nextUrl.pathname)
   ) {
     const newUrl = new URL("/", req.nextUrl.origin);

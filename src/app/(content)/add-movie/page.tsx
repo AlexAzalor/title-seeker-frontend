@@ -14,7 +14,7 @@ export default async function AddMoviePage(props: {
 }) {
   const session = await auth();
 
-  if (session?.user.role !== "admin") {
+  if (session?.user.role !== "owner") {
     return redirect("/");
   }
 
