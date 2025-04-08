@@ -3,35 +3,54 @@ import {
   SidebarContent,
   SidebarFooter,
   SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
 import Link from "next/link";
 import { ButtonSwitchServer } from "../button-server";
 import { ModeToggle } from "../toggles/theme-toggle";
 import { Button } from "../ui/button";
-import { PlusCircle } from "lucide-react";
+import {
+  BadgeJapaneseYenIcon,
+  Film,
+  Gamepad2,
+  LayoutDashboard,
+  PlusCircle,
+  Settings,
+  Tv,
+} from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { auth } from "@/auth";
 import { GoogleLogin } from "../google-login";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { SignOut } from "../custom/sign-out";
 
+export const CONTENT_ICONS = {
+  movies: <Film />,
+  tvseries: <Tv />,
+  games: <Gamepad2 />,
+  anime: <BadgeJapaneseYenIcon />,
+};
+
 export async function AppSidebar({
   ...props
 }: React.ComponentProps<typeof Sidebar>) {
   const session = await auth();
 
-  // if (!session) {
-  //   return null;
-  // }
-
   const t = await getTranslations("HomePage");
-  const navigationKeys = Object.keys(t.raw("navigation"));
+  const menu = await getTranslations("MenuItems");
+
+  const navigationKeys: { title: string; path: string }[] = Object.entries(
+    t.raw("navigation"),
+  ).map(([key, value]) => ({
+    title: value as string,
+    path: `/${key}`,
+  }));
 
   return (
     <Sidebar {...props} className="dark:border-r-black">
@@ -51,7 +70,7 @@ export async function AppSidebar({
         </SidebarHeader>
       )}
       {session && (
-        <SidebarHeader className="">
+        <SidebarHeader className="border-sidebar-border border-b">
           <Link
             href="/profile"
             className="flex w-full items-center justify-between gap-2"
@@ -75,43 +94,59 @@ export async function AppSidebar({
       )}
       <SidebarContent className="dark:border-r-[#211979]">
         {/* We create a SidebarGroup for each parent. */}
-
         <SidebarGroup>
-          <SidebarGroupLabel className="text-2xl">Content</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu className="mb-3">
-              {navigationKeys.map((item) => (
-                <SidebarMenuItem key={item}>
-                  <SidebarMenuButton
-                    className="text-xl"
-                    asChild
-                    closeOnClick
-                    size="lg"
-                  >
-                    <Link href={`/${item}`}>{t(`navigation.${item}`)}</Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
+          <SidebarMenu className="gap-2">
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild>
+                <p className="font-medium">{"Content"}</p>
+              </SidebarMenuButton>
 
-            {session && (
-              <>
-                <SidebarGroupLabel className="text-xl">
-                  Features
-                </SidebarGroupLabel>
-                <div className="flex flex-col gap-3">
-                  <Link href="/dashboard">Dashboard</Link>
-                </div>
+              <SidebarMenuSub className="ml-0 border-l-0 px-1.5">
+                {navigationKeys.map((item) => (
+                  <SidebarMenuSubItem key={item.title}>
+                    <SidebarMenuSubButton asChild>
+                      <Link href={item.path} className="">
+                        {
+                          CONTENT_ICONS[
+                            item.path.replace(
+                              "/",
+                              "",
+                            ) as keyof typeof CONTENT_ICONS
+                          ]
+                        }
+                        <span>{item.title}</span>
+                      </Link>
+                    </SidebarMenuSubButton>
+                  </SidebarMenuSubItem>
+                ))}
+              </SidebarMenuSub>
+            </SidebarMenuItem>
 
-                <div className="flex flex-col gap-3">
-                  <Link href="/settings">Settings</Link>
-                </div>
-              </>
-            )}
-            {/* <div className="flex flex-col gap-3">
-              <Link href="/profile">Profile</Link>
-            </div> */}
-          </SidebarGroupContent>
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild>
+                <p className="font-medium">{menu("account")}</p>
+              </SidebarMenuButton>
+
+              <SidebarMenuSub className="ml-0 border-l-0 px-1.5">
+                <SidebarMenuSubItem>
+                  <SidebarMenuSubButton asChild>
+                    <Link href={menu("dashboard.key")} className="">
+                      <LayoutDashboard />
+                      <span>{menu("dashboard.label")}</span>
+                    </Link>
+                  </SidebarMenuSubButton>
+                </SidebarMenuSubItem>
+                <SidebarMenuSubItem>
+                  <SidebarMenuSubButton asChild>
+                    <Link href={menu("settings.key")} className="">
+                      <Settings />
+                      <span>{menu("settings.label")}</span>
+                    </Link>
+                  </SidebarMenuSubButton>
+                </SidebarMenuSubItem>
+              </SidebarMenuSub>
+            </SidebarMenuItem>
+          </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>
 
@@ -120,19 +155,9 @@ export async function AppSidebar({
           <ButtonSwitchServer />
           <ModeToggle />
         </div>
-        {session && (
-          <SignOut />
-          // <NavUser
-          //   user={{
-          //     name: session.user.name ?? "User",
-          //     email: session.user.email ?? "example@com",
-          //     avatar: session.user.image ?? "",
-          //   }}
-          // />
-        )}
+        {session && <SignOut name={menu("logout")} />}
         <span>version: 1.0.0</span>
       </SidebarFooter>
-      {/* <SidebarRail /> */}
     </Sidebar>
   );
 }

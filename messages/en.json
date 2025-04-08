@@ -19,5 +19,29 @@
       }
     }
   },
+  "MenuItems": {
+    "content": "Content",
+    "account": "Account",
+    "profile": {
+      "key": "profile",
+      "label": "Profile"
+    },
+    "dashboard": {
+      "key": "dashboard",
+      "label": "Dashboard"
+    },
+    "settings": {
+      "key": "settings",
+      "label": "Settings"
+    },
+    "logout": "Log out"
+  },
+  "Search": {
+    "search": "Search...",
+    "type": "Type to search...",
+    "super": "Super search",
+    "recent": "Recent searches",
+    "suggestions": "Suggestions"
+  },
   "notImplemented": "not implemented yet"
 }

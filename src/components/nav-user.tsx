@@ -25,6 +25,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 export function NavUser({
   user,
@@ -35,6 +36,8 @@ export function NavUser({
     avatar: string;
   };
 }) {
+  const menu = useTranslations("MenuItems");
+
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -42,7 +45,7 @@ export function NavUser({
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
               size="lg"
-              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground dark:hover:bg-gray-100"
+              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground transition-colors hover:bg-gray-100/40 active:bg-gray-100/40"
             >
               <Avatar className="mx-auto h-10 w-10 rounded-lg">
                 <AvatarImage src={user.avatar} alt={user.name} />
@@ -78,32 +81,32 @@ export function NavUser({
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem asChild className="cursor-pointer">
-                <Link href="/profile">
+                <Link href={menu("profile.key")}>
                   <User />
-                  Profile
+                  {menu("profile.label")}
                 </Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem asChild className="cursor-pointer">
-                <Link href="/dashboard">
+                <Link href={menu("dashboard.key")}>
                   <LayoutDashboard />
-                  Dashboard
+                  {menu("dashboard.label")}
                 </Link>
               </DropdownMenuItem>
 
               <DropdownMenuItem asChild className="cursor-pointer">
-                <Link href="/settings">
+                <Link href={menu("settings.key")}>
                   <Settings />
-                  Settings
+                  {menu("settings.label")}
                 </Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={() => signOut({ redirectTo: "/" })}>
               <LogOut />
-              Log out
+              {menu("logout")}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

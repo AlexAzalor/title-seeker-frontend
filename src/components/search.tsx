@@ -3,7 +3,7 @@
 import { useCallback, useState } from "react";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 import { searchTitles } from "@/app/actions";
@@ -31,14 +31,29 @@ import { Button } from "./ui/button";
 
 import { MovieSearchOut, TitleType } from "@/orval_api/model";
 import { cn, formatDate } from "@/lib/utils";
+// import { CONTENT_ICONS } from "./layout/app-sidebar";
 
 const MIN_CHARACTERS = 3;
-
+export const CONTENT_ICONS = {
+  movies: <Film />,
+  tvseries: <Tv />,
+  games: <Gamepad2 />,
+  anime: <BadgeJapaneseYenIcon />,
+};
 type Props = {
   posterURL: string;
 };
 
 export const Search = ({ posterURL }: Props) => {
+  const t = useTranslations("Search");
+  const navigation = useTranslations("HomePage");
+  const navigationKeys: { title: string; key: TitleType }[] = Object.entries(
+    navigation.raw("navigation"),
+  ).map(([key, value]) => ({
+    title: value as string,
+    key: key as TitleType,
+  }));
+
   const lang = useLocale();
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState<TitleType>(TitleType.movies);
@@ -121,7 +136,7 @@ export const Search = ({ posterURL }: Props) => {
         >
           <SearchIcon className="absolute mr-2 ml-2 h-4 w-4 shrink-0 opacity-50" />
           <Input
-            placeholder="Search..."
+            placeholder={t("search")}
             className="cursor-pointer transition-colors placeholder:pl-5 hover:bg-neutral-200"
             readOnly
           />
@@ -130,53 +145,36 @@ export const Search = ({ posterURL }: Props) => {
         <Link href="/super-search">
           <Button>
             <ScanSearch />
-            Super search
+            {t("super")}
           </Button>
         </Link>
       </div>
 
       <CommandDialog open={open} onOpenChange={setOpen}>
         <div className="flex gap-4 p-4">
-          <button
-            onClick={() => handleTabChange(TitleType.movies)}
-            className={cn(
-              "rounded-md border border-[#ebebeb] bg-white px-1 font-medium text-[#666666]",
-              tab === TitleType.movies &&
-                "border-[#cce6ff] bg-[#ebf5ff] text-[#0072f5]",
-            )}
-          >
-            Movies
-          </button>
-          <button
-            onClick={() => handleTabChange(TitleType.tvseries)}
-            className={cn(
-              "rounded-md border border-[#ebebeb] bg-white px-1 font-medium text-[#666666]",
-              tab === TitleType.tvseries &&
-                "border-[#ffd0a3] bg-[#fff4e6] text-[#d86e0b]",
-            )}
-          >
-            TV Series
-          </button>
-          <button
-            onClick={() => handleTabChange(TitleType.anime)}
-            className={cn(
-              "rounded-md border border-[#ebebeb] bg-white px-1 font-medium text-[#666666]",
-              tab === TitleType.anime &&
-                "border-[#f8cce0] bg-[#fdeff5] text-[#d82687]",
-            )}
-          >
-            Anime
-          </button>
-          <button
-            onClick={() => handleTabChange(TitleType.games)}
-            className={cn(
-              "rounded-md border border-[#ebebeb] bg-white px-1 font-medium text-[#666666]",
-              tab === TitleType.games &&
-                "border-[#c2e6c2] bg-[#eafbea] text-[#17a34a]",
-            )}
-          >
-            Games
-          </button>
+          {navigationKeys.map((item) => (
+            <button
+              key={item.key}
+              onClick={() => handleTabChange(item.key)}
+              className={cn(
+                "rounded-md border border-[#ebebeb] bg-white px-1 font-medium text-[#666666]",
+                tab === item.key &&
+                  item.key === TitleType.movies &&
+                  "border-[#cce6ff] bg-[#ebf5ff] text-[#0072f5]",
+                tab === item.key &&
+                  item.key === TitleType.tvseries &&
+                  "border-[#ffd0a3] bg-[#fff4e6] text-[#d86e0b]",
+                tab === item.key &&
+                  item.key === TitleType.anime &&
+                  "border-[#f8cce0] bg-[#fdeff5] text-[#d82687]",
+                tab === item.key &&
+                  item.key === TitleType.games &&
+                  "border-[#c2e6c2] bg-[#eafbea] text-[#17a34a]",
+              )}
+            >
+              {item.title}
+            </button>
+          ))}
         </div>
 
         {warning && (
@@ -186,9 +184,9 @@ export const Search = ({ posterURL }: Props) => {
         )}
 
         <CommandInput
-          placeholder="Type to search..."
+          placeholder={t("type")}
           onValueChange={handleSearch}
-          autoFocus
+          // autoFocus
         />
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
@@ -224,7 +222,7 @@ export const Search = ({ posterURL }: Props) => {
           {parsedData.length > 0 && (
             <>
               <CommandSeparator />
-              <CommandGroup heading="Recent searches">
+              <CommandGroup heading={t("recent")}>
                 {parsedData.reverse().map((title) => (
                   <CommandItem key={title.key}>
                     <Link
@@ -253,47 +251,23 @@ export const Search = ({ posterURL }: Props) => {
             </>
           )}
           <CommandSeparator />
-          <CommandGroup heading="Suggestions">
-            <CommandItem>
-              <Link
-                href="/movies"
-                className="flex w-full items-center gap-2"
-                onClick={closeModel}
-              >
-                <Film />
-                <span>Movies</span>
-              </Link>
-            </CommandItem>
-            <CommandItem>
-              <Link
-                href="/tvseries"
-                className="flex w-full items-center gap-2"
-                onClick={closeModel}
-              >
-                <Tv />
-                <span>TV Series</span>
-              </Link>
-            </CommandItem>
-            <CommandItem>
-              <Link
-                href="/anime"
-                className="flex w-full items-center gap-2"
-                onClick={closeModel}
-              >
-                <BadgeJapaneseYenIcon />
-                <span>Anime</span>
-              </Link>
-            </CommandItem>
-            <CommandItem>
-              <Link
-                href="/games"
-                className="flex w-full items-center gap-2"
-                onClick={closeModel}
-              >
-                <Gamepad2 />
-                <span>Games</span>
-              </Link>
-            </CommandItem>
+          <CommandGroup heading={t("suggestions")}>
+            {navigationKeys.map((item) => (
+              <CommandItem key={item.key}>
+                <Link
+                  href={item.key}
+                  className="flex w-full items-center gap-2"
+                  onClick={closeModel}
+                >
+                  {
+                    CONTENT_ICONS[
+                      item.key.replace("/", "") as keyof typeof CONTENT_ICONS
+                    ]
+                  }
+                  <span>{item.title}</span>
+                </Link>
+              </CommandItem>
+            ))}
           </CommandGroup>{" "}
         </CommandList>
       </CommandDialog>
