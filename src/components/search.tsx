@@ -113,7 +113,7 @@ export const Search = ({ posterURL }: Props) => {
   };
 
   return (
-    <div className="flex flex-1 flex-col items-center">
+    <div className="flex flex-1 flex-col items-center sm:mx-3">
       <div className="mx-2 flex gap-1 lg:mx-0">
         <div
           onClick={() => setOpen(true)}

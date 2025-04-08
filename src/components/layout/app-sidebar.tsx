@@ -1,7 +1,3 @@
-// "use client";
-
-// import { SearchForm } from "@/components/search-form"
-// import { VersionSwitcher } from "@/components/version-switcher"
 import {
   Sidebar,
   SidebarContent,
@@ -13,35 +9,38 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarRail,
 } from "@/components/ui/sidebar";
 import Link from "next/link";
-import { useTranslations } from "next-intl";
-import { NavUser } from "../nav-user";
 import { ButtonSwitchServer } from "../button-server";
 import { ModeToggle } from "../toggles/theme-toggle";
 import { Button } from "../ui/button";
 import { PlusCircle } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { auth } from "@/auth";
+import { GoogleLogin } from "../google-login";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { SignOut } from "../custom/sign-out";
 
 export async function AppSidebar({
   ...props
 }: React.ComponentProps<typeof Sidebar>) {
   const session = await auth();
 
-  if (!session) {
-    return null;
-  }
-
-  console.log("AppSidebar session", session);
+  // if (!session) {
+  //   return null;
+  // }
 
   const t = await getTranslations("HomePage");
   const navigationKeys = Object.keys(t.raw("navigation"));
 
   return (
     <Sidebar {...props} className="dark:border-r-black">
-      {session.user.role === "owner" && (
+      {!session && (
+        <SidebarHeader>
+          <GoogleLogin />
+        </SidebarHeader>
+      )}
+      {session?.user.role === "owner" && (
         <SidebarHeader>
           <Link href="/quick-add-movie">
             <Button className="w-full">
@@ -51,35 +50,67 @@ export async function AppSidebar({
           </Link>
         </SidebarHeader>
       )}
+      {session && (
+        <SidebarHeader className="">
+          <Link
+            href="/profile"
+            className="flex w-full items-center justify-between gap-2"
+          >
+            <Avatar className="mx-auto h-10 w-10 rounded-lg">
+              <AvatarImage
+                src={session.user.image ?? ""}
+                alt={session.user.name ?? ""}
+              />
+              <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+            </Avatar>
+
+            <div className="grid flex-1 text-left text-sm leading-tight 2xl:hidden">
+              <span className="truncate font-semibold">
+                {session.user.name}
+              </span>
+              <span className="truncate text-xs">{session.user.email}</span>
+            </div>
+          </Link>
+        </SidebarHeader>
+      )}
       <SidebarContent className="dark:border-r-[#211979]">
         {/* We create a SidebarGroup for each parent. */}
 
         <SidebarGroup>
-          <SidebarGroupLabel className="text-xl">Content</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-2xl">Content</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu className="mb-3">
               {navigationKeys.map((item) => (
                 <SidebarMenuItem key={item}>
-                  <SidebarMenuButton asChild closeOnClick size="lg">
-                    <Link className="text-2xl" href={`/${item}`}>
-                      {t(`navigation.${item}`)}
-                    </Link>
+                  <SidebarMenuButton
+                    className="text-xl"
+                    asChild
+                    closeOnClick
+                    size="lg"
+                  >
+                    <Link href={`/${item}`}>{t(`navigation.${item}`)}</Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
 
-            <SidebarGroupLabel className="text-xl">Features</SidebarGroupLabel>
-            <div className="flex flex-col gap-3">
-              <Link href="/dashboard">Dashboard</Link>
-            </div>
+            {session && (
+              <>
+                <SidebarGroupLabel className="text-xl">
+                  Features
+                </SidebarGroupLabel>
+                <div className="flex flex-col gap-3">
+                  <Link href="/dashboard">Dashboard</Link>
+                </div>
 
-            <div className="flex flex-col gap-3">
-              <Link href="/settings">Settings</Link>
-            </div>
-            <div className="flex flex-col gap-3">
+                <div className="flex flex-col gap-3">
+                  <Link href="/settings">Settings</Link>
+                </div>
+              </>
+            )}
+            {/* <div className="flex flex-col gap-3">
               <Link href="/profile">Profile</Link>
-            </div>
+            </div> */}
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
@@ -89,13 +120,16 @@ export async function AppSidebar({
           <ButtonSwitchServer />
           <ModeToggle />
         </div>
-        <NavUser
-          user={{
-            name: session.user.name ?? "User",
-            email: session.user.email ?? "example@com",
-            avatar: session.user.image ?? "",
-          }}
-        />
+        {session && (
+          <SignOut />
+          // <NavUser
+          //   user={{
+          //     name: session.user.name ?? "User",
+          //     email: session.user.email ?? "example@com",
+          //     avatar: session.user.image ?? "",
+          //   }}
+          // />
+        )}
         <span>version: 1.0.0</span>
       </SidebarFooter>
       {/* <SidebarRail /> */}

@@ -18,6 +18,7 @@ export const MainLayout = async ({
 
       <footer className="grid h-20 place-content-center bg-black">
         Footer
+        <span>version: 1.0.0</span>
       </footer>
     </div>
   );

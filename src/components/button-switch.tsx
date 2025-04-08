@@ -17,10 +17,7 @@ type Props = {
 };
 
 export const ButtonSwitch = ({ locale }: Props) => {
-  // console.log('-------------------', cookieStore);
-
   const handleLanguageChange = async (locale: string) => {
-    console.log("locale", locale);
     // const cookieStore = await cookies();
     // cookieStore().set('locale', locale);
     create(locale);
@@ -31,7 +28,7 @@ export const ButtonSwitch = ({ locale }: Props) => {
       defaultValue={locale}
       onValueChange={(e) => handleLanguageChange(e)}
     >
-      <SelectTrigger className="max-w-max">
+      <SelectTrigger className="w-28">
         <SelectValue placeholder={locale} />
       </SelectTrigger>
       <SelectContent side="top">
