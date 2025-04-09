@@ -70,6 +70,7 @@ export const LastWatched = ({ posterURL }: Props) => {
                 <Image
                   src={`${posterURL}/posters/${title.poster}`}
                   alt="Title Poster"
+                  className="h-auto w-auto"
                   height={100}
                   width={80}
                 />

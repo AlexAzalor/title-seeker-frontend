@@ -19,5 +19,30 @@
       }
     }
   },
+
+  "MenuItems": {
+    "content": "Зміст",
+    "account": "Account",
+    "profile": {
+      "key": "profile",
+      "label": "Обліковий запис"
+    },
+    "dashboard": {
+      "key": "dashboard",
+      "label": "Панель приладів"
+    },
+    "settings": {
+      "key": "settings",
+      "label": "Налаштування"
+    },
+    "logout": "Вийти"
+  },
+  "Search": {
+    "search": "Шукати...",
+    "type": "Введіть для пошуку...",
+    "super": "Супер пошук",
+    "recent": "Останні пошукові запити",
+    "suggestions": "Пропозиції"
+  },
   "notImplemented": "не імплементовано ще"
 }

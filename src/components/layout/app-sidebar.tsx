@@ -1,70 +1,152 @@
-// "use client";
-import * as React from "react";
-
-// import { SearchForm } from "@/components/search-form"
-// import { VersionSwitcher } from "@/components/version-switcher"
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarRail,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
 import Link from "next/link";
-import { useTranslations } from "next-intl";
-import { NavUser } from "../nav-user";
 import { ButtonSwitchServer } from "../button-server";
 import { ModeToggle } from "../toggles/theme-toggle";
 import { Button } from "../ui/button";
-import { PlusCircle } from "lucide-react";
+import {
+  BadgeJapaneseYenIcon,
+  Film,
+  Gamepad2,
+  LayoutDashboard,
+  PlusCircle,
+  Settings,
+  Tv,
+} from "lucide-react";
+import { getTranslations } from "next-intl/server";
+import { auth } from "@/auth";
+import { GoogleLogin } from "../google-login";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { SignOut } from "../custom/sign-out";
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const t = useTranslations("HomePage");
+export const CONTENT_ICONS = {
+  movies: <Film />,
+  tvseries: <Tv />,
+  games: <Gamepad2 />,
+  anime: <BadgeJapaneseYenIcon />,
+};
 
-  const navigationKeys = Object.keys(t.raw("navigation"));
+export async function AppSidebar({
+  ...props
+}: React.ComponentProps<typeof Sidebar>) {
+  const session = await auth();
+
+  const t = await getTranslations("HomePage");
+  const menu = await getTranslations("MenuItems");
+
+  const navigationKeys: { title: string; path: string }[] = Object.entries(
+    t.raw("navigation"),
+  ).map(([key, value]) => ({
+    title: value as string,
+    path: `/${key}`,
+  }));
+
   return (
     <Sidebar {...props} className="dark:border-r-black">
-      <SidebarHeader>
-        <Link href="/quick-add-movie">
-          <Button className="w-full">
-            <PlusCircle />
-            Quickly add new Movie
-          </Button>
-        </Link>
-      </SidebarHeader>
+      {!session && (
+        <SidebarHeader>
+          <GoogleLogin />
+        </SidebarHeader>
+      )}
+      {session?.user.role === "owner" && (
+        <SidebarHeader>
+          <Link href="/quick-add-movie">
+            <Button className="w-full">
+              <PlusCircle />
+              Quickly add new Movie
+            </Button>
+          </Link>
+        </SidebarHeader>
+      )}
+      {session && (
+        <SidebarHeader className="border-sidebar-border border-b">
+          <Link
+            href="/profile"
+            className="flex w-full items-center justify-between gap-2"
+          >
+            <Avatar className="mx-auto h-10 w-10 rounded-lg">
+              <AvatarImage
+                src={session.user.image ?? ""}
+                alt={session.user.name ?? ""}
+              />
+              <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+            </Avatar>
+
+            <div className="grid flex-1 text-left text-sm leading-tight 2xl:hidden">
+              <span className="truncate font-semibold">
+                {session.user.name}
+              </span>
+              <span className="truncate text-xs">{session.user.email}</span>
+            </div>
+          </Link>
+        </SidebarHeader>
+      )}
       <SidebarContent className="dark:border-r-[#211979]">
         {/* We create a SidebarGroup for each parent. */}
-
         <SidebarGroup>
-          <SidebarGroupLabel className="text-xl">Content</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu className="mb-3">
-              {navigationKeys.map((item) => (
-                <SidebarMenuItem key={item}>
-                  <SidebarMenuButton asChild closeOnClick size="lg">
-                    <Link className="text-2xl" href={`/${item}`}>
-                      {t(`navigation.${item}`)}
+          <SidebarMenu className="gap-2">
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild>
+                <p className="font-medium">{"Content"}</p>
+              </SidebarMenuButton>
+
+              <SidebarMenuSub className="ml-0 border-l-0 px-1.5">
+                {navigationKeys.map((item) => (
+                  <SidebarMenuSubItem key={item.title}>
+                    <SidebarMenuSubButton asChild>
+                      <Link href={item.path} className="">
+                        {
+                          CONTENT_ICONS[
+                            item.path.replace(
+                              "/",
+                              "",
+                            ) as keyof typeof CONTENT_ICONS
+                          ]
+                        }
+                        <span>{item.title}</span>
+                      </Link>
+                    </SidebarMenuSubButton>
+                  </SidebarMenuSubItem>
+                ))}
+              </SidebarMenuSub>
+            </SidebarMenuItem>
+
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild>
+                <p className="font-medium">{menu("account")}</p>
+              </SidebarMenuButton>
+
+              <SidebarMenuSub className="ml-0 border-l-0 px-1.5">
+                <SidebarMenuSubItem>
+                  <SidebarMenuSubButton asChild>
+                    <Link href={menu("dashboard.key")} className="">
+                      <LayoutDashboard />
+                      <span>{menu("dashboard.label")}</span>
                     </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-
-            <SidebarGroupLabel className="text-xl">Features</SidebarGroupLabel>
-            <div className="flex flex-col gap-3">
-              <Link href="/dashboard">Dashboard</Link>
-            </div>
-
-            <div className="flex flex-col gap-3">
-              <Link href="/dashboard">Settings</Link>
-            </div>
-          </SidebarGroupContent>
+                  </SidebarMenuSubButton>
+                </SidebarMenuSubItem>
+                <SidebarMenuSubItem>
+                  <SidebarMenuSubButton asChild>
+                    <Link href={menu("settings.key")} className="">
+                      <Settings />
+                      <span>{menu("settings.label")}</span>
+                    </Link>
+                  </SidebarMenuSubButton>
+                </SidebarMenuSubItem>
+              </SidebarMenuSub>
+            </SidebarMenuItem>
+          </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>
 
@@ -73,16 +155,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <ButtonSwitchServer />
           <ModeToggle />
         </div>
-        <NavUser
-          user={{
-            name: "User",
-            email: "user@example.com",
-            avatar: "/static/avatars/069.jpg",
-          }}
-        />
+        {session && <SignOut name={menu("logout")} />}
         <span>version: 1.0.0</span>
       </SidebarFooter>
-      {/* <SidebarRail /> */}
     </Sidebar>
   );
 }

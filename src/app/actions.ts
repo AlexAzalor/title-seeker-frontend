@@ -1,7 +1,11 @@
 "use server";
 
 import { cookies } from "next/headers";
+import { auth } from "@/auth";
+import { getLocale } from "next-intl/server";
+import { AxiosResponse } from "axios";
 import { getUsers } from "@/orval_api/users/users";
+
 import { backendURL } from "@/lib/constants";
 import {
   BodyAPICreateActor,
@@ -26,8 +30,6 @@ import { getKeywords } from "@/orval_api/keywords/keywords";
 import { getActionTimes } from "@/orval_api/action-times/action-times";
 import { getSharedUniverses } from "@/orval_api/shared-universes/shared-universes";
 import { getCharacters } from "@/orval_api/characters/characters";
-import { AxiosResponse } from "axios";
-import { getLocale } from "next-intl/server";
 
 export async function create(locale: string) {
   const cookieStore = await cookies();
@@ -35,16 +37,36 @@ export async function create(locale: string) {
   cookieStore.set("locale", locale);
 }
 
+export async function getSession() {
+  const session = await auth();
+  if (!session) {
+    return null;
+  }
+
+  const { user } = session;
+  return user;
+}
+
 export async function updateRateMovie(data: UserRateMovieIn) {
+  const currentUser = await getSession();
+  if (!currentUser) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
   const { aPIUpdateRateMovie } = getUsers();
 
-  await aPIUpdateRateMovie("user_uuid", data, backendURL);
+  await aPIUpdateRateMovie(currentUser.uuid, data, backendURL);
 }
 
 export async function rateMovie(data: UserRateMovieIn) {
+  const currentUser = await getSession();
+  if (!currentUser) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
   const { aPIRateMovie } = getUsers();
 
-  await aPIRateMovie("user_uuid", data, backendURL);
+  await aPIRateMovie(currentUser.uuid, data, backendURL);
 }
 
 export async function addNewMovie(
@@ -52,6 +74,10 @@ export async function addNewMovie(
   act: BodyAPICreateMovie,
   tempMovie: boolean = false,
 ) {
+  const user = await getSession();
+  if (!user) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
   const locale = await getLocale();
   const lang = Language[locale as keyof typeof Language];
 
@@ -60,7 +86,7 @@ export async function addNewMovie(
   try {
     const a: AxiosResponse = await aPICreateMovie(
       act,
-      { lang, temp_movie: tempMovie },
+      { lang, temp_movie: tempMovie, user_uuid: user.uuid },
       {
         baseURL: backendURL.baseURL,
       },
@@ -263,6 +289,12 @@ export async function addNewActionTime(data: BodyAPICreateGenre) {
 }
 
 export async function quicklyAddNewMovie(data: QuickMovieFormData) {
+  const currentUser = await getSession();
+
+  if (currentUser?.role !== "owner") {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
   const locale = await getLocale();
   const lang = Language[locale as keyof typeof Language];
 
@@ -271,7 +303,7 @@ export async function quicklyAddNewMovie(data: QuickMovieFormData) {
   try {
     const a: AxiosResponse = await aPIQuickAddMovie(
       data,
-      { lang },
+      { lang, user_uuid: currentUser.uuid },
       {
         baseURL: backendURL.baseURL,
       },

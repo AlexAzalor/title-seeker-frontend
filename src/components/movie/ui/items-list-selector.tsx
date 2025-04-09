@@ -1,3 +1,4 @@
+import { useSession } from "next-auth/react";
 import { memo } from "react";
 import { Check, Info } from "lucide-react";
 
@@ -35,6 +36,10 @@ const ItemsListSelector = <Datum extends ItemFields, T extends ItemFields>({
   onOpenModal,
   checkIconStyle,
 }: Props<Datum, T>) => {
+  const session = useSession();
+
+  const isAdmin = session.data?.user.role === "owner";
+
   return (
     <>
       <CommandInput placeholder="Search items..." className="h-9" />
@@ -42,9 +47,11 @@ const ItemsListSelector = <Datum extends ItemFields, T extends ItemFields>({
         <CommandEmpty>
           No item found.{" "}
           {/* after add set value from this input to form's input */}
-          <Button variant="link" onClick={onOpenModal}>
-            Add?
-          </Button>
+          {isAdmin && (
+            <Button variant="link" onClick={onOpenModal}>
+              Add?
+            </Button>
+          )}
         </CommandEmpty>
 
         <CommandGroup className="text-left">

@@ -1,13 +1,23 @@
+import { redirect } from "next/navigation";
+import { auth } from "@/auth";
 import { getLocale } from "next-intl/server";
+
 import { backendURL } from "@/lib/constants";
 import { Language } from "@/orval_api/model";
 import { getMovies } from "@/orval_api/movies/movies";
 import { MovieFormWizard } from "@/components/movie/add-movie/movie-form-wizard";
+// import { getServerSession } from "next-auth";
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 export default async function AddMoviePage(props: {
   searchParams: SearchParams;
 }) {
+  const session = await auth();
+
+  if (session?.user.role !== "owner") {
+    return redirect("/");
+  }
+
   const searchParams = await props.searchParams;
   const tempMovieKey =
     typeof searchParams.temp_movie_key === "string"
@@ -33,7 +43,11 @@ export default async function AddMoviePage(props: {
       characters,
     },
   } = await aPIGetPreCreateData(
-    { lang, temp_movie_key: tempMovieKey },
+    {
+      lang,
+      temp_movie_key: tempMovieKey,
+      user_uuid: session?.user.uuid,
+    },
     backendURL,
   );
 

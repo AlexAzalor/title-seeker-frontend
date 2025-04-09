@@ -5,8 +5,7 @@ import { useRouter } from "next/navigation";
 import { rateMovie, updateRateMovie } from "@/app/actions";
 import { toast } from "sonner";
 import {
-  MovieOut,
-  MovieOutUserRating,
+  MovieOutUserRatingCriterion,
   RatingCriterion,
   UserRateMovieIn,
   UserRatingCriteria,
@@ -15,28 +14,39 @@ import { RateMovie } from "./rating/rate-movie";
 import { RatingDataOut } from "./add-movie/key-fields-form";
 
 type Props = {
-  data: MovieOut;
-  ratingData?: MovieOutUserRating;
+  movieKey: string;
+  ratingType: RatingCriterion;
+  isOwner: boolean;
+  isUserRated: boolean;
+  userRatingData?: MovieOutUserRatingCriterion;
+  overallRatingCriteria: UserRatingCriteria;
 };
-export const MovieRateBox = ({ data, ratingData }: Props) => {
+export const MovieRateBox = ({
+  movieKey,
+  isOwner,
+  userRatingData,
+  isUserRated,
+  overallRatingCriteria,
+  ratingType,
+}: Props) => {
   const router = useRouter();
   const ratingRef = useRef<RatingDataOut>({
-    ratingData: ratingData || ({} as UserRatingCriteria),
+    ratingData: userRatingData || ({} as UserRatingCriteria),
     ratingCriterionType: RatingCriterion.basic,
     rating: 0,
   });
 
-  const submitRating = async (data: UserRateMovieIn) => {
-    if (!!ratingData) {
+  const submitRating = async (userRatingInput: UserRateMovieIn) => {
+    if (isUserRated || isOwner) {
       try {
-        await updateRateMovie(data);
+        await updateRateMovie(userRatingInput);
         toast.success("Rating UPDATED");
       } catch {
         toast.error("Error occured");
       }
     } else {
       try {
-        await rateMovie(data);
+        await rateMovie(userRatingInput);
         toast.success("Rating ADDED");
       } catch {
         toast.error("Error occured");
@@ -48,11 +58,11 @@ export const MovieRateBox = ({ data, ratingData }: Props) => {
 
   return (
     <RateMovie
+      movieKey={movieKey}
       ratingRef={ratingRef}
-      movieRateData={data.user_rating}
-      type={data.rating_criterion}
+      movieRateData={userRatingData || overallRatingCriteria}
+      type={ratingType}
       onRateSubmit={submitRating}
-      movieKey={data.key}
     />
   );
 };
