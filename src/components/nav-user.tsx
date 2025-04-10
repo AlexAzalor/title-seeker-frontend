@@ -81,7 +81,7 @@ export function NavUser({
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem asChild className="cursor-pointer">
-                <Link href={menu("profile.key")}>
+                <Link href={"/user/" + menu("profile.key")}>
                   <User />
                   {menu("profile.label")}
                 </Link>
@@ -90,14 +90,14 @@ export function NavUser({
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem asChild className="cursor-pointer">
-                <Link href={menu("dashboard.key")}>
+                <Link href={"/user/" + menu("dashboard.key")}>
                   <LayoutDashboard />
                   {menu("dashboard.label")}
                 </Link>
               </DropdownMenuItem>
 
               <DropdownMenuItem asChild className="cursor-pointer">
-                <Link href={menu("settings.key")}>
+                <Link href={"/user/" + menu("settings.key")}>
                   <Settings />
                   {menu("settings.label")}
                 </Link>

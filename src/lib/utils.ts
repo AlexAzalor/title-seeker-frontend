@@ -1,5 +1,6 @@
 import { ACTION_TIME, KEYWORD, SPEC } from "@/components/filter-fetch-wrapper";
 import { GENRE, SUBGENRE } from "@/components/genres";
+import { Language } from "@/orval_api/model";
 
 import { clsx, type ClassValue } from "clsx";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
@@ -26,7 +27,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function formatDate(createdAt: string, locale: string) {
+export function formatDate(createdAt: string, locale: keyof typeof Language) {
   const date = new Date(createdAt);
 
   const options: IntlOptions = {
