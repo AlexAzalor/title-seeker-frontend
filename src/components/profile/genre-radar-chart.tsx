@@ -1,13 +1,12 @@
 "use client";
 
-import { TrendingUp } from "lucide-react";
+import { useLocale } from "next-intl";
 import { PolarAngleAxis, PolarGrid, Radar, RadarChart } from "recharts";
 
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -17,47 +16,47 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-const chartData = [
-  // count =
-  { month: "Action", moviesCount: 32 },
-  { month: "Sci-Fi", moviesCount: 27 },
-  { month: "Adventures", moviesCount: 24 },
-  { month: "Crime", moviesCount: 20 },
-  { month: "Thriller", moviesCount: 10 },
-  { month: "Drama", moviesCount: 7 },
-];
+import { GenreChartDataOut, Language } from "@/orval_api/model";
 
-const chartConfig = {
-  moviesCount: {
-    label: "Movies Count",
-    color: "var(--chart-1)",
-  },
-} satisfies ChartConfig;
+type Props = {
+  radarData: GenreChartDataOut[];
+};
 
-export function GenreRadarChart() {
+export function GenreRadarChart({ radarData }: Props) {
+  const locale = useLocale();
+  const lang = Language[locale as keyof typeof Language];
+
+  const chartConfig = {
+    count: {
+      label: lang === "uk" ? "Кількість" : "Count",
+      color: "#4a3aff",
+    },
+  } satisfies ChartConfig;
+
   return (
-    <Card>
-      <CardHeader className="items-center">
-        <CardTitle>Radar Chart - Dots</CardTitle>
+    <Card className="mb-4 w-fit">
+      <CardHeader className="items-center pb-0">
+        <CardTitle>Top 8 most popular movie genres</CardTitle>
         <CardDescription>
-          Showing total visitors for the last 6 months
+          Shows how many movies with these genres you have rated.
         </CardDescription>
       </CardHeader>
       <CardContent className="pb-0">
         <ChartContainer
+          isEmpty={radarData.length < 3}
           config={chartConfig}
           className="mx-auto aspect-square max-h-[250px] w-[400px]"
         >
-          <RadarChart data={chartData}>
+          <RadarChart data={radarData}>
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent className="w-36" />}
             />
-            <PolarAngleAxis dataKey="month" />
+            <PolarAngleAxis dataKey="name" />
             <PolarGrid />
             <Radar
-              dataKey="moviesCount"
-              fill="var(--color-moviesCount)"
+              dataKey="count"
+              fill="var(--color-count)"
               fillOpacity={0.6}
               dot={{
                 r: 4,
@@ -67,14 +66,6 @@ export function GenreRadarChart() {
           </RadarChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className="flex-col gap-2 text-sm">
-        <div className="flex items-center gap-2 leading-none font-medium">
-          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-        </div>
-        <div className="text-muted-foreground flex items-center gap-2 leading-none">
-          January - June 2024
-        </div>
-      </CardFooter>
     </Card>
   );
 }

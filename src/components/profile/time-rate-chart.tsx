@@ -82,7 +82,7 @@ export function TimeRateChart({ moviesTimeRateData }: Props) {
           <CardTitle>Latest movie ratings</CardTitle>
 
           <CardDescription>
-            Shows the dynamics of ratings given to movies.
+            Shows the dynamics of movie ratings.
           </CardDescription>
         </div>
 
@@ -108,16 +108,17 @@ export function TimeRateChart({ moviesTimeRateData }: Props) {
         </Select>
       </CardHeader>
 
-      <CardContent className="px-2 pt-4 sm:px-6 sm:pt-6">
+      <CardContent className="relative px-2 pt-4 sm:px-6 sm:pt-6">
         <ChartContainer
+          isEmpty={moviesTimeRateData.length < 3}
           config={chartConfig}
           className="aspect-auto h-[300px] w-full"
         >
           <AreaChart data={moviesTimeRateData.slice(-num)}>
             <defs>
               <linearGradient id="fillDesktop" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#cce6ff" stopOpacity={0.8} />
-                <stop offset="95%" stopColor="#cce6ff" stopOpacity={0.1} />
+                <stop offset="5%" stopColor="#0072f5" stopOpacity={0.8} />
+                <stop offset="95%" stopColor="#0072f5" stopOpacity={0.1} />
               </linearGradient>
               <linearGradient id="fillMobile" x1="0" y1="0" x2="0" y2="1">
                 <stop

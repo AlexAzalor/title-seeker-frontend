@@ -17,8 +17,12 @@ export default async function ProfilePage() {
   const locale = await getLocale();
   const lang = Language[locale as keyof typeof Language];
 
-  const { aPITimeRateMovie } = getUsers();
+  const { aPITimeRateMovie, aPIGenreRadarChart } = getUsers();
   const { data } = await aPITimeRateMovie(
+    { user_uuid: user.uuid, lang },
+    backendURL,
+  );
+  const { data: radarData } = await aPIGenreRadarChart(
     { user_uuid: user.uuid, lang },
     backendURL,
   );
@@ -26,7 +30,7 @@ export default async function ProfilePage() {
   return (
     <div className="flex justify-between gap-10">
       <div className="h-100 w-full">
-        {/* <GenreRadarChart /> */}
+        <GenreRadarChart radarData={radarData.genre_data} />
         <TimeRateChart moviesTimeRateData={data.movie_chart_data} />
       </div>
 
