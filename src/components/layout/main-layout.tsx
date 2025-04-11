@@ -11,7 +11,7 @@ export const MainLayout = async ({
   const session = await auth();
 
   return (
-    <div className="mx-auto min-h-screen w-full">
+    <div id="main-layout" className="mx-auto min-h-screen w-full">
       <Header session={session} />
 
       <div className="mx-auto grid place-items-center">{children}</div>

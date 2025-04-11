@@ -45,7 +45,7 @@ export function GenreRadarChart({ radarData }: Props) {
         <ChartContainer
           isEmpty={radarData.length < 3}
           config={chartConfig}
-          className="mx-auto aspect-square max-h-[250px] w-[400px]"
+          className="mx-auto aspect-square max-h-[250px] w-full p-0 2xl:w-[400px]"
         >
           <RadarChart data={radarData}>
             <ChartTooltip

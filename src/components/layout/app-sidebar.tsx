@@ -72,7 +72,7 @@ export async function AppSidebar({
       {session && (
         <SidebarHeader className="border-sidebar-border border-b">
           <Link
-            href="/profile"
+            href="/user/profile"
             className="flex w-full items-center justify-between gap-2"
           >
             <Avatar className="mx-auto h-10 w-10 rounded-lg">
@@ -124,13 +124,13 @@ export async function AppSidebar({
 
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
-                <p className="font-medium">{menu("account")}</p>
+                <p className="font-medium">{menu("user")}</p>
               </SidebarMenuButton>
 
               <SidebarMenuSub className="ml-0 border-l-0 px-1.5">
                 <SidebarMenuSubItem>
                   <SidebarMenuSubButton asChild>
-                    <Link href={menu("dashboard.key")} className="">
+                    <Link href={"/user/" + menu("dashboard.key")} className="">
                       <LayoutDashboard />
                       <span>{menu("dashboard.label")}</span>
                     </Link>
@@ -138,7 +138,7 @@ export async function AppSidebar({
                 </SidebarMenuSubItem>
                 <SidebarMenuSubItem>
                   <SidebarMenuSubButton asChild>
-                    <Link href={menu("settings.key")} className="">
+                    <Link href={"/user/" + menu("settings.key")} className="">
                       <Settings />
                       <span>{menu("settings.label")}</span>
                     </Link>

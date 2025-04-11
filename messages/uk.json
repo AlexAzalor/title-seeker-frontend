@@ -22,7 +22,7 @@
 
   "MenuItems": {
     "content": "Зміст",
-    "account": "Account",
+    "user": "Користувач",
     "profile": {
       "key": "profile",
       "label": "Обліковий запис"

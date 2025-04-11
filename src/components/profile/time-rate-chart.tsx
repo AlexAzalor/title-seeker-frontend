@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useLocale } from "next-intl";
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 
@@ -71,6 +72,7 @@ type Props = {
 
 export function TimeRateChart({ moviesTimeRateData }: Props) {
   const locale = useLocale() as keyof typeof Language;
+  const isMobile = useMediaQuery("(max-width: 640px)");
   const [moviesCount, setMoviesCount] = useState("30");
 
   const num = Number(moviesCount);
@@ -149,7 +151,9 @@ export function TimeRateChart({ moviesTimeRateData }: Props) {
                 });
               }}
             />
-            <YAxis domain={[0, 10]} tickCount={10} includeHidden />
+            {!isMobile && (
+              <YAxis domain={[0, 10]} tickCount={10} includeHidden />
+            )}
 
             <ChartTooltip
               cursor={false}

@@ -21,7 +21,7 @@
   },
   "MenuItems": {
     "content": "Content",
-    "account": "Account",
+    "user": "User",
     "profile": {
       "key": "profile",
       "label": "Profile"
