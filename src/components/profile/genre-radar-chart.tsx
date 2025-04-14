@@ -41,7 +41,7 @@ export function GenreRadarChart({ radarData }: Props) {
           Shows how many movies with these genres you have rated.
         </CardDescription>
       </CardHeader>
-      <CardContent className="pb-0">
+      <CardContent className="relative pb-0">
         <ChartContainer
           isEmpty={radarData.length < 3}
           config={chartConfig}

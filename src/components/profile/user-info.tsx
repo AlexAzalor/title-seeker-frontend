@@ -9,7 +9,7 @@ type Props = {
   lang: Language;
   joinedDate: string;
   moviesRated: number;
-  lastMovieRateDate: string;
+  lastMovieRateDate: string | null;
 };
 
 export const UserInfo = ({
@@ -43,12 +43,14 @@ export const UserInfo = ({
           <p>
             Movies rated: <span className="font-bold">{moviesRated}</span>
           </p>
-          <p>
-            Date of last movie rating:{" "}
-            <span className="font-bold">
-              {formatDate(lastMovieRateDate, lang)}
-            </span>
-          </p>
+          {lastMovieRateDate && (
+            <p>
+              Date of last movie rating:{" "}
+              <span className="font-bold">
+                {formatDate(lastMovieRateDate, lang)}
+              </span>
+            </p>
+          )}
         </div>
 
         <div>

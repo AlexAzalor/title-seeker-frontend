@@ -29,7 +29,7 @@ import {
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 
-import { MovieSearchOut, TitleType } from "@/orval_api/model";
+import { Language, MovieSearchOut, TitleType } from "@/orval_api/model";
 import { cn, formatDate } from "@/lib/utils";
 // import { CONTENT_ICONS } from "./layout/app-sidebar";
 
@@ -54,7 +54,7 @@ export const Search = ({ posterURL }: Props) => {
     key: key as TitleType,
   }));
 
-  const lang = useLocale();
+  const lang = useLocale() as Language;
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState<TitleType>(TitleType.movies);
   const [warning, setWarning] = useState(false);

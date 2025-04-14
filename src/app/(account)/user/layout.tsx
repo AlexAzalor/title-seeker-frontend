@@ -7,46 +7,42 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <ul className="grid gap-2">
           <Link
             href="/user/profile"
-            className="cursor-pointer rounded-[6px] px-2 py-1 text-lg transition-colors hover:bg-[#f5f5f5]"
+            className="cursor-pointer rounded-[6px] px-2 py-1 text-lg transition-colors hover:bg-[#f5f5f5] dark:hover:bg-[#1A183D]"
           >
             Profile
           </Link>
           <Link
             href="/user/dashboard"
-            className="cursor-pointer rounded-[6px] px-2 py-1 text-lg transition-colors hover:bg-[#f5f5f5]"
+            className="cursor-pointer rounded-[6px] px-2 py-1 text-lg transition-colors hover:bg-[#f5f5f5] dark:hover:bg-[#1A183D]"
           >
             Dashboard
           </Link>
           <Link
             href="/user/my-lists"
-            className="cursor-pointer rounded-[6px] px-2 py-1 text-lg transition-colors hover:bg-[#f5f5f5]"
+            className="cursor-pointer rounded-[6px] px-2 py-1 text-lg transition-colors hover:bg-[#f5f5f5] dark:hover:bg-[#1A183D]"
           >
             My lists
           </Link>
         </ul>
 
         <ul>
-          <li className="cursor-pointer rounded-[6px] px-2 py-1 text-lg transition-colors hover:bg-[#f5f5f5]">
+          <li className="cursor-pointer rounded-[6px] px-2 py-1 text-lg transition-colors hover:bg-[#f5f5f5] dark:hover:bg-[#1A183D]">
             Movies to add
           </li>
-          <li className="cursor-pointer rounded-[6px] px-2 py-1 text-lg transition-colors hover:bg-[#f5f5f5]">
+          <li className="cursor-pointer rounded-[6px] px-2 py-1 text-lg transition-colors hover:bg-[#f5f5f5] dark:hover:bg-[#1A183D]">
             All users
           </li>
-          <li className="cursor-pointer rounded-[6px] px-2 py-1 text-lg transition-colors hover:bg-[#f5f5f5]">
+          <li className="cursor-pointer rounded-[6px] px-2 py-1 text-lg transition-colors hover:bg-[#f5f5f5] dark:hover:bg-[#1A183D]">
             History of rated movies
           </li>
         </ul>
 
         <Link
           href="/user/settings"
-          className="cursor-pointer rounded-[6px] px-2 py-1 text-lg transition-colors hover:bg-[#f5f5f5]"
+          className="cursor-pointer rounded-[6px] px-2 py-1 text-lg transition-colors hover:bg-[#f5f5f5] dark:hover:bg-[#1A183D]"
         >
           Settings
         </Link>
-
-        {/* <li className="text-danger cursor-pointer rounded-[6px] px-2 py-1 text-lg transition-colors hover:bg-[#f5f5f5]">
-            Delete account
-          </li> */}
       </div>
 
       <div className="flex-1">{children}</div>
