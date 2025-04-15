@@ -1,6 +1,10 @@
 import { ACTION_TIME, KEYWORD, SPEC } from "@/components/filter-fetch-wrapper";
 import { GENRE, SUBGENRE } from "@/components/genres";
-import { Language } from "@/orval_api/model";
+import {
+  Language,
+  PageMoviePreviewOutPage,
+  PageMoviePreviewOutPages,
+} from "@/orval_api/model";
 
 import { clsx, type ClassValue } from "clsx";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
@@ -211,3 +215,50 @@ export const formatSearchParams = (
     showForm: showForm(),
   };
 };
+
+export function getVisiblePages(
+  currentPage: PageMoviePreviewOutPage,
+  totalPages: PageMoviePreviewOutPages,
+) {
+  const THREE_DOTS = "...";
+  const pages = [];
+
+  if (!currentPage || !totalPages) {
+    return [];
+  }
+
+  if (totalPages <= 5) {
+    // If there are 5 or fewer pages, show all
+    for (let i = 1; i <= totalPages; i++) {
+      pages.push(i);
+    }
+  } else {
+    if (currentPage <= 3) {
+      // Case for pages close to the start
+      pages.push(1, 2, 3, 4, THREE_DOTS, totalPages);
+    } else if (currentPage >= totalPages - 2) {
+      // Case for pages close to the end
+      pages.push(
+        1,
+        THREE_DOTS,
+        totalPages - 3,
+        totalPages - 2,
+        totalPages - 1,
+        totalPages,
+      );
+    } else {
+      // Case for pages in the middle
+      pages.push(
+        1,
+        THREE_DOTS,
+        currentPage - 1,
+        currentPage,
+        currentPage + 1,
+        THREE_DOTS,
+        totalPages,
+      );
+    }
+  }
+
+  return pages;
+}

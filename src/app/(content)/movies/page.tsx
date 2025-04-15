@@ -18,7 +18,7 @@ export default async function MoviesPage() {
 
   const { aPIGetMovies } = getMovies();
   const {
-    data: { movies, temporary_movies },
+    data: { items },
   } = await aPIGetMovies({ lang }, backendURL);
 
   return (
@@ -26,7 +26,7 @@ export default async function MoviesPage() {
       <title>Movies | Title Seeker</title>
 
       <div className="min-h-screen">
-        {!!temporary_movies.length && (
+        {/* {!!temporary_movies.length && (
           <div>
             <h1>Temporary Movies</h1>
             <div className="flex gap-5">
@@ -48,10 +48,10 @@ export default async function MoviesPage() {
               ))}
             </div>
           </div>
-        )}
+        )} */}
 
         <div className="my-5 grid grid-cols-1 gap-4 lg:grid-cols-5">
-          {movies.map((movie) => (
+          {items.map((movie) => (
             <Link
               key={movie.key}
               className="shadow-form-layout dark:shadow-dark-form-layout grid h-[158px] w-[340px] grid-cols-[1fr_3fr] items-center gap-2 rounded-[34px] border border-[#EFF0F7] p-6 dark:border-[#211979]"

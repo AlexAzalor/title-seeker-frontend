@@ -44,5 +44,20 @@
     "recent": "Останні пошукові запити",
     "suggestions": "Пропозиції"
   },
-  "notImplemented": "не імплементовано ще"
+  "notImplemented": "не імплементовано ще",
+  "Other": {
+    "paginationPrev": "Назад",
+    "paginationNext": "Далі",
+    "sorting": {
+      "sortOrder": "Порядок сортування",
+      "desc": "Спаданням",
+      "asc": "Зростанням",
+      "sortBy": "Сортувати по",
+      "ratedAt": "Дата оцінки",
+      "rating": "Оцінка",
+      "ratingsCount": "Кількість оцінок",
+      "releaseDate": "Дата виходу",
+      "random": "Випадково"
+    }
+  }
 }

@@ -43,5 +43,21 @@
     "recent": "Recent searches",
     "suggestions": "Suggestions"
   },
-  "notImplemented": "not implemented yet"
+  "notImplemented": "not implemented yet",
+  "Other": {
+    "paginationPrev": "Previous",
+    "paginationNext": "Next",
+
+    "sorting": {
+      "sortOrder": "Sort Order",
+      "desc": "Descending",
+      "asc": "Ascending",
+      "sortBy": "Sort by",
+      "ratedAt": "Rated Date",
+      "rating": "Rating",
+      "ratingsCount": "Ratings count",
+      "releaseDate": "Release date",
+      "random": "Random"
+    }
+  }
 }
