@@ -6,11 +6,12 @@ import { getUsers } from "./orval_api/users/users";
 // The `JWT` interface can be found in the `next-auth/jwt` submodule
 import "next-auth/jwt";
 
-interface UserExtended {
+export interface UserExtended {
   /** User role */
   role: string;
   /** User uuid */
   uuid: string;
+  new_movies_to_add_count: number;
 }
 
 declare module "next-auth/jwt" {
@@ -72,6 +73,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         token.role = data.role;
         token.uuid = data.uuid;
+        token.new_movies_to_add_count = data.new_movies_to_add_count;
 
         // return token;
       } catch (error) {
@@ -86,6 +88,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (session.user) {
         session.user.role = token.role;
         session.user.uuid = token.uuid;
+        session.user.new_movies_to_add_count = token.new_movies_to_add_count;
       }
 
       return session;

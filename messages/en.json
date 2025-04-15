@@ -30,6 +30,18 @@
       "key": "dashboard",
       "label": "Dashboard"
     },
+    "myLists": {
+      "key": "my-lists",
+      "label": "My lists"
+    },
+    "newMoviesToAdd": {
+      "key": "new-movies-to-add",
+      "label": "New Movies to add"
+    },
+    "allUsers": {
+      "key": "all-users",
+      "label": "All users"
+    },
     "settings": {
       "key": "settings",
       "label": "Settings"

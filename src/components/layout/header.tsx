@@ -84,15 +84,7 @@ export const Header = ({ session }: Props) => {
         )}
 
         <div className="hidden 2xl:block">
-          {session?.user && (
-            <NavUser
-              user={{
-                name: session?.user.name ?? "",
-                email: session?.user.email ?? "",
-                avatar: session?.user.image ?? "",
-              }}
-            />
-          )}
+          {session?.user && <NavUser user={session.user} />}
         </div>
 
         <div className="2xl:hidden">

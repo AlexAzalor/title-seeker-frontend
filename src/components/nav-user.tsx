@@ -3,10 +3,13 @@
 import { signOut } from "next-auth/react";
 import {
   ChevronsUpDown,
+  FilePlus,
   LayoutDashboard,
   LogOut,
+  NotebookText,
   Settings,
   User,
+  Users,
 } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -26,16 +29,14 @@ import {
 } from "@/components/ui/sidebar";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
+import { User as UserType } from "next-auth";
+import { UserExtended } from "@/auth";
 
-export function NavUser({
-  user,
-}: {
-  user: {
-    name: string;
-    email: string;
-    avatar: string;
-  };
-}) {
+type Props = {
+  user: UserType & UserExtended;
+};
+
+export function NavUser({ user }: Props) {
   const menu = useTranslations("MenuItems");
 
   return (
@@ -48,9 +49,18 @@ export function NavUser({
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground transition-colors hover:bg-gray-100/40 active:bg-gray-100/40"
             >
               <Avatar className="mx-auto h-10 w-10 rounded-lg">
-                <AvatarImage src={user.avatar} alt={user.name} />
+                <AvatarImage
+                  src={user.image || ""}
+                  alt={user.name || "Avatar"}
+                />
                 <AvatarFallback className="rounded-lg">CN</AvatarFallback>
               </Avatar>
+
+              {!!user.new_movies_to_add_count && (
+                <div className="absolute top-0 right-0 size-5 rounded-full bg-red-300 text-center text-sm font-bold dark:text-black">
+                  {user.new_movies_to_add_count}
+                </div>
+              )}
 
               <div className="grid flex-1 text-left text-sm leading-tight 2xl:hidden">
                 <span className="truncate font-semibold">{user.name}</span>
@@ -69,7 +79,10 @@ export function NavUser({
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src={user.avatar} alt={user.name} />
+                  <AvatarImage
+                    src={user.image || ""}
+                    alt={user.name || "Avatar"}
+                  />
                   <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
@@ -97,14 +110,51 @@ export function NavUser({
               </DropdownMenuItem>
 
               <DropdownMenuItem asChild className="cursor-pointer">
+                <Link href={"/user/" + menu("myLists.key")}>
+                  <NotebookText />
+                  {menu("myLists.label")}
+                </Link>
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+
+            {user.role === "owner" && (
+              <>
+                <DropdownMenuSeparator />
+                <DropdownMenuGroup>
+                  <DropdownMenuItem asChild className="cursor-pointer">
+                    <Link href={"/user/" + menu("newMoviesToAdd.key")}>
+                      <FilePlus />
+                      {menu("newMoviesToAdd.label")}
+                    </Link>
+                  </DropdownMenuItem>
+
+                  <DropdownMenuItem asChild className="cursor-pointer">
+                    <Link href={"/user/" + menu("allUsers.key")}>
+                      <Users />
+                      {menu("allUsers.label")}
+                    </Link>
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+              </>
+            )}
+
+            <DropdownMenuSeparator />
+
+            <DropdownMenuGroup>
+              <DropdownMenuItem asChild className="cursor-pointer">
                 <Link href={"/user/" + menu("settings.key")}>
                   <Settings />
                   {menu("settings.label")}
                 </Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>
+
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => signOut({ redirectTo: "/" })}>
+
+            <DropdownMenuItem
+              className="cursor-pointer"
+              onClick={() => signOut({ redirectTo: "/" })}
+            >
               <LogOut />
               {menu("logout")}
             </DropdownMenuItem>

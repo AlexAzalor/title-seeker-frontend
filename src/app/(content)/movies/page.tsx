@@ -26,30 +26,6 @@ export default async function MoviesPage() {
       <title>Movies | Title Seeker</title>
 
       <div className="min-h-screen">
-        {/* {!!temporary_movies.length && (
-          <div>
-            <h1>Temporary Movies</h1>
-            <div className="flex gap-5">
-              {temporary_movies.map((movie) => (
-                <Link
-                  href={{
-                    pathname: "/add-movie",
-                    query: { temp_movie_key: movie.key },
-                  }}
-                  key={movie.key}
-                  className="bg-gray-600 p-4"
-                >
-                  <div className="text-xl">{movie.title_en}</div>
-                  <div>
-                    Rating:{" "}
-                    <span className="text-lg font-bold">{movie.rating}</span>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-        )} */}
-
         <div className="my-5 grid grid-cols-1 gap-4 lg:grid-cols-5">
           {items.map((movie) => (
             <Link

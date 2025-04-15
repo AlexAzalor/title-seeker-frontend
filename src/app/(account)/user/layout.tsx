@@ -1,3 +1,4 @@
+import { SideNav } from "@/components/profile/admin/side-nav";
 import Link from "next/link";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
@@ -25,17 +26,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </Link>
         </ul>
 
-        <ul>
-          <li className="cursor-pointer rounded-[6px] px-2 py-1 text-lg transition-colors hover:bg-[#f5f5f5] dark:hover:bg-[#1A183D]">
-            Movies to add
-          </li>
-          <li className="cursor-pointer rounded-[6px] px-2 py-1 text-lg transition-colors hover:bg-[#f5f5f5] dark:hover:bg-[#1A183D]">
-            All users
-          </li>
-          <li className="cursor-pointer rounded-[6px] px-2 py-1 text-lg transition-colors hover:bg-[#f5f5f5] dark:hover:bg-[#1A183D]">
-            History of rated movies
-          </li>
-        </ul>
+        <SideNav />
 
         <Link
           href="/user/settings"

@@ -31,9 +31,10 @@ export const MyMovies = ({ movies }: Props) => {
           />
           <div>
             <h3 className="">{movie.title}</h3>
-            <div className="flex items-center gap-3 text-[16px]">
-              <p>{formatDate(movie.release_date, locale)}</p>|
-              <p>{movie.main_genre}</p>|<p>{movie.duration}</p>
+            <div className="flex flex-col items-center gap-1 text-[16px] 2xl:flex-row 2xl:gap-3">
+              <p>{formatDate(movie.release_date, locale)}</p>
+              <p>{movie.main_genre}</p>
+              <p>{movie.duration}</p>
             </div>
           </div>
           <div className="ml-auto text-xl font-bold italic">{movie.rating}</div>

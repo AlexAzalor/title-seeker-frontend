@@ -31,6 +31,18 @@
       "key": "dashboard",
       "label": "Панель приладів"
     },
+    "myLists": {
+      "key": "my-lists",
+      "label": "Мої списки"
+    },
+    "newMoviesToAdd": {
+      "key": "new-movies-to-add",
+      "label": "Додати нові фільми"
+    },
+    "allUsers": {
+      "key": "all-users",
+      "label": "Список всіх користувачів"
+    },
     "settings": {
       "key": "settings",
       "label": "Налаштування"
