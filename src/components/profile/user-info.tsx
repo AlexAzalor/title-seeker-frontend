@@ -3,13 +3,17 @@
 import { useSession } from "next-auth/react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { formatDate } from "@/lib/utils";
-import { Language } from "@/orval_api/model";
+import {
+  GenreChartDataListTotalActorsCount,
+  Language,
+} from "@/orval_api/model";
 
 type Props = {
   lang: Language;
   joinedDate: string;
   moviesRated: number;
   lastMovieRateDate: string | null;
+  totalActorsCount?: GenreChartDataListTotalActorsCount;
 };
 
 export const UserInfo = ({
@@ -17,6 +21,7 @@ export const UserInfo = ({
   joinedDate,
   lastMovieRateDate,
   moviesRated,
+  totalActorsCount,
 }: Props) => {
   const session = useSession();
   const user = session?.data?.user;
@@ -43,6 +48,12 @@ export const UserInfo = ({
           <p>
             Movies rated: <span className="font-bold">{moviesRated}</span>
           </p>
+          {!!totalActorsCount && (
+            <p>
+              Total Actors:{" "}
+              <span className="font-bold">{totalActorsCount}</span>
+            </p>
+          )}
           {lastMovieRateDate && (
             <p>
               Date of last movie rating:{" "}

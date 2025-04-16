@@ -89,6 +89,7 @@ export default async function ProfilePage() {
         joinedDate={radarData.joined_date}
         lastMovieRateDate={radarData.last_movie_rate_date}
         moviesRated={radarData.movies_rated}
+        totalActorsCount={radarData.total_actors_count}
       />
     </div>
   );

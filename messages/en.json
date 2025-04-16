@@ -22,6 +22,7 @@
   "MenuItems": {
     "content": "Content",
     "user": "User",
+    "admin": "Admin",
     "profile": {
       "key": "profile",
       "label": "Profile"

@@ -23,6 +23,7 @@
   "MenuItems": {
     "content": "Зміст",
     "user": "Користувач",
+    "admin": "Адміністратор",
     "profile": {
       "key": "profile",
       "label": "Обліковий запис"

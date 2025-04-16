@@ -13,7 +13,7 @@ type Props = {
 export const MyMovies = ({ movies }: Props) => {
   const locale = useLocale() as Language;
   return (
-    <div className="flex flex-col gap-4">
+    <div className="mb-2 flex flex-col gap-4">
       {movies.map((movie) => (
         <Link
           href={`/movies/${movie.key}`}
@@ -30,11 +30,17 @@ export const MyMovies = ({ movies }: Props) => {
             className="rounded-lg"
           />
           <div>
-            <h3 className="">{movie.title}</h3>
-            <div className="flex flex-col items-center gap-1 text-[16px] 2xl:flex-row 2xl:gap-3">
-              <p>{formatDate(movie.release_date, locale)}</p>
+            <h3 title={movie.title} className="xs:text-2xl text-lg">
+              {movie.title}
+            </h3>
+            <div className="flex items-center gap-1 text-[16px] 2xl:flex-row 2xl:gap-3">
+              <p className="xs:block hidden">
+                {formatDate(movie.release_date, locale)}
+              </p>
+              <span className="xs:block hidden">|</span>
               <p>{movie.main_genre}</p>
-              <p>{movie.duration}</p>
+              <span className="hidden sm:block">|</span>
+              <p className="hidden sm:block">{movie.duration}</p>
             </div>
           </div>
           <div className="ml-auto text-xl font-bold italic">{movie.rating}</div>

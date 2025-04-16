@@ -3,6 +3,7 @@
 import { deleteProfile } from "@/app/actions";
 import ModalWindow from "@/components/movie/ui/modal-movie";
 import { Button } from "@/components/ui/button";
+import { UserRole } from "@/orval_api/model";
 import { signOut, useSession } from "next-auth/react";
 import { useState } from "react";
 
@@ -13,6 +14,8 @@ export const UserSettings = () => {
   if (!session?.data?.user) {
     return null;
   }
+
+  const isOwner = session.data.user.role === UserRole.owner;
 
   const handleOpen = () => {
     setOpen(true);
@@ -41,7 +44,18 @@ export const UserSettings = () => {
             Are you sure you want to delete your profile? This action cannot be
             undone.
           </p>
-          <Button variant="destructive" onClick={handleDeleteProfile}>
+
+          {isOwner && (
+            <p className="text-sm font-bold text-red-500">
+              Note: If you are the Owner of the Platform, you cannot delete it.
+            </p>
+          )}
+
+          <Button
+            disabled={isOwner}
+            variant="destructive"
+            onClick={handleDeleteProfile}
+          >
             Confirm
           </Button>
         </div>

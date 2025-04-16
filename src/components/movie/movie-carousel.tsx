@@ -25,7 +25,7 @@ type Props = {
 };
 export function MoviesCarousel({ movies, lang, posterURL, avatarURL }: Props) {
   // wrapper?
-  const plugin = useRef(Autoplay({ delay: 5000 }));
+  const plugin = useRef(Autoplay({ delay: 10000 }));
   const isMobile = useMediaQuery("(max-width: 640px)");
   const textLength = isMobile ? 20 : 40;
   return (
@@ -115,7 +115,7 @@ export function MoviesCarousel({ movies, lang, posterURL, avatarURL }: Props) {
                             orientation="vertical"
                           />
                           <div className="flex gap-1">
-                            {movie.actors.map((actor) => (
+                            {movie.actors.slice(0, 5).map((actor) => (
                               <Image
                                 key={actor.key}
                                 title={actor.full_name}

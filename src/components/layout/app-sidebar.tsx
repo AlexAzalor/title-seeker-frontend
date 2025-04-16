@@ -17,12 +17,15 @@ import { ModeToggle } from "../toggles/theme-toggle";
 import { Button } from "../ui/button";
 import {
   BadgeJapaneseYenIcon,
+  FilePlus,
   Film,
   Gamepad2,
   LayoutDashboard,
+  NotebookText,
   PlusCircle,
   Settings,
   Tv,
+  Users,
 } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { auth } from "@/auth";
@@ -42,6 +45,8 @@ export async function AppSidebar({
 }: React.ComponentProps<typeof Sidebar>) {
   const session = await auth();
 
+  const isOwner = session?.user.role === "owner";
+
   const t = await getTranslations("HomePage");
   const menu = await getTranslations("MenuItems");
 
@@ -53,14 +58,14 @@ export async function AppSidebar({
   }));
 
   return (
-    <Sidebar {...props} className="dark:border-r-black">
+    <Sidebar {...props} className="p-4 dark:border-r-black">
       {!session && (
-        <SidebarHeader>
+        <SidebarHeader className="mt-3">
           <GoogleLogin />
         </SidebarHeader>
       )}
-      {session?.user.role === "owner" && (
-        <SidebarHeader>
+      {isOwner && (
+        <SidebarHeader className="mt-3">
           <Link href="/quick-add-movie">
             <Button className="w-full">
               <PlusCircle />
@@ -70,7 +75,7 @@ export async function AppSidebar({
         </SidebarHeader>
       )}
       {session && (
-        <SidebarHeader className="border-sidebar-border border-b">
+        <SidebarHeader className="border-sidebar-border mt-3 border-b">
           <Link
             href="/user/profile"
             className="flex w-full items-center justify-between gap-2"
@@ -122,30 +127,82 @@ export async function AppSidebar({
               </SidebarMenuSub>
             </SidebarMenuItem>
 
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild>
-                <p className="font-medium">{menu("user")}</p>
-              </SidebarMenuButton>
+            {!!session?.user && (
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <p className="font-medium">{menu("user")}</p>
+                </SidebarMenuButton>
 
-              <SidebarMenuSub className="ml-0 border-l-0 px-1.5">
-                <SidebarMenuSubItem>
-                  <SidebarMenuSubButton asChild>
-                    <Link href={"/user/" + menu("dashboard.key")} className="">
-                      <LayoutDashboard />
-                      <span>{menu("dashboard.label")}</span>
-                    </Link>
-                  </SidebarMenuSubButton>
-                </SidebarMenuSubItem>
-                <SidebarMenuSubItem>
-                  <SidebarMenuSubButton asChild>
-                    <Link href={"/user/" + menu("settings.key")} className="">
-                      <Settings />
-                      <span>{menu("settings.label")}</span>
-                    </Link>
-                  </SidebarMenuSubButton>
-                </SidebarMenuSubItem>
-              </SidebarMenuSub>
-            </SidebarMenuItem>
+                <SidebarMenuSub className="ml-0 border-l-0 px-1.5">
+                  <SidebarMenuSubItem>
+                    <SidebarMenuSubButton asChild>
+                      <Link
+                        href={"/user/" + menu("dashboard.key")}
+                        className=""
+                      >
+                        <LayoutDashboard />
+                        <span>{menu("dashboard.label")}</span>
+                      </Link>
+                    </SidebarMenuSubButton>
+                  </SidebarMenuSubItem>
+
+                  <SidebarMenuSubItem>
+                    <SidebarMenuSubButton asChild>
+                      <Link href={"/user/" + menu("myLists.key")} className="">
+                        <NotebookText />
+                        <span>{menu("myLists.label")}</span>
+                      </Link>
+                    </SidebarMenuSubButton>
+                  </SidebarMenuSubItem>
+
+                  <SidebarMenuSubItem>
+                    <SidebarMenuSubButton asChild>
+                      <Link href={"/user/" + menu("settings.key")} className="">
+                        <Settings />
+                        <span>{menu("settings.label")}</span>
+                      </Link>
+                    </SidebarMenuSubButton>
+                  </SidebarMenuSubItem>
+                </SidebarMenuSub>
+              </SidebarMenuItem>
+            )}
+
+            {isOwner && (
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <p className="font-medium">{menu("admin")}</p>
+                </SidebarMenuButton>
+
+                <SidebarMenuSub className="ml-0 border-l-0 px-1.5">
+                  <SidebarMenuSubItem>
+                    <SidebarMenuSubButton asChild>
+                      <Link
+                        href={"/user/" + menu("newMoviesToAdd.key")}
+                        className=""
+                      >
+                        <FilePlus />
+                        <span>{menu("newMoviesToAdd.label")}</span>
+                      </Link>
+                    </SidebarMenuSubButton>
+
+                    {!!session?.user.new_movies_to_add_count && (
+                      <div className="absolute top-0 right-0 size-5 rounded-full bg-red-300 text-center text-sm font-bold dark:text-black">
+                        {session.user.new_movies_to_add_count}
+                      </div>
+                    )}
+                  </SidebarMenuSubItem>
+
+                  <SidebarMenuSubItem>
+                    <SidebarMenuSubButton asChild>
+                      <Link href={"/user/" + menu("allUsers.key")} className="">
+                        <Users />
+                        <span>{menu("allUsers.label")}</span>
+                      </Link>
+                    </SidebarMenuSubButton>
+                  </SidebarMenuSubItem>
+                </SidebarMenuSub>
+              </SidebarMenuItem>
+            )}
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>
