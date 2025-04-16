@@ -322,6 +322,18 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.439 0 0);
+
+  .\[\&_\.recharts-cartesian-grid_line\[stroke\=\'\#ccc\'\]\]\:stroke-border\/50
+    .recharts-cartesian-grid
+    line[stroke="#ccc"] {
+    stroke: oklch(1 0 0 / 10%);
+  }
+
+  .\[\&_\.recharts-polar-grid_\[stroke\=\'\#ccc\'\]\]\:stroke-border
+    .recharts-polar-grid
+    [stroke="#ccc"] {
+    stroke: oklch(1 0 0 / 10%);
+  }
 }
 
 /* Use @theme inline when defining colors that reference other colors */

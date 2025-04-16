@@ -72,7 +72,7 @@ export default function Home() {
           )}
         </FetchWrapper>
 
-        <LastWatched posterURL={POSTER_URL || "NO URL!"} />
+        {/* <LastWatched posterURL={POSTER_URL || "NO URL!"} /> */}
       </main>
     </>
   );

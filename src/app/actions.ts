@@ -334,3 +334,14 @@ export async function searchTitles(query: string, titleType: TitleType) {
     return { status: error.status, message: error.response?.data.detail };
   }
 }
+
+export async function deleteProfile(user_uuid: string) {
+  const { aPIDeleteGoogleProfile } = getUsers();
+
+  try {
+    const response = await aPIDeleteGoogleProfile({ user_uuid }, backendURL);
+    return response.status;
+  } catch (error: any) {
+    return { status: error.status, message: error.response?.data.detail };
+  }
+}

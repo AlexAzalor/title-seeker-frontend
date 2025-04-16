@@ -22,7 +22,8 @@
 
   "MenuItems": {
     "content": "Зміст",
-    "account": "Account",
+    "user": "Користувач",
+    "admin": "Адміністратор",
     "profile": {
       "key": "profile",
       "label": "Обліковий запис"
@@ -30,6 +31,18 @@
     "dashboard": {
       "key": "dashboard",
       "label": "Панель приладів"
+    },
+    "myLists": {
+      "key": "my-lists",
+      "label": "Мої списки"
+    },
+    "newMoviesToAdd": {
+      "key": "new-movies-to-add",
+      "label": "Додати нові фільми"
+    },
+    "allUsers": {
+      "key": "all-users",
+      "label": "Список всіх користувачів"
     },
     "settings": {
       "key": "settings",
@@ -44,5 +57,20 @@
     "recent": "Останні пошукові запити",
     "suggestions": "Пропозиції"
   },
-  "notImplemented": "не імплементовано ще"
+  "notImplemented": "не імплементовано ще",
+  "Other": {
+    "paginationPrev": "Назад",
+    "paginationNext": "Далі",
+    "sorting": {
+      "sortOrder": "Порядок сортування",
+      "desc": "Спаданням",
+      "asc": "Зростанням",
+      "sortBy": "Сортувати по",
+      "ratedAt": "Дата оцінки",
+      "rating": "Оцінка",
+      "ratingsCount": "Кількість оцінок",
+      "releaseDate": "Дата виходу",
+      "random": "Випадково"
+    }
+  }
 }

@@ -21,7 +21,8 @@
   },
   "MenuItems": {
     "content": "Content",
-    "account": "Account",
+    "user": "User",
+    "admin": "Admin",
     "profile": {
       "key": "profile",
       "label": "Profile"
@@ -29,6 +30,18 @@
     "dashboard": {
       "key": "dashboard",
       "label": "Dashboard"
+    },
+    "myLists": {
+      "key": "my-lists",
+      "label": "My lists"
+    },
+    "newMoviesToAdd": {
+      "key": "new-movies-to-add",
+      "label": "New Movies to add"
+    },
+    "allUsers": {
+      "key": "all-users",
+      "label": "All users"
     },
     "settings": {
       "key": "settings",
@@ -43,5 +56,21 @@
     "recent": "Recent searches",
     "suggestions": "Suggestions"
   },
-  "notImplemented": "not implemented yet"
+  "notImplemented": "not implemented yet",
+  "Other": {
+    "paginationPrev": "Previous",
+    "paginationNext": "Next",
+
+    "sorting": {
+      "sortOrder": "Sort Order",
+      "desc": "Descending",
+      "asc": "Ascending",
+      "sortBy": "Sort by",
+      "ratedAt": "Rated Date",
+      "rating": "Rating",
+      "ratingsCount": "Ratings count",
+      "releaseDate": "Release date",
+      "random": "Random"
+    }
+  }
 }
