@@ -186,7 +186,7 @@ export const PeopleFieldsForm = ({ actors, directors, characters }: Props) => {
     <>
       <div className="flex items-center justify-center gap-3 font-bold">
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-          <div className="mb-5 flex w-full flex-col items-center gap-2">
+          <div className="mb-5 flex w-full flex-col items-center gap-6">
             <h1 className="text-[#2D26A5]">Actors</h1>
 
             <ResponsiveWrapper title="Add new Actor">
@@ -217,9 +217,14 @@ export const PeopleFieldsForm = ({ actors, directors, characters }: Props) => {
                     field: { onChange, value },
                     fieldState: { error },
                   }) => (
-                    <div>
-                      <div>{value}</div>
-                      <ResponsiveWrapper title="Select Character">
+                    <div className="relative">
+                      <ResponsiveWrapper
+                        title={
+                          characters
+                            .find((e) => e.key === value)
+                            ?.name.slice(0, 20) || "Characters"
+                        }
+                      >
                         <ItemsListSelector
                           items={characters}
                           onOpenModal={() =>
@@ -240,10 +245,6 @@ export const PeopleFieldsForm = ({ actors, directors, characters }: Props) => {
                         />
                       </ResponsiveWrapper>
 
-                      {error && (
-                        <span className="text-red-500">{error.message}</span>
-                      )}
-
                       <button
                         type="button"
                         className="ml-2 size-fit"
@@ -251,6 +252,11 @@ export const PeopleFieldsForm = ({ actors, directors, characters }: Props) => {
                       >
                         X
                       </button>
+                      {error && (
+                        <span className="absolute -bottom-4 left-1 text-red-500">
+                          {error.message}
+                        </span>
+                      )}
                     </div>
                   )}
                 />
@@ -264,7 +270,7 @@ export const PeopleFieldsForm = ({ actors, directors, characters }: Props) => {
             )}
           </div>
 
-          <div className="mb-5 flex w-full flex-col items-center gap-2">
+          <div className="mb-5 flex w-full flex-col items-center gap-6">
             <h1 className="text-[#2D26A5]">Directors</h1>
 
             <ResponsiveWrapper title="Add new Director">

@@ -91,7 +91,7 @@ export default async function MyListsPage(props: {
           )}
         </>
       ) : (
-        <div>{'t("notFound")'}</div>
+        <div>You have not rated any movies yet.</div>
       )}
     </PaginationWrapper>
   );

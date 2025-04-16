@@ -128,9 +128,9 @@ export const FeaturesForm = ({
 
   return (
     <>
-      <div className="text-textOrange flex items-center justify-center gap-3 font-bold">
+      <div className="flex items-center justify-center gap-3 font-bold">
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-          <div className="mb-5 flex w-full flex-col items-center gap-2">
+          <div className="mb-5 flex w-full flex-col items-center gap-6">
             <div className="flex items-center gap-2">
               <h1 className="text-[#4035E6]">Specifications</h1>
               <TooltipWrapper content={movieComponents.specification}>
@@ -197,7 +197,7 @@ export const FeaturesForm = ({
             )}
           </div>
 
-          <div className="mb-5 flex w-full flex-col items-center gap-2">
+          <div className="mb-5 flex w-full flex-col items-center gap-6">
             <div className="flex items-center gap-2">
               <h1 className="text-[#4035E6]">Keyword</h1>
               <TooltipWrapper content={movieComponents.keyword}>
@@ -264,7 +264,7 @@ export const FeaturesForm = ({
             )}
           </div>
 
-          <div className="mb-5 flex w-full flex-col items-center gap-2">
+          <div className="mb-5 flex w-full flex-col items-center gap-6">
             <div className="flex items-center gap-2">
               <h1 className="text-[#4035E6]">Action Times</h1>
               <TooltipWrapper content={movieComponents.actionTime}>

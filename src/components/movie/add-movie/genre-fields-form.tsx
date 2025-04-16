@@ -118,7 +118,7 @@ export const GenreFieldsForm = ({ genres }: Props) => {
     <>
       <div className="text-textOrange flex items-center justify-center gap-3 font-bold">
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-          <div className="mb-5 flex w-full flex-col items-center gap-2">
+          <div className="mb-5 flex w-full flex-col items-center gap-6">
             <h1 className="text-[#2D26A5]">Genres</h1>
             <ResponsiveWrapper title="Genres">
               <ItemsListSelector
@@ -211,7 +211,7 @@ export const GenreFieldsForm = ({ genres }: Props) => {
             )}
           </div>
 
-          <div className="mb-5 flex w-full flex-col items-center gap-2">
+          <div className="mb-5 flex w-full flex-col items-center gap-6">
             <h1 className="text-[#2D26A5]">Subgenres</h1>
             <ResponsiveWrapper title="Subgenres">
               <ItemsListSelector

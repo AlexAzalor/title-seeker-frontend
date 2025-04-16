@@ -33,10 +33,10 @@ export type RatingDataOut = {
 };
 
 type Props = {
-  shared_universes: SharedUniversePreCreateOut[];
+  sharedUniverses: SharedUniversePreCreateOut[];
 };
 
-export const SharedUniverseForm = ({ shared_universes }: Props) => {
+export const SharedUniverseForm = ({ sharedUniverses }: Props) => {
   const [openAddNewUniverseModal, setOpenAddNewUniverseModal] = useState(false);
   const { setMovieFormData, handleNext, clearForm, setSkipSteps } =
     use(MovieFormContext);
@@ -117,7 +117,7 @@ export const SharedUniverseForm = ({ shared_universes }: Props) => {
           onSubmit={handleSubmit(onSubmit)}
           className="flex w-full flex-col items-center gap-2"
         >
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 items-center gap-4">
             <Controller
               control={control}
               name="shared_universe_key"
@@ -125,11 +125,16 @@ export const SharedUniverseForm = ({ shared_universes }: Props) => {
                 field: { onChange, value },
                 fieldState: { error },
               }) => (
-                <div>
-                  <div>{value}</div>
-                  <ResponsiveWrapper title="Select Shared Universe">
+                <div className="relative">
+                  {!!value && (
+                    <div className="absolute -top-6 text-[#495AFF]">
+                      {sharedUniverses.find((e) => e.key === value)?.name}
+                    </div>
+                  )}
+
+                  <ResponsiveWrapper title="Shared Universe">
                     <ItemsListSelector
-                      items={shared_universes}
+                      items={sharedUniverses}
                       onOpenModal={() => setOpenAddNewUniverseModal(true)}
                       onSelect={(value, key) => onChange(key)}
                       checkIconStyle={[value]}
@@ -137,7 +142,7 @@ export const SharedUniverseForm = ({ shared_universes }: Props) => {
                   </ResponsiveWrapper>
 
                   {error && (
-                    <span className="text-red-500">{error.message}</span>
+                    <div className="absolute text-red-500">{error.message}</div>
                   )}
                 </div>
               )}
@@ -149,7 +154,6 @@ export const SharedUniverseForm = ({ shared_universes }: Props) => {
               name="shared_universe_order"
               register={register}
               error={errors.shared_universe_order}
-              labelWidth={52}
             />
           </div>
 

@@ -118,7 +118,7 @@ export const KeyFieldsForm = ({ temporaryMovie }: Props) => {
         onSubmit={handleSubmit(onSubmit)}
         className="flex w-full flex-col items-center gap-2"
       >
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-10">
           <FormField
             type="text"
             label="Title EN"

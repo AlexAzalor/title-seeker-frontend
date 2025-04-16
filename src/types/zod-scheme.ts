@@ -147,7 +147,9 @@ export const MovieInfoScheme = z.object({
 export const ActorSchemeType = z.object({
   name: z.string().trim(),
   key: z.string().trim(),
-  character_key: z.string().trim(),
+  character_key: z.string().trim().min(1, {
+    message: "Character is required",
+  }),
 });
 
 export const DirectorSchemeType = z.object({

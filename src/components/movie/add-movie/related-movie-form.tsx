@@ -113,25 +113,34 @@ export const RelatedMovieForm = ({ baseMovies }: Props) => {
         onSubmit={handleSubmit(onSubmit)}
         className="flex w-full flex-col items-center gap-2"
       >
-        <h1>if base movie - skip</h1>
-
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 items-center gap-5">
           <Controller
             control={control}
             name="base_movie_key"
             render={({ field: { onChange, value }, fieldState: { error } }) => (
-              <div>
-                <div>{value}</div>
-                <ResponsiveWrapper title="Select Shared Universe">
+              <div className="relative">
+                {!!value && (
+                  <div className="absolute -top-6 text-[#495AFF]">
+                    {value.length > 30
+                      ? baseMovies
+                          .find((e) => e.key === value)
+                          ?.name.slice(0, 30) + "..."
+                      : value}
+                  </div>
+                )}
+                <ResponsiveWrapper title="Base movie">
                   <ItemsListSelector
                     items={baseMovies}
                     onOpenModal={() => {}}
                     onSelect={(value, key) => onChange(key)}
                     checkIconStyle={[value]}
+                    emptyText="If no movie in the list - Skip"
                   />
                 </ResponsiveWrapper>
 
-                {error && <span className="text-red-500">{error.message}</span>}
+                {error && (
+                  <div className="absolute text-red-500">{error.message}</div>
+                )}
               </div>
             )}
           />

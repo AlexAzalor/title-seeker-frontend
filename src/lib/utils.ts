@@ -31,7 +31,10 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function formatDate(createdAt: string, locale: keyof typeof Language) {
+export function formatDate(
+  createdAt: string,
+  locale: keyof typeof Language = Language.uk,
+) {
   const date = new Date(createdAt);
 
   const options: IntlOptions = {

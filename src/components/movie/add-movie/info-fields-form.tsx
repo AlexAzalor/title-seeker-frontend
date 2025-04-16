@@ -10,7 +10,7 @@ import { MovieFormContext } from "./movie-form-wizard";
 import { FormField } from "../ui/form-field";
 import { FormButtons } from "../ui/form-buttons";
 import { TextareaFormField } from "../ui/textarea-form-field";
-import { cleanNumberValue } from "@/lib/utils";
+import { cleanNumberValue, formatDate } from "@/lib/utils";
 
 export type MovieInfoFieldNames = Pick<
   MovieFormData,
@@ -59,9 +59,9 @@ export const InfoFieldsForm = () => {
       description_uk: parsedData.description_uk || "",
       release_date: parsedData.release_date || undefined,
       duration: parsedData.duration || undefined,
-      budget: parsedData.budget || undefined,
-      domestic_gross: parsedData.domestic_gross || undefined,
-      worldwide_gross: parsedData.worldwide_gross || undefined,
+      budget: parsedData.budget || 0,
+      domestic_gross: parsedData.domestic_gross || 0,
+      worldwide_gross: parsedData.worldwide_gross || 0,
       location_en: parsedData.location_en || "",
       location_uk: parsedData.location_uk || "",
     },
@@ -101,7 +101,7 @@ export const InfoFieldsForm = () => {
     <div className="text-textOrange flex items-center justify-center gap-3 font-bold">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex w-full flex-col items-center gap-2"
+        className="flex w-full flex-col items-center gap-8"
       >
         <TextareaFormField
           label="Description EN"
@@ -126,14 +126,14 @@ export const InfoFieldsForm = () => {
             error={errors.release_date}
             labelWidth={64}
           />
-          {parsedData && (
+          {parsedData.release_date && (
             <div className="text-[#6F6C90]">
-              {parsedData.release_date || ""}
+              {formatDate(parsedData.release_date) || ""}
             </div>
           )}
         </div>
 
-        <div className="grid grid-flow-row grid-cols-2 gap-4">
+        <div className="grid grid-flow-row grid-cols-2 items-center gap-8">
           <FormField
             type="text"
             label="Location EN"
@@ -153,7 +153,7 @@ export const InfoFieldsForm = () => {
           />
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 items-center gap-10">
           {/* show formated value of this inputs */}
           <FormField
             type="text"

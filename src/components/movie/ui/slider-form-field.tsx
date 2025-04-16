@@ -30,7 +30,7 @@ export const SliderFormField = <
   onClickButton,
 }: Props<TFormValues, TFieldName>) => {
   return (
-    <div className="mt-7 flex items-center gap-2">
+    <div className="flex items-center gap-2">
       <div className="relative w-full">
         <Slider
           defaultValue={[defaultValue(name)]}
@@ -41,7 +41,9 @@ export const SliderFormField = <
         />
 
         {error && (
-          <div className="absolute text-sm text-red-500">{error.message}</div>
+          <div className="absolute -bottom-6 text-sm text-red-500">
+            {error.message}
+          </div>
         )}
       </div>
 

@@ -22,6 +22,7 @@ type Props<Datum, T> = {
   onSelect: (value: string, itemKey: string, genre: any) => void;
   onOpenModal: () => void;
   checkIconStyle: T[] | string[];
+  emptyText?: string;
 };
 
 type ItemFields = {
@@ -35,6 +36,7 @@ const ItemsListSelector = <Datum extends ItemFields, T extends ItemFields>({
   onSelect,
   onOpenModal,
   checkIconStyle,
+  emptyText,
 }: Props<Datum, T>) => {
   const session = useSession();
 
@@ -45,12 +47,18 @@ const ItemsListSelector = <Datum extends ItemFields, T extends ItemFields>({
       <CommandInput placeholder="Search items..." className="h-9" />
       <CommandList>
         <CommandEmpty>
-          No item found.{" "}
-          {/* after add set value from this input to form's input */}
-          {isAdmin && (
-            <Button variant="link" onClick={onOpenModal}>
-              Add?
-            </Button>
+          {emptyText ? (
+            <span className="font-bold">{emptyText}</span>
+          ) : (
+            <>
+              No item found.{" "}
+              {/* after add set value from this input to form's input */}
+              {isAdmin && (
+                <Button variant="link" onClick={onOpenModal}>
+                  Add?
+                </Button>
+              )}
+            </>
           )}
         </CommandEmpty>
 
@@ -61,6 +69,7 @@ const ItemsListSelector = <Datum extends ItemFields, T extends ItemFields>({
               key={item.key}
               value={item.name}
               onSelect={(value) => onSelect(value, item.key, item)}
+              className="cursor-pointer"
             >
               <p>{item.name}</p>
 

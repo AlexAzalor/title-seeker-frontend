@@ -28,7 +28,7 @@ export const Preview = ({ movieFormData, file }: Props) => {
       </div>
 
       <div className="grid grid-cols-4 gap-4">
-        <div className="border-2">
+        <div className="border-2 p-2">
           <h1>Main</h1>
           <div>
             Key: <span className="text-xl font-bold">{movieFormData.key}</span>
@@ -52,13 +52,13 @@ export const Preview = ({ movieFormData, file }: Props) => {
           <div>
             Base movie key:{" "}
             <span className="text-xl font-bold">
-              {movieFormData.shared_universe_key}
+              {movieFormData.shared_universe_key || "-"}
             </span>
           </div>
           <div>
             Collection order:{" "}
             <span className="text-xl font-bold">
-              {movieFormData.shared_universe_order}
+              {movieFormData.shared_universe_order || "-"}
             </span>
           </div>
 
@@ -66,24 +66,24 @@ export const Preview = ({ movieFormData, file }: Props) => {
           <div>
             Base movie key:{" "}
             <span className="text-xl font-bold">
-              {movieFormData.base_movie_key}
+              {movieFormData.base_movie_key || "-"}
             </span>
           </div>
           <div>
             Collection order:{" "}
             <span className="text-xl font-bold">
-              {movieFormData.collection_order}
+              {movieFormData.collection_order || "-"}
             </span>
           </div>
           <div>
             Relation Type:{" "}
             <span className="text-xl font-bold">
-              {movieFormData.relation_type}
+              {movieFormData.relation_type || "-"}
             </span>
           </div>
         </div>
 
-        <div className="border-2">
+        <div className="border-2 p-2">
           <h1>Rating</h1>
           <div>
             Rating:{" "}
@@ -158,7 +158,7 @@ export const Preview = ({ movieFormData, file }: Props) => {
           </div>
         </div>
 
-        <div className="border-2">
+        <div className="border-2 p-2">
           <h1>Info</h1>
           <div>
             Description EN:{" "}
@@ -212,7 +212,7 @@ export const Preview = ({ movieFormData, file }: Props) => {
           </div>
         </div>
 
-        <div className="border-2">
+        <div className="border-2 p-2">
           <h1>Actors</h1>
           {movieFormData.actors_keys.map((actor) => (
             <div key={actor.key} className="border border-orange-300 p-2">
@@ -228,14 +228,14 @@ export const Preview = ({ movieFormData, file }: Props) => {
           ))}
         </div>
 
-        <div className="border-2">
+        <div className="border-2 p-2">
           <h1>Directors</h1>
           {movieFormData.directors_keys.map((director) => (
             <div key={director}>{director}</div>
           ))}
         </div>
 
-        <div className="border-2">
+        <div className="border-2 p-2">
           <h1>Genres</h1>
           {movieFormData.genres.map((genre) => (
             <div key={genre.key}>
@@ -247,7 +247,7 @@ export const Preview = ({ movieFormData, file }: Props) => {
           ))}
         </div>
 
-        <div className="border-2">
+        <div className="border-2 p-2">
           <h1>Subgenres</h1>
           {movieFormData.subgenres.map((subgenre) => (
             <div key={subgenre.key}>
@@ -259,7 +259,7 @@ export const Preview = ({ movieFormData, file }: Props) => {
           ))}
         </div>
 
-        <div className="border-2">
+        <div className="border-2 p-2">
           <h1>Specifications</h1>
           {movieFormData.specifications.map((specification) => (
             <div key={specification.key}>
@@ -272,7 +272,7 @@ export const Preview = ({ movieFormData, file }: Props) => {
             </div>
           ))}
         </div>
-        <div className="border-2">
+        <div className="border-2 p-2">
           <h1>Keywords</h1>
           {movieFormData.keywords.map((keyword) => (
             <div key={keyword.key}>
@@ -285,7 +285,7 @@ export const Preview = ({ movieFormData, file }: Props) => {
             </div>
           ))}
         </div>
-        <div className="border-2">
+        <div className="border-2 p-2">
           <h1>Action Times</h1>
           {movieFormData.action_times.map((actionTimes) => (
             <div key={actionTimes.key}>

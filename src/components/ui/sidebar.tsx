@@ -702,6 +702,12 @@ function SidebarMenuSubButton({
 }) {
   const Comp = asChild ? Slot : "a";
 
+  // My custom solution to handle the click event.
+  const { setOpenMobile } = useSidebar();
+  const handleClose = React.useCallback(() => {
+    setOpenMobile(false);
+  }, [setOpenMobile]);
+
   return (
     <Comp
       data-slot="sidebar-menu-sub-button"
@@ -717,6 +723,7 @@ function SidebarMenuSubButton({
         className,
       )}
       {...props}
+      onClick={handleClose}
     />
   );
 }

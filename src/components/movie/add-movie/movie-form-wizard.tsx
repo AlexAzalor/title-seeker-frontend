@@ -83,11 +83,11 @@ export const MovieFormWizard = ({
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
   const [stepsSkipped, setSkipSteps] = useState<number[]>([]);
 
-  console.log(
-    "%c === MOVIE FORM DATA === ",
-    "color: black; background-color: coral; font-weight: 700",
-    movieFormData,
-  );
+  // console.log(
+  //   "%c === MOVIE FORM DATA === ",
+  //   "color: black; background-color: coral; font-weight: 700",
+  //   movieFormData,
+  // );
 
   const handleNext = () => {
     setCurrentStep(currentStep + 1);
@@ -165,7 +165,7 @@ export const MovieFormWizard = ({
 
         {currentStep === 1 && <KeyFieldsForm temporaryMovie={temporaryMovie} />}
         {currentStep === 2 && (
-          <SharedUniverseForm shared_universes={shared_universes} />
+          <SharedUniverseForm sharedUniverses={shared_universes} />
         )}
         {currentStep === 3 && <RelatedMovieForm baseMovies={base_movies} />}
         {currentStep === 4 && <InfoFieldsForm />}

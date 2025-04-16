@@ -37,7 +37,7 @@ const TypeSelector = ({ defaultValue, name, control }: Props) => {
       control={control}
       name={name}
       render={({ field: { onChange }, fieldState: { error } }) => (
-        <div className="mb-4 grid w-72 gap-2">
+        <div className="mb-4 grid w-64 gap-2">
           <Label htmlFor="rating-criteria">Rating Type</Label>
           <Select onValueChange={onChange} defaultValue={defaultValue}>
             <SelectTrigger id="rating-criteria">
