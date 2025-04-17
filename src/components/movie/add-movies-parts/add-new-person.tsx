@@ -1,63 +1,87 @@
 "use client";
 
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { TypeActorScheme } from "@/types/general";
-import { ActorScheme } from "@/types/zod-scheme";
 import { useRouter } from "next/navigation";
-import { addNewActor } from "@/app/actions";
+import { UseFieldArrayAppend, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { BodyAPICreateActor } from "@/orval_api/model";
+
+import { PersonScheme, PersonSchemeType } from "@/types/zod-scheme";
+import { ActorOut, DirectorOut, PersonForm } from "@/orval_api/model";
 import { formatKey } from "@/lib/utils";
 import { FormField } from "../ui/form-field";
 import { FormWrapper } from "../ui/form-wrapper";
+import { MovieCrewListScheme } from "@/types/zod-scheme";
 
-type Props = {
-  appendActor: any;
+type PersonType = "actors" | "directors";
+
+type Props<T extends PersonType> = {
+  appendPerson: UseFieldArrayAppend<MovieCrewListScheme, T>;
+  type?: T;
+  fetchApi: (
+    data: PersonForm,
+    /**FastAPI handle *file* separately */
+    file: Blob,
+  ) => Promise<{
+    status?: number;
+    message?: string;
+    newItem?: ActorOut | DirectorOut;
+  }>;
 };
 
-export const AddNewActor = ({ appendActor }: Props) => {
+export const AddNewPerson = ({
+  appendPerson,
+  type,
+  fetchApi,
+}: Props<PersonType>) => {
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
     watch,
-    reset,
-  } = useForm<TypeActorScheme>({
-    resolver: zodResolver(ActorScheme),
+  } = useForm<PersonSchemeType>({
+    resolver: zodResolver(PersonScheme),
     defaultValues: {
       key: "",
       first_name_en: "",
       last_name_en: "",
     },
   });
-  const router = useRouter();
 
   const watchFields = watch(["first_name_en", "last_name_en"]);
 
-  const onSubmit = async (data: TypeActorScheme) => {
-    const dataToSend: BodyAPICreateActor = {
-      ...data,
-      file: data.file[0],
-    };
+  const onSubmit = async (formData: PersonSchemeType) => {
+    const response = await fetchApi(formData, formData.file[0]);
 
-    const response = await addNewActor(dataToSend);
+    if (response.status === 201 && response.newItem) {
+      const newItem: {
+        name: string;
+        key: string;
+        character_key?: string;
+      } = {
+        name: response.newItem.name,
+        key: response.newItem.key,
+      };
 
-    if (response.status === 201) {
+      if (type === "actors") {
+        // To set default after adding new actor
+        newItem["character_key"] = "";
+      }
+
+      appendPerson(newItem);
+
       toast.success(response?.message);
-      appendActor({
-        name: response.newActor.name,
-        key: response.newActor.key,
-        character_key: "",
-      });
-
-      // clear form
+      router.refresh();
+      return;
     }
 
     if (response.status === 400) {
       toast.error(response?.message);
+      return;
     }
-    router.refresh();
+
+    toast.error(`Error status: ${response.status}`);
   };
 
   return (

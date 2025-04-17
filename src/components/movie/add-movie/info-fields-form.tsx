@@ -1,6 +1,6 @@
-import { HTMLInputTypeAttribute, use } from "react";
+import { use } from "react";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { FieldError, useForm, UseFormRegister } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -27,16 +27,6 @@ export type MovieInfoFieldNames = Pick<
 
 export type MovieInfoSchemeType = z.infer<typeof MovieInfoScheme>;
 
-export type MovieFormFieldProps = {
-  type: HTMLInputTypeAttribute;
-  name: MovieInfoFieldNames;
-  register: UseFormRegister<MovieInfoSchemeType>;
-  error: FieldError | undefined;
-  labelWidth?: number;
-  label: string;
-  value?: string;
-};
-
 export const InfoFieldsForm = () => {
   const { setMovieFormData, handleNext, handlePrev } = use(MovieFormContext);
 
@@ -48,7 +38,7 @@ export const InfoFieldsForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isDirty },
+    formState: { errors },
     watch,
     // getFieldState,
     // getFieldState("budget").isDirty

@@ -1,15 +1,10 @@
 "use client";
 
-import { Suspense, useCallback, useState } from "react";
-import dynamic from "next/dynamic";
 import { DirectorOut } from "@/orval_api/model";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ItemsListSelector } from "./movie/ui/items-list-selector";
-import { AddNewDirector } from "./movie/add-movies-parts/add-new-director";
 import { modifyGenresSearchParams } from "@/lib/utils";
 import { ResponsiveWrapper } from "./movie/ui/responsive-wrapper";
-
-const ModalMovie = dynamic(() => import("./movie/ui/modal-movie"));
 
 export const DIRECTOR = "director_name";
 
@@ -19,8 +14,6 @@ type Props = {
 
 export const Directors = ({ directors }: Props) => {
   const router = useRouter();
-
-  const [openDirectorFormModal, setOpenDirectorFormModal] = useState(false);
 
   const currentSearchParams = useSearchParams();
   const currentSelectedDirectors = currentSearchParams.getAll(DIRECTOR);
@@ -35,33 +28,15 @@ export const Directors = ({ directors }: Props) => {
     );
   }
 
-  const handleOpenDirectorFormModal = useCallback(() => {
-    setOpenDirectorFormModal(true);
-  }, []);
-
   return (
-    <>
-      <div>
-        <ResponsiveWrapper title="Directors">
-          <ItemsListSelector
-            title="Directors"
-            items={directors}
-            onOpenModal={handleOpenDirectorFormModal}
-            onSelect={(v, key) => searchByDirectors(key)}
-            checkIconStyle={currentSelectedDirectors}
-          />
-        </ResponsiveWrapper>
-      </div>
-
-      <Suspense>
-        <ModalMovie
-          title="Add new Director"
-          open={openDirectorFormModal}
-          setOpen={setOpenDirectorFormModal}
-        >
-          <AddNewDirector appendDirector={() => {}} />
-        </ModalMovie>
-      </Suspense>
-    </>
+    <ResponsiveWrapper title="Directors">
+      <ItemsListSelector
+        title="Directors"
+        items={directors}
+        emptyText="No directors found"
+        onSelect={(v, key) => searchByDirectors(key)}
+        checkIconStyle={currentSelectedDirectors}
+      />
+    </ResponsiveWrapper>
   );
 };

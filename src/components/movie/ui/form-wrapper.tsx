@@ -15,7 +15,7 @@ export const FormWrapper = ({
 }: Props) => {
   return (
     <div className="flex justify-center font-bold">
-      <form onSubmit={onSubmit} className="flex flex-col items-center gap-2">
+      <form onSubmit={onSubmit} className="flex flex-col items-center gap-6">
         {children}
 
         {!isSubmitting ? (
@@ -23,7 +23,7 @@ export const FormWrapper = ({
             type="submit"
             className="mt-7 h-12 w-[164px] cursor-pointer rounded-[56px] border-0 bg-[#4A3AFF] text-center text-lg transition-all duration-200 hover:bg-[#252154]"
           >
-            {buttonTitle || "Add"}
+            {buttonTitle || "Submit"}
           </Button>
         ) : (
           <div>

@@ -8,7 +8,7 @@ const ACCEPTED_IMAGE_TYPES = [
   "image/webp",
 ];
 
-export const ActorScheme = z
+export const PersonScheme = z
   .object({
     key: z.string().trim(),
     first_name_uk: z
@@ -66,6 +66,8 @@ export const ActorScheme = z
     (data) => (data.key = formatKey([data.first_name_en, data.last_name_en])),
   );
 
+export type PersonSchemeType = z.infer<typeof PersonScheme>;
+
 export const GenreScheme = z
   .object({
     key: z.string().trim(),
@@ -87,12 +89,16 @@ export const SubgenreScheme = z
   })
   .refine((data) => (data.key = formatKey([data.name_en])));
 
+export type TypeSubgenreScheme = z.infer<typeof SubgenreScheme>;
+
 export const QuickMovieScheme = z
   .object({
     key: z.string().trim(),
     title_en: z.string().min(1, { message: "title_en is required" }).trim(),
   })
   .refine((data) => (data.key = formatKey([data.title_en])));
+
+export type QuickMovieType = z.infer<typeof QuickMovieScheme>;
 
 export const MovieScheme = z
   .object({
@@ -112,6 +118,8 @@ export const MovieScheme = z
       }, "Only these types are allowed: .jpg, .jpeg, .png and .webp"),
   })
   .refine((data) => (data.key = formatKey([data.title_en])));
+
+export type MovieSchemeType = z.infer<typeof MovieScheme>;
 
 export const MovieInfoScheme = z.object({
   description_uk: z.string().min(10, { message: "Value is required" }).trim(),
@@ -165,6 +173,8 @@ export const MovieCrewListScheme = z.object({
     .array(DirectorSchemeType)
     .min(1, { message: "At least one Director must be selected" }),
 });
+
+export type MovieCrewListScheme = z.infer<typeof MovieCrewListScheme>;
 
 export const GenreSchemeField = z.object({
   name: z.string().trim(),

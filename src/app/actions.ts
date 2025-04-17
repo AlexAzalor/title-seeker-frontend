@@ -1,20 +1,22 @@
 "use server";
 
+import { cache } from "react";
 import { cookies } from "next/headers";
 import { auth } from "@/auth";
 import { getLocale } from "next-intl/server";
-import { AxiosResponse } from "axios";
-import { getUsers } from "@/orval_api/users/users";
+import axios, { AxiosResponse } from "axios";
 
-import { backendURL } from "@/lib/constants";
+import { backendURL, HTTP_STATUS } from "@/lib/constants";
 import {
-  BodyAPICreateActor,
+  ActorOut,
   BodyAPICreateCharacter,
   BodyAPICreateGenre,
   BodyAPICreateMovie,
   BodyAPICreateSubgenre,
   CharacterOut,
+  DirectorOut,
   Language,
+  PersonForm,
   QuickMovieFormData,
   SharedUniversePreCreateOut,
   TitleType,
@@ -30,12 +32,26 @@ import { getKeywords } from "@/orval_api/keywords/keywords";
 import { getActionTimes } from "@/orval_api/action-times/action-times";
 import { getSharedUniverses } from "@/orval_api/shared-universes/shared-universes";
 import { getCharacters } from "@/orval_api/characters/characters";
+import { getUsers } from "@/orval_api/users/users";
+import { ValidationError } from "@/types/general";
 
 export async function create(locale: string) {
   const cookieStore = await cookies();
 
   cookieStore.set("locale", locale);
 }
+
+export const fetchSettings = cache(async () => {
+  const locale = await getLocale();
+  const lang = Language[locale as keyof typeof Language];
+
+  const unknownError = {
+    status: HTTP_STATUS.INTERNAL_SERVER_ERROR,
+    message: "Internal server error",
+  };
+
+  return { lang, backendURL, unknownError };
+});
 
 export async function getSession() {
   const session = await auth();
@@ -98,41 +114,53 @@ export async function addNewMovie(
   }
 }
 
-export async function addNewActor(data: BodyAPICreateActor) {
-  const locale = await getLocale();
-  const lang = Language[locale as keyof typeof Language];
-
+export async function createActor(formData: PersonForm, file: Blob) {
+  const { lang, backendURL, unknownError } = await fetchSettings();
   const { aPICreateActor } = getActors();
 
   try {
-    const a: AxiosResponse = await aPICreateActor(data, { lang }, backendURL);
-    // I do this on Zod project
-    return { status: a.status, message: "Actor created", newActor: a.data };
-  } catch (error: any) {
-    return { status: error.status, message: error.response?.data.detail };
-  }
-}
-
-export async function addNewDirector(data: BodyAPICreateActor) {
-  const locale = await getLocale();
-  const lang = Language[locale as keyof typeof Language];
-
-  const { aPICreateDirector } = getDirectors();
-
-  try {
-    const a: AxiosResponse = await aPICreateDirector(
-      data,
+    const response: AxiosResponse<ActorOut> = await aPICreateActor(
+      { form_data: formData, file },
       { lang },
       backendURL,
     );
-    // I do this on Zod project
+
     return {
-      status: a.status,
-      message: "Director created",
-      newDirector: a.data,
+      status: response.status,
+      newItem: response.data,
+      message: "Actor created",
     };
-  } catch (error: any) {
-    return { status: error.status, message: error.response?.data.detail };
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
+  }
+}
+
+export async function createDirector(formData: PersonForm, file: Blob) {
+  const { lang, backendURL, unknownError } = await fetchSettings();
+  const { aPICreateDirector } = getDirectors();
+
+  try {
+    const response: AxiosResponse<DirectorOut> = await aPICreateDirector(
+      { form_data: formData, file },
+      { lang },
+      backendURL,
+    );
+
+    return {
+      status: response.status,
+      message: "Director created",
+      newItem: response.data,
+    };
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
   }
 }
 

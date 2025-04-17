@@ -1,9 +1,8 @@
 import { use, useRef } from "react";
 import { useForm } from "react-hook-form";
-import { MovieScheme } from "@/types/zod-scheme";
+import { MovieScheme, MovieSchemeType } from "@/types/zod-scheme";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { formatKey } from "@/lib/utils";
-import { MovieSchemeType } from "@/types/general";
 import { MovieFormContext } from "./movie-form-wizard";
 import { FormField } from "../ui/form-field";
 

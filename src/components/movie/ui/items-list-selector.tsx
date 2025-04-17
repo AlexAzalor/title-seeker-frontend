@@ -20,7 +20,7 @@ type Props<Datum, T> = {
   title?: string;
   items: Datum[];
   onSelect: (value: string, itemKey: string, genre: any) => void;
-  onOpenModal: () => void;
+  onOpenModal?: () => void;
   checkIconStyle: T[] | string[];
   emptyText?: string;
 };

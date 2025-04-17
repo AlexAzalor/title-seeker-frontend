@@ -3,16 +3,12 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Dispatch, SetStateAction } from "react";
-import { TypeSubgenreScheme } from "@/types/general";
-import { SubgenreScheme } from "@/types/zod-scheme";
+
+import { SubgenreScheme, TypeSubgenreScheme } from "@/types/zod-scheme";
 import { useRouter } from "next/navigation";
 import { addNewSubgenre } from "@/app/actions";
 import { toast } from "sonner";
-import {
-  BodyAPICreateSubgenre,
-  GenreOut,
-  SubgenreOut,
-} from "@/orval_api/model";
+import { BodyAPICreateSubgenre, SubgenreOut } from "@/orval_api/model";
 import { formatKey } from "@/lib/utils";
 import { Input } from "../../ui/input";
 import { Label } from "../../ui/label";

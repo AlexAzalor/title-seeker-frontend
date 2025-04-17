@@ -3,6 +3,7 @@ import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import dynamic from "next/dynamic";
 
+import { createActor, createDirector } from "@/app/actions";
 import { z } from "zod";
 import { MovieCrewListScheme } from "@/types/zod-scheme";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -14,14 +15,14 @@ import type {
   MovieFormData,
 } from "@/orval_api/model";
 
-import { AddNewDirector } from "../add-movies-parts/add-new-director";
-import { AddNewActor } from "../add-movies-parts/add-new-actor";
+import { AddNewPerson } from "../add-movies-parts/add-new-person";
 import { MovieFormContext } from "./movie-form-wizard";
 import { ItemsListSelector } from "../ui/items-list-selector";
 import { FormButtons } from "../ui/form-buttons";
 import { FormField } from "../ui/form-field";
 import { ResponsiveWrapper } from "../ui/responsive-wrapper";
 import { AddNewCharacter } from "../add-movies-parts/add-new-character";
+
 const ModalMovie = dynamic(() => import("../ui/modal-movie"));
 
 type Props = {
@@ -318,7 +319,11 @@ export const PeopleFieldsForm = ({ actors, directors, characters }: Props) => {
           open={openActorFormModal}
           setOpen={setOpenActorFormModal}
         >
-          <AddNewActor appendActor={appendActor} />
+          <AddNewPerson
+            type="actors"
+            appendPerson={appendActor}
+            fetchApi={createActor}
+          />
         </ModalMovie>
 
         <ModalMovie
@@ -326,7 +331,11 @@ export const PeopleFieldsForm = ({ actors, directors, characters }: Props) => {
           open={openDirectorFormModal}
           setOpen={setOpenDirectorFormModal}
         >
-          <AddNewDirector appendDirector={appendDirector} />
+          <AddNewPerson
+            type="directors"
+            appendPerson={appendDirector}
+            fetchApi={createDirector}
+          />
         </ModalMovie>
 
         <ModalMovie
