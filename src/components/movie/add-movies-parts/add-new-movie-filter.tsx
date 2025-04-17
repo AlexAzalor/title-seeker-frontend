@@ -1,23 +1,34 @@
 "use client";
 
-import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { UseFieldArrayAppend, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TypeGenreScheme } from "@/types/general";
-import { GenreScheme } from "@/types/zod-scheme";
-import { useRouter } from "next/navigation";
-import { addNewKeyword } from "@/app/actions";
-import { toast } from "sonner";
-import { BodyAPICreateGenre } from "@/orval_api/model";
+
+import type { MovieFilterType } from "../add-movie/movie-filter-form";
+import { GenreScheme, MovieFilterListType } from "@/types/zod-scheme";
+import { MovieFilterFormIn, MovieFilterFormOut } from "@/orval_api/model";
 import { formatKey } from "@/lib/utils";
 import { FormWrapper } from "../ui/form-wrapper";
 import { FormField } from "../ui/form-field";
 import { TextareaFormField } from "../ui/textarea-form-field";
 
-type Props = {
-  appendKeyword: any;
+type Props<T extends MovieFilterType> = {
+  appendItem: UseFieldArrayAppend<MovieFilterListType, T>;
+  fetchApi: (formData: MovieFilterFormIn) => Promise<{
+    status?: number;
+    message?: string;
+    newItem?: MovieFilterFormOut;
+  }>;
 };
 
-export const AddNewKeyword = ({ appendKeyword }: Props) => {
+export const AddNewMovieFilter = ({
+  appendItem,
+  fetchApi,
+}: Props<MovieFilterType>) => {
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -30,27 +41,29 @@ export const AddNewKeyword = ({ appendKeyword }: Props) => {
       name_en: "",
     },
   });
-  const router = useRouter();
 
   const watchFields = watch(["name_en"]);
 
-  const onSubmit = async (data: TypeGenreScheme) => {
-    const dataToSend: BodyAPICreateGenre = {
-      ...data,
-    };
+  const onSubmit = async (formData: TypeGenreScheme) => {
+    const response = await fetchApi(formData);
 
-    const response = await addNewKeyword(dataToSend);
+    if (response.status === 201 && response.newItem) {
+      appendItem({
+        ...response.newItem,
+        percentage_match: 0,
+      });
 
-    if (response.status === 201) {
       toast.success(response?.message);
-      appendKeyword(response.newGenre);
-      // clear form
+      router.refresh();
+      return;
     }
 
     if (response.status === 400) {
       toast.error(response?.message);
+      return;
     }
-    router.refresh();
+
+    toast.error(`Error status: ${response.status}`);
   };
 
   return (

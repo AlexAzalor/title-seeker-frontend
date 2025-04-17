@@ -194,7 +194,7 @@ export const GenreSchemeList = z.object({
   subgenres: z.array(GenreSchemeField),
 });
 
-export const MovieFeatureField = z.object({
+export const MovieFilterField = z.object({
   key: z.string().trim(),
   name: z.string().trim(),
   percentage_match: z.coerce
@@ -204,17 +204,19 @@ export const MovieFeatureField = z.object({
     .min(1, { message: "Value is required" }),
 });
 
-export const MovieFeatureList = z.object({
+export const MovieFilterList = z.object({
   specifications: z
-    .array(MovieFeatureField)
+    .array(MovieFilterField)
     .min(1, { message: "At least one Specification must be selected" }),
   keywords: z
-    .array(MovieFeatureField)
+    .array(MovieFilterField)
     .min(1, { message: "At least one Keyword must be selected" }),
   action_times: z
-    .array(MovieFeatureField)
+    .array(MovieFilterField)
     .min(1, { message: "At least one Action Time must be selected" }),
 });
+
+export type MovieFilterListType = z.infer<typeof MovieFilterList>;
 
 export const EnhanceSearchField = z.object({
   name: z.string().trim(),

@@ -110,8 +110,6 @@ export const PeopleFieldsForm = ({ actors, directors, characters }: Props) => {
       directors_keys: data.directors.map((director) => director.key),
     };
 
-    console.log("dataToSend", dataToSend);
-
     setMovieFormData((prev) => ({
       ...prev,
       form_data: {

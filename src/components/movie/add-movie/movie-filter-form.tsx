@@ -1,11 +1,14 @@
+"use client";
+
 import { Suspense, use, useState } from "react";
 import dynamic from "next/dynamic";
+import { useFieldArray, useForm } from "react-hook-form";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 
-import { z } from "zod";
-import { useFieldArray, useForm } from "react-hook-form";
-import { MovieFeatureList } from "@/types/zod-scheme";
+import { InfoIcon } from "lucide-react";
+import { MovieFilterList, MovieFilterListType } from "@/types/zod-scheme";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { movieComponents } from "@/lib/constants";
 
 import {
   ActionTimeOut,
@@ -14,17 +17,18 @@ import {
   SpecificationOut,
 } from "@/orval_api/model";
 import { MovieFormContext } from "./movie-form-wizard";
-import { AddNewSpecification } from "../add-movies-parts/add-new-specification";
-import { AddNewKeyword } from "../add-movies-parts/add-new-keyword";
-import { AddNewActionTime } from "../add-movies-parts/add-new-action-time";
+import { AddNewMovieFilter } from "../add-movies-parts/add-new-movie-filter";
 import { ItemsListSelector } from "../ui/items-list-selector";
 import { FormButtons } from "../ui/form-buttons";
 import { FormField } from "../ui/form-field";
 import { SliderFormField } from "../ui/slider-form-field";
 import { TooltipWrapper } from "@/components/custom/tooltip-wrapper";
-import { InfoIcon } from "lucide-react";
-import { movieComponents } from "@/lib/constants";
 import { ResponsiveWrapper } from "../ui/responsive-wrapper";
+import {
+  createActionTime,
+  createKeyword,
+  createSpecification,
+} from "@/app/actions";
 
 const ModalMovie = dynamic(() => import("../ui/modal-movie"));
 
@@ -34,14 +38,11 @@ type Props = {
   actionTimes: ActionTimeOut[];
 };
 
-export type MovieInfoFieldNames = Pick<
-  MovieFormData,
-  "specifications" | "keywords" | "action_times"
->;
+export type MovieFilterType = "specifications" | "keywords" | "action_times";
 
-export type FeatureSchemeType = z.infer<typeof MovieFeatureList>;
+export type MovieFilterFileds = Pick<MovieFormData, MovieFilterType>;
 
-export const FeaturesForm = ({
+export const MovieFilterForm = ({
   specifications,
   keywords,
   actionTimes,
@@ -65,7 +66,7 @@ export const FeaturesForm = ({
     formState: { errors },
     getValues,
   } = useForm({
-    resolver: zodResolver(MovieFeatureList),
+    resolver: zodResolver(MovieFilterList),
     defaultValues: {
       specifications: parsedData.specifications || [],
       keywords: parsedData.keywords || [],
@@ -100,8 +101,8 @@ export const FeaturesForm = ({
     name: "action_times",
   });
 
-  const onSubmit = (data: FeatureSchemeType) => {
-    const dataToSend: MovieInfoFieldNames = {
+  const onSubmit = (data: MovieFilterListType) => {
+    const dataToApi: MovieFilterFileds = {
       specifications: data.specifications,
       keywords: data.keywords,
       action_times: data.action_times,
@@ -111,7 +112,7 @@ export const FeaturesForm = ({
       ...prev,
       form_data: {
         ...parsedData,
-        ...dataToSend,
+        ...dataToApi,
       },
     }));
 
@@ -119,7 +120,7 @@ export const FeaturesForm = ({
       "new-movie-data",
       JSON.stringify({
         ...parsedData,
-        ...dataToSend,
+        ...dataToApi,
       }),
     );
 
@@ -340,7 +341,10 @@ export const FeaturesForm = ({
           open={openSpecificationFormModal}
           setOpen={setOpenSpecificationFormModal}
         >
-          <AddNewSpecification appendSpecification={appendSpecification} />
+          <AddNewMovieFilter
+            appendItem={appendSpecification}
+            fetchApi={createSpecification}
+          />
         </ModalMovie>
 
         <ModalMovie
@@ -348,7 +352,10 @@ export const FeaturesForm = ({
           open={openKeywordFormModal}
           setOpen={setOpenKeywordFormModal}
         >
-          <AddNewKeyword appendKeyword={appendKeyword} />
+          <AddNewMovieFilter
+            appendItem={appendKeyword}
+            fetchApi={createKeyword}
+          />
         </ModalMovie>
 
         <ModalMovie
@@ -356,7 +363,10 @@ export const FeaturesForm = ({
           open={openActionTimeFormModal}
           setOpen={setOpenActionTimeFormModal}
         >
-          <AddNewActionTime appendActionTime={appendActionTime} />
+          <AddNewMovieFilter
+            appendItem={appendActionTime}
+            fetchApi={createActionTime}
+          />
         </ModalMovie>
       </Suspense>
     </>

@@ -19,7 +19,7 @@ import {
   SpecificationOut,
 } from "@/orval_api/model";
 import { GenreFieldsForm } from "./genre-fields-form";
-import { FeaturesForm } from "./features-form";
+import { MovieFilterForm } from "./movie-filter-form";
 import { Preview } from "./preview";
 import { toast } from "sonner";
 import { addNewMovie } from "@/app/actions";
@@ -178,7 +178,7 @@ export const MovieFormWizard = ({
         )}
         {currentStep === 6 && <GenreFieldsForm genres={genres} />}
         {currentStep === 7 && (
-          <FeaturesForm
+          <MovieFilterForm
             specifications={specifications}
             keywords={keywords}
             actionTimes={actionTimes}

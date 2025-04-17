@@ -16,6 +16,8 @@ import {
   CharacterOut,
   DirectorOut,
   Language,
+  MovieFilterFormIn,
+  MovieFilterFormOut,
   PersonForm,
   QuickMovieFormData,
   SharedUniversePreCreateOut,
@@ -206,47 +208,75 @@ export async function addNewSubgenre(data: BodyAPICreateSubgenre) {
   }
 }
 
-export async function addNewSpecification(data: BodyAPICreateGenre) {
-  const locale = await getLocale();
-  const lang = Language[locale as keyof typeof Language];
-
+export async function createSpecification(formData: MovieFilterFormIn) {
+  const { lang, backendURL, unknownError } = await fetchSettings();
   const { aPICreateSpecification } = getSpecifications();
 
   try {
-    const a: AxiosResponse = await aPICreateSpecification(
-      data,
-      { lang },
-      backendURL,
-    );
-    // I do this on Zod project
+    const response: AxiosResponse<MovieFilterFormOut> =
+      await aPICreateSpecification(formData, { lang }, backendURL);
+
     return {
-      status: a.status,
+      status: response.status,
       message: "Specification created",
-      newGenre: a.data,
+      newItem: response.data,
     };
-  } catch (error: any) {
-    return { status: error.status, message: error.response?.data.detail };
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
   }
 }
 
-export async function addNewKeyword(data: BodyAPICreateGenre) {
-  const locale = await getLocale();
-  const lang = Language[locale as keyof typeof Language];
-
+export async function createKeyword(formData: MovieFilterFormIn) {
+  const { lang, backendURL, unknownError } = await fetchSettings();
   const { aPICreateKeyword } = getKeywords();
 
   try {
-    const a: AxiosResponse = await aPICreateKeyword(data, { lang }, backendURL);
-    // I do this on Zod project
+    const response: AxiosResponse<MovieFilterFormOut> = await aPICreateKeyword(
+      formData,
+      { lang },
+      backendURL,
+    );
+
     return {
-      status: a.status,
+      status: response.status,
       message: "Keyword created",
-      newGenre: a.data,
+      newItem: response.data,
     };
-  } catch (error: any) {
-    return { status: error.status, message: error.response?.data.detail };
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
   }
 }
+
+export async function createActionTime(formData: MovieFilterFormIn) {
+  const { lang, backendURL, unknownError } = await fetchSettings();
+  const { aPICreateActionTime } = getActionTimes();
+
+  try {
+    const response: AxiosResponse<MovieFilterFormOut> =
+      await aPICreateActionTime(formData, { lang }, backendURL);
+
+    return {
+      status: response.status,
+      message: "Action Time created",
+      newItem: response.data,
+    };
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
+  }
+}
+
 export async function addNewUniverse(data: BodyAPICreateGenre) {
   const locale = await getLocale();
   const lang = Language[locale as keyof typeof Language];
@@ -287,29 +317,6 @@ export async function addNewCharacter(data: BodyAPICreateCharacter) {
       status: result.status,
       message: "Character created",
       newItem: result.data as CharacterOut,
-    };
-  } catch (error: any) {
-    return { status: error.status, message: error.response?.data.detail };
-  }
-}
-
-export async function addNewActionTime(data: BodyAPICreateGenre) {
-  const locale = await getLocale();
-  const lang = Language[locale as keyof typeof Language];
-
-  const { aPICreateActionTime } = getActionTimes();
-
-  try {
-    const a: AxiosResponse = await aPICreateActionTime(
-      data,
-      { lang },
-      backendURL,
-    );
-    // I do this on Zod project
-    return {
-      status: a.status,
-      message: "Action Time created",
-      newGenre: a.data,
     };
   } catch (error: any) {
     return { status: error.status, message: error.response?.data.detail };
