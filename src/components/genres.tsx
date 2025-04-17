@@ -1,13 +1,10 @@
 "use client";
 
-import { Suspense, useMemo, useState } from "react";
-import dynamic from "next/dynamic";
+import { useMemo, useState } from "react";
 import { GenreOut, SubgenreOut } from "@/orval_api/model";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ItemsListSelector } from "./movie/ui/items-list-selector";
 
-import { AddNewGenre } from "./movie/add-movies-parts/add-new-genre";
-import { AddNewSubgenre } from "./movie/add-movies-parts/add-new-subgenre";
 import { Checkbox } from "./ui/checkbox";
 import { Label } from "./ui/label";
 import { Button } from "./ui/button";
@@ -20,8 +17,6 @@ import {
 } from "@/lib/utils";
 import { ResponsiveWrapper } from "./movie/ui/responsive-wrapper";
 
-const ModalMovie = dynamic(() => import("./movie/ui/modal-movie"));
-
 type Props = {
   genres: GenreOut[];
   subgenres: SubgenreOut[];
@@ -33,9 +28,6 @@ export const EXACT_MATCH = "exact_match";
 
 export const Genres = ({ genres }: Props) => {
   const router = useRouter();
-
-  const [openGenreFormModal, setOpenGenreFormModal] = useState(false);
-  const [openSubgenreFormModal, setOpenSubgenreFormModal] = useState(false);
 
   const currentSearchParams = useSearchParams();
   const currentSelectedGenres = currentSearchParams.getAll(GENRE);
@@ -146,86 +138,62 @@ export const Genres = ({ genres }: Props) => {
   }
 
   return (
-    <>
-      <div className="flex flex-col gap-4">
-        <Button
-          className="mb-4 cursor-pointer"
-          variant="destructive"
-          onClick={clearAllFilters}
-        >
-          Clear all filters
-        </Button>
+    <div className="flex flex-col gap-4">
+      <Button
+        className="mb-4 cursor-pointer"
+        variant="destructive"
+        onClick={clearAllFilters}
+      >
+        Clear all filters
+      </Button>
 
-        <Label
-          onClick={handleExactMatch}
-          className="my-2 flex w-max cursor-pointer items-center gap-3 text-xl"
-        >
-          <span>Exact match</span>
-          <Checkbox checked={!!currentExactMatch} className="cursor-pointer" />
-        </Label>
+      <Label
+        onClick={handleExactMatch}
+        className="my-2 flex w-max cursor-pointer items-center gap-3 text-xl"
+      >
+        <span>Exact match</span>
+        <Checkbox checked={!!currentExactMatch} className="cursor-pointer" />
+      </Label>
 
-        <ResponsiveWrapper title="Genres">
-          <ItemsListSelector
-            title="Genres"
-            items={genres}
-            onOpenModal={() => setOpenGenreFormModal(true)}
-            onSelect={(currentValue, key, genre) => {
-              updateSearchParameters(genre.key, GENRE);
+      <ResponsiveWrapper title="Genres">
+        <ItemsListSelector
+          title="Genres"
+          items={genres}
+          emptyText="No genres found"
+          onSelect={(currentValue, key, genre) => {
+            updateSearchParameters(genre.key, GENRE);
 
-              if (
-                !currentSelectedGenres
-                  .map((e) => extractWord(e))
-                  .find((genrePrev) => genrePrev === key)
-              ) {
-                if (genre && checkGenreType(genre) && genre.subgenres?.length) {
-                  setSubgenres((prev) => [...prev, ...(genre.subgenres || [])]);
-                }
-              } else {
-                setSubgenres((prev) =>
-                  prev.filter(
-                    (subgenrePrev) => subgenrePrev.parent_genre_key !== key,
-                  ),
-                );
+            if (
+              !currentSelectedGenres
+                .map((e) => extractWord(e))
+                .find((genrePrev) => genrePrev === key)
+            ) {
+              if (genre && checkGenreType(genre) && genre.subgenres?.length) {
+                setSubgenres((prev) => [...prev, ...(genre.subgenres || [])]);
               }
-            }}
-            checkIconStyle={currentSelectedGenres.map((e) => extractWord(e))}
-          />
-        </ResponsiveWrapper>
+            } else {
+              setSubgenres((prev) =>
+                prev.filter(
+                  (subgenrePrev) => subgenrePrev.parent_genre_key !== key,
+                ),
+              );
+            }
+          }}
+          checkIconStyle={currentSelectedGenres.map((e) => extractWord(e))}
+        />
+      </ResponsiveWrapper>
 
-        <ResponsiveWrapper title="Subgenres">
-          <ItemsListSelector
-            title="Subgenres"
-            items={subgenres}
-            onOpenModal={() => setOpenSubgenreFormModal(true)}
-            onSelect={(currentValue, key) => {
-              updateSearchParameters(key, SUBGENRE);
-            }}
-            checkIconStyle={currentSelectedSubgenres.map((e) => extractWord(e))}
-          />
-        </ResponsiveWrapper>
-      </div>
-
-      <Suspense>
-        <ModalMovie
-          title="Genre"
-          open={openGenreFormModal}
-          setOpen={setOpenGenreFormModal}
-        >
-          <AddNewGenre appendGenre={() => {}} />
-        </ModalMovie>
-
-        <ModalMovie
-          title="Subgenre"
-          open={openSubgenreFormModal}
-          setOpen={setOpenSubgenreFormModal}
-        >
-          <AddNewSubgenre
-            appendSubgenre={() => {}}
-            setSubgenres={setSubgenres}
-            genresList={selectedGenres}
-          />
-        </ModalMovie>
-      </Suspense>
-    </>
+      <ResponsiveWrapper title="Subgenres">
+        <ItemsListSelector
+          title="Subgenres"
+          items={subgenres}
+          emptyText="No subgenres found OR select a genre first."
+          onSelect={(currentValue, key) => {
+            updateSearchParameters(key, SUBGENRE);
+          }}
+          checkIconStyle={currentSelectedSubgenres.map((e) => extractWord(e))}
+        />
+      </ResponsiveWrapper>
+    </div>
   );
 };

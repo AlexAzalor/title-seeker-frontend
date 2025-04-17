@@ -5,11 +5,16 @@ import { useFieldArray, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GenreSchemeList } from "@/types/zod-scheme";
-import type { GenreOut, MovieFormData, SubgenreOut } from "@/orval_api/model";
+import { createGenre, createSubgenre } from "@/app/actions";
+import type {
+  GenreFormOut,
+  GenreOut,
+  MovieFormData,
+  SubgenreOut,
+} from "@/orval_api/model";
 
 import { MovieFormContext } from "./movie-form-wizard";
 import { AddNewGenre } from "../add-movies-parts/add-new-genre";
-import { AddNewSubgenre } from "../add-movies-parts/add-new-subgenre";
 import { ItemsListSelector } from "../ui/items-list-selector";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { FormButtons } from "../ui/form-buttons";
@@ -27,7 +32,8 @@ type Props = {
   genres: GenreOut[];
 };
 
-export type MovieInfoFieldNames = Pick<MovieFormData, "genres" | "subgenres">;
+export type GenreType = "genres" | "subgenres";
+export type MovieInfoFieldNames = Pick<MovieFormData, GenreType>;
 
 export type GenreSchemeType = z.infer<typeof GenreSchemeList>;
 
@@ -44,7 +50,7 @@ export const GenreFieldsForm = ({ genres }: Props) => {
 
   const genresKeys = parsedData.genres?.map((g) => g.key);
 
-  const [subgenres, setSubgenres] = useState<SubgenreOut[]>(
+  const [subgenres, setSubgenres] = useState<GenreFormOut[]>(
     genresKeys
       ? genres
           .map(
@@ -284,7 +290,11 @@ export const GenreFieldsForm = ({ genres }: Props) => {
           open={openGenreFormModal}
           setOpen={setOpenGenreFormModal}
         >
-          <AddNewGenre appendGenre={appendGenre} />
+          <AddNewGenre
+            type="genres"
+            appendItem={appendGenre}
+            fetchApi={createGenre}
+          />
         </ModalMovie>
 
         <ModalMovie
@@ -292,8 +302,10 @@ export const GenreFieldsForm = ({ genres }: Props) => {
           open={openSubgenreFormModal}
           setOpen={setOpenSubgenreFormModal}
         >
-          <AddNewSubgenre
-            appendSubgenre={appendSubgenre}
+          <AddNewGenre
+            type="subgenres"
+            appendItem={appendSubgenre}
+            fetchApi={createSubgenre}
             setSubgenres={setSubgenres}
             genresList={genreFields}
           />

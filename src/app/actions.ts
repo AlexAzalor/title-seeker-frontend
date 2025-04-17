@@ -12,9 +12,10 @@ import {
   BodyAPICreateCharacter,
   BodyAPICreateGenre,
   BodyAPICreateMovie,
-  BodyAPICreateSubgenre,
   CharacterOut,
   DirectorOut,
+  GenreFormIn,
+  GenreFormOut,
   Language,
   MovieFilterFormIn,
   MovieFilterFormOut,
@@ -166,45 +167,53 @@ export async function createDirector(formData: PersonForm, file: Blob) {
   }
 }
 
-export async function addNewGenre(data: BodyAPICreateGenre) {
-  const locale = await getLocale();
-  const lang = Language[locale as keyof typeof Language];
-
+export async function createGenre(formData: GenreFormIn) {
+  const { lang, backendURL, unknownError } = await fetchSettings();
   const { aPICreateGenre } = getGenres();
 
   try {
-    const a: AxiosResponse = await aPICreateGenre(data, { lang }, backendURL);
-    // I do this on Zod project
-    return {
-      status: a.status,
-      message: "Genre created",
-      newGenre: a.data,
-    };
-  } catch (error: any) {
-    return { status: error.status, message: error.response?.data.detail };
-  }
-}
-
-export async function addNewSubgenre(data: BodyAPICreateSubgenre) {
-  const locale = await getLocale();
-  const lang = Language[locale as keyof typeof Language];
-
-  const { aPICreateSubgenre } = getSubgenres();
-
-  try {
-    const a: AxiosResponse = await aPICreateSubgenre(
-      data,
+    const response: AxiosResponse<GenreFormOut> = await aPICreateGenre(
+      formData,
       { lang },
       backendURL,
     );
-    // I do this on Zod project
+
     return {
-      status: a.status,
+      status: response.status,
       message: "Genre created",
-      newGenre: a.data,
+      newItem: response.data,
     };
-  } catch (error: any) {
-    return { status: error.status, message: error.response?.data.detail };
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
+  }
+}
+
+export async function createSubgenre(formData: GenreFormIn) {
+  const { lang, backendURL, unknownError } = await fetchSettings();
+  const { aPICreateSubgenre } = getSubgenres();
+
+  try {
+    const response: AxiosResponse<GenreFormOut> = await aPICreateSubgenre(
+      formData,
+      { lang },
+      backendURL,
+    );
+
+    return {
+      status: response.status,
+      message: "Subgenre created",
+      newItem: response.data,
+    };
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
   }
 }
 
