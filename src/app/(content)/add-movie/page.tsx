@@ -19,9 +19,9 @@ export default async function AddMoviePage(props: {
   }
 
   const searchParams = await props.searchParams;
-  const tempMovieKey =
-    typeof searchParams.temp_movie_key === "string"
-      ? searchParams.temp_movie_key
+  const quickMovieKey =
+    typeof searchParams.quick_movie_key === "string"
+      ? searchParams.quick_movie_key
       : null;
 
   const locale = await getLocale();
@@ -37,7 +37,7 @@ export default async function AddMoviePage(props: {
       genres,
       keywords,
       action_times,
-      temporary_movie,
+      quick_movie,
       shared_universes,
       base_movies,
       characters,
@@ -45,7 +45,7 @@ export default async function AddMoviePage(props: {
   } = await aPIGetPreCreateData(
     {
       lang,
-      temp_movie_key: tempMovieKey,
+      quick_movie_key: quickMovieKey,
       user_uuid: session?.user.uuid,
     },
     backendURL,
@@ -60,7 +60,7 @@ export default async function AddMoviePage(props: {
         specifications={specifications}
         keywords={keywords}
         actionTimes={action_times}
-        temporaryMovie={temporary_movie}
+        quickMovie={quick_movie}
         shared_universes={shared_universes}
         base_movies={base_movies}
         characters={characters}

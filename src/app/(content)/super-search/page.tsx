@@ -103,8 +103,6 @@ export default async function SuperSearchPage(props: {
 
   moviesList = movies;
 
-  console.log("moviesList", moviesList.length);
-
   return (
     <>
       {moviesList.length ? (

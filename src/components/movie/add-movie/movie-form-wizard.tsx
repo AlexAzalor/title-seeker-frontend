@@ -22,7 +22,7 @@ import { GenreFieldsForm } from "./genre-fields-form";
 import { MovieFilterForm } from "./movie-filter-form";
 import { Preview } from "./preview";
 import { toast } from "sonner";
-import { addNewMovie } from "@/app/actions";
+import { createMovie } from "@/app/actions";
 import { errorHandling } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 import { FormStepper } from "../ui/form-stepper";
@@ -56,7 +56,7 @@ type Props = {
   specifications: SpecificationOut[];
   keywords: KeywordOut[];
   actionTimes: ActionTimeOut[];
-  temporaryMovie?: MoviePreCreateDataTemporaryMovie;
+  quickMovie?: MoviePreCreateDataTemporaryMovie;
   shared_universes: SharedUniversePreCreateOut[];
   base_movies: MovieOutShort[];
   characters: CharacterOut[];
@@ -69,7 +69,7 @@ export const MovieFormWizard = ({
   specifications,
   keywords,
   actionTimes,
-  temporaryMovie,
+  quickMovie,
   shared_universes,
   base_movies,
   characters,
@@ -126,7 +126,7 @@ export const MovieFormWizard = ({
       return;
     }
 
-    const response = await addNewMovie({ form_data, file }, !!temporaryMovie);
+    const response = await createMovie({ form_data, file }, !!quickMovie);
 
     errorHandling(response, endSubmitting);
 
@@ -163,7 +163,7 @@ export const MovieFormWizard = ({
 
         <Separator className="my-12" />
 
-        {currentStep === 1 && <KeyFieldsForm temporaryMovie={temporaryMovie} />}
+        {currentStep === 1 && <KeyFieldsForm quickMovie={quickMovie} />}
         {currentStep === 2 && (
           <SharedUniverseForm sharedUniverses={shared_universes} />
         )}

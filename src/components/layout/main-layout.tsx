@@ -22,7 +22,7 @@ export const MainLayout = async ({
         <LastWatched posterURL={POSTER_URL || "NO URL!"} />
       </div>
 
-      <footer className="grid h-20 place-content-center bg-black">
+      <footer className="grid h-20 place-content-center bg-black text-white">
         Footer
         <span>version: 1.0.0</span>
       </footer>

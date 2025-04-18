@@ -7,6 +7,7 @@ import { getLocale } from "next-intl/server";
 import axios, { AxiosResponse } from "axios";
 
 import { backendURL, HTTP_STATUS } from "@/lib/constants";
+import { ValidationError } from "@/types/general";
 import {
   ActorOut,
   BodyAPICreateMovie,
@@ -35,7 +36,6 @@ import { getActionTimes } from "@/orval_api/action-times/action-times";
 import { getSharedUniverses } from "@/orval_api/shared-universes/shared-universes";
 import { getCharacters } from "@/orval_api/characters/characters";
 import { getUsers } from "@/orval_api/users/users";
-import { ValidationError } from "@/types/general";
 
 export async function create(locale: string) {
   const cookieStore = await cookies();
@@ -87,32 +87,33 @@ export async function rateMovie(data: UserRateMovieIn) {
   await aPIRateMovie(currentUser.uuid, data, backendURL);
 }
 
-export async function addNewMovie(
-  // data: APICreateMovieParams,
-  act: BodyAPICreateMovie,
-  tempMovie: boolean = false,
+export async function createMovie(
+  formData: BodyAPICreateMovie,
+  isQuickMovie: boolean = false,
 ) {
   const user = await getSession();
+
   if (!user) {
     return { status: 403, message: "You are not allowed to do this" };
   }
-  const locale = await getLocale();
-  const lang = Language[locale as keyof typeof Language];
 
+  const { lang, backendURL, unknownError } = await fetchSettings();
   const { aPICreateMovie } = getMovies();
 
   try {
-    const a: AxiosResponse = await aPICreateMovie(
-      act,
-      { lang, temp_movie: tempMovie, user_uuid: user.uuid },
-      {
-        baseURL: backendURL.baseURL,
-      },
+    const response: AxiosResponse = await aPICreateMovie(
+      formData,
+      { lang, is_quick_movie: isQuickMovie, user_uuid: user.uuid },
+      backendURL,
     );
 
-    return { status: a.status, message: "Movie created" };
-  } catch (error: any) {
-    return { status: error.status, message: error.response?.data.detail };
+    return { status: response.status, message: "Movie created" };
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
   }
 }
 

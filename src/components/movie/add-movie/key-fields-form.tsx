@@ -35,10 +35,10 @@ export type RatingDataOut = {
 };
 
 type Props = {
-  temporaryMovie?: MoviePreCreateDataTemporaryMovie;
+  quickMovie?: MoviePreCreateDataTemporaryMovie;
 };
 
-export const KeyFieldsForm = ({ temporaryMovie }: Props) => {
+export const KeyFieldsForm = ({ quickMovie }: Props) => {
   const { setMovieFormData, handleNext, clearForm } = use(MovieFormContext);
 
   const { data: parsedData } = useLocalStorage<MovieFormData>(
@@ -47,15 +47,13 @@ export const KeyFieldsForm = ({ temporaryMovie }: Props) => {
   );
 
   const ratingData =
-    temporaryMovie?.rating_criteria ||
-    parsedData.rating_criteria ||
-    INITIAL_RATE;
+    quickMovie?.rating_criteria || parsedData.rating_criteria || INITIAL_RATE;
 
   const ratingRef = useRef<RatingDataOut>({
     ratingData,
     ratingCriterionType:
-      temporaryMovie?.rating_criterion_type || RatingCriterion.basic,
-    rating: temporaryMovie?.rating || parsedData.rating || 0,
+      quickMovie?.rating_criterion_type || RatingCriterion.basic,
+    rating: quickMovie?.rating || parsedData.rating || 0,
   });
 
   const {
@@ -66,8 +64,8 @@ export const KeyFieldsForm = ({ temporaryMovie }: Props) => {
   } = useForm<MovieSchemeType>({
     resolver: zodResolver(MovieScheme),
     defaultValues: {
-      key: temporaryMovie?.key || parsedData.key || "",
-      title_en: temporaryMovie?.title_en || parsedData.title_en || "",
+      key: quickMovie?.key || parsedData.key || "",
+      title_en: quickMovie?.title_en || parsedData.title_en || "",
       title_uk: parsedData.title_uk || "",
     },
   });
@@ -158,7 +156,7 @@ export const KeyFieldsForm = ({ temporaryMovie }: Props) => {
 
         <RateMovie
           ratingRef={ratingRef}
-          temporaryMovie={temporaryMovie}
+          quickMovie={quickMovie}
           parsedData={parsedData}
         />
 

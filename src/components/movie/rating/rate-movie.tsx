@@ -33,7 +33,7 @@ import { RatingDataOut } from "../add-movie/key-fields-form";
 
 type Props = {
   ratingRef: RefObject<RatingDataOut>;
-  temporaryMovie?: MoviePreCreateDataTemporaryMovie;
+  quickMovie?: MoviePreCreateDataTemporaryMovie;
   parsedData?: MovieFormData;
   movieRateData?: UserRatingCriteria;
   type?: RatingCriterion;
@@ -43,7 +43,7 @@ type Props = {
 
 const RateMovie = ({
   ratingRef,
-  temporaryMovie,
+  quickMovie,
   parsedData,
   movieRateData,
   type,
@@ -55,7 +55,7 @@ const RateMovie = ({
 
   const [ratingCriteria, setRatingCriteria] = useState<RatingCriterion>(
     type ||
-      temporaryMovie?.rating_criterion_type ||
+      quickMovie?.rating_criterion_type ||
       parsedData?.rating_criterion_type ||
       RatingCriterion.basic,
   );
@@ -68,7 +68,7 @@ const RateMovie = ({
 
   const [states, setStates] = useState<UserRatingCriteria>(
     movieRateData ||
-      temporaryMovie?.rating_criteria ||
+      quickMovie?.rating_criteria ||
       parsedData?.rating_criteria ||
       INITIAL_RATE,
   );
@@ -111,7 +111,7 @@ const RateMovie = ({
   const determineRatingChanges = useCallback(() => {
     return checkRatingChanges(
       states,
-      temporaryMovie?.rating_criteria || parsedData?.rating_criteria,
+      quickMovie?.rating_criteria || parsedData?.rating_criteria,
       isVisualEffects,
       isScareFactor,
       isHumor,
@@ -119,7 +119,7 @@ const RateMovie = ({
     );
   }, [
     states,
-    temporaryMovie?.rating_criteria,
+    quickMovie?.rating_criteria,
     parsedData?.rating_criteria,
     isVisualEffects,
     isScareFactor,

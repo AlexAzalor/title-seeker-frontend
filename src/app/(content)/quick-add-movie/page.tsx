@@ -2,8 +2,8 @@ import { QuicklyAddNewMovie } from "@/components/movie/quick-add-new-movie";
 
 export default async function QuickAddMoviePage() {
   return (
-    <div>
-      <h1 className="text-2xl">Quickly add new Movie</h1>
+    <div className="mt-5 h-screen">
+      <h1 className="mb-6 text-center text-2xl">Quickly add new Movie</h1>
 
       <QuicklyAddNewMovie />
     </div>
