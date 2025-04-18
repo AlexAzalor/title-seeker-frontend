@@ -126,13 +126,13 @@ export const SharedUniverseForm = ({ sharedUniverses }: Props) => {
                 fieldState: { error },
               }) => (
                 <div className="relative">
-                  {!!value && (
-                    <div className="absolute -top-6 text-[#495AFF]">
-                      {sharedUniverses.find((e) => e.key === value)?.name}
-                    </div>
-                  )}
-
-                  <ResponsiveWrapper title="Shared Universe">
+                  <ResponsiveWrapper
+                    title={
+                      sharedUniverses
+                        .find((e) => e.key === value)
+                        ?.name.slice(0, 20) || "Shared Universe"
+                    }
+                  >
                     <ItemsListSelector
                       items={sharedUniverses}
                       onOpenModal={() => setOpenAddNewUniverseModal(true)}

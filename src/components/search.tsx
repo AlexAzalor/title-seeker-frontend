@@ -31,6 +31,7 @@ import { Button } from "./ui/button";
 
 import { Language, MovieSearchOut, TitleType } from "@/orval_api/model";
 import { cn, formatDate } from "@/lib/utils";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 // import { CONTENT_ICONS } from "./layout/app-sidebar";
 
 const MIN_CHARACTERS = 3;
@@ -45,6 +46,7 @@ type Props = {
 };
 
 export const Search = ({ posterURL }: Props) => {
+  const isMobile = useMediaQuery("(max-width: 640px)");
   const t = useTranslations("Search");
   const navigation = useTranslations("HomePage");
   const navigationKeys: { title: string; key: TitleType }[] = Object.entries(
@@ -72,7 +74,13 @@ export const Search = ({ posterURL }: Props) => {
 
     const res = await searchTitles(query, tab);
 
-    setTitles(res.movies);
+    if (res.status === 200 && res.data?.movies) {
+      setTitles(res.data.movies);
+      return;
+    } else {
+      // TODO: add error handling
+      alert("Error: " + res.status);
+    }
   }, 500);
 
   const handleSearch = async (query: string) => {
@@ -186,7 +194,7 @@ export const Search = ({ posterURL }: Props) => {
         <CommandInput
           placeholder={t("type")}
           onValueChange={handleSearch}
-          // autoFocus
+          autoFocus={!isMobile}
         />
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>

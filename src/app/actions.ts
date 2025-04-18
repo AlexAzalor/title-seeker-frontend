@@ -9,9 +9,8 @@ import axios, { AxiosResponse } from "axios";
 import { backendURL, HTTP_STATUS } from "@/lib/constants";
 import {
   ActorOut,
-  BodyAPICreateCharacter,
-  BodyAPICreateGenre,
   BodyAPICreateMovie,
+  CharacterFormIn,
   CharacterOut,
   DirectorOut,
   GenreFormIn,
@@ -19,9 +18,9 @@ import {
   Language,
   MovieFilterFormIn,
   MovieFilterFormOut,
+  MovieSearchResult,
   PersonForm,
   QuickMovieFormData,
-  SharedUniversePreCreateOut,
   TitleType,
   UserRateMovieIn,
 } from "@/orval_api/model";
@@ -286,49 +285,53 @@ export async function createActionTime(formData: MovieFilterFormIn) {
   }
 }
 
-export async function addNewUniverse(data: BodyAPICreateGenre) {
-  const locale = await getLocale();
-  const lang = Language[locale as keyof typeof Language];
-
+export async function createSharedUniverse(formData: GenreFormIn) {
+  const { lang, backendURL, unknownError } = await fetchSettings();
   const { aPICreateSharedUniverse } = getSharedUniverses();
 
   try {
-    const a: AxiosResponse = await aPICreateSharedUniverse(
-      data,
+    const response: AxiosResponse<GenreFormOut> = await aPICreateSharedUniverse(
+      formData,
       { lang },
       backendURL,
     );
-    // I do this on Zod project
+
     return {
-      status: a.status,
-      message: "Keyword created",
-      newItem: a.data as SharedUniversePreCreateOut,
+      status: response.status,
+      message: "Universe created",
+      newItem: response.data,
     };
-  } catch (error: any) {
-    return { status: error.status, message: error.response?.data.detail };
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
   }
 }
 
-export async function addNewCharacter(data: BodyAPICreateCharacter) {
-  const locale = await getLocale();
-  const lang = Language[locale as keyof typeof Language];
-
+export async function createCharacter(formData: CharacterFormIn) {
+  const { lang, backendURL, unknownError } = await fetchSettings();
   const { aPICreateCharacter } = getCharacters();
 
   try {
-    const result: AxiosResponse = await aPICreateCharacter(
-      data,
+    const result: AxiosResponse<CharacterOut> = await aPICreateCharacter(
+      formData,
       { lang },
       backendURL,
     );
-    // I do this on Zod project
+
     return {
       status: result.status,
       message: "Character created",
-      newItem: result.data as CharacterOut,
+      newItem: result.data,
     };
-  } catch (error: any) {
-    return { status: error.status, message: error.response?.data.detail };
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
   }
 }
 
@@ -339,9 +342,7 @@ export async function quicklyAddNewMovie(data: QuickMovieFormData) {
     return { status: 403, message: "You are not allowed to do this" };
   }
 
-  const locale = await getLocale();
-  const lang = Language[locale as keyof typeof Language];
-
+  const { lang, backendURL, unknownError } = await fetchSettings();
   const { aPIQuickAddMovie } = getMovies();
 
   try {
@@ -354,38 +355,52 @@ export async function quicklyAddNewMovie(data: QuickMovieFormData) {
     );
 
     return { status: a.status, message: "Movie add to JSON" };
-  } catch (error: any) {
-    return { status: error.status, message: error.response?.data.detail };
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
   }
 }
 
 export async function searchTitles(query: string, titleType: TitleType) {
-  const locale = await getLocale();
-  const lang = Language[locale as keyof typeof Language];
-
+  const { lang, backendURL, unknownError } = await fetchSettings();
   const { aPISearch } = getMovies();
 
   try {
-    const result: AxiosResponse = await aPISearch(
+    const result: AxiosResponse<MovieSearchResult> = await aPISearch(
       { lang, query, title_type: titleType },
       {
         baseURL: backendURL.baseURL,
       },
     );
 
-    return result.data;
-  } catch (error: any) {
-    return { status: error.status, message: error.response?.data.detail };
+    return {
+      status: result.status,
+      data: result.data,
+    };
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
   }
 }
 
 export async function deleteProfile(user_uuid: string) {
+  const { unknownError } = await fetchSettings();
   const { aPIDeleteGoogleProfile } = getUsers();
 
   try {
     const response = await aPIDeleteGoogleProfile({ user_uuid }, backendURL);
     return response.status;
-  } catch (error: any) {
-    return { status: error.status, message: error.response?.data.detail };
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
   }
 }

@@ -1,14 +1,15 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useForm, UseFormSetValue } from "react-hook-form";
+import { toast } from "sonner";
+import { createSharedUniverse } from "@/app/actions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TypeGenreScheme } from "@/types/general";
-import { GenreScheme, SharedUniverseType } from "@/types/zod-scheme";
-import { useRouter } from "next/navigation";
-import { addNewUniverse } from "@/app/actions";
-import { toast } from "sonner";
-import { BodyAPICreateGenre } from "@/orval_api/model";
 import { formatKey } from "@/lib/utils";
+import { GenreScheme, SharedUniverseType } from "@/types/zod-scheme";
+
+import { GenreFormIn } from "@/orval_api/model";
 import { FormWrapper } from "../ui/form-wrapper";
 import { FormField } from "../ui/form-field";
 import { TextareaFormField } from "../ui/textarea-form-field";
@@ -18,6 +19,8 @@ type Props = {
 };
 
 export const AddNewUniverse = ({ setValue }: Props) => {
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -30,30 +33,26 @@ export const AddNewUniverse = ({ setValue }: Props) => {
       name_en: "",
     },
   });
-  const router = useRouter();
 
   const watchFields = watch(["name_en"]);
 
-  const onSubmit = async (data: TypeGenreScheme) => {
-    const dataToSend: BodyAPICreateGenre = {
-      ...data,
-    };
+  const onSubmit = async (formData: GenreFormIn) => {
+    const response = await createSharedUniverse(formData);
 
-    const response = await addNewUniverse(dataToSend);
-
-    console.log("response", response);
-
-    if (response && response.status === 201) {
-      toast.success(response?.message);
-
+    if (response.status === 201 && response.newItem) {
       setValue("shared_universe_key", response.newItem!.key);
-      // clear form
+
+      toast.success(response?.message);
+      router.refresh();
+      return;
     }
 
     if (response.status === 400) {
       toast.error(response?.message);
+      return;
     }
-    router.refresh();
+
+    toast.error(`Error status: ${response.status}`);
   };
 
   return (
@@ -69,7 +68,7 @@ export const AddNewUniverse = ({ setValue }: Props) => {
 
       <FormField
         type="text"
-        label="name_en"
+        label="Name En"
         name="name_en"
         register={register}
         error={errors.name_en}
@@ -77,21 +76,21 @@ export const AddNewUniverse = ({ setValue }: Props) => {
 
       <FormField
         type="text"
-        label="name_uk"
+        label="Name Uk"
         name="name_uk"
         register={register}
         error={errors.name_uk}
       />
 
       <TextareaFormField
-        label="description_en"
+        label="Description En"
         name="description_en"
         register={register}
         error={errors.description_en}
       />
 
       <TextareaFormField
-        label="description_uk"
+        label="Description Uk"
         name="description_uk"
         register={register}
         error={errors.description_uk}

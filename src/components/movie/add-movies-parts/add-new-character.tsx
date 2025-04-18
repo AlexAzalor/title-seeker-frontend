@@ -1,14 +1,14 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useForm, UseFormSetValue } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
+import { formatKey } from "@/lib/utils";
 
 import { CharacterFields, CharacterType } from "@/types/zod-scheme";
-import { useRouter } from "next/navigation";
-import { addNewCharacter } from "@/app/actions";
-import { toast } from "sonner";
-import { BodyAPICreateCharacter } from "@/orval_api/model";
-import { formatKey } from "@/lib/utils";
+import { createCharacter } from "@/app/actions";
+import { CharacterFormIn } from "@/orval_api/model";
 import { FormWrapper } from "../ui/form-wrapper";
 import { FormField } from "../ui/form-field";
 import { PeopleSchemeType } from "../add-movie/people-fields-form";
@@ -36,33 +36,31 @@ export const AddNewCharacter = ({ setValue, characterIndexField }: Props) => {
 
   const watchFields = watch(["name_en"]);
 
-  const onSubmit = async (data: CharacterType) => {
-    console.log("data", data);
+  const onSubmit = async (formData: CharacterFormIn) => {
+    const response = await createCharacter(formData);
 
-    const dataToSend: BodyAPICreateCharacter = {
-      ...data,
-    };
+    if (
+      response.status === 201 &&
+      response.newItem &&
+      // characterIndexField can be 0
+      characterIndexField !== null
+    ) {
+      setValue(
+        `actors.${characterIndexField}.character_key`,
+        response.newItem!.key,
+      );
 
-    const response = await addNewCharacter(dataToSend);
-
-    console.log("response", response);
-
-    if (response && response.status === 201) {
       toast.success(response?.message);
-
-      if (characterIndexField !== null) {
-        setValue(
-          `actors.${characterIndexField}.character_key`,
-          response.newItem!.key,
-        );
-      }
-      // clear form
+      router.refresh();
+      return;
     }
 
     if (response.status === 400) {
       toast.error(response?.message);
+      return;
     }
-    router.refresh();
+
+    toast.error(`Error status: ${response.status}`);
   };
 
   return (
@@ -78,7 +76,7 @@ export const AddNewCharacter = ({ setValue, characterIndexField }: Props) => {
 
       <FormField
         type="text"
-        label="name_en"
+        label="Name En"
         name="name_en"
         register={register}
         error={errors.name_en}
@@ -86,7 +84,7 @@ export const AddNewCharacter = ({ setValue, characterIndexField }: Props) => {
 
       <FormField
         type="text"
-        label="name_uk"
+        label="Name Uk"
         name="name_uk"
         register={register}
         error={errors.name_uk}

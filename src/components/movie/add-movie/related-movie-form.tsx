@@ -119,16 +119,13 @@ export const RelatedMovieForm = ({ baseMovies }: Props) => {
             name="base_movie_key"
             render={({ field: { onChange, value }, fieldState: { error } }) => (
               <div className="relative">
-                {!!value && (
-                  <div className="absolute -top-6 text-[#495AFF]">
-                    {value.length > 30
-                      ? baseMovies
-                          .find((e) => e.key === value)
-                          ?.name.slice(0, 30) + "..."
-                      : value}
-                  </div>
-                )}
-                <ResponsiveWrapper title="Base movie">
+                <ResponsiveWrapper
+                  title={
+                    baseMovies
+                      .find((e) => e.key === value)
+                      ?.name.slice(0, 20) || "Base movie"
+                  }
+                >
                   <ItemsListSelector
                     items={baseMovies}
                     onOpenModal={() => {}}

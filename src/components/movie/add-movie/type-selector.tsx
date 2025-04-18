@@ -20,7 +20,7 @@ type Props = {
 };
 
 const TYPE_LIST = [
-  { value: RelatedMovie.base, label: "Base" },
+  // { value: RelatedMovie.base, label: "Base" },
   { value: RelatedMovie.sequel, label: "Sequel" },
   { value: RelatedMovie.prequel, label: "Prequel" },
   { value: RelatedMovie.spin_off, label: "Spin-off" },
@@ -28,7 +28,7 @@ const TYPE_LIST = [
   { value: RelatedMovie.reboot, label: "Reboot" },
   { value: RelatedMovie.crossover, label: "Crossover" },
   { value: RelatedMovie.alternative_timeline, label: "Alternative Timeline" },
-  { value: RelatedMovie.shared_universe, label: "Shared Universe" },
+  // { value: RelatedMovie.shared_universe, label: "Shared Universe" },
 ];
 
 const TypeSelector = ({ defaultValue, name, control }: Props) => {
