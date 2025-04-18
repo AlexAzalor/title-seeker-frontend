@@ -1,6 +1,7 @@
 import { CheckIcon, SummaryIcon } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { DiamondMinus } from "lucide-react";
+import { FIRST_STEP, LAST_STEP, SUMMARY_STEP } from "../add-movie/utils";
 
 type Props = {
   title: string;
@@ -21,15 +22,13 @@ export const FormStep = ({
   currentStep,
   isStepSkipped,
 }: Props) => {
-  const summaryStep = 8;
-  const lastFormStep = 7;
-  const isLastStep = step === summaryStep;
+  const isLastStep = step === SUMMARY_STEP;
   const isStepCompleted = completedSteps.includes(step);
   const currentEditableStep = Math.max(...completedSteps) + 1 === step;
-  const firstEditableStep = completedSteps.length === 0 && step === 1;
+  const firstEditableStep = completedSteps.length === 0 && step === FIRST_STEP;
 
   const stepIcon = isLastStep ? (
-    <SummaryIcon color={completedSteps.length >= lastFormStep} />
+    <SummaryIcon color={completedSteps.length >= LAST_STEP} />
   ) : isStepSkipped ? (
     <DiamondMinus className="dark:stroke-white" />
   ) : isStepCompleted ? (
@@ -54,7 +53,7 @@ export const FormStep = ({
           }}
           className={cn(
             "grid h-8 w-8 place-content-center rounded-full bg-[#EFF0F6] text-[#6F6C90] select-none",
-            (isStepCompleted || completedSteps.length === lastFormStep) &&
+            (isStepCompleted || completedSteps.length === LAST_STEP) &&
               "cursor-pointer bg-[#4A3AFF] dark:bg-[#495AFF]",
             (currentEditableStep || firstEditableStep) &&
               "cursor-pointer border-4 border-[#495AFF]",

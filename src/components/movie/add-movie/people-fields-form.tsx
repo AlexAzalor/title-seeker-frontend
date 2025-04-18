@@ -2,6 +2,7 @@ import { Suspense, use, useCallback, useMemo, useState } from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import dynamic from "next/dynamic";
+import { MovieFormContext } from "./utils";
 
 import { createActor, createDirector } from "@/app/actions";
 import { z } from "zod";
@@ -16,7 +17,6 @@ import type {
 } from "@/orval_api/model";
 
 import { AddNewPerson } from "../add-movies-parts/add-new-person";
-import { MovieFormContext } from "./movie-form-wizard";
 import { ItemsListSelector } from "../ui/items-list-selector";
 import { FormButtons } from "../ui/form-buttons";
 import { FormField } from "../ui/form-field";

@@ -1,12 +1,12 @@
 import { use } from "react";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { useForm } from "react-hook-form";
+import { MovieFormContext } from "./utils";
 
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { MovieInfoScheme } from "@/types/zod-scheme";
 import type { MovieFormData } from "@/orval_api/model";
-import { MovieFormContext } from "./movie-form-wizard";
 import { FormField } from "../ui/form-field";
 import { FormButtons } from "../ui/form-buttons";
 import { TextareaFormField } from "../ui/textarea-form-field";

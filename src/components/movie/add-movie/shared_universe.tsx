@@ -1,8 +1,8 @@
 import { Suspense, use, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { SharedUniverseFields, SharedUniverseType } from "@/types/zod-scheme";
+import { MovieFormContext } from "./utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { MovieFormContext } from "./movie-form-wizard";
 import { FormField } from "../ui/form-field";
 
 import {
@@ -38,7 +38,7 @@ type Props = {
 
 export const SharedUniverseForm = ({ sharedUniverses }: Props) => {
   const [openAddNewUniverseModal, setOpenAddNewUniverseModal] = useState(false);
-  const { setMovieFormData, handleNext, clearForm, setSkipSteps } =
+  const { setMovieFormData, handleNext, handlePrev, setSkipSteps } =
     use(MovieFormContext);
 
   const { data: parsedData } = useLocalStorage<MovieFormData>(
@@ -82,8 +82,6 @@ export const SharedUniverseForm = ({ sharedUniverses }: Props) => {
   };
 
   const onSubmit = async (data: SharedUniverseType) => {
-    console.log("data", data);
-
     const dataToSend: MovieKeyFields = {
       ...data,
     };
@@ -158,7 +156,7 @@ export const SharedUniverseForm = ({ sharedUniverses }: Props) => {
           </div>
 
           {!isSubmitting ? (
-            <FormButtons handlePrev={clearForm} skipStep={skipStep} />
+            <FormButtons handlePrev={handlePrev} skipStep={skipStep} />
           ) : (
             <span className="loader"></span>
           )}

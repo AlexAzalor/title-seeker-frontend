@@ -1,6 +1,17 @@
 "use client";
 
-import { createContext, Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
+import {
+  FIRST_STEP,
+  GENRES_STEP,
+  INFO_STEP,
+  LAST_STEP,
+  MovieFormContext,
+  PEOPLE_STEP,
+  RM_STEP,
+  SU_STEP,
+  SUMMARY_STEP,
+} from "./utils";
 import { KeyFieldsForm } from "./key-fields-form";
 import { InfoFieldsForm } from "./info-fields-form";
 import { PeopleFieldsForm } from "./people-fields-form";
@@ -20,7 +31,7 @@ import {
 } from "@/orval_api/model";
 import { GenreFieldsForm } from "./genre-fields-form";
 import { MovieFilterForm } from "./movie-filter-form";
-import { Preview } from "./preview";
+import { Summary } from "./summary";
 import { toast } from "sonner";
 import { createMovie } from "@/app/actions";
 import { errorHandling } from "@/lib/utils";
@@ -29,24 +40,6 @@ import { FormStepper } from "../ui/form-stepper";
 import { FormButtons } from "../ui/form-buttons";
 import { RelatedMovieForm } from "./related-movie-form";
 import { SharedUniverseForm } from "./shared_universe";
-
-export const MovieFormContext = createContext<{
-  movieFormData: BodyAPICreateMovie;
-  setMovieFormData: Dispatch<SetStateAction<BodyAPICreateMovie>>;
-  handleNext: () => void;
-  handlePrev: () => void;
-  clearForm?: () => void;
-  stepsSkipped?: number[];
-  setSkipSteps?: Dispatch<SetStateAction<number[]>>;
-}>({
-  movieFormData: {} as BodyAPICreateMovie,
-  setMovieFormData: () => {},
-  handleNext: () => {},
-  handlePrev: () => {},
-  clearForm: () => {},
-  stepsSkipped: [],
-  setSkipSteps: () => {},
-});
 
 type Props = {
   actors: ActorOut[];
@@ -83,12 +76,6 @@ export const MovieFormWizard = ({
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
   const [stepsSkipped, setSkipSteps] = useState<number[]>([]);
 
-  // console.log(
-  //   "%c === MOVIE FORM DATA === ",
-  //   "color: black; background-color: coral; font-weight: 700",
-  //   movieFormData,
-  // );
-
   const handleNext = () => {
     setCurrentStep(currentStep + 1);
 
@@ -111,12 +98,6 @@ export const MovieFormWizard = ({
 
   const addMovie = async () => {
     setIsSubmitting(true);
-
-    console.log(
-      "%c DATA TO API: ",
-      "color: black; background-color: lightBlue; font-weight: 700",
-      movieFormData,
-    );
 
     const { form_data, file } = movieFormData;
 
@@ -163,34 +144,40 @@ export const MovieFormWizard = ({
 
         <Separator className="my-12" />
 
-        {currentStep === 1 && <KeyFieldsForm quickMovie={quickMovie} />}
-        {currentStep === 2 && (
+        {currentStep === FIRST_STEP && (
+          <KeyFieldsForm quickMovie={quickMovie} />
+        )}
+        {currentStep === SU_STEP && (
           <SharedUniverseForm sharedUniverses={shared_universes} />
         )}
-        {currentStep === 3 && <RelatedMovieForm baseMovies={base_movies} />}
-        {currentStep === 4 && <InfoFieldsForm />}
-        {currentStep === 5 && (
+        {currentStep === RM_STEP && (
+          <RelatedMovieForm baseMovies={base_movies} />
+        )}
+        {currentStep === INFO_STEP && <InfoFieldsForm />}
+        {currentStep === PEOPLE_STEP && (
           <PeopleFieldsForm
             actors={actors}
             directors={directors}
             characters={characters}
           />
         )}
-        {currentStep === 6 && <GenreFieldsForm genres={genres} />}
-        {currentStep === 7 && (
+        {currentStep === GENRES_STEP && <GenreFieldsForm genres={genres} />}
+        {currentStep === LAST_STEP && (
           <MovieFilterForm
             specifications={specifications}
             keywords={keywords}
             actionTimes={actionTimes}
           />
         )}
-        {currentStep === 8 && movieFormData && movieFormData.form_data.key && (
-          <Preview
-            movieFormData={movieFormData.form_data}
-            file={movieFormData.file as File}
-          />
-        )}
-        {currentStep === 8 && (
+        {currentStep === SUMMARY_STEP &&
+          movieFormData &&
+          movieFormData.form_data.key && (
+            <Summary
+              movieFormData={movieFormData.form_data}
+              file={movieFormData.file as File}
+            />
+          )}
+        {currentStep === SUMMARY_STEP && (
           <div>
             {!isSubmitting ? (
               <FormButtons
@@ -203,10 +190,6 @@ export const MovieFormWizard = ({
             )}
           </div>
         )}
-
-        {/* <Button variant="link" onClick={clearForm} className="mx-auto">
-        Clear form
-      </Button> */}
       </div>
     </MovieFormContext>
   );

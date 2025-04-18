@@ -2,10 +2,10 @@ import { use, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { MovieScheme, MovieSchemeType } from "@/types/zod-scheme";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { MovieFormContext } from "./utils";
 import { formatKey } from "@/lib/utils";
-import { MovieFormContext } from "./movie-form-wizard";
-import { FormField } from "../ui/form-field";
 
+import { FormField } from "../ui/form-field";
 import {
   MovieFormData,
   MoviePreCreateDataTemporaryMovie,
@@ -52,7 +52,9 @@ export const KeyFieldsForm = ({ quickMovie }: Props) => {
   const ratingRef = useRef<RatingDataOut>({
     ratingData,
     ratingCriterionType:
-      quickMovie?.rating_criterion_type || RatingCriterion.basic,
+      quickMovie?.rating_criterion_type ||
+      parsedData.rating_criterion_type ||
+      RatingCriterion.basic,
     rating: quickMovie?.rating || parsedData.rating || 0,
   });
 

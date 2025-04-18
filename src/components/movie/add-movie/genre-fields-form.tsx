@@ -1,6 +1,7 @@
 import { Suspense, use, useState } from "react";
 import dynamic from "next/dynamic";
 import { useFieldArray, useForm } from "react-hook-form";
+import { MovieFormContext } from "./utils";
 
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,7 +14,6 @@ import type {
   SubgenreOut,
 } from "@/orval_api/model";
 
-import { MovieFormContext } from "./movie-form-wizard";
 import { AddNewGenre } from "../add-movies-parts/add-new-genre";
 import { ItemsListSelector } from "../ui/items-list-selector";
 import { useLocalStorage } from "@/hooks/useLocalStorage";

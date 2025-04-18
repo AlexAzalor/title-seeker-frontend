@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 
+import { MovieFormContext } from "./utils";
 import { InfoIcon } from "lucide-react";
 import { MovieFilterList, MovieFilterListType } from "@/types/zod-scheme";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -16,7 +17,6 @@ import {
   MovieFormData,
   SpecificationOut,
 } from "@/orval_api/model";
-import { MovieFormContext } from "./movie-form-wizard";
 import { AddNewMovieFilter } from "../add-movies-parts/add-new-movie-filter";
 import { ItemsListSelector } from "../ui/items-list-selector";
 import { FormButtons } from "../ui/form-buttons";

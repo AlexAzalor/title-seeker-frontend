@@ -8,7 +8,7 @@ type Props = {
   file: File;
 };
 
-export const Preview = ({ movieFormData, file }: Props) => {
+export const Summary = ({ movieFormData, file }: Props) => {
   const clearForm = () => {
     try {
       localStorage.removeItem("new-movie-data");
@@ -24,7 +24,7 @@ export const Preview = ({ movieFormData, file }: Props) => {
   return (
     <div>
       <div>
-        <h1>Preview</h1>
+        <h1>Summary</h1>
       </div>
 
       <div className="grid grid-cols-4 gap-4">

@@ -1,6 +1,16 @@
 import { use } from "react";
 import { FormStep } from "./form-step";
-import { MovieFormContext } from "../add-movie/movie-form-wizard";
+import {
+  FIRST_STEP,
+  GENRES_STEP,
+  INFO_STEP,
+  LAST_STEP,
+  MovieFormContext,
+  PEOPLE_STEP,
+  RM_STEP,
+  SU_STEP,
+  SUMMARY_STEP,
+} from "../add-movie/utils";
 
 type Props = {
   onStepChange: (step: number) => void;
@@ -19,65 +29,65 @@ export const FormStepper = ({
     <div className="mx-5 flex items-center justify-center gap-4">
       <FormStep
         title="Title/Rate"
-        step={1}
+        step={FIRST_STEP}
         completedSteps={completedSteps}
-        goToStep={() => onStepChange(1)}
+        goToStep={() => onStepChange(FIRST_STEP)}
         currentStep={currentStep}
       />
       <FormStep
         title="Shared Universe"
-        step={2}
+        step={SU_STEP}
         completedSteps={completedSteps}
-        goToStep={() => onStepChange(2)}
+        goToStep={() => onStepChange(SU_STEP)}
         currentStep={currentStep}
-        isStepSkipped={stepsSkipped?.includes(2)}
+        isStepSkipped={stepsSkipped?.includes(SU_STEP)}
       />
       <FormStep
         title="Related Movie"
-        step={3}
+        step={RM_STEP}
         completedSteps={completedSteps}
-        goToStep={() => onStepChange(3)}
+        goToStep={() => onStepChange(RM_STEP)}
         currentStep={currentStep}
-        isStepSkipped={stepsSkipped?.includes(3)}
+        isStepSkipped={stepsSkipped?.includes(RM_STEP)}
       />
 
       <FormStep
-        step={4}
+        step={INFO_STEP}
         title="Info"
         completedSteps={completedSteps}
-        goToStep={() => onStepChange(4)}
+        goToStep={() => onStepChange(INFO_STEP)}
         currentStep={currentStep}
       />
 
       <FormStep
-        step={5}
+        step={PEOPLE_STEP}
         title="People"
         completedSteps={completedSteps}
-        goToStep={() => onStepChange(5)}
+        goToStep={() => onStepChange(PEOPLE_STEP)}
         currentStep={currentStep}
       />
 
       <FormStep
-        step={6}
+        step={GENRES_STEP}
         title="Genres"
         completedSteps={completedSteps}
-        goToStep={() => onStepChange(6)}
+        goToStep={() => onStepChange(GENRES_STEP)}
         currentStep={currentStep}
       />
 
       <FormStep
-        step={7}
+        step={LAST_STEP}
         title="Features"
         completedSteps={completedSteps}
-        goToStep={() => onStepChange(7)}
+        goToStep={() => onStepChange(LAST_STEP)}
         currentStep={currentStep}
       />
 
       <FormStep
-        step={8}
+        step={SUMMARY_STEP}
         title="Summary"
         completedSteps={completedSteps}
-        goToStep={() => onStepChange(8)}
+        goToStep={() => onStepChange(SUMMARY_STEP)}
         currentStep={currentStep}
         lastStep
       />

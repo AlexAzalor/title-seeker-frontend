@@ -2,7 +2,7 @@ import { use } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { RelatedMovieField, RelatedMovieType } from "@/types/zod-scheme";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { MovieFormContext } from "./movie-form-wizard";
+import { MovieFormContext } from "./utils";
 import { FormField } from "../ui/form-field";
 
 import {
@@ -35,7 +35,7 @@ type Props = {
 };
 
 export const RelatedMovieForm = ({ baseMovies }: Props) => {
-  const { setMovieFormData, handleNext, clearForm, setSkipSteps } =
+  const { setMovieFormData, handleNext, handlePrev, setSkipSteps } =
     use(MovieFormContext);
 
   const { data: parsedData } = useLocalStorage<MovieFormData>(
@@ -160,7 +160,7 @@ export const RelatedMovieForm = ({ baseMovies }: Props) => {
         </div>
 
         {!isSubmitting ? (
-          <FormButtons handlePrev={clearForm} skipStep={skipStep} />
+          <FormButtons handlePrev={handlePrev} skipStep={skipStep} />
         ) : (
           <span className="loader"></span>
         )}
