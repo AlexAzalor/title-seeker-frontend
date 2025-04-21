@@ -1,6 +1,7 @@
 import { auth } from "@/auth";
 import { backendURL } from "@/lib/constants";
 import { formatDate } from "@/lib/utils";
+import { Language } from "@/orval_api/model";
 import { getUsers } from "@/orval_api/users/users";
 
 export default async function AllUsersPage() {
@@ -26,7 +27,7 @@ export default async function AllUsersPage() {
             <p>Email: {user.email}</p>
             <p>Role: {user.role}</p>
             <p>UUID: {user.uuid}</p>
-            <p>Created At: {formatDate(user.created_at, "en")}</p>
+            <p>Created At: {formatDate(user.created_at, Language.en)}</p>
           </div>
         ))}
       </div>

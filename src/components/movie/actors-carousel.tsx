@@ -6,13 +6,13 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { Actor } from "@/orval_api/model";
+import { Actor, Language } from "@/orval_api/model";
 import Image from "next/image";
 import Link from "next/link";
 
 type Props = {
   actors: Actor[];
-  lang: "uk" | "en";
+  lang: Language;
   avatarURL: string;
 };
 export function ActorsCarousel({ actors, avatarURL }: Props) {

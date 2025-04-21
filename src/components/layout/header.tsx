@@ -3,7 +3,6 @@ import Image from "next/image";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 
-import { ButtonSwitchServer } from "../button-server";
 import { ModeToggle } from "../toggles/theme-toggle";
 import { Button } from "../ui/button";
 import { PlusCircle } from "lucide-react";
@@ -12,6 +11,7 @@ import { POSTER_URL } from "@/lib/constants";
 import { SidebarTrigger } from "../ui/sidebar";
 import { GoogleLogin } from "../google-login";
 import { NavUser } from "../nav-user";
+import { LocaleSwitcher } from "../locale-switcher";
 
 type Props = {
   session: Session | null;
@@ -73,7 +73,7 @@ export const Header = ({ session }: Props) => {
         )}
 
         <div className="hidden 2xl:block">
-          <ButtonSwitchServer />
+          <LocaleSwitcher />
         </div>
 
         <div className="hidden 2xl:block">

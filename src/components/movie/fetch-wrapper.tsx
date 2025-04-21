@@ -15,7 +15,7 @@ type Props<
   params: Params;
   children: (args: {
     result: AxiosResponse<Datum>;
-    lang: "uk" | "en";
+    lang: Language;
   }) => React.ReactElement;
 };
 

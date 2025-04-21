@@ -12,7 +12,6 @@ import {
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
 import Link from "next/link";
-import { ButtonSwitchServer } from "../button-server";
 import { ModeToggle } from "../toggles/theme-toggle";
 import { Button } from "../ui/button";
 import {
@@ -32,6 +31,7 @@ import { auth } from "@/auth";
 import { GoogleLogin } from "../google-login";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { SignOut } from "../custom/sign-out";
+import { LocaleSwitcher } from "../locale-switcher";
 
 export const CONTENT_ICONS = {
   movies: <Film />,
@@ -209,7 +209,7 @@ export async function AppSidebar({
 
       <SidebarFooter>
         <div className="flex items-center justify-between">
-          <ButtonSwitchServer />
+          <LocaleSwitcher />
           <ModeToggle />
         </div>
         {session && <SignOut name={menu("logout")} />}

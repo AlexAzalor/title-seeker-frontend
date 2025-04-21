@@ -203,7 +203,6 @@ export const Search = ({ posterURL }: Props) => {
               key={title.key}
               // For searching by two languages
               value={title.title_uk + " " + title.title_en}
-              lang="uk"
             >
               <Link
                 href={`/movies/${title.key}`}

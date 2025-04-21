@@ -28,7 +28,7 @@ export function GenreRadarChart({ radarData }: Props) {
 
   const chartConfig = {
     count: {
-      label: lang === "uk" ? "Кількість" : "Count",
+      label: lang === Language.uk ? "Кількість" : "Count",
       color: "#4a3aff",
     },
   } satisfies ChartConfig;

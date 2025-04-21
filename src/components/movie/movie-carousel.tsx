@@ -10,7 +10,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
-import { MovieCarousel } from "@/orval_api/model";
+import { Language, MovieCarousel } from "@/orval_api/model";
 import Image from "next/image";
 import Link from "next/link";
 import { formatDate } from "@/lib/utils";
@@ -19,7 +19,7 @@ import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 type Props = {
   movies: MovieCarousel[];
-  lang: "uk" | "en";
+  lang: Language;
   posterURL: string;
   avatarURL: string;
 };

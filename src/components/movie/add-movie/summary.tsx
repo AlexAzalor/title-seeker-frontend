@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { formatDate } from "@/lib/utils";
-import { MovieFormData } from "@/orval_api/model";
+import { Language, MovieFormData } from "@/orval_api/model";
 import { toast } from "sonner";
 
 type Props = {
@@ -175,7 +175,7 @@ export const Summary = ({ movieFormData, file }: Props) => {
           <div>
             Release date:{" "}
             <span className="text-xl font-bold">
-              {formatDate(movieFormData.release_date, "en")}
+              {formatDate(movieFormData.release_date, Language.en)}
             </span>
           </div>
           <div>

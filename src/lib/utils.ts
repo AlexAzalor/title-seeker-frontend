@@ -98,13 +98,16 @@ export const errorHandling = (response: any, endSubmitting: () => void) => {
   }
 };
 
-export function formattedDuration(duration: number, lang = "uk") {
+export function formattedDuration(
+  duration: number,
+  lang: Language = Language.uk,
+) {
   const hours = Math.floor(duration / 60);
   const minutes = duration % 60;
 
-  if (lang === "en") {
+  if (lang === Language.en) {
     return `${hours}h ${minutes}m`;
-  } else if (lang === "uk") {
+  } else if (lang === Language.uk) {
     return `${hours}г ${minutes}хв`;
   } else {
     throw new Error("Unsupported language");

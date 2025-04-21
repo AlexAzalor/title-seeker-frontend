@@ -1,7 +1,6 @@
 "use server";
 
 import { cache } from "react";
-import { cookies } from "next/headers";
 import { auth } from "@/auth";
 import { getLocale } from "next-intl/server";
 import axios, { AxiosResponse } from "axios";
@@ -36,12 +35,6 @@ import { getActionTimes } from "@/orval_api/action-times/action-times";
 import { getSharedUniverses } from "@/orval_api/shared-universes/shared-universes";
 import { getCharacters } from "@/orval_api/characters/characters";
 import { getUsers } from "@/orval_api/users/users";
-
-export async function create(locale: string) {
-  const cookieStore = await cookies();
-
-  cookieStore.set("locale", locale);
-}
 
 export const fetchSettings = cache(async () => {
   const locale = await getLocale();

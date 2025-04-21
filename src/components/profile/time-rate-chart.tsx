@@ -46,7 +46,7 @@ const formatDateForChart = (
     hour: "2-digit",
     minute: "2-digit",
     // 24-hour format; set to true if you want AM/PM
-    hour12: locale === "uk" ? false : true,
+    hour12: locale === Language.uk ? false : true,
   });
 
   return `${dateStr}, ${timeStr}, ${title}`;
