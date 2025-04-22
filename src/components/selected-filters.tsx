@@ -6,7 +6,7 @@ import { ACTION_TIME, KEYWORD, SPEC } from "./filter-fetch-wrapper";
 import { ACTOR } from "./actors";
 import { DIRECTOR } from "./director";
 import { ResizableHandle, ResizablePanel } from "./ui/resizable";
-import { modifyGenresSearchParams } from "@/lib/utils";
+import { manageSearchParameters } from "@/lib/utils";
 
 import {
   ActionTimeOut,
@@ -79,7 +79,7 @@ export const SelectedFilters = ({
   };
 
   const deleteSearchParam = (value: string, key: string) => {
-    modifyGenresSearchParams(
+    manageSearchParameters(
       key,
       value,
       value,

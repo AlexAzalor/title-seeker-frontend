@@ -1,11 +1,16 @@
 import { getLocale } from "next-intl/server";
-import Link from "next/link";
 import { getMovies } from "@/orval_api/movies/movies";
-import { backendURL, POSTER_URL } from "@/lib/constants";
-import { Language, MoviePreviewOut } from "@/orval_api/model";
-import Image from "next/image";
-import { formatDate } from "@/lib/utils";
+import { backendURL } from "@/lib/constants";
+import {
+  Language,
+  MoviePreviewOut,
+  SortBy,
+  SortOrder,
+} from "@/orval_api/model";
 import type { Metadata } from "next";
+import { ListSortControls } from "@/components/profile/my-lists/list-sort-controls";
+import { PaginationContoller } from "@/components/profile/my-lists/pagination-contoller";
+import { MovieList } from "@/components/movie/movie-list";
 
 export const metadata: Metadata = {
   title: "Super Search | Title Seeker",
@@ -27,7 +32,7 @@ export default async function SuperSearchPage(props: {
     (paramsKeys.length === 1 && paramsKeys.includes("exact_match"))
   ) {
     return (
-      <h2 className="mx-auto">
+      <h2 className="mx-auto mt-10 text-center">
         Please select at least one filter to search for movies
       </h2>
     );
@@ -37,6 +42,32 @@ export default async function SuperSearchPage(props: {
   const lang = Language[locale as keyof typeof Language];
 
   let moviesList: MoviePreviewOut[] = [];
+
+  let query = "";
+  let pageNumber = "1";
+  let pageSize = 12;
+  let sortOrder: SortOrder = SortOrder.desc;
+  let sortBy: SortBy = SortBy.id;
+
+  if (!!searchParams && typeof searchParams.name === "string") {
+    query = searchParams.name;
+  }
+
+  if (!!searchParams && typeof searchParams.page === "string") {
+    pageNumber = searchParams.page;
+  }
+
+  if (!!searchParams && typeof searchParams.size === "string") {
+    pageSize = Number(searchParams.size);
+  }
+
+  if (!!searchParams && typeof searchParams.sort_order === "string") {
+    sortOrder = searchParams.sort_order as SortOrder;
+  }
+
+  if (!!searchParams && typeof searchParams.sort_by === "string") {
+    sortBy = searchParams.sort_by as SortBy;
+  }
 
   const { aPISuperSearchMovies } = getMovies();
 
@@ -79,7 +110,7 @@ export default async function SuperSearchPage(props: {
   const exactMatch = searchParams.exact_match as any;
 
   const {
-    data: { movies },
+    data: { items: movies, page, total, size, pages },
   } = await aPISuperSearchMovies(
     {
       lang,
@@ -92,6 +123,12 @@ export default async function SuperSearchPage(props: {
       action_time_name: actionTimeNamesList,
       exact_match: exactMatch,
       universe: universesList,
+
+      // query: query,
+      page: Number(pageNumber),
+      size: Number(pageSize),
+      sort_order: sortOrder,
+      sort_by: sortBy,
     },
     {
       baseURL: backendURL.baseURL,
@@ -104,42 +141,37 @@ export default async function SuperSearchPage(props: {
   moviesList = movies;
 
   return (
-    <>
-      {moviesList.length ? (
-        moviesList.map((movie) => (
-          <Link
-            key={movie.key}
-            className="shadow-form-layout dark:shadow-dark-form-layout grid h-32 w-[300px] grid-cols-[1fr_3fr] items-center gap-2 rounded-[34px] border border-[#EFF0F7] p-3 lg:h-[158px] lg:w-[340px] lg:p-6 dark:border-[#211979]"
-            href={`/movies/${movie.key}`}
-          >
-            {movie.poster && (
-              <Image
-                src={`${POSTER_URL}/posters/${movie.poster}`}
-                alt="Actor Avatar"
-                height={200}
-                width={100}
-              />
-            )}
-            <div className="flex h-full flex-col justify-between self-start">
-              <p title={movie.title} className="text-xl font-bold">
-                {movie.title.length > 40
-                  ? movie.title.slice(0, 40) + "..."
-                  : movie.title}
-              </p>
-              <div>
-                {movie.release_date
-                  ? formatDate(movie.release_date, lang)
-                  : "no date"}
-              </div>
-              <div className="flex gap-1">
-                <div>{movie.duration}</div>|<div>{movie.main_genre}</div>
-              </div>
-            </div>
-          </Link>
-        ))
-      ) : (
-        <h2 className="mx-auto mt-10">No movies found with selected filters</h2>
-      )}
-    </>
+    <ListSortControls
+      uriKey="super-search"
+      currentPage={page}
+      pageSize={size}
+      query={""}
+      sortOrder={sortOrder}
+      sortBy={sortBy}
+      sortByID
+      totalItems={total}
+    >
+      <div className="flex h-190 flex-wrap gap-4 py-3 lg:px-3">
+        {moviesList.length ? (
+          <MovieList movies={movies} lang={lang} />
+        ) : (
+          <h2 className="mx-auto mt-10">
+            No movies found with selected filters
+          </h2>
+        )}
+
+        {!!pages && total && total > 10 && (
+          <PaginationContoller
+            uriKey="super-search"
+            currentPage={page}
+            totalPages={pages}
+            pageSize={size}
+            query={""}
+            sortOrder={sortOrder}
+            sortBy={sortBy}
+          />
+        )}
+      </div>
+    </ListSortControls>
   );
 }

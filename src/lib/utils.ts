@@ -11,6 +11,20 @@ import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.share
 import { ReadonlyURLSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import { twMerge } from "tailwind-merge";
+import { APISuperSearchMoviesParams } from "@/orval_api/model/aPISuperSearchMoviesParams";
+
+type SuperSearchParams = keyof APISuperSearchMoviesParams;
+const PARAM_KEYS: SuperSearchParams[] = [
+  "genre_name",
+  "subgenre_name",
+  "actor_name",
+  "director_name",
+  "specification_name",
+  "keyword_name",
+  "action_time_name",
+  "universe",
+  "exact_match",
+];
 
 type IntlOptions = Intl.DateTimeFormatOptions;
 
@@ -118,7 +132,7 @@ export function cleanNumberValue(value: number) {
   return String(value).replace(/,/g, "");
 }
 
-export function handleSearchParams(
+export function syncSearchParameters(
   router: AppRouterInstance,
   searchParams?: ReadonlyURLSearchParams,
 ) {
@@ -142,25 +156,36 @@ export function handleSearchParams(
 /**
  * ?key=value&key2=value2...
  */
-export function modifyGenresSearchParams(
+export function manageSearchParameters(
   key: string,
   value: string,
   valueToDelete: string | undefined,
   searchParams: ReadonlyURLSearchParams,
   router: AppRouterInstance,
-  callback?: (value: string, urlSearchParams: URLSearchParams) => void,
+  deleteParams?: (value: string, urlSearchParams: URLSearchParams) => void,
 ) {
-  const { urlSearchParams, refreshPage } = handleSearchParams(
+  const { urlSearchParams, refreshPage } = syncSearchParameters(
     router,
     searchParams,
   );
 
-  if (callback) {
-    callback(value, urlSearchParams);
+  if (deleteParams) {
+    deleteParams(value, urlSearchParams);
   }
+
+  // Go to the first page
+  urlSearchParams.set("page", "1");
 
   if (!!valueToDelete) {
     urlSearchParams.delete(key, valueToDelete);
+
+    // If there are no more search parameters, remove pagination and sorting
+    if (PARAM_KEYS.every((key) => !urlSearchParams.has(key))) {
+      urlSearchParams.delete("page");
+      urlSearchParams.delete("size");
+      urlSearchParams.delete("sort_by");
+      urlSearchParams.delete("sort_order");
+    }
   } else {
     urlSearchParams.append(key, value);
   }

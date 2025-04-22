@@ -86,6 +86,7 @@ export async function createMovie(
 ) {
   const user = await getSession();
 
+  // Check owner/admin role
   if (!user) {
     return { status: 403, message: "You are not allowed to do this" };
   }

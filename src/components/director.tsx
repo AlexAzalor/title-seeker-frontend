@@ -3,7 +3,7 @@
 import { DirectorOut } from "@/orval_api/model";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ItemsListSelector } from "./movie/ui/items-list-selector";
-import { modifyGenresSearchParams } from "@/lib/utils";
+import { manageSearchParameters } from "@/lib/utils";
 import { ResponsiveWrapper } from "./movie/ui/responsive-wrapper";
 
 export const DIRECTOR = "director_name";
@@ -19,7 +19,7 @@ export const Directors = ({ directors }: Props) => {
   const currentSelectedDirectors = currentSearchParams.getAll(DIRECTOR);
 
   function searchByDirectors(name: string) {
-    modifyGenresSearchParams(
+    manageSearchParameters(
       DIRECTOR,
       name,
       currentSearchParams.has(DIRECTOR, name) ? name : undefined,

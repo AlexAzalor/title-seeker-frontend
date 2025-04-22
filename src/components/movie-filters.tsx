@@ -7,7 +7,7 @@ import { ItemsListSelector } from "./movie/ui/items-list-selector";
 import {
   DEFAULT_RANGE,
   extractWord,
-  modifyGenresSearchParams,
+  manageSearchParameters,
 } from "@/lib/utils";
 import { ResponsiveWrapper } from "./movie/ui/responsive-wrapper";
 
@@ -25,7 +25,7 @@ export const MovieFilters = ({ data, param_key, title }: Props) => {
 
   function onClick(name: string) {
     const item = currentSelectedFilter.find((e) => e.includes(name));
-    modifyGenresSearchParams(
+    manageSearchParameters(
       param_key,
       name + `(${DEFAULT_RANGE.join()})`,
       item,

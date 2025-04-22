@@ -5,11 +5,5 @@ export default function SuperSearchLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <FilterFetchWrapper>
-      <div>
-        <div className="flex flex-wrap gap-4 py-3 lg:px-3">{children}</div>
-      </div>
-    </FilterFetchWrapper>
-  );
+  return <FilterFetchWrapper>{children}</FilterFetchWrapper>;
 }

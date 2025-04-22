@@ -3,7 +3,7 @@
 import { ActorOut } from "@/orval_api/model";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ItemsListSelector } from "./movie/ui/items-list-selector";
-import { modifyGenresSearchParams } from "@/lib/utils";
+import { manageSearchParameters } from "@/lib/utils";
 import { ResponsiveWrapper } from "./movie/ui/responsive-wrapper";
 
 export const ACTOR = "actor_name";
@@ -19,7 +19,7 @@ export const Actors = ({ actors }: Props) => {
   const currentSelectedActors = currentSearchParams.getAll(ACTOR);
 
   function searchByActors(name: string) {
-    modifyGenresSearchParams(
+    manageSearchParameters(
       ACTOR,
       name,
       currentSearchParams.has(ACTOR, name) ? name : undefined,

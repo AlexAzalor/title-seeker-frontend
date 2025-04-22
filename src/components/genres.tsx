@@ -12,8 +12,8 @@ import { Button } from "./ui/button";
 import {
   DEFAULT_RANGE,
   extractWord,
-  handleSearchParams,
-  modifyGenresSearchParams,
+  syncSearchParameters,
+  manageSearchParameters,
 } from "@/lib/utils";
 import { ResponsiveWrapper } from "./movie/ui/responsive-wrapper";
 
@@ -90,7 +90,7 @@ export const Genres = ({ genres }: Props) => {
     );
 
     if (key === GENRE) {
-      modifyGenresSearchParams(
+      manageSearchParameters(
         key,
         // action(10,100)
         value + `(${DEFAULT_RANGE.join()})`,
@@ -103,7 +103,7 @@ export const Genres = ({ genres }: Props) => {
     }
 
     if (key === SUBGENRE) {
-      modifyGenresSearchParams(
+      manageSearchParameters(
         key,
         value + `(${DEFAULT_RANGE.join()})`,
         subgenreToDelete,
@@ -116,7 +116,7 @@ export const Genres = ({ genres }: Props) => {
   }
 
   const clearAllFilters = () => {
-    const { refreshPage } = handleSearchParams(router);
+    const { refreshPage } = syncSearchParameters(router);
     refreshPage();
 
     setSubgenres([]);
@@ -127,7 +127,7 @@ export const Genres = ({ genres }: Props) => {
   };
 
   function handleExactMatch() {
-    modifyGenresSearchParams(
+    manageSearchParameters(
       EXACT_MATCH,
       "true",
       currentSearchParams.has(EXACT_MATCH) ? "true" : "",

@@ -1,10 +1,7 @@
 import { auth } from "@/auth";
 import { MyMovies } from "@/components/profile/my-lists/my-movies";
-import {
-  DEFAULT_PAGE_SIZE,
-  MyRatedMovies,
-} from "@/components/profile/my-lists/my-rated-movies";
-import { PaginationWrapper } from "@/components/profile/my-lists/pagination-wrapper";
+import { PaginationContoller } from "@/components/profile/my-lists/pagination-contoller";
+import { ListSortControls } from "@/components/profile/my-lists/list-sort-controls";
 import { backendURL } from "@/lib/constants";
 import { Language, SortBy, SortOrder } from "@/orval_api/model";
 import { getMovies } from "@/orval_api/movies/movies";
@@ -24,7 +21,7 @@ export default async function MyListsPage(props: {
 
   let query = "";
   let pageNumber = "1";
-  let pageSize = DEFAULT_PAGE_SIZE;
+  let pageSize = 10;
   let sortOrder: SortOrder = SortOrder.desc;
   let orderBy: SortBy = SortBy.rated_at;
 
@@ -68,7 +65,8 @@ export default async function MyListsPage(props: {
   );
 
   return (
-    <PaginationWrapper
+    <ListSortControls
+      uriKey="user/my-lists"
       currentPage={page}
       pageSize={size}
       query={""}
@@ -80,7 +78,8 @@ export default async function MyListsPage(props: {
           <MyMovies movies={items} />
 
           {pages > 1 && (
-            <MyRatedMovies
+            <PaginationContoller
+              uriKey="user/my-lists"
               currentPage={page}
               totalPages={pages}
               pageSize={size}
@@ -93,6 +92,6 @@ export default async function MyListsPage(props: {
       ) : (
         <div>You have not rated any movies yet.</div>
       )}
-    </PaginationWrapper>
+    </ListSortControls>
   );
 }

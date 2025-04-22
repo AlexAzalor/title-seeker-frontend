@@ -15,43 +15,55 @@ import {
 
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
-import { formatURI, URIParams } from "./my-rated-movies";
+import { formatURI, URIParams } from "./pagination-contoller";
 import {
   PageMoviePreviewOutPage,
   PageMoviePreviewOutSize,
+  PageMoviePreviewOutTotal,
   SortBy,
   SortOrder,
 } from "@/orval_api/model";
 import { Button } from "@/components/ui/button";
 import { SlidersHorizontal } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { useDeletePaginationParams } from "@/hooks/useDeletePaginationParams";
 
 type Props = {
   // experts?: UserSearchOut[];
+  uriKey: string;
   query: string;
   children?: React.ReactNode;
   pageSize: PageMoviePreviewOutSize;
   sortOrder: SortOrder;
   sortBy: SortBy;
   currentPage: PageMoviePreviewOutPage;
+  sortByID?: boolean;
+  totalItems?: PageMoviePreviewOutTotal;
 };
 
 // Art, Low, ENT/ЛОР
 // const MIN_CHARACTERS = 2;
 
-export const PaginationWrapper = ({
+export const ListSortControls = ({
+  uriKey,
   children,
   query,
   currentPage,
   pageSize,
   sortOrder,
   sortBy,
+  sortByID,
+  totalItems,
 }: Props) => {
   const router = useRouter();
   const currentOrderType = useRef(sortOrder);
   const currentOrderBy = useRef(sortBy);
   const t = useTranslations("Other");
 
+  const cleanParams = useDeletePaginationParams();
+
   const params: URIParams = {
+    uriKey,
     query,
     page: currentPage,
     size: pageSize,
@@ -62,14 +74,14 @@ export const PaginationWrapper = ({
   const handleOrderType = (sortOrder: SortOrder) => {
     currentOrderType.current = sortOrder;
 
-    const uri = formatURI({ ...params, sortOrder });
+    const uri = formatURI({ ...params, sortOrder, otherParams: cleanParams });
     router.replace(uri);
   };
 
   const handleOrderBy = (sortBy: SortBy) => {
     currentOrderBy.current = sortBy;
 
-    const uri = formatURI({ ...params, sortBy });
+    const uri = formatURI({ ...params, sortBy, otherParams: cleanParams });
     router.replace(uri);
   };
 
@@ -91,12 +103,16 @@ export const PaginationWrapper = ({
 
   //   debounce(value);
   // };
-
+  // mx-auto max-w-[1280px]
   return (
-    <div className="mx-auto max-w-[1280px]">
-      <h1>All my rated movies</h1>
-
-      <div className="relative mb-6 flex justify-end rounded-[32px]">
+    <>
+      <div
+        className={cn(
+          "relative my-2 flex items-end justify-end rounded-[32px]",
+          sortByID && "mb-0",
+        )}
+      >
+        {!!totalItems && <div className="mr-10 self-center">{totalItems}</div>}
         {/* <Image
           className="absolute top-1/2 left-6 -translate-y-1/2 transform"
           src="/static/search-normal.svg"
@@ -115,7 +131,7 @@ export const PaginationWrapper = ({
           defaultValue={query}
         /> */}
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
+          <DropdownMenuTrigger asChild className="">
             <Button className="h-11 w-11 rounded-full px-1" variant="outline">
               <SlidersHorizontal />
             </Button>
@@ -144,9 +160,17 @@ export const PaginationWrapper = ({
               value={currentOrderBy.current}
               onValueChange={(value) => handleOrderBy(value as SortBy)}
             >
-              <DropdownMenuRadioItem value={SortBy.rated_at}>
-                {t("sorting.ratedAt")}
-              </DropdownMenuRadioItem>
+              {!sortByID && (
+                <DropdownMenuRadioItem value={SortBy.rated_at}>
+                  {t("sorting.ratedAt")}
+                </DropdownMenuRadioItem>
+              )}
+
+              {sortByID && (
+                <DropdownMenuRadioItem value={SortBy.id}>
+                  By ID
+                </DropdownMenuRadioItem>
+              )}
 
               <DropdownMenuRadioItem value={SortBy.rating}>
                 {t("sorting.rating")}
@@ -166,6 +190,6 @@ export const PaginationWrapper = ({
       </div>
 
       {children}
-    </div>
+    </>
   );
 };

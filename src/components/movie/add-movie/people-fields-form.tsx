@@ -188,7 +188,7 @@ export const PeopleFieldsForm = ({ actors, directors, characters }: Props) => {
           <div className="mb-5 flex w-full flex-col items-center gap-6">
             <h1 className="text-[#2D26A5]">Actors</h1>
 
-            <ResponsiveWrapper title="Add new Actor">
+            <ResponsiveWrapper title="Select Actor">
               <ItemsListSelector
                 items={actors}
                 onOpenModal={handleOpenActorFormModal}
@@ -196,6 +196,12 @@ export const PeopleFieldsForm = ({ actors, directors, characters }: Props) => {
                 checkIconStyle={actorFields}
               />
             </ResponsiveWrapper>
+
+            {/* TODO: Implement Drag&Drop */}
+            <span>
+              Order of actors is important. The first actor will be the main,
+              and so on.
+            </span>
 
             {actorFields.map((field, index) => (
               <div key={field.id} className="grid grid-cols-2 gap-4">
@@ -272,7 +278,7 @@ export const PeopleFieldsForm = ({ actors, directors, characters }: Props) => {
           <div className="mb-5 flex w-full flex-col items-center gap-6">
             <h1 className="text-[#2D26A5]">Directors</h1>
 
-            <ResponsiveWrapper title="Add new Director">
+            <ResponsiveWrapper title="Select Director">
               <ItemsListSelector
                 items={directors}
                 onOpenModal={handleOpenDirectorFormModal}

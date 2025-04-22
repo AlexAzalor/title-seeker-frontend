@@ -103,6 +103,9 @@ export const EnhanceSearch = () => {
 
     const urlSearchParams = new URLSearchParams(currentSearchParams.toString());
 
+    // Go to the first page
+    urlSearchParams.set("page", "1");
+
     const keysList = [GENRE, SUBGENRE, SPEC, KEYWORD, ACTION_TIME];
 
     // First we delete all the search parameters because they are dynamic and then we add the old and updated ones

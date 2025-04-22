@@ -1,4 +1,7 @@
+"use client";
+
 import { Fragment } from "react";
+
 import {
   Pagination,
   PaginationContent,
@@ -24,33 +27,37 @@ import {
   SortBy,
   SortOrder,
 } from "@/orval_api/model";
+import { useDeletePaginationParams } from "@/hooks/useDeletePaginationParams";
 export const DEFAULT_PAGE = 1;
 export const DEFAULT_PAGE_SIZE: PageMoviePreviewOutSize = 10;
 
 export function formatURI({
+  uriKey,
   query,
+  otherParams,
   page = DEFAULT_PAGE,
   size = DEFAULT_PAGE_SIZE,
   sortOrder = SortOrder.desc,
   sortBy = SortBy.rated_at,
 }: URIParams) {
-  // ?sort_by=rated_at&sort_order=desc&lang=uk&page=1&size=5
-  // return `/search-experts/?name=${query}&page=${page}&size=${size}&order_type=${sortOrder}&order_by=${sortBy}`;
-  return `/user/my-lists/?sort_by=${sortBy}&sort_order=${sortOrder}&page=${page}&size=${size}`;
+  return `/${uriKey}?${otherParams ? otherParams + "&" : ""}sort_by=${sortBy}&sort_order=${sortOrder}&page=${page}&size=${size}`;
 }
 
 const FIRST_PAGE = 1;
 const THREE_DOTS = "...";
 
 export type URIParams = {
+  uriKey: string;
   query: string;
   page?: PageMoviePreviewOutPage;
   size?: PageMoviePreviewOutSize;
   sortOrder?: SortOrder;
   sortBy?: SortBy;
+  otherParams?: string;
 };
 
 type Props = {
+  uriKey: string;
   query: string;
   totalPages: PageMoviePreviewOutPages;
   currentPage: PageMoviePreviewOutPage;
@@ -59,7 +66,8 @@ type Props = {
   sortBy: SortBy;
 };
 
-export const MyRatedMovies = ({
+export const PaginationContoller = ({
+  uriKey,
   query,
   totalPages,
   currentPage,
@@ -68,8 +76,10 @@ export const MyRatedMovies = ({
   sortBy,
 }: Props) => {
   const t = useTranslations("Other");
+  const cleanParams = useDeletePaginationParams();
 
   const params: URIParams = {
+    uriKey,
     query,
     page: currentPage,
     size: pageSize,
@@ -79,17 +89,27 @@ export const MyRatedMovies = ({
 
   const prevPage =
     currentPage && currentPage !== FIRST_PAGE ? currentPage - 1 : FIRST_PAGE;
-  const prevPageLink = formatURI({ ...params, page: prevPage });
+
+  const prevPageLink = formatURI({
+    ...params,
+    page: prevPage,
+    otherParams: cleanParams,
+  });
 
   const nextPage =
     currentPage && currentPage !== totalPages ? currentPage + 1 : currentPage;
-  const nextPageLink = formatURI({ ...params, page: nextPage });
+
+  const nextPageLink = formatURI({
+    ...params,
+    page: nextPage,
+    otherParams: cleanParams,
+  });
 
   const pageButtonsList = getVisiblePages(currentPage, totalPages);
 
   return (
     <Pagination>
-      <PaginationContent>
+      <PaginationContent className="items-end">
         <PaginationItem>
           <PaginationPrevious
             className={cn(currentPage === FIRST_PAGE && "pointer-events-none")}
@@ -112,7 +132,11 @@ export const MyRatedMovies = ({
               {pageNumber === FIRST_PAGE && (
                 <PaginationItem>
                   <PaginationLink
-                    href={formatURI({ ...params, page: FIRST_PAGE })}
+                    href={formatURI({
+                      ...params,
+                      page: FIRST_PAGE,
+                      otherParams: cleanParams,
+                    })}
                     isActive={isPageActive}
                   >
                     {FIRST_PAGE}
@@ -129,7 +153,11 @@ export const MyRatedMovies = ({
               {showPageButton && (
                 <PaginationItem>
                   <PaginationLink
-                    href={formatURI({ ...params, page: Number(pageNumber) })}
+                    href={formatURI({
+                      ...params,
+                      page: Number(pageNumber),
+                      otherParams: cleanParams,
+                    })}
                     isActive={isPageActive}
                   >
                     {pageNumber}
@@ -146,7 +174,11 @@ export const MyRatedMovies = ({
               {pageNumber === totalPages && (
                 <PaginationItem>
                   <PaginationLink
-                    href={formatURI({ ...params, page: totalPages })}
+                    href={formatURI({
+                      ...params,
+                      page: totalPages,
+                      otherParams: cleanParams,
+                    })}
                     isActive={isPageActive}
                   >
                     {totalPages}
