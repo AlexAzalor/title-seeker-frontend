@@ -1,5 +1,5 @@
 import { FilterBrick } from "./filter-brick";
-import { GENRE_KEY, SUBGENRE_KEY } from "./genres";
+import { GENRE_KEY, SUBGENRE_KEY } from "./genre-selector";
 import { useState } from "react";
 import { GenreOut, SubgenreOut } from "@/orval_api/model";
 

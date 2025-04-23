@@ -7,11 +7,16 @@ import {
   ActorOut,
   DirectorOut,
 } from "@/orval_api/model";
-import { Actors } from "./actors";
-import { Directors } from "./director";
-import { SPEC_KEY, KEYWORD_KEY, ACTION_TIME_KEY } from "./filter-fetch-wrapper";
-import { Genres } from "./genres";
-import { MovieFilters } from "./movie-filters";
+import { PersonSelector } from "./person-selector";
+import {
+  SPEC_KEY,
+  KEYWORD_KEY,
+  ACTION_TIME_KEY,
+  ACTOR_KEY,
+  DIRECTOR_KEY,
+} from "./filter-fetch-wrapper";
+import { GenreSelector } from "./genre-selector";
+import { FilterSelector } from "./filter-selector";
 
 type Props = {
   genres: GenreOut[];
@@ -23,7 +28,7 @@ type Props = {
   directors: DirectorOut[];
 };
 
-export const FiltersList = ({
+export const FilterList = ({
   genres,
   subgenres,
   specifications,
@@ -34,23 +39,30 @@ export const FiltersList = ({
 }: Props) => {
   return (
     <div className="mb-20 flex flex-col gap-4 overflow-auto">
-      <Genres genres={genres} subgenres={subgenres} />
+      <GenreSelector genres={genres} subgenres={subgenres} />
 
-      <MovieFilters
+      <FilterSelector
         title="Specification"
         data={specifications}
         param_key={SPEC_KEY}
       />
-      <MovieFilters title="Keyword" data={keywords} param_key={KEYWORD_KEY} />
-      <MovieFilters
+      <FilterSelector title="Keyword" data={keywords} param_key={KEYWORD_KEY} />
+      <FilterSelector
         title="Action Time"
         data={action_times}
         param_key={ACTION_TIME_KEY}
       />
 
-      <Actors actors={actors} />
-
-      <Directors directors={directors} />
+      <PersonSelector
+        peopleList={actors}
+        title="Actors"
+        personKey={ACTOR_KEY}
+      />
+      <PersonSelector
+        peopleList={directors}
+        title="Directors"
+        personKey={DIRECTOR_KEY}
+      />
     </div>
   );
 };

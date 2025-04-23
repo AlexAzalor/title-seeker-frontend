@@ -1,10 +1,15 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { EXACT_MATCH_KEY, GENRE_KEY, SUBGENRE_KEY } from "./genres";
-import { ACTION_TIME_KEY, KEYWORD_KEY, SPEC_KEY } from "./filter-fetch-wrapper";
-import { ACTOR_KEY } from "./actors";
-import { DIRECTOR_KEY } from "./director";
+import { EXACT_MATCH_KEY, GENRE_KEY, SUBGENRE_KEY } from "./genre-selector";
+import {
+  ACTION_TIME_KEY,
+  ACTOR_KEY,
+  DIRECTOR_KEY,
+  KEYWORD_KEY,
+  SPEC_KEY,
+} from "./filter-fetch-wrapper";
+
 import { ResizableHandle, ResizablePanel } from "./ui/resizable";
 import { manageSearchParameters } from "@/lib/utils";
 
@@ -21,7 +26,7 @@ import {
 import { FilterBrick } from "./filter-brick";
 import { HoverBrick } from "./hover-brick";
 import { CircleX } from "lucide-react";
-import { FiltersList } from "./filters-list";
+import { FilterList } from "./filter-list";
 import { SideMenuPanel } from "./super-search/side-menu-panel";
 import { EnhanceSearch } from "./super-search/enhance-search";
 
@@ -49,15 +54,14 @@ export const SelectedFilters = ({
   const router = useRouter();
 
   const currentSearchParams = useSearchParams();
-  const currentSelectedGenres = currentSearchParams.getAll(GENRE_KEY);
-  const currentSelectedSubgenres = currentSearchParams.getAll(SUBGENRE_KEY);
-  const currentSelectedSpecifications = currentSearchParams.getAll(SPEC_KEY);
-  const currentSelectedKeywords = currentSearchParams.getAll(KEYWORD_KEY);
-  const currentSelectedActionTimes =
-    currentSearchParams.getAll(ACTION_TIME_KEY);
-  const currentSelectedActors = currentSearchParams.getAll(ACTOR_KEY);
-  const currentSelectedDirectors = currentSearchParams.getAll(DIRECTOR_KEY);
-  const currentExactMatch = currentSearchParams.get(EXACT_MATCH_KEY);
+  const selectedGenres = currentSearchParams.getAll(GENRE_KEY);
+  const selectedSubgenres = currentSearchParams.getAll(SUBGENRE_KEY);
+  const selectedSpecifications = currentSearchParams.getAll(SPEC_KEY);
+  const selectedKeywords = currentSearchParams.getAll(KEYWORD_KEY);
+  const selectedActionTimes = currentSearchParams.getAll(ACTION_TIME_KEY);
+  const selectedActors = currentSearchParams.getAll(ACTOR_KEY);
+  const selectedDirectors = currentSearchParams.getAll(DIRECTOR_KEY);
+  const selectedExactMatch = currentSearchParams.get(EXACT_MATCH_KEY);
 
   const deleteSubgenres = (genre: string, urlSearchParams: URLSearchParams) => {
     if (subgenres.length) {
@@ -67,7 +71,7 @@ export const SelectedFilters = ({
 
       if (filtredSubgenres.length) {
         for (const subgenre of filtredSubgenres) {
-          const subgenreKey = currentSelectedSubgenres.find((e) =>
+          const subgenreKey = selectedSubgenres.find((e) =>
             e.includes(subgenre.key),
           );
 
@@ -100,7 +104,7 @@ export const SelectedFilters = ({
 
           <div className="mb-2 flex justify-between">
             <SideMenuPanel side="left" type="Filters">
-              <FiltersList
+              <FilterList
                 {...{
                   genres,
                   subgenres,
@@ -119,8 +123,8 @@ export const SelectedFilters = ({
           </div>
           <div className="flex flex-wrap justify-center gap-2">
             <HoverBrick
-              genreItemsList={currentSelectedGenres}
-              subgenreItemsList={currentSelectedSubgenres}
+              genreItemsList={selectedGenres}
+              subgenreItemsList={selectedSubgenres}
               genres={genres}
               subgenres={subgenres}
               deleteSearchParam={deleteSearchParam}
@@ -128,43 +132,43 @@ export const SelectedFilters = ({
 
             <FilterBrick
               type={SPEC_KEY}
-              searchParamsList={currentSelectedSpecifications}
+              searchParamsList={selectedSpecifications}
               data={specifications}
               deleteItem={deleteSearchParam}
             />
             <FilterBrick
               type={KEYWORD_KEY}
-              searchParamsList={currentSelectedKeywords}
+              searchParamsList={selectedKeywords}
               data={keywords}
               deleteItem={deleteSearchParam}
             />
             <FilterBrick
               type={ACTION_TIME_KEY}
-              searchParamsList={currentSelectedActionTimes}
+              searchParamsList={selectedActionTimes}
               data={action_times}
               deleteItem={deleteSearchParam}
             />
 
             <FilterBrick
               type={ACTOR_KEY}
-              searchParamsList={currentSelectedActors}
+              searchParamsList={selectedActors}
               data={actors}
               deleteItem={deleteSearchParam}
             />
             <FilterBrick
               type={DIRECTOR_KEY}
-              searchParamsList={currentSelectedDirectors}
+              searchParamsList={selectedDirectors}
               data={directors}
               deleteItem={deleteSearchParam}
             />
 
-            {currentExactMatch && (
+            {selectedExactMatch && (
               <div className="hover:shadow-movie-exact-match dark:hover:shadow-movie-exact-match-light flex items-center space-x-1 rounded-xl border-1 border-black p-1 font-bold text-black transition-shadow dark:border-white dark:text-white">
                 <span>Exact match</span>
                 <CircleX
                   className="top-0 right-0 h-4 w-4 cursor-pointer"
                   onClick={() =>
-                    deleteSearchParam(currentExactMatch, EXACT_MATCH_KEY)
+                    deleteSearchParam(selectedExactMatch, EXACT_MATCH_KEY)
                   }
                 />
               </div>

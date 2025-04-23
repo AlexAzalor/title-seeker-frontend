@@ -3,7 +3,7 @@ import {
   KEYWORD_KEY,
   SPEC_KEY,
 } from "@/components/filter-fetch-wrapper";
-import { GENRE_KEY, SUBGENRE_KEY } from "@/components/genres";
+import { GENRE_KEY, SUBGENRE_KEY } from "@/components/genre-selector";
 import {
   Language,
   PageMoviePreviewOutPage,
@@ -135,7 +135,10 @@ export function formattedDuration(
 export function cleanNumberValue(value: number) {
   return String(value).replace(/,/g, "");
 }
-
+/**
+ *
+@description Synchronizes the URL search parameters with the router and returns a function to refresh the page.
+ */
 export function syncSearchParameters(
   router: AppRouterInstance,
   searchParams?: ReadonlyURLSearchParams,
@@ -158,6 +161,8 @@ export function syncSearchParameters(
 }
 
 /**
+ * @description Adds a parameter to the URL, removes it, synchronizes the page with the result, sends it to the first page of pagination.
+ * @example
  * ?key=value&key2=value2...
  */
 export function manageSearchParameters(
@@ -218,20 +223,19 @@ export const extractWord = (str: string): string => {
 export const formatSearchParams = (
   currentSearchParams: ReadonlyURLSearchParams,
 ) => {
-  const currentSelectedGenres = currentSearchParams.getAll(GENRE_KEY);
-  const currentSelectedSubgenres = currentSearchParams.getAll(SUBGENRE_KEY);
-  const currentSelectedSpecifications = currentSearchParams.getAll(SPEC_KEY);
-  const currentSelectedKeywords = currentSearchParams.getAll(KEYWORD_KEY);
-  const currentSelectedActionTimes =
-    currentSearchParams.getAll(ACTION_TIME_KEY);
+  const selectedGenres = currentSearchParams.getAll(GENRE_KEY);
+  const selectedSubgenres = currentSearchParams.getAll(SUBGENRE_KEY);
+  const selectedSpecifications = currentSearchParams.getAll(SPEC_KEY);
+  const selectedKeywords = currentSearchParams.getAll(KEYWORD_KEY);
+  const selectedActionTimes = currentSearchParams.getAll(ACTION_TIME_KEY);
 
   const showForm = () => {
     return (
-      currentSelectedGenres.length > 0 ||
-      currentSelectedSubgenres.length > 0 ||
-      currentSelectedSpecifications.length > 0 ||
-      currentSelectedKeywords.length > 0 ||
-      currentSelectedActionTimes.length > 0
+      selectedGenres.length > 0 ||
+      selectedSubgenres.length > 0 ||
+      selectedSpecifications.length > 0 ||
+      selectedKeywords.length > 0 ||
+      selectedActionTimes.length > 0
     );
   };
 
@@ -243,11 +247,11 @@ export const formatSearchParams = (
   };
 
   return {
-    formatGenreData: formatData(currentSelectedGenres),
-    formatSubgenreData: formatData(currentSelectedSubgenres),
-    formatSpecificationData: formatData(currentSelectedSpecifications),
-    formatKeywordData: formatData(currentSelectedKeywords),
-    formatActionTimeData: formatData(currentSelectedActionTimes),
+    formatGenreData: formatData(selectedGenres),
+    formatSubgenreData: formatData(selectedSubgenres),
+    formatSpecificationData: formatData(selectedSpecifications),
+    formatKeywordData: formatData(selectedKeywords),
+    formatActionTimeData: formatData(selectedActionTimes),
     showForm: showForm(),
   };
 };

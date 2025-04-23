@@ -12,11 +12,13 @@ import {
 } from "./ui/resizable";
 import { ScrollArea } from "./ui/scroll-area";
 import { EnhanceSearch } from "./super-search/enhance-search";
-import { FiltersList } from "./filters-list";
+import { FilterList } from "./filter-list";
 
 export const SPEC_KEY = "specification";
 export const KEYWORD_KEY = "keyword";
 export const ACTION_TIME_KEY = "action_time";
+export const ACTOR_KEY = "actor";
+export const DIRECTOR_KEY = "director";
 
 export const FilterFetchWrapper = async ({ children }: PropsWithChildren) => {
   const locale = await getLocale();
@@ -67,7 +69,7 @@ export const FilterFetchWrapper = async ({ children }: PropsWithChildren) => {
                 defaultSize={25}
                 className="hidden justify-center p-2 lg:flex"
               >
-                <FiltersList
+                <FilterList
                   {...{
                     genres,
                     subgenres,

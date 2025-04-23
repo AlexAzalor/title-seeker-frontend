@@ -17,14 +17,14 @@ type Props = {
   title: string;
 };
 
-export const MovieFilters = ({ data, param_key, title }: Props) => {
+export const FilterSelector = ({ data, param_key, title }: Props) => {
   const router = useRouter();
 
   const currentSearchParams = useSearchParams();
-  const currentSelectedFilter = currentSearchParams.getAll(param_key);
+  const selectedFilter = currentSearchParams.getAll(param_key);
 
   function onClick(name: string) {
-    const item = currentSelectedFilter.find((e) => e.includes(name));
+    const item = selectedFilter.find((e) => e.includes(name));
     manageSearchParameters(
       param_key,
       name + `(${DEFAULT_RANGE.join()})`,
@@ -43,7 +43,7 @@ export const MovieFilters = ({ data, param_key, title }: Props) => {
         onSelect={(currentValue, key, genre) => {
           onClick(genre.key);
         }}
-        checkIconStyle={currentSelectedFilter.map((e) => extractWord(e))}
+        checkIconStyle={selectedFilter.map((e) => extractWord(e))}
       />
     </ResponsiveWrapper>
   );

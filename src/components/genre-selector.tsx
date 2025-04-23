@@ -26,7 +26,7 @@ export const GENRE_KEY = "genre";
 export const SUBGENRE_KEY = "subgenre";
 export const EXACT_MATCH_KEY = "exact_match";
 
-export const Genres = ({ genres }: Props) => {
+export const GenreSelector = ({ genres }: Props) => {
   const router = useRouter();
 
   const currentSearchParams = useSearchParams();

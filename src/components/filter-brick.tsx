@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { CircleX, InfoIcon } from "lucide-react";
 import { TooltipWrapper } from "./custom/tooltip-wrapper";
 import { cleanString, cn, extractValues } from "@/lib/utils";
-import { GENRE_KEY, SUBGENRE_KEY } from "./genres";
+import { GENRE_KEY, SUBGENRE_KEY } from "./genre-selector";
 // import { percentageMatchColor } from "./movie/utils";
 // import {
 //   ActionTimeOut,
@@ -11,9 +11,14 @@ import { GENRE_KEY, SUBGENRE_KEY } from "./genres";
 //   SpecificationOut,
 //   SubgenreOutPlus,
 // } from "@/orval_api/model";
-import { ACTION_TIME_KEY, KEYWORD_KEY, SPEC_KEY } from "./filter-fetch-wrapper";
-import { ACTOR_KEY } from "./actors";
-import { DIRECTOR_KEY } from "./director";
+import {
+  ACTION_TIME_KEY,
+  ACTOR_KEY,
+  DIRECTOR_KEY,
+  KEYWORD_KEY,
+  SPEC_KEY,
+} from "./filter-fetch-wrapper";
+
 import { getFilterColor } from "./movie/utils";
 
 type Data = {

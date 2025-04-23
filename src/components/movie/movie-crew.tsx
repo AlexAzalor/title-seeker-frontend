@@ -10,8 +10,7 @@ import {
 import { PersonLink } from "./people-link";
 import { MovieActor, MovieDirector } from "@/orval_api/model";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { DIRECTOR_KEY } from "../director";
-import { ACTOR_KEY } from "../actors";
+import { ACTOR_KEY, DIRECTOR_KEY } from "../filter-fetch-wrapper";
 
 type Props = {
   actors: MovieActor[];
