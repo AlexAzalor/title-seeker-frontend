@@ -1,8 +1,12 @@
 import { cn } from "@/lib/utils";
-import { GENRE, SUBGENRE } from "../genres";
-import { ACTION_TIME, KEYWORD, SPEC } from "../filter-fetch-wrapper";
-import { ACTOR } from "../actors";
-import { DIRECTOR } from "../director";
+import { GENRE_KEY, SUBGENRE_KEY } from "../genres";
+import {
+  ACTION_TIME_KEY,
+  KEYWORD_KEY,
+  SPEC_KEY,
+} from "../filter-fetch-wrapper";
+import { ACTOR_KEY } from "../actors";
+import { DIRECTOR_KEY } from "../director";
 
 export const percentageMatchColor = (percentage: number, text: string) => {
   return (
@@ -29,11 +33,11 @@ export const percentageMatchColor = (percentage: number, text: string) => {
 
 export const getFilterColor = (type: string) =>
   ({
-    [GENRE]: "#4A3AFF",
-    [SUBGENRE]: "#9d4eff",
-    [SPEC]: "#64fcfe",
-    [KEYWORD]: "#FFC55C",
-    [ACTION_TIME]: "#92A8D1",
-    [ACTOR]: "#90ee90",
-    [DIRECTOR]: "#f08080",
+    [GENRE_KEY]: "#4A3AFF",
+    [SUBGENRE_KEY]: "#9d4eff",
+    [SPEC_KEY]: "#64fcfe",
+    [KEYWORD_KEY]: "#FFC55C",
+    [ACTION_TIME_KEY]: "#92A8D1",
+    [ACTOR_KEY]: "#90ee90",
+    [DIRECTOR_KEY]: "#f08080",
   })[type] || "#000";

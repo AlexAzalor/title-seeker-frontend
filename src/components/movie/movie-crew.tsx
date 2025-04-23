@@ -10,6 +10,8 @@ import {
 import { PersonLink } from "./people-link";
 import { MovieActor, MovieDirector } from "@/orval_api/model";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { DIRECTOR_KEY } from "../director";
+import { ACTOR_KEY } from "../actors";
 
 type Props = {
   actors: MovieActor[];
@@ -38,7 +40,7 @@ export const MovieCrew = ({ actors, avatarURL, directors }: Props) => {
                     avatarURL={avatarURL}
                     key={actor.key}
                     person={actor}
-                    linkQueryParam="actor_name"
+                    linkQueryParam={ACTOR_KEY}
                     type="actors"
                   />
                 </CarouselItem>
@@ -54,7 +56,7 @@ export const MovieCrew = ({ actors, avatarURL, directors }: Props) => {
                 avatarURL={avatarURL}
                 key={actor.key}
                 person={actor}
-                linkQueryParam="actor_name"
+                linkQueryParam={ACTOR_KEY}
                 type="actors"
               />
             ))}
@@ -75,7 +77,7 @@ export const MovieCrew = ({ actors, avatarURL, directors }: Props) => {
                   avatarURL={avatarURL}
                   key={director.key}
                   person={director}
-                  linkQueryParam="director_name"
+                  linkQueryParam={DIRECTOR_KEY}
                   type="directors"
                 />
               </CarouselItem>
@@ -91,7 +93,7 @@ export const MovieCrew = ({ actors, avatarURL, directors }: Props) => {
               avatarURL={avatarURL}
               key={director.key}
               person={director}
-              linkQueryParam="director_name"
+              linkQueryParam={DIRECTOR_KEY}
               type="directors"
             />
           ))}

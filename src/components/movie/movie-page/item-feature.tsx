@@ -11,10 +11,14 @@ import {
 } from "@/orval_api/model";
 import { TooltipWrapper } from "@/components/custom/tooltip-wrapper";
 import { movieComponents } from "@/lib/constants";
-import { ACTION_TIME, KEYWORD, SPEC } from "@/components/filter-fetch-wrapper";
+import {
+  ACTION_TIME_KEY,
+  KEYWORD_KEY,
+  SPEC_KEY,
+} from "@/components/filter-fetch-wrapper";
 import { useMemo } from "react";
 
-type QueryKeys = typeof SPEC | typeof KEYWORD | typeof ACTION_TIME;
+type QueryKeys = typeof SPEC_KEY | typeof KEYWORD_KEY | typeof ACTION_TIME_KEY;
 
 type Props = {
   data: MovieSpecification[] | MovieKeyword[] | MovieActionTime[];
@@ -24,9 +28,9 @@ type Props = {
 
 export const ItemFeature = ({ data, queryKey, title }: Props) => {
   const tooltipContent =
-    queryKey === SPEC
+    queryKey === SPEC_KEY
       ? movieComponents.specification
-      : queryKey === KEYWORD
+      : queryKey === KEYWORD_KEY
         ? movieComponents.keyword
         : movieComponents.actionTime;
 
@@ -40,9 +44,9 @@ export const ItemFeature = ({ data, queryKey, title }: Props) => {
         <p
           className={cn(
             "base-neon-text text-xl",
-            queryKey === SPEC && "movie-spec-text",
-            queryKey === KEYWORD && "movie-keywords-text",
-            queryKey === ACTION_TIME && "movie-act-time-text",
+            queryKey === SPEC_KEY && "movie-spec-text",
+            queryKey === KEYWORD_KEY && "movie-keywords-text",
+            queryKey === ACTION_TIME_KEY && "movie-act-time-text",
           )}
         >
           {title}
@@ -58,11 +62,11 @@ export const ItemFeature = ({ data, queryKey, title }: Props) => {
             href={`/super-search/?${queryKey}=${item.key}`}
             className={cn(
               "relative flex max-w-fit items-center rounded-xl border-2 leading-4 transition-shadow",
-              queryKey === SPEC &&
+              queryKey === SPEC_KEY &&
                 "hover:shadow-movie-specification dark:border-[#64fcfe]",
-              queryKey === KEYWORD &&
+              queryKey === KEYWORD_KEY &&
                 "hover:shadow-movie-keyword dark:border-[#FFC55C]",
-              queryKey === ACTION_TIME &&
+              queryKey === ACTION_TIME_KEY &&
                 "hover:shadow-movie-action-time dark:border-[#92A8D1]",
             )}
             key={item.key}
@@ -77,9 +81,9 @@ export const ItemFeature = ({ data, queryKey, title }: Props) => {
               }}
               className={cn(
                 "absolute size-full rounded-lg border",
-                queryKey === SPEC && "dark:border-[#64fcfe]",
-                queryKey === KEYWORD && "dark:border-[#FFC55C]",
-                queryKey === ACTION_TIME && "dark:border-[#92A8D1]",
+                queryKey === SPEC_KEY && "dark:border-[#64fcfe]",
+                queryKey === KEYWORD_KEY && "dark:border-[#FFC55C]",
+                queryKey === ACTION_TIME_KEY && "dark:border-[#92A8D1]",
               )}
             />
             <div className="relative mx-auto flex items-center gap-2 p-2">

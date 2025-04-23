@@ -30,7 +30,7 @@ export function ActorsCarousel({ actors, avatarURL }: Props) {
                 <Card className="">
                   <CardContent className="flex aspect-square items-center justify-center p-2">
                     <Link
-                      href={`/super-search/?actor_name=${actor.key}`}
+                      href={`/super-search/?actor=${actor.key}`}
                       key={actor.key}
                       className="flex flex-col items-center justify-start gap-3"
                     >

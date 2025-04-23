@@ -1,10 +1,10 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { EXACT_MATCH, GENRE, SUBGENRE } from "./genres";
-import { ACTION_TIME, KEYWORD, SPEC } from "./filter-fetch-wrapper";
-import { ACTOR } from "./actors";
-import { DIRECTOR } from "./director";
+import { EXACT_MATCH_KEY, GENRE_KEY, SUBGENRE_KEY } from "./genres";
+import { ACTION_TIME_KEY, KEYWORD_KEY, SPEC_KEY } from "./filter-fetch-wrapper";
+import { ACTOR_KEY } from "./actors";
+import { DIRECTOR_KEY } from "./director";
 import { ResizableHandle, ResizablePanel } from "./ui/resizable";
 import { manageSearchParameters } from "@/lib/utils";
 
@@ -49,14 +49,15 @@ export const SelectedFilters = ({
   const router = useRouter();
 
   const currentSearchParams = useSearchParams();
-  const currentSelectedGenres = currentSearchParams.getAll(GENRE);
-  const currentSelectedSubgenres = currentSearchParams.getAll(SUBGENRE);
-  const currentSelectedSpecifications = currentSearchParams.getAll(SPEC);
-  const currentSelectedKeywords = currentSearchParams.getAll(KEYWORD);
-  const currentSelectedActionTimes = currentSearchParams.getAll(ACTION_TIME);
-  const currentSelectedActors = currentSearchParams.getAll(ACTOR);
-  const currentSelectedDirectors = currentSearchParams.getAll(DIRECTOR);
-  const currentExactMatch = currentSearchParams.get(EXACT_MATCH);
+  const currentSelectedGenres = currentSearchParams.getAll(GENRE_KEY);
+  const currentSelectedSubgenres = currentSearchParams.getAll(SUBGENRE_KEY);
+  const currentSelectedSpecifications = currentSearchParams.getAll(SPEC_KEY);
+  const currentSelectedKeywords = currentSearchParams.getAll(KEYWORD_KEY);
+  const currentSelectedActionTimes =
+    currentSearchParams.getAll(ACTION_TIME_KEY);
+  const currentSelectedActors = currentSearchParams.getAll(ACTOR_KEY);
+  const currentSelectedDirectors = currentSearchParams.getAll(DIRECTOR_KEY);
+  const currentExactMatch = currentSearchParams.get(EXACT_MATCH_KEY);
 
   const deleteSubgenres = (genre: string, urlSearchParams: URLSearchParams) => {
     if (subgenres.length) {
@@ -71,7 +72,7 @@ export const SelectedFilters = ({
           );
 
           if (subgenreKey) {
-            urlSearchParams.delete(SUBGENRE, subgenreKey);
+            urlSearchParams.delete(SUBGENRE_KEY, subgenreKey);
           }
         }
       }
@@ -126,32 +127,32 @@ export const SelectedFilters = ({
             />
 
             <FilterBrick
-              type={SPEC}
+              type={SPEC_KEY}
               searchParamsList={currentSelectedSpecifications}
               data={specifications}
               deleteItem={deleteSearchParam}
             />
             <FilterBrick
-              type={KEYWORD}
+              type={KEYWORD_KEY}
               searchParamsList={currentSelectedKeywords}
               data={keywords}
               deleteItem={deleteSearchParam}
             />
             <FilterBrick
-              type={ACTION_TIME}
+              type={ACTION_TIME_KEY}
               searchParamsList={currentSelectedActionTimes}
               data={action_times}
               deleteItem={deleteSearchParam}
             />
 
             <FilterBrick
-              type={ACTOR}
+              type={ACTOR_KEY}
               searchParamsList={currentSelectedActors}
               data={actors}
               deleteItem={deleteSearchParam}
             />
             <FilterBrick
-              type={DIRECTOR}
+              type={DIRECTOR_KEY}
               searchParamsList={currentSelectedDirectors}
               data={directors}
               deleteItem={deleteSearchParam}
@@ -163,7 +164,7 @@ export const SelectedFilters = ({
                 <CircleX
                   className="top-0 right-0 h-4 w-4 cursor-pointer"
                   onClick={() =>
-                    deleteSearchParam(currentExactMatch, EXACT_MATCH)
+                    deleteSearchParam(currentExactMatch, EXACT_MATCH_KEY)
                   }
                 />
               </div>

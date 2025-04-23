@@ -1,5 +1,7 @@
-import { SideNav } from "@/components/profile/admin/side-nav";
 import Link from "next/link";
+import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from "./my-lists/page";
+import { SortBy, SortOrder } from "@/orval_api/model";
+import { SideNav } from "@/components/profile/admin/side-nav";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -19,7 +21,15 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             Dashboard
           </Link>
           <Link
-            href="/user/my-lists"
+            href={{
+              pathname: "/user/my-lists",
+              query: {
+                sort_by: SortBy.rated_at,
+                sort_order: SortOrder.desc,
+                page: DEFAULT_PAGE,
+                size: DEFAULT_PAGE_SIZE,
+              },
+            }}
             className="cursor-pointer rounded-[6px] px-2 py-1 text-lg transition-colors hover:bg-[#f5f5f5] dark:hover:bg-[#1A183D]"
           >
             My lists

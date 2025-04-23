@@ -9,7 +9,7 @@ import {
 } from "@/orval_api/model";
 import { Actors } from "./actors";
 import { Directors } from "./director";
-import { SPEC, KEYWORD, ACTION_TIME } from "./filter-fetch-wrapper";
+import { SPEC_KEY, KEYWORD_KEY, ACTION_TIME_KEY } from "./filter-fetch-wrapper";
 import { Genres } from "./genres";
 import { MovieFilters } from "./movie-filters";
 
@@ -39,13 +39,13 @@ export const FiltersList = ({
       <MovieFilters
         title="Specification"
         data={specifications}
-        param_key={SPEC}
+        param_key={SPEC_KEY}
       />
-      <MovieFilters title="Keyword" data={keywords} param_key={KEYWORD} />
+      <MovieFilters title="Keyword" data={keywords} param_key={KEYWORD_KEY} />
       <MovieFilters
         title="Action Time"
         data={action_times}
-        param_key={ACTION_TIME}
+        param_key={ACTION_TIME_KEY}
       />
 
       <Actors actors={actors} />

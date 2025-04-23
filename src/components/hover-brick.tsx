@@ -1,5 +1,5 @@
 import { FilterBrick } from "./filter-brick";
-import { GENRE, SUBGENRE } from "./genres";
+import { GENRE_KEY, SUBGENRE_KEY } from "./genres";
 import { useState } from "react";
 import { GenreOut, SubgenreOut } from "@/orval_api/model";
 
@@ -31,7 +31,7 @@ export const HoverBrick = ({
   return (
     <>
       <FilterBrick
-        type={GENRE}
+        type={GENRE_KEY}
         searchParamsList={genreItemsList}
         data={genres}
         deleteItem={deleteSearchParam}
@@ -42,7 +42,7 @@ export const HoverBrick = ({
 
       <FilterBrick
         searchParamsList={subgenreItemsList}
-        type={SUBGENRE}
+        type={SUBGENRE_KEY}
         data={subgenres}
         deleteItem={deleteSearchParam}
         onMouseEnter={handleSubgenreHover}

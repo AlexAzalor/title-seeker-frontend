@@ -7,9 +7,13 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { EnhanceSearchScheme } from "@/types/zod-scheme";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { GENRE, SUBGENRE } from "../genres";
+import { GENRE_KEY, SUBGENRE_KEY } from "../genres";
 
-import { ACTION_TIME, KEYWORD, SPEC } from "../filter-fetch-wrapper";
+import {
+  ACTION_TIME_KEY,
+  KEYWORD_KEY,
+  SPEC_KEY,
+} from "../filter-fetch-wrapper";
 import {
   cleanString,
   extractValues,
@@ -63,11 +67,11 @@ export const EnhanceSearch = () => {
     };
 
     reset({
-      genres: getItems(GENRE),
-      subgenres: getItems(SUBGENRE),
-      specifications: getItems(SPEC),
-      keywords: getItems(KEYWORD),
-      action_times: getItems(ACTION_TIME),
+      genres: getItems(GENRE_KEY),
+      subgenres: getItems(SUBGENRE_KEY),
+      specifications: getItems(SPEC_KEY),
+      keywords: getItems(KEYWORD_KEY),
+      action_times: getItems(ACTION_TIME_KEY),
     }); // Reset form with new values
   }, [currentSearchParams, reset]);
 
@@ -106,7 +110,13 @@ export const EnhanceSearch = () => {
     // Go to the first page
     urlSearchParams.set("page", "1");
 
-    const keysList = [GENRE, SUBGENRE, SPEC, KEYWORD, ACTION_TIME];
+    const keysList = [
+      GENRE_KEY,
+      SUBGENRE_KEY,
+      SPEC_KEY,
+      KEYWORD_KEY,
+      ACTION_TIME_KEY,
+    ];
 
     // First we delete all the search parameters because they are dynamic and then we add the old and updated ones
     for (const key of keysList) {
@@ -126,11 +136,11 @@ export const EnhanceSearch = () => {
       }
     }
 
-    constructSearchQuery(data.genres, GENRE);
-    constructSearchQuery(data.subgenres, SUBGENRE);
-    constructSearchQuery(data.specifications, SPEC);
-    constructSearchQuery(data.keywords, KEYWORD);
-    constructSearchQuery(data.action_times, ACTION_TIME);
+    constructSearchQuery(data.genres, GENRE_KEY);
+    constructSearchQuery(data.subgenres, SUBGENRE_KEY);
+    constructSearchQuery(data.specifications, SPEC_KEY);
+    constructSearchQuery(data.keywords, KEYWORD_KEY);
+    constructSearchQuery(data.action_times, ACTION_TIME_KEY);
 
     // To refresh the page with the new search parameters
     router.replace("/super-search" + "?" + urlSearchParams.toString(), {

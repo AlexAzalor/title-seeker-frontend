@@ -6,7 +6,7 @@ import { ItemsListSelector } from "./movie/ui/items-list-selector";
 import { manageSearchParameters } from "@/lib/utils";
 import { ResponsiveWrapper } from "./movie/ui/responsive-wrapper";
 
-export const DIRECTOR = "director_name";
+export const DIRECTOR_KEY = "director";
 
 type Props = {
   directors: DirectorOut[];
@@ -16,13 +16,13 @@ export const Directors = ({ directors }: Props) => {
   const router = useRouter();
 
   const currentSearchParams = useSearchParams();
-  const currentSelectedDirectors = currentSearchParams.getAll(DIRECTOR);
+  const currentSelectedDirectors = currentSearchParams.getAll(DIRECTOR_KEY);
 
   function searchByDirectors(name: string) {
     manageSearchParameters(
-      DIRECTOR,
+      DIRECTOR_KEY,
       name,
-      currentSearchParams.has(DIRECTOR, name) ? name : undefined,
+      currentSearchParams.has(DIRECTOR_KEY, name) ? name : undefined,
       currentSearchParams,
       router,
     );

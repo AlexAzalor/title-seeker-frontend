@@ -31,6 +31,11 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { User as UserType } from "next-auth";
 import { UserExtended } from "@/auth";
+import {
+  DEFAULT_PAGE,
+  DEFAULT_PAGE_SIZE,
+} from "@/app/(account)/user/my-lists/page";
+import { SortBy, SortOrder } from "@/orval_api/model";
 
 type Props = {
   user: UserType & UserExtended;
@@ -110,7 +115,17 @@ export function NavUser({ user }: Props) {
               </DropdownMenuItem>
 
               <DropdownMenuItem asChild className="cursor-pointer">
-                <Link href={"/user/" + menu("myLists.key")}>
+                <Link
+                  href={{
+                    pathname: "/user/" + menu("myLists.key"),
+                    query: {
+                      sort_by: SortBy.rated_at,
+                      sort_order: SortOrder.desc,
+                      page: DEFAULT_PAGE,
+                      size: DEFAULT_PAGE_SIZE,
+                    },
+                  }}
+                >
                   <NotebookText />
                   {menu("myLists.label")}
                 </Link>

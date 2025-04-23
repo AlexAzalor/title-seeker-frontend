@@ -32,7 +32,7 @@ export const GenresList = ({ data }: Props) => {
           {data.genres?.map((genre) => (
             <Link
               key={genre.key}
-              href={`/super-search/?genre_name=${genre.key}`}
+              href={`/super-search/?genre=${genre.key}`}
               className={cn(
                 "hover:shadow-neon-border-fill relative flex h-max w-max items-center rounded-xl border-2 transition-shadow dark:border-[#4A3AFF]",
                 hoveredSubgenre === genre.key && "shadow-neon-border-fill",
@@ -77,7 +77,7 @@ export const GenresList = ({ data }: Props) => {
           <div className="flex flex-wrap gap-4">
             {data.subgenres?.map((subgenre) => (
               <Link
-                href={`/super-search/?genre_name=${subgenre.parent_genre.key}&subgenre_name=${subgenre.key}`}
+                href={`/super-search/?genre=${subgenre.parent_genre.key}&subgenre=${subgenre.key}`}
                 className={cn(
                   "hover:shadow-neon-border-fill relative flex items-center rounded-xl border-2 transition-shadow dark:border-[#9d4eff]",
                   hoveredGenre === subgenre.parent_genre.key &&

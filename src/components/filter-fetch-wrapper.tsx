@@ -14,9 +14,9 @@ import { ScrollArea } from "./ui/scroll-area";
 import { EnhanceSearch } from "./super-search/enhance-search";
 import { FiltersList } from "./filters-list";
 
-export const SPEC = "specification_name";
-export const KEYWORD = "keyword_name";
-export const ACTION_TIME = "action_time_name";
+export const SPEC_KEY = "specification";
+export const KEYWORD_KEY = "keyword";
+export const ACTION_TIME_KEY = "action_time";
 
 export const FilterFetchWrapper = async ({ children }: PropsWithChildren) => {
   const locale = await getLocale();

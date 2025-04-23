@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { CircleX, InfoIcon } from "lucide-react";
 import { TooltipWrapper } from "./custom/tooltip-wrapper";
 import { cleanString, cn, extractValues } from "@/lib/utils";
-import { GENRE, SUBGENRE } from "./genres";
+import { GENRE_KEY, SUBGENRE_KEY } from "./genres";
 // import { percentageMatchColor } from "./movie/utils";
 // import {
 //   ActionTimeOut,
@@ -11,9 +11,9 @@ import { GENRE, SUBGENRE } from "./genres";
 //   SpecificationOut,
 //   SubgenreOutPlus,
 // } from "@/orval_api/model";
-import { ACTION_TIME, KEYWORD, SPEC } from "./filter-fetch-wrapper";
-import { ACTOR } from "./actors";
-import { DIRECTOR } from "./director";
+import { ACTION_TIME_KEY, KEYWORD_KEY, SPEC_KEY } from "./filter-fetch-wrapper";
+import { ACTOR_KEY } from "./actors";
+import { DIRECTOR_KEY } from "./director";
 import { getFilterColor } from "./movie/utils";
 
 type Data = {
@@ -62,28 +62,29 @@ export const FilterBrick = <ItemData extends Data>({
         key={searchParam}
         className={cn(
           "hover:shadow-neon-border-fill group relative flex min-h-12 min-w-28 items-center rounded-xl border-2 transition-shadow",
-          type === GENRE && "dark:border-[#4A3AFF]",
-          type === SUBGENRE && "dark:border-[#9d4eff]",
+          type === GENRE_KEY && "dark:border-[#4A3AFF]",
+          type === SUBGENRE_KEY && "dark:border-[#9d4eff]",
           hoveredSubgenre === cleanSearchParam &&
-            type === GENRE &&
+            type === GENRE_KEY &&
             "shadow-neon-border-fill",
           hoveredGenre === item.parent_genre_key &&
-            type === SUBGENRE &&
+            type === SUBGENRE_KEY &&
             "shadow-neon-border-fill",
-          type === SPEC &&
+          type === SPEC_KEY &&
             "hover:shadow-movie-specification dark:border-[#64fcfe]",
-          type === KEYWORD &&
+          type === KEYWORD_KEY &&
             "hover:shadow-movie-keyword dark:border-[#FFC55C]",
-          type === ACTION_TIME &&
+          type === ACTION_TIME_KEY &&
             "hover:shadow-movie-action-time dark:border-[#92A8D1]",
-          type === ACTOR && "hover:shadow-movie-actor dark:border-[#90ee90]",
-          type === DIRECTOR &&
+          type === ACTOR_KEY &&
+            "hover:shadow-movie-actor dark:border-[#90ee90]",
+          type === DIRECTOR_KEY &&
             "hover:shadow-movie-director dark:border-[#f08080]",
         )}
         onMouseEnter={
-          type === GENRE && onMouseEnter
+          type === GENRE_KEY && onMouseEnter
             ? () => onMouseEnter(cleanSearchParam)
-            : type === SUBGENRE && onMouseEnter
+            : type === SUBGENRE_KEY && onMouseEnter
               ? () => onMouseEnter(item.parent_genre_key!)
               : undefined
         }
@@ -98,13 +99,13 @@ export const FilterBrick = <ItemData extends Data>({
           }}
           className={cn(
             "absolute size-full rounded-lg border",
-            type === GENRE && "dark:border-[#4A3AFF]",
-            type === SUBGENRE && "dark:border-[#9d4eff]",
-            type === SPEC && "dark:border-[#64fcfe]",
-            type === KEYWORD && "dark:border-[#FFC55C]",
-            type === ACTION_TIME && "dark:border-[#92A8D1]",
-            type === ACTOR && "dark:border-[#90ee90]",
-            type === DIRECTOR && "dark:border-[#f08080]",
+            type === GENRE_KEY && "dark:border-[#4A3AFF]",
+            type === SUBGENRE_KEY && "dark:border-[#9d4eff]",
+            type === SPEC_KEY && "dark:border-[#64fcfe]",
+            type === KEYWORD_KEY && "dark:border-[#FFC55C]",
+            type === ACTION_TIME_KEY && "dark:border-[#92A8D1]",
+            type === ACTOR_KEY && "dark:border-[#90ee90]",
+            type === DIRECTOR_KEY && "dark:border-[#f08080]",
           )}
         />
 
@@ -120,7 +121,7 @@ export const FilterBrick = <ItemData extends Data>({
           )}
           <div className="flex flex-col items-center leading-4">
             <p style={{ fontWeight: "bold" }}>{item.name}</p>
-            {![ACTOR, DIRECTOR].includes(type) && (
+            {![ACTOR_KEY, DIRECTOR_KEY].includes(type) && (
               <p className="text-sm">({itemPercentMatchRange.join("-")})</p>
             )}
           </div>

@@ -1,5 +1,9 @@
-import { ACTION_TIME, KEYWORD, SPEC } from "@/components/filter-fetch-wrapper";
-import { GENRE, SUBGENRE } from "@/components/genres";
+import {
+  ACTION_TIME_KEY,
+  KEYWORD_KEY,
+  SPEC_KEY,
+} from "@/components/filter-fetch-wrapper";
+import { GENRE_KEY, SUBGENRE_KEY } from "@/components/genres";
 import {
   Language,
   PageMoviePreviewOutPage,
@@ -15,13 +19,13 @@ import { APISuperSearchMoviesParams } from "@/orval_api/model/aPISuperSearchMovi
 
 type SuperSearchParams = keyof APISuperSearchMoviesParams;
 const PARAM_KEYS: SuperSearchParams[] = [
-  "genre_name",
-  "subgenre_name",
-  "actor_name",
-  "director_name",
-  "specification_name",
-  "keyword_name",
-  "action_time_name",
+  "genre",
+  "subgenre",
+  "actor",
+  "director",
+  "specification",
+  "keyword",
+  "action_time",
   "universe",
   "exact_match",
 ];
@@ -214,11 +218,12 @@ export const extractWord = (str: string): string => {
 export const formatSearchParams = (
   currentSearchParams: ReadonlyURLSearchParams,
 ) => {
-  const currentSelectedGenres = currentSearchParams.getAll(GENRE);
-  const currentSelectedSubgenres = currentSearchParams.getAll(SUBGENRE);
-  const currentSelectedSpecifications = currentSearchParams.getAll(SPEC);
-  const currentSelectedKeywords = currentSearchParams.getAll(KEYWORD);
-  const currentSelectedActionTimes = currentSearchParams.getAll(ACTION_TIME);
+  const currentSelectedGenres = currentSearchParams.getAll(GENRE_KEY);
+  const currentSelectedSubgenres = currentSearchParams.getAll(SUBGENRE_KEY);
+  const currentSelectedSpecifications = currentSearchParams.getAll(SPEC_KEY);
+  const currentSelectedKeywords = currentSearchParams.getAll(KEYWORD_KEY);
+  const currentSelectedActionTimes =
+    currentSearchParams.getAll(ACTION_TIME_KEY);
 
   const showForm = () => {
     return (

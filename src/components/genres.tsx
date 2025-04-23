@@ -22,17 +22,17 @@ type Props = {
   subgenres: SubgenreOut[];
 };
 
-export const GENRE = "genre_name";
-export const SUBGENRE = "subgenre_name";
-export const EXACT_MATCH = "exact_match";
+export const GENRE_KEY = "genre";
+export const SUBGENRE_KEY = "subgenre";
+export const EXACT_MATCH_KEY = "exact_match";
 
 export const Genres = ({ genres }: Props) => {
   const router = useRouter();
 
   const currentSearchParams = useSearchParams();
-  const currentSelectedGenres = currentSearchParams.getAll(GENRE);
-  const currentSelectedSubgenres = currentSearchParams.getAll(SUBGENRE);
-  const currentExactMatch = currentSearchParams.get(EXACT_MATCH);
+  const currentSelectedGenres = currentSearchParams.getAll(GENRE_KEY);
+  const currentSelectedSubgenres = currentSearchParams.getAll(SUBGENRE_KEY);
+  const currentExactMatch = currentSearchParams.get(EXACT_MATCH_KEY);
 
   const selectedGenres = useMemo(() => {
     return genres.filter(
@@ -72,7 +72,7 @@ export const Genres = ({ genres }: Props) => {
           );
 
           if (subgenreKey) {
-            urlSearchParams.delete(SUBGENRE, subgenreKey);
+            urlSearchParams.delete(SUBGENRE_KEY, subgenreKey);
           }
         }
 
@@ -89,7 +89,7 @@ export const Genres = ({ genres }: Props) => {
       e.includes(value),
     );
 
-    if (key === GENRE) {
+    if (key === GENRE_KEY) {
       manageSearchParameters(
         key,
         // action(10,100)
@@ -102,7 +102,7 @@ export const Genres = ({ genres }: Props) => {
       return;
     }
 
-    if (key === SUBGENRE) {
+    if (key === SUBGENRE_KEY) {
       manageSearchParameters(
         key,
         value + `(${DEFAULT_RANGE.join()})`,
@@ -128,9 +128,9 @@ export const Genres = ({ genres }: Props) => {
 
   function handleExactMatch() {
     manageSearchParameters(
-      EXACT_MATCH,
+      EXACT_MATCH_KEY,
       "true",
-      currentSearchParams.has(EXACT_MATCH) ? "true" : "",
+      currentSearchParams.has(EXACT_MATCH_KEY) ? "true" : "",
       currentSearchParams,
       router,
       deleteSubgenresParams,
@@ -161,7 +161,7 @@ export const Genres = ({ genres }: Props) => {
           items={genres}
           emptyText="No genres found"
           onSelect={(currentValue, key, genre) => {
-            updateSearchParameters(genre.key, GENRE);
+            updateSearchParameters(genre.key, GENRE_KEY);
 
             if (
               !currentSelectedGenres
@@ -189,7 +189,7 @@ export const Genres = ({ genres }: Props) => {
           items={subgenres}
           emptyText="No subgenres found OR select a genre first."
           onSelect={(currentValue, key) => {
-            updateSearchParameters(key, SUBGENRE);
+            updateSearchParameters(key, SUBGENRE_KEY);
           }}
           checkIconStyle={currentSelectedSubgenres.map((e) => extractWord(e))}
         />
