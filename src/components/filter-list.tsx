@@ -1,6 +1,5 @@
 import {
   GenreOut,
-  SubgenreOut,
   SpecificationOut,
   KeywordOut,
   ActionTimeOut,
@@ -20,7 +19,6 @@ import { FilterSelector } from "./filter-selector";
 
 type Props = {
   genres: GenreOut[];
-  subgenres: SubgenreOut[];
   specifications: SpecificationOut[];
   keywords: KeywordOut[];
   action_times: ActionTimeOut[];
@@ -30,7 +28,6 @@ type Props = {
 
 export const FilterList = ({
   genres,
-  subgenres,
   specifications,
   keywords,
   action_times,
@@ -39,7 +36,7 @@ export const FilterList = ({
 }: Props) => {
   return (
     <div className="mb-20 flex flex-col gap-4 overflow-auto">
-      <GenreSelector genres={genres} subgenres={subgenres} />
+      <GenreSelector genres={genres} />
 
       <FilterSelector
         title="Specification"

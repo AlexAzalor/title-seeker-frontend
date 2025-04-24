@@ -19,7 +19,6 @@ import { ResponsiveWrapper } from "./movie/ui/responsive-wrapper";
 
 type Props = {
   genres: GenreOut[];
-  subgenres: SubgenreOut[];
 };
 
 export const GENRE_KEY = "genre";

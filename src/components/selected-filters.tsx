@@ -102,12 +102,12 @@ export const SelectedFilters = ({
             Advanced title search
           </h1>
 
+          {/* for mobile */}
           <div className="mb-2 flex justify-between">
             <SideMenuPanel side="left" type="Filters">
               <FilterList
                 {...{
                   genres,
-                  subgenres,
                   specifications,
                   keywords,
                   action_times,

@@ -72,7 +72,6 @@ export const FilterFetchWrapper = async ({ children }: PropsWithChildren) => {
                 <FilterList
                   {...{
                     genres,
-                    subgenres,
                     specifications,
                     keywords,
                     action_times,
