@@ -2,7 +2,8 @@
 
 import { useRef } from "react";
 import { useRouter } from "next/navigation";
-import { rateMovie, updateRateMovie } from "@/app/actions";
+
+import { rateMovie, updateRateMovie } from "@/app/services/user-api";
 import { toast } from "sonner";
 import {
   MovieOutUserRatingCriterion,

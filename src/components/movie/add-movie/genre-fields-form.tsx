@@ -6,7 +6,8 @@ import { MovieFormContext } from "./utils";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GenreSchemeList } from "@/types/zod-scheme";
-import { createGenre, createSubgenre } from "@/app/actions";
+
+import { createGenre, createSubgenre } from "@/app/services/admin-api";
 import type {
   GenreFormOut,
   GenreOut,

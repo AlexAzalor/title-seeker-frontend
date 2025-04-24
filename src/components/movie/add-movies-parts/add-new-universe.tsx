@@ -3,7 +3,8 @@
 import { useRouter } from "next/navigation";
 import { useForm, UseFormSetValue } from "react-hook-form";
 import { toast } from "sonner";
-import { createSharedUniverse } from "@/app/actions";
+
+import { createSharedUniverse } from "@/app/services/admin-api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TypeGenreScheme } from "@/types/general";
 import { formatKey } from "@/lib/utils";

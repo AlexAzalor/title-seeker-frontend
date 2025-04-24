@@ -6,8 +6,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { formatKey } from "@/lib/utils";
 
+import { createCharacter } from "@/app/services/admin-api";
 import { CharacterFields, CharacterType } from "@/types/zod-scheme";
-import { createCharacter } from "@/app/actions";
 import { CharacterFormIn } from "@/orval_api/model";
 import { FormWrapper } from "../ui/form-wrapper";
 import { FormField } from "../ui/form-field";

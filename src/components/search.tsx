@@ -6,7 +6,7 @@ import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
-import { searchTitles } from "@/app/actions";
+import { searchTitles } from "@/app/services/global-api";
 
 import {
   BadgeJapaneseYenIcon,

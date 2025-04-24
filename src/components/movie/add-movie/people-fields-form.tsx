@@ -4,7 +4,7 @@ import { useLocalStorage } from "@/hooks/useLocalStorage";
 import dynamic from "next/dynamic";
 import { MovieFormContext } from "./utils";
 
-import { createActor, createDirector } from "@/app/actions";
+import { createActor, createDirector } from "@/app/services/admin-api";
 import { z } from "zod";
 import { MovieCrewListScheme } from "@/types/zod-scheme";
 import { zodResolver } from "@hookform/resolvers/zod";

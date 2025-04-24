@@ -1,29 +1,24 @@
 "use server";
 
-import { cache } from "react";
 import { auth } from "@/auth";
-import { getLocale } from "next-intl/server";
 import axios, { AxiosResponse } from "axios";
-
-import { backendURL, HTTP_STATUS } from "@/lib/constants";
-import { ValidationError } from "@/types/general";
+import { fetchSettings } from "./global-api";
+import type { ValidationError } from "@/types/general";
 import {
-  ActorOut,
-  BodyAPICreateMovie,
-  CharacterFormIn,
-  CharacterOut,
-  DirectorOut,
-  GenreFormIn,
-  GenreFormOut,
-  Language,
-  MovieFilterFormIn,
-  MovieFilterFormOut,
-  MovieSearchResult,
-  PersonForm,
-  QuickMovieFormData,
-  TitleType,
-  UserRateMovieIn,
+  UserRole,
+  type ActorOut,
+  type BodyAPICreateMovie,
+  type CharacterFormIn,
+  type CharacterOut,
+  type DirectorOut,
+  type GenreFormIn,
+  type GenreFormOut,
+  type MovieFilterFormIn,
+  type MovieFilterFormOut,
+  type PersonForm,
+  type QuickMovieFormData,
 } from "@/orval_api/model";
+
 import { getMovies } from "@/orval_api/movies/movies";
 import { getActors } from "@/orval_api/actors/actors";
 import { getDirectors } from "@/orval_api/directors/directors";
@@ -34,60 +29,33 @@ import { getKeywords } from "@/orval_api/keywords/keywords";
 import { getActionTimes } from "@/orval_api/action-times/action-times";
 import { getSharedUniverses } from "@/orval_api/shared-universes/shared-universes";
 import { getCharacters } from "@/orval_api/characters/characters";
-import { getUsers } from "@/orval_api/users/users";
 
-export const fetchSettings = cache(async () => {
-  const locale = await getLocale();
-  const lang = Language[locale as keyof typeof Language];
-
-  const unknownError = {
-    status: HTTP_STATUS.INTERNAL_SERVER_ERROR,
-    message: "Internal server error",
-  };
-
-  return { lang, backendURL, unknownError };
-});
-
-export async function getSession() {
+/**
+ * @description Get the admin or owner user from the session.
+ */
+export async function getAdmin() {
   const session = await auth();
+
   if (!session) {
     return null;
   }
 
   const { user } = session;
+
+  if (user.role !== UserRole.admin && user.role !== UserRole.owner) {
+    return null;
+  }
+
   return user;
-}
-
-export async function updateRateMovie(data: UserRateMovieIn) {
-  const currentUser = await getSession();
-  if (!currentUser) {
-    return { status: 403, message: "You are not allowed to do this" };
-  }
-
-  const { aPIUpdateRateMovie } = getUsers();
-
-  await aPIUpdateRateMovie(currentUser.uuid, data, backendURL);
-}
-
-export async function rateMovie(data: UserRateMovieIn) {
-  const currentUser = await getSession();
-  if (!currentUser) {
-    return { status: 403, message: "You are not allowed to do this" };
-  }
-
-  const { aPIRateMovie } = getUsers();
-
-  await aPIRateMovie(currentUser.uuid, data, backendURL);
 }
 
 export async function createMovie(
   formData: BodyAPICreateMovie,
   isQuickMovie: boolean = false,
 ) {
-  const user = await getSession();
+  const admin = await getAdmin();
 
-  // Check owner/admin role
-  if (!user) {
+  if (!admin) {
     return { status: 403, message: "You are not allowed to do this" };
   }
 
@@ -97,7 +65,7 @@ export async function createMovie(
   try {
     const response: AxiosResponse = await aPICreateMovie(
       formData,
-      { lang, is_quick_movie: isQuickMovie, user_uuid: user.uuid },
+      { lang, is_quick_movie: isQuickMovie, user_uuid: admin.uuid },
       backendURL,
     );
 
@@ -112,6 +80,12 @@ export async function createMovie(
 }
 
 export async function createActor(formData: PersonForm, file: Blob) {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
   const { lang, backendURL, unknownError } = await fetchSettings();
   const { aPICreateActor } = getActors();
 
@@ -137,6 +111,12 @@ export async function createActor(formData: PersonForm, file: Blob) {
 }
 
 export async function createDirector(formData: PersonForm, file: Blob) {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
   const { lang, backendURL, unknownError } = await fetchSettings();
   const { aPICreateDirector } = getDirectors();
 
@@ -162,6 +142,12 @@ export async function createDirector(formData: PersonForm, file: Blob) {
 }
 
 export async function createGenre(formData: GenreFormIn) {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
   const { lang, backendURL, unknownError } = await fetchSettings();
   const { aPICreateGenre } = getGenres();
 
@@ -187,6 +173,12 @@ export async function createGenre(formData: GenreFormIn) {
 }
 
 export async function createSubgenre(formData: GenreFormIn) {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
   const { lang, backendURL, unknownError } = await fetchSettings();
   const { aPICreateSubgenre } = getSubgenres();
 
@@ -212,6 +204,12 @@ export async function createSubgenre(formData: GenreFormIn) {
 }
 
 export async function createSpecification(formData: MovieFilterFormIn) {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
   const { lang, backendURL, unknownError } = await fetchSettings();
   const { aPICreateSpecification } = getSpecifications();
 
@@ -234,6 +232,12 @@ export async function createSpecification(formData: MovieFilterFormIn) {
 }
 
 export async function createKeyword(formData: MovieFilterFormIn) {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
   const { lang, backendURL, unknownError } = await fetchSettings();
   const { aPICreateKeyword } = getKeywords();
 
@@ -259,6 +263,12 @@ export async function createKeyword(formData: MovieFilterFormIn) {
 }
 
 export async function createActionTime(formData: MovieFilterFormIn) {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
   const { lang, backendURL, unknownError } = await fetchSettings();
   const { aPICreateActionTime } = getActionTimes();
 
@@ -281,6 +291,12 @@ export async function createActionTime(formData: MovieFilterFormIn) {
 }
 
 export async function createSharedUniverse(formData: GenreFormIn) {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
   const { lang, backendURL, unknownError } = await fetchSettings();
   const { aPICreateSharedUniverse } = getSharedUniverses();
 
@@ -306,6 +322,12 @@ export async function createSharedUniverse(formData: GenreFormIn) {
 }
 
 export async function createCharacter(formData: CharacterFormIn) {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
   const { lang, backendURL, unknownError } = await fetchSettings();
   const { aPICreateCharacter } = getCharacters();
 
@@ -331,9 +353,9 @@ export async function createCharacter(formData: CharacterFormIn) {
 }
 
 export async function quicklyAddNewMovie(data: QuickMovieFormData) {
-  const currentUser = await getSession();
+  const admin = await getAdmin();
 
-  if (currentUser?.role !== "owner") {
+  if (!admin) {
     return { status: 403, message: "You are not allowed to do this" };
   }
 
@@ -343,54 +365,13 @@ export async function quicklyAddNewMovie(data: QuickMovieFormData) {
   try {
     const a: AxiosResponse = await aPIQuickAddMovie(
       data,
-      { lang, user_uuid: currentUser.uuid },
+      { lang, user_uuid: admin.uuid },
       {
         baseURL: backendURL.baseURL,
       },
     );
 
     return { status: a.status, message: "Movie add to JSON" };
-  } catch (error) {
-    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
-      return { status: error.status, message: error.response?.data.detail };
-    } else {
-      return unknownError;
-    }
-  }
-}
-
-export async function searchTitles(query: string, titleType: TitleType) {
-  const { lang, backendURL, unknownError } = await fetchSettings();
-  const { aPISearch } = getMovies();
-
-  try {
-    const result: AxiosResponse<MovieSearchResult> = await aPISearch(
-      { lang, query, title_type: titleType },
-      {
-        baseURL: backendURL.baseURL,
-      },
-    );
-
-    return {
-      status: result.status,
-      data: result.data,
-    };
-  } catch (error) {
-    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
-      return { status: error.status, message: error.response?.data.detail };
-    } else {
-      return unknownError;
-    }
-  }
-}
-
-export async function deleteProfile(user_uuid: string) {
-  const { unknownError } = await fetchSettings();
-  const { aPIDeleteGoogleProfile } = getUsers();
-
-  try {
-    const response = await aPIDeleteGoogleProfile({ user_uuid }, backendURL);
-    return response.status;
   } catch (error) {
     if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
       return { status: error.status, message: error.response?.data.detail };

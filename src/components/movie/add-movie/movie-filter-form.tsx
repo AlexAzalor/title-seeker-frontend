@@ -5,6 +5,11 @@ import dynamic from "next/dynamic";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 
+import {
+  createActionTime,
+  createKeyword,
+  createSpecification,
+} from "@/app/services/admin-api";
 import { MovieFormContext } from "./utils";
 import { InfoIcon } from "lucide-react";
 import { MovieFilterList, MovieFilterListType } from "@/types/zod-scheme";
@@ -24,11 +29,6 @@ import { FormField } from "../ui/form-field";
 import { SliderFormField } from "../ui/slider-form-field";
 import { TooltipWrapper } from "@/components/custom/tooltip-wrapper";
 import { ResponsiveWrapper } from "../ui/responsive-wrapper";
-import {
-  createActionTime,
-  createKeyword,
-  createSpecification,
-} from "@/app/actions";
 
 const ModalMovie = dynamic(() => import("../ui/modal-movie"));
 

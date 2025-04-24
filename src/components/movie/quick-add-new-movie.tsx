@@ -1,12 +1,13 @@
 "use client";
 
 import { useRef } from "react";
-import { quicklyAddNewMovie } from "@/app/actions";
+
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { formatKey } from "@/lib/utils";
 
+import { quicklyAddNewMovie } from "@/app/services/admin-api";
 import {
   QuickMovieFormData,
   RatingCriterion,
