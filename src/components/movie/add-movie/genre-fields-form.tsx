@@ -258,7 +258,6 @@ export const GenreFieldsForm = ({ genres }: Props) => {
                   name={`subgenres.${index}.name`}
                   register={register}
                   error={undefined}
-                  labelWidth={64}
                   disabled
                 />
 

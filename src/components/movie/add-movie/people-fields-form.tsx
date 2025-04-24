@@ -211,7 +211,6 @@ export const PeopleFieldsForm = ({ actors, directors, characters }: Props) => {
                   name={`actors.${index}.name`}
                   register={register}
                   error={undefined}
-                  labelWidth={64}
                   disabled
                 />
 
@@ -296,7 +295,6 @@ export const PeopleFieldsForm = ({ actors, directors, characters }: Props) => {
                     name={`directors.${index}.name`}
                     register={register}
                     error={undefined}
-                    labelWidth={64}
                     disabled
                   />
 

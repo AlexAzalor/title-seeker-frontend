@@ -114,7 +114,6 @@ export const InfoFieldsForm = () => {
             name="release_date"
             register={register}
             error={errors.release_date}
-            labelWidth={64}
           />
           {parsedData.release_date && (
             <div className="text-[#6F6C90]">
@@ -130,7 +129,6 @@ export const InfoFieldsForm = () => {
             name="location_en"
             register={register}
             error={errors.location_en}
-            labelWidth={64}
           />
 
           <FormField
@@ -139,7 +137,6 @@ export const InfoFieldsForm = () => {
             name="location_uk"
             register={register}
             error={errors.location_uk}
-            labelWidth={64}
           />
         </div>
 
@@ -151,7 +148,6 @@ export const InfoFieldsForm = () => {
             name="duration"
             register={register}
             error={errors.duration}
-            labelWidth={64}
           />
 
           <FormField
@@ -161,7 +157,6 @@ export const InfoFieldsForm = () => {
             register={register}
             error={errors.budget}
             value={cleanNumberValue(budget)}
-            labelWidth={64}
           />
 
           <FormField

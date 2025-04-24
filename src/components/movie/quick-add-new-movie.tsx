@@ -80,7 +80,6 @@ export const QuicklyAddNewMovie = () => {
         name="title_en"
         register={register}
         error={errors.title_en}
-        labelWidth={64}
       />
 
       <FormField
@@ -89,7 +88,6 @@ export const QuicklyAddNewMovie = () => {
         name="key"
         register={register}
         error={errors.key}
-        labelWidth={52}
         value={formatKey(watchFields)}
       />
 

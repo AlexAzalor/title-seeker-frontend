@@ -124,7 +124,6 @@ export const KeyFieldsForm = ({ quickMovie }: Props) => {
             name="title_en"
             register={register}
             error={errors.title_en}
-            labelWidth={64}
           />
 
           <FormField
@@ -133,7 +132,6 @@ export const KeyFieldsForm = ({ quickMovie }: Props) => {
             name="key"
             register={register}
             error={errors.key}
-            labelWidth={52}
             value={formatKey(watchFields)}
           />
 
@@ -143,7 +141,6 @@ export const KeyFieldsForm = ({ quickMovie }: Props) => {
             name="title_uk"
             register={register}
             error={errors.title_uk}
-            labelWidth={64}
           />
 
           <FormField
@@ -152,7 +149,6 @@ export const KeyFieldsForm = ({ quickMovie }: Props) => {
             name="file"
             register={register}
             error={errors.file}
-            labelWidth={64}
           />
         </div>
 

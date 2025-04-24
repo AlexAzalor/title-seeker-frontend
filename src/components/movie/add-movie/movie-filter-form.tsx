@@ -174,7 +174,6 @@ export const MovieFilterForm = ({
                   name={`specifications.${index}.name`}
                   register={register}
                   error={undefined}
-                  labelWidth={64}
                   disabled
                 />
 
@@ -241,7 +240,6 @@ export const MovieFilterForm = ({
                   name={`keywords.${index}.name`}
                   register={register}
                   error={undefined}
-                  labelWidth={64}
                   disabled
                 />
 
@@ -308,7 +306,6 @@ export const MovieFilterForm = ({
                   name={`action_times.${index}.name`}
                   register={register}
                   error={undefined}
-                  labelWidth={64}
                   disabled
                 />
 

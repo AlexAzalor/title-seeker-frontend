@@ -31,11 +31,9 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { User as UserType } from "next-auth";
 import { UserExtended } from "@/auth";
-import {
-  DEFAULT_PAGE,
-  DEFAULT_PAGE_SIZE,
-} from "@/app/(account)/user/my-lists/page";
+
 import { SortBy, SortOrder } from "@/orval_api/model";
+import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from "@/lib/constants";
 
 type Props = {
   user: UserType & UserExtended;

@@ -148,7 +148,6 @@ export const RelatedMovieForm = ({ baseMovies }: Props) => {
             name="collection_order"
             register={register}
             error={errors.collection_order}
-            labelWidth={52}
           />
 
           <TypeSelector
