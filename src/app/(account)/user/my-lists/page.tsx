@@ -8,8 +8,8 @@ import type { SearchParams } from "@/types/general";
 import { getMovies } from "@/orval_api/movies/movies";
 import { Language, SortBy, SortOrder } from "@/orval_api/model";
 import { MyMovies } from "@/components/profile/my-lists/my-movies";
-import { PaginationContoller } from "@/components/profile/my-lists/pagination-contoller";
-import { ListSortControls } from "@/components/profile/my-lists/list-sort-controls";
+import { PaginationContoller } from "@/components/my-custom-ui/pagination/pagination-contoller";
+import { SortingControls } from "@/components/my-custom-ui/pagination/sorting-controls";
 
 export default async function MyListsPage(props: {
   searchParams: SearchParams;
@@ -52,7 +52,7 @@ export default async function MyListsPage(props: {
   );
 
   return (
-    <ListSortControls
+    <SortingControls
       uriKey="user/my-lists"
       currentPage={page}
       pageSize={size}
@@ -79,6 +79,6 @@ export default async function MyListsPage(props: {
       ) : (
         <div>You have not rated any movies yet.</div>
       )}
-    </ListSortControls>
+    </SortingControls>
   );
 }

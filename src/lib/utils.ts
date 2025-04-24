@@ -2,8 +2,11 @@ import {
   ACTION_TIME_KEY,
   KEYWORD_KEY,
   SPEC_KEY,
-} from "@/components/filter-fetch-wrapper";
-import { GENRE_KEY, SUBGENRE_KEY } from "@/components/genre-selector";
+} from "@/components/super-search/filter-fetch-wrapper";
+import {
+  GENRE_KEY,
+  SUBGENRE_KEY,
+} from "@/components/super-search/genre-selector";
 import {
   Language,
   PageMoviePreviewOutPage,

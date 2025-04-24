@@ -9,9 +9,10 @@ import {
 } from "@/types/search-params-scheme";
 
 import { Language, SortBy, SortOrder } from "@/orval_api/model";
-import { ListSortControls } from "@/components/profile/my-lists/list-sort-controls";
-import { PaginationContoller } from "@/components/profile/my-lists/pagination-contoller";
+
+import { PaginationContoller } from "@/components/my-custom-ui/pagination/pagination-contoller";
 import { MovieList } from "@/components/movie/movie-list";
+import { SortingControls } from "@/components/my-custom-ui/pagination/sorting-controls";
 
 export const metadata: Metadata = {
   title: "Super Search | Title Seeker",
@@ -96,7 +97,7 @@ export default async function SuperSearchPage(props: {
   );
 
   return (
-    <ListSortControls
+    <SortingControls
       uriKey="super-search"
       currentPage={page}
       pageSize={size}
@@ -127,6 +128,6 @@ export default async function SuperSearchPage(props: {
           />
         )}
       </div>
-    </ListSortControls>
+    </SortingControls>
   );
 }

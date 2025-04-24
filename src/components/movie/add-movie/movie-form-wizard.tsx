@@ -36,10 +36,10 @@ import { GenreFieldsForm } from "./genre-fields-form";
 import { MovieFilterForm } from "./movie-filter-form";
 import { Summary } from "./summary";
 import { Separator } from "@/components/ui/separator";
-import { FormStepper } from "../ui/form-stepper";
-import { FormButtons } from "../ui/form-buttons";
+import { FormStepper } from "@/components/my-custom-ui/form-ui-parts/form-stepper";
+import { FormButtons } from "@/components/my-custom-ui/form-ui-parts/form-buttons";
 import { RelatedMovieForm } from "./related-movie-form";
-import { SharedUniverseForm } from "./shared_universe";
+import { SharedUniverseForm } from "./shared-universe-form";
 
 type Props = {
   actors: ActorOut[];

@@ -1,4 +1,4 @@
-import { FilterFetchWrapper } from "@/components/filter-fetch-wrapper";
+import { FilterFetchWrapper } from "@/components/super-search/filter-fetch-wrapper";
 
 export default function SuperSearchLayout({
   children, // will be a page or nested layout

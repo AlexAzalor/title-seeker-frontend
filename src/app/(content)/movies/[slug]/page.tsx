@@ -12,19 +12,19 @@ import { getMovies } from "@/orval_api/movies/movies";
 import { PageProps } from "@/types/general";
 import { getLocale, getTranslations } from "next-intl/server";
 import { cn, formatDate } from "@/lib/utils";
-import { MovieRateBox } from "@/components/movie/movie-rate-box";
+import { MovieRateBox } from "@/components/movie/movie-page/movie-rate-box";
 import { GenresList } from "@/components/movie/movie-page/genres-list";
-import { FeaturesList } from "@/components/movie/movie-page/features-list";
-import { ExpandableText } from "@/components/custom/expandable-text";
-import { MovieCrew } from "@/components/movie/movie-crew";
-import { MovieMoney } from "@/components/movie/movie-money";
+import { MovieFilterList } from "@/components/movie/movie-page/movie-filter-list";
+import { ExpandableText } from "@/components/my-custom-ui/expandable-text";
+import { MovieCrew } from "@/components/movie/movie-page/movie-crew";
 
-import { LastWatchedWrapper } from "@/components/movie/last-watched-wrapper";
+import { LastWatchedWrapper } from "@/components/layout/last-watched-wrapper";
 
 import { RelatedSimilarList } from "@/components/movie/movie-page/related-similar-list";
 import { MoviesCollection } from "@/components/movie/movie-page/movies-collection";
-import { FetchWrapper } from "@/components/movie/fetch-wrapper";
-import { Spinner } from "@/components/spinner";
+import { FetchWrapper } from "@/components/my-custom-ui/fetch-wrapper";
+import { Spinner } from "@/components/my-custom-ui/spinner";
+import { MovieMoney } from "@/components/movie/movie-page/movie-money";
 
 export default async function DynamicPage({ params }: PageProps) {
   const { slug: movie_key } = await params;
@@ -99,7 +99,7 @@ export default async function DynamicPage({ params }: PageProps) {
             <div className="mx-6">
               <GenresList data={data} />
 
-              <FeaturesList
+              <MovieFilterList
                 specifications={data.specifications}
                 keywords={data.keywords}
                 action_times={data.action_times}

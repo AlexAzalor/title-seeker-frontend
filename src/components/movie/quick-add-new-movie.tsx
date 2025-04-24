@@ -13,11 +13,11 @@ import {
   RatingCriterion,
   UserRatingCriteria,
 } from "@/orval_api/model";
-import { FormField } from "./ui/form-field";
+import { FormField } from "../my-custom-ui/form-ui-parts/form-field";
 import { QuickMovieScheme, QuickMovieType } from "@/types/zod-scheme";
 import { RateMovie } from "./rating/rate-movie";
 import { RatingDataOut } from "./add-movie/key-fields-form";
-import { FormWrapper } from "./ui/form-wrapper";
+import { FormWrapper } from "../my-custom-ui/form-ui-parts/form-wrapper";
 
 export const QuicklyAddNewMovie = () => {
   const ratingRef = useRef<RatingDataOut>({

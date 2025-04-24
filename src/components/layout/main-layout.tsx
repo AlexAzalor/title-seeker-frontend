@@ -1,7 +1,7 @@
 import React from "react";
 import { Header } from "./header";
 import { auth } from "@/auth";
-import { LastWatched } from "../movie/last-watched";
+import { LastWatched } from "./last-watched";
 import { POSTER_URL } from "@/lib/constants";
 // import Header from "./Header";
 

@@ -3,7 +3,6 @@ import { Controller, useForm } from "react-hook-form";
 import { RelatedMovieField, RelatedMovieType } from "@/types/zod-scheme";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { MovieFormContext } from "./utils";
-import { FormField } from "../ui/form-field";
 
 import {
   MovieFormData,
@@ -13,11 +12,12 @@ import {
   UserRatingCriteria,
 } from "@/orval_api/model";
 
-import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { FormButtons } from "../ui/form-buttons";
+import { useLocalStorage } from "@/hooks/use-local-storage";
+import { FormField } from "@/components/my-custom-ui/form-ui-parts/form-field";
+import { FormButtons } from "@/components/my-custom-ui/form-ui-parts/form-buttons";
 import { TypeSelector } from "./type-selector";
-import { ResponsiveWrapper } from "../ui/responsive-wrapper";
-import { ItemsListSelector } from "../ui/items-list-selector";
+import { ResponsiveWrapper } from "../../my-custom-ui/responsive-wrapper";
+import { ItemsListSelector } from "../../my-custom-ui/items-list-selector";
 
 export type MovieKeyFields = Pick<
   MovieFormData,

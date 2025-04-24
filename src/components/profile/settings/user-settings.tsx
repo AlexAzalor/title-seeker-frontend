@@ -6,7 +6,7 @@ import { deleteProfile } from "@/app/services/user-api";
 
 import { UserRole } from "@/orval_api/model";
 import { Button } from "@/components/ui/button";
-import ModalWindow from "@/components/movie/ui/modal-movie";
+import ModalWindow from "@/components/my-custom-ui/modal-window";
 
 export const UserSettings = () => {
   const session = useSession();

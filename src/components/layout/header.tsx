@@ -3,15 +3,15 @@ import Image from "next/image";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 
-import { ModeToggle } from "../toggles/theme-toggle";
+import { ThemeSelector } from "./theme-selector";
 import { Button } from "../ui/button";
 import { PlusCircle } from "lucide-react";
-import { Search } from "../search";
+import { Search } from "./search";
 import { POSTER_URL } from "@/lib/constants";
 import { SidebarTrigger } from "../ui/sidebar";
-import { GoogleLogin } from "../google-login";
-import { NavUser } from "../nav-user";
-import { LocaleSwitcher } from "../locale-switcher";
+import { GoogleLogin } from "./google-login";
+import { UserProfileMenu } from "../profile/user-profile-menu";
+import { LanguageSelector } from "./language-selector";
 
 type Props = {
   session: Session | null;
@@ -73,18 +73,18 @@ export const Header = ({ session }: Props) => {
         )}
 
         <div className="hidden 2xl:block">
-          <LocaleSwitcher />
+          <LanguageSelector />
         </div>
 
         <div className="hidden 2xl:block">
-          <ModeToggle />
+          <ThemeSelector />
         </div>
         {!session && (
           <div className="hidden 2xl:block">{!session && <GoogleLogin />}</div>
         )}
 
         <div className="hidden 2xl:block">
-          {session?.user && <NavUser user={session.user} />}
+          {session?.user && <UserProfileMenu user={session.user} />}
         </div>
 
         <div className="2xl:hidden">

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { InfoIcon } from "lucide-react";
 import type { MovieOut } from "@/orval_api/model";
-import { TooltipWrapper } from "@/components/custom/tooltip-wrapper";
+import { TooltipWrapper } from "@/components/my-custom-ui/tooltip-wrapper";
 import { percentageMatchColor } from "../utils";
 import { movieComponents } from "@/lib/constants";
 

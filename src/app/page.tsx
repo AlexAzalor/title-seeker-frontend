@@ -1,7 +1,7 @@
 import { useTranslations } from "next-intl";
-import { ActorsCarousel } from "@/components/movie/actors-carousel";
-import { FetchWrapper } from "@/components/movie/fetch-wrapper";
-import { LastWatched } from "@/components/movie/last-watched";
+import { ActorsCarousel } from "@/components/actors-carousel";
+import { FetchWrapper } from "@/components/my-custom-ui/fetch-wrapper";
+import { LastWatched } from "@/components/layout/last-watched";
 import { MoviesCarousel } from "@/components/movie/movie-carousel";
 import { AVATAR_URL, POSTER_URL } from "@/lib/constants";
 import { getActors } from "@/orval_api/actors/actors";

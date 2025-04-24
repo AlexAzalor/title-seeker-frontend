@@ -5,9 +5,10 @@ import { backendURL } from "@/lib/constants";
 
 import { getMovies } from "@/orval_api/movies/movies";
 import { Language, SortBy, SortOrder } from "@/orval_api/model";
-import { ListSortControls } from "@/components/profile/my-lists/list-sort-controls";
-import { PaginationContoller } from "@/components/profile/my-lists/pagination-contoller";
+
+import { PaginationContoller } from "@/components/my-custom-ui/pagination/pagination-contoller";
 import { MovieList } from "@/components/movie/movie-list";
+import { SortingControls } from "@/components/my-custom-ui/pagination/sorting-controls";
 
 const DEFAULT_PAGE = 1;
 const DEFAULT_PAGE_SIZE = 30;
@@ -43,7 +44,7 @@ export default async function MoviesPage(props: {
   );
 
   return (
-    <ListSortControls
+    <SortingControls
       uriKey="movies"
       currentPage={page}
       pageSize={size}
@@ -72,6 +73,6 @@ export default async function MoviesPage(props: {
           />
         )}
       </div>
-    </ListSortControls>
+    </SortingControls>
   );
 }

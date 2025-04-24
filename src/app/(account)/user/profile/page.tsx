@@ -3,8 +3,8 @@ import { getLocale } from "next-intl/server";
 import Link from "next/link";
 import Image from "next/image";
 
-import { GenreRadarChart } from "@/components/profile/genre-radar-chart";
-import { TimeRateChart } from "@/components/profile/time-rate-chart";
+import { GenreRadarChart } from "@/components/profile/charts/genre-radar-chart";
+import { TimeRateChart } from "@/components/profile/charts/time-rate-chart";
 import { UserInfo } from "@/components/profile/user-info";
 import {
   Card,
