@@ -6,7 +6,8 @@ import { MovieFormContext } from "./utils";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GenreSchemeList } from "@/types/zod-scheme";
-import { createGenre, createSubgenre } from "@/app/actions";
+
+import { createGenre, createSubgenre } from "@/app/services/admin-api";
 import type {
   GenreFormOut,
   GenreOut,
@@ -14,15 +15,15 @@ import type {
   SubgenreOut,
 } from "@/orval_api/model";
 
-import { AddNewGenre } from "../add-movies-parts/add-new-genre";
-import { ItemsListSelector } from "../ui/items-list-selector";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { FormButtons } from "../ui/form-buttons";
-import { FormField } from "../ui/form-field";
-import { SliderFormField } from "../ui/slider-form-field";
-import { ResponsiveWrapper } from "../ui/responsive-wrapper";
+import { AddNewGenre } from "./connected-parts/add-new-genre";
+import { ItemsListSelector } from "../../my-custom-ui/items-list-selector";
+import { useLocalStorage } from "@/hooks/use-local-storage";
+import { FormButtons } from "@/components/my-custom-ui/form-ui-parts/form-buttons";
+import { FormField } from "@/components/my-custom-ui/form-ui-parts/form-field";
+import { SliderFormField } from "@/components/my-custom-ui/form-ui-parts/slider-form-field";
+import { ResponsiveWrapper } from "../../my-custom-ui/responsive-wrapper";
 
-const ModalMovie = dynamic(() => import("../ui/modal-movie"));
+const ModalMovie = dynamic(() => import("../../my-custom-ui/modal-window"));
 
 const checkGenreType = (item: GenreOut | SubgenreOut): item is GenreOut => {
   return (item as GenreOut).subgenres !== undefined;

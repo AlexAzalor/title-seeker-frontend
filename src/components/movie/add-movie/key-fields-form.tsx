@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { MovieFormContext } from "./utils";
 import { formatKey } from "@/lib/utils";
 
-import { FormField } from "../ui/form-field";
+import { FormField } from "@/components/my-custom-ui/form-ui-parts/form-field";
 import {
   MovieFormData,
   MoviePreCreateDataTemporaryMovie,
@@ -15,8 +15,8 @@ import {
 import { INITIAL_RATE } from "@/components/movie/rating/utils";
 import { RateMovie } from "../rating/rate-movie";
 import { toast } from "sonner";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { FormButtons } from "../ui/form-buttons";
+import { useLocalStorage } from "@/hooks/use-local-storage";
+import { FormButtons } from "@/components/my-custom-ui/form-ui-parts/form-buttons";
 
 type MovieKeyFields = Pick<
   MovieFormData,

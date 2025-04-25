@@ -5,10 +5,11 @@ import { getUsers } from "./orval_api/users/users";
 
 // The `JWT` interface can be found in the `next-auth/jwt` submodule
 import "next-auth/jwt";
+import { UserRole } from "./orval_api/model";
 
 export interface UserExtended {
   /** User role */
-  role: string;
+  role: UserRole;
   /** User uuid */
   uuid: string;
   new_movies_to_add_count: number;

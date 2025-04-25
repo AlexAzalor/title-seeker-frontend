@@ -7,13 +7,9 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { EnhanceSearchScheme } from "@/types/zod-scheme";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { GENRE_KEY, SUBGENRE_KEY } from "../genre-selector";
+import { GENRE_KEY, SUBGENRE_KEY } from "./genre-selector";
 
-import {
-  ACTION_TIME_KEY,
-  KEYWORD_KEY,
-  SPEC_KEY,
-} from "../filter-fetch-wrapper";
+import { ACTION_TIME_KEY, KEYWORD_KEY, SPEC_KEY } from "./filter-fetch-wrapper";
 import {
   cleanString,
   extractValues,

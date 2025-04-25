@@ -12,7 +12,7 @@ import {
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
 import Link from "next/link";
-import { ModeToggle } from "../toggles/theme-toggle";
+import { ThemeSelector } from "./theme-selector";
 import { Button } from "../ui/button";
 import {
   BadgeJapaneseYenIcon,
@@ -28,10 +28,10 @@ import {
 } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { auth } from "@/auth";
-import { GoogleLogin } from "../google-login";
+import { GoogleLogin } from "./google-login";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { SignOut } from "../custom/sign-out";
-import { LocaleSwitcher } from "../locale-switcher";
+import { SignOut } from "../my-custom-ui/sign-out";
+import { LanguageSelector } from "./language-selector";
 
 export const CONTENT_ICONS = {
   movies: <Film />,
@@ -209,8 +209,8 @@ export async function AppSidebar({
 
       <SidebarFooter>
         <div className="flex items-center justify-between">
-          <LocaleSwitcher />
-          <ModeToggle />
+          <LanguageSelector />
+          <ThemeSelector />
         </div>
         {session && <SignOut name={menu("logout")} />}
         <span>version: 1.0.0</span>

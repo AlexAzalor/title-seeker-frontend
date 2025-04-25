@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import { SortBy, SortOrder } from "@/orval_api/model";
-import { SideNav } from "@/components/profile/admin/side-nav";
+import { AdminSidebarNav } from "@/components/profile/admin/admin-sidebar-nav";
 import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from "@/lib/constants";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
@@ -37,7 +37,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </Link>
         </ul>
 
-        <SideNav />
+        <AdminSidebarNav />
 
         <Link
           href="/user/settings"

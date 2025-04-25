@@ -1,12 +1,12 @@
 import { cn } from "@/lib/utils";
-import { GENRE_KEY, SUBGENRE_KEY } from "../genre-selector";
+import { GENRE_KEY, SUBGENRE_KEY } from "../super-search/genre-selector";
 import {
   ACTION_TIME_KEY,
   ACTOR_KEY,
   DIRECTOR_KEY,
   KEYWORD_KEY,
   SPEC_KEY,
-} from "../filter-fetch-wrapper";
+} from "../super-search/filter-fetch-wrapper";
 
 export const percentageMatchColor = (percentage: number, text: string) => {
   return (

@@ -1,22 +1,23 @@
 "use client";
 
 import { useRef } from "react";
-import { quicklyAddNewMovie } from "@/app/actions";
+
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { formatKey } from "@/lib/utils";
 
+import { quicklyAddNewMovie } from "@/app/services/admin-api";
 import {
   QuickMovieFormData,
   RatingCriterion,
   UserRatingCriteria,
 } from "@/orval_api/model";
-import { FormField } from "./ui/form-field";
+import { FormField } from "../my-custom-ui/form-ui-parts/form-field";
 import { QuickMovieScheme, QuickMovieType } from "@/types/zod-scheme";
 import { RateMovie } from "./rating/rate-movie";
 import { RatingDataOut } from "./add-movie/key-fields-form";
-import { FormWrapper } from "./ui/form-wrapper";
+import { FormWrapper } from "../my-custom-ui/form-ui-parts/form-wrapper";
 
 export const QuicklyAddNewMovie = () => {
   const ratingRef = useRef<RatingDataOut>({

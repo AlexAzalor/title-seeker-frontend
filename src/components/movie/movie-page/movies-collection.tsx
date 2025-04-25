@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-import { TooltipWrapper } from "@/components/custom/tooltip-wrapper";
+import { TooltipWrapper } from "@/components/my-custom-ui/tooltip-wrapper";
 import { cn } from "@/lib/utils";
 import { SharedUniverseOut } from "@/orval_api/model";
 

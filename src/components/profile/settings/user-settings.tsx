@@ -1,11 +1,12 @@
 "use client";
 
-import { deleteProfile } from "@/app/actions";
-import ModalWindow from "@/components/movie/ui/modal-movie";
-import { Button } from "@/components/ui/button";
-import { UserRole } from "@/orval_api/model";
-import { signOut, useSession } from "next-auth/react";
 import { useState } from "react";
+import { signOut, useSession } from "next-auth/react";
+import { deleteProfile } from "@/app/services/user-api";
+
+import { UserRole } from "@/orval_api/model";
+import { Button } from "@/components/ui/button";
+import ModalWindow from "@/components/my-custom-ui/modal-window";
 
 export const UserSettings = () => {
   const session = useSession();

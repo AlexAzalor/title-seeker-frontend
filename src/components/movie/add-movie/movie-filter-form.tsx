@@ -3,8 +3,13 @@
 import { Suspense, use, useState } from "react";
 import dynamic from "next/dynamic";
 import { useFieldArray, useForm } from "react-hook-form";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { useLocalStorage } from "@/hooks/use-local-storage";
 
+import {
+  createActionTime,
+  createKeyword,
+  createSpecification,
+} from "@/app/services/admin-api";
 import { MovieFormContext } from "./utils";
 import { InfoIcon } from "lucide-react";
 import { MovieFilterList, MovieFilterListType } from "@/types/zod-scheme";
@@ -17,20 +22,15 @@ import {
   MovieFormData,
   SpecificationOut,
 } from "@/orval_api/model";
-import { AddNewMovieFilter } from "../add-movies-parts/add-new-movie-filter";
-import { ItemsListSelector } from "../ui/items-list-selector";
-import { FormButtons } from "../ui/form-buttons";
-import { FormField } from "../ui/form-field";
-import { SliderFormField } from "../ui/slider-form-field";
-import { TooltipWrapper } from "@/components/custom/tooltip-wrapper";
-import { ResponsiveWrapper } from "../ui/responsive-wrapper";
-import {
-  createActionTime,
-  createKeyword,
-  createSpecification,
-} from "@/app/actions";
+import { AddNewMovieFilter } from "./connected-parts/add-new-movie-filter";
+import { ItemsListSelector } from "../../my-custom-ui/items-list-selector";
+import { FormButtons } from "@/components/my-custom-ui/form-ui-parts/form-buttons";
+import { FormField } from "@/components/my-custom-ui/form-ui-parts/form-field";
+import { SliderFormField } from "@/components/my-custom-ui/form-ui-parts/slider-form-field";
+import { TooltipWrapper } from "@/components/my-custom-ui/tooltip-wrapper";
+import { ResponsiveWrapper } from "../../my-custom-ui/responsive-wrapper";
 
-const ModalMovie = dynamic(() => import("../ui/modal-movie"));
+const ModalMovie = dynamic(() => import("../../my-custom-ui/modal-window"));
 
 type Props = {
   specifications: SpecificationOut[];

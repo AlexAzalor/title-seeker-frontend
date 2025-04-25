@@ -28,7 +28,7 @@ import {
 import { RateSlider } from "./rate-slider";
 import { Switch } from "../../ui/switch";
 import { Label } from "../../ui/label";
-import { RatingTypeSelector } from "../ui/rating-type-selector";
+import { RatingTypeSelector } from "./rating-type-selector";
 import { RatingDataOut } from "../add-movie/key-fields-form";
 
 type Props = {

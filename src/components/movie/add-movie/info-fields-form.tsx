@@ -1,5 +1,5 @@
 import { use } from "react";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { useLocalStorage } from "@/hooks/use-local-storage";
 import { useForm } from "react-hook-form";
 import { MovieFormContext } from "./utils";
 
@@ -7,9 +7,9 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { MovieInfoScheme } from "@/types/zod-scheme";
 import type { MovieFormData } from "@/orval_api/model";
-import { FormField } from "../ui/form-field";
-import { FormButtons } from "../ui/form-buttons";
-import { TextareaFormField } from "../ui/textarea-form-field";
+import { FormField } from "@/components/my-custom-ui/form-ui-parts/form-field";
+import { FormButtons } from "@/components/my-custom-ui/form-ui-parts/form-buttons";
+import { TextareaFormField } from "@/components/my-custom-ui/form-ui-parts/textarea-form-field";
 import { cleanNumberValue, formatDate } from "@/lib/utils";
 
 export type MovieInfoFieldNames = Pick<

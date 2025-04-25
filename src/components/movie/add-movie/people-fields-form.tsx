@@ -1,10 +1,10 @@
 import { Suspense, use, useCallback, useMemo, useState } from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { useLocalStorage } from "@/hooks/use-local-storage";
 import dynamic from "next/dynamic";
 import { MovieFormContext } from "./utils";
 
-import { createActor, createDirector } from "@/app/actions";
+import { createActor, createDirector } from "@/app/services/admin-api";
 import { z } from "zod";
 import { MovieCrewListScheme } from "@/types/zod-scheme";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -16,14 +16,14 @@ import type {
   MovieFormData,
 } from "@/orval_api/model";
 
-import { AddNewPerson } from "../add-movies-parts/add-new-person";
-import { ItemsListSelector } from "../ui/items-list-selector";
-import { FormButtons } from "../ui/form-buttons";
-import { FormField } from "../ui/form-field";
-import { ResponsiveWrapper } from "../ui/responsive-wrapper";
-import { AddNewCharacter } from "../add-movies-parts/add-new-character";
+import { AddNewPerson } from "./connected-parts/add-new-person";
+import { ItemsListSelector } from "../../my-custom-ui/items-list-selector";
+import { FormButtons } from "@/components/my-custom-ui/form-ui-parts/form-buttons";
+import { FormField } from "@/components/my-custom-ui/form-ui-parts/form-field";
+import { ResponsiveWrapper } from "../../my-custom-ui/responsive-wrapper";
+import { AddNewCharacter } from "./connected-parts/add-new-character";
 
-const ModalMovie = dynamic(() => import("../ui/modal-movie"));
+const ModalMovie = dynamic(() => import("../../my-custom-ui/modal-window"));
 
 type Props = {
   actors: ActorOut[];
