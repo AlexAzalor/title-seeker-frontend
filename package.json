@@ -9,7 +9,8 @@
     "lint": "next lint",
     "type-check": "tsc --noEmit",
     "get-openapi": "./scripts/get-openapi-json.sh",
-    "gen-api": "orval --config ./orval.config.ts"
+    "gen-api": "orval --config ./orval.config.ts",
+    "test": "playwright test"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
@@ -31,6 +32,7 @@
     "clsx": "^2.1.1",
     "cmdk": "1.0.0",
     "date-fns": "^4.1.0",
+    "dotenv": "^16.5.0",
     "embla-carousel-autoplay": "^8.4.0",
     "embla-carousel-react": "^8.5.2",
     "lucide-react": "^0.487.0",
@@ -51,6 +53,7 @@
     "zod": "^3.24.1"
   },
   "devDependencies": {
+    "@playwright/test": "^1.52.0",
     "@tailwindcss/postcss": "^4.0.0",
     "@types/node": "^20",
     "@types/react": "19.0.1",

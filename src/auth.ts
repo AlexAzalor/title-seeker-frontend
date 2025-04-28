@@ -2,7 +2,7 @@ import NextAuth, { DefaultSession } from "next-auth";
 import Google from "next-auth/providers/google";
 import { backendURL } from "./lib/constants";
 import { getUsers } from "./orval_api/users/users";
-
+import Credentials from "next-auth/providers/credentials";
 // The `JWT` interface can be found in the `next-auth/jwt` submodule
 import "next-auth/jwt";
 import { UserRole } from "./orval_api/model";
@@ -42,16 +42,52 @@ declare module "next-auth" {
 }
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  providers: [Google],
+  providers:
+    process.env.NEXTAUTH_ENV === "test"
+      ? [
+          Credentials({
+            credentials: {
+              username: { label: "Username" },
+              password: { label: "Password", type: "password" },
+            },
+            async authorize({ username, password }) {
+              if (username === "testuser" && password === "testpass") {
+                return {
+                  name: process.env.USERNAME,
+                  email: process.env.EMAIL,
+                  new_movies_to_add_count: 0,
+                  role: process.env.ROLE as UserRole,
+                  uuid: process.env.UUID,
+                };
+              }
+              return null;
+            },
+          }),
+        ]
+      : [Google],
   callbacks: {
     async signIn({ account, profile }) {
+      if (
+        account?.provider === "credentials" &&
+        process.env.NEXTAUTH_ENV === "test"
+      ) {
+        return true;
+      }
       if (account?.provider === "google" && profile?.email_verified) {
         return true;
       }
 
       return false;
     },
-    async jwt({ token, profile }) {
+    async jwt({ token, profile, user }) {
+      if (user && process.env.NEXTAUTH_ENV === "test") {
+        token.role = user.role;
+        token.uuid = user.uuid;
+        token.new_movies_to_add_count = user.new_movies_to_add_count;
+
+        return token;
+      }
+
       if (!profile) {
         return token;
       }
