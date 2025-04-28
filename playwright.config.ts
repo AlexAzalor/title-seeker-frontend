@@ -19,7 +19,7 @@ export default defineConfig({
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
   /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : undefined,
+  // workers: process.env.CI ? 3 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   // reporter: "html",
   reporter: "line",
@@ -46,6 +46,8 @@ export default defineConfig({
       use: {
         ...devices["Desktop Chrome"],
         // viewport: { width: 2200, height: 1200 },
+        baseURL: "http://localhost:3000",
+        viewport: { width: 2560, height: 1440 },
       },
     },
     // {
@@ -101,6 +103,8 @@ export default defineConfig({
       EMAIL: process.env.EMAIL ?? "",
       ROLE: process.env.ROLE ?? "",
       UUID: process.env.UUID ?? "",
+      TEST_USER: process.env.TEST_USER ?? "",
+      TEST_PASSWORD: process.env.TEST_PASSWORD ?? "",
     },
   },
 });

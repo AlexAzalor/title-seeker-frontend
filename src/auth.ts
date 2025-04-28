@@ -43,6 +43,7 @@ declare module "next-auth" {
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers:
+    // Use only for testing
     process.env.NEXTAUTH_ENV === "test"
       ? [
           Credentials({
@@ -51,7 +52,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               password: { label: "Password", type: "password" },
             },
             async authorize({ username, password }) {
-              if (username === "testuser" && password === "testpass") {
+              if (
+                username === process.env.TEST_USER &&
+                password === process.env.TEST_PASSWORD
+              ) {
                 return {
                   name: process.env.USERNAME,
                   email: process.env.EMAIL,
@@ -81,9 +85,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
     async jwt({ token, profile, user }) {
       if (user && process.env.NEXTAUTH_ENV === "test") {
-        token.role = user.role;
-        token.uuid = user.uuid;
-        token.new_movies_to_add_count = user.new_movies_to_add_count;
+        token.role = (user as UserExtended).role;
+        token.uuid = (user as UserExtended).uuid;
+        token.new_movies_to_add_count = (
+          user as UserExtended
+        ).new_movies_to_add_count;
 
         return token;
       }

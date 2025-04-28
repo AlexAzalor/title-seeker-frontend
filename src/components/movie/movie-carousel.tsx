@@ -52,7 +52,7 @@ export function MoviesCarousel({ movies, lang, posterURL, avatarURL }: Props) {
                       {movie.poster && (
                         <Image
                           src={`${posterURL}/posters/${movie.poster}`}
-                          alt="Actor Avatar"
+                          alt="Movie poster"
                           className="h-auto w-auto"
                           height={230}
                           width={110}
@@ -120,7 +120,7 @@ export function MoviesCarousel({ movies, lang, posterURL, avatarURL }: Props) {
                                 key={actor.key}
                                 title={actor.full_name}
                                 src={`${avatarURL}/actors/${actor.avatar_url}`}
-                                alt={`Actor Avatar`}
+                                alt="Actor Avatar"
                                 className="size-12 rounded-full object-cover"
                                 height={50}
                                 width={50}

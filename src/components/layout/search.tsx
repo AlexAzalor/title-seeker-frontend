@@ -211,7 +211,7 @@ export const Search = ({ posterURL }: Props) => {
               >
                 <Image
                   src={`${posterURL}/posters/${title.poster}`}
-                  alt="Actor Avatar"
+                  alt="Movie poster"
                   height={60}
                   width={40}
                 />

@@ -34,7 +34,7 @@ export const UserInfo = ({
       <div className="grid gap-2 p-4">
         <div className="flex flex-col gap-4">
           <Avatar className="mx-auto h-20 w-20 rounded-full">
-            <AvatarImage src={user.image ?? ""} alt={user.name ?? ""} />
+            <AvatarImage src={user.image ?? ""} alt="User avatar" />
             <AvatarFallback className="rounded-lg">CN</AvatarFallback>
           </Avatar>
           <div>

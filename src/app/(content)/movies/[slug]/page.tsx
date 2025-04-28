@@ -89,7 +89,7 @@ export default async function DynamicPage({ params }: PageProps) {
             <div className="">
               <Image
                 src={`${POSTER_URL}/posters/${data.poster}`}
-                alt="Movie Poster"
+                alt="Movie poster"
                 className="h-[450px] w-[300px] max-w-none"
                 height={450}
                 width={300}

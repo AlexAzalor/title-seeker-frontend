@@ -47,7 +47,7 @@ export const RelatedSimilarList = ({
           >
             <Image
               src={`${posterUrl}/posters/${movie.poster}`}
-              alt="Actor Avatar"
+              alt="Movie poster"
               height={60}
               width={40}
               className="rounded-lg"
