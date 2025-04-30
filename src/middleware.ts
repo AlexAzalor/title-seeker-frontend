@@ -2,7 +2,12 @@
 
 import { auth } from "@/auth";
 
-const ADMIN_ROUTES = ["/add-movie", "/quick-add-movie"];
+const ADMIN_ROUTES = [
+  "/add-movie",
+  "/quick-add-movie",
+  "/user",
+  "/user/dashboard",
+];
 
 export default auth((req) => {
   if (

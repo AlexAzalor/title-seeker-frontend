@@ -19,7 +19,7 @@ export const MovieList = ({ movies, lang }: Props) => {
       {movie.poster && (
         <Image
           src={`${POSTER_URL}/posters/${movie.poster}`}
-          alt="Actor Avatar"
+          alt="Movie poster"
           height={200}
           width={100}
         />

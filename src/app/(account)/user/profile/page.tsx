@@ -60,7 +60,7 @@ export default async function ProfilePage() {
                 >
                   <Image
                     src={`${POSTER_URL}/posters/${movie.poster}`}
-                    alt="Actor Avatar"
+                    alt="Movie poster"
                     height={60}
                     width={40}
                     className="rounded-lg"

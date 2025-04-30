@@ -69,7 +69,7 @@ export const MoviesCollection = ({
             >
               <Image
                 src={`${posterUrl}/posters/${movie.poster}`}
-                alt="Actor Avatar"
+                alt="Movie poster"
                 height={60}
                 width={40}
               />

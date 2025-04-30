@@ -41,3 +41,9 @@ next-env.d.ts
 
 # OpenAPI
 /src/orval_api
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
