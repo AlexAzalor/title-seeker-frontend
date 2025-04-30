@@ -2,50 +2,74 @@ import { test, expect } from "@playwright/test";
 
 // PAGE - https://playwright.dev/docs/api/class-page
 
-test("Should open Home page", async ({ page }) => {
+test("Should be visible main info and buttons on the Home page", async ({
+  page,
+}) => {
   await page.goto("/");
-  await expect(page).toHaveTitle(/Title Seeker/);
+  await expect(page.locator("h1")).toContainText("Title Seeker");
+  await expect(page.getByRole("main")).toContainText(
+    "Гнучкість, швидкість і простота дозволить в любий момент і місці мати можливість знайти бажаний тайтл!",
+  );
+
+  // Header
   await expect(
-    page.getByText(
-      "Гнучкість, швидкість і простота дозволить в любий момент і місці мати можливість знайти бажаний тайтл!",
-    ),
+    page.getByRole("link", { name: "Logo Title Seeker" }),
   ).toBeVisible();
-});
-
-test("Should navigate to the Super Search page", async ({ page }) => {
-  await page.goto("/");
-  await page
-    .getByRole("banner")
-    .getByRole("button", { name: "Супер пошук", exact: true })
-    .click();
-  await expect(page).toHaveURL(/super-search/);
-  await expect(page.locator("h1")).toContainText("Advanced title search");
   await expect(
-    page.getByRole("heading", {
-      name: "Please select at least one filter to search for movies",
-    }),
+    page.getByRole("navigation").getByRole("link", { name: "Фільми" }),
   ).toBeVisible();
-});
+  await expect(page.getByRole("textbox", { name: "Шукати" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Супер пошук" })).toBeVisible();
 
-test("Should open search modal", async ({ page }) => {
-  await page.goto("/");
-  await expect(page.getByRole("textbox", { name: "Шукати..." })).toBeVisible();
-});
-
-test("Should be Theme and Language selectors 2", async ({ page }) => {
-  await page.goto("/");
+  // Managing buttons
+  await expect(page.getByRole("banner").getByRole("combobox")).toBeVisible();
   await expect(
     page.getByRole("banner").getByRole("button", { name: "Select theme" }),
   ).toBeVisible();
-  // Language selector
-  await expect(page.getByRole("banner").getByRole("combobox")).toBeVisible();
-});
-
-test("Should be Google login", async ({ page }) => {
-  await page.goto("/");
   await expect(
     page.getByRole("banner").getByRole("button", { name: "Google" }),
   ).toBeVisible();
+});
+
+test("Should switch language", async ({ page }) => {
+  await page.goto("/");
+
+  await page
+    .getByRole("heading", {
+      name: "Ця платформа створена для того щоб вирішити цю проблему!",
+    })
+    .click();
+  await page.getByRole("banner").getByRole("combobox").click();
+  await page.getByRole("option", { name: "English" }).click();
+  await page
+    .getByRole("heading", { name: "This platform was created to" })
+    .click();
+});
+
+test("Should switch dark/light theme", async ({ page }) => {
+  await page.goto("/");
+  // check default theme
+  await expect(page.locator("html")).toHaveClass(/light/);
+
+  await page
+    .getByRole("banner")
+    .getByRole("button", { name: "Select theme" })
+    .click();
+  await page.getByRole("menuitem", { name: "Dark" }).click();
+
+  await expect(page.locator("html")).toHaveClass(/dark/);
+});
+
+test("Should open Google login", async ({ page }) => {
+  await page.goto("/");
+  // accounts.google.com
+  await page
+    .getByRole("banner")
+    .getByRole("button", { name: "Google" })
+    .click();
+  await page.waitForURL("**/api/auth/signin**");
+  const regex = /\/api\/auth\/signin(\?.*)?$/;
+  await expect(page).toHaveURL(regex);
 });
 
 test("Should go to the Movie page", async ({ page }) => {
@@ -54,13 +78,60 @@ test("Should go to the Movie page", async ({ page }) => {
     .getByRole("navigation")
     .getByRole("link", { name: "Фільми" })
     .click();
-  await expect(page).toHaveURL("/movies");
-  await page.getByRole("link", { name: "Movie poster" }).first().click();
-  await expect(page).toHaveURL(/movies/);
-  expect(
-    await page
-      .getByRole("img", { name: "Movie poster" })
-      .first()
-      .getAttribute("alt"),
-  ).toBe("Movie poster");
+  await page
+    .getByRole("link", { name: "Movie poster Test after" })
+    .first()
+    .click();
+  await expect(
+    page
+      .locator("div")
+      .filter({ hasText: /^Acting$/ })
+      .nth(1),
+  ).toBeVisible();
+});
+
+test("Should find movie by Super Search: Втеча з Шоушенка", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await page.getByRole("button", { name: "Супер пошук" }).click();
+  await expect(page.locator("h1")).toContainText("Advanced title search");
+
+  await page.getByText("Genres", { exact: true }).click();
+  await page.getByRole("option", { name: "Драма" }).click();
+  await expect(page.locator("#main-layout")).toContainText("Драма(10-100)");
+  await page.getByRole("option", { name: "Кримінал" }).click();
+  await expect(page.locator("#main-layout")).toContainText("Кримінал(10-100)");
+
+  await page.getByText("Actors").click();
+  await page.getByRole("option", { name: "Морган Фрімен" }).click();
+  await page.getByText("Actors").click();
+  await expect(page.locator("#main-layout")).toContainText("Морган Фрімен");
+  await page.getByText("Actors").click();
+  await page.getByRole("option", { name: "Тім Робінс" }).click();
+  await page.getByText("Actors").click();
+  await expect(page.locator("#main-layout")).toContainText("Тім Робінс");
+
+  await page.getByText("Directors").click();
+  await page.getByRole("option", { name: "Френк Дарабонт" }).click();
+  await expect(page.locator("#main-layout")).toContainText("Френк Дарабонт");
+  await page.getByRole("link", { name: "Movie poster" }).click();
+
+  await expect(page.locator("h1")).toContainText("Втеча з Шоушенка");
+});
+
+test("Should find movie by Search: The Dark Knight", async ({ page }) => {
+  const movieTitle = "The Dark Knight";
+  await page.goto("/");
+  // Switch to language
+  await page.getByRole("banner").getByRole("combobox").click();
+  await page.getByRole("option", { name: "English" }).click();
+
+  await page.getByRole("textbox", { name: "Search..." }).click();
+  await page.getByPlaceholder("Type to search...").click();
+  await page.getByPlaceholder("Type to search...").fill(movieTitle);
+  await page
+    .getByRole("link", { name: "Movie poster The Dark Knight" })
+    .click();
+  await expect(page.locator("h1")).toContainText(movieTitle);
 });

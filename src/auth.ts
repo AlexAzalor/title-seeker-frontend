@@ -41,10 +41,12 @@ declare module "next-auth" {
   }
 }
 
+const isTestEnv = process.env.NEXTAUTH_ENV === "test";
+
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers:
     // Use only for testing
-    process.env.NEXTAUTH_ENV === "test"
+    isTestEnv
       ? [
           Credentials({
             credentials: {
@@ -71,10 +73,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       : [Google],
   callbacks: {
     async signIn({ account, profile }) {
-      if (
-        account?.provider === "credentials" &&
-        process.env.NEXTAUTH_ENV === "test"
-      ) {
+      if (account?.provider === "credentials" && isTestEnv) {
         return true;
       }
       if (account?.provider === "google" && profile?.email_verified) {
@@ -84,7 +83,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return false;
     },
     async jwt({ token, profile, user }) {
-      if (user && process.env.NEXTAUTH_ENV === "test") {
+      if (user && isTestEnv) {
         token.role = (user as UserExtended).role;
         token.uuid = (user as UserExtended).uuid;
         token.new_movies_to_add_count = (
