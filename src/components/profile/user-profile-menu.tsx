@@ -43,7 +43,7 @@ export function UserProfileMenu({ user }: Props) {
   const menu = useTranslations("MenuItems");
 
   return (
-    <SidebarMenu>
+    <SidebarMenu aria-label="user-profile-menu">
       <SidebarMenuItem>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

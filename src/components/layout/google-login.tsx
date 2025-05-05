@@ -13,7 +13,11 @@ export const GoogleLogin = () => {
   };
 
   return (
-    <Button variant="outline" onClick={onClick} className="">
+    <Button
+      variant="outline"
+      onClick={onClick}
+      aria-label="google-login-button"
+    >
       <svg
         version="1.1"
         xmlns="http://www.w3.org/2000/svg"

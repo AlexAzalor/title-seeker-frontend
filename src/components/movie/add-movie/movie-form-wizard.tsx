@@ -135,7 +135,10 @@ export const MovieFormWizard = ({
         setSkipSteps,
       }}
     >
-      <div className="shadow-form-layout dark:shadow-dark-form-layout mx-auto my-5 w-[1400px] rounded-[34px] border border-[#EFF0F7] p-9 dark:border-[#211979]">
+      <div
+        aria-label="movie-form-wizard"
+        className="shadow-form-layout dark:shadow-dark-form-layout mx-auto my-5 w-[1400px] rounded-[34px] border border-[#EFF0F7] p-9 dark:border-[#211979]"
+      >
         <FormStepper
           completedSteps={completedSteps}
           currentStep={currentStep}

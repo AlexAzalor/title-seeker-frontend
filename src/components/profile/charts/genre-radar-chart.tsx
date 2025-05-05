@@ -34,7 +34,7 @@ export function GenreRadarChart({ radarData }: Props) {
   } satisfies ChartConfig;
 
   return (
-    <Card className="mb-4 w-fit">
+    <Card className="mb-4 w-fit" aria-label="genre-radar-chart">
       <CardHeader className="items-center pb-0">
         <CardTitle>Top 8 most popular movie genres</CardTitle>
         <CardDescription>

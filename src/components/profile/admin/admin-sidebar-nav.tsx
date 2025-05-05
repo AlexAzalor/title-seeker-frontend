@@ -11,7 +11,7 @@ export const AdminSidebarNav = () => {
   }
   const moviesCount = session.data.user.new_movies_to_add_count;
   return (
-    <div className="grid gap-2">
+    <div className="grid gap-2" aria-label="admin-sidebar-nav">
       <Link
         href="/user/new-movies-to-add"
         className="relative cursor-pointer rounded-[6px] px-2 py-1 text-lg transition-colors hover:bg-[#f5f5f5] dark:hover:bg-[#1A183D]"

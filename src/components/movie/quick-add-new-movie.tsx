@@ -75,6 +75,8 @@ export const QuicklyAddNewMovie = () => {
       isSubmitting={isSubmitting}
       buttonTitle="Submit"
     >
+      {/* For Vitest */}
+      <span aria-label="quick-add-new-movie" className="sr-only"></span>
       <FormField
         type="text"
         label="Title EN"

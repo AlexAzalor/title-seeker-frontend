@@ -35,7 +35,10 @@ export const FilterList = ({
   directors,
 }: Props) => {
   return (
-    <div className="mb-20 flex flex-col gap-4 overflow-auto">
+    <div
+      className="mb-20 flex flex-col gap-4 overflow-auto"
+      aria-label="filter-list"
+    >
       <GenreSelector genres={genres} />
 
       <FilterSelector

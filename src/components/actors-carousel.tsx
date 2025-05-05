@@ -17,7 +17,7 @@ type Props = {
 };
 export function ActorsCarousel({ actors, avatarURL }: Props) {
   return (
-    <div className="w-full">
+    <div className="w-full" aria-label="actors-carousel">
       <h2 className="mb-3 text-2xl lg:text-3xl">Top Actors by movies count</h2>
       <Carousel className="w-full" opts={{ dragFree: true }}>
         <CarouselContent className="-ml-1 max-w-[340px] lg:max-w-none">

@@ -8,6 +8,10 @@ import {
   SPEC_KEY,
 } from "../super-search/filter-fetch-wrapper";
 
+/**
+ *
+Renders the color of the match percentage for movie filters (genres, keywords...)
+ */
 export const percentageMatchColor = (percentage: number, text: string) => {
   return (
     <div>

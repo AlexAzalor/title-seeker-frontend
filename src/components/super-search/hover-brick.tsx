@@ -30,6 +30,7 @@ export const HoverBrick = ({
 
   return (
     <>
+      <span aria-label="hover-brick" className="sr-only"></span>
       <FilterBrick
         type={GENRE_KEY}
         searchParamsList={genreItemsList}

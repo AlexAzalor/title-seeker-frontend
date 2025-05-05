@@ -24,7 +24,7 @@ test("Should be visible main info and buttons on the Home page", async ({
   // Managing buttons
   await expect(page.getByRole("banner").getByRole("combobox")).toBeVisible();
   await expect(
-    page.getByRole("banner").getByRole("button", { name: "Select theme" }),
+    page.getByRole("banner").getByRole("button", { name: "select-theme" }),
   ).toBeVisible();
   await expect(
     page.getByRole("banner").getByRole("button", { name: "Google" }),
@@ -53,7 +53,7 @@ test("Should switch dark/light theme", async ({ page }) => {
 
   await page
     .getByRole("banner")
-    .getByRole("button", { name: "Select theme" })
+    .getByRole("button", { name: "select-theme" })
     .click();
   await page.getByRole("menuitem", { name: "Dark" }).click();
 
@@ -78,10 +78,12 @@ test("Should go to the Movie page", async ({ page }) => {
     .getByRole("navigation")
     .getByRole("link", { name: "Фільми" })
     .click();
+  await page.waitForURL("/movies");
   await page
     .getByRole("link", { name: "Movie poster Test after" })
     .first()
     .click();
+  await page.waitForURL("/movies/**");
   await expect(
     page
       .locator("div")

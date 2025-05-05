@@ -108,7 +108,7 @@ export const PaginationContoller = ({
   const pageButtonsList = getVisiblePages(currentPage, totalPages);
 
   return (
-    <Pagination>
+    <Pagination aria-label="pagination">
       <PaginationContent className="items-end">
         <PaginationItem>
           <PaginationPrevious

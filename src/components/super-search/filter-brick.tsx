@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { CircleX, InfoIcon } from "lucide-react";
 import { TooltipWrapper } from "../my-custom-ui/tooltip-wrapper";
-import { cleanString, cn, extractValues } from "@/lib/utils";
+import { cn, extractValues, extractWord } from "@/lib/utils";
 import { GENRE_KEY, SUBGENRE_KEY } from "./genre-selector";
 // import { percentageMatchColor } from "./movie/utils";
 // import {
@@ -54,7 +54,7 @@ export const FilterBrick = <ItemData extends Data>({
   }, [type]);
 
   return searchParamsList.map((searchParam) => {
-    const cleanSearchParam = cleanString(searchParam);
+    const cleanSearchParam = extractWord(searchParam);
     const item = data.find((d) => d.key === cleanSearchParam);
 
     if (!item) {
@@ -64,6 +64,7 @@ export const FilterBrick = <ItemData extends Data>({
 
     return (
       <div
+        aria-label="filter-brick"
         key={searchParam}
         className={cn(
           "hover:shadow-neon-border-fill group relative flex min-h-12 min-w-28 items-center rounded-xl border-2 transition-shadow",

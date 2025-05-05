@@ -4,7 +4,7 @@ type Props = {
 
 export const Spinner = ({ className }: Props) => {
   return (
-    <div role="status" className={className}>
+    <div role="status" className={className} aria-label="spinner">
       <svg
         aria-hidden="true"
         className="h-8 w-8 animate-spin fill-[#4a3aff] text-gray-200 dark:text-gray-600"

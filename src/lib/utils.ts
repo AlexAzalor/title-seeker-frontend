@@ -135,7 +135,13 @@ export function formattedDuration(
   }
 }
 
-export function cleanNumberValue(value: number) {
+/**
+ *
+ * @param 10,000
+ * @description Cleans the number value by removing commas.
+ * @returns 10000
+ */
+export function cleanNumberValue(value: number | string) {
   return String(value).replace(/,/g, "");
 }
 /**
@@ -205,7 +211,7 @@ export function manageSearchParameters(
   refreshPage();
 }
 
-export const cleanString = (str: string) => str.replace(/\(.*?\)/g, "");
+// export const cleanString = (str: string) => str.replace(/\(.*?\)/g, "");
 
 export const DEFAULT_RANGE = [10, 100];
 export const extractValues = (str: string): number[] => {

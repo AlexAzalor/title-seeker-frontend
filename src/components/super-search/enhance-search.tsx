@@ -11,7 +11,6 @@ import { GENRE_KEY, SUBGENRE_KEY } from "./genre-selector";
 
 import { ACTION_TIME_KEY, KEYWORD_KEY, SPEC_KEY } from "./filter-fetch-wrapper";
 import {
-  cleanString,
   extractValues,
   extractWord,
   formatSearchParams,
@@ -123,7 +122,7 @@ export const EnhanceSearch = () => {
       const itemsList = data.map(
         (item) =>
           // action(10,100)
-          `${cleanString(item.name)}(${item.percentage_match.toString()})`,
+          `${item.name}(${item.percentage_match.toString()})`,
       );
 
       for (const item of itemsList) {
@@ -145,7 +144,10 @@ export const EnhanceSearch = () => {
   };
 
   return (
-    <div className="overflow-auto pr-2 lg:mx-6 lg:w-full">
+    <div
+      className="overflow-auto pr-2 lg:mx-6 lg:w-full"
+      aria-label="enhance-search"
+    >
       <h2 className="hidden lg:block">Enhance Search</h2>
 
       {showForm && (

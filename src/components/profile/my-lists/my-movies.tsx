@@ -13,7 +13,7 @@ type Props = {
 export const MyMovies = ({ movies }: Props) => {
   const locale = useLocale() as Language;
   return (
-    <div className="mb-2 flex flex-col gap-4">
+    <div className="mb-2 flex flex-col gap-4" aria-label="my-movies">
       {movies.map((movie) => (
         <Link
           href={`/movies/${movie.key}`}

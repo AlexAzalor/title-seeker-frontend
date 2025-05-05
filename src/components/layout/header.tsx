@@ -22,11 +22,14 @@ export const Header = ({ session }: Props) => {
   const navigationKeys = Object.keys(t.raw("navigation"));
 
   return (
-    <header className="flex items-center justify-between bg-[#77c9fb] px-[16px] py-4 shadow-sm shadow-gray-200 sm:px-[40px] lg:px-[160px]">
+    <header
+      aria-label="project-header"
+      className="flex items-center justify-between bg-[#77c9fb] px-[16px] py-4 shadow-sm shadow-gray-200 sm:px-[40px] lg:px-[160px]"
+    >
       <div className="flex items-center justify-between gap-10">
         <Link href="/" className="flex items-center gap-2">
           <Image
-            src={"/logo.jpg"}
+            src="/logo.jpg"
             alt="Logo"
             width={50}
             height={50}

@@ -35,6 +35,9 @@ export const UserSettings = () => {
 
   return (
     <>
+      <span aria-label="settings" className="sr-only">
+        Settings
+      </span>
       <Button variant="destructive" onClick={handleOpen}>
         Delete Profile
       </Button>

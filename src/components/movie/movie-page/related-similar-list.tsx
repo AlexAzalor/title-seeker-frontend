@@ -27,6 +27,7 @@ export const RelatedSimilarList = ({
 }: Props) => {
   return (
     <div
+      aria-label="related-similar-list"
       className={cn(
         "shadow-form-layout dark:shadow-dark-form-layout w-76 rounded-[34px] border border-[#EFF0F7] p-5 dark:border-[#211979]",
         bottom && "mb-4 w-full min-w-76",

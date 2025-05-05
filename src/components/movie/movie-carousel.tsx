@@ -29,7 +29,7 @@ export function MoviesCarousel({ movies, lang, posterURL, avatarURL }: Props) {
   const isMobile = useMediaQuery("(max-width: 640px)");
   const textLength = isMobile ? 20 : 40;
   return (
-    <div className="w-full">
+    <div className="w-full" aria-label="movies-carousel">
       <h2 className="mb-3">Movies</h2>
       <Carousel
         className="lg:w-full"

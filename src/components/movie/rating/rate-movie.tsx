@@ -256,7 +256,7 @@ const RateMovie = ({
   }, []);
 
   return (
-    <div className="max-w-[594px] py-6 lg:w-[594px]">
+    <div className="max-w-[594px] py-6 lg:w-[594px]" aria-label="rate-movie">
       {!onRateSubmit && !movieKey && (
         <RatingTypeSelector
           onValueChange={handleSelectRatingType}

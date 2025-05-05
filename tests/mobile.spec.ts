@@ -20,7 +20,7 @@ test.describe("Test Mobile view (385x851)", () => {
 
     await expect(page.getByRole("button", { name: "Google" })).toBeVisible();
     await expect(
-      page.getByRole("button", { name: "Select theme" }),
+      page.getByRole("button", { name: "select-theme" }),
     ).toBeVisible();
     // Language selector
     await expect(page.getByRole("combobox")).toBeVisible();
@@ -49,7 +49,9 @@ test.describe("Test Mobile view (385x851)", () => {
     ).toBeVisible();
     await page.getByRole("button", { name: "Toggle Sidebar" }).click();
     await page.getByRole("link", { name: "Фільми" }).click();
+    await page.waitForURL("/movies");
     await page.getByRole("link", { name: "Movie poster" }).first().click();
+    await page.waitForURL("/movies/*");
     await expect(page.getByText("Genres", { exact: true })).toBeVisible();
   });
 });

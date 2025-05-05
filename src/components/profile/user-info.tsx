@@ -30,7 +30,10 @@ export const UserInfo = ({
   }
 
   return (
-    <div className="shadow-form-layout dark:shadow-dark-form-layout max-h-120 w-full rounded-[34px] border border-[#EFF0F7] text-center 2xl:w-60 dark:border-[#211979]">
+    <div
+      className="shadow-form-layout dark:shadow-dark-form-layout max-h-120 w-full rounded-[34px] border border-[#EFF0F7] text-center 2xl:w-60 dark:border-[#211979]"
+      aria-label="user-info"
+    >
       <div className="grid gap-2 p-4">
         <div className="flex flex-col gap-4">
           <Avatar className="mx-auto h-20 w-20 rounded-full">

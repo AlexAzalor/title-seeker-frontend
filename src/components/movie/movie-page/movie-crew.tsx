@@ -26,6 +26,7 @@ export const MovieCrew = ({ actors, avatarURL, directors }: Props) => {
   const actorsLength = mq ? 2 : 5;
   return (
     <>
+      <span className="sr-only" aria-label="movie-crew"></span>
       <div className="my-4 select-none">
         {actors?.length > actorsLength ? (
           <Carousel

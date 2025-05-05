@@ -96,6 +96,9 @@ export const SelectedFilters = ({
 
   return (
     <>
+      <span aria-label="selected-filters" className="sr-only">
+        Selected Filters
+      </span>
       <ResizablePanel defaultSize={8}>
         <div className="col-span-3 min-h-25 w-full">
           <h1 className="mb-3 text-center lg:text-5xl">

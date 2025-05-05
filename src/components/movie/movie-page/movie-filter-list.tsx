@@ -24,7 +24,7 @@ export const MovieFilterList = ({
   action_times,
 }: Props) => {
   return (
-    <div className="my-4 flex flex-wrap gap-4">
+    <div className="my-4 flex flex-wrap gap-4" aria-label="movie-filter-list">
       <MovieFilter
         data={specifications}
         queryKey={SPEC_KEY}

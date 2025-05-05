@@ -4,21 +4,22 @@ import { useState } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { InfoIcon } from "lucide-react";
-import type { MovieOut } from "@/orval_api/model";
+import type { MovieGenre, MovieSubgenre } from "@/orval_api/model";
 import { TooltipWrapper } from "@/components/my-custom-ui/tooltip-wrapper";
 import { percentageMatchColor } from "../utils";
 import { movieComponents } from "@/lib/constants";
 
 type Props = {
-  data: MovieOut;
+  genres: MovieGenre[];
+  subgenres?: MovieSubgenre[];
 };
 
-export const GenresList = ({ data }: Props) => {
+export const GenresList = ({ genres, subgenres }: Props) => {
   const [hoveredGenre, setHoveredGenre] = useState<string | null>(null);
   const [hoveredSubgenre, setHoveredSubgenre] = useState<string | null>(null);
 
   return (
-    <div className="flex flex-wrap gap-4">
+    <div className="flex flex-wrap gap-4" aria-label="genres-list">
       <div className="">
         <div className="flex items-center gap-1">
           <p className="base-neon-text movie-genre-text text-xl">Genres</p>
@@ -29,7 +30,7 @@ export const GenresList = ({ data }: Props) => {
         </div>
 
         <div className="flex flex-wrap gap-4">
-          {data.genres?.map((genre) => (
+          {genres.map((genre) => (
             <Link
               key={genre.key}
               href={`/super-search/?genre=${genre.key}`}
@@ -62,7 +63,7 @@ export const GenresList = ({ data }: Props) => {
         </div>
       </div>
 
-      {!!data.subgenres?.length && (
+      {!!subgenres?.length && (
         <div className="">
           <div className="flex items-center gap-1">
             <p className="base-neon-text movie-subgenre-text text-xl">
@@ -75,7 +76,7 @@ export const GenresList = ({ data }: Props) => {
           </div>
 
           <div className="flex flex-wrap gap-4">
-            {data.subgenres?.map((subgenre) => (
+            {subgenres?.map((subgenre) => (
               <Link
                 href={`/super-search/?genre=${subgenre.parent_genre.key}&subgenre=${subgenre.key}`}
                 className={cn(

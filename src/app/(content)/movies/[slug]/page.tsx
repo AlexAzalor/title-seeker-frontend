@@ -97,7 +97,7 @@ export default async function DynamicPage({ params }: PageProps) {
             </div>
 
             <div className="mx-6">
-              <GenresList data={data} />
+              <GenresList genres={data.genres} subgenres={data.subgenres} />
 
               <MovieFilterList
                 specifications={data.specifications}

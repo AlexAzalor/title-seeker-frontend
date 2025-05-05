@@ -1,0 +1,54 @@
+import { expect, test } from "vitest";
+import { render, screen } from "@testing-library/react";
+import { Language } from "@/orval_api/model";
+
+import { AdminSidebarNav } from "@/components/profile/admin/admin-sidebar-nav";
+import { MyMovies } from "@/components/profile/my-lists/my-movies";
+import { UserSettings } from "@/components/profile/settings/user-settings";
+import { UserInfo } from "@/components/profile/user-info";
+import { UserProfileMenu } from "@/components/profile/user-profile-menu";
+import { ProjectProviders, TEST_USER } from "../page.test";
+
+test("Should render AdminSidebarNav", () => {
+  render(<AdminSidebarNav />, {
+    wrapper: ProjectProviders,
+  });
+
+  expect(screen.getByLabelText("admin-sidebar-nav")).toBeDefined();
+});
+
+test("Should render MyMovies", () => {
+  render(<MyMovies movies={[]} />, {
+    wrapper: ProjectProviders,
+  });
+  expect(screen.getByLabelText("my-movies")).toBeDefined();
+});
+
+test("Should render UserSettings", () => {
+  render(<UserSettings />, {
+    wrapper: ProjectProviders,
+  });
+  expect(screen.getByLabelText("settings")).toBeDefined();
+});
+
+test("Should render UserInfo", () => {
+  render(
+    <UserInfo
+      joinedDate={"2023-10-01T00:00:00Z"}
+      lang={Language.en}
+      lastMovieRateDate={"2023-10-01T00:00:00Z"}
+      moviesRated={3}
+    />,
+    {
+      wrapper: ProjectProviders,
+    },
+  );
+  expect(screen.getByLabelText("user-info")).toBeDefined();
+});
+
+test("Should render UserProfileMenu", () => {
+  render(<UserProfileMenu user={TEST_USER.user} />, {
+    wrapper: ProjectProviders,
+  });
+  expect(screen.getByLabelText("user-profile-menu")).toBeDefined();
+});
