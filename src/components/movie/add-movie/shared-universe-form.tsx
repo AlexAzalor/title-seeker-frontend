@@ -15,7 +15,7 @@ import {
 import { useLocalStorage } from "@/hooks/use-local-storage";
 import { FormButtons } from "@/components/my-custom-ui/form-ui-parts/form-buttons";
 import { ResponsiveWrapper } from "../../my-custom-ui/responsive-wrapper";
-import { ItemsListSelector } from "../../my-custom-ui/items-list-selector";
+import { ItemsSelector } from "../../my-custom-ui/items-list-selector";
 import dynamic from "next/dynamic";
 import { AddNewUniverse } from "./connected-parts/add-new-universe";
 
@@ -131,7 +131,7 @@ export const SharedUniverseForm = ({ sharedUniverses }: Props) => {
                         ?.name.slice(0, 20) || "Shared Universe"
                     }
                   >
-                    <ItemsListSelector
+                    <ItemsSelector
                       items={sharedUniverses}
                       onOpenModal={() => setOpenAddNewUniverseModal(true)}
                       onSelect={(value, key) => onChange(key)}

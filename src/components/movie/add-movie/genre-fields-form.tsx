@@ -16,7 +16,7 @@ import type {
 } from "@/orval_api/model";
 
 import { AddNewGenre } from "./connected-parts/add-new-genre";
-import { ItemsListSelector } from "../../my-custom-ui/items-list-selector";
+import { ItemsSelector } from "../../my-custom-ui/items-list-selector";
 import { useLocalStorage } from "@/hooks/use-local-storage";
 import { FormButtons } from "@/components/my-custom-ui/form-ui-parts/form-buttons";
 import { FormField } from "@/components/my-custom-ui/form-ui-parts/form-field";
@@ -128,7 +128,7 @@ export const GenreFieldsForm = ({ genres }: Props) => {
           <div className="mb-5 flex w-full flex-col items-center gap-6">
             <h1 className="text-[#2D26A5]">Genres</h1>
             <ResponsiveWrapper title="Genres">
-              <ItemsListSelector
+              <ItemsSelector<GenreOut>
                 items={genres}
                 onOpenModal={() => setOpenGenreFormModal(true)}
                 onSelect={(currentValue, key, genre) => {
@@ -163,7 +163,7 @@ export const GenreFieldsForm = ({ genres }: Props) => {
                     );
                   }
                 }}
-                checkIconStyle={genreFields}
+                checkIconStyle={genreFields.map((field) => field.key)}
               />
             </ResponsiveWrapper>
 
@@ -221,8 +221,8 @@ export const GenreFieldsForm = ({ genres }: Props) => {
           <div className="mb-5 flex w-full flex-col items-center gap-6">
             <h1 className="text-[#2D26A5]">Subgenres</h1>
             <ResponsiveWrapper title="Subgenres">
-              <ItemsListSelector
-                items={subgenres}
+              <ItemsSelector<SubgenreOut>
+                items={subgenres as SubgenreOut[]}
                 onOpenModal={() => setOpenSubgenreFormModal(true)}
                 onSelect={(currentValue, key, subgenre) => {
                   if (
@@ -247,7 +247,7 @@ export const GenreFieldsForm = ({ genres }: Props) => {
                     );
                   }
                 }}
-                checkIconStyle={subgenreFields}
+                checkIconStyle={subgenreFields.map((field) => field.key)}
               />
             </ResponsiveWrapper>
 

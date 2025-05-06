@@ -23,7 +23,7 @@ import {
   SpecificationOut,
 } from "@/orval_api/model";
 import { AddNewMovieFilter } from "./connected-parts/add-new-movie-filter";
-import { ItemsListSelector } from "../../my-custom-ui/items-list-selector";
+import { ItemsSelector } from "../../my-custom-ui/items-list-selector";
 import { FormButtons } from "@/components/my-custom-ui/form-ui-parts/form-buttons";
 import { FormField } from "@/components/my-custom-ui/form-ui-parts/form-field";
 import { SliderFormField } from "@/components/my-custom-ui/form-ui-parts/slider-form-field";
@@ -140,7 +140,7 @@ export const MovieFilterForm = ({
             </div>
 
             <ResponsiveWrapper title="Add new Specification">
-              <ItemsListSelector
+              <ItemsSelector
                 items={specifications}
                 onOpenModal={() => setOpenSpecificationFormModal(true)}
                 onSelect={(currentValue, key) => {
@@ -162,7 +162,7 @@ export const MovieFilterForm = ({
                     );
                   }
                 }}
-                checkIconStyle={specificationFields}
+                checkIconStyle={specificationFields.map((field) => field.key)}
               />
             </ResponsiveWrapper>
 
@@ -206,7 +206,7 @@ export const MovieFilterForm = ({
             </div>
 
             <ResponsiveWrapper title="Add new Keyword">
-              <ItemsListSelector
+              <ItemsSelector
                 items={keywords}
                 onOpenModal={() => setOpenKeywordFormModal(true)}
                 onSelect={(currentValue, key) => {
@@ -228,7 +228,7 @@ export const MovieFilterForm = ({
                     );
                   }
                 }}
-                checkIconStyle={keywordFields}
+                checkIconStyle={keywordFields.map((field) => field.key)}
               />
             </ResponsiveWrapper>
 
@@ -272,7 +272,7 @@ export const MovieFilterForm = ({
             </div>
 
             <ResponsiveWrapper title="Add new Action Time">
-              <ItemsListSelector
+              <ItemsSelector
                 items={actionTimes}
                 onOpenModal={() => setOpenActionTimeFormModal(true)}
                 onSelect={(currentValue, key) => {
@@ -294,7 +294,7 @@ export const MovieFilterForm = ({
                     );
                   }
                 }}
-                checkIconStyle={keywordFields}
+                checkIconStyle={keywordFields.map((field) => field.key)}
               />
             </ResponsiveWrapper>
 

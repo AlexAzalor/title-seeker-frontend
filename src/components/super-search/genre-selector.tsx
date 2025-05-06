@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import { GenreOut, SubgenreOut } from "@/orval_api/model";
 import { useRouter, useSearchParams } from "next/navigation";
-import { ItemsListSelector } from "../my-custom-ui/items-list-selector";
+import { ItemsSelector } from "../my-custom-ui/items-list-selector";
 
 import { Checkbox } from "../ui/checkbox";
 import { Label } from "../ui/label";
@@ -155,7 +155,7 @@ export const GenreSelector = ({ genres }: Props) => {
       </Label>
 
       <ResponsiveWrapper title="Genres">
-        <ItemsListSelector
+        <ItemsSelector
           title="Genres"
           items={genres}
           emptyText="No genres found"
@@ -183,7 +183,7 @@ export const GenreSelector = ({ genres }: Props) => {
       </ResponsiveWrapper>
 
       <ResponsiveWrapper title="Subgenres">
-        <ItemsListSelector
+        <ItemsSelector
           title="Subgenres"
           items={subgenres}
           emptyText="No subgenres found OR select a genre first."

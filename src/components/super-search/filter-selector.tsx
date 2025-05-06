@@ -2,7 +2,7 @@
 
 import { ActionTimeOut, KeywordOut, SpecificationOut } from "@/orval_api/model";
 import { useRouter, useSearchParams } from "next/navigation";
-import { ItemsListSelector } from "../my-custom-ui/items-list-selector";
+import { ItemsSelector } from "../my-custom-ui/items-list-selector";
 
 import {
   DEFAULT_RANGE,
@@ -36,7 +36,7 @@ export const FilterSelector = ({ data, param_key, title }: Props) => {
 
   return (
     <ResponsiveWrapper title={title}>
-      <ItemsListSelector
+      <ItemsSelector
         title={title}
         items={data}
         emptyText="Nothing found"

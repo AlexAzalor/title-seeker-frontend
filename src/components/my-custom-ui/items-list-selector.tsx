@@ -16,28 +16,29 @@ import {
 
 import { TooltipWrapper } from "@/components/my-custom-ui/tooltip-wrapper";
 
-type Props<Datum, T> = {
-  title?: string;
-  items: Datum[];
-  onSelect: (value: string, itemKey: string, genre: any) => void;
-  onOpenModal?: () => void;
-  checkIconStyle: T[] | string[];
-  emptyText?: string;
-};
-
 type ItemFields = {
   key: string;
   name: string;
   description?: string | GenreOutDescription;
+  parent_genre_key?: string;
 };
 
-const ItemListSelector = <Datum extends ItemFields, T extends ItemFields>({
+type Props<Datum extends ItemFields> = {
+  title?: string;
+  items: Datum[];
+  onSelect: (value: string, itemKey: string, genre: Datum) => void;
+  onOpenModal?: () => void;
+  checkIconStyle: string[];
+  emptyText?: string;
+};
+
+const ItemsSelector = <Datum extends ItemFields>({
   items,
   onSelect,
   onOpenModal,
   checkIconStyle,
   emptyText,
-}: Props<Datum, T>) => {
+}: Props<Datum>) => {
   const session = useSession();
 
   const isAdmin = session.data?.user.role === "owner";
@@ -82,9 +83,7 @@ const ItemListSelector = <Datum extends ItemFields, T extends ItemFields>({
               <Check
                 className={cn(
                   "ml-auto",
-                  checkIconStyle.find((e) =>
-                    typeof e === "string" ? e === item.key : e.key === item.key,
-                  )
+                  checkIconStyle.find((key) => key === item.key)
                     ? "opacity-100"
                     : "opacity-0",
                 )}
@@ -97,6 +96,6 @@ const ItemListSelector = <Datum extends ItemFields, T extends ItemFields>({
   );
 };
 
-const ItemsListSelectorMemo = memo(ItemListSelector);
+const ItemsSelectorMemo = memo(ItemsSelector) as typeof ItemsSelector;
 
-export { ItemsListSelectorMemo as ItemsListSelector };
+export { ItemsSelectorMemo as ItemsSelector };

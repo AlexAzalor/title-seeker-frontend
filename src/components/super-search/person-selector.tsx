@@ -2,7 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import type { ActorOut, DirectorOut } from "@/orval_api/model";
-import { ItemsListSelector } from "../my-custom-ui/items-list-selector";
+import { ItemsSelector } from "../my-custom-ui/items-list-selector";
 import { manageSearchParameters } from "@/lib/utils";
 import { ResponsiveWrapper } from "../my-custom-ui/responsive-wrapper";
 
@@ -30,7 +30,7 @@ export const PersonSelector = ({ peopleList, title, personKey }: Props) => {
 
   return (
     <ResponsiveWrapper title={title}>
-      <ItemsListSelector
+      <ItemsSelector
         items={peopleList}
         emptyText="No people found"
         onSelect={(v, key) => selectPerson(key)}

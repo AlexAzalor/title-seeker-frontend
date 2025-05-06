@@ -17,7 +17,7 @@ import { FormField } from "@/components/my-custom-ui/form-ui-parts/form-field";
 import { FormButtons } from "@/components/my-custom-ui/form-ui-parts/form-buttons";
 import { TypeSelector } from "./type-selector";
 import { ResponsiveWrapper } from "../../my-custom-ui/responsive-wrapper";
-import { ItemsListSelector } from "../../my-custom-ui/items-list-selector";
+import { ItemsSelector } from "../../my-custom-ui/items-list-selector";
 
 export type MovieKeyFields = Pick<
   MovieFormData,
@@ -126,7 +126,7 @@ export const RelatedMovieForm = ({ baseMovies }: Props) => {
                       ?.name.slice(0, 20) || "Base movie"
                   }
                 >
-                  <ItemsListSelector
+                  <ItemsSelector
                     items={baseMovies}
                     onOpenModal={() => {}}
                     onSelect={(value, key) => onChange(key)}

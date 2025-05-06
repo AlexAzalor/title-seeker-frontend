@@ -17,7 +17,7 @@ import type {
 } from "@/orval_api/model";
 
 import { AddNewPerson } from "./connected-parts/add-new-person";
-import { ItemsListSelector } from "../../my-custom-ui/items-list-selector";
+import { ItemsSelector } from "../../my-custom-ui/items-list-selector";
 import { FormButtons } from "@/components/my-custom-ui/form-ui-parts/form-buttons";
 import { FormField } from "@/components/my-custom-ui/form-ui-parts/form-field";
 import { ResponsiveWrapper } from "../../my-custom-ui/responsive-wrapper";
@@ -189,11 +189,11 @@ export const PeopleFieldsForm = ({ actors, directors, characters }: Props) => {
             <h1 className="text-[#2D26A5]">Actors</h1>
 
             <ResponsiveWrapper title="Select Actor">
-              <ItemsListSelector
+              <ItemsSelector
                 items={actors}
                 onOpenModal={handleOpenActorFormModal}
                 onSelect={handleSelectActor}
-                checkIconStyle={actorFields}
+                checkIconStyle={actorFields.map((field) => field.key)}
               />
             </ResponsiveWrapper>
 
@@ -229,7 +229,7 @@ export const PeopleFieldsForm = ({ actors, directors, characters }: Props) => {
                             ?.name.slice(0, 20) || "Characters"
                         }
                       >
-                        <ItemsListSelector
+                        <ItemsSelector
                           items={characters}
                           onOpenModal={() =>
                             setOpenCharacterFormModal({ open: true, index })
@@ -278,11 +278,11 @@ export const PeopleFieldsForm = ({ actors, directors, characters }: Props) => {
             <h1 className="text-[#2D26A5]">Directors</h1>
 
             <ResponsiveWrapper title="Select Director">
-              <ItemsListSelector
+              <ItemsSelector
                 items={directors}
                 onOpenModal={handleOpenDirectorFormModal}
                 onSelect={handleSelectDerector}
-                checkIconStyle={directorFields}
+                checkIconStyle={directorFields.map((field) => field.key)}
               />
             </ResponsiveWrapper>
 
