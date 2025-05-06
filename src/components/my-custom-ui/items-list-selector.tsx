@@ -2,7 +2,6 @@ import { useSession } from "next-auth/react";
 import { memo } from "react";
 import { Check, Info } from "lucide-react";
 
-import type { GenreOutDescription } from "@/orval_api/model";
 import { cn } from "@/lib/utils";
 
 import { Button } from "@/components/ui/button";
@@ -19,7 +18,7 @@ import { TooltipWrapper } from "@/components/my-custom-ui/tooltip-wrapper";
 type ItemFields = {
   key: string;
   name: string;
-  description?: string | GenreOutDescription;
+  description?: string;
   parent_genre_key?: string;
 };
 

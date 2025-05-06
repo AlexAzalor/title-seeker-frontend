@@ -79,10 +79,7 @@ test("Should go to the Movie page", async ({ page }) => {
     .getByRole("link", { name: "Фільми" })
     .click();
   await page.waitForURL("/movies");
-  await page
-    .getByRole("link", { name: "Movie poster Test after" })
-    .first()
-    .click();
+  await page.getByRole("link", { name: "Movie poster" }).first().click();
   await page.waitForURL("/movies/**");
   await expect(
     page

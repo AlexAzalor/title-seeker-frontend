@@ -7,6 +7,7 @@ import { backendURL } from "@/lib/constants";
 import type { ValidationError } from "@/types/general";
 import type { UserRateMovieIn } from "@/orval_api/model";
 import { getUsers } from "@/orval_api/users/users";
+import { getAuth } from "@/orval_api/auth/auth";
 
 export async function updateRateMovie(data: UserRateMovieIn) {
   const currentUser = await getSession();
@@ -37,7 +38,7 @@ export async function deleteProfile(user_uuid: string) {
   }
 
   const { backendURL, unknownError } = await fetchSettings();
-  const { aPIDeleteGoogleProfile } = getUsers();
+  const { aPIDeleteGoogleProfile } = getAuth();
 
   try {
     const response = await aPIDeleteGoogleProfile({ user_uuid }, backendURL);

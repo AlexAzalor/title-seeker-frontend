@@ -28,7 +28,7 @@ import {
   KeywordOut,
   MovieFormData,
   MovieOutShort,
-  MoviePreCreateDataTemporaryMovie,
+  MoviePreCreateDataQuickMovie,
   SharedUniversePreCreateOut,
   SpecificationOut,
 } from "@/orval_api/model";
@@ -49,7 +49,7 @@ type Props = {
   specifications: SpecificationOut[];
   keywords: KeywordOut[];
   actionTimes: ActionTimeOut[];
-  quickMovie?: MoviePreCreateDataTemporaryMovie;
+  quickMovie?: MoviePreCreateDataQuickMovie;
   shared_universes: SharedUniversePreCreateOut[];
   base_movies: MovieOutShort[];
   characters: CharacterOut[];

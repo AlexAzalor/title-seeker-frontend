@@ -6,6 +6,7 @@ import Credentials from "next-auth/providers/credentials";
 // The `JWT` interface can be found in the `next-auth/jwt` submodule
 import "next-auth/jwt";
 import { UserRole } from "./orval_api/model";
+import { getAuth } from "./orval_api/auth/auth";
 
 export interface UserExtended {
   /** User role */
@@ -98,11 +99,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       }
 
       const { email, given_name, family_name } = profile;
-      if (!email || !given_name || !family_name) {
+      if (!email) {
         return token;
       }
 
-      const { aPIGoogleAuth } = getUsers();
+      const { aPIGoogleAuth } = getAuth();
       try {
         const { data } = await aPIGoogleAuth(
           {

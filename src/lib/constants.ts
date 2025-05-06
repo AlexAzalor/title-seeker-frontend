@@ -7,10 +7,10 @@ export const IMAGE_URL = process.env.API_URL ?? process.env.NEXT_PUBLIC_API_URL;
 export const S3_IMAGE =
   process.env.S3_IMAGE_BASE_URL ?? process.env.NEXT_PUBLIC_S3_IMAGE_BASE_URL;
 export const POSTER_URL =
-  ENVIROMENT === "production" ? S3_IMAGE : IMAGE_URL + "/api/movies";
+  ENVIROMENT === "production" ? S3_IMAGE : IMAGE_URL + "/api/file";
 
 export const AVATAR_URL =
-  ENVIROMENT === "production" ? S3_IMAGE : IMAGE_URL + "/api/avatars";
+  ENVIROMENT === "production" ? S3_IMAGE : IMAGE_URL + "/api/file";
 
 /**Default Pagination page number */
 export const DEFAULT_PAGE = 1;

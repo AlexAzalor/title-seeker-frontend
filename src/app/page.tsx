@@ -4,11 +4,11 @@ import { FetchWrapper } from "@/components/my-custom-ui/fetch-wrapper";
 import { LastWatched } from "@/components/layout/last-watched";
 import { MoviesCarousel } from "@/components/movie/movie-carousel";
 import { AVATAR_URL, POSTER_URL } from "@/lib/constants";
-import { getActors } from "@/orval_api/actors/actors";
+import { getPeople } from "@/orval_api/people/people";
 import {
   ActorsList,
+  APIGetActorsWithMostMoviesParams,
   APIGetRandomListParams,
-  APIGetTopMoviesCountActorsParams,
   MovieCarouselList,
 } from "@/orval_api/model";
 import { getMovies } from "@/orval_api/movies/movies";
@@ -16,7 +16,7 @@ import { getMovies } from "@/orval_api/movies/movies";
 export default function Home() {
   const t = useTranslations("HomePage");
   const keyFeatures = Object.keys(t.raw("keyFeatures.keys"));
-  const { aPIGetTopMoviesCountActors } = getActors();
+  const { aPIGetActorsWithMostMovies } = getPeople();
   const { aPIGetRandomList } = getMovies();
   return (
     <>
@@ -57,10 +57,10 @@ export default function Home() {
 
         <FetchWrapper<
           ActorsList,
-          APIGetTopMoviesCountActorsParams,
-          typeof aPIGetTopMoviesCountActors
+          APIGetActorsWithMostMoviesParams,
+          typeof aPIGetActorsWithMostMovies
         >
-          apiFetch={aPIGetTopMoviesCountActors}
+          apiFetch={aPIGetActorsWithMostMovies}
           params={{}}
         >
           {({ result, lang }) => (

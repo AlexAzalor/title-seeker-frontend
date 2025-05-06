@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 
 import {
   MovieFormData,
-  MoviePreCreateDataTemporaryMovie,
+  MoviePreCreateDataQuickMovie,
   RatingCriterion,
   UserRateMovieIn,
   UserRatingCriteria,
@@ -33,7 +33,7 @@ import { RatingDataOut } from "../add-movie/key-fields-form";
 
 type Props = {
   ratingRef: RefObject<RatingDataOut>;
-  quickMovie?: MoviePreCreateDataTemporaryMovie;
+  quickMovie?: MoviePreCreateDataQuickMovie;
   parsedData?: MovieFormData;
   movieRateData?: UserRatingCriteria;
   type?: RatingCriterion;

@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { rateMovie, updateRateMovie } from "@/app/services/user-api";
 import { toast } from "sonner";
 import {
-  MovieOutUserRatingCriterion,
+  MovieOutUserRatingCriteria,
   RatingCriterion,
   UserRateMovieIn,
   UserRatingCriteria,
@@ -19,7 +19,7 @@ type Props = {
   ratingType: RatingCriterion;
   isOwner: boolean;
   isUserRated: boolean;
-  userRatingData?: MovieOutUserRatingCriterion;
+  userRatingData?: MovieOutUserRatingCriteria;
   overallRatingCriteria: UserRatingCriteria;
 };
 export const MovieRateBox = ({

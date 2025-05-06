@@ -20,15 +20,10 @@ import {
 } from "@/orval_api/model";
 
 import { getMovies } from "@/orval_api/movies/movies";
-import { getActors } from "@/orval_api/actors/actors";
-import { getDirectors } from "@/orval_api/directors/directors";
+import { getPeople } from "@/orval_api/people/people";
 import { getGenres } from "@/orval_api/genres/genres";
-import { getSubgenres } from "@/orval_api/subgenres/subgenres";
-import { getSpecifications } from "@/orval_api/specifications/specifications";
-import { getKeywords } from "@/orval_api/keywords/keywords";
-import { getActionTimes } from "@/orval_api/action-times/action-times";
 import { getSharedUniverses } from "@/orval_api/shared-universes/shared-universes";
-import { getCharacters } from "@/orval_api/characters/characters";
+import { getFilters } from "@/orval_api/filters/filters";
 
 /**
  * @description Get the admin or owner user from the session.
@@ -87,12 +82,12 @@ export async function createActor(formData: PersonForm, file: Blob) {
   }
 
   const { lang, backendURL, unknownError } = await fetchSettings();
-  const { aPICreateActor } = getActors();
+  const { aPICreateActor } = getPeople();
 
   try {
     const response: AxiosResponse<ActorOut> = await aPICreateActor(
       { form_data: formData, file },
-      { lang },
+      { lang, user_uuid: admin.uuid },
       backendURL,
     );
 
@@ -118,12 +113,12 @@ export async function createDirector(formData: PersonForm, file: Blob) {
   }
 
   const { lang, backendURL, unknownError } = await fetchSettings();
-  const { aPICreateDirector } = getDirectors();
+  const { aPICreateDirector } = getPeople();
 
   try {
     const response: AxiosResponse<DirectorOut> = await aPICreateDirector(
       { form_data: formData, file },
-      { lang },
+      { lang, user_uuid: admin.uuid },
       backendURL,
     );
 
@@ -154,7 +149,7 @@ export async function createGenre(formData: GenreFormIn) {
   try {
     const response: AxiosResponse<GenreFormOut> = await aPICreateGenre(
       formData,
-      { lang },
+      { lang, user_uuid: admin.uuid },
       backendURL,
     );
 
@@ -180,12 +175,12 @@ export async function createSubgenre(formData: GenreFormIn) {
   }
 
   const { lang, backendURL, unknownError } = await fetchSettings();
-  const { aPICreateSubgenre } = getSubgenres();
+  const { aPICreateSubgenre } = getGenres();
 
   try {
     const response: AxiosResponse<GenreFormOut> = await aPICreateSubgenre(
       formData,
-      { lang },
+      { lang, user_uuid: admin.uuid },
       backendURL,
     );
 
@@ -211,11 +206,15 @@ export async function createSpecification(formData: MovieFilterFormIn) {
   }
 
   const { lang, backendURL, unknownError } = await fetchSettings();
-  const { aPICreateSpecification } = getSpecifications();
+  const { aPICreateSpecification } = getFilters();
 
   try {
     const response: AxiosResponse<MovieFilterFormOut> =
-      await aPICreateSpecification(formData, { lang }, backendURL);
+      await aPICreateSpecification(
+        formData,
+        { lang, user_uuid: admin.uuid },
+        backendURL,
+      );
 
     return {
       status: response.status,
@@ -239,12 +238,12 @@ export async function createKeyword(formData: MovieFilterFormIn) {
   }
 
   const { lang, backendURL, unknownError } = await fetchSettings();
-  const { aPICreateKeyword } = getKeywords();
+  const { aPICreateKeyword } = getFilters();
 
   try {
     const response: AxiosResponse<MovieFilterFormOut> = await aPICreateKeyword(
       formData,
-      { lang },
+      { lang, user_uuid: admin.uuid },
       backendURL,
     );
 
@@ -270,11 +269,15 @@ export async function createActionTime(formData: MovieFilterFormIn) {
   }
 
   const { lang, backendURL, unknownError } = await fetchSettings();
-  const { aPICreateActionTime } = getActionTimes();
+  const { aPICreateActionTime } = getFilters();
 
   try {
     const response: AxiosResponse<MovieFilterFormOut> =
-      await aPICreateActionTime(formData, { lang }, backendURL);
+      await aPICreateActionTime(
+        formData,
+        { lang, user_uuid: admin.uuid },
+        backendURL,
+      );
 
     return {
       status: response.status,
@@ -303,7 +306,7 @@ export async function createSharedUniverse(formData: GenreFormIn) {
   try {
     const response: AxiosResponse<GenreFormOut> = await aPICreateSharedUniverse(
       formData,
-      { lang },
+      { lang, user_uuid: admin.uuid },
       backendURL,
     );
 
@@ -329,12 +332,12 @@ export async function createCharacter(formData: CharacterFormIn) {
   }
 
   const { lang, backendURL, unknownError } = await fetchSettings();
-  const { aPICreateCharacter } = getCharacters();
+  const { aPICreateCharacter } = getPeople();
 
   try {
     const result: AxiosResponse<CharacterOut> = await aPICreateCharacter(
       formData,
-      { lang },
+      { lang, user_uuid: admin.uuid },
       backendURL,
     );
 

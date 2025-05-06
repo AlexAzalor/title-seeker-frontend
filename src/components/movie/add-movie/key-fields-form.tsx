@@ -8,7 +8,7 @@ import { formatKey } from "@/lib/utils";
 import { FormField } from "@/components/my-custom-ui/form-ui-parts/form-field";
 import {
   MovieFormData,
-  MoviePreCreateDataTemporaryMovie,
+  MoviePreCreateDataQuickMovie,
   RatingCriterion,
   UserRatingCriteria,
 } from "@/orval_api/model";
@@ -35,7 +35,7 @@ export type RatingDataOut = {
 };
 
 type Props = {
-  quickMovie?: MoviePreCreateDataTemporaryMovie;
+  quickMovie?: MoviePreCreateDataQuickMovie;
 };
 
 export const KeyFieldsForm = ({ quickMovie }: Props) => {

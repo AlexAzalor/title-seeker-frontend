@@ -1,5 +1,5 @@
 import {
-  MovieOutUserRatingCriterion,
+  MovieOutUserRatingCriteria,
   UserRatingCriteria,
 } from "@/orval_api/model";
 import { RatingType } from "./rate-slider";
@@ -115,7 +115,7 @@ export const AC_MAX: RatingTemplate = {
 
 export const checkRatingChanges = (
   state: UserRatingCriteria,
-  ratingCriteria: MovieOutUserRatingCriterion | undefined,
+  ratingCriteria: MovieOutUserRatingCriteria | undefined,
   isVisualEffects: boolean,
   isScareFactor: boolean,
   isHumor: boolean,
