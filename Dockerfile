@@ -15,10 +15,8 @@ WORKDIR /app
 COPY package.json yarn.lock ./
 
 RUN \
-  if [ -f yarn.lock ]; then \
-  yarn --frozen-lockfile --network-concurrency 1 --mutex network || yarn --frozen-lockfile --network-concurrency 1 --mutex network; \
-  else \
-  echo "Lockfile not found." && exit 1; \
+  if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
+  else echo "Lockfile not found." && exit 1; \
   fi
 
 # Rebuild the source code only when needed
