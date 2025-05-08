@@ -57,7 +57,7 @@ export default async function MoviesPage(props: {
       <title>Movies | Title Seeker</title>
 
       <div className="min-h-screen">
-        <p>TEST GIT RUNNER DOCKER</p>
+        <p>TEST GIT RUNNER DOCKER 2</p>
         <div className="my-5 grid grid-cols-1 gap-4 lg:grid-cols-5">
           <MovieList movies={items} lang={lang} />
         </div>

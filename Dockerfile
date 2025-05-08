@@ -1,7 +1,7 @@
 # Alpine - if your project is small and mostly JavaScript-based.
 # Regular (node:18) or slim (node:18-slim) - If you hit compatibility issues (bcrypt, sharp, puppeteer).
 # FROM node:18-alpine AS base
-FROM node:23.9.0-alpine AS base
+FROM 23.11.0-alpine AS base
 
 # Install dependencies only when needed
 FROM base AS deps
@@ -15,8 +15,10 @@ WORKDIR /app
 COPY package.json yarn.lock ./
 
 RUN \
-  if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
-  else echo "Lockfile not found." && exit 1; \
+  if [ -f yarn.lock ]; then \
+  yarn --frozen-lockfile --network-concurrency 1 --mutex network || yarn --frozen-lockfile --network-concurrency 1 --mutex network; \
+  else \
+  echo "Lockfile not found." && exit 1; \
   fi
 
 # Rebuild the source code only when needed
