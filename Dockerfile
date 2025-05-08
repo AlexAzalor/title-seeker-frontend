@@ -30,10 +30,8 @@ COPY . .
 RUN yarn gen-api
 
 RUN \
-  if [ -f yarn.lock ]; then \
-  yarn --frozen-lockfile --network-concurrency 1 --mutex network || yarn --frozen-lockfile --network-concurrency 1 --mutex network; \
-  else \
-  echo "Lockfile not found." && exit 1; \
+  if [ -f yarn.lock ]; then yarn build; \
+  else echo "Lockfile not found." && exit 1; \
   fi
 
 # Production image, copy all the files and run next
