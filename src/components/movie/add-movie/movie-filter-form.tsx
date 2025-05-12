@@ -16,12 +16,7 @@ import { MovieFilterList, MovieFilterListType } from "@/types/zod-scheme";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { movieComponents } from "@/lib/constants";
 
-import {
-  ActionTimeOut,
-  KeywordOut,
-  MovieFormData,
-  SpecificationOut,
-} from "@/orval_api/model";
+import { MovieFormData, FilterItemOut } from "@/orval_api/model";
 import { AddNewMovieFilter } from "./connected-parts/add-new-movie-filter";
 import { ItemsSelector } from "../../my-custom-ui/items-list-selector";
 import { FormButtons } from "@/components/my-custom-ui/form-ui-parts/form-buttons";
@@ -33,9 +28,9 @@ import { ResponsiveWrapper } from "../../my-custom-ui/responsive-wrapper";
 const ModalMovie = dynamic(() => import("../../my-custom-ui/modal-window"));
 
 type Props = {
-  specifications: SpecificationOut[];
-  keywords: KeywordOut[];
-  actionTimes: ActionTimeOut[];
+  specifications: FilterItemOut[];
+  keywords: FilterItemOut[];
+  actionTimes: FilterItemOut[];
 };
 
 export type MovieFilterType = "specifications" | "keywords" | "action_times";

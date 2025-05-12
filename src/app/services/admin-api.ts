@@ -5,6 +5,7 @@ import axios, { AxiosResponse } from "axios";
 import { fetchSettings } from "./global-api";
 import type { ValidationError } from "@/types/general";
 import {
+  FilterList,
   UserRole,
   type ActorOut,
   type BodyAPICreateMovie,
@@ -14,9 +15,10 @@ import {
   type GenreFormIn,
   type GenreFormOut,
   type MovieFilterFormIn,
-  type MovieFilterFormOut,
+  type FilterItemOut,
   type PersonForm,
   type QuickMovieFormData,
+  FilterItemField,
 } from "@/orval_api/model";
 
 import { getMovies } from "@/orval_api/movies/movies";
@@ -209,12 +211,11 @@ export async function createSpecification(formData: MovieFilterFormIn) {
   const { aPICreateSpecification } = getFilters();
 
   try {
-    const response: AxiosResponse<MovieFilterFormOut> =
-      await aPICreateSpecification(
-        formData,
-        { lang, user_uuid: admin.uuid },
-        backendURL,
-      );
+    const response: AxiosResponse<FilterItemOut> = await aPICreateSpecification(
+      formData,
+      { lang, user_uuid: admin.uuid },
+      backendURL,
+    );
 
     return {
       status: response.status,
@@ -241,7 +242,7 @@ export async function createKeyword(formData: MovieFilterFormIn) {
   const { aPICreateKeyword } = getFilters();
 
   try {
-    const response: AxiosResponse<MovieFilterFormOut> = await aPICreateKeyword(
+    const response: AxiosResponse<FilterItemOut> = await aPICreateKeyword(
       formData,
       { lang, user_uuid: admin.uuid },
       backendURL,
@@ -272,12 +273,11 @@ export async function createActionTime(formData: MovieFilterFormIn) {
   const { aPICreateActionTime } = getFilters();
 
   try {
-    const response: AxiosResponse<MovieFilterFormOut> =
-      await aPICreateActionTime(
-        formData,
-        { lang, user_uuid: admin.uuid },
-        backendURL,
-      );
+    const response: AxiosResponse<FilterItemOut> = await aPICreateActionTime(
+      formData,
+      { lang, user_uuid: admin.uuid },
+      backendURL,
+    );
 
     return {
       status: response.status,
@@ -375,6 +375,176 @@ export async function quicklyAddNewMovie(data: QuickMovieFormData) {
     );
 
     return { status: a.status, message: "Movie add to JSON" };
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
+  }
+}
+
+export async function getSpecifications() {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { lang, backendURL, unknownError } = await fetchSettings();
+  const { aPIGetSpecifications } = getFilters();
+
+  try {
+    const response: AxiosResponse<FilterList> = await aPIGetSpecifications(
+      { lang, user_uuid: admin.uuid },
+      backendURL,
+    );
+
+    return response.data.items;
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
+  }
+}
+
+export async function getKeywords() {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { lang, backendURL, unknownError } = await fetchSettings();
+  const { aPIGetKeywords } = getFilters();
+
+  try {
+    const response: AxiosResponse<FilterList> = await aPIGetKeywords(
+      { lang, user_uuid: admin.uuid },
+      backendURL,
+    );
+
+    return response.data.items;
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
+  }
+}
+
+export async function getActionTimes() {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { lang, backendURL, unknownError } = await fetchSettings();
+  const { aPIGetActionTimes } = getFilters();
+
+  try {
+    const response: AxiosResponse<FilterList> = await aPIGetActionTimes(
+      { lang, user_uuid: admin.uuid },
+      backendURL,
+    );
+
+    return response.data.items;
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
+  }
+}
+
+export async function updateSpecificationToMovie(
+  movieKey: string,
+  items: FilterItemField[],
+) {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { backendURL, unknownError } = await fetchSettings();
+  const { aPIUpdateSpecification } = getMovies();
+
+  try {
+    await aPIUpdateSpecification(
+      {
+        items,
+        movie_key: movieKey,
+      },
+      { user_uuid: admin.uuid },
+      backendURL,
+    );
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
+  }
+}
+
+export async function updateKeywordsInMovie(
+  movieKey: string,
+  items: FilterItemField[],
+) {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { backendURL, unknownError } = await fetchSettings();
+  const { aPIUpdateKeyword } = getMovies();
+
+  try {
+    await aPIUpdateKeyword(
+      {
+        items,
+        movie_key: movieKey,
+      },
+      { user_uuid: admin.uuid },
+      backendURL,
+    );
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
+  }
+}
+export async function updateActionTimesInMovie(
+  movieKey: string,
+  items: FilterItemField[],
+) {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { backendURL, unknownError } = await fetchSettings();
+  const { aPIUpdateActionTimes } = getMovies();
+
+  try {
+    await aPIUpdateActionTimes(
+      {
+        items,
+        movie_key: movieKey,
+      },
+      { user_uuid: admin.uuid },
+      backendURL,
+    );
   } catch (error) {
     if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
       return { status: error.status, message: error.response?.data.detail };

@@ -10,6 +10,7 @@ import { MovieFilterList } from "@/components/movie/movie-page/movie-filter-list
 import { RelatedSimilarList } from "@/components/movie/movie-page/related-similar-list";
 import { MoviesCarousel } from "@/components/movie/movie-carousel";
 import { ProjectProviders } from "../page.test";
+import { FilterEditForm } from "@/components/movie/movie-page/filter-edit-form";
 
 test("Should render Movie Form", async () => {
   render(
@@ -50,7 +51,12 @@ test("Should render GenresList", () => {
 
 test("Should render MovieFilterList", () => {
   render(
-    <MovieFilterList action_times={[]} keywords={[]} specifications={[]} />,
+    <MovieFilterList
+      movieKey="movie-key"
+      action_times={[]}
+      keywords={[]}
+      specifications={[]}
+    />,
     {
       wrapper: ProjectProviders,
     },
@@ -98,4 +104,27 @@ test("Should render MoviesCarousel", () => {
   );
 
   expect(screen.getByLabelText("movies-carousel")).toBeDefined();
+});
+
+test("Should render FilterEditForm", () => {
+  render(
+    <FilterEditForm
+      movieKey="movie-key"
+      filterItems={[
+        {
+          key: "test-key",
+          name: "test-name",
+          percentage_match: 50,
+          description: "test-description",
+        },
+      ]}
+      selectedFilterItems={[]}
+      filterType="specifications"
+    />,
+    {
+      wrapper: ProjectProviders,
+    },
+  );
+
+  expect(screen.getByLabelText("filter-edit-form")).toBeDefined();
 });

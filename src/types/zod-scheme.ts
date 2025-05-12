@@ -208,6 +208,11 @@ export const MovieFilterList = z.object({
 
 export type MovieFilterListType = z.infer<typeof MovieFilterList>;
 
+export const MovieFilterListOnlySpec = MovieFilterList.pick({
+  specifications: true,
+});
+export type FilterListType = z.infer<typeof MovieFilterListOnlySpec>;
+
 export const EnhanceSearchField = z.object({
   name: z.string().trim(),
   percentage_match: z.array(z.number()),

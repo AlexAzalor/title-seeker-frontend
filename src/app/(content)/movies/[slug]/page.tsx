@@ -100,6 +100,7 @@ export default async function DynamicPage({ params }: PageProps) {
               <GenresList genres={data.genres} subgenres={data.subgenres} />
 
               <MovieFilterList
+                movieKey={movie_key}
                 specifications={data.specifications}
                 keywords={data.keywords}
                 action_times={data.action_times}

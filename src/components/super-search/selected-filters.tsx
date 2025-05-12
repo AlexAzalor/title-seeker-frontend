@@ -14,12 +14,10 @@ import { ResizableHandle, ResizablePanel } from "../ui/resizable";
 import { manageSearchParameters } from "@/lib/utils";
 
 import {
-  ActionTimeOut,
+  FilterItemOut,
   ActorOut,
   DirectorOut,
   GenreOut,
-  KeywordOut,
-  SpecificationOut,
   SubgenreOut,
 } from "@/orval_api/model";
 
@@ -34,9 +32,9 @@ type Props = {
   children: React.ReactNode;
   genres: GenreOut[];
   subgenres: SubgenreOut[];
-  specifications: SpecificationOut[];
-  keywords: KeywordOut[];
-  action_times: ActionTimeOut[];
+  specifications: FilterItemOut[];
+  keywords: FilterItemOut[];
+  action_times: FilterItemOut[];
   actors: ActorOut[];
   directors: DirectorOut[];
 };

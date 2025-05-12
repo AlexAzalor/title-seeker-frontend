@@ -12,6 +12,9 @@
   --breakpoint-2xl: 100rem;
   --breakpoint-3xl: 120rem;
 
+  /* --main-color: #0066cc;
+  --hover-color: color-mix(in srgb, var(--main-color), white 20%); */
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-primary: #64fcfe;

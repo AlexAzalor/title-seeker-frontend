@@ -1,6 +1,6 @@
 "use client";
 
-import { ActionTimeOut, KeywordOut, SpecificationOut } from "@/orval_api/model";
+import { FilterItemOut } from "@/orval_api/model";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ItemsSelector } from "../my-custom-ui/items-list-selector";
 
@@ -12,7 +12,7 @@ import {
 import { ResponsiveWrapper } from "../my-custom-ui/responsive-wrapper";
 
 type Props = {
-  data: SpecificationOut[] | KeywordOut[] | ActionTimeOut[];
+  data: FilterItemOut[];
   param_key: string;
   title: string;
 };

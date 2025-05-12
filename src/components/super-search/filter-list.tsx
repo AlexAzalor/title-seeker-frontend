@@ -1,8 +1,6 @@
 import {
   GenreOut,
-  SpecificationOut,
-  KeywordOut,
-  ActionTimeOut,
+  FilterItemOut,
   ActorOut,
   DirectorOut,
 } from "@/orval_api/model";
@@ -19,9 +17,9 @@ import { FilterSelector } from "./filter-selector";
 
 type Props = {
   genres: GenreOut[];
-  specifications: SpecificationOut[];
-  keywords: KeywordOut[];
-  action_times: ActionTimeOut[];
+  specifications: FilterItemOut[];
+  keywords: FilterItemOut[];
+  action_times: FilterItemOut[];
   actors: ActorOut[];
   directors: DirectorOut[];
 };

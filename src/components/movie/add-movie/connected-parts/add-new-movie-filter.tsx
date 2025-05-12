@@ -2,31 +2,27 @@
 
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { UseFieldArrayAppend, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TypeGenreScheme } from "@/types/general";
 
-import type { MovieFilterType } from "../../add-movie/movie-filter-form";
-import { GenreScheme, MovieFilterListType } from "@/types/zod-scheme";
-import { MovieFilterFormIn, MovieFilterFormOut } from "@/orval_api/model";
+import { GenreScheme } from "@/types/zod-scheme";
+import { MovieFilterFormIn, FilterItemOut } from "@/orval_api/model";
 import { formatKey } from "@/lib/utils";
 import { FormWrapper } from "@/components/my-custom-ui/form-ui-parts/form-wrapper";
 import { FormField } from "@/components/my-custom-ui/form-ui-parts/form-field";
 import { TextareaFormField } from "@/components/my-custom-ui/form-ui-parts/textarea-form-field";
 
-type Props<T extends MovieFilterType> = {
-  appendItem: UseFieldArrayAppend<MovieFilterListType, T>;
+type Props = {
+  appendItem: (item: FilterItemOut) => void;
   fetchApi: (formData: MovieFilterFormIn) => Promise<{
     status?: number;
     message?: string;
-    newItem?: MovieFilterFormOut;
+    newItem?: FilterItemOut;
   }>;
 };
 
-export const AddNewMovieFilter = ({
-  appendItem,
-  fetchApi,
-}: Props<MovieFilterType>) => {
+export const AddNewMovieFilter = ({ appendItem, fetchApi }: Props) => {
   const router = useRouter();
 
   const {
@@ -48,10 +44,7 @@ export const AddNewMovieFilter = ({
     const response = await fetchApi(formData);
 
     if (response.status === 201 && response.newItem) {
-      appendItem({
-        ...response.newItem,
-        percentage_match: 0,
-      });
+      appendItem(response.newItem);
 
       toast.success(response?.message);
       router.refresh();

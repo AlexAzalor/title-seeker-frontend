@@ -19,18 +19,16 @@ import { KeyFieldsForm } from "./key-fields-form";
 import { InfoFieldsForm } from "./info-fields-form";
 import { PeopleFieldsForm } from "./people-fields-form";
 import {
-  ActionTimeOut,
+  FilterItemOut,
   ActorOut,
   BodyAPICreateMovie,
   CharacterOut,
   DirectorOut,
   GenreOut,
-  KeywordOut,
   MovieFormData,
   MovieOutShort,
   MoviePreCreateDataQuickMovie,
   SharedUniversePreCreateOut,
-  SpecificationOut,
 } from "@/orval_api/model";
 import { GenreFieldsForm } from "./genre-fields-form";
 import { MovieFilterForm } from "./movie-filter-form";
@@ -46,9 +44,9 @@ type Props = {
   directors: DirectorOut[];
   genres: GenreOut[];
 
-  specifications: SpecificationOut[];
-  keywords: KeywordOut[];
-  actionTimes: ActionTimeOut[];
+  specifications: FilterItemOut[];
+  keywords: FilterItemOut[];
+  actionTimes: FilterItemOut[];
   quickMovie?: MoviePreCreateDataQuickMovie;
   shared_universes: SharedUniversePreCreateOut[];
   base_movies: MovieOutShort[];
