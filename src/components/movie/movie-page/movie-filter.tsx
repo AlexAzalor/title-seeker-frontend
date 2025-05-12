@@ -3,7 +3,7 @@
 import { Suspense, useMemo, useState } from "react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
-import { InfoIcon, X } from "lucide-react";
+import { InfoIcon } from "lucide-react";
 import { useModal } from "@/hooks/use-modal";
 import { cn } from "@/lib/utils";
 import { CustomModal } from "../../my-custom-ui/custom-modal";
@@ -159,10 +159,6 @@ export const MovieFilter = ({ movieKey, data, queryKey, title }: Props) => {
 
       <Suspense>
         <CustomModal isOpen={isOpen} onClose={close}>
-          <X
-            onClick={close}
-            className="ml-auto h-4 w-4 cursor-pointer hover:scale-110"
-          />
           <div className="mb-2 flex items-center justify-center gap-2">
             <p
               className={cn(

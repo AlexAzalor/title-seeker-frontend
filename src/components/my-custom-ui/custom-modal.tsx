@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useBodyScrollLock } from "@/hooks/use-body-scroll-lock";
+import { X } from "lucide-react";
 
 interface ModalProps {
   isOpen: boolean;
@@ -39,13 +40,17 @@ export const CustomModal: React.FC<ModalProps> = ({
           }}
         >
           <motion.div
-            className="w-full max-w-lg rounded-2xl bg-white p-6 shadow-xl dark:bg-[#1a183d]"
+            className="w-full max-w-lg rounded-2xl bg-white p-6 shadow-xl dark:bg-[#0D0B26]"
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 50, opacity: 0 }}
             transition={{ duration: 0.2 }}
           >
-            {children}
+            <X
+              onClick={onClose}
+              className="ml-auto h-4 w-4 cursor-pointer hover:scale-110"
+            />
+            <div className="max-h-150 overflow-auto">{children}</div>
           </motion.div>
         </motion.div>
       )}

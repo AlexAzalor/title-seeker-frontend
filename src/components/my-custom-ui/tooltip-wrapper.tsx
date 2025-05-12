@@ -35,7 +35,9 @@ export const TooltipWrapper = ({
   return (
     <TooltipProvider delayDuration={300}>
       <Tooltip>
-        <TooltipTrigger asChild={asChild}>{children}</TooltipTrigger>
+        <TooltipTrigger className="cursor-default" asChild={asChild}>
+          {children}
+        </TooltipTrigger>
         <TooltipContent side={side} className={cn("w-[684px]", className)}>
           {content}
         </TooltipContent>

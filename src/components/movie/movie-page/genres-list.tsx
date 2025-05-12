@@ -25,7 +25,7 @@ export const GenresList = ({ genres, subgenres }: Props) => {
           <p className="base-neon-text movie-genre-text text-xl">Genres</p>
 
           <TooltipWrapper content={movieComponents.genre}>
-            <InfoIcon className="h-4 w-4" />
+            <InfoIcon className="pointer-events-none h-4 w-4 select-none" />
           </TooltipWrapper>
         </div>
 

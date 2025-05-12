@@ -39,7 +39,10 @@ function RateSlider({
       <div className="mb-1 flex items-center gap-1">
         <span>{title}</span>
 
-        <TooltipWrapper content={RATING_TOOLTIP[type] || "Rate the movie"}>
+        <TooltipWrapper
+          content={RATING_TOOLTIP[type] || "Rate the movie"}
+          asChild
+        >
           <InfoIcon className="h-4 w-4" />
         </TooltipWrapper>
 

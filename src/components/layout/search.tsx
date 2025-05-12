@@ -6,6 +6,7 @@ import { useLocalStorage } from "@/hooks/use-local-storage";
 import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
+import { toast } from "sonner";
 import { searchTitles } from "@/app/services/global-api";
 
 import {
@@ -17,22 +18,15 @@ import {
   Tv,
 } from "lucide-react";
 
-import {
-  CommandDialog,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-  CommandSeparator,
-} from "@/components/ui/command";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 
 import { Language, MovieSearchOut, TitleType } from "@/orval_api/model";
 import { cn, formatDate } from "@/lib/utils";
 import { useMediaQuery } from "@/hooks/use-media-query";
-// import { CONTENT_ICONS } from "./layout/app-sidebar";
+import { CustomModal } from "../my-custom-ui/custom-modal";
+import { useModal } from "@/hooks/use-modal";
+import { Separator } from "../ui/separator";
 
 const MIN_CHARACTERS = 3;
 export const CONTENT_ICONS = {
@@ -46,9 +40,12 @@ type Props = {
 };
 
 export const Search = ({ posterURL }: Props) => {
+  const lang = useLocale() as Language;
+  const { open, close, isOpen } = useModal();
   const isMobile = useMediaQuery("(max-width: 640px)");
   const t = useTranslations("Search");
   const navigation = useTranslations("HomePage");
+
   const navigationKeys: { title: string; key: TitleType }[] = Object.entries(
     navigation.raw("navigation"),
   ).map(([key, value]) => ({
@@ -56,11 +53,9 @@ export const Search = ({ posterURL }: Props) => {
     key: key as TitleType,
   }));
 
-  const lang = useLocale() as Language;
-  const [open, setOpen] = useState(false);
   const [tab, setTab] = useState<TitleType>(TitleType.movies);
   const [warning, setWarning] = useState(false);
-  const [titles, setTitles] = useState<MovieSearchOut[]>([]);
+  const [titles, setTitles] = useState<MovieSearchOut[] | null>(null);
 
   const { data: parsedData, setData } = useLocalStorage<MovieSearchOut[]>(
     "recent_search",
@@ -78,8 +73,7 @@ export const Search = ({ posterURL }: Props) => {
       setTitles(res.data.movies);
       return;
     } else {
-      // TODO: add error handling
-      alert("Error: " + res.status);
+      toast.error("Something went wrong");
     }
   }, 500);
 
@@ -87,12 +81,13 @@ export const Search = ({ posterURL }: Props) => {
     if (warning) {
       return;
     }
+    const searchQuery = query.trim().toLowerCase();
 
-    if (query.length <= MIN_CHARACTERS) {
+    if (searchQuery.length <= MIN_CHARACTERS) {
       return;
     }
 
-    debounce(query);
+    debounce(searchQuery);
   };
 
   const setTitleToLocalStorage = (title: MovieSearchOut) => {
@@ -125,15 +120,12 @@ export const Search = ({ posterURL }: Props) => {
     setWarning(false);
   }, []);
 
-  const closeModel = () => {
-    setOpen(false);
-  };
-
   const handleChooseTitle = (title: MovieSearchOut) => {
-    closeModel();
+    close();
     setTitleToLocalStorage(title);
-    setTitles([]);
+    setTitles(null);
   };
+  console.log("titles", titles);
 
   return (
     <div
@@ -142,13 +134,13 @@ export const Search = ({ posterURL }: Props) => {
     >
       <div className="mx-2 flex gap-1 lg:mx-0">
         <div
-          onClick={() => setOpen(true)}
+          onClick={() => open()}
           className="relative flex w-30 cursor-pointer items-center lg:w-50"
         >
           <SearchIcon className="absolute mr-2 ml-2 h-4 w-4 shrink-0 opacity-50" />
           <Input
             placeholder={t("search")}
-            className="cursor-pointer transition-colors placeholder:pl-5 hover:bg-neutral-200"
+            className="cursor-pointer bg-white transition-colors placeholder:pl-5 hover:bg-neutral-200 dark:placeholder:text-neutral-400 dark:hover:bg-[#1A183D]"
             readOnly
           />
         </div>
@@ -161,8 +153,8 @@ export const Search = ({ posterURL }: Props) => {
         </Link>
       </div>
 
-      <CommandDialog open={open} onOpenChange={setOpen}>
-        <div className="flex gap-4 p-4">
+      <CustomModal isOpen={isOpen} onClose={close}>
+        <div className="mb-2 flex gap-4 px-2">
           {navigationKeys.map((item) => (
             <button
               key={item.key}
@@ -194,22 +186,34 @@ export const Search = ({ posterURL }: Props) => {
           </p>
         )}
 
-        <CommandInput
-          placeholder={t("type")}
-          onValueChange={handleSearch}
-          autoFocus={!isMobile}
-        />
-        <CommandList>
-          <CommandEmpty>No results found.</CommandEmpty>
-          {titles.map((title) => (
-            <CommandItem
-              key={title.key}
-              // For searching by two languages
-              value={title.title_uk + " " + title.title_en}
-            >
+        <div
+          className="mb-3 flex items-center border-b px-3 dark:border-b-neutral-700"
+          cmdk-input-wrapper=""
+        >
+          <SearchIcon className="mr-2 h-4 w-4 shrink-0 opacity-50" />
+          <Input
+            placeholder={t("type")}
+            onChange={(e) => handleSearch(e.target.value)}
+            autoFocus={!isMobile}
+            className={
+              "flex field-sizing-content h-11 w-full rounded-md border-none bg-transparent py-3 text-sm outline-hidden placeholder:text-neutral-500 disabled:cursor-not-allowed disabled:opacity-50 dark:placeholder:text-neutral-400"
+            }
+          />
+        </div>
+
+        {!!titles && titles.length === 0 && (
+          <p className="mx-6 rounded-md border-[#ffcccc] bg-[#ffefef] text-center text-[#d92525]">
+            Not found
+          </p>
+        )}
+
+        {!!titles && !!titles.length && (
+          <div className="flex flex-col gap-1">
+            {titles.map((title) => (
               <Link
+                key={title.key}
                 href={`/movies/${title.key}`}
-                className="flex w-full items-center gap-2"
+                className="flex w-full items-center gap-2 rounded-sm p-2 transition-all duration-200 select-none hover:bg-neutral-100 dark:hover:bg-[#1A183D]"
                 onClick={() => handleChooseTitle(title)}
               >
                 <Image
@@ -227,60 +231,64 @@ export const Search = ({ posterURL }: Props) => {
                   <span>{title.main_genre}</span>
                 </div>
               </Link>
-            </CommandItem>
-          ))}
-          {parsedData.length > 0 && (
-            <>
-              <CommandSeparator />
-              <CommandGroup heading={t("recent")}>
-                {parsedData.reverse().map((title) => (
-                  <CommandItem key={title.key}>
-                    <Link
-                      href={`/movies/${title.key}`}
-                      className="flex w-full items-center gap-2"
-                      onClick={() => {
-                        setOpen(false);
-                      }}
-                    >
-                      <Image
-                        src={`${posterURL}/posters/${title.poster}`}
-                        alt="Title Poster"
-                        height={60}
-                        width={40}
-                      />
-                      <div>
-                        <p className="text-lg font-bold">{`${title.title_en} (${title.title_uk})`}</p>
-                        <span>{formatDate(title.release_date, lang)}</span>
-                        {" | "}
-                        <span>{title.main_genre}</span>
-                      </div>
-                    </Link>
-                  </CommandItem>
-                ))}
-              </CommandGroup>
-            </>
-          )}
-          <CommandSeparator />
-          <CommandGroup heading={t("suggestions")}>
-            {navigationKeys.map((item) => (
-              <CommandItem key={item.key}>
-                <Link
-                  href={item.key}
-                  className="flex w-full items-center gap-2"
-                  onClick={closeModel}
-                >
-                  {
-                    CONTENT_ICONS[
-                      item.key.replace("/", "") as keyof typeof CONTENT_ICONS
-                    ]
-                  }
-                  <span>{item.title}</span>
-                </Link>
-              </CommandItem>
             ))}
-          </CommandGroup>{" "}
-        </CommandList>
-      </CommandDialog>
+
+            <Separator className="my-3" />
+          </div>
+        )}
+
+        {parsedData.length > 0 && (
+          <>
+            <div className="flex flex-col gap-1">
+              <p className="mb-1 text-[var(--color-neutral-500)]">
+                {t("recent")}
+              </p>
+              {parsedData.reverse().map((title) => (
+                <Link
+                  key={title.key}
+                  href={`/movies/${title.key}`}
+                  className="flex w-full items-center gap-2 rounded-sm p-2 transition-all duration-200 select-none hover:bg-neutral-100 dark:hover:bg-[#1A183D]"
+                  onClick={close}
+                >
+                  <Image
+                    src={`${posterURL}/posters/${title.poster}`}
+                    alt="Title Poster"
+                    height={60}
+                    width={40}
+                  />
+                  <div>
+                    <p className="text-lg font-bold">{`${title.title_en} (${title.title_uk})`}</p>
+                    <span>{formatDate(title.release_date, lang)}</span>
+                    {" | "}
+                    <span>{title.main_genre}</span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+
+            <Separator className="my-3" />
+          </>
+        )}
+
+        <div className="flex flex-col gap-2">
+          <p className="mb-1 text-[var(--color-neutral-500)]">Suggestions</p>
+          {navigationKeys.map((item) => (
+            <Link
+              key={item.key}
+              href={item.key}
+              className="flex w-full items-center gap-1 rounded-sm p-1 transition-all duration-200 select-none hover:bg-neutral-100 dark:hover:bg-[#1A183D]"
+              onClick={close}
+            >
+              {
+                CONTENT_ICONS[
+                  item.key.replace("/", "") as keyof typeof CONTENT_ICONS
+                ]
+              }
+              <span>{item.title}</span>
+            </Link>
+          ))}
+        </div>
+      </CustomModal>
     </div>
   );
 };
