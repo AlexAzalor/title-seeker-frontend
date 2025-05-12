@@ -462,7 +462,7 @@ export async function getActionTimes() {
   }
 }
 
-export async function updateSpecificationToMovie(
+export async function editMovieSpecifications(
   movieKey: string,
   items: FilterItemField[],
 ) {
@@ -473,10 +473,10 @@ export async function updateSpecificationToMovie(
   }
 
   const { backendURL, unknownError } = await fetchSettings();
-  const { aPIUpdateSpecification } = getMovies();
+  const { aPIEditSpecifications } = getMovies();
 
   try {
-    await aPIUpdateSpecification(
+    await aPIEditSpecifications(
       {
         items,
         movie_key: movieKey,
@@ -493,7 +493,7 @@ export async function updateSpecificationToMovie(
   }
 }
 
-export async function updateKeywordsInMovie(
+export async function editMovieKeywords(
   movieKey: string,
   items: FilterItemField[],
 ) {
@@ -504,10 +504,10 @@ export async function updateKeywordsInMovie(
   }
 
   const { backendURL, unknownError } = await fetchSettings();
-  const { aPIUpdateKeyword } = getMovies();
+  const { aPIEditKeywords } = getMovies();
 
   try {
-    await aPIUpdateKeyword(
+    await aPIEditKeywords(
       {
         items,
         movie_key: movieKey,
@@ -523,7 +523,7 @@ export async function updateKeywordsInMovie(
     }
   }
 }
-export async function updateActionTimesInMovie(
+export async function editMovieActionTimes(
   movieKey: string,
   items: FilterItemField[],
 ) {
@@ -534,10 +534,10 @@ export async function updateActionTimesInMovie(
   }
 
   const { backendURL, unknownError } = await fetchSettings();
-  const { aPIUpdateActionTimes } = getMovies();
+  const { aPIEditActionTimes } = getMovies();
 
   try {
-    await aPIUpdateActionTimes(
+    await aPIEditActionTimes(
       {
         items,
         movie_key: movieKey,

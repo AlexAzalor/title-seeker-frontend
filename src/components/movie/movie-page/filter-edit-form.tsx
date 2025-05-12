@@ -6,12 +6,12 @@ import dynamic from "next/dynamic";
 import { useFieldArray, useForm } from "react-hook-form";
 
 import {
-  updateSpecificationToMovie,
+  editMovieSpecifications,
   createActionTime,
   createKeyword,
   createSpecification,
-  updateActionTimesInMovie,
-  updateKeywordsInMovie,
+  editMovieActionTimes,
+  editMovieKeywords,
 } from "@/app/services/admin-api";
 import { FilterListType, MovieFilterListOnlySpec } from "@/types/zod-scheme";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -79,13 +79,13 @@ export const FilterEditForm = ({
     }
 
     if (filterType === SPEC_KEY) {
-      await updateSpecificationToMovie(movieKey, data.specifications);
+      await editMovieSpecifications(movieKey, data.specifications);
     }
     if (filterType === KEYWORD_KEY) {
-      await updateKeywordsInMovie(movieKey, data.specifications);
+      await editMovieKeywords(movieKey, data.specifications);
     }
     if (filterType === ACTION_TIME_KEY) {
-      await updateActionTimesInMovie(movieKey, data.specifications);
+      await editMovieActionTimes(movieKey, data.specifications);
     }
 
     console.log("!!!");
