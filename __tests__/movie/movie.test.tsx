@@ -11,6 +11,7 @@ import { RelatedSimilarList } from "@/components/movie/movie-page/related-simila
 import { MoviesCarousel } from "@/components/movie/movie-carousel";
 import { ProjectProviders } from "../page.test";
 import { FilterEditForm } from "@/components/movie/movie-page/filter-edit-form";
+import { FilterItemLink } from "@/components/movie/movie-page/filter-item-link";
 
 test("Should render Movie Form", async () => {
   render(
@@ -127,4 +128,12 @@ test("Should render FilterEditForm", () => {
   );
 
   expect(screen.getByLabelText("filter-edit-form")).toBeDefined();
+});
+
+test("Should render FilterItemLink", () => {
+  render(<FilterItemLink data={[]} filterKey="genre" />, {
+    wrapper: ProjectProviders,
+  });
+
+  expect(screen.getByLabelText("filter-item-link")).toBeDefined();
 });

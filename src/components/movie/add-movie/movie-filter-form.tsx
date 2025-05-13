@@ -261,7 +261,7 @@ export const MovieFilterForm = ({
           <div className="mb-5 flex w-full flex-col items-center gap-6">
             <div className="flex items-center gap-2">
               <h1 className="text-[#4035E6]">Action Times</h1>
-              <TooltipWrapper content={movieComponents.actionTime}>
+              <TooltipWrapper content={movieComponents.action_time}>
                 <InfoIcon className="h-4 w-4" />
               </TooltipWrapper>
             </div>
