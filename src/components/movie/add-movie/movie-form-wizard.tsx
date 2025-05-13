@@ -38,6 +38,7 @@ import { FormStepper } from "@/components/my-custom-ui/form-ui-parts/form-steppe
 import { FormButtons } from "@/components/my-custom-ui/form-ui-parts/form-buttons";
 import { RelatedMovieForm } from "./related-movie-form";
 import { SharedUniverseForm } from "./shared-universe-form";
+import { Spinner } from "@/components/my-custom-ui/spinner";
 
 type Props = {
   actors: ActorOut[];
@@ -187,7 +188,7 @@ export const MovieFormWizard = ({
                 onSubmit={addMovie}
               />
             ) : (
-              <span className="loader"></span>
+              <Spinner />
             )}
           </div>
         )}

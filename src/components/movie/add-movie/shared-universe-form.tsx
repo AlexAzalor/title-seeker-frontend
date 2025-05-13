@@ -18,6 +18,7 @@ import { ResponsiveWrapper } from "../../my-custom-ui/responsive-wrapper";
 import { ItemsSelector } from "../../my-custom-ui/items-list-selector";
 import dynamic from "next/dynamic";
 import { AddNewUniverse } from "./connected-parts/add-new-universe";
+import { Spinner } from "@/components/my-custom-ui/spinner";
 
 const ModalMovie = dynamic(() => import("../../my-custom-ui/modal-window"));
 
@@ -158,7 +159,7 @@ export const SharedUniverseForm = ({ sharedUniverses }: Props) => {
           {!isSubmitting ? (
             <FormButtons handlePrev={handlePrev} skipStep={skipStep} />
           ) : (
-            <span className="loader"></span>
+            <Spinner />
           )}
         </form>
       </div>

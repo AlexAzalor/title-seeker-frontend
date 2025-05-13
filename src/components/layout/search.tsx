@@ -125,7 +125,6 @@ export const Search = ({ posterURL }: Props) => {
     setTitleToLocalStorage(title);
     setTitles(null);
   };
-  console.log("titles", titles);
 
   return (
     <div
@@ -140,7 +139,7 @@ export const Search = ({ posterURL }: Props) => {
           <SearchIcon className="absolute mr-2 ml-2 h-4 w-4 shrink-0 opacity-50" />
           <Input
             placeholder={t("search")}
-            className="cursor-pointer bg-white transition-colors placeholder:pl-5 hover:bg-neutral-200 dark:placeholder:text-neutral-400 dark:hover:bg-[#1A183D]"
+            className="dark:hover:bg-main-dark-hover cursor-pointer bg-white transition-colors placeholder:pl-5 hover:bg-neutral-200 dark:placeholder:text-neutral-400"
             readOnly
           />
         </div>
@@ -213,7 +212,7 @@ export const Search = ({ posterURL }: Props) => {
               <Link
                 key={title.key}
                 href={`/movies/${title.key}`}
-                className="flex w-full items-center gap-2 rounded-sm p-2 transition-all duration-200 select-none hover:bg-neutral-100 dark:hover:bg-[#1A183D]"
+                className="dark:hover:bg-main-dark-hover flex w-full items-center gap-2 rounded-sm p-2 transition-all duration-200 select-none hover:bg-neutral-100"
                 onClick={() => handleChooseTitle(title)}
               >
                 <Image
@@ -247,7 +246,7 @@ export const Search = ({ posterURL }: Props) => {
                 <Link
                   key={title.key}
                   href={`/movies/${title.key}`}
-                  className="flex w-full items-center gap-2 rounded-sm p-2 transition-all duration-200 select-none hover:bg-neutral-100 dark:hover:bg-[#1A183D]"
+                  className="dark:hover:bg-main-dark-hover flex w-full items-center gap-2 rounded-sm p-2 transition-all duration-200 select-none hover:bg-neutral-100"
                   onClick={close}
                 >
                   <Image
@@ -276,7 +275,7 @@ export const Search = ({ posterURL }: Props) => {
             <Link
               key={item.key}
               href={item.key}
-              className="flex w-full items-center gap-1 rounded-sm p-1 transition-all duration-200 select-none hover:bg-neutral-100 dark:hover:bg-[#1A183D]"
+              className="dark:hover:bg-main-dark-hover flex w-full items-center gap-1 rounded-sm p-1 transition-all duration-200 select-none hover:bg-neutral-100"
               onClick={close}
             >
               {

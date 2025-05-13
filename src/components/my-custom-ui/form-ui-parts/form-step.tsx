@@ -58,7 +58,7 @@ export const FormStep = ({
           className={cn(
             "grid h-8 w-8 place-content-center rounded-full bg-[#EFF0F6] text-[#6F6C90] select-none",
             (isStepCompleted || completedSteps.length === LAST_STEP) &&
-              "cursor-pointer bg-[#4A3AFF] dark:bg-[#495AFF]",
+              "bg-main-ui-purple cursor-pointer dark:bg-[#495AFF]",
             (currentEditableStep || firstEditableStep) &&
               "cursor-pointer border-4 border-[#495AFF]",
             isStepSkipped && "border-2 bg-transparent dark:bg-transparent",
@@ -77,7 +77,7 @@ export const FormStep = ({
             className={cn(
               "fill-mode-both grid h-2 w-24 place-content-center rounded-3xl",
               isStepCompleted &&
-                "animate-progress bg-[#4A3AFF] dark:bg-[#495AFF]",
+                "animate-progress bg-main-ui-purple dark:bg-[#495AFF]",
             )}
           ></div>
         </div>

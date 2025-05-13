@@ -3,14 +3,6 @@ import { CircleX, InfoIcon } from "lucide-react";
 import { TooltipWrapper } from "../my-custom-ui/tooltip-wrapper";
 import { cn, extractValues, extractWord } from "@/lib/utils";
 import { GENRE_KEY, SUBGENRE_KEY } from "./genre-selector";
-// import { percentageMatchColor } from "./movie/utils";
-// import {
-//   ActionTimeOut,
-//   GenreOutPlus,
-//   KeywordOut,
-//   SpecificationOut,
-//   SubgenreOutPlus,
-// } from "@/orval_api/model";
 import {
   ACTION_TIME_KEY,
   ACTOR_KEY,
@@ -68,8 +60,8 @@ export const FilterBrick = <ItemData extends Data>({
         key={searchParam}
         className={cn(
           "hover:shadow-neon-border-fill group relative flex min-h-12 min-w-28 items-center rounded-xl border-2 transition-shadow",
-          type === GENRE_KEY && "dark:border-[#4A3AFF]",
-          type === SUBGENRE_KEY && "dark:border-[#9d4eff]",
+          type === GENRE_KEY && "dark:border-genre",
+          type === SUBGENRE_KEY && "dark:border-subgenre",
           hoveredSubgenre === cleanSearchParam &&
             type === GENRE_KEY &&
             "shadow-neon-border-fill",
@@ -77,15 +69,14 @@ export const FilterBrick = <ItemData extends Data>({
             type === SUBGENRE_KEY &&
             "shadow-neon-border-fill",
           type === SPEC_KEY &&
-            "hover:shadow-movie-specification dark:border-[#64fcfe]",
+            "hover:shadow-movie-specification dark:border-specification",
           type === KEYWORD_KEY &&
-            "hover:shadow-movie-keyword dark:border-[#FFC55C]",
+            "hover:shadow-movie-keyword dark:border-keyword",
           type === ACTION_TIME_KEY &&
-            "hover:shadow-movie-action-time dark:border-[#92A8D1]",
-          type === ACTOR_KEY &&
-            "hover:shadow-movie-actor dark:border-[#90ee90]",
+            "hover:shadow-movie-action-time dark:border-action-time",
+          type === ACTOR_KEY && "hover:shadow-movie-actor dark:border-actor",
           type === DIRECTOR_KEY &&
-            "hover:shadow-movie-director dark:border-[#f08080]",
+            "hover:shadow-movie-director dark:border-director",
         )}
         onMouseEnter={
           type === GENRE_KEY && onMouseEnter
@@ -105,13 +96,13 @@ export const FilterBrick = <ItemData extends Data>({
           }}
           className={cn(
             "absolute size-full rounded-lg border",
-            type === GENRE_KEY && "dark:border-[#4A3AFF]",
-            type === SUBGENRE_KEY && "dark:border-[#9d4eff]",
-            type === SPEC_KEY && "dark:border-[#64fcfe]",
-            type === KEYWORD_KEY && "dark:border-[#FFC55C]",
-            type === ACTION_TIME_KEY && "dark:border-[#92A8D1]",
-            type === ACTOR_KEY && "dark:border-[#90ee90]",
-            type === DIRECTOR_KEY && "dark:border-[#f08080]",
+            type === GENRE_KEY && "dark:border-genre",
+            type === SUBGENRE_KEY && "dark:border-subgenre",
+            type === SPEC_KEY && "dark:border-specification",
+            type === KEYWORD_KEY && "dark:border-keyword",
+            type === ACTION_TIME_KEY && "dark:border-action-time",
+            type === ACTOR_KEY && "dark:border-actor",
+            type === DIRECTOR_KEY && "dark:border-director",
           )}
         />
 

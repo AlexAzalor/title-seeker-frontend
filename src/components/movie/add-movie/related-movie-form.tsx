@@ -18,6 +18,7 @@ import { FormButtons } from "@/components/my-custom-ui/form-ui-parts/form-button
 import { TypeSelector } from "./type-selector";
 import { ResponsiveWrapper } from "../../my-custom-ui/responsive-wrapper";
 import { ItemsSelector } from "../../my-custom-ui/items-list-selector";
+import { Spinner } from "@/components/my-custom-ui/spinner";
 
 export type MovieKeyFields = Pick<
   MovieFormData,
@@ -161,7 +162,7 @@ export const RelatedMovieForm = ({ baseMovies }: Props) => {
         {!isSubmitting ? (
           <FormButtons handlePrev={handlePrev} skipStep={skipStep} />
         ) : (
-          <span className="loader"></span>
+          <Spinner />
         )}
       </form>
     </div>

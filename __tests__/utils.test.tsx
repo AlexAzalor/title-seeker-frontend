@@ -12,6 +12,7 @@ import {
   formattedDuration,
   getVisiblePages,
 } from "@/lib/utils";
+import { COLORS } from "@/lib/colors";
 
 test("Should render color of the match percentage for movie filters", () => {
   const jsxElement = percentageMatchColor(50, "Test description");
@@ -22,7 +23,7 @@ test("Should render color of the match percentage for movie filters", () => {
 
 test("Should get the filter color", () => {
   const filterColor = getFilterColor("genre");
-  expect(filterColor).toBe("#4A3AFF");
+  expect(filterColor).toBe(COLORS.genre);
 });
 
 test("Should format query params for list of items with pagination", () => {

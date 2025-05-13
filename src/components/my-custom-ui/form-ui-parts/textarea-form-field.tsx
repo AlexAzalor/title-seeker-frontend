@@ -44,7 +44,7 @@ const TextareaFormField = <
           rows={3}
           {...register(name)}
           className={cn(
-            "textarea shadow-input-default box-border field-sizing-content h-full min-h-20 w-full rounded-xl border border-[#EFF0F7] px-5 py-1 text-[18px] text-[#495AFF] outline-0 disabled:bg-gray-200 dark:border-[#4A3AFF] [&:focus~.cut]:translate-y-[8px] [&:focus~.placeholder]:translate-x-[10px] [&:focus~.placeholder]:translate-y-[-38px] [&:focus~.placeholder]:scale-75 [&:focus~.placeholder]:text-[#6F6C90] [&:not(:placeholder-shown)~.cut]:translate-y-[8px] [&:not(:placeholder-shown)~.placeholder]:translate-x-[10px] [&:not(:placeholder-shown)~.placeholder]:translate-y-[-38px] [&:not(:placeholder-shown)~.placeholder]:scale-75 [&:not(:placeholder-shown)~.placeholder]:text-[#6F6C90]",
+            "textarea shadow-input-default dark:border-main-ui-purple box-border field-sizing-content h-full min-h-20 w-full rounded-xl border border-[#EFF0F7] px-5 py-1 text-[18px] text-[#495AFF] outline-0 disabled:bg-gray-200 [&:focus~.cut]:translate-y-[8px] [&:focus~.placeholder]:translate-x-[10px] [&:focus~.placeholder]:translate-y-[-38px] [&:focus~.placeholder]:scale-75 [&:focus~.placeholder]:text-[#6F6C90] [&:not(:placeholder-shown)~.cut]:translate-y-[8px] [&:not(:placeholder-shown)~.placeholder]:translate-x-[10px] [&:not(:placeholder-shown)~.placeholder]:translate-y-[-38px] [&:not(:placeholder-shown)~.placeholder]:scale-75 [&:not(:placeholder-shown)~.placeholder]:text-[#6F6C90]",
           )}
           {...inputProps}
         />

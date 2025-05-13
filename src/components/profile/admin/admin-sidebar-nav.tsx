@@ -14,7 +14,7 @@ export const AdminSidebarNav = () => {
     <div className="grid gap-2" aria-label="admin-sidebar-nav">
       <Link
         href="/user/new-movies-to-add"
-        className="relative cursor-pointer rounded-[6px] px-2 py-1 text-lg transition-colors hover:bg-[#f5f5f5] dark:hover:bg-[#1A183D]"
+        className="dark:hover:bg-main-dark-hover relative cursor-pointer rounded-[6px] px-2 py-1 text-lg transition-colors hover:bg-[#f5f5f5]"
       >
         <span>New Movies to add</span>
         {!!moviesCount && (
@@ -26,7 +26,7 @@ export const AdminSidebarNav = () => {
 
       <Link
         href="/user/all-users"
-        className="cursor-pointer rounded-[6px] px-2 py-1 text-lg transition-colors hover:bg-[#f5f5f5] dark:hover:bg-[#1A183D]"
+        className="dark:hover:bg-main-dark-hover cursor-pointer rounded-[6px] px-2 py-1 text-lg transition-colors hover:bg-[#f5f5f5]"
       >
         Users list
       </Link>

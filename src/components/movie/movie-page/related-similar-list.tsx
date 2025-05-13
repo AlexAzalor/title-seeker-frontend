@@ -41,9 +41,9 @@ export const RelatedSimilarList = ({
             href={`/movies/${movie.key}`}
             key={movie.key}
             className={cn(
-              "flex items-center gap-4 rounded-xl transition-all duration-200 select-none hover:bg-neutral-100 dark:hover:bg-[#1A183D]",
+              "dark:hover:bg-main-dark-hover flex items-center gap-4 rounded-xl transition-all duration-200 select-none hover:bg-neutral-100",
               currentMovieKey === movie.key &&
-                "pointer-events-none bg-neutral-100 dark:bg-[#1A183D]",
+                "dark:bg-main-dark-hover pointer-events-none bg-neutral-100",
             )}
           >
             <Image

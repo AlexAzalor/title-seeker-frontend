@@ -11,13 +11,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <ul className="grid gap-2">
           <Link
             href="/user/profile"
-            className="cursor-pointer rounded-[6px] px-2 py-1 text-lg transition-colors hover:bg-[#f5f5f5] dark:hover:bg-[#1A183D]"
+            className="dark:hover:bg-main-dark-hover cursor-pointer rounded-[6px] px-2 py-1 text-lg transition-colors hover:bg-[#f5f5f5]"
           >
             Profile
           </Link>
           <Link
             href="/user/dashboard"
-            className="cursor-pointer rounded-[6px] px-2 py-1 text-lg transition-colors hover:bg-[#f5f5f5] dark:hover:bg-[#1A183D]"
+            className="dark:hover:bg-main-dark-hover cursor-pointer rounded-[6px] px-2 py-1 text-lg transition-colors hover:bg-[#f5f5f5]"
           >
             Dashboard
           </Link>
@@ -31,7 +31,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 size: DEFAULT_PAGE_SIZE,
               },
             }}
-            className="cursor-pointer rounded-[6px] px-2 py-1 text-lg transition-colors hover:bg-[#f5f5f5] dark:hover:bg-[#1A183D]"
+            className="dark:hover:bg-main-dark-hover cursor-pointer rounded-[6px] px-2 py-1 text-lg transition-colors hover:bg-[#f5f5f5]"
           >
             My lists
           </Link>
@@ -41,7 +41,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
         <Link
           href="/user/settings"
-          className="cursor-pointer rounded-[6px] px-2 py-1 text-lg transition-colors hover:bg-[#f5f5f5] dark:hover:bg-[#1A183D]"
+          className="dark:hover:bg-main-dark-hover cursor-pointer rounded-[6px] px-2 py-1 text-lg transition-colors hover:bg-[#f5f5f5]"
         >
           Settings
         </Link>

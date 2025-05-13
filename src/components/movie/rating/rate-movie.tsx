@@ -385,7 +385,7 @@ const RateMovie = ({
 
           <button
             type="button"
-            className="mt-5 w-full rounded-2xl bg-[#4A3AFF] p-2 text-white transition-colors duration-200 hover:bg-[#342BBB]"
+            className="bg-main-ui-purple mt-5 w-full rounded-2xl p-2 text-white transition-colors duration-200 hover:bg-[#342BBB]"
             onClick={handleRateMovie}
           >
             Save rating

@@ -5,138 +5,47 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  /* --dark-hover-bg: #1a183d; */
-  /* Responsive */
-  --breakpoint-xs: 30rem;
-  /* --breakpoint-xl: 64rem; 1024px */
-  --breakpoint-2xl: 100rem;
-  --breakpoint-3xl: 120rem;
+  /* The color #0D0B26 is a very dark shade of blue-violet.
+    It can be described as "Midnight Purple",
+    "Deep Indigo", or "Dark Periwinkle", depending on the context. */
+  --color-main-dark-bg: #0d0b26;
+  --color-main-dark-hover: #1a183d;
 
-  /* --main-color: #0066cc;
-  --hover-color: color-mix(in srgb, var(--main-color), white 20%); */
+  --color-main-bg-surface: #ffffff;
 
-  --color-background: var(--background);
+  --color-main-ui-purple: #4a3aff;
+
+  /* Filters */
+  --color-genre: var(--color-main-ui-purple);
+  --color-subgenre: #9d4eff;
+  --color-specification: #64fcfe;
+  --color-keyword: #ffc55c;
+  --color-action-time: #92a8d1;
+  --color-actor: #90ee90;
+  --color-director: #f08080;
+
+  /* Statuses */
+  --color-danger: #fc4349;
+  /* --color-danger2: hsl(358, 97%, 63%);
+  --color-danger2: var(--color-danger2) / 40; */
+  --color-success: #2dc26a;
+  --color-warning: #f38500;
+
+  --shadow-danger: 0 0 5px var(--color-danger), 0 0 10px var(--color-danger),
+    0 0 15px var(--color-danger);
+  --shadow-success: 0 0 5px var(--color-success), 0 0 10px var(--color-success),
+    0 0 15px var(--color-success);
+
+  /* --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-primary: #64fcfe;
-  --color-secondary: #e4e9f2;
-  --color-surface-secondary: #9d4eff;
-  --color-text-primary: #ffffff;
-  --color-button-hover: #69eafc;
-  --color-button-hover-outlined: #b8ffe6;
-  --color-button-disabled: #afb3ba;
-  --color-cold1: #b8ffe6;
-  --color-cold2: #a4f4ef;
-  --color-cold3: #8ef3f6;
-  --color-cold4: #79f8fc;
-  --color-cold5: #68fefe;
-  --color-cold6: #64fcfe;
-  --color-cold7: #69eafc;
-  --color-cold8: #77c9fb;
-  --color-cold9: #8796fb;
-  --color-cold10: #976afc;
-  --color-cold11: #9d4eff;
-  --color-from-screen: #68d6e6;
-  --color-Turquoise: #40e0d0;
-  --color-Aqua: #00ffff;
-  --color-Sky-blue: #87ceeb;
-  --color-Teal: #008080;
-  --color-Seafoam-green: #90ee90;
-  --color-Mint-green: #98fb98;
-  --color-Coral: #ff7f50;
-  --color-Peach: #ffdab9;
-  --color-Salmon-pink: #ffa07a;
-  --color-Lavender: #e6e6fa;
-  --color-Lilac: #c8a2c8;
-  --color-Cream: #fffdd0;
-  --color-Sand: #f4a460;
-  --color-Taupe: #483c32;
-  --color-Gray: #808080;
-  --color-White: #ffffff;
-  --color-Maincolor: #68fefe;
-  --color-White2: #ffffff;
-  --color-Light-gray: #d3d3d3;
-  --color-Light-blue: #add8e6;
-  --color-Pale-green: #98fb98;
-  --color-Lavender2: #e6e6fa;
-  --color-Peach2: #ffdab9;
-  --color-Light-yellow: #ffffe0;
-  --color-Pale-pink: #ffd1dc;
-  --color-Light-coral: #f08080;
-  --color-Cyan: #00ffff;
-  --color-Light-cyan: #e0ffff;
-  --color-Aqua-cyan: #7fffd4;
-  --color-Medium-cyan: #66cdaa;
-  --color-Dark-cyan: #008b8b;
-  --color-Pale-cyan: #afeeee;
-  --color-Turquoise-cyan: #40e0d0;
-  --color-Electric-cyan: #00ffff;
-  --color-Powder-cyan: #b0e0e6;
-  --color-Deep-cyan: #00ced1;
-  --color-Main-color1: #68d6e6;
-  --color-Main-color2: #ffffff;
-  --color-Main-color3: #29589a;
-  --color-Light-gray2: #f5f5f5;
-  --color-Pale-blue: #c5e4ff;
-  --color-Light-turquoise: #a0e6e6;
-  --color-Sky-blue2: #87ceeb;
-  --color-Light-cyan2: #e0ffff;
-  --color-Silver: #c0c0c0;
-  --color-Steel-blue: #4682b4;
-  --color-Main-color11: #68d6e6;
-  --color-Main-color22: #ffffff;
-  --color-Main-color33: #f1a4b6;
-  --color-Light-gray22: #f5f5f5;
-  --color-Pale-blue2: #c5e4ff;
-  --color-Light-turquoise2: #a0e6e6;
-  --color-Coral-pink: #ff6b6b;
-  --color-Peach22: #ffdab9;
-  --color-Lavender22: #e6e6fa;
-  --color-Silver2: #c0c0c0;
-  --color-Main-color111: #7d729e;
-  --color-Main-color222: #ffffff;
-  --color-Main-color333: #d98a9c;
-  --color-Main-color444: #ecceb7;
-  --color-Lavender222: #b19cd9;
-  --color-Light-gray222: #f5f5f5;
-  --color-Pale-blue22: #c5e4ff;
-  --color-Soft-pink: #f5b7b1;
-  --color-Light-peach: #ffdab9;
-  --color-Silver22: #c0c0c0;
-
-  --color-animeprimary-light: #ffadf7;
-  --color-animeprimary: #ff69c0;
-  --color-animeprimary-dark: #e633a0;
-
-  --color-animesecondary-light: #ade5ff;
-  --color-animesecondary: #66ccff;
-  --color-animesecondary-dark: #3399ff;
-
-  --color-animeaccent-light: #fff4b3;
-  --color-animeaccent: #ffd700;
-  --color-animeaccent-dark: #ffc300;
-
-  --color-animeneutral-light: #fff9fa;
-  --color-animeneutral: #f8eff3;
-  --color-animeneutral-dark: #e0d1d8;
-
-  --color-testfour-p: #fad7e8;
-  --color-testfour-b: #accbea;
-  --color-testfour-w: #fdfdfe;
-  --color-testfour-p2: #f7a9c7;
-  --color-testfour-g: #b0bccd;
-
-  --color-rosequartz: #f7cac9;
-  --color-serenity: #92a8d1;
-  --color-lavender: #e6e6fa;
-  --color-peach: #ffe5b4;
-  --color-ivory: #fffff0;
-  --color-lightblue: #add8e6;
-
-  --background-image-gradient-radial: radial-gradient(var(--tw-gradient-stops));
+  --color-secondary: #e4e9f2; */
+  /* --background-image-gradient-radial: radial-gradient(var(--tw-gradient-stops));
   --background-image-gradient-conic: conic-gradient(
     from 180deg at 50% 50%,
     var(--tw-gradient-stops)
-  );
+  ); */
+  /* Rate slider */
   --background-image-custom-gradient: linear-gradient(
     to right,
     #d6d1ff,
@@ -183,6 +92,12 @@
     0 0 6px #000000, inset 0 0 10px #000000;
   --shadow-movie-exact-match-light: 0px 0px 0px 0px #ffffff, 0 0 10px #ffffff,
     0 0 6px #ffffff, inset 0 0 10px #ffffff;
+
+  /* Responsive */
+  --breakpoint-xs: 30rem;
+  /* --breakpoint-xl: 64rem; 1024px */
+  --breakpoint-2xl: 100rem;
+  --breakpoint-3xl: 120rem;
 
   @keyframes accordion-down {
     from {
@@ -259,8 +174,8 @@
   /* --background: #ffffff;
   --foreground: #29589a; */
   /* @apply dark:bg-[#29589a]; */
-  /* The color #0D0B26 is a very dark shade of blue-violet. It can be described as "Midnight Purple", "Deep Indigo", or "Dark Periwinkle", depending on the context. */
-  @apply dark:bg-[#0D0B26];
+
+  @apply dark:bg-main-dark-bg;
   /* @apply bg-[#F7CAC9] dark:bg-[#A678C1]; */
   /* dark:text-[#ABB7C2] */
   --radius: 0.625rem;
@@ -355,91 +270,8 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #29589a;
-    --foreground: #ededed;
-  }
-} */
-
-/* body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-} */
-
-.content-wrapper {
-  position: relative;
-  z-index: 0;
-}
-
-.small-screenshot:hover {
-  background-color: transparent;
-  z-index: 50;
-}
-
-.small-screenshot .large-screenshot {
-  position: absolute;
-  /* left: -1000px; */
-  /* visibility: hidden; */
-  display: none;
-  text-decoration: none;
-}
-
-.small-screenshot:hover .large-screenshot {
-  /* visibility: visible; */
-  display: block;
-  top: 0;
-  left: 0;
-}
-
-.parent {
-  display: grid;
-  grid-template-columns: 3fr repeat(2, minmax(1fr, 1fr));
-  /* grid-template-columns: 3fr repeat(2, 1fr); */
-  grid-template-rows: repeat(4, minmax(1fr, 1fr));
-  grid-column-gap: 6px;
-  grid-row-gap: 6px;
-}
-/* "grid grid-cols-[repeat(auto-fit,minmax(min(650px,100%),1fr))] grid-rows-[minmax(auto,auto)] place-items-center gap-5" */
-.div1 {
-  grid-area: 1 / 1 / 5 / 2;
-}
-.div2 {
-  grid-area: 2 / 2 / 3 / 3;
-}
-.div3 {
-  grid-area: 2 / 3 / 3 / 4;
-}
-.div4 {
-  grid-area: 3 / 2 / 4 / 3;
-}
-.div5 {
-  grid-area: 3 / 3 / 4 / 4;
-}
-
-.loader {
-  width: 48px;
-  height: 48px;
-  border: 5px solid #4a3aff;
-  border-bottom-color: transparent;
-  border-radius: 50%;
-  display: inline-block;
-  box-sizing: border-box;
-  animation: rotation 1s linear infinite;
-}
-
-@keyframes rotation {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
 /* Neon effect for the border */
-.neon-border {
+.genre-fill-brick {
   border-color: #4a3aff;
   box-shadow:
     0px 0px 0px 0px #4a3aff,
@@ -448,7 +280,7 @@
     inset 0 0 12px #4a3aff;
   background: rgb(74 58 255 / 0.4);
 }
-.neon-subgenre {
+.subgenre-fill-brick {
   border-color: #9d4eff;
   box-shadow:
     0px 0px 0px 0px #9d4eff,
@@ -456,92 +288,6 @@
     0 0 6px #9d4eff,
     inset 0 0 12px #9d4eff;
   background: rgb(157 78 255 / 0.4);
-}
-
-.circle-border {
-  /* border: 1px solid rgb(102 126 255); */
-  animation: highlight-color 1.5s infinite alternate;
-}
-.circle-border2 {
-  /* border: 1px solid rgb(102 126 255); */
-  animation: less-match 1.5s infinite alternate;
-}
-
-/* #F7F4FF,
- #D6D1FF,
-   #B4AFFF,
-   #938EFF,
-   #726CFF,
-   #4A3AFF,
-   #4035E6,
-   #362FCC,
-   #2C29B2,
-   #222399,
-   #181D7F */
-
-@keyframes less-match {
-  from {
-    box-shadow:
-      0 0 5px rgba(255, 76, 76, 0.5),
-      0 0 10px rgba(255, 76, 76, 0.4),
-      0 0 15px rgba(255, 76, 76, 0.3);
-  }
-  to {
-    box-shadow:
-      0 0 20px rgba(255, 76, 76, 1),
-      0 0 30px rgba(255, 76, 76, 0.9),
-      0 0 40px rgba(255, 76, 76, 0.8);
-  }
-}
-@keyframes highlight-color {
-  from {
-    box-shadow:
-      0 0 5px rgba(102, 126, 255, 0.5),
-      0 0 10px rgba(102, 126, 255, 0.4),
-      0 0 15px rgba(102, 126, 255, 0.3);
-  }
-  to {
-    box-shadow:
-      0 0 20px rgba(102, 126, 255, 1),
-      0 0 30px rgba(102, 126, 255, 0.9),
-      0 0 40px rgba(102, 126, 255, 0.8);
-  }
-  /* from {
-    box-shadow:
-      0 0 5px rgba(73, 229, 255, 0.5),
-      0 0 10px rgba(73, 229, 255, 0.4),
-      0 0 15px rgba(73, 229, 255, 0.3);
-  }
-  to {
-    box-shadow:
-      0 0 20px rgba(73, 229, 255, 1),
-      0 0 30px rgba(73, 229, 255, 0.9),
-      0 0 40px rgba(73, 229, 255, 0.8);
-  } */
-  /* from {
-    box-shadow:
-      0 0 5px rgba(255, 76, 76, 0.5),
-      0 0 10px rgba(255, 76, 76, 0.4),
-      0 0 15px rgba(255, 76, 76, 0.3);
-  }
-  to {
-    box-shadow:
-      0 0 20px rgba(255, 76, 76, 1),
-      0 0 30px rgba(255, 76, 76, 0.9),
-      0 0 40px rgba(255, 76, 76, 0.8);
-  } */
-  /* from {
-    box-shadow:
-      0 0 5px rgba(74, 58, 255, 0.5),
-      0 0 10px rgba(74, 58, 255, 0.4),
-      0 0 15px rgba(74, 58, 255, 0.3);
-  }
-  to {
-    box-shadow:
-      0 0 20px rgba(74, 58, 255, 1),
-      0 0 30px rgba(74, 58, 255, 0.9),
-      0 0 40px rgba(74, 58, 255, 0.8);
-  } */
 }
 
 /* .movie-specification {
@@ -588,14 +334,6 @@
     0 0 6px #98fb98,
     inset 0 0 26px #98fb98;
   background: rgb(152 251 152 / 0.4);
-} */
-/* rgb(157 78 255) */
-/* Neon effect for the fill */
-/* .neon-fill {
-  box-shadow:
-    inset 0 0 10px #4a3aff,
-    inset 0 0 20px #4a3aff,
-    inset 0 0 30px #4a3aff;
 } */
 
 .rating-box {

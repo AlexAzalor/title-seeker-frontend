@@ -44,7 +44,7 @@ export const ResponsiveWrapper = ({ children, title }: Props) => {
           variant="outline"
           role="combobox"
           // aria-expanded={openSpec}
-          className="h-max w-64 justify-between text-xl dark:text-[#938EFF] dark:hover:text-[#4A3AFF]"
+          className="dark:hover:text-main-ui-purple h-max w-64 justify-between text-xl dark:text-[#938EFF]"
         >
           {title}
           <ChevronsUpDown className="opacity-50" />
