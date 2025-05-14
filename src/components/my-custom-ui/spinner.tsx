@@ -7,7 +7,7 @@ export const Spinner = ({ className }: Props) => {
     <div role="status" className={className} aria-label="spinner">
       <svg
         aria-hidden="true"
-        className="fill-main-ui-purple h-8 w-8 animate-spin text-gray-200 dark:text-gray-600"
+        className="fill-main-ui-purple dark:text-gray-purple text-white-dark h-8 w-8 animate-spin"
         viewBox="0 0 100 101"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

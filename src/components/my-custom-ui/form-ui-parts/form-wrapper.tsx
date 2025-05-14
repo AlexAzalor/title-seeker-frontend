@@ -22,7 +22,7 @@ export const FormWrapper = ({
         {!isSubmitting ? (
           <Button
             type="submit"
-            className="bg-main-ui-purple mt-7 h-12 w-[164px] cursor-pointer rounded-[56px] border-0 text-center text-lg transition-all duration-200 hover:bg-[#252154]"
+            className="bg-main-ui-purple hover:bg-dark-blue mt-7 h-12 w-[164px] cursor-pointer rounded-[56px] border-0 text-center text-lg transition-all duration-200"
           >
             {buttonTitle || "Submit"}
           </Button>

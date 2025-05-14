@@ -50,21 +50,21 @@ export const FilterItemLink = ({ filterKey, data }: Props) => {
           className={cn(
             "relative flex max-w-fit items-center rounded-xl border-2 leading-4 transition-shadow",
             filterKey === GENRE_KEY &&
-              "hover:shadow-neon-border-fill dark:border-main-ui-purple",
+              "hover:shadow-genre dark:border-main-ui-purple",
             filterKey === SUBGENRE_KEY &&
-              "hover:shadow-neon-border-fill dark:border-subgenre",
+              "hover:shadow-subgenre dark:border-subgenre",
             filterKey === SPEC_KEY &&
-              "hover:shadow-movie-specification dark:border-specification",
+              "hover:shadow-specification dark:border-specification",
             filterKey === KEYWORD_KEY &&
-              "hover:shadow-movie-keyword dark:border-keyword",
+              "hover:shadow-keyword dark:border-keyword",
             filterKey === ACTION_TIME_KEY &&
-              "hover:shadow-movie-action-time dark:border-action-time",
+              "hover:shadow-action-time dark:border-action-time",
             filterKey === GENRE_KEY &&
               hoveredSubgenre === item.key &&
-              "shadow-neon-border-fill",
+              "shadow-genre",
             filterKey === SUBGENRE_KEY &&
               hoveredGenre === item.parent_genre?.key &&
-              "shadow-neon-border-fill",
+              "shadow-subgenre",
           )}
           key={item.key}
           style={{}}
@@ -84,10 +84,8 @@ export const FilterItemLink = ({ filterKey, data }: Props) => {
             }}
             className={cn(
               "absolute size-full rounded-lg border",
-              filterKey === GENRE_KEY &&
-                "genre-fill-brick dark:border-main-ui-purple",
-              filterKey === SUBGENRE_KEY &&
-                "subgenre-fill-brick dark:border-subgenre",
+              filterKey === GENRE_KEY && "dark:border-main-ui-purple",
+              filterKey === SUBGENRE_KEY && "dark:border-subgenre",
               filterKey === SPEC_KEY && "dark:border-specification",
               filterKey === KEYWORD_KEY && "dark:border-keyword",
               filterKey === ACTION_TIME_KEY && "dark:border-action-time",

@@ -7,4 +7,6 @@ export const COLORS = {
   actionTime: "#92a8d1",
   actor: "#90ee90",
   director: "#f08080",
+  grayPurple: "#6f6c90",
+  whiteDark: "#f5f5f5",
 };

@@ -47,7 +47,7 @@ export function MoviesCarousel({ movies, lang, posterURL, avatarURL }: Props) {
                   className=" "
                   href={`/movies/${movie.key}`}
                 >
-                  <Card className="dark:border-[#211979]">
+                  <Card className="dark:border-dark-border">
                     <CardContent className="flex aspect-square h-52 w-full items-center justify-center gap-2 p-2">
                       {movie.poster && (
                         <Image

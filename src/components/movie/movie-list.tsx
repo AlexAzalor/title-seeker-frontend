@@ -13,7 +13,7 @@ export const MovieList = ({ movies, lang }: Props) => {
   return movies.map((movie) => (
     <Link
       key={movie.key}
-      className="shadow-form-layout dark:shadow-dark-form-layout grid h-[158px] w-[340px] grid-cols-[1fr_3fr] items-center gap-2 rounded-[34px] border border-[#EFF0F7] p-6 dark:border-[#211979]"
+      className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border grid h-[158px] w-[340px] grid-cols-[1fr_3fr] items-center gap-2 rounded-[34px] border p-6"
       href={`/movies/${movie.key}`}
     >
       {movie.poster && (

@@ -116,7 +116,7 @@ export const InfoFieldsForm = () => {
             error={errors.release_date}
           />
           {parsedData.release_date && (
-            <div className="text-[#6F6C90]">
+            <div className="text-gray-purple">
               {formatDate(parsedData.release_date) || ""}
             </div>
           )}

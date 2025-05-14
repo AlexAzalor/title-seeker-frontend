@@ -64,8 +64,6 @@ const chartConfig = {
   // },
 } satisfies ChartConfig;
 
-// Movie - border-[#cce6ff] bg-[#ebf5ff] text-[#0072f5]",
-
 type Props = {
   moviesTimeRateData: TimeRateMovieOut[];
 };

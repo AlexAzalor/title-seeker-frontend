@@ -11,9 +11,25 @@
   --color-main-dark-bg: #0d0b26;
   --color-main-dark-hover: #1a183d;
 
+  /* For hover in light mode */
+  --color-dark-blue: #222399;
+
+  --color-header: #77c9fb;
+
   --color-main-bg-surface: #ffffff;
 
   --color-main-ui-purple: #4a3aff;
+
+  --color-light-border: #eff0f7;
+  --color-dark-border: #211979;
+
+  --color-gray-purple: #6f6c90;
+
+  /* White but slightly dark (for UI on dark bg) */
+  --color-white-dark: #f5f5f5;
+
+  /* Form */
+  --color-form-ui-blue: #495aff;
 
   /* Filters */
   --color-genre: var(--color-main-ui-purple);
@@ -76,21 +92,34 @@
     0 0 6px rgba(74, 58, 255, 0.5), 0 0 6px rgba(74, 58, 255, 0.4),
     0 0 6px rgba(74, 58, 255, 0.3);
   --shadow-dark-form-layout: 0px 21px 69px rgba(0, 0, 0, 0.29);
-  --shadow-neon-border-fill: 0px 0px 0px 0px #4a3aff, 0 0 10px #4a3aff,
-    0 0 6px #4a3aff, inset 0 0 10px #4a3aff;
-  --shadow-movie-specification: 0px 0px 0px 0px #64fcfe, 0 0 10px #64fcfe,
-    0 0 6px #64fcfe, inset 0 0 10px #64fcfe;
-  --shadow-movie-keyword: 0px 0px 0px 0px #ffc55c, 0 0 10px #ffc55c,
-    0 0 6px #ffc55c, inset 0 0 10px #ffc55c;
-  --shadow-movie-action-time: 0px 0px 0px 0px #92a8d1, 0 0 10px #92a8d1,
-    0 0 6px #92a8d1, inset 0 0 10px #92a8d1;
-  --shadow-movie-actor: 0px 0px 0px 0px #90ee90, 0 0 10px #90ee90,
-    0 0 6px #90ee90, inset 0 0 10px #90ee90;
-  --shadow-movie-director: 0px 0px 0px 0px #f08080, 0 0 10px #f08080,
-    0 0 6px #f08080, inset 0 0 10px #f08080;
-  --shadow-movie-exact-match: 0px 0px 0px 0px #000000, 0 0 10px #000000,
+
+  /* Movie filters */
+  --shadow-genre: 0px 0px 0px 0px var(--color-genre),
+    0 0 10px var(--color-genre), 0 0 6px var(--color-genre),
+    inset 0 0 10px var(--color-genre);
+  --shadow-subgenre: 0px 0px 0px 0px var(--color-subgenre),
+    0 0 10px var(--color-subgenre), 0 0 6px var(--color-subgenre),
+    inset 0 0 10px var(--color-subgenre);
+  --shadow-specification: 0px 0px 0px 0px var(--color-specification),
+    0 0 10px var(--color-specification), 0 0 6px var(--color-specification),
+    inset 0 0 10px var(--color-specification);
+  --shadow-keyword: 0px 0px 0px 0px var(--color-keyword),
+    0 0 10px var(--color-keyword), 0 0 6px var(--color-keyword),
+    inset 0 0 10px var(--color-keyword);
+  --shadow-action-time: 0px 0px 0px 0px var(--color-action-time),
+    0 0 10px var(--color-action-time), 0 0 6px var(--color-action-time),
+    inset 0 0 10px var(--color-action-time);
+  --shadow-actor: 0px 0px 0px 0px var(--color-actor),
+    0 0 10px var(--color-actor), 0 0 6px var(--color-actor),
+    inset 0 0 10px var(--color-actor);
+  --shadow-director: 0px 0px 0px 0px var(--color-director),
+    0 0 10px var(--color-director), 0 0 6px var(--color-director),
+    inset 0 0 10px var(--color-director);
+
+  /* Search */
+  --shadow-exact-match: 0px 0px 0px 0px #000000, 0 0 10px #000000,
     0 0 6px #000000, inset 0 0 10px #000000;
-  --shadow-movie-exact-match-light: 0px 0px 0px 0px #ffffff, 0 0 10px #ffffff,
+  --shadow-exact-match-light: 0px 0px 0px 0px #ffffff, 0 0 10px #ffffff,
     0 0 6px #ffffff, inset 0 0 10px #ffffff;
 
   /* Responsive */
@@ -171,13 +200,10 @@
 }
 
 :root {
-  /* --background: #ffffff;
-  --foreground: #29589a; */
-  /* @apply dark:bg-[#29589a]; */
-
+  /* Main background color */
   @apply dark:bg-main-dark-bg;
-  /* @apply bg-[#F7CAC9] dark:bg-[#A678C1]; */
-  /* dark:text-[#ABB7C2] */
+
+  /* Shadcn colors */
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -213,6 +239,7 @@
 }
 
 .dark {
+  /* Shadcn colors */
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
@@ -258,7 +285,8 @@
   }
 }
 
-/* Use @theme inline when defining colors that reference other colors */
+/* Use theme inline when defining colors that reference other colors  */
+/* Shadcn colors */
 @theme inline {
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
@@ -270,81 +298,10 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
-/* Neon effect for the border */
-.genre-fill-brick {
-  border-color: #4a3aff;
-  box-shadow:
-    0px 0px 0px 0px #4a3aff,
-    0 0 10px #4a3aff,
-    0 0 6px #4a3aff,
-    inset 0 0 12px #4a3aff;
-  background: rgb(74 58 255 / 0.4);
-}
-.subgenre-fill-brick {
-  border-color: #9d4eff;
-  box-shadow:
-    0px 0px 0px 0px #9d4eff,
-    0 0 10px #9d4eff,
-    0 0 6px #9d4eff,
-    inset 0 0 12px #9d4eff;
-  background: rgb(157 78 255 / 0.4);
-}
-
-/* .movie-specification {
-  border-color: #64fcfe;
-  box-shadow:
-    0px 0px 0px 0px #64fcfe,
-    0 0 10px #64fcfe,
-    0 0 6px #64fcfe,
-    inset 0 0 12px #64fcfe;
-  background: rgb(100 252 254 / 0.4);
-}
-.movie-keyword {
-  border-color: #ffc55c;
-  box-shadow:
-    0px 0px 0px 0px #ffc55c,
-    0 0 10px #ffc55c,
-    0 0 6px #ffc55c,
-    inset 0 0 10px #ffc55c;
-  background: rgb(255 197 92 / 0.4);
-} */
-/* .movie-keyword {
-  border-color: #f08080;
-  box-shadow:
-    0px 0px 0px 0px #f08080,
-    0 0 10px #f08080,
-    0 0 6px #f08080,
-    inset 0 0 26px #f08080;
-  background: rgb(240 128 128 / 0.4);
-} */
-/* .movie-action-time {
-  border-color: #92a8d1;
-  box-shadow:
-    0px 0px 0px 0px #92a8d1,
-    0 0 10px #92a8d1,
-    0 0 6px #92a8d1,
-    inset 0 0 12px #92a8d1;
-  background: #92a8d166;
-} */
-/* .movie-action-time {
-  border-color: #98fb98;
-  box-shadow:
-    0px 0px 0px 0px #98fb98,
-    0 0 10px #98fb98,
-    0 0 6px #98fb98,
-    inset 0 0 26px #98fb98;
-  background: rgb(152 251 152 / 0.4);
-} */
-
 .rating-box {
   --color-rating: #4ba3c7;
-  /* --color-rating: #64fcfe; */
-  /* --color-rating: #4a3aff; */
-  /* --color-rating: #ff6347; */
-  /* box-sizing: border-box; */
   width: 212px;
   height: 100px;
-  /* background-repeat: no-repeat; */
   border-radius: 1rem;
   border: 0.15rem solid white;
   box-shadow:
@@ -391,20 +348,6 @@
   border-bottom-left-radius: 0;
 }
 
-.owner-rating-mark {
-  --color-rating: #ff6347;
-  box-shadow: 0px 0px 12px #ff6347;
-}
-.user-rating-mark {
-  --color-rating: #ff6347;
-  box-shadow: 0px 0px 12px #ffc300;
-}
-.both-rating-mark {
-  --color-rating: #ff69c0;
-  background-color: var(--color-rating);
-  box-shadow: 0px 0px 12px var(--color-rating);
-}
-
 .rating-text {
   --lights: #4a3aff;
   text-shadow:
@@ -416,7 +359,6 @@
 }
 
 .movie-duration {
-  /* --lights: #5e3a7c; */
   --lights: #ff6347;
   text-shadow:
     0 0 0.5vh var(--lights),
@@ -427,9 +369,6 @@
 }
 .movie-release-date {
   --lights: #89245c;
-  /* --lights: #607d8b; */
-  /* --lights: #b39275; */
-  /* --lights: #ffdab9; */
   text-shadow:
     0 0 0.5vh var(--lights),
     0 0 0.5vh var(--lights),
@@ -439,7 +378,6 @@
 }
 .movie-location {
   --lights: #7d729e;
-  /* --lights: #7d729e; */
   text-shadow:
     0 0 0.5vh var(--lights),
     0 0 0.5vh var(--lights),
@@ -448,8 +386,6 @@
     0 0 1vh var(--lights);
 }
 .movie-money {
-  /* --lights: #8c2642; */
-  /* --lights: #756300; */
   --lights: #a38a00;
   text-shadow:
     0 0 0.5vh var(--lights),
@@ -484,33 +420,46 @@
   --lights: #92a8d178;
 }
 
-/* #e6c0a2 – Slightly darker
-#ccaa8c – More muted and earthy
-#b39275 – Even deeper, a warm brownish peach
-#997b5f – A rich, dusky peach tone
-#80634a – A deep, warm brown with peach undertones */
-
-/* Eyeshadow Shades
-#5E3A7C – Deep purple with a hint of shimmer
-#8A567E – Dark mauve for blending and depth
-#3D275D – Smoky indigo for outer corners
-#A97C50 – Warm bronze for a touch of glow
-#5D4037 – Deep brown for grounding the look
-Eyeliner & Mascara
-#1C1237 – Intense dark purple-black
-#0A0515 – Charcoal black for a bold liner
-Blush & Contour
-#734A4A – Muted plum for a sculpted cheek
-#5A3E3E – Deep rosewood for warmth
-Lipstick Shades
-#6E1F32 – Dark cherry red for drama
-#8C2642 – Rich berry wine
-#5C1A25 – Vampy burgundy for a bold statement */
-
 .logo {
   text-shadow:
     0 0 10px azure,
     0 0 20px aqua,
     0 0 30px #4a3aff,
     0 0 40px #181d7f;
+}
+
+.search-nav {
+  --movie-text: #666666;
+  --movie-bg: #ffffff;
+  --movie-border: #ebebeb;
+  color: var(--movie-text);
+  background: var(--movie-bg);
+  border-color: var(--movie-border);
+}
+
+.movie-color-set {
+  --movie-text: #0072f5;
+  --movie-bg: #ebf5ff;
+  --movie-border: #cce6ff;
+}
+.tvseries-color-set {
+  --movie-text: #d86e0b;
+  --movie-bg: #fff4e6;
+  --movie-border: #ffd0a3;
+}
+.anime-color-set {
+  --movie-text: #d82687;
+  --movie-bg: #fdeff5;
+  --movie-border: #f8cce0;
+}
+.game-color-set {
+  --movie-text: #17a34a;
+  --movie-bg: #eafbea;
+  --movie-border: #c2e6c2;
+}
+
+.error-message {
+  color: var(--color-danger);
+  background: #ffefef;
+  border-color: #ffcccc;
 }

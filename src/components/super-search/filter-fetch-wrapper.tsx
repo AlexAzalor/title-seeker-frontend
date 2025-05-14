@@ -62,7 +62,7 @@ export const FilterFetchWrapper = async ({ children }: PropsWithChildren) => {
           <ResizablePanel defaultSize={50} className="">
             <ResizablePanelGroup
               direction="horizontal"
-              className="dark:border-[#211979]"
+              className="dark:border-dark-border"
               autoSaveId="super-search-body"
             >
               <ResizablePanel
@@ -83,7 +83,7 @@ export const FilterFetchWrapper = async ({ children }: PropsWithChildren) => {
 
               <ResizableHandle
                 withHandle
-                className="hidden lg:flex dark:bg-[#211979]"
+                className="dark:bg-dark-border hidden lg:flex"
               />
 
               <ResizablePanel defaultSize={52}>
@@ -94,7 +94,7 @@ export const FilterFetchWrapper = async ({ children }: PropsWithChildren) => {
 
               <ResizableHandle
                 withHandle
-                className="hidden lg:flex dark:bg-[#211979]"
+                className="dark:bg-dark-border hidden lg:flex"
               />
 
               <ResizablePanel

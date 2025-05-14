@@ -164,7 +164,7 @@ export const SelectedFilters = ({
             />
 
             {selectedExactMatch && (
-              <div className="hover:shadow-movie-exact-match dark:hover:shadow-movie-exact-match-light flex items-center space-x-1 rounded-xl border-1 border-black p-1 font-bold text-black transition-shadow dark:border-white dark:text-white">
+              <div className="hover:shadow-exact-match dark:hover:shadow-exact-match-light flex items-center space-x-1 rounded-xl border-1 border-black p-1 font-bold text-black transition-shadow dark:border-white dark:text-white">
                 <span>Exact match</span>
                 <CircleX
                   className="top-0 right-0 h-4 w-4 cursor-pointer"
@@ -178,7 +178,7 @@ export const SelectedFilters = ({
         </div>
       </ResizablePanel>
 
-      <ResizableHandle withHandle className="dark:bg-[#211979]" />
+      <ResizableHandle withHandle className="dark:bg-dark-border" />
 
       {children}
     </>

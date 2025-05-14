@@ -128,7 +128,7 @@ export const MovieFilterForm = ({
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">
           <div className="mb-5 flex w-full flex-col items-center gap-6">
             <div className="flex items-center gap-2">
-              <h1 className="text-[#4035E6]">Specifications</h1>
+              <h1 className="text-main-ui-purple">Specifications</h1>
               <TooltipWrapper content={movieComponents.specification}>
                 <InfoIcon className="h-4 w-4" />
               </TooltipWrapper>
@@ -194,7 +194,7 @@ export const MovieFilterForm = ({
 
           <div className="mb-5 flex w-full flex-col items-center gap-6">
             <div className="flex items-center gap-2">
-              <h1 className="text-[#4035E6]">Keyword</h1>
+              <h1 className="text-main-ui-purple">Keyword</h1>
               <TooltipWrapper content={movieComponents.keyword}>
                 <InfoIcon className="h-4 w-4" />
               </TooltipWrapper>
@@ -260,7 +260,7 @@ export const MovieFilterForm = ({
 
           <div className="mb-5 flex w-full flex-col items-center gap-6">
             <div className="flex items-center gap-2">
-              <h1 className="text-[#4035E6]">Action Times</h1>
+              <h1 className="text-main-ui-purple">Action Times</h1>
               <TooltipWrapper content={movieComponents.action_time}>
                 <InfoIcon className="h-4 w-4" />
               </TooltipWrapper>

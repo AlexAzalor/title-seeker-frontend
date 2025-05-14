@@ -186,7 +186,7 @@ export const PeopleFieldsForm = ({ actors, directors, characters }: Props) => {
       <div className="flex items-center justify-center gap-3 font-bold">
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">
           <div className="mb-5 flex w-full flex-col items-center gap-6">
-            <h1 className="text-[#2D26A5]">Actors</h1>
+            <h1 className="text-main-ui-purple">Actors</h1>
 
             <ResponsiveWrapper title="Select Actor">
               <ItemsSelector
@@ -275,7 +275,7 @@ export const PeopleFieldsForm = ({ actors, directors, characters }: Props) => {
           </div>
 
           <div className="mb-5 flex w-full flex-col items-center gap-6">
-            <h1 className="text-[#2D26A5]">Directors</h1>
+            <h1 className="text-main-ui-purple">Directors</h1>
 
             <ResponsiveWrapper title="Select Director">
               <ItemsSelector

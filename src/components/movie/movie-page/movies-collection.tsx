@@ -41,7 +41,7 @@ export const MoviesCollection = ({
   return (
     <div
       aria-label="movies-collection"
-      className="shadow-form-layout dark:shadow-dark-form-layout mb-4 flex w-full flex-col rounded-[34px] border border-[#EFF0F7] p-5 dark:border-[#211979]"
+      className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border mb-4 flex w-full flex-col rounded-[34px] border p-5"
     >
       <Link
         href={`/super-search/?universe=${data.key}`}

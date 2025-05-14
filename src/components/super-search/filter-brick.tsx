@@ -59,24 +59,22 @@ export const FilterBrick = <ItemData extends Data>({
         aria-label="filter-brick"
         key={searchParam}
         className={cn(
-          "hover:shadow-neon-border-fill group relative flex min-h-12 min-w-28 items-center rounded-xl border-2 transition-shadow",
+          "hover:shadow-genre group relative flex min-h-12 min-w-28 items-center rounded-xl border-2 transition-shadow",
           type === GENRE_KEY && "dark:border-genre",
           type === SUBGENRE_KEY && "dark:border-subgenre",
           hoveredSubgenre === cleanSearchParam &&
             type === GENRE_KEY &&
-            "shadow-neon-border-fill",
+            "shadow-genre",
           hoveredGenre === item.parent_genre_key &&
             type === SUBGENRE_KEY &&
-            "shadow-neon-border-fill",
+            "shadow-genre",
           type === SPEC_KEY &&
-            "hover:shadow-movie-specification dark:border-specification",
-          type === KEYWORD_KEY &&
-            "hover:shadow-movie-keyword dark:border-keyword",
+            "hover:shadow-specification dark:border-specification",
+          type === KEYWORD_KEY && "hover:shadow-keyword dark:border-keyword",
           type === ACTION_TIME_KEY &&
-            "hover:shadow-movie-action-time dark:border-action-time",
-          type === ACTOR_KEY && "hover:shadow-movie-actor dark:border-actor",
-          type === DIRECTOR_KEY &&
-            "hover:shadow-movie-director dark:border-director",
+            "hover:shadow-action-time dark:border-action-time",
+          type === ACTOR_KEY && "hover:shadow-actor dark:border-actor",
+          type === DIRECTOR_KEY && "hover:shadow-director dark:border-director",
         )}
         onMouseEnter={
           type === GENRE_KEY && onMouseEnter

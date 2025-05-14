@@ -45,7 +45,7 @@ export const FormStep = ({
     <>
       <div
         className={cn(
-          "relative grid place-items-center text-[#6F6C90] dark:text-[#EFF0F6]",
+          "text-gray-purple dark:text-white-dark relative grid place-items-center",
           currentStep === step && "scale-150 transition-all duration-150",
         )}
       >
@@ -56,11 +56,11 @@ export const FormStep = ({
             }
           }}
           className={cn(
-            "grid h-8 w-8 place-content-center rounded-full bg-[#EFF0F6] text-[#6F6C90] select-none",
+            "text-gray-purple bg-white-dark grid h-8 w-8 place-content-center rounded-full select-none",
             (isStepCompleted || completedSteps.length === LAST_STEP) &&
-              "bg-main-ui-purple cursor-pointer dark:bg-[#495AFF]",
+              "bg-main-ui-purple dark:bg-form-ui-blue cursor-pointer",
             (currentEditableStep || firstEditableStep) &&
-              "cursor-pointer border-4 border-[#495AFF]",
+              "border-form-ui-blue cursor-pointer border-4",
             isStepSkipped && "border-2 bg-transparent dark:bg-transparent",
           )}
         >
@@ -72,12 +72,12 @@ export const FormStep = ({
       </div>
 
       {!lastStep && (
-        <div className="h-2 w-24 rounded-3xl bg-[#EFF0F6]">
+        <div className="bg-white-dark h-2 w-24 rounded-3xl">
           <div
             className={cn(
               "fill-mode-both grid h-2 w-24 place-content-center rounded-3xl",
               isStepCompleted &&
-                "animate-progress bg-main-ui-purple dark:bg-[#495AFF]",
+                "animate-progress bg-main-ui-purple dark:bg-form-ui-blue",
             )}
           ></div>
         </div>
