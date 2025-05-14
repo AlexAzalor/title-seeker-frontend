@@ -87,30 +87,15 @@ export const FilterBrick = <ItemData extends Data>({
       >
         <div
           style={{
-            // width: `${50}%`,
             borderColor: color,
             boxShadow: `0px 0px 0px 0px ${color}, 0 0 10px ${color}, 0 0 6px ${color}, inset 0 0 12px ${color}`,
-            // background: color + "66",
           }}
-          className={cn(
-            "absolute size-full rounded-lg border",
-            type === GENRE_KEY && "dark:border-genre",
-            type === SUBGENRE_KEY && "dark:border-subgenre",
-            type === SPEC_KEY && "dark:border-specification",
-            type === KEYWORD_KEY && "dark:border-keyword",
-            type === ACTION_TIME_KEY && "dark:border-action-time",
-            type === ACTOR_KEY && "dark:border-actor",
-            type === DIRECTOR_KEY && "dark:border-director",
-          )}
+          className="absolute size-full rounded-lg border"
         />
 
         <div className="relative mx-auto flex items-center gap-1 px-2">
           {item.description && (
-            <TooltipWrapper
-              asChild
-              // content={percentageMatchColor(50, item.description)}
-              content={item.description}
-            >
+            <TooltipWrapper asChild content={item.description}>
               <InfoIcon className="h-4 w-4 opacity-50 transition-opacity group-hover:opacity-100" />
             </TooltipWrapper>
           )}

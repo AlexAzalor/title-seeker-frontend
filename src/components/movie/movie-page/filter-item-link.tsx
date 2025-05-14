@@ -50,21 +50,21 @@ export const FilterItemLink = ({ filterKey, data }: Props) => {
           className={cn(
             "relative flex max-w-fit items-center rounded-xl border-2 leading-4 transition-shadow",
             filterKey === GENRE_KEY &&
-              "hover:shadow-genre dark:border-main-ui-purple",
+              "hover:shadow-genre dark:border-genre hover:border-genre",
             filterKey === SUBGENRE_KEY &&
-              "hover:shadow-subgenre dark:border-subgenre",
+              "hover:shadow-subgenre dark:border-subgenre hover:border-subgenre",
             filterKey === SPEC_KEY &&
-              "hover:shadow-specification dark:border-specification",
+              "hover:shadow-specification dark:border-specification hover:border-specification",
             filterKey === KEYWORD_KEY &&
-              "hover:shadow-keyword dark:border-keyword",
+              "hover:shadow-keyword dark:border-keyword hover:border-keyword",
             filterKey === ACTION_TIME_KEY &&
-              "hover:shadow-action-time dark:border-action-time",
+              "hover:shadow-action-time dark:border-action-time hover:border-action-time",
             filterKey === GENRE_KEY &&
               hoveredSubgenre === item.key &&
-              "shadow-genre",
+              "shadow-genre border-genre",
             filterKey === SUBGENRE_KEY &&
               hoveredGenre === item.parent_genre?.key &&
-              "shadow-subgenre",
+              "shadow-subgenre border-subgenre",
           )}
           key={item.key}
           style={{}}
@@ -82,14 +82,7 @@ export const FilterItemLink = ({ filterKey, data }: Props) => {
               boxShadow: `0px 0px 0px 0px ${color}, 0 0 10px ${color}, 0 0 6px ${color}, inset 0 0 12px ${color}`,
               background: color + "66",
             }}
-            className={cn(
-              "absolute size-full rounded-lg border",
-              filterKey === GENRE_KEY && "dark:border-main-ui-purple",
-              filterKey === SUBGENRE_KEY && "dark:border-subgenre",
-              filterKey === SPEC_KEY && "dark:border-specification",
-              filterKey === KEYWORD_KEY && "dark:border-keyword",
-              filterKey === ACTION_TIME_KEY && "dark:border-action-time",
-            )}
+            className="absolute size-full rounded-lg border"
           />
           <div className="relative mx-auto flex items-center gap-2 p-2">
             <span className="max-w-44">{item.name}</span>

@@ -92,7 +92,7 @@ export const MovieFilter = ({ movieKey, data, filterKey, title }: Props) => {
         <div className="flex items-center gap-1">
           <p
             className={cn(
-              "base-neon-text text-xl",
+              "base-neon-text mb-1 text-xl",
               textColor[filterKey as keyof typeof textColor],
             )}
           >
