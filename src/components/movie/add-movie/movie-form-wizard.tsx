@@ -38,6 +38,7 @@ import { FormStepper } from "@/components/my-custom-ui/form-ui-parts/form-steppe
 import { FormButtons } from "@/components/my-custom-ui/form-ui-parts/form-buttons";
 import { RelatedMovieForm } from "./related-movie-form";
 import { SharedUniverseForm } from "./shared-universe-form";
+import { Spinner } from "@/components/my-custom-ui/spinner";
 
 type Props = {
   actors: ActorOut[];
@@ -135,7 +136,7 @@ export const MovieFormWizard = ({
     >
       <div
         aria-label="movie-form-wizard"
-        className="shadow-form-layout dark:shadow-dark-form-layout mx-auto my-5 w-[1400px] rounded-[34px] border border-[#EFF0F7] p-9 dark:border-[#211979]"
+        className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border mx-auto my-5 w-[1400px] rounded-[34px] border p-9"
       >
         <FormStepper
           completedSteps={completedSteps}
@@ -187,7 +188,7 @@ export const MovieFormWizard = ({
                 onSubmit={addMovie}
               />
             ) : (
-              <span className="loader"></span>
+              <Spinner />
             )}
           </div>
         )}

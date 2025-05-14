@@ -7,6 +7,7 @@ import {
   KEYWORD_KEY,
   SPEC_KEY,
 } from "../super-search/filter-fetch-wrapper";
+import { COLORS } from "@/lib/colors";
 
 /**
  *
@@ -17,18 +18,16 @@ export const percentageMatchColor = (percentage: number, text: string) => {
     <div>
       <div
         className={cn(
-          "grid size-10 place-items-center rounded-full bg-transparent text-center text-lg font-bold text-black",
-          percentage < 25 && "circle-border2 bg-red-500",
+          "ml-auto grid size-10 place-items-center rounded-full bg-transparent text-center font-bold text-black",
+          percentage < 25 && "shadow-danger bg-danger",
           percentage >= 25 &&
             percentage < 50 &&
-            "bg-orange-400 shadow-2xl shadow-orange-300",
-          percentage >= 50 && percentage < 75 && "bg-green-500",
-          percentage >= 75 && percentage < 90 && "bg-blue-400",
-          percentage >= 90 &&
-            "shadow-neon-border-fill circle-border bg-[#4a3aff]",
+            "bg-warning shadow-2xl shadow-orange-300",
+          percentage >= 50 && percentage < 75 && "bg-blue-400",
+          percentage >= 75 && "shadow-success bg-success",
         )}
       >
-        <p className="">{percentage}%</p>
+        <p>{percentage}%</p>
       </div>
       {text}
     </div>
@@ -37,11 +36,11 @@ export const percentageMatchColor = (percentage: number, text: string) => {
 
 export const getFilterColor = (type: string) =>
   ({
-    [GENRE_KEY]: "#4A3AFF",
-    [SUBGENRE_KEY]: "#9d4eff",
-    [SPEC_KEY]: "#64fcfe",
-    [KEYWORD_KEY]: "#FFC55C",
-    [ACTION_TIME_KEY]: "#92A8D1",
-    [ACTOR_KEY]: "#90ee90",
-    [DIRECTOR_KEY]: "#f08080",
+    [GENRE_KEY]: COLORS.genre,
+    [SUBGENRE_KEY]: COLORS.subgenre,
+    [SPEC_KEY]: COLORS.specification,
+    [KEYWORD_KEY]: COLORS.keyword,
+    [ACTION_TIME_KEY]: COLORS.actionTime,
+    [ACTOR_KEY]: COLORS.actor,
+    [DIRECTOR_KEY]: COLORS.director,
   })[type] || "#000";

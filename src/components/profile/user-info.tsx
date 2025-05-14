@@ -31,7 +31,7 @@ export const UserInfo = ({
 
   return (
     <div
-      className="shadow-form-layout dark:shadow-dark-form-layout max-h-120 w-full rounded-[34px] border border-[#EFF0F7] text-center 2xl:w-60 dark:border-[#211979]"
+      className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border max-h-120 w-full rounded-[34px] border text-center 2xl:w-60"
       aria-label="user-info"
     >
       <div className="grid gap-2 p-4">

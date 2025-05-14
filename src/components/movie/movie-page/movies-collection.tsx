@@ -41,7 +41,7 @@ export const MoviesCollection = ({
   return (
     <div
       aria-label="movies-collection"
-      className="shadow-form-layout dark:shadow-dark-form-layout mb-4 flex w-full flex-col rounded-[34px] border border-[#EFF0F7] p-5 dark:border-[#211979]"
+      className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border mb-4 flex w-full flex-col rounded-[34px] border p-5"
     >
       <Link
         href={`/super-search/?universe=${data.key}`}
@@ -64,9 +64,9 @@ export const MoviesCollection = ({
             key={movie.key}
             scroll={false}
             className={cn(
-              "flex items-center gap-4 rounded-xl transition-all duration-200 select-none hover:bg-neutral-100 dark:hover:bg-[#1A183D]",
+              "dark:hover:bg-main-dark-hover flex items-center gap-4 rounded-xl transition-all duration-200 select-none hover:bg-neutral-100",
               currentMovieKey === movie.key &&
-                "pointer-events-none bg-neutral-100 dark:bg-[#1A183D]",
+                "dark:bg-main-dark-hover pointer-events-none bg-neutral-100",
             )}
           >
             <Image

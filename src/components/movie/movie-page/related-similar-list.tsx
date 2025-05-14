@@ -29,7 +29,7 @@ export const RelatedSimilarList = ({
     <div
       aria-label="related-similar-list"
       className={cn(
-        "shadow-form-layout dark:shadow-dark-form-layout w-76 rounded-[34px] border border-[#EFF0F7] p-5 dark:border-[#211979]",
+        "shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border w-76 rounded-[34px] border p-5",
         bottom && "mb-4 w-full min-w-76",
       )}
     >
@@ -41,9 +41,9 @@ export const RelatedSimilarList = ({
             href={`/movies/${movie.key}`}
             key={movie.key}
             className={cn(
-              "flex items-center gap-4 rounded-xl transition-all duration-200 select-none hover:bg-neutral-100 dark:hover:bg-[#1A183D]",
+              "dark:hover:bg-main-dark-hover flex items-center gap-4 rounded-xl transition-all duration-200 select-none hover:bg-neutral-100",
               currentMovieKey === movie.key &&
-                "pointer-events-none bg-neutral-100 dark:bg-[#1A183D]",
+                "dark:bg-main-dark-hover pointer-events-none bg-neutral-100",
             )}
           >
             <Image

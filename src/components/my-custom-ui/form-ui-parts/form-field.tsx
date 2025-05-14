@@ -50,7 +50,7 @@ const FormField = <
           autoComplete="new-password"
           type={type}
           {...register(name)}
-          className="input shadow-input-default box-border h-full w-full rounded-[46px] border border-[#EFF0F7] px-5 py-1 text-[18px] text-[#495AFF] outline-0 disabled:bg-gray-200 disabled:shadow-none dark:border-[#4A3AFF] dark:disabled:border-black dark:disabled:bg-black [&:focus~.cut]:translate-y-[8px] [&:focus~.placeholder]:translate-x-[10px] [&:focus~.placeholder]:translate-y-[-38px] [&:focus~.placeholder]:scale-75 [&:focus~.placeholder]:text-[#6F6C90] [&:not(:placeholder-shown)~.cut]:translate-y-[8px] [&:not(:placeholder-shown)~.placeholder]:translate-x-[10px] [&:not(:placeholder-shown)~.placeholder]:translate-y-[-38px] [&:not(:placeholder-shown)~.placeholder]:scale-75 [&:not(:placeholder-shown)~.placeholder]:text-[#6F6C90]"
+          className="input shadow-input-default dark:border-main-ui-purple border-light-border [&:not(:placeholder-shown)~.placeholder]:text-gray-purple [&:focus~.placeholder]:text-gray-purple text-form-ui-blue box-border h-full w-full rounded-[46px] border px-5 py-1 text-[18px] outline-0 disabled:bg-gray-200 disabled:shadow-none dark:disabled:border-black dark:disabled:bg-black [&:focus~.cut]:translate-y-[8px] [&:focus~.placeholder]:translate-x-[10px] [&:focus~.placeholder]:translate-y-[-38px] [&:focus~.placeholder]:scale-75 [&:not(:placeholder-shown)~.cut]:translate-y-[8px] [&:not(:placeholder-shown)~.placeholder]:translate-x-[10px] [&:not(:placeholder-shown)~.placeholder]:translate-y-[-38px] [&:not(:placeholder-shown)~.placeholder]:scale-75"
           {...inputProps}
         />
 
@@ -60,12 +60,14 @@ const FormField = <
 
         <div className="cut absolute top-[-20px] left-[20px] h-[20px] translate-y-0 rounded-[10px] transition-transform duration-200" />
 
-        <label className="placeholder pointer-events-none absolute top-5 left-5 origin-[0_50%] text-lg leading-3 text-[#6F6C90] transition-transform duration-200">
+        <label className="placeholder text-gray-purple pointer-events-none absolute top-5 left-5 origin-[0_50%] text-lg leading-3 transition-transform duration-200">
           {label}
         </label>
 
         {error && (
-          <div className="absolute text-sm text-red-500">{error.message}</div>
+          <div className="error-message absolute rounded-md px-2 text-sm">
+            {error.message}
+          </div>
         )}
       </div>
     </>

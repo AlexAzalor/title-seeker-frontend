@@ -97,7 +97,7 @@ export async function AppSidebar({
           </Link>
         </SidebarHeader>
       )}
-      <SidebarContent className="dark:border-r-[#211979]">
+      <SidebarContent className="dark:border-r-dark-border">
         {/* We create a SidebarGroup for each parent. */}
         <SidebarGroup>
           <SidebarMenu className="gap-2">

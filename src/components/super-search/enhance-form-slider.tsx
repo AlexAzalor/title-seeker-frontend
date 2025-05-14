@@ -40,7 +40,7 @@ export const EnhancedFormSlider = ({ name, itemsList, control }: Props) => {
                   minStepsBetweenThumbs={10}
                 />
                 {error && (
-                  <span className="text-sm text-red-500">{error.message}</span>
+                  <span className="text-danger text-sm">{error.message}</span>
                 )}
               </>
             )}

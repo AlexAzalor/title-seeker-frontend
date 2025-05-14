@@ -3,14 +3,6 @@ import { CircleX, InfoIcon } from "lucide-react";
 import { TooltipWrapper } from "../my-custom-ui/tooltip-wrapper";
 import { cn, extractValues, extractWord } from "@/lib/utils";
 import { GENRE_KEY, SUBGENRE_KEY } from "./genre-selector";
-// import { percentageMatchColor } from "./movie/utils";
-// import {
-//   ActionTimeOut,
-//   GenreOutPlus,
-//   KeywordOut,
-//   SpecificationOut,
-//   SubgenreOutPlus,
-// } from "@/orval_api/model";
 import {
   ACTION_TIME_KEY,
   ACTOR_KEY,
@@ -67,25 +59,22 @@ export const FilterBrick = <ItemData extends Data>({
         aria-label="filter-brick"
         key={searchParam}
         className={cn(
-          "hover:shadow-neon-border-fill group relative flex min-h-12 min-w-28 items-center rounded-xl border-2 transition-shadow",
-          type === GENRE_KEY && "dark:border-[#4A3AFF]",
-          type === SUBGENRE_KEY && "dark:border-[#9d4eff]",
+          "hover:shadow-genre group relative flex min-h-12 min-w-28 items-center rounded-xl border-2 transition-shadow",
+          type === GENRE_KEY && "dark:border-genre",
+          type === SUBGENRE_KEY && "dark:border-subgenre",
           hoveredSubgenre === cleanSearchParam &&
             type === GENRE_KEY &&
-            "shadow-neon-border-fill",
+            "shadow-genre",
           hoveredGenre === item.parent_genre_key &&
             type === SUBGENRE_KEY &&
-            "shadow-neon-border-fill",
+            "shadow-genre",
           type === SPEC_KEY &&
-            "hover:shadow-movie-specification dark:border-[#64fcfe]",
-          type === KEYWORD_KEY &&
-            "hover:shadow-movie-keyword dark:border-[#FFC55C]",
+            "hover:shadow-specification dark:border-specification",
+          type === KEYWORD_KEY && "hover:shadow-keyword dark:border-keyword",
           type === ACTION_TIME_KEY &&
-            "hover:shadow-movie-action-time dark:border-[#92A8D1]",
-          type === ACTOR_KEY &&
-            "hover:shadow-movie-actor dark:border-[#90ee90]",
-          type === DIRECTOR_KEY &&
-            "hover:shadow-movie-director dark:border-[#f08080]",
+            "hover:shadow-action-time dark:border-action-time",
+          type === ACTOR_KEY && "hover:shadow-actor dark:border-actor",
+          type === DIRECTOR_KEY && "hover:shadow-director dark:border-director",
         )}
         onMouseEnter={
           type === GENRE_KEY && onMouseEnter
@@ -98,30 +87,15 @@ export const FilterBrick = <ItemData extends Data>({
       >
         <div
           style={{
-            // width: `${50}%`,
             borderColor: color,
             boxShadow: `0px 0px 0px 0px ${color}, 0 0 10px ${color}, 0 0 6px ${color}, inset 0 0 12px ${color}`,
-            // background: color + "66",
           }}
-          className={cn(
-            "absolute size-full rounded-lg border",
-            type === GENRE_KEY && "dark:border-[#4A3AFF]",
-            type === SUBGENRE_KEY && "dark:border-[#9d4eff]",
-            type === SPEC_KEY && "dark:border-[#64fcfe]",
-            type === KEYWORD_KEY && "dark:border-[#FFC55C]",
-            type === ACTION_TIME_KEY && "dark:border-[#92A8D1]",
-            type === ACTOR_KEY && "dark:border-[#90ee90]",
-            type === DIRECTOR_KEY && "dark:border-[#f08080]",
-          )}
+          className="absolute size-full rounded-lg border"
         />
 
         <div className="relative mx-auto flex items-center gap-1 px-2">
           {item.description && (
-            <TooltipWrapper
-              asChild
-              // content={percentageMatchColor(50, item.description)}
-              content={item.description}
-            >
+            <TooltipWrapper asChild content={item.description}>
               <InfoIcon className="h-4 w-4 opacity-50 transition-opacity group-hover:opacity-100" />
             </TooltipWrapper>
           )}

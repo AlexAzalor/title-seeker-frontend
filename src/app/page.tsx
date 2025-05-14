@@ -30,7 +30,7 @@ export default function Home() {
         <ul className="flex flex-wrap items-center justify-center gap-3">
           {keyFeatures.map((key) => (
             <li key={key}>
-              <p className="shadow-form-layout dark:shadow-dark-form-layout h-[158px] max-w-[340px] items-center gap-2 rounded-[34px] border border-[#EFF0F7] p-6 font-bold dark:border-[#211979]">
+              <p className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border h-[158px] max-w-[340px] items-center gap-2 rounded-[34px] border p-6 font-bold">
                 {t(`keyFeatures.keys.${key}`)}
               </p>
             </li>

@@ -81,3 +81,55 @@ export const Slider = () => {
     </Carousel>
   );
 };
+
+///////////// CSS
+
+// .content-wrapper {
+//   position: relative;
+//   z-index: 0;
+// }
+
+// .small-screenshot:hover {
+//   background-color: transparent;
+//   z-index: 50;
+// }
+
+// .small-screenshot .large-screenshot {
+//   position: absolute;
+//   /* left: -1000px; */
+//   /* visibility: hidden; */
+//   display: none;
+//   text-decoration: none;
+// }
+
+// .small-screenshot:hover .large-screenshot {
+//   /* visibility: visible; */
+//   display: block;
+//   top: 0;
+//   left: 0;
+// }
+
+// .parent {
+//   display: grid;
+//   grid-template-columns: 3fr repeat(2, minmax(1fr, 1fr));
+//   /* grid-template-columns: 3fr repeat(2, 1fr); */
+//   grid-template-rows: repeat(4, minmax(1fr, 1fr));
+//   grid-column-gap: 6px;
+//   grid-row-gap: 6px;
+// }
+// /* "grid grid-cols-[repeat(auto-fit,minmax(min(650px,100%),1fr))] grid-rows-[minmax(auto,auto)] place-items-center gap-5" */
+// .div1 {
+//   grid-area: 1 / 1 / 5 / 2;
+// }
+// .div2 {
+//   grid-area: 2 / 2 / 3 / 3;
+// }
+// .div3 {
+//   grid-area: 2 / 3 / 3 / 4;
+// }
+// .div4 {
+//   grid-area: 3 / 2 / 4 / 3;
+// }
+// .div5 {
+//   grid-area: 3 / 3 / 4 / 4;
+// }

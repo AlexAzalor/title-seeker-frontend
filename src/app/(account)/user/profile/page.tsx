@@ -55,7 +55,7 @@ export default async function ProfilePage() {
                   href={`/movies/${movie.key}`}
                   key={movie.key}
                   className={cn(
-                    "flex items-center gap-4 rounded-xl transition-all duration-200 select-none hover:bg-neutral-100 dark:hover:bg-[#1A183D]",
+                    "dark:hover:bg-main-dark-hover flex items-center gap-4 rounded-xl transition-all duration-200 select-none hover:bg-neutral-100",
                   )}
                 >
                   <Image

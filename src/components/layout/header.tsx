@@ -24,7 +24,7 @@ export const Header = ({ session }: Props) => {
   return (
     <header
       aria-label="project-header"
-      className="flex items-center justify-between bg-[#77c9fb] px-[16px] py-4 shadow-sm shadow-gray-200 sm:px-[40px] lg:px-[160px]"
+      className="bg-header flex items-center justify-between px-[16px] py-4 shadow-sm shadow-gray-200 sm:px-[40px] lg:px-[160px]"
     >
       <div className="flex items-center justify-between gap-10">
         <Link href="/" className="flex items-center gap-2">

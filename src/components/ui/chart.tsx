@@ -69,7 +69,7 @@ function ChartContainer({
 
         {/* My custom UI */}
         {isEmpty && (
-          <div className="absolute top-[25%] mx-2 max-w-100 rounded-xl bg-[#f5f5f5]/70 py-8 text-center text-xl text-gray-500 dark:text-black">
+          <div className="bg-white-dark/70 absolute top-[25%] mx-2 max-w-100 rounded-xl py-8 text-center text-xl text-gray-500 dark:text-black">
             To view the chart, you must rate at least 3 movies.
           </div>
         )}

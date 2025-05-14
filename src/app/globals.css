@@ -5,138 +5,63 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  /* --dark-hover-bg: #1a183d; */
-  /* Responsive */
-  --breakpoint-xs: 30rem;
-  /* --breakpoint-xl: 64rem; 1024px */
-  --breakpoint-2xl: 100rem;
-  --breakpoint-3xl: 120rem;
+  /* The color #0D0B26 is a very dark shade of blue-violet.
+    It can be described as "Midnight Purple",
+    "Deep Indigo", or "Dark Periwinkle", depending on the context. */
+  --color-main-dark-bg: #0d0b26;
+  --color-main-dark-hover: #1a183d;
 
-  /* --main-color: #0066cc;
-  --hover-color: color-mix(in srgb, var(--main-color), white 20%); */
+  /* For hover in light mode */
+  --color-dark-blue: #222399;
 
-  --color-background: var(--background);
+  --color-header: #77c9fb;
+
+  --color-main-bg-surface: #ffffff;
+
+  --color-main-ui-purple: #4a3aff;
+
+  --color-light-border: #eff0f7;
+  --color-dark-border: #211979;
+
+  --color-gray-purple: #6f6c90;
+
+  /* White but slightly dark (for UI on dark bg) */
+  --color-white-dark: #f5f5f5;
+
+  /* Form */
+  --color-form-ui-blue: #495aff;
+
+  /* Filters */
+  --color-genre: var(--color-main-ui-purple);
+  --color-subgenre: #9d4eff;
+  --color-specification: #64fcfe;
+  --color-keyword: #ffc55c;
+  --color-action-time: #92a8d1;
+  --color-actor: #90ee90;
+  --color-director: #f08080;
+
+  /* Statuses */
+  --color-danger: #fc4349;
+  /* --color-danger2: hsl(358, 97%, 63%);
+  --color-danger2: var(--color-danger2) / 40; */
+  --color-success: #2dc26a;
+  --color-warning: #f38500;
+
+  --shadow-danger: 0 0 5px var(--color-danger), 0 0 10px var(--color-danger),
+    0 0 15px var(--color-danger);
+  --shadow-success: 0 0 5px var(--color-success), 0 0 10px var(--color-success),
+    0 0 15px var(--color-success);
+
+  /* --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-primary: #64fcfe;
-  --color-secondary: #e4e9f2;
-  --color-surface-secondary: #9d4eff;
-  --color-text-primary: #ffffff;
-  --color-button-hover: #69eafc;
-  --color-button-hover-outlined: #b8ffe6;
-  --color-button-disabled: #afb3ba;
-  --color-cold1: #b8ffe6;
-  --color-cold2: #a4f4ef;
-  --color-cold3: #8ef3f6;
-  --color-cold4: #79f8fc;
-  --color-cold5: #68fefe;
-  --color-cold6: #64fcfe;
-  --color-cold7: #69eafc;
-  --color-cold8: #77c9fb;
-  --color-cold9: #8796fb;
-  --color-cold10: #976afc;
-  --color-cold11: #9d4eff;
-  --color-from-screen: #68d6e6;
-  --color-Turquoise: #40e0d0;
-  --color-Aqua: #00ffff;
-  --color-Sky-blue: #87ceeb;
-  --color-Teal: #008080;
-  --color-Seafoam-green: #90ee90;
-  --color-Mint-green: #98fb98;
-  --color-Coral: #ff7f50;
-  --color-Peach: #ffdab9;
-  --color-Salmon-pink: #ffa07a;
-  --color-Lavender: #e6e6fa;
-  --color-Lilac: #c8a2c8;
-  --color-Cream: #fffdd0;
-  --color-Sand: #f4a460;
-  --color-Taupe: #483c32;
-  --color-Gray: #808080;
-  --color-White: #ffffff;
-  --color-Maincolor: #68fefe;
-  --color-White2: #ffffff;
-  --color-Light-gray: #d3d3d3;
-  --color-Light-blue: #add8e6;
-  --color-Pale-green: #98fb98;
-  --color-Lavender2: #e6e6fa;
-  --color-Peach2: #ffdab9;
-  --color-Light-yellow: #ffffe0;
-  --color-Pale-pink: #ffd1dc;
-  --color-Light-coral: #f08080;
-  --color-Cyan: #00ffff;
-  --color-Light-cyan: #e0ffff;
-  --color-Aqua-cyan: #7fffd4;
-  --color-Medium-cyan: #66cdaa;
-  --color-Dark-cyan: #008b8b;
-  --color-Pale-cyan: #afeeee;
-  --color-Turquoise-cyan: #40e0d0;
-  --color-Electric-cyan: #00ffff;
-  --color-Powder-cyan: #b0e0e6;
-  --color-Deep-cyan: #00ced1;
-  --color-Main-color1: #68d6e6;
-  --color-Main-color2: #ffffff;
-  --color-Main-color3: #29589a;
-  --color-Light-gray2: #f5f5f5;
-  --color-Pale-blue: #c5e4ff;
-  --color-Light-turquoise: #a0e6e6;
-  --color-Sky-blue2: #87ceeb;
-  --color-Light-cyan2: #e0ffff;
-  --color-Silver: #c0c0c0;
-  --color-Steel-blue: #4682b4;
-  --color-Main-color11: #68d6e6;
-  --color-Main-color22: #ffffff;
-  --color-Main-color33: #f1a4b6;
-  --color-Light-gray22: #f5f5f5;
-  --color-Pale-blue2: #c5e4ff;
-  --color-Light-turquoise2: #a0e6e6;
-  --color-Coral-pink: #ff6b6b;
-  --color-Peach22: #ffdab9;
-  --color-Lavender22: #e6e6fa;
-  --color-Silver2: #c0c0c0;
-  --color-Main-color111: #7d729e;
-  --color-Main-color222: #ffffff;
-  --color-Main-color333: #d98a9c;
-  --color-Main-color444: #ecceb7;
-  --color-Lavender222: #b19cd9;
-  --color-Light-gray222: #f5f5f5;
-  --color-Pale-blue22: #c5e4ff;
-  --color-Soft-pink: #f5b7b1;
-  --color-Light-peach: #ffdab9;
-  --color-Silver22: #c0c0c0;
-
-  --color-animeprimary-light: #ffadf7;
-  --color-animeprimary: #ff69c0;
-  --color-animeprimary-dark: #e633a0;
-
-  --color-animesecondary-light: #ade5ff;
-  --color-animesecondary: #66ccff;
-  --color-animesecondary-dark: #3399ff;
-
-  --color-animeaccent-light: #fff4b3;
-  --color-animeaccent: #ffd700;
-  --color-animeaccent-dark: #ffc300;
-
-  --color-animeneutral-light: #fff9fa;
-  --color-animeneutral: #f8eff3;
-  --color-animeneutral-dark: #e0d1d8;
-
-  --color-testfour-p: #fad7e8;
-  --color-testfour-b: #accbea;
-  --color-testfour-w: #fdfdfe;
-  --color-testfour-p2: #f7a9c7;
-  --color-testfour-g: #b0bccd;
-
-  --color-rosequartz: #f7cac9;
-  --color-serenity: #92a8d1;
-  --color-lavender: #e6e6fa;
-  --color-peach: #ffe5b4;
-  --color-ivory: #fffff0;
-  --color-lightblue: #add8e6;
-
-  --background-image-gradient-radial: radial-gradient(var(--tw-gradient-stops));
+  --color-secondary: #e4e9f2; */
+  /* --background-image-gradient-radial: radial-gradient(var(--tw-gradient-stops));
   --background-image-gradient-conic: conic-gradient(
     from 180deg at 50% 50%,
     var(--tw-gradient-stops)
-  );
+  ); */
+  /* Rate slider */
   --background-image-custom-gradient: linear-gradient(
     to right,
     #d6d1ff,
@@ -167,22 +92,46 @@
     0 0 6px rgba(74, 58, 255, 0.5), 0 0 6px rgba(74, 58, 255, 0.4),
     0 0 6px rgba(74, 58, 255, 0.3);
   --shadow-dark-form-layout: 0px 21px 69px rgba(0, 0, 0, 0.29);
-  --shadow-neon-border-fill: 0px 0px 0px 0px #4a3aff, 0 0 10px #4a3aff,
-    0 0 6px #4a3aff, inset 0 0 10px #4a3aff;
-  --shadow-movie-specification: 0px 0px 0px 0px #64fcfe, 0 0 10px #64fcfe,
-    0 0 6px #64fcfe, inset 0 0 10px #64fcfe;
-  --shadow-movie-keyword: 0px 0px 0px 0px #ffc55c, 0 0 10px #ffc55c,
-    0 0 6px #ffc55c, inset 0 0 10px #ffc55c;
-  --shadow-movie-action-time: 0px 0px 0px 0px #92a8d1, 0 0 10px #92a8d1,
-    0 0 6px #92a8d1, inset 0 0 10px #92a8d1;
-  --shadow-movie-actor: 0px 0px 0px 0px #90ee90, 0 0 10px #90ee90,
-    0 0 6px #90ee90, inset 0 0 10px #90ee90;
-  --shadow-movie-director: 0px 0px 0px 0px #f08080, 0 0 10px #f08080,
-    0 0 6px #f08080, inset 0 0 10px #f08080;
-  --shadow-movie-exact-match: 0px 0px 0px 0px #000000, 0 0 10px #000000,
+
+  /* Movie filters */
+  --shadow-genre: 0px 0px 0px 0px var(--color-genre), 0 0 0px var(--color-genre),
+    0 0 10px var(--color-genre), inset 0 0 10px var(--color-genre);
+
+  --shadow-subgenre: 0px 0px 0px 0px var(--color-subgenre),
+    0 0 0px var(--color-subgenre), 0 0 10px var(--color-subgenre),
+    inset 0 0 10px var(--color-subgenre);
+
+  --shadow-specification: 0px 0px 0px 0px var(--color-specification),
+    0 0 0px var(--color-specification), 0 0 10px var(--color-specification),
+    inset 0 0 10px var(--color-specification);
+
+  --shadow-keyword: 0px 0px 0px 0px var(--color-keyword),
+    0 0 0px var(--color-keyword), 0 0 10px var(--color-keyword),
+    inset 0 0 10px var(--color-keyword);
+
+  --shadow-action-time: 0px 0px 0px 0px var(--color-action-time),
+    0 0 0px var(--color-action-time), 0 0 10px var(--color-action-time),
+    inset 0 0 10px var(--color-action-time);
+
+  /* People */
+  --shadow-actor: 0px 0px 0px 0px var(--color-actor),
+    0 0 00px var(--color-actor), 0 0 10px var(--color-actor),
+    inset 0 0 10px var(--color-actor);
+  --shadow-director: 0px 0px 0px 0px var(--color-director),
+    0 0 0px var(--color-director), 0 0 10px var(--color-director),
+    inset 0 0 10px var(--color-director);
+
+  /* Search */
+  --shadow-exact-match: 0px 0px 0px 0px #000000, 0 0 10px #000000,
     0 0 6px #000000, inset 0 0 10px #000000;
-  --shadow-movie-exact-match-light: 0px 0px 0px 0px #ffffff, 0 0 10px #ffffff,
+  --shadow-exact-match-light: 0px 0px 0px 0px #ffffff, 0 0 10px #ffffff,
     0 0 6px #ffffff, inset 0 0 10px #ffffff;
+
+  /* Responsive */
+  --breakpoint-xs: 30rem;
+  /* --breakpoint-xl: 64rem; 1024px */
+  --breakpoint-2xl: 100rem;
+  --breakpoint-3xl: 120rem;
 
   @keyframes accordion-down {
     from {
@@ -256,13 +205,10 @@
 }
 
 :root {
-  /* --background: #ffffff;
-  --foreground: #29589a; */
-  /* @apply dark:bg-[#29589a]; */
-  /* The color #0D0B26 is a very dark shade of blue-violet. It can be described as "Midnight Purple", "Deep Indigo", or "Dark Periwinkle", depending on the context. */
-  @apply dark:bg-[#0D0B26];
-  /* @apply bg-[#F7CAC9] dark:bg-[#A678C1]; */
-  /* dark:text-[#ABB7C2] */
+  /* Main background color */
+  @apply dark:bg-main-dark-bg;
+
+  /* Shadcn colors */
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -297,7 +243,106 @@
   --sidebar-ring: oklch(0.708 0 0);
 }
 
+.movie-duration {
+  --lights: #ff6347;
+  text-shadow:
+    0 0 0.3vh var(--lights),
+    0 0 0.3vh var(--lights),
+    0 0 0.3vh var(--lights),
+    0 0 0.3vh var(--lights),
+    0 0 1vh var(--lights);
+}
+
+.movie-release-date {
+  --lights: #d3609f;
+  text-shadow:
+    0 0 0.3vh var(--lights),
+    0 0 0.3vh var(--lights),
+    0 0 0.3vh var(--lights),
+    0 0 0.3vh var(--lights),
+    0 0 1vh var(--lights);
+}
+
+.movie-location {
+  --lights: #aa9cd7;
+  text-shadow:
+    0 0 0.3vh var(--lights),
+    0 0 0.3vh var(--lights),
+    0 0 0.3vh var(--lights),
+    0 0 0.3vh var(--lights),
+    0 0 1vh var(--lights);
+}
+
+.movie-money {
+  --lights: #f3d012;
+  text-shadow:
+    0 0 0.3vh var(--lights),
+    0 0 0.3vh var(--lights),
+    0 0 0.3vh var(--lights),
+    0 0 0.3vh var(--lights),
+    0 0 1vh var(--lights);
+}
+
+.base-neon-text {
+  text-shadow:
+    0 0 0.3vh var(--lights),
+    0 0 0.3vh var(--lights),
+    0 0 0.3vh var(--lights),
+    0 0 0.3vh var(--lights),
+    0 0 1vh var(--lights);
+}
+
+.rating-text {
+  --lights: #7e72ff;
+  text-shadow:
+    0 0 0.3vh var(--lights),
+    0 0 0.3vh var(--lights),
+    0 0 0.3vh var(--lights),
+    0 0 0.3vh var(--lights),
+    0 0 1vh var(--lights);
+}
+
+.rating-box {
+  --color-rating: #4ba3c7;
+  width: 212px;
+  height: 100px;
+  border-radius: 1rem;
+  border: 0.1px solid white;
+
+  box-shadow:
+    var(--color-rating) 6px 2px 16px 0px,
+    var(--color-rating) 0px -2px 10px 0px;
+
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.user-rating-box {
+  --color-rating: #ffc300;
+  border-radius: 1rem;
+  border: 0.1px solid white;
+  box-shadow:
+    var(--color-rating) 6px 2px 16px 0px,
+    var(--color-rating) 0px -2px 10px 0px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.owner-rating-box {
+  --color-rating: #ff6347;
+  border-radius: 1rem;
+  border: 1px solid white;
+
+  box-shadow:
+    var(--color-rating) 6px 2px 16px 0px,
+    var(--color-rating) 0px -2px 10px 0px;
+
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
 .dark {
+  /* Shadcn colors */
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
@@ -341,9 +386,119 @@
     [stroke="#ccc"] {
     stroke: oklch(1 0 0 / 10%);
   }
+
+  .movie-duration {
+    --lights: #ff6347;
+    text-shadow:
+      0 0 0.5vh var(--lights),
+      0 0 0.5vh var(--lights),
+      0 0 0.5vh var(--lights),
+      0 0 0.5vh var(--lights),
+      0 0 1vh var(--lights);
+  }
+
+  .movie-release-date {
+    --lights: #89245c;
+    text-shadow:
+      0 0 0.5vh var(--lights),
+      0 0 0.5vh var(--lights),
+      0 0 0.5vh var(--lights),
+      0 0 0.5vh var(--lights),
+      0 0 1vh var(--lights);
+  }
+
+  .movie-location {
+    /* --lights: red; */
+    --lights: #7d729e;
+    text-shadow:
+      0 0 0.5vh var(--lights),
+      0 0 0.5vh var(--lights),
+      0 0 0.5vh var(--lights),
+      0 0 0.5vh var(--lights),
+      0 0 1vh var(--lights);
+  }
+
+  .movie-money {
+    --lights: #a38a00;
+    text-shadow:
+      0 0 0.5vh var(--lights),
+      0 0 0.5vh var(--lights),
+      0 0 0.5vh var(--lights),
+      0 0 0.5vh var(--lights),
+      0 0 1vh var(--lights);
+  }
+
+  .base-neon-text {
+    text-shadow:
+      0 0 0.5vh var(--lights),
+      0 0 0.5vh var(--lights),
+      0 0 0.5vh var(--lights),
+      0 0 0.5vh var(--lights),
+      0 0 1vh var(--lights);
+  }
+
+  .base-neon-text {
+    text-shadow:
+      0 0 0.5vh var(--lights),
+      0 0 0.5vh var(--lights),
+      0 0 0.5vh var(--lights),
+      0 0 0.5vh var(--lights),
+      0 0 1vh var(--lights);
+  }
+
+  .rating-box {
+    --color-rating: #4ba3c7;
+    width: 212px;
+    height: 100px;
+    border-radius: 1rem;
+    border: 0.15rem solid white;
+    box-shadow:
+      inset 0 0 0 0.2rem var(--color-rating),
+      inset 0 0 1rem 0.3rem var(--color-rating),
+      inset 1rem 1rem 0.4rem rgba(0, 0, 0, 0.6),
+      0 0 0 0.2rem var(--color-rating),
+      0 0 1rem 0.3rem var(--color-rating),
+      1rem 1rem 0.4rem rgba(0, 0, 0, 0.6);
+
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .user-rating-box {
+    --color-rating: #ffc300;
+    border-radius: 1rem;
+    border: 0.1px solid white;
+    box-shadow:
+      inset 0 0 0 0.2rem var(--color-rating),
+      inset 0 0 1rem 0.3rem var(--color-rating),
+      inset 1rem 1rem 0.4rem rgba(0, 0, 0, 0.6),
+      0 0 0 0.2rem var(--color-rating),
+      0 0 1rem 0.3rem var(--color-rating),
+      1rem 1rem 0.4rem rgba(0, 0, 0, 0.6);
+
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  .owner-rating-box {
+    --color-rating: #ff6347;
+    border-radius: 1rem;
+    border: 1px solid white;
+    box-shadow:
+      inset 0 0 0 0.2rem var(--color-rating),
+      inset 0 0 1rem 0.3rem var(--color-rating),
+      inset 1rem 1rem 0.4rem rgba(0, 0, 0, 0.6),
+      0 0 0 0.2rem var(--color-rating),
+      0 0 1rem 0.3rem var(--color-rating),
+      1rem 1rem 0.4rem rgba(0, 0, 0, 0.6);
+
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
 }
 
-/* Use @theme inline when defining colors that reference other colors */
+/* Use theme inline when defining colors that reference other colors  */
+/* Shadcn colors */
 @theme inline {
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
@@ -353,381 +508,6 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-}
-
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #29589a;
-    --foreground: #ededed;
-  }
-} */
-
-/* body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-} */
-
-.content-wrapper {
-  position: relative;
-  z-index: 0;
-}
-
-.small-screenshot:hover {
-  background-color: transparent;
-  z-index: 50;
-}
-
-.small-screenshot .large-screenshot {
-  position: absolute;
-  /* left: -1000px; */
-  /* visibility: hidden; */
-  display: none;
-  text-decoration: none;
-}
-
-.small-screenshot:hover .large-screenshot {
-  /* visibility: visible; */
-  display: block;
-  top: 0;
-  left: 0;
-}
-
-.parent {
-  display: grid;
-  grid-template-columns: 3fr repeat(2, minmax(1fr, 1fr));
-  /* grid-template-columns: 3fr repeat(2, 1fr); */
-  grid-template-rows: repeat(4, minmax(1fr, 1fr));
-  grid-column-gap: 6px;
-  grid-row-gap: 6px;
-}
-/* "grid grid-cols-[repeat(auto-fit,minmax(min(650px,100%),1fr))] grid-rows-[minmax(auto,auto)] place-items-center gap-5" */
-.div1 {
-  grid-area: 1 / 1 / 5 / 2;
-}
-.div2 {
-  grid-area: 2 / 2 / 3 / 3;
-}
-.div3 {
-  grid-area: 2 / 3 / 3 / 4;
-}
-.div4 {
-  grid-area: 3 / 2 / 4 / 3;
-}
-.div5 {
-  grid-area: 3 / 3 / 4 / 4;
-}
-
-.loader {
-  width: 48px;
-  height: 48px;
-  border: 5px solid #4a3aff;
-  border-bottom-color: transparent;
-  border-radius: 50%;
-  display: inline-block;
-  box-sizing: border-box;
-  animation: rotation 1s linear infinite;
-}
-
-@keyframes rotation {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-/* Neon effect for the border */
-.neon-border {
-  border-color: #4a3aff;
-  box-shadow:
-    0px 0px 0px 0px #4a3aff,
-    0 0 10px #4a3aff,
-    0 0 6px #4a3aff,
-    inset 0 0 12px #4a3aff;
-  background: rgb(74 58 255 / 0.4);
-}
-.neon-subgenre {
-  border-color: #9d4eff;
-  box-shadow:
-    0px 0px 0px 0px #9d4eff,
-    0 0 10px #9d4eff,
-    0 0 6px #9d4eff,
-    inset 0 0 12px #9d4eff;
-  background: rgb(157 78 255 / 0.4);
-}
-
-.circle-border {
-  /* border: 1px solid rgb(102 126 255); */
-  animation: highlight-color 1.5s infinite alternate;
-}
-.circle-border2 {
-  /* border: 1px solid rgb(102 126 255); */
-  animation: less-match 1.5s infinite alternate;
-}
-
-/* #F7F4FF,
- #D6D1FF,
-   #B4AFFF,
-   #938EFF,
-   #726CFF,
-   #4A3AFF,
-   #4035E6,
-   #362FCC,
-   #2C29B2,
-   #222399,
-   #181D7F */
-
-@keyframes less-match {
-  from {
-    box-shadow:
-      0 0 5px rgba(255, 76, 76, 0.5),
-      0 0 10px rgba(255, 76, 76, 0.4),
-      0 0 15px rgba(255, 76, 76, 0.3);
-  }
-  to {
-    box-shadow:
-      0 0 20px rgba(255, 76, 76, 1),
-      0 0 30px rgba(255, 76, 76, 0.9),
-      0 0 40px rgba(255, 76, 76, 0.8);
-  }
-}
-@keyframes highlight-color {
-  from {
-    box-shadow:
-      0 0 5px rgba(102, 126, 255, 0.5),
-      0 0 10px rgba(102, 126, 255, 0.4),
-      0 0 15px rgba(102, 126, 255, 0.3);
-  }
-  to {
-    box-shadow:
-      0 0 20px rgba(102, 126, 255, 1),
-      0 0 30px rgba(102, 126, 255, 0.9),
-      0 0 40px rgba(102, 126, 255, 0.8);
-  }
-  /* from {
-    box-shadow:
-      0 0 5px rgba(73, 229, 255, 0.5),
-      0 0 10px rgba(73, 229, 255, 0.4),
-      0 0 15px rgba(73, 229, 255, 0.3);
-  }
-  to {
-    box-shadow:
-      0 0 20px rgba(73, 229, 255, 1),
-      0 0 30px rgba(73, 229, 255, 0.9),
-      0 0 40px rgba(73, 229, 255, 0.8);
-  } */
-  /* from {
-    box-shadow:
-      0 0 5px rgba(255, 76, 76, 0.5),
-      0 0 10px rgba(255, 76, 76, 0.4),
-      0 0 15px rgba(255, 76, 76, 0.3);
-  }
-  to {
-    box-shadow:
-      0 0 20px rgba(255, 76, 76, 1),
-      0 0 30px rgba(255, 76, 76, 0.9),
-      0 0 40px rgba(255, 76, 76, 0.8);
-  } */
-  /* from {
-    box-shadow:
-      0 0 5px rgba(74, 58, 255, 0.5),
-      0 0 10px rgba(74, 58, 255, 0.4),
-      0 0 15px rgba(74, 58, 255, 0.3);
-  }
-  to {
-    box-shadow:
-      0 0 20px rgba(74, 58, 255, 1),
-      0 0 30px rgba(74, 58, 255, 0.9),
-      0 0 40px rgba(74, 58, 255, 0.8);
-  } */
-}
-
-/* .movie-specification {
-  border-color: #64fcfe;
-  box-shadow:
-    0px 0px 0px 0px #64fcfe,
-    0 0 10px #64fcfe,
-    0 0 6px #64fcfe,
-    inset 0 0 12px #64fcfe;
-  background: rgb(100 252 254 / 0.4);
-}
-.movie-keyword {
-  border-color: #ffc55c;
-  box-shadow:
-    0px 0px 0px 0px #ffc55c,
-    0 0 10px #ffc55c,
-    0 0 6px #ffc55c,
-    inset 0 0 10px #ffc55c;
-  background: rgb(255 197 92 / 0.4);
-} */
-/* .movie-keyword {
-  border-color: #f08080;
-  box-shadow:
-    0px 0px 0px 0px #f08080,
-    0 0 10px #f08080,
-    0 0 6px #f08080,
-    inset 0 0 26px #f08080;
-  background: rgb(240 128 128 / 0.4);
-} */
-/* .movie-action-time {
-  border-color: #92a8d1;
-  box-shadow:
-    0px 0px 0px 0px #92a8d1,
-    0 0 10px #92a8d1,
-    0 0 6px #92a8d1,
-    inset 0 0 12px #92a8d1;
-  background: #92a8d166;
-} */
-/* .movie-action-time {
-  border-color: #98fb98;
-  box-shadow:
-    0px 0px 0px 0px #98fb98,
-    0 0 10px #98fb98,
-    0 0 6px #98fb98,
-    inset 0 0 26px #98fb98;
-  background: rgb(152 251 152 / 0.4);
-} */
-/* rgb(157 78 255) */
-/* Neon effect for the fill */
-/* .neon-fill {
-  box-shadow:
-    inset 0 0 10px #4a3aff,
-    inset 0 0 20px #4a3aff,
-    inset 0 0 30px #4a3aff;
-} */
-
-.rating-box {
-  --color-rating: #4ba3c7;
-  /* --color-rating: #64fcfe; */
-  /* --color-rating: #4a3aff; */
-  /* --color-rating: #ff6347; */
-  /* box-sizing: border-box; */
-  width: 212px;
-  height: 100px;
-  /* background-repeat: no-repeat; */
-  border-radius: 1rem;
-  border: 0.15rem solid white;
-  box-shadow:
-    inset 0 0 0 0.2rem var(--color-rating),
-    inset 0 0 1rem 0.3rem var(--color-rating),
-    inset 1rem 1rem 0.4rem rgba(0, 0, 0, 0.6),
-    0 0 0 0.2rem var(--color-rating),
-    0 0 1rem 0.3rem var(--color-rating),
-    1rem 1rem 0.4rem rgba(0, 0, 0, 0.6);
-
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
-
-.user-rating-box {
-  --color-rating: #ffc300;
-  border-radius: 1rem;
-  border: 0.1px solid white;
-  box-shadow:
-    inset 0 0 0 0.2rem var(--color-rating),
-    inset 0 0 1rem 0.3rem var(--color-rating),
-    inset 1rem 1rem 0.4rem rgba(0, 0, 0, 0.6),
-    0 0 0 0.2rem var(--color-rating),
-    0 0 1rem 0.3rem var(--color-rating),
-    1rem 1rem 0.4rem rgba(0, 0, 0, 0.6);
-
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-}
-
-.owner-rating-box {
-  --color-rating: #ff6347;
-  border-radius: 1rem;
-  border: 1px solid white;
-  box-shadow:
-    inset 0 0 0 0.2rem var(--color-rating),
-    inset 0 0 1rem 0.3rem var(--color-rating),
-    inset 1rem 1rem 0.4rem rgba(0, 0, 0, 0.6),
-    0 0 0 0.2rem var(--color-rating),
-    0 0 1rem 0.3rem var(--color-rating),
-    1rem 1rem 0.4rem rgba(0, 0, 0, 0.6);
-
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-}
-
-.owner-rating-mark {
-  --color-rating: #ff6347;
-  box-shadow: 0px 0px 12px #ff6347;
-}
-.user-rating-mark {
-  --color-rating: #ff6347;
-  box-shadow: 0px 0px 12px #ffc300;
-}
-.both-rating-mark {
-  --color-rating: #ff69c0;
-  background-color: var(--color-rating);
-  box-shadow: 0px 0px 12px var(--color-rating);
-}
-
-.rating-text {
-  --lights: #4a3aff;
-  text-shadow:
-    0 0 0.5vh var(--lights),
-    0 0 0.5vh var(--lights),
-    0 0 0.5vh var(--lights),
-    0 0 0.5vh var(--lights),
-    0 0 1vh var(--lights);
-}
-
-.movie-duration {
-  /* --lights: #5e3a7c; */
-  --lights: #ff6347;
-  text-shadow:
-    0 0 0.5vh var(--lights),
-    0 0 0.5vh var(--lights),
-    0 0 0.5vh var(--lights),
-    0 0 0.5vh var(--lights),
-    0 0 1vh var(--lights);
-}
-.movie-release-date {
-  --lights: #89245c;
-  /* --lights: #607d8b; */
-  /* --lights: #b39275; */
-  /* --lights: #ffdab9; */
-  text-shadow:
-    0 0 0.5vh var(--lights),
-    0 0 0.5vh var(--lights),
-    0 0 0.5vh var(--lights),
-    0 0 0.5vh var(--lights),
-    0 0 1vh var(--lights);
-}
-.movie-location {
-  --lights: #7d729e;
-  /* --lights: #7d729e; */
-  text-shadow:
-    0 0 0.5vh var(--lights),
-    0 0 0.5vh var(--lights),
-    0 0 0.5vh var(--lights),
-    0 0 0.5vh var(--lights),
-    0 0 1vh var(--lights);
-}
-.movie-money {
-  /* --lights: #8c2642; */
-  /* --lights: #756300; */
-  --lights: #a38a00;
-  text-shadow:
-    0 0 0.5vh var(--lights),
-    0 0 0.5vh var(--lights),
-    0 0 0.5vh var(--lights),
-    0 0 0.5vh var(--lights),
-    0 0 1vh var(--lights);
-}
-
-.base-neon-text {
-  text-shadow:
-    0 0 0.5vh var(--lights),
-    0 0 0.5vh var(--lights),
-    0 0 0.5vh var(--lights),
-    0 0 0.5vh var(--lights),
-    0 0 1vh var(--lights);
 }
 
 .movie-genre-text {
@@ -746,33 +526,46 @@
   --lights: #92a8d178;
 }
 
-/* #e6c0a2 – Slightly darker
-#ccaa8c – More muted and earthy
-#b39275 – Even deeper, a warm brownish peach
-#997b5f – A rich, dusky peach tone
-#80634a – A deep, warm brown with peach undertones */
-
-/* Eyeshadow Shades
-#5E3A7C – Deep purple with a hint of shimmer
-#8A567E – Dark mauve for blending and depth
-#3D275D – Smoky indigo for outer corners
-#A97C50 – Warm bronze for a touch of glow
-#5D4037 – Deep brown for grounding the look
-Eyeliner & Mascara
-#1C1237 – Intense dark purple-black
-#0A0515 – Charcoal black for a bold liner
-Blush & Contour
-#734A4A – Muted plum for a sculpted cheek
-#5A3E3E – Deep rosewood for warmth
-Lipstick Shades
-#6E1F32 – Dark cherry red for drama
-#8C2642 – Rich berry wine
-#5C1A25 – Vampy burgundy for a bold statement */
-
 .logo {
   text-shadow:
     0 0 10px azure,
     0 0 20px aqua,
     0 0 30px #4a3aff,
     0 0 40px #181d7f;
+}
+
+.search-nav {
+  --movie-text: #666666;
+  --movie-bg: #ffffff;
+  --movie-border: #ebebeb;
+  color: var(--movie-text);
+  background: var(--movie-bg);
+  border-color: var(--movie-border);
+}
+
+.movie-color-set {
+  --movie-text: #0072f5;
+  --movie-bg: #ebf5ff;
+  --movie-border: #cce6ff;
+}
+.tvseries-color-set {
+  --movie-text: #d86e0b;
+  --movie-bg: #fff4e6;
+  --movie-border: #ffd0a3;
+}
+.anime-color-set {
+  --movie-text: #d82687;
+  --movie-bg: #fdeff5;
+  --movie-border: #f8cce0;
+}
+.game-color-set {
+  --movie-text: #17a34a;
+  --movie-bg: #eafbea;
+  --movie-border: #c2e6c2;
+}
+
+.error-message {
+  color: var(--color-danger);
+  background: #ffefef;
+  border-color: #ffcccc;
 }

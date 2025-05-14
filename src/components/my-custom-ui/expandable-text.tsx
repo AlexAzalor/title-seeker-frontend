@@ -25,7 +25,7 @@ export const ExpandableText = ({ text, maxLength = MAX_LENGTH }: Props) => {
       {text.length > maxLength && (
         <button
           onClick={toggleExpand}
-          className="ml-1 inline cursor-pointer font-semibold text-blue-500 hover:underline"
+          className="text-form-ui-blue ml-1 inline cursor-pointer font-semibold hover:underline"
         >
           {isExpanded ? "Less" : "More"}
         </button>

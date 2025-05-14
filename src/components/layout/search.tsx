@@ -125,7 +125,6 @@ export const Search = ({ posterURL }: Props) => {
     setTitleToLocalStorage(title);
     setTitles(null);
   };
-  console.log("titles", titles);
 
   return (
     <div
@@ -140,7 +139,7 @@ export const Search = ({ posterURL }: Props) => {
           <SearchIcon className="absolute mr-2 ml-2 h-4 w-4 shrink-0 opacity-50" />
           <Input
             placeholder={t("search")}
-            className="cursor-pointer bg-white transition-colors placeholder:pl-5 hover:bg-neutral-200 dark:placeholder:text-neutral-400 dark:hover:bg-[#1A183D]"
+            className="dark:hover:bg-main-dark-hover cursor-pointer bg-white transition-colors placeholder:pl-5 hover:bg-neutral-200 dark:placeholder:text-neutral-400"
             readOnly
           />
         </div>
@@ -155,33 +154,29 @@ export const Search = ({ posterURL }: Props) => {
 
       <CustomModal isOpen={isOpen} onClose={close}>
         <div className="mb-2 flex gap-4 px-2">
-          {navigationKeys.map((item) => (
-            <button
-              key={item.key}
-              onClick={() => handleTabChange(item.key)}
-              className={cn(
-                "rounded-md border border-[#ebebeb] bg-white px-1 font-medium text-[#666666]",
-                tab === item.key &&
-                  item.key === TitleType.movies &&
-                  "border-[#cce6ff] bg-[#ebf5ff] text-[#0072f5]",
-                tab === item.key &&
-                  item.key === TitleType.tvseries &&
-                  "border-[#ffd0a3] bg-[#fff4e6] text-[#d86e0b]",
-                tab === item.key &&
-                  item.key === TitleType.anime &&
-                  "border-[#f8cce0] bg-[#fdeff5] text-[#d82687]",
-                tab === item.key &&
-                  item.key === TitleType.games &&
-                  "border-[#c2e6c2] bg-[#eafbea] text-[#17a34a]",
-              )}
-            >
-              {item.title}
-            </button>
-          ))}
+          {navigationKeys.map(({ key, title }) => {
+            const isTab = tab === key;
+
+            return (
+              <button
+                key={key}
+                onClick={() => handleTabChange(key)}
+                className={cn(
+                  "search-nav rounded-md border px-1 font-medium",
+                  isTab && key === TitleType.movies && "movie-color-set",
+                  isTab && key === TitleType.tvseries && "tvseries-color-set",
+                  isTab && key === TitleType.anime && "anime-color-set",
+                  isTab && key === TitleType.games && "game-color-set",
+                )}
+              >
+                {title}
+              </button>
+            );
+          })}
         </div>
 
         {warning && (
-          <p className="mx-6 rounded-md border-[#ffcccc] bg-[#ffefef] text-center text-[#d92525]">
+          <p className="error-message mx-6 rounded-md text-center">
             Title type not supported!
           </p>
         )}
@@ -202,9 +197,7 @@ export const Search = ({ posterURL }: Props) => {
         </div>
 
         {!!titles && titles.length === 0 && (
-          <p className="mx-6 rounded-md border-[#ffcccc] bg-[#ffefef] text-center text-[#d92525]">
-            Not found
-          </p>
+          <p className="error-message mx-6 rounded-md text-center">Not found</p>
         )}
 
         {!!titles && !!titles.length && (
@@ -213,7 +206,7 @@ export const Search = ({ posterURL }: Props) => {
               <Link
                 key={title.key}
                 href={`/movies/${title.key}`}
-                className="flex w-full items-center gap-2 rounded-sm p-2 transition-all duration-200 select-none hover:bg-neutral-100 dark:hover:bg-[#1A183D]"
+                className="dark:hover:bg-main-dark-hover flex w-full items-center gap-2 rounded-sm p-2 transition-all duration-200 select-none hover:bg-neutral-100"
                 onClick={() => handleChooseTitle(title)}
               >
                 <Image
@@ -247,7 +240,7 @@ export const Search = ({ posterURL }: Props) => {
                 <Link
                   key={title.key}
                   href={`/movies/${title.key}`}
-                  className="flex w-full items-center gap-2 rounded-sm p-2 transition-all duration-200 select-none hover:bg-neutral-100 dark:hover:bg-[#1A183D]"
+                  className="dark:hover:bg-main-dark-hover flex w-full items-center gap-2 rounded-sm p-2 transition-all duration-200 select-none hover:bg-neutral-100"
                   onClick={close}
                 >
                   <Image
@@ -276,7 +269,7 @@ export const Search = ({ posterURL }: Props) => {
             <Link
               key={item.key}
               href={item.key}
-              className="flex w-full items-center gap-1 rounded-sm p-1 transition-all duration-200 select-none hover:bg-neutral-100 dark:hover:bg-[#1A183D]"
+              className="dark:hover:bg-main-dark-hover flex w-full items-center gap-1 rounded-sm p-1 transition-all duration-200 select-none hover:bg-neutral-100"
               onClick={close}
             >
               {

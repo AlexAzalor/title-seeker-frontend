@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  MovieActionTime,
-  MovieKeyword,
-  MovieSpecification,
-} from "@/orval_api/model";
+import { MovieFilterItem } from "@/orval_api/model";
 import { MovieFilter } from "./movie-filter";
 import {
   ACTION_TIME_KEY,
@@ -14,9 +10,9 @@ import {
 
 type Props = {
   movieKey: string;
-  specifications: MovieSpecification[];
-  keywords: MovieKeyword[];
-  action_times: MovieActionTime[];
+  specifications: MovieFilterItem[];
+  keywords: MovieFilterItem[];
+  action_times: MovieFilterItem[];
 };
 
 export const MovieFilterList = ({
@@ -30,21 +26,21 @@ export const MovieFilterList = ({
       <MovieFilter
         movieKey={movieKey}
         data={specifications}
-        queryKey={SPEC_KEY}
+        filterKey={SPEC_KEY}
         title="Specifications"
       />
 
       <MovieFilter
         movieKey={movieKey}
         data={keywords}
-        queryKey={KEYWORD_KEY}
+        filterKey={KEYWORD_KEY}
         title="Keywords"
       />
 
       <MovieFilter
         movieKey={movieKey}
         data={action_times}
-        queryKey={ACTION_TIME_KEY}
+        filterKey={ACTION_TIME_KEY}
         title="Action Times"
       />
     </div>

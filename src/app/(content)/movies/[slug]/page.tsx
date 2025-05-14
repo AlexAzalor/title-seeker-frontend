@@ -47,7 +47,7 @@ export default async function DynamicPage({ params }: PageProps) {
     return (
       <Suspense
         fallback={
-          <div className="shadow-form-layout dark:shadow-dark-form-layout min-w-76 rounded-[34px] border border-[#EFF0F7] p-5 dark:border-[#211979]">
+          <div className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border min-w-76 rounded-[34px] border p-5">
             <Spinner className="mx-auto w-fit" />
           </div>
         }
@@ -129,7 +129,7 @@ export default async function DynamicPage({ params }: PageProps) {
               worldwideGross={data.worldwide_gross}
             />
 
-            <div className="rating-text2 text-center text-2xl">
+            <div className="text-center text-2xl">
               <div className="movie-duration">{data.duration}</div>
               {data.release_date ? (
                 <div className="movie-release-date">

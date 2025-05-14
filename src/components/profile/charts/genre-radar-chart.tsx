@@ -17,6 +17,7 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { GenreChartDataOut, Language } from "@/orval_api/model";
+import { COLORS } from "@/lib/colors";
 
 type Props = {
   radarData: GenreChartDataOut[];
@@ -29,7 +30,7 @@ export function GenreRadarChart({ radarData }: Props) {
   const chartConfig = {
     count: {
       label: lang === Language.uk ? "Кількість" : "Count",
-      color: "#4a3aff",
+      color: COLORS.mainUiPurple,
     },
   } satisfies ChartConfig;
 

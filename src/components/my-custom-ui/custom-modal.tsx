@@ -40,7 +40,7 @@ export const CustomModal: React.FC<ModalProps> = ({
           }}
         >
           <motion.div
-            className="w-full max-w-lg rounded-2xl bg-white p-6 shadow-xl dark:bg-[#0D0B26]"
+            className="dark:bg-main-dark-bg bg-main-bg-surface w-full max-w-lg rounded-2xl p-6 shadow-xl"
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 50, opacity: 0 }}

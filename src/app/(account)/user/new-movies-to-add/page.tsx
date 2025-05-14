@@ -37,7 +37,7 @@ export default async function NewMoviesToAddPage() {
               query: { quick_movie_key: movie.key },
             }}
             key={movie.key}
-            className="shadow-form-layout dark:shadow-dark-form-layout size-fit rounded-[16px] border border-[#EFF0F7] p-4 dark:border-[#211979]"
+            className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border size-fit rounded-[16px] border p-4"
           >
             <div className="text-xl">{movie.title_en}</div>
             <div>

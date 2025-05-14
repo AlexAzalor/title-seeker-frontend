@@ -23,7 +23,7 @@ const FormButtons = ({
         type="button"
         className={cn(
           !isFirstStep &&
-            "h-16 w-[164px] rounded-[56px] border border-[#4A3AFF] text-lg text-[#4A3AFF] hover:text-[#4A3AFF]",
+            "border-main-ui-purple text-main-ui-purple hover:text-main-ui-purple hover:bg-main-ui-purple/10 dark:hover:bg-main-ui-purple/20 h-16 w-[164px] rounded-[56px] border text-lg",
         )}
         variant={isFirstStep ? "link" : "outline"}
         onClick={handlePrev}
@@ -35,7 +35,7 @@ const FormButtons = ({
         <Button
           type="submit"
           variant="outline"
-          className="h-10 w-[124px] rounded-[56px] border border-[#4A3AFF] text-lg text-[#4A3AFF] hover:text-[#4A3AFF]"
+          className="border-main-ui-purple text-main-ui-purple hover:text-main-ui-purple hover:bg-danger/10 dark:hover:bg-danger/20 h-10 w-[124px] rounded-[56px] border text-lg"
           onClick={skipStep}
         >
           <p>Skip</p>
@@ -44,7 +44,7 @@ const FormButtons = ({
 
       <Button
         type="submit"
-        className="h-16 w-[164px] cursor-pointer rounded-[56px] border-0 bg-[#4A3AFF] text-center text-lg transition-all duration-200 hover:bg-[#252154] dark:bg-[#4A3AFF] dark:text-white dark:hover:bg-[#362FCC]"
+        className="bg-main-ui-purple dark:bg-main-ui-purple dark:hover:bg-main-ui-purple/70 hover:bg-dark-blue h-16 w-[164px] cursor-pointer rounded-[56px] border-0 text-center text-lg transition-all duration-200 dark:text-white"
         onClick={onSubmit}
       >
         <p>{title || "Next step"}</p>

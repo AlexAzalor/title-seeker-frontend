@@ -91,8 +91,8 @@ export type QuickMovieType = z.infer<typeof QuickMovieScheme>;
 export const MovieScheme = z
   .object({
     key: z.string().trim(),
-    title_en: z.string().min(1, { message: "title_en is required" }).trim(),
-    title_uk: z.string().min(1, { message: "title_uk is required" }).trim(),
+    title_en: z.string().min(1, { message: "Title EN is required" }).trim(),
+    title_uk: z.string().min(1, { message: "Title UK is required" }).trim(),
     file: z
       .instanceof(FileList)
       .refine(

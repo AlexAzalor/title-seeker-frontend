@@ -41,7 +41,7 @@ export const SliderFormField = <
         />
 
         {error && (
-          <div className="absolute -bottom-6 text-sm text-red-500">
+          <div className="error-message absolute -bottom-6 text-sm">
             {error.message}
           </div>
         )}

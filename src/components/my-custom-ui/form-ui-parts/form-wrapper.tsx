@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { FormEventHandler } from "react";
+import { Spinner } from "../spinner";
 
 type Props = {
   children: React.ReactNode;
@@ -21,14 +22,12 @@ export const FormWrapper = ({
         {!isSubmitting ? (
           <Button
             type="submit"
-            className="mt-7 h-12 w-[164px] cursor-pointer rounded-[56px] border-0 bg-[#4A3AFF] text-center text-lg transition-all duration-200 hover:bg-[#252154]"
+            className="bg-main-ui-purple hover:bg-dark-blue mt-7 h-12 w-[164px] cursor-pointer rounded-[56px] border-0 text-center text-lg transition-all duration-200"
           >
             {buttonTitle || "Submit"}
           </Button>
         ) : (
-          <div>
-            <span className="loader"></span>
-          </div>
+          <Spinner />
         )}
       </form>
     </div>
