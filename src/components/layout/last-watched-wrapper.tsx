@@ -1,31 +1,18 @@
 "use client";
 
-import { useLocalStorage } from "@/hooks/use-local-storage";
 import { useEffect } from "react";
+import { useLastWatchedStore } from "@/lib/store";
 
 type Props = {
   movie: { key: string; poster: string };
   children: React.ReactNode;
 };
 export const LastWatchedWrapper = ({ movie, children }: Props) => {
-  const { data, setData } = useLocalStorage<{ key: string; poster: string }[]>(
-    "last_watched",
-    [],
-  );
+  const addMovie = useLastWatchedStore((s) => s.addMovie);
 
   useEffect(() => {
-    if (data.find((item) => item.key === movie.key)) {
-      return;
-    }
-
-    if (data.length === 10) {
-      data.splice(0, 1);
-    }
-
-    data.push(movie);
-
-    setData(data);
-  }, [data, movie, setData]);
+    addMovie(movie);
+  }, [addMovie, movie]);
 
   return children;
 };

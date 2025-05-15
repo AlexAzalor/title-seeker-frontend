@@ -1,6 +1,5 @@
 "use client";
 
-import { useLocalStorage } from "@/hooks/use-local-storage";
 import Image from "next/image";
 import Link from "next/link";
 import { Card, CardContent } from "../ui/card";
@@ -12,28 +11,33 @@ import {
   CarouselNext,
 } from "../ui/carousel";
 import { useMediaQuery } from "@/hooks/use-media-query";
+import { useEffect } from "react";
+import { useLastWatchedStore } from "@/lib/store";
 type Props = {
   posterURL: string;
 };
 export const LastWatched = ({ posterURL }: Props) => {
   const isMobile = useMediaQuery("(max-width: 640px)");
 
-  const { data: parsedData } = useLocalStorage<
-    { key: string; poster: string }[]
-  >("last_watched", [] as { key: string; poster: string }[]);
+  const movies = useLastWatchedStore((s) => s.movies);
+  const loadFromStorage = useLastWatchedStore((s) => s.loadFromStorage);
 
-  if (!parsedData) {
-    return null;
-  }
+  useEffect(() => {
+    if (movies.length === 0) {
+      loadFromStorage();
+    }
+  }, [loadFromStorage, movies.length]);
+
+  if (movies.length === 0) return null;
 
   return (
-    <>
+    <div className="mx-auto my-2 max-w-[1280px] text-center">
       <h2 className="text-2xl font-bold">Last Watched</h2>
 
       {isMobile ? (
         <Carousel className="w-full" opts={{ dragFree: true }}>
           <CarouselContent className="-ml-1 max-w-[340px] lg:max-w-none">
-            {parsedData.reverse().map((title) => (
+            {movies.map((title) => (
               <CarouselItem
                 key={title.key}
                 className="basis-auto pl-1 md:basis-1/2 lg:basis-1/10"
@@ -43,6 +47,7 @@ export const LastWatched = ({ posterURL }: Props) => {
                     <CardContent className="flex aspect-square items-center justify-center p-2">
                       <Link
                         href={`/movies/${title.key}`}
+                        scroll
                         key={title.key}
                         className="flex flex-col items-center justify-start gap-3"
                       >
@@ -63,13 +68,9 @@ export const LastWatched = ({ posterURL }: Props) => {
           <CarouselNext className="hidden lg:flex" />
         </Carousel>
       ) : (
-        <div className="flex flex-col gap-5 lg:flex-row">
-          {parsedData.reverse().map((title) => (
-            <Link
-              key={title.key}
-              href={`/movies/${title.key}`}
-              className="flex w-full items-center gap-2"
-            >
+        <div className="flex flex-row justify-center gap-5">
+          {movies.map((title) => (
+            <Link key={title.key} href={`/movies/${title.key}`}>
               <Image
                 src={`${posterURL}/posters/${title.poster}`}
                 alt="Title Poster"
@@ -81,6 +82,6 @@ export const LastWatched = ({ posterURL }: Props) => {
           ))}
         </div>
       )}
-    </>
+    </div>
   );
 };

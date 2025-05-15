@@ -105,7 +105,6 @@ export default async function SuperSearchPage(props: {
       sortOrder={sortOrder}
       sortBy={sortBy}
       sortByID
-      totalItems={total}
     >
       <div className="flex h-190 flex-wrap gap-4 py-3 lg:px-3">
         {movies.length ? (

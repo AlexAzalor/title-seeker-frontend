@@ -8,7 +8,6 @@ import messages from "../../messages/en.json";
 
 import { GoogleLogin } from "@/components/layout/google-login";
 import { LanguageSelector } from "@/components/layout/language-selector";
-import { LastWatched } from "@/components/layout/last-watched";
 import { Search } from "@/components/layout/search";
 import { ThemeSelector } from "@/components/layout/theme-selector";
 import { SessionProvider } from "next-auth/react";
@@ -43,16 +42,6 @@ test("Should render LanguageSelector", async () => {
   });
 
   expect(screen.getByLabelText("language-selector")).toBeDefined();
-});
-
-test("Should render LastWatched", () => {
-  render(<LastWatched posterURL="test" />, {
-    wrapper: ProjectProviders,
-  });
-
-  expect(
-    screen.getByRole("heading", { level: 2, name: "Last Watched" }),
-  ).toBeDefined();
 });
 
 test("Should render Search", () => {

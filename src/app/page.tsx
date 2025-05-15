@@ -1,7 +1,6 @@
 import { useTranslations } from "next-intl";
 import { ActorsCarousel } from "@/components/actors-carousel";
 import { FetchWrapper } from "@/components/my-custom-ui/fetch-wrapper";
-import { LastWatched } from "@/components/layout/last-watched";
 import { MoviesCarousel } from "@/components/movie/movie-carousel";
 import { AVATAR_URL, POSTER_URL } from "@/lib/constants";
 import { getPeople } from "@/orval_api/people/people";
@@ -71,8 +70,6 @@ export default function Home() {
             />
           )}
         </FetchWrapper>
-
-        {/* <LastWatched posterURL={POSTER_URL || "NO URL!"} /> */}
       </main>
     </>
   );

@@ -3,7 +3,6 @@ import { Header } from "./header";
 import { auth } from "@/auth";
 import { LastWatched } from "./last-watched";
 import { POSTER_URL } from "@/lib/constants";
-// import Header from "./Header";
 
 export const MainLayout = async ({
   children,
@@ -18,9 +17,7 @@ export const MainLayout = async ({
 
       <div className="mx-auto grid place-items-center">{children}</div>
 
-      <div className="mx-auto my-2 max-w-[1280px] text-center">
-        <LastWatched posterURL={POSTER_URL || "NO URL!"} />
-      </div>
+      <LastWatched posterURL={POSTER_URL || "NO URL!"} />
 
       <footer className="grid h-20 place-content-center bg-black text-white">
         Footer

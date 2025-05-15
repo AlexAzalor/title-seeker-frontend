@@ -38,7 +38,6 @@ type Props = {
   sortBy: SortBy;
   currentPage: PageMoviePreviewOutPage;
   sortByID?: boolean;
-  totalItems?: PageMoviePreviewOutTotal;
 };
 
 // Art, Low, ENT/ЛОР
@@ -53,7 +52,6 @@ export const SortingControls = ({
   sortOrder,
   sortBy,
   sortByID,
-  totalItems,
 }: Props) => {
   const router = useRouter();
   const currentOrderType = useRef(sortOrder);
@@ -112,7 +110,6 @@ export const SortingControls = ({
           sortByID && "mb-0",
         )}
       >
-        {!!totalItems && <div className="mr-10 self-center">{totalItems}</div>}
         {/* <Image
           className="absolute top-1/2 left-6 -translate-y-1/2 transform"
           src="/static/search-normal.svg"

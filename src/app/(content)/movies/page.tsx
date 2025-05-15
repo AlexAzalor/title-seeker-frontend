@@ -31,7 +31,7 @@ export default async function MoviesPage(props: {
 
   const { aPIGetMovies } = getMovies();
   const {
-    data: { items, page, size, total, pages },
+    data: { items, page, size, pages },
   } = await aPIGetMovies(
     {
       lang,
@@ -52,7 +52,6 @@ export default async function MoviesPage(props: {
       sortOrder={sortOrder}
       sortBy={sortBy}
       sortByID
-      totalItems={total}
     >
       <title>Movies | Title Seeker</title>
 
