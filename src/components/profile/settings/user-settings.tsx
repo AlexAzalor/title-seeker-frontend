@@ -1,29 +1,32 @@
 "use client";
 
 import { useState } from "react";
+import { Session } from "next-auth";
 import { signOut, useSession } from "next-auth/react";
-import { deleteProfile } from "@/app/services/user-api";
+import { deleteProfile, setLanguage } from "@/app/services/user-api";
 
-import { UserRole } from "@/orval_api/model";
+import { Language, UserRole } from "@/orval_api/model";
 import { Button } from "@/components/ui/button";
 import ModalWindow from "@/components/my-custom-ui/modal-window";
+import { setUserLocale } from "@/app/services/locale";
+import { Separator } from "@/components/ui/separator";
 
 export const UserSettings = () => {
-  const session = useSession();
+  const { data, update } = useSession();
   const [open, setOpen] = useState(false);
 
-  if (!session?.data?.user) {
+  if (!data?.user) {
     return null;
   }
 
-  const isOwner = session.data.user.role === UserRole.owner;
+  const isOwner = data.user.role === UserRole.owner;
 
   const handleOpen = () => {
     setOpen(true);
   };
 
   const handleDeleteProfile = async () => {
-    const res = await deleteProfile(session?.data?.user.uuid);
+    const res = await deleteProfile(data.user.uuid);
 
     if (res === 200) {
       setOpen(false);
@@ -33,14 +36,62 @@ export const UserSettings = () => {
     }
   };
 
+  const handleLocaleChange = async (locale: Language) => {
+    await setUserLocale(locale);
+
+    if (data.user) {
+      await setLanguage(data.user.uuid, locale);
+
+      await update({
+        user: {
+          ...data.user,
+          my_language: locale,
+        },
+      } as Session);
+    }
+  };
+
   return (
     <>
-      <span aria-label="settings" className="sr-only">
-        Settings
-      </span>
-      <Button variant="destructive" onClick={handleOpen}>
-        Delete Profile
-      </Button>
+      <h1 aria-label="settings">Settings</h1>
+
+      <p>Manage your account settings here.</p>
+
+      <Separator className="my-4" />
+
+      <div className="flex flex-col gap-4">
+        <div>
+          <h3>Language</h3>
+          <p>
+            Here you can save the language that will be used by default.
+            Changing the language elsewhere changes it only for the current
+            session.
+          </p>
+          <div className="flex gap-2">
+            <Button
+              onClick={() => handleLocaleChange(Language.uk)}
+              disabled={data.user.my_language === Language.uk}
+            >
+              Українська
+            </Button>
+            <Button
+              onClick={() => handleLocaleChange(Language.en)}
+              disabled={data.user.my_language === Language.en}
+            >
+              English
+            </Button>
+          </div>
+        </div>
+
+        <Separator />
+
+        <div>
+          <h3>Delete Profile</h3>
+          <Button className="w-max" variant="destructive" onClick={handleOpen}>
+            Delete Profile
+          </Button>
+        </div>
+      </div>
 
       <ModalWindow title="Delete Profile" open={open} setOpen={setOpen}>
         <div>

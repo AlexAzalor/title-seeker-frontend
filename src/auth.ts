@@ -1,12 +1,13 @@
 import NextAuth, { DefaultSession } from "next-auth";
 import Google from "next-auth/providers/google";
 import { backendURL } from "./lib/constants";
-import { getUsers } from "./orval_api/users/users";
+
 import Credentials from "next-auth/providers/credentials";
 // The `JWT` interface can be found in the `next-auth/jwt` submodule
 import "next-auth/jwt";
-import { UserRole } from "./orval_api/model";
+import { Language, UserRole } from "./orval_api/model";
 import { getAuth } from "./orval_api/auth/auth";
+import { getCookie, setUserLocale } from "./app/services/locale";
 
 export interface UserExtended {
   /** User role */
@@ -14,6 +15,7 @@ export interface UserExtended {
   /** User uuid */
   uuid: string;
   new_movies_to_add_count: number;
+  my_language: Language;
 }
 
 declare module "next-auth/jwt" {
@@ -43,7 +45,9 @@ declare module "next-auth" {
 }
 
 const isTestEnv = process.env.NEXTAUTH_ENV === "test";
+const COOKIE_NAME = process.env.COOKIE_NAME || "";
 
+// To debug AUTH always look to the TERMINAL, not to the browser console!
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers:
     // Use only for testing
@@ -65,6 +69,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                   new_movies_to_add_count: 0,
                   role: process.env.ROLE as UserRole,
                   uuid: process.env.UUID,
+                  my_language: process.env.MY_LANGUAGE as Language,
                 };
               }
               return null;
@@ -83,18 +88,26 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
       return false;
     },
-    async jwt({ token, profile, user }) {
+    async jwt({ token, profile, user, trigger, session }) {
       if (user && isTestEnv) {
         token.role = (user as UserExtended).role;
         token.uuid = (user as UserExtended).uuid;
         token.new_movies_to_add_count = (
           user as UserExtended
         ).new_movies_to_add_count;
+        token.my_language = (user as UserExtended).my_language;
 
         return token;
       }
 
+      // To update the session object from components
+      if (trigger === "update" && session) {
+        token.my_language = session.user.my_language;
+        return token;
+      }
+
       if (!profile) {
+        // When already signed in, profile is not available
         return token;
       }
 
@@ -117,6 +130,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         token.role = data.role;
         token.uuid = data.uuid;
         token.new_movies_to_add_count = data.new_movies_to_add_count;
+        token.my_language = data.my_language;
+
+        const cookie = await getCookie(COOKIE_NAME);
+        if (!cookie) {
+          setUserLocale(data.my_language as Language);
+        }
 
         // return token;
       } catch (error) {
@@ -132,6 +151,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         session.user.role = token.role;
         session.user.uuid = token.uuid;
         session.user.new_movies_to_add_count = token.new_movies_to_add_count;
+        session.user.my_language = token.my_language;
       }
 
       return session;

@@ -5,7 +5,7 @@ import { fetchSettings, getSession } from "./global-api";
 import { backendURL } from "@/lib/constants";
 
 import type { ValidationError } from "@/types/general";
-import type { UserRateMovieIn } from "@/orval_api/model";
+import type { Language, UserRateMovieIn } from "@/orval_api/model";
 import { getUsers } from "@/orval_api/users/users";
 import { getAuth } from "@/orval_api/auth/auth";
 
@@ -42,6 +42,27 @@ export async function deleteProfile(user_uuid: string) {
 
   try {
     const response = await aPIDeleteGoogleProfile({ user_uuid }, backendURL);
+    return response.status;
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
+  }
+}
+
+export async function setLanguage(user_uuid: string, lang: Language) {
+  const currentUser = await getSession();
+  if (!currentUser) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { backendURL, unknownError } = await fetchSettings();
+  const { aPISetLanguage } = getUsers();
+
+  try {
+    const response = await aPISetLanguage(user_uuid, { lang }, backendURL);
     return response.status;
   } catch (error) {
     if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
