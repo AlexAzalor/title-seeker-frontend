@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { Card, CardContent } from "../ui/card";
 import {
@@ -16,7 +17,8 @@ import { useLastWatchedStore } from "@/lib/store";
 type Props = {
   posterURL: string;
 };
-export const LastWatched = ({ posterURL }: Props) => {
+export const LastSeenTitles = ({ posterURL }: Props) => {
+  const t = useTranslations("Other");
   const isMobile = useMediaQuery("(max-width: 640px)");
 
   const movies = useLastWatchedStore((s) => s.movies);
@@ -32,7 +34,7 @@ export const LastWatched = ({ posterURL }: Props) => {
 
   return (
     <div className="mx-auto my-2 max-w-[1280px] text-center">
-      <h2 className="text-2xl font-bold">Last Watched</h2>
+      <h2 className="mb-3 text-2xl font-bold">{t("lastSeenTitles")}</h2>
 
       {isMobile ? (
         <Carousel className="w-full" opts={{ dragFree: true }}>

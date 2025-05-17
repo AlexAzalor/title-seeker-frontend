@@ -2,6 +2,7 @@
 
 import { memo, RefObject, useCallback, useMemo, useState } from "react";
 import { useSession } from "next-auth/react";
+import { useTranslations } from "next-intl";
 
 import {
   MovieFormData,
@@ -51,6 +52,7 @@ const RateMovie = ({
   movieKey,
 }: Props) => {
   const session = useSession();
+  const t = useTranslations("Other");
   const [showValues, setShowValues] = useState(false);
 
   const [ratingCriteria, setRatingCriteria] = useState<RatingCriterion>(
@@ -265,7 +267,6 @@ const RateMovie = ({
       )}
 
       <RateSlider
-        title="Acting"
         type="acting"
         value={acting}
         showValue={showValues}
@@ -275,7 +276,6 @@ const RateMovie = ({
       />
 
       <RateSlider
-        title="Plot/Storyline"
         type="plot_storyline"
         value={plot_storyline}
         max={plotStorylineMax}
@@ -285,7 +285,6 @@ const RateMovie = ({
       />
 
       <RateSlider
-        title="Script/Dialogue"
         type="script_dialogue"
         value={script_dialogue}
         max={scriptDialogueMax}
@@ -295,7 +294,6 @@ const RateMovie = ({
       />
 
       <RateSlider
-        title="Music"
         type="music"
         value={music}
         max={musicMax}
@@ -305,7 +303,6 @@ const RateMovie = ({
       />
 
       <RateSlider
-        title="Enjoyment"
         type="enjoyment"
         value={enjoyment}
         max={RATING_MAX.enjoyment}
@@ -315,7 +312,6 @@ const RateMovie = ({
       />
 
       <RateSlider
-        title="Production Design"
         type="production_design"
         value={production_design}
         max={productionDesignMax}
@@ -326,7 +322,6 @@ const RateMovie = ({
 
       {!!visual_effects && (
         <RateSlider
-          title="Visual Effects"
           type="visual_effects"
           value={visual_effects || 0}
           max={RATING_MAX.visual_effects}
@@ -338,7 +333,6 @@ const RateMovie = ({
 
       {!!scare_factor && (
         <RateSlider
-          title="Scare Factor"
           type="scare_factor"
           value={scare_factor || 0}
           max={RATING_MAX.scare_factor}
@@ -350,7 +344,6 @@ const RateMovie = ({
 
       {!!humor && (
         <RateSlider
-          title="Humor"
           type="humor"
           value={humor || 0}
           max={RATING_MAX.humor}
@@ -362,7 +355,6 @@ const RateMovie = ({
 
       {!!animation_cartoon && (
         <RateSlider
-          title="Animation/Cartoon"
           type="animation_cartoon"
           value={animation_cartoon || 0}
           max={RATING_MAX.animation_cartoon}
@@ -377,10 +369,14 @@ const RateMovie = ({
           <div className="mt-3 flex items-center justify-between">
             <div className="flex items-center space-x-2">
               <Switch id="show-values" onCheckedChange={handleShowValues} />
-              <Label htmlFor="show-values">Show values</Label>
+              <Label htmlFor="show-values">{t("showValues")}</Label>
             </div>
 
-            {showValues && <div>Total: {calculateRating()}</div>}
+            {showValues && (
+              <div>
+                {t("total")}: {calculateRating()}
+              </div>
+            )}
           </div>
 
           <button
@@ -388,7 +384,7 @@ const RateMovie = ({
             className="bg-main-ui-purple hover:bg-dark-blue dark:hover:bg-main-ui-purple/70 mt-5 w-full rounded-2xl p-2 text-white transition-colors duration-200"
             onClick={handleRateMovie}
           >
-            Save rating
+            {t("saveRating")}
           </button>
         </>
       )}

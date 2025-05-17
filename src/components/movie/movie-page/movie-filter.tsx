@@ -2,6 +2,7 @@
 
 import { Suspense, useState } from "react";
 import { useSession } from "next-auth/react";
+import { useTranslations } from "next-intl";
 import { InfoIcon } from "lucide-react";
 import { useModal } from "@/hooks/use-modal";
 import { cn } from "@/lib/utils";
@@ -52,6 +53,7 @@ const textColor = {
 
 export const MovieFilter = ({ movieKey, data, filterKey, title }: Props) => {
   const session = useSession();
+  const t = useTranslations("Filters");
   const { isOpen, open, close } = useModal();
   const [filterData, setFilterData] = useState<FilterItemOut[]>([]);
 
@@ -96,9 +98,9 @@ export const MovieFilter = ({ movieKey, data, filterKey, title }: Props) => {
               textColor[filterKey as keyof typeof textColor],
             )}
           >
-            {title}
+            {t(`${filterKey}.name`)}
           </p>
-          <TooltipWrapper content={movieComponents[filterKey]}>
+          <TooltipWrapper content={t(`${filterKey}.description`)}>
             <InfoIcon className="h-4 w-4" />
           </TooltipWrapper>
 

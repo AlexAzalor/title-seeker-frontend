@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { EXACT_MATCH_KEY, GENRE_KEY, SUBGENRE_KEY } from "./genre-selector";
 import {
   ACTION_TIME_KEY,
@@ -50,6 +51,7 @@ export const SelectedFilters = ({
   directors,
 }: Props) => {
   const router = useRouter();
+  const t = useTranslations("SuperSearch");
 
   const currentSearchParams = useSearchParams();
   const selectedGenres = currentSearchParams.getAll(GENRE_KEY);
@@ -99,9 +101,7 @@ export const SelectedFilters = ({
       </span>
       <ResizablePanel defaultSize={8}>
         <div className="col-span-3 min-h-25 w-full">
-          <h1 className="mb-3 text-center lg:text-5xl">
-            Advanced title search
-          </h1>
+          <h1 className="mb-3 text-center lg:text-5xl">{t("title")}</h1>
 
           {/* for mobile */}
           <div className="mb-2 flex justify-between">
@@ -118,7 +118,7 @@ export const SelectedFilters = ({
               />
             </SideMenuPanel>
 
-            <SideMenuPanel side="right" type="Enhance Search" handleOnly>
+            <SideMenuPanel side="right" type={t("enhance")} handleOnly>
               <EnhanceSearch />
             </SideMenuPanel>
           </div>
@@ -165,7 +165,7 @@ export const SelectedFilters = ({
 
             {selectedExactMatch && (
               <div className="hover:shadow-exact-match dark:hover:shadow-exact-match-light flex items-center space-x-1 rounded-xl border-1 border-black p-1 font-bold text-black transition-shadow dark:border-white dark:text-white">
-                <span>Exact match</span>
+                <span>{t("exactMatch")}</span>
                 <CircleX
                   className="top-0 right-0 h-4 w-4 cursor-pointer"
                   onClick={() =>

@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import {
   Carousel,
   CarouselContent,
@@ -22,6 +23,7 @@ type Props = {
 };
 
 export const MovieCrew = ({ actors, avatarURL, directors }: Props) => {
+  const t = useTranslations("Filters");
   const mq = useMediaQuery("(max-width: 1024px)");
   const actorsLength = mq ? 2 : 5;
   return (
@@ -67,7 +69,9 @@ export const MovieCrew = ({ actors, avatarURL, directors }: Props) => {
         )}
       </div>
 
-      <p className="text-3xl font-bold">Directors</p>
+      <p className="text-3xl font-bold">
+        {directors?.length > 1 ? t("directorPlural") : t("director")}
+      </p>
       {directors?.length > actorsLength ? (
         <Carousel opts={{ dragFree: true }} className="w-full lg:max-w-[640px]">
           <CarouselContent className="-ml-1 max-w-[340px] lg:max-w-none">

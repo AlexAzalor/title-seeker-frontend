@@ -1,10 +1,10 @@
-import { beforeEach, expect, test, vi, describe } from "vitest";
+import { expect, test, vi, describe } from "vitest";
 import { render, screen } from "@testing-library/react";
 
 import { NextIntlClientProvider } from "next-intl";
 import messages from "../messages/en.json";
 import { SessionProvider } from "next-auth/react";
-import { UserRole } from "@/orval_api/model";
+import { Language, UserRole } from "@/orval_api/model";
 import { PropsWithChildren } from "react";
 import { Session } from "next-auth";
 import { ThemeProvider } from "next-themes";
@@ -23,6 +23,7 @@ export const TEST_USER: Session = {
     new_movies_to_add_count: 0,
     role: UserRole.owner,
     uuid: "test-uuid",
+    my_language: Language.en,
   },
   expires: isoString,
 };

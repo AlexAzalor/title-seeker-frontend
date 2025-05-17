@@ -1,7 +1,7 @@
 import React from "react";
 import { Header } from "./header";
 import { auth } from "@/auth";
-import { LastWatched } from "./last-watched";
+import { LastSeenTitles } from "./last-watched";
 import { POSTER_URL } from "@/lib/constants";
 
 export const MainLayout = async ({
@@ -17,7 +17,7 @@ export const MainLayout = async ({
 
       <div className="mx-auto grid place-items-center">{children}</div>
 
-      <LastWatched posterURL={POSTER_URL || "NO URL!"} />
+      <LastSeenTitles posterURL={POSTER_URL || "NO URL!"} />
 
       <footer className="grid h-20 place-content-center bg-black text-white">
         Footer

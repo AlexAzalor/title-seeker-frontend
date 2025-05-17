@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useTranslations } from "next-intl";
 import { GenreOut, SubgenreOut } from "@/orval_api/model";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ItemsSelector } from "../my-custom-ui/items-list-selector";
@@ -27,6 +28,7 @@ export const EXACT_MATCH_KEY = "exact_match";
 
 export const GenreSelector = ({ genres }: Props) => {
   const router = useRouter();
+  const t = useTranslations("SuperSearch");
 
   const currentSearchParams = useSearchParams();
   const currentSelectedGenres = currentSearchParams.getAll(GENRE_KEY);
@@ -143,14 +145,14 @@ export const GenreSelector = ({ genres }: Props) => {
         variant="destructive"
         onClick={clearAllFilters}
       >
-        Clear all filters
+        {t("clear")}
       </Button>
 
       <Label
         onClick={handleExactMatch}
         className="my-2 flex w-max cursor-pointer items-center gap-3 text-xl"
       >
-        <span>Exact match</span>
+        <span>{t("exactMatch")}</span>
         <Checkbox checked={!!currentExactMatch} className="cursor-pointer" />
       </Label>
 

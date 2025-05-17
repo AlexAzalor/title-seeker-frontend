@@ -132,7 +132,9 @@ describe("Components with search params", () => {
   });
 
   test("Should render renders EnhanceSearch component", () => {
-    render(<EnhanceSearch />);
+    render(<EnhanceSearch />, {
+      wrapper: ProjectProviders,
+    });
     expect(screen.getByLabelText("enhance-search")).toBeDefined();
   });
 

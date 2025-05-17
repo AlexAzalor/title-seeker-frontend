@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { getMovies } from "@/orval_api/movies/movies";
 import { backendURL } from "@/lib/constants";
 import type { SearchParams } from "@/types/general";
@@ -26,17 +26,14 @@ export default async function SuperSearchPage(props: {
 }) {
   const searchParams = await props.searchParams;
   const paramsKeys = Object.keys(searchParams);
+  const t = await getTranslations("SuperSearch");
 
   const hasNoParams =
     !paramsKeys.length ||
     (paramsKeys.length === 1 && paramsKeys.includes("exact_match"));
 
   if (hasNoParams) {
-    return (
-      <h2 className="mx-auto mt-10 text-center">
-        Please select at least one filter to search for movies
-      </h2>
-    );
+    return <h2 className="mx-auto mt-10 text-center">{t("emptyState")}</h2>;
   }
 
   const locale = await getLocale();
@@ -110,9 +107,7 @@ export default async function SuperSearchPage(props: {
         {movies.length ? (
           <MovieList movies={movies} lang={lang} />
         ) : (
-          <h2 className="mx-auto mt-10">
-            No movies found with selected filters
-          </h2>
+          <h2 className="mx-auto mt-10">{t("notFound")}</h2>
         )}
 
         {!!pages && total && total > 10 && (

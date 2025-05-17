@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 import { EnhanceSearchScheme } from "@/types/zod-scheme";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -21,6 +22,7 @@ import { EnhancedFormSlider } from "./enhance-form-slider";
 
 export const EnhanceSearch = () => {
   const router = useRouter();
+  const t = useTranslations("SuperSearch");
 
   const currentSearchParams = useSearchParams();
   const {
@@ -148,7 +150,7 @@ export const EnhanceSearch = () => {
       className="overflow-auto pr-2 lg:mx-6 lg:w-full"
       aria-label="enhance-search"
     >
-      <h2 className="hidden lg:block">Enhance Search</h2>
+      <h2 className="hidden lg:block">{t("enhance")}</h2>
 
       {showForm && (
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">

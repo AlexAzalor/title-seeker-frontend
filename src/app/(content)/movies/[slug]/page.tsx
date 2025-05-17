@@ -10,8 +10,7 @@ import {
 import { getMovies } from "@/orval_api/movies/movies";
 
 import { PageProps } from "@/types/general";
-import { getLocale, getTranslations } from "next-intl/server";
-import { cn, formatDate } from "@/lib/utils";
+import { getLocale } from "next-intl/server";
 import { MovieRateBox } from "@/components/movie/movie-page/movie-rate-box";
 import { GenresList } from "@/components/movie/movie-page/genres-list";
 import { MovieFilterList } from "@/components/movie/movie-page/movie-filter-list";
@@ -24,14 +23,14 @@ import { RelatedSimilarList } from "@/components/movie/movie-page/related-simila
 import { MoviesCollection } from "@/components/movie/movie-page/movies-collection";
 import { FetchWrapper } from "@/components/my-custom-ui/fetch-wrapper";
 import { Spinner } from "@/components/my-custom-ui/spinner";
-import { MovieMoney } from "@/components/movie/movie-page/movie-money";
+
+import { MovieInfo } from "@/components/movie/movie-page/info/movie-info";
 
 export default async function DynamicPage({ params }: PageProps) {
   const { slug: movie_key } = await params;
 
   const session = await auth();
 
-  const t = await getTranslations("HomePage");
   const locale = await getLocale();
   const lang = Language[locale as keyof typeof Language];
 
@@ -63,7 +62,6 @@ export default async function DynamicPage({ params }: PageProps) {
           {({ result }) => (
             <RelatedSimilarList
               type="similar"
-              name="Similar Movies"
               movies={result.data.similar_movies}
               posterUrl={POSTER_URL || "NO URL!!!"}
               currentMovieKey={data.key}
@@ -111,7 +109,6 @@ export default async function DynamicPage({ params }: PageProps) {
               {data.related_movies?.length ? (
                 <RelatedSimilarList
                   type="related"
-                  name="Related Movies"
                   movies={data.related_movies}
                   posterUrl={POSTER_URL || "NO URL!!!"}
                   currentMovieKey={data.key}
@@ -122,80 +119,7 @@ export default async function DynamicPage({ params }: PageProps) {
             </div>
           </div>
 
-          <div className="my-4 grid w-full grid-cols-1 place-items-center gap-3 lg:grid-cols-3">
-            <MovieMoney
-              budget={data.budget}
-              domesticGross={data.domestic_gross}
-              worldwideGross={data.worldwide_gross}
-            />
-
-            <div className="text-center text-2xl">
-              <div className="movie-duration">{data.duration}</div>
-              {data.release_date ? (
-                <div className="movie-release-date">
-                  {formatDate(data.release_date, lang)}
-                </div>
-              ) : (
-                "no release date"
-              )}
-              <div title={data.location} className="movie-location">
-                {data.location.length >= 30
-                  ? data.location.slice(0, 30) + "..."
-                  : data.location}
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <div className="rating-box grid place-content-center text-5xl">
-                <span className="relative">
-                  <span className="rating-text">
-                    {session?.user.role === "owner"
-                      ? data.owner_rating
-                      : data.user_rating || data.overall_average_rating}
-                  </span>{" "}
-                  {!data.user_rating && session?.user.role !== "owner" && (
-                    <span className="absolute bottom-0 ml-1 text-xl text-gray-300">
-                      ({data.ratings_count})
-                    </span>
-                  )}
-                </span>
-              </div>
-
-              <div>
-                {(data.user_rating || session?.user.role === "owner") && (
-                  <div
-                    title="Overall Rating"
-                    className={cn(
-                      "user-rating-box relative mb-3 grid h-[46px] w-[124px] place-content-center text-2xl",
-                      session?.user.role === "owner" &&
-                        "mb-0 h-[100px] text-3xl",
-                    )}
-                  >
-                    <span className="relative">
-                      <span className="rating-text">
-                        {data.overall_average_rating}
-                      </span>{" "}
-                      <span className="absolute bottom-0 ml-1 text-sm text-gray-400 dark:text-gray-300">
-                        ({data.ratings_count})
-                      </span>
-                    </span>
-                  </div>
-                )}
-
-                {session?.user.role !== "owner" && (
-                  <div
-                    title="Owner Rating"
-                    className={cn(
-                      "owner-rating-box rating-text relative grid h-[100px] w-[124px] place-content-center text-3xl",
-                      data.user_rating && "h-[46px] text-2xl",
-                    )}
-                  >
-                    {data.owner_rating}
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
+          <MovieInfo data={data} lang={lang} userRole={session?.user.role} />
 
           <div className="mb-4 flex flex-col justify-between gap-6 lg:flex-row">
             <div className="pt-6">

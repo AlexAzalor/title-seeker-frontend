@@ -1,10 +1,10 @@
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { RelatedMovie } from "@/orval_api/model";
 
 type Props = {
-  name: string;
   movies: {
     key: string;
     poster: string;
@@ -19,12 +19,13 @@ type Props = {
 
 export const RelatedSimilarList = ({
   type,
-  name,
   movies,
   posterUrl,
   currentMovieKey,
   bottom,
 }: Props) => {
+  const t = useTranslations("MovieParts");
+
   return (
     <div
       aria-label="related-similar-list"
@@ -33,7 +34,9 @@ export const RelatedSimilarList = ({
         bottom && "mb-4 w-full min-w-76",
       )}
     >
-      <h4 className={cn("text-lg", bottom && "p-2 text-2xl")}>{name}</h4>
+      <h4 className={cn("text-lg", bottom && "p-2 text-2xl")}>
+        {type === "related" ? t("related") : t("similar")}
+      </h4>
 
       <div className="flex max-h-80 flex-grow-1 flex-col gap-1 overflow-y-auto">
         {movies.map((movie) => (

@@ -264,7 +264,9 @@ export const Search = ({ posterURL }: Props) => {
         )}
 
         <div className="flex flex-col gap-2">
-          <p className="mb-1 text-[var(--color-neutral-500)]">Suggestions</p>
+          <p className="mb-1 text-[var(--color-neutral-500)]">
+            {t("suggestions")}
+          </p>
           {navigationKeys.map((item) => (
             <Link
               key={item.key}

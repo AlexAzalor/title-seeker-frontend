@@ -62,14 +62,14 @@ export const Header = ({ session }: Props) => {
             <Link href="/add-movie" className="hidden lg:block">
               <Button>
                 <PlusCircle />
-                Add Movie
+                {t("addMovie")}
               </Button>
             </Link>
 
             <Link href="/quick-add-movie" className="hidden 2xl:block">
               <Button>
                 <PlusCircle />
-                Quickly add Movie
+                {t("quicklyAddMovie")}
               </Button>
             </Link>
           </>

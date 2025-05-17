@@ -11,14 +11,15 @@ import Image from "next/image";
 import Link from "next/link";
 
 type Props = {
+  name: string;
   actors: Actor[];
   lang: Language;
   avatarURL: string;
 };
-export function ActorsCarousel({ actors, avatarURL }: Props) {
+export function ActorsCarousel({ name, actors, avatarURL }: Props) {
   return (
     <div className="w-full" aria-label="actors-carousel">
-      <h2 className="mb-3 text-2xl lg:text-3xl">Top Actors by movies count</h2>
+      <h2 className="mb-3 text-2xl lg:text-3xl">{name}</h2>
       <Carousel className="w-full" opts={{ dragFree: true }}>
         <CarouselContent className="-ml-1 max-w-[340px] lg:max-w-none">
           {actors.map((actor) => (

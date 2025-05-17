@@ -78,7 +78,6 @@ test("Should render RelatedSimilarList", () => {
     <RelatedSimilarList
       currentMovieKey="test"
       movies={[]}
-      name="movie test"
       posterUrl="test"
       type="related"
     />,
@@ -93,6 +92,7 @@ test("Should render RelatedSimilarList", () => {
 test("Should render MoviesCarousel", () => {
   render(
     <MoviesCarousel
+      name="test"
       avatarURL="test"
       movies={[]}
       lang={Language.en}

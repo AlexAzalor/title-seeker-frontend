@@ -1,8 +1,9 @@
 import { useSession } from "next-auth/react";
+import { useTranslations } from "next-intl";
 import { memo } from "react";
 import { cn } from "@/lib/utils";
 import { Slider } from "@/components/ui/slider";
-import { MIN_RATE, RATING_TOOLTIP } from "./utils";
+import { MIN_RATE } from "./utils";
 import { TooltipWrapper } from "../../my-custom-ui/tooltip-wrapper";
 import { InfoIcon } from "lucide-react";
 import { UserRatingCriteria } from "@/orval_api/model";
@@ -12,7 +13,6 @@ import { UserRatingCriteria } from "@/orval_api/model";
 export type RatingType = keyof UserRatingCriteria;
 
 type Props = {
-  title: string;
   type: RatingType;
   value: number;
   showValue: boolean;
@@ -23,7 +23,6 @@ type Props = {
 };
 
 function RateSlider({
-  title,
   type,
   showValue,
   className,
@@ -33,16 +32,14 @@ function RateSlider({
   onValueChange,
 }: Props) {
   const session = useSession();
+  const t = useTranslations("Rating");
 
   return (
     <div>
       <div className="mb-1 flex items-center gap-1">
-        <span>{title}</span>
+        <span>{t(`${type}.name`)}</span>
 
-        <TooltipWrapper
-          content={RATING_TOOLTIP[type] || "Rate the movie"}
-          asChild
-        >
+        <TooltipWrapper content={t(`${type}.description`)} asChild>
           <InfoIcon className="h-4 w-4" />
         </TooltipWrapper>
 

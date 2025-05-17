@@ -46,6 +46,7 @@ export default function Home() {
         >
           {({ result, lang }) => (
             <MoviesCarousel
+              name={t("navigation.movies")}
               movies={result.data.movies}
               lang={lang}
               posterURL={POSTER_URL || "NO URL!"}
@@ -64,6 +65,7 @@ export default function Home() {
         >
           {({ result, lang }) => (
             <ActorsCarousel
+              name={t("topActorsCarousel")}
               actors={result.data.actors}
               lang={lang}
               avatarURL={AVATAR_URL || "NO URL!"}

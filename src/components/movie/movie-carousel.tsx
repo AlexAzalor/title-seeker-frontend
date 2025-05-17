@@ -18,19 +18,26 @@ import { Separator } from "../ui/separator";
 import { useMediaQuery } from "@/hooks/use-media-query";
 
 type Props = {
+  name: string;
   movies: MovieCarousel[];
   lang: Language;
   posterURL: string;
   avatarURL: string;
 };
-export function MoviesCarousel({ movies, lang, posterURL, avatarURL }: Props) {
+export function MoviesCarousel({
+  name,
+  movies,
+  lang,
+  posterURL,
+  avatarURL,
+}: Props) {
   // wrapper?
   const plugin = useRef(Autoplay({ delay: 10000 }));
   const isMobile = useMediaQuery("(max-width: 640px)");
   const textLength = isMobile ? 20 : 40;
   return (
     <div className="w-full" aria-label="movies-carousel">
-      <h2 className="mb-3">Movies</h2>
+      <h2 className="mb-3">{name}</h2>
       <Carousel
         className="lg:w-full"
         plugins={[plugin.current]}

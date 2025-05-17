@@ -1,5 +1,8 @@
-import { TooltipWrapper } from "@/components/my-custom-ui/tooltip-wrapper";
+// "use client";
+
+import { useTranslations } from "next-intl";
 import { GlobeIcon, HomeIcon, WalletIcon } from "lucide-react";
+import { TooltipWrapper } from "@/components/my-custom-ui/tooltip-wrapper";
 
 type Props = {
   budget: string;
@@ -12,35 +15,25 @@ export const MovieMoney = ({
   domesticGross,
   worldwideGross,
 }: Props) => {
+  const t = useTranslations("MovieParts.boxOffice");
+
   return (
-    <div className="text-lg lg:justify-self-start">
-      <TooltipWrapper
-        asChild
-        className="max-w-80"
-        content="The total budget of the picture, how much was spent."
-      >
+    <div className="flex flex-col text-lg lg:justify-self-start">
+      <TooltipWrapper className="max-w-80" content={t("budget")}>
         <div className="flex items-center gap-1">
           <WalletIcon size={24} />
           <span className="movie-money text-xl">{budget}</span>
         </div>
       </TooltipWrapper>
 
-      <TooltipWrapper
-        asChild
-        className="max-w-80"
-        content="How much the movie earned in the country where it was filmed. Also, only the studio producer can be considered domestic (a movie can be made in many countries)."
-      >
+      <TooltipWrapper className="max-w-80" content={t("domesticGross")}>
         <div className="flex items-center gap-1">
           <HomeIcon size={24} />
           <span className="movie-money text-xl">{domesticGross}</span>
         </div>
       </TooltipWrapper>
 
-      <TooltipWrapper
-        asChild
-        className="max-w-80"
-        content="How much the movie has earned for all time (or until now) around the world."
-      >
+      <TooltipWrapper className="max-w-80" content={t("worldwideGross")}>
         <div className="flex items-center gap-1">
           <GlobeIcon size={24} />
           <span className="movie-money text-xl">{worldwideGross}</span>

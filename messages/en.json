@@ -17,7 +17,10 @@
         "second": "The ability to rate movies and form your own movie lists, have statistics and much more (only for registered users).",
         "third": "The mobile version of the site will allow you to do almost everything that is available on the desktop with maximum adaptability and speed."
       }
-    }
+    },
+    "addMovie": "Add Movie",
+    "quicklyAddMovie": "Quickly add Movie",
+    "topActorsCarousel": "Top Actors by movies count"
   },
   "MenuItems": {
     "content": "Content",
@@ -56,8 +59,107 @@
     "recent": "Recent searches",
     "suggestions": "Suggestions"
   },
+
+  "SuperSearch": {
+    "title": "Advanced title search",
+    "emptyState": "Please select at least one filter to search for movies",
+    "enhance": "Enhance Search",
+    "exactMatch": "Exact match",
+    "clear": "Clear all filters",
+    "notFound": "No movies found with selected filters"
+  },
+
+  "Filters": {
+    "genre": {
+      "name": "Genres",
+      "description": "This is the genre of a film that reflects its main idea, or what it looks like. This can be very important for people looking for a film to watch. It can be either a very narrow genre or a broad one. For example, a war film can be both a drama and an action film, but it cannot be a comedy. This can be important for people looking for a film to watch."
+    },
+    "subgenre": {
+      "name": "Subgenres",
+      "description": "This is a subgenre of a film that reflects its additional idea, or what it looks like. This can be very important for people looking for a film to watch. It can be either a very narrow genre or a broad one. For example, a war film can be both a drama and an action film, but it cannot be a comedy. This can be important for people looking for a film to watch."
+    },
+    "specification": {
+      "name": "Specifications",
+      "description": "This is a component of a film that does not describe a specific thing, but rather a concept or abstract tool that allows the main story/plot to exist or work. It can describe everything and nothing at the same time. It is not about the soul of the film or the skeleton, but rather about what exists between all these details. This category reflects the deeper ideas and structural features of the film. Important! Because there are an infinite number of films, the specification can (or should) be different for each. For example, zombies are in many films, but how they are presented is another question and the percentage of suitability will tell about this."
+    },
+    "keyword": {
+      "name": "Keywords",
+      "description": "It's about specific details of the film that stand out and, importantly, are the ones that most often remind you of the film. They can motivate you to watch the film again. These details can be anything: characters, music, action, etc. The percentage of suitability will indicate the time spent on these details, the quality, for example, the music can be great but does not force you to add it to the playlist. Comparisons between similar details from other films and although this is generally not worth doing, but when someone sets a higher bar, you cannot deny it and you will automatically compare the performance of this character/actor (e.g. Joker) with the performance of others, etc."
+    },
+    "action_time": {
+      "name": "Action Times",
+      "description": "Indicates the time or historically known events in which the main plot of the film takes place. Here are only the most basic, because it is impossible to cover all existing ones. If the film shows many locations and an unknown time, for example, a planet of aliens who are more developed, then in this case simply indicate the time in which the main characters live. This can be both real time and time that is invented for the film."
+    },
+    "actor": "Actors",
+    "director": "Director",
+    "directorPlural": "Directors"
+  },
+
+  "MovieParts": {
+    "related": "Related Movies",
+    "similar": "Similar Movies",
+    "boxOffice": {
+      "budget": "The total budget of the picture, how much was spent.",
+      "domesticGross": "How much the movie earned in the country where it was filmed. Also, only the studio producer can be considered domestic (a movie can be made in many countries).",
+      "worldwideGross": "How much the movie has earned for all time (or until now) around the world."
+    }
+  },
+
+  "Rating": {
+    "acting": {
+      "name": "Acting",
+      "description": "The acting is evaluated, their ability to convey emotions well, reveal the character's character, how they fit into the universe of the film and their interaction with other actors. It is also evaluated how alive the characters came out (whom you believe 100%). It also happens that the character is just an ordinary person, but the actor played so well that you can't imagine anyone else in this role (even if it's the only such role in the actor's career). Note: you can evaluate both the performance of one actor and all of them. The main thing is that the acting should be of high quality."
+    },
+    "plot_storyline": {
+      "name": "Plot/Storyline",
+      "description": "The plot, character storylines, the revelation of issues and conflicts, the progression of everything (including the world of the film itself) are evaluated. How creatively they approached various clichés. A high-quality ending and an answer to the questions raised or a reasonable continuation (i.e. not just for the sake of money)."
+    },
+    "script_dialogue": {
+      "name": "Script/Dialogue",
+      "description": "The quality of the dialogues is assessed, how well they reveal the characters and the surrounding world. Is there a strength of subtext and intelligent understatement, where everything is not chewed over for you like a child. Where there are no 10-minute dialogues for nothing. Note: you should not compare everything to 'Tarantino' dialogues, which are of course the pinnacle of art, but most films simply do not meet this criterion."
+    },
+    "music": {
+      "name": "Music",
+      "description": "It is evaluated how well the music fits the context of the film, sets the right mood and describes the events. It can even immerse you in the film more than any other aspect. Music can be memorable and then give you an incentive to watch the film again. You should not give a bad rating if there is little or no music or it is quiet or absent altogether. Epic music or its absence should work in context."
+    },
+    "enjoyment": {
+      "name": "Enjoyment",
+      "description": "The pleasure that the movie brought is evaluated. Here you don't need to think about other evaluation criteria, about reviews or other people's opinions. The most important thing is only subjective impressions. For example, a movie can be stupid, but if it gave a little good mood, then it should be evaluated relatively."
+    },
+    "production_design": {
+      "name": "Production Design",
+      "description": "The quality of clothing, costumes, scenery, props, etc. (not graphics) is evaluated. How well these things convey a certain period of time. For example, if in Ancient Greece instead of beautiful scenery, modern architecture is shown, which is simply similar, then this is poor quality work."
+    },
+    "visual_effects": {
+      "name": "Visual Effects",
+      "description": "The quality of the graphics and various effects is evaluated in relation to the given film. That is, one should not compare the graphics of the 80s and the 2020s. The graphics should be harmoniously integrated into the overall picture of the film and should be appropriate, and not just graphics for the sake of graphics."
+    },
+    "scare_factor": {
+      "name": "Scare Factor",
+      "description": "It is assessed how much the film was able to evoke a feeling of fear or creepiness when the events of the film did not let go for some time. Note: simple screamers that scare are not real fear, but simply a reaction to a sudden/sharp action accompanied by a loud sound. This technique should be auxiliary, not the main or frequently used."
+    },
+    "humor": {
+      "name": "Humor",
+      "description": "A film that has a comedic element from beginning to end, where funny acting is an element of the world, not “feigning for the sake of feigning.” The worldbuilding has a funny or caricature element. The characters exist with something that seems funny and stupid to us, but for them it is part of life. The most important thing is that the funny/stupid element remains until the end of the film, and it is not eliminated. For example, Mr. Bean or the Pink Panther, who save the world in bizarre ways. That is, they did not become “normal” by the end of the film, but continued their “natural” life further. It is evaluated how much logic and comedy work together. And how funny the film was overall. Examples: Idiocracy, Don't Threaten South Central..., Jay and Silent Bob... Note: films like 9 Yards do not fit this criterion, because the comedy there is that an ordinary person gets involved in crime and starts behaving like a fool, but then gets used to it and therefore everything smoothly becomes normal for him (and for the viewer)."
+    },
+    "animation_cartoon": {
+      "name": "Animation/Cartoon",
+      "description": "These are popular full-length cartoons like Shrek or Treasure Island. The quality of the picture, animation, characters, etc. is evaluated. In the 'Action' criterion, the voice, emotions and how the voice actor naturally conveyed the character's character are evaluated."
+    },
+    "ratingType": {
+      "my": "My Rating",
+      "overall": "Overall Rating",
+      "owner": "Owner Rating"
+    }
+  },
+
   "notImplemented": "not implemented yet",
   "Other": {
+    "showValues": "Show values",
+    "total": "Total",
+    "saveRating": "Save rating",
+    "lastSeenTitles": "Last Seen Titles",
+
     "paginationPrev": "Previous",
     "paginationNext": "Next",
 

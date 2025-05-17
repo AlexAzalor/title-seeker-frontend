@@ -66,9 +66,17 @@ test("Should render PaginationContoller", () => {
 });
 
 test("Should render ActorsCarousel", () => {
-  render(<ActorsCarousel actors={[]} avatarURL="test" lang={Language.en} />, {
-    wrapper: ProjectProviders,
-  });
+  render(
+    <ActorsCarousel
+      name="test"
+      actors={[]}
+      avatarURL="test"
+      lang={Language.en}
+    />,
+    {
+      wrapper: ProjectProviders,
+    },
+  );
 
   expect(screen.getByLabelText("actors-carousel")).toBeDefined();
 });
@@ -169,14 +177,12 @@ test("Should render MovieMoney", () => {
 });
 
 test("Should render RateSlider", () => {
-  const title = "Test slider";
   render(
     <RateSlider
       defaultValue={50}
       max={100}
       onValueChange={() => {}}
       showValue
-      title={title}
       type="acting"
       value={70}
     />,
@@ -185,7 +191,7 @@ test("Should render RateSlider", () => {
     },
   );
 
-  expect(screen.getByText(title)).toBeDefined();
+  expect(screen.getByText("Acting")).toBeDefined();
 });
 
 test("Should render ResponsiveWrapper", async () => {
