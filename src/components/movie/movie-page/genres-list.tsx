@@ -40,7 +40,6 @@ export const GenresList = ({ genres, subgenres }: Props) => {
           movieKey={"movieKey"}
           data={genres}
           filterKey={GENRE_KEY}
-          title="Genres"
         />
       </GenreContext>
 
@@ -56,7 +55,6 @@ export const GenresList = ({ genres, subgenres }: Props) => {
             movieKey={"movieKey"}
             data={subgenres}
             filterKey={SUBGENRE_KEY}
-            title="Subgenres"
           />
         </GenreContext>
       )}
