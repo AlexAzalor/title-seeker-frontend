@@ -1,10 +1,12 @@
 "use client";
 
 import { useSession } from "next-auth/react";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 
 export const AdminSidebarNav = () => {
   const session = useSession();
+  const t = useTranslations("MenuItems");
 
   if (!session.data?.user || session.data.user.role !== "owner") {
     return null;
@@ -16,7 +18,7 @@ export const AdminSidebarNav = () => {
         href="/user/new-movies-to-add"
         className="dark:hover:bg-main-dark-hover hover:bg-white-dark relative cursor-pointer rounded-[6px] px-2 py-1 text-lg transition-colors"
       >
-        <span>New Movies to add</span>
+        <span>{t("newMoviesToAdd.label")}</span>
         {!!moviesCount && (
           <div className="absolute top-[25%] right-1 size-5 rounded-full bg-red-200 text-center text-sm font-bold dark:text-black">
             {moviesCount}
@@ -28,7 +30,7 @@ export const AdminSidebarNav = () => {
         href="/user/all-users"
         className="dark:hover:bg-main-dark-hover hover:bg-white-dark cursor-pointer rounded-[6px] px-2 py-1 text-lg transition-colors"
       >
-        Users list
+        {t("allUsers.label")}
       </Link>
     </div>
   );

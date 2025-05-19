@@ -1,10 +1,12 @@
 import { auth } from "@/auth";
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 import { backendURL } from "@/lib/constants";
 import { getMovies } from "@/orval_api/movies/movies";
 
 export default async function NewMoviesToAddPage() {
   const session = await auth();
+  const t = await getTranslations("QuickMovie");
 
   if (!session?.user && session?.user.role !== "owner") {
     return null;
@@ -20,14 +22,15 @@ export default async function NewMoviesToAddPage() {
   if (!data.quick_movies.length) {
     return (
       <div className="flex h-full items-center justify-center">
-        <h1 className="text-2xl">No quick movies to add</h1>
+        <h1 className="text-2xl">{t("empty")}</h1>
       </div>
     );
   }
 
   return (
     <div>
-      <h1 className="mb-2">New Movies to add</h1>
+      <h1 className="mb-2">{t("title")}</h1>
+      <p className="mb-4">{t("subTitle")}</p>
 
       <div className="flex flex-wrap gap-5">
         {data.quick_movies.map((movie) => (

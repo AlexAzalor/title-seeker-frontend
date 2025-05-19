@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useMediaQuery } from "@/hooks/use-media-query";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 
 import {
@@ -54,7 +54,7 @@ const formatDateForChart = (
 
 const chartConfig = {
   rating: {
-    label: "Movies",
+    label: "Movie",
     color: "var(--chart-1)",
   },
   // Second graph
@@ -69,8 +69,10 @@ type Props = {
 };
 
 export function TimeRateChart({ moviesTimeRateData }: Props) {
-  const locale = useLocale() as keyof typeof Language;
   const isMobile = useMediaQuery("(max-width: 640px)");
+  const t = useTranslations("Charts");
+
+  const locale = useLocale() as keyof typeof Language;
   const [moviesCount, setMoviesCount] = useState("30");
 
   const num = Number(moviesCount);
@@ -79,11 +81,9 @@ export function TimeRateChart({ moviesTimeRateData }: Props) {
     <Card aria-label="time-rate-chart">
       <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
         <div className="grid flex-1 gap-1 text-center sm:text-left">
-          <CardTitle>Latest movie ratings</CardTitle>
+          <CardTitle>{t("timeChart")}</CardTitle>
 
-          <CardDescription>
-            Shows the dynamics of movie ratings.
-          </CardDescription>
+          <CardDescription>{t("timeChartSubtext")}</CardDescription>
         </div>
 
         <Select value={moviesCount} onValueChange={setMoviesCount}>

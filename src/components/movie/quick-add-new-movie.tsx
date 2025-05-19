@@ -1,7 +1,9 @@
 "use client";
 
 import { useRef } from "react";
-
+import { useSession } from "next-auth/react";
+import { useTranslations } from "next-intl";
+import type { Session } from "next-auth";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,6 +22,9 @@ import { RatingDataOut } from "./add-movie/key-fields-form";
 import { FormWrapper } from "../my-custom-ui/form-ui-parts/form-wrapper";
 
 export const QuicklyAddNewMovie = () => {
+  const t = useTranslations("Form.quickMovie");
+  const { data: sessionData, update } = useSession();
+
   const ratingRef = useRef<RatingDataOut>({
     ratingData: {} as UserRatingCriteria,
     ratingCriterionType: RatingCriterion.basic,
@@ -57,6 +62,16 @@ export const QuicklyAddNewMovie = () => {
 
     if (response.status === 201) {
       toast.success(response?.message);
+
+      if (sessionData?.user.role === "owner") {
+        await update({
+          user: {
+            ...sessionData.user,
+            new_movies_to_add_count:
+              sessionData.user.new_movies_to_add_count + 1,
+          },
+        } as Session);
+      }
     }
 
     if (response.status === 400) {
@@ -79,7 +94,7 @@ export const QuicklyAddNewMovie = () => {
       <span aria-label="quick-add-new-movie" className="sr-only"></span>
       <FormField
         type="text"
-        label="Title EN"
+        label={t("movieTitleEn")}
         name="title_en"
         register={register}
         error={errors.title_en}
@@ -87,7 +102,7 @@ export const QuicklyAddNewMovie = () => {
 
       <FormField
         type="text"
-        label="Key"
+        label={t("key")}
         name="key"
         register={register}
         error={errors.key}

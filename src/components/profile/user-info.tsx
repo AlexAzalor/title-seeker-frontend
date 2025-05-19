@@ -1,12 +1,14 @@
 "use client";
 
 import { useSession } from "next-auth/react";
+import { useTranslations } from "next-intl";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { formatDate } from "@/lib/utils";
 import {
   GenreChartDataListTotalActorsCount,
   Language,
 } from "@/orval_api/model";
+import { Separator } from "../ui/separator";
 
 type Props = {
   lang: Language;
@@ -23,6 +25,7 @@ export const UserInfo = ({
   moviesRated,
   totalActorsCount,
 }: Props) => {
+  const t = useTranslations("User");
   const session = useSession();
   const user = session?.data?.user;
   if (!user) {
@@ -43,32 +46,37 @@ export const UserInfo = ({
           <div>
             <p className="text-lg font-bold">{user.name}</p>
             <p>{user.email}</p>
-            <p>Joined {formatDate(joinedDate, lang)}</p>
+            <Separator className="my-2" />
+            <div>
+              <p>{t("joined")}:</p>
+              <span className="font-bold">{formatDate(joinedDate, lang)}</span>
+            </div>
           </div>
         </div>
 
+        <Separator />
+
         <div>
-          <p>
-            Movies rated: <span className="font-bold">{moviesRated}</span>
-          </p>
-          {!!totalActorsCount && (
-            <p>
-              Total Actors:{" "}
+          <div>
+            <p>{t("ratedCount")}:</p>
+            <span className="font-bold">{moviesRated}</span>
+          </div>
+
+          {!!totalActorsCount && user.role === "owner" && (
+            <div>
+              <p>{t("totalActors")}:</p>
               <span className="font-bold">{totalActorsCount}</span>
-            </p>
+            </div>
           )}
+
           {lastMovieRateDate && (
-            <p>
-              Date of last movie rating:{" "}
+            <div>
+              <p>{t("lastRatingDate")}:</p>
               <span className="font-bold">
                 {formatDate(lastMovieRateDate, lang)}
               </span>
-            </p>
+            </div>
           )}
-        </div>
-
-        <div>
-          <p>Some other info</p>
         </div>
       </div>
     </div>

@@ -240,7 +240,52 @@
       "bornInEn": "Born in (en)",
       "bornInUk": "Born in (uk)",
       "avatar": "Avatar"
+    },
+    "quickMovie": {
+      "title": "Quickly add new Movie",
+      "movieTitleEn": "Title (en)",
+      "key": "Key"
     }
+  },
+
+  "Charts": {
+    "genresTitle": "Top 8 most popular movie genres",
+    "genresSubtext": "Shows how many movies with these genres you have rated.",
+    "topMoviesTitle": "My Top 3 Movies",
+    "topMoviesSubtext": "Shows your most rated movies.",
+    "timeChart": "Latest movie ratings",
+    "timeChartSubtext": "Shows the dynamics of movie ratings."
+  },
+  "User": {
+    "joined": "Joined",
+    "ratedCount": "Rated movies",
+    "totalActors": "Total actors",
+    "lastRatingDate": "Date of last rating"
+  },
+
+  "Dashboard": {
+    "title": "Dashboard",
+    "subTitle": "Welcome to your dashboard!"
+  },
+
+  "QuickMovie": {
+    "title": "New Movies to add",
+    "subTitle": "List of movies that need to be added to the database.",
+    "empty": "No movies to add"
+  },
+
+  "AllUsers": {
+    "title": "All Users"
+  },
+
+  "Settings": {
+    "title": "Settings",
+    "subTitle": "Manage your account settings here",
+    "language": "Language",
+    "langSubtext": "Here you can save the language that will be used by default. Changing the language elsewhere changes it only for the current session.",
+    "delete": "Delete Profile",
+    "deleteSubtext": "If you delete your profile, you will lose all rated titles.",
+    "deleteWarning": "Are you sure you want to delete your profile? This action cannot be undone."
   },
 
   "notImplemented": "not implemented yet",

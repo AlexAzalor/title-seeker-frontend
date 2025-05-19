@@ -3,12 +3,16 @@ import { backendURL } from "@/lib/constants";
 import { formatDate } from "@/lib/utils";
 import { Language } from "@/orval_api/model";
 import { getUsers } from "@/orval_api/users/users";
+import { getLocale, getTranslations } from "next-intl/server";
 
 export default async function AllUsersPage() {
   const session = await auth();
   if (session?.user.role !== "owner") {
     return null;
   }
+
+  const t = await getTranslations("AllUsers");
+  const locale = (await getLocale()) as Language;
 
   const { aPIGetAllUsers } = getUsers();
   const { data: users } = await aPIGetAllUsers(
@@ -18,7 +22,7 @@ export default async function AllUsersPage() {
 
   return (
     <div>
-      <h1 className="mb-3 text-2xl">All Users</h1>
+      <h1 className="mb-3 text-2xl">{t("title")}</h1>
 
       <div className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border flex w-fit flex-wrap rounded-[24px] border p-3">
         {users.users.map((user) => (
@@ -27,7 +31,7 @@ export default async function AllUsersPage() {
             <p>Email: {user.email}</p>
             <p>Role: {user.role}</p>
             <p>UUID: {user.uuid}</p>
-            <p>Created At: {formatDate(user.created_at, Language.en)}</p>
+            <p>Created At: {formatDate(user.created_at, locale)}</p>
           </div>
         ))}
       </div>

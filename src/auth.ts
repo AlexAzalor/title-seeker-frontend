@@ -103,6 +103,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       // To update the session object from components
       if (trigger === "update" && session) {
         token.my_language = session.user.my_language;
+        token.new_movies_to_add_count = session.user.new_movies_to_add_count;
         return token;
       }
 

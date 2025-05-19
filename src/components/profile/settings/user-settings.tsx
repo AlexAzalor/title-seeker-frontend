@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Session } from "next-auth";
 import { signOut, useSession } from "next-auth/react";
 import { deleteProfile, setLanguage } from "@/app/services/user-api";
@@ -12,6 +13,8 @@ import { setUserLocale } from "@/app/services/locale";
 import { Separator } from "@/components/ui/separator";
 
 export const UserSettings = () => {
+  const t = useTranslations("Settings");
+
   const { data, update } = useSession();
   const [open, setOpen] = useState(false);
 
@@ -53,20 +56,16 @@ export const UserSettings = () => {
 
   return (
     <>
-      <h1 aria-label="settings">Settings</h1>
+      <h1 aria-label="settings">{t("title")}</h1>
 
-      <p>Manage your account settings here.</p>
+      <p>{t("subTitle")}</p>
 
       <Separator className="my-4" />
 
       <div className="flex flex-col gap-4">
         <div>
-          <h3>Language</h3>
-          <p>
-            Here you can save the language that will be used by default.
-            Changing the language elsewhere changes it only for the current
-            session.
-          </p>
+          <h3>{t("language")}</h3>
+          <p>{t("langSubtext")}</p>
           <div className="flex gap-2">
             <Button
               onClick={() => handleLocaleChange(Language.uk)}
@@ -86,19 +85,17 @@ export const UserSettings = () => {
         <Separator />
 
         <div>
-          <h3>Delete Profile</h3>
+          <h3>{t("delete")}</h3>
+          <p>{t("deleteSubtext")}</p>
           <Button className="w-max" variant="destructive" onClick={handleOpen}>
-            Delete Profile
+            {t("delete")}
           </Button>
         </div>
       </div>
 
-      <ModalWindow title="Delete Profile" open={open} setOpen={setOpen}>
+      <ModalWindow title={t("delete")} open={open} setOpen={setOpen}>
         <div>
-          <p className="text-lg">
-            Are you sure you want to delete your profile? This action cannot be
-            undone.
-          </p>
+          <p className="text-lg">{t("deleteWarning")}</p>
 
           {isOwner && (
             <p className="text-sm font-bold text-red-500">

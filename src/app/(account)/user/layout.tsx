@@ -1,10 +1,13 @@
 import Link from "next/link";
 
+import { useTranslations } from "next-intl";
 import { SortBy, SortOrder } from "@/orval_api/model";
 import { AdminSidebarNav } from "@/components/profile/admin/admin-sidebar-nav";
 import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from "@/lib/constants";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
+  const t = useTranslations("MenuItems");
+
   return (
     <div className="flex min-h-screen w-full gap-10 p-4 2xl:p-20">
       <div className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border hidden max-h-120 w-60 flex-col justify-between rounded-[34px] border p-4 transition-colors duration-300 2xl:flex">
@@ -13,13 +16,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             href="/user/profile"
             className="dark:hover:bg-main-dark-hover hover:bg-white-dark cursor-pointer rounded-[6px] px-2 py-1 text-lg transition-colors"
           >
-            Profile
+            {t("profile.label")}
           </Link>
           <Link
             href="/user/dashboard"
             className="dark:hover:bg-main-dark-hover hover:bg-white-dark cursor-pointer rounded-[6px] px-2 py-1 text-lg transition-colors"
           >
-            Dashboard
+            {t("dashboard.label")}
           </Link>
           <Link
             href={{
@@ -33,7 +36,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             }}
             className="dark:hover:bg-main-dark-hover hover:bg-white-dark cursor-pointer rounded-[6px] px-2 py-1 text-lg transition-colors"
           >
-            My lists
+            {t("myLists.label")}
           </Link>
         </ul>
 
@@ -43,7 +46,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           href="/user/settings"
           className="dark:hover:bg-main-dark-hover hover:bg-white-dark cursor-pointer rounded-[6px] px-2 py-1 text-lg transition-colors"
         >
-          Settings
+          {t("settings.label")}
         </Link>
       </div>
 

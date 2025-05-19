@@ -1,6 +1,6 @@
 "use client";
 
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { PolarAngleAxis, PolarGrid, Radar, RadarChart } from "recharts";
 
 import {
@@ -24,6 +24,8 @@ type Props = {
 };
 
 export function GenreRadarChart({ radarData }: Props) {
+  const t = useTranslations("Charts");
+
   const locale = useLocale();
   const lang = Language[locale as keyof typeof Language];
 
@@ -37,10 +39,8 @@ export function GenreRadarChart({ radarData }: Props) {
   return (
     <Card className="mb-4 w-fit" aria-label="genre-radar-chart">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Top 8 most popular movie genres</CardTitle>
-        <CardDescription>
-          Shows how many movies with these genres you have rated.
-        </CardDescription>
+        <CardTitle>{t("genresTitle")}</CardTitle>
+        <CardDescription>{t("genresSubtext")}</CardDescription>
       </CardHeader>
       <CardContent className="relative pb-0">
         <ChartContainer
