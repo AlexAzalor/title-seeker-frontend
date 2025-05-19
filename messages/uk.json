@@ -53,7 +53,8 @@
     },
     "logout": "Вийти",
     "notFound": "Не знайдено.",
-    "addNew": "Додати?"
+    "addNew": "Додати?",
+    "search": "Шукати..."
   },
   "Search": {
     "search": "Шукати...",
@@ -95,7 +96,12 @@
     },
     "actor": "Актори",
     "director": "Режисер",
-    "directorPlural": "Режисери"
+    "directorPlural": "Режисери",
+    "genreNotFound": "Жанр не знайдено",
+    "subgenreNotFound": "Піджанрів не знайдено АБО спочатку виберіть жанр.",
+    "filterNotFound": "Фільтр не знайдено",
+    "peopleNotFound": "Людини не знайдено",
+    "addNewItem": "Додати новий фільтр"
   },
 
   "MovieParts": {

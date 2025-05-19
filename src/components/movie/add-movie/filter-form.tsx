@@ -200,7 +200,9 @@ export const FilterForm = ({
 
           <div className="mb-5 flex w-full flex-col items-center gap-6">
             <div className="flex items-center gap-2">
-              <h1 className="text-main-ui-purple">Keyword</h1>
+              <h1 className="text-main-ui-purple">
+                {tFilters("keyword.name")}
+              </h1>
               <TooltipWrapper content={tFilters("keyword.description")}>
                 <InfoIcon className="h-4 w-4" />
               </TooltipWrapper>
@@ -267,7 +269,9 @@ export const FilterForm = ({
 
           <div className="mb-5 flex w-full flex-col items-center gap-6">
             <div className="flex items-center gap-2">
-              <h1 className="text-main-ui-purple">Action Times</h1>
+              <h1 className="text-main-ui-purple">
+                {tFilters("action_time.name")}
+              </h1>
               <TooltipWrapper content={tFilters("action_time.description")}>
                 <InfoIcon className="h-4 w-4" />
               </TooltipWrapper>

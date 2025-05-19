@@ -29,6 +29,7 @@ export const EXACT_MATCH_KEY = "exact_match";
 export const GenreSelector = ({ genres }: Props) => {
   const router = useRouter();
   const t = useTranslations("SuperSearch");
+  const tFilters = useTranslations("Filters");
 
   const currentSearchParams = useSearchParams();
   const currentSelectedGenres = currentSearchParams.getAll(GENRE_KEY);
@@ -156,11 +157,10 @@ export const GenreSelector = ({ genres }: Props) => {
         <Checkbox checked={!!currentExactMatch} className="cursor-pointer" />
       </Label>
 
-      <ResponsiveWrapper title="Genres">
+      <ResponsiveWrapper title={tFilters("genre.name")}>
         <ItemsSelector
-          title="Genres"
           items={genres}
-          emptyText="No genres found"
+          emptyText={tFilters("genreNotFound")}
           onSelect={(currentValue, key, genre) => {
             updateSearchParameters(genre.key, GENRE_KEY);
 
@@ -184,11 +184,10 @@ export const GenreSelector = ({ genres }: Props) => {
         />
       </ResponsiveWrapper>
 
-      <ResponsiveWrapper title="Subgenres">
+      <ResponsiveWrapper title={tFilters("subgenre.name")}>
         <ItemsSelector
-          title="Subgenres"
           items={subgenres}
-          emptyText="No subgenres found OR select a genre first."
+          emptyText={tFilters("subgenreNotFound")}
           onSelect={(currentValue, key) => {
             updateSearchParameters(key, SUBGENRE_KEY);
           }}

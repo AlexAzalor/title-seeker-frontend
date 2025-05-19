@@ -24,7 +24,6 @@ type ItemFields = {
 };
 
 type Props<Datum extends ItemFields> = {
-  title?: string;
   items: Datum[];
   onSelect: (value: string, itemKey: string, genre: Datum) => void;
   onOpenModal?: () => void;
@@ -46,7 +45,7 @@ const ItemsSelector = <Datum extends ItemFields>({
 
   return (
     <>
-      <CommandInput placeholder="Search items..." className="h-9" />
+      <CommandInput placeholder={t("search")} className="h-9" />
       <CommandList>
         <CommandEmpty>
           {emptyText ? (

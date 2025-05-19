@@ -1,6 +1,7 @@
 "use client";
 
 import { FilterItemOut } from "@/orval_api/model";
+import { useTranslations } from "next-intl";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ItemsSelector } from "../my-custom-ui/items-list-selector";
 
@@ -14,11 +15,11 @@ import { ResponsiveWrapper } from "../my-custom-ui/responsive-wrapper";
 type Props = {
   data: FilterItemOut[];
   param_key: string;
-  title: string;
 };
 
-export const FilterSelector = ({ data, param_key, title }: Props) => {
+export const FilterSelector = ({ data, param_key }: Props) => {
   const router = useRouter();
+  const t = useTranslations("Filters");
 
   const currentSearchParams = useSearchParams();
   const selectedFilter = currentSearchParams.getAll(param_key);
@@ -35,11 +36,10 @@ export const FilterSelector = ({ data, param_key, title }: Props) => {
   }
 
   return (
-    <ResponsiveWrapper title={title}>
+    <ResponsiveWrapper title={t(`${param_key}.name`)}>
       <ItemsSelector
-        title={title}
         items={data}
-        emptyText="Nothing found"
+        emptyText={t("filterNotFound")}
         onSelect={(currentValue, key, genre) => {
           onClick(genre.key);
         }}

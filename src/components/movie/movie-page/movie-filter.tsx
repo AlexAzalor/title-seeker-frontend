@@ -8,7 +8,6 @@ import { useModal } from "@/hooks/use-modal";
 import { cn } from "@/lib/utils";
 import { CustomModal } from "../../my-custom-ui/custom-modal";
 import { FilterItemOut, MovieFilterItem } from "@/orval_api/model";
-import { movieComponents } from "@/lib/constants";
 
 import { TooltipWrapper } from "@/components/my-custom-ui/tooltip-wrapper";
 import {
@@ -40,7 +39,6 @@ type Props = {
   movieKey: string;
   data: MovieFilterItem[];
   filterKey: QueryKeys;
-  title: string;
 };
 
 const textColor = {
@@ -51,7 +49,7 @@ const textColor = {
   [ACTION_TIME_KEY]: "movie-act-time-text",
 };
 
-export const MovieFilter = ({ movieKey, data, filterKey, title }: Props) => {
+export const MovieFilter = ({ movieKey, data, filterKey }: Props) => {
   const session = useSession();
   const t = useTranslations("Filters");
   const { isOpen, open, close } = useModal();
@@ -126,9 +124,9 @@ export const MovieFilter = ({ movieKey, data, filterKey, title }: Props) => {
                 filterKey === ACTION_TIME_KEY && "movie-act-time-text",
               )}
             >
-              {title}
+              {t(`${filterKey}.name`)}
             </p>
-            <TooltipWrapper content={movieComponents[filterKey]}>
+            <TooltipWrapper content={t(`${filterKey}.description`)}>
               <InfoIcon className="h-4 w-4" />
             </TooltipWrapper>
           </div>

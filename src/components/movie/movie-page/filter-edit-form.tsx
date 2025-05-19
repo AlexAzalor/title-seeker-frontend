@@ -1,6 +1,7 @@
 "use client";
 
 import { Suspense, useState } from "react";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import { useFieldArray, useForm } from "react-hook-form";
@@ -48,6 +49,7 @@ export const FilterEditForm = ({
   selectedFilterItems,
   filterType,
 }: Props) => {
+  const t = useTranslations("Filters");
   const router = useRouter();
   const [openFilterFormModal, setOpenFilterFormModal] = useState(false);
 
@@ -101,7 +103,7 @@ export const FilterEditForm = ({
       >
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">
           <div className="mb-5 flex w-full flex-col items-center gap-6">
-            <ResponsiveWrapper title="Add new filter item">
+            <ResponsiveWrapper title={t("addNewItem")}>
               <ItemsSelector
                 items={filterItems}
                 onOpenModal={() => setOpenFilterFormModal(true)}
@@ -133,7 +135,6 @@ export const FilterEditForm = ({
               <div key={field.id} className="grid grid-cols-2 gap-4">
                 <FormField
                   type="text"
-                  label="Name"
                   name={`specifications.${index}.name`}
                   register={register}
                   error={undefined}

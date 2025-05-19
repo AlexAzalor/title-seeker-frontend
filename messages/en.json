@@ -52,7 +52,8 @@
     },
     "logout": "Log out",
     "notFound": "No item found.",
-    "addNew": "Add?"
+    "addNew": "Add?",
+    "search": "Search..."
   },
   "Search": {
     "search": "Search...",
@@ -94,7 +95,12 @@
     },
     "actor": "Actors",
     "director": "Director",
-    "directorPlural": "Directors"
+    "directorPlural": "Directors",
+    "genreNotFound": "Genre not found",
+    "subgenreNotFound": "No subgenres found OR select a genre first.",
+    "filterNotFound": "Filter not found",
+    "peopleNotFound": "No person found",
+    "addNewItem": "Add new filter"
   },
 
   "MovieParts": {

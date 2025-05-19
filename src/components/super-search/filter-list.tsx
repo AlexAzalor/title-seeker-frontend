@@ -39,28 +39,12 @@ export const FilterList = ({
     >
       <GenreSelector genres={genres} />
 
-      <FilterSelector
-        title="Specification"
-        data={specifications}
-        param_key={SPEC_KEY}
-      />
-      <FilterSelector title="Keyword" data={keywords} param_key={KEYWORD_KEY} />
-      <FilterSelector
-        title="Action Time"
-        data={action_times}
-        param_key={ACTION_TIME_KEY}
-      />
+      <FilterSelector data={specifications} param_key={SPEC_KEY} />
+      <FilterSelector data={keywords} param_key={KEYWORD_KEY} />
+      <FilterSelector data={action_times} param_key={ACTION_TIME_KEY} />
 
-      <PersonSelector
-        peopleList={actors}
-        title="Actors"
-        personKey={ACTOR_KEY}
-      />
-      <PersonSelector
-        peopleList={directors}
-        title="Directors"
-        personKey={DIRECTOR_KEY}
-      />
+      <PersonSelector peopleList={actors} personKey={ACTOR_KEY} />
+      <PersonSelector peopleList={directors} personKey={DIRECTOR_KEY} />
     </div>
   );
 };

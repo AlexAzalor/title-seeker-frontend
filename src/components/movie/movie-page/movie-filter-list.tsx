@@ -27,21 +27,18 @@ export const MovieFilterList = ({
         movieKey={movieKey}
         data={specifications}
         filterKey={SPEC_KEY}
-        title="Specifications"
       />
 
       <MovieFilter
         movieKey={movieKey}
         data={keywords}
         filterKey={KEYWORD_KEY}
-        title="Keywords"
       />
 
       <MovieFilter
         movieKey={movieKey}
         data={action_times}
         filterKey={ACTION_TIME_KEY}
-        title="Action Times"
       />
     </div>
   );

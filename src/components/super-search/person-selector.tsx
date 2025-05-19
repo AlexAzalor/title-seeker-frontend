@@ -1,19 +1,20 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 import type { ActorOut, DirectorOut } from "@/orval_api/model";
 import { ItemsSelector } from "../my-custom-ui/items-list-selector";
 import { manageSearchParameters } from "@/lib/utils";
 import { ResponsiveWrapper } from "../my-custom-ui/responsive-wrapper";
 
 type Props = {
-  title: string;
   peopleList: ActorOut[] | DirectorOut[];
   personKey: string;
 };
 
-export const PersonSelector = ({ peopleList, title, personKey }: Props) => {
+export const PersonSelector = ({ peopleList, personKey }: Props) => {
   const router = useRouter();
+  const t = useTranslations("Filters");
 
   const currentSearchParams = useSearchParams();
   const selectedPersons = currentSearchParams.getAll(personKey);
@@ -29,10 +30,10 @@ export const PersonSelector = ({ peopleList, title, personKey }: Props) => {
   }
 
   return (
-    <ResponsiveWrapper title={title}>
+    <ResponsiveWrapper title={t(`${personKey}`)}>
       <ItemsSelector
         items={peopleList}
-        emptyText="No people found"
+        emptyText={t("peopleNotFound")}
         onSelect={(v, key) => selectPerson(key)}
         checkIconStyle={selectedPersons}
       />
