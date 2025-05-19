@@ -1,4 +1,5 @@
 import { memo } from "react";
+import { useTranslations } from "next-intl";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -12,6 +13,7 @@ import { FieldError, Controller, Control } from "react-hook-form";
 import { RelatedMovieType } from "@/types/zod-scheme";
 
 type Props = {
+  label: string;
   defaultValue?: RelatedMovie;
   onValueChange?: (value: RelatedMovie) => void;
   name: "base_movie_key" | "collection_order" | "relation_type";
@@ -31,17 +33,18 @@ const TYPE_LIST = [
   // { value: RelatedMovie.shared_universe, label: "Shared Universe" },
 ];
 
-const TypeSelector = ({ defaultValue, name, control }: Props) => {
+const TypeSelector = ({ label, defaultValue, name, control }: Props) => {
+  const t = useTranslations("Form");
   return (
     <Controller
       control={control}
       name={name}
       render={({ field: { onChange }, fieldState: { error } }) => (
         <div className="mb-4 grid w-64 gap-2">
-          <Label htmlFor="rating-criteria">Rating Type</Label>
+          <Label htmlFor="rating-criteria">{label}</Label>
           <Select onValueChange={onChange} defaultValue={defaultValue}>
             <SelectTrigger id="rating-criteria">
-              <SelectValue placeholder="Select" />
+              <SelectValue placeholder={t("menuSelect")} />
             </SelectTrigger>
             <SelectContent>
               {TYPE_LIST.map((type) => (

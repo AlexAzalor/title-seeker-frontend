@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -24,6 +25,7 @@ type Props = {
 
 export const AddNewMovieFilter = ({ appendItem, fetchApi }: Props) => {
   const router = useRouter();
+  const t = useTranslations("Form.itemFields");
 
   const {
     register,
@@ -63,7 +65,7 @@ export const AddNewMovieFilter = ({ appendItem, fetchApi }: Props) => {
     <FormWrapper onSubmit={handleSubmit(onSubmit)} isSubmitting={isSubmitting}>
       <FormField
         type="text"
-        label="Key"
+        label={t("key")}
         name="key"
         register={register}
         error={errors.key}
@@ -72,7 +74,7 @@ export const AddNewMovieFilter = ({ appendItem, fetchApi }: Props) => {
 
       <FormField
         type="text"
-        label="Name En"
+        label={t("nameEn")}
         name="name_en"
         register={register}
         error={errors.name_en}
@@ -80,21 +82,21 @@ export const AddNewMovieFilter = ({ appendItem, fetchApi }: Props) => {
 
       <FormField
         type="text"
-        label="Name Uk"
+        label={t("nameUk")}
         name="name_uk"
         register={register}
         error={errors.name_uk}
       />
 
       <TextareaFormField
-        label="Description En"
+        label={t("descriptionEn")}
         name="description_en"
         register={register}
         error={errors.description_en}
       />
 
       <TextareaFormField
-        label="Description Uk"
+        label={t("descriptionUk")}
         name="description_uk"
         register={register}
         error={errors.description_uk}

@@ -50,7 +50,9 @@
       "key": "settings",
       "label": "Settings"
     },
-    "logout": "Log out"
+    "logout": "Log out",
+    "notFound": "No item found.",
+    "addNew": "Add?"
   },
   "Search": {
     "search": "Search...",
@@ -106,6 +108,7 @@
   },
 
   "Rating": {
+    "basic": "Basic",
     "acting": {
       "name": "Acting",
       "description": "The acting is evaluated, their ability to convey emotions well, reveal the character's character, how they fit into the universe of the film and their interaction with other actors. It is also evaluated how alive the characters came out (whom you believe 100%). It also happens that the character is just an ordinary person, but the actor played so well that you can't imagine anyone else in this role (even if it's the only such role in the actor's career). Note: you can evaluate both the performance of one actor and all of them. The main thing is that the acting should be of high quality."
@@ -147,9 +150,96 @@
       "description": "These are popular full-length cartoons like Shrek or Treasure Island. The quality of the picture, animation, characters, etc. is evaluated. In the 'Action' criterion, the voice, emotions and how the voice actor naturally conveyed the character's character are evaluated."
     },
     "ratingType": {
+      "name": "Rating type",
       "my": "My Rating",
       "overall": "Overall Rating",
       "owner": "Owner Rating"
+    }
+  },
+  "Form": {
+    "submit": "Submit",
+    "clear": "Clear form",
+    "prevStep": "Previous step",
+    "nextStep": "Next step",
+    "skip": "Skip",
+    "menuSelect": "Select",
+    "stepper": {
+      "titleRate": {
+        "name": "Title/Rate",
+        "titleEn": "Title (en)",
+        "titleUk": "Title (uk)",
+        "key": "Key",
+        "poster": "Poster"
+      },
+      "sharedUniverse": {
+        "name": "Shared Universe",
+        "order": "Order",
+        "addNewSU": "Add new universe"
+      },
+      "relatedMovie": {
+        "name": "Related Movie",
+        "base": "Base movie",
+        "collectionOrder": "Collection order",
+        "relationType": "Relation type",
+        "notFount": "If no movie in the list - Skip"
+      },
+      "info": {
+        "name": "Info",
+        "descriptionEn": "Description (en)",
+        "descriptionUk": "Description (uk)",
+        "date": "Release date",
+        "locationEn": "Location (en)",
+        "locationUk": "Location (uk)",
+        "duration": "Duration (in minutes)",
+        "budget": "Budget ($)",
+        "domesticGross": "Domestic gross ($)",
+        "worldwideGross": "Worldwide gross ($)"
+      },
+      "people": {
+        "name": "People",
+        "actors": "Actors",
+        "orderInfo": "Order of actors is important. The first actor will be the main, and so on.",
+        "directors": "Directors",
+        "selectActors": "Select the actors",
+        "selectDirectors": "Select the directors",
+        "addActor": "Add new Actor",
+        "addDirector": "Add new Director",
+        "addChar": "Add new Character"
+      },
+      "genres": {
+        "name": "Genres",
+        "subgenres": "Subgenres",
+        "addNewGenre": "Add new Genre",
+        "addNewSubgenre": "Add new Subgenre"
+      },
+      "filters": {
+        "name": "Filters",
+        "addNewSpec": "Add new specification",
+        "addNewKeyword": "Add new keyword",
+        "addNewActionTime": "Add new action time"
+      },
+      "summary": {
+        "name": "Summary"
+      }
+    },
+    "itemFields": {
+      "key": "Key",
+      "nameEn": "Name (en)",
+      "nameUk": "Name (uk)",
+      "descriptionEn": "Description (en)",
+      "descriptionUk": "Description (en)"
+    },
+    "personFields": {
+      "key": "Key",
+      "firstNameEn": "First name (en)",
+      "lastNameEn": "Last name (en)",
+      "firstNameUk": "FIrst name (uk)",
+      "lastNameUk": "Last name (uk)",
+      "born": "Born",
+      "died": "Died",
+      "bornInEn": "Born in (en)",
+      "bornInUk": "Born in (uk)",
+      "avatar": "Avatar"
     }
   },
 

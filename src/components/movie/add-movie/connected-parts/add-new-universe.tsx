@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { useForm, UseFormSetValue } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -21,6 +22,7 @@ type Props = {
 
 export const AddNewUniverse = ({ setValue }: Props) => {
   const router = useRouter();
+  const t = useTranslations("Form.itemFields");
 
   const {
     register,
@@ -60,7 +62,7 @@ export const AddNewUniverse = ({ setValue }: Props) => {
     <FormWrapper onSubmit={handleSubmit(onSubmit)} isSubmitting={isSubmitting}>
       <FormField
         type="text"
-        label="Key"
+        label={t("key")}
         name="key"
         register={register}
         error={errors.key}
@@ -69,7 +71,7 @@ export const AddNewUniverse = ({ setValue }: Props) => {
 
       <FormField
         type="text"
-        label="Name En"
+        label={t("nameEn")}
         name="name_en"
         register={register}
         error={errors.name_en}
@@ -77,21 +79,21 @@ export const AddNewUniverse = ({ setValue }: Props) => {
 
       <FormField
         type="text"
-        label="Name Uk"
+        label={t("nameUk")}
         name="name_uk"
         register={register}
         error={errors.name_uk}
       />
 
       <TextareaFormField
-        label="Description En"
+        label={t("descriptionEn")}
         name="description_en"
         register={register}
         error={errors.description_en}
       />
 
       <TextareaFormField
-        label="Description Uk"
+        label={t("descriptionUk")}
         name="description_uk"
         register={register}
         error={errors.description_uk}

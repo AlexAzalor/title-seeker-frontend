@@ -1,4 +1,5 @@
 import { memo } from "react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -17,6 +18,8 @@ const FormButtons = ({
   onSubmit,
   skipStep,
 }: Props) => {
+  const t = useTranslations("Form");
+
   return (
     <div className="mt-7 flex w-full items-center justify-between">
       <Button
@@ -28,7 +31,7 @@ const FormButtons = ({
         variant={isFirstStep ? "link" : "outline"}
         onClick={handlePrev}
       >
-        {isFirstStep ? "Clear form" : "Previous step"}
+        {isFirstStep ? t("clear") : t("prevStep")}
       </Button>
 
       {skipStep && (
@@ -38,7 +41,7 @@ const FormButtons = ({
           className="border-main-ui-purple text-main-ui-purple hover:text-main-ui-purple hover:bg-danger/10 dark:hover:bg-danger/20 h-10 w-[124px] rounded-[56px] border text-lg"
           onClick={skipStep}
         >
-          <p>Skip</p>
+          <p>{t("skip")}</p>
         </Button>
       )}
 
@@ -47,7 +50,7 @@ const FormButtons = ({
         className="bg-main-ui-purple dark:bg-main-ui-purple dark:hover:bg-main-ui-purple/70 hover:bg-dark-blue h-16 w-[164px] cursor-pointer rounded-[56px] border-0 text-center text-lg transition-all duration-200 dark:text-white"
         onClick={onSubmit}
       >
-        <p>{title || "Next step"}</p>
+        <p>{title || t("nextStep")}</p>
       </Button>
     </div>
   );

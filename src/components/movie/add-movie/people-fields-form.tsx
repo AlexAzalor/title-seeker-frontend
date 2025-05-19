@@ -1,4 +1,5 @@
 import { Suspense, use, useCallback, useMemo, useState } from "react";
+import { useTranslations } from "next-intl";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { useLocalStorage } from "@/hooks/use-local-storage";
 import dynamic from "next/dynamic";
@@ -39,6 +40,8 @@ export type MovieInfoFieldNames = Pick<
 export type PeopleSchemeType = z.infer<typeof MovieCrewListScheme>;
 
 export const PeopleFieldsForm = ({ actors, directors, characters }: Props) => {
+  const t = useTranslations("Form.stepper.people");
+
   const { setMovieFormData, handleNext, handlePrev } = use(MovieFormContext);
 
   const [openDirectorFormModal, setOpenDirectorFormModal] = useState(false);
@@ -186,9 +189,9 @@ export const PeopleFieldsForm = ({ actors, directors, characters }: Props) => {
       <div className="flex items-center justify-center gap-3 font-bold">
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">
           <div className="mb-5 flex w-full flex-col items-center gap-6">
-            <h1 className="text-main-ui-purple">Actors</h1>
+            <h1 className="text-main-ui-purple">{t("actors")}</h1>
 
-            <ResponsiveWrapper title="Select Actor">
+            <ResponsiveWrapper title={t("selectActors")}>
               <ItemsSelector
                 items={actors}
                 onOpenModal={handleOpenActorFormModal}
@@ -198,16 +201,12 @@ export const PeopleFieldsForm = ({ actors, directors, characters }: Props) => {
             </ResponsiveWrapper>
 
             {/* TODO: Implement Drag&Drop */}
-            <span>
-              Order of actors is important. The first actor will be the main,
-              and so on.
-            </span>
+            <span>{t("orderInfo")}</span>
 
             {actorFields.map((field, index) => (
               <div key={field.id} className="grid grid-cols-2 gap-4">
                 <FormField
                   type="text"
-                  label="Actor name"
                   name={`actors.${index}.name`}
                   register={register}
                   error={undefined}
@@ -275,9 +274,9 @@ export const PeopleFieldsForm = ({ actors, directors, characters }: Props) => {
           </div>
 
           <div className="mb-5 flex w-full flex-col items-center gap-6">
-            <h1 className="text-main-ui-purple">Directors</h1>
+            <h1 className="text-main-ui-purple">{t("directors")}</h1>
 
-            <ResponsiveWrapper title="Select Director">
+            <ResponsiveWrapper title={t("selectDirectors")}>
               <ItemsSelector
                 items={directors}
                 onOpenModal={handleOpenDirectorFormModal}
@@ -291,7 +290,6 @@ export const PeopleFieldsForm = ({ actors, directors, characters }: Props) => {
                 <div key={field.id} className="flex items-center gap-2">
                   <FormField
                     type="text"
-                    label="Director name"
                     name={`directors.${index}.name`}
                     register={register}
                     error={undefined}
@@ -317,7 +315,7 @@ export const PeopleFieldsForm = ({ actors, directors, characters }: Props) => {
 
       <Suspense>
         <ModalMovie
-          title="Add new Actor"
+          title={t("addActor")}
           open={openActorFormModal}
           setOpen={setOpenActorFormModal}
         >
@@ -329,7 +327,7 @@ export const PeopleFieldsForm = ({ actors, directors, characters }: Props) => {
         </ModalMovie>
 
         <ModalMovie
-          title="Add new Director"
+          title={t("addDirector")}
           open={openDirectorFormModal}
           setOpen={setOpenDirectorFormModal}
         >
@@ -341,7 +339,7 @@ export const PeopleFieldsForm = ({ actors, directors, characters }: Props) => {
         </ModalMovie>
 
         <ModalMovie
-          title="Add new Character"
+          title={t("addChar")}
           open={openCharacterFormModal.open}
           setOpen={() =>
             setOpenCharacterFormModal({ open: false, index: null })

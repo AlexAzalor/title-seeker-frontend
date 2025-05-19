@@ -1,6 +1,7 @@
 "use client";
 
 import { Suspense, use, useState } from "react";
+import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useLocalStorage } from "@/hooks/use-local-storage";
@@ -14,7 +15,6 @@ import { MovieFormContext } from "./utils";
 import { InfoIcon } from "lucide-react";
 import { MovieFilterList, MovieFilterListType } from "@/types/zod-scheme";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { movieComponents } from "@/lib/constants";
 
 import { MovieFormData, FilterItemOut } from "@/orval_api/model";
 import { AddNewMovieFilter } from "./connected-parts/add-new-movie-filter";
@@ -37,11 +37,14 @@ export type MovieFilterType = "specifications" | "keywords" | "action_times";
 
 export type MovieFilterFileds = Pick<MovieFormData, MovieFilterType>;
 
-export const MovieFilterForm = ({
+export const FilterForm = ({
   specifications,
   keywords,
   actionTimes,
 }: Props) => {
+  const t = useTranslations("Form");
+  const tFilters = useTranslations("Filters");
+
   const { setMovieFormData, handleNext, handlePrev } = use(MovieFormContext);
 
   const [openSpecificationFormModal, setOpenSpecificationFormModal] =
@@ -128,13 +131,17 @@ export const MovieFilterForm = ({
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">
           <div className="mb-5 flex w-full flex-col items-center gap-6">
             <div className="flex items-center gap-2">
-              <h1 className="text-main-ui-purple">Specifications</h1>
-              <TooltipWrapper content={movieComponents.specification}>
+              <h1 className="text-main-ui-purple">
+                {tFilters("specification.name")}
+              </h1>
+              <TooltipWrapper content={tFilters("specification.description")}>
                 <InfoIcon className="h-4 w-4" />
               </TooltipWrapper>
             </div>
 
-            <ResponsiveWrapper title="Add new Specification">
+            <ResponsiveWrapper
+              title={`${t("menuSelect")} ${tFilters("specification.name")}`}
+            >
               <ItemsSelector
                 items={specifications}
                 onOpenModal={() => setOpenSpecificationFormModal(true)}
@@ -165,7 +172,6 @@ export const MovieFilterForm = ({
               <div key={field.id} className="grid grid-cols-2 gap-4">
                 <FormField
                   type="text"
-                  label="Name"
                   name={`specifications.${index}.name`}
                   register={register}
                   error={undefined}
@@ -195,12 +201,14 @@ export const MovieFilterForm = ({
           <div className="mb-5 flex w-full flex-col items-center gap-6">
             <div className="flex items-center gap-2">
               <h1 className="text-main-ui-purple">Keyword</h1>
-              <TooltipWrapper content={movieComponents.keyword}>
+              <TooltipWrapper content={tFilters("keyword.description")}>
                 <InfoIcon className="h-4 w-4" />
               </TooltipWrapper>
             </div>
 
-            <ResponsiveWrapper title="Add new Keyword">
+            <ResponsiveWrapper
+              title={`${t("menuSelect")} ${tFilters("keyword.name")}`}
+            >
               <ItemsSelector
                 items={keywords}
                 onOpenModal={() => setOpenKeywordFormModal(true)}
@@ -231,7 +239,6 @@ export const MovieFilterForm = ({
               <div key={field.id} className="grid grid-cols-2 gap-4">
                 <FormField
                   type="text"
-                  label="Name"
                   name={`keywords.${index}.name`}
                   register={register}
                   error={undefined}
@@ -261,12 +268,14 @@ export const MovieFilterForm = ({
           <div className="mb-5 flex w-full flex-col items-center gap-6">
             <div className="flex items-center gap-2">
               <h1 className="text-main-ui-purple">Action Times</h1>
-              <TooltipWrapper content={movieComponents.action_time}>
+              <TooltipWrapper content={tFilters("action_time.description")}>
                 <InfoIcon className="h-4 w-4" />
               </TooltipWrapper>
             </div>
 
-            <ResponsiveWrapper title="Add new Action Time">
+            <ResponsiveWrapper
+              title={`${t("menuSelect")} ${tFilters("action_time.name")}`}
+            >
               <ItemsSelector
                 items={actionTimes}
                 onOpenModal={() => setOpenActionTimeFormModal(true)}
@@ -297,7 +306,6 @@ export const MovieFilterForm = ({
               <div key={field.id} className="grid grid-cols-2 gap-4">
                 <FormField
                   type="text"
-                  label="Name"
                   name={`action_times.${index}.name`}
                   register={register}
                   error={undefined}
@@ -329,7 +337,7 @@ export const MovieFilterForm = ({
 
       <Suspense>
         <ModalMovie
-          title="Specification"
+          title={t("stepper.filters.addNewSpec")}
           open={openSpecificationFormModal}
           setOpen={setOpenSpecificationFormModal}
         >
@@ -340,7 +348,7 @@ export const MovieFilterForm = ({
         </ModalMovie>
 
         <ModalMovie
-          title="Keyword"
+          title={t("stepper.filters.addNewKeyword")}
           open={openKeywordFormModal}
           setOpen={setOpenKeywordFormModal}
         >
@@ -351,7 +359,7 @@ export const MovieFilterForm = ({
         </ModalMovie>
 
         <ModalMovie
-          title="Action Time"
+          title={t("stepper.filters.addNewActionTime")}
           open={openActionTimeFormModal}
           setOpen={setOpenActionTimeFormModal}
         >

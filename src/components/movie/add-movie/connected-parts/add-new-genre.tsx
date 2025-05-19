@@ -1,6 +1,7 @@
 "use client";
 
 import { Dispatch, SetStateAction } from "react";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import {
   FieldArrayWithId,
@@ -42,6 +43,7 @@ export const AddNewGenre = ({
   fetchApi,
 }: Props<GenreType>) => {
   const router = useRouter();
+  const t = useTranslations("Form.itemFields");
 
   const {
     register,
@@ -113,7 +115,7 @@ export const AddNewGenre = ({
 
       <FormField
         type="text"
-        label="Key"
+        label={t("key")}
         name="key"
         register={register}
         error={errors.key}
@@ -122,7 +124,7 @@ export const AddNewGenre = ({
 
       <FormField
         type="text"
-        label="Name En"
+        label={t("nameEn")}
         name="name_en"
         register={register}
         error={errors.name_en}
@@ -130,21 +132,21 @@ export const AddNewGenre = ({
 
       <FormField
         type="text"
-        label="Name Uk"
+        label={t("nameUk")}
         name="name_uk"
         register={register}
         error={errors.name_uk}
       />
 
       <TextareaFormField
-        label="Description En"
+        label={t("descriptionEn")}
         name="description_en"
         register={register}
         error={errors.description_en}
       />
 
       <TextareaFormField
-        label="Description Uk"
+        label={t("descriptionUk")}
         name="description_uk"
         register={register}
         error={errors.description_uk}

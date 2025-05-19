@@ -1,4 +1,5 @@
 import { Suspense, use, useState } from "react";
+import { useTranslations } from "next-intl";
 import { Controller, useForm } from "react-hook-form";
 import { SharedUniverseFields, SharedUniverseType } from "@/types/zod-scheme";
 import { MovieFormContext } from "./utils";
@@ -38,6 +39,8 @@ type Props = {
 };
 
 export const SharedUniverseForm = ({ sharedUniverses }: Props) => {
+  const t = useTranslations("Form.stepper.sharedUniverse");
+
   const [openAddNewUniverseModal, setOpenAddNewUniverseModal] = useState(false);
   const { setMovieFormData, handleNext, handlePrev, setSkipSteps } =
     use(MovieFormContext);
@@ -129,7 +132,7 @@ export const SharedUniverseForm = ({ sharedUniverses }: Props) => {
                     title={
                       sharedUniverses
                         .find((e) => e.key === value)
-                        ?.name.slice(0, 20) || "Shared Universe"
+                        ?.name.slice(0, 20) || t("name")
                     }
                   >
                     <ItemsSelector
@@ -149,7 +152,7 @@ export const SharedUniverseForm = ({ sharedUniverses }: Props) => {
 
             <FormField
               type="text"
-              label="Order"
+              label={t("order")}
               name="shared_universe_order"
               register={register}
               error={errors.shared_universe_order}
@@ -166,7 +169,7 @@ export const SharedUniverseForm = ({ sharedUniverses }: Props) => {
 
       <Suspense>
         <ModalMovie
-          title="Shared Universe"
+          title={t("addNewSU")}
           open={openAddNewUniverseModal}
           setOpen={setOpenAddNewUniverseModal}
         >

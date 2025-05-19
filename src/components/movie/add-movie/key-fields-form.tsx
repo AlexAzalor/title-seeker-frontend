@@ -1,4 +1,5 @@
 import { use, useRef } from "react";
+import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { MovieScheme, MovieSchemeType } from "@/types/zod-scheme";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -40,6 +41,8 @@ type Props = {
 };
 
 export const KeyFieldsForm = ({ quickMovie }: Props) => {
+  const t = useTranslations("Form.stepper.titleRate");
+
   const { setMovieFormData, handleNext, clearForm } = use(MovieFormContext);
 
   const { data: parsedData } = useLocalStorage<MovieFormData>(
@@ -121,7 +124,7 @@ export const KeyFieldsForm = ({ quickMovie }: Props) => {
         <div className="grid grid-cols-2 gap-10">
           <FormField
             type="text"
-            label="Title EN"
+            label={t("titleEn")}
             name="title_en"
             register={register}
             error={errors.title_en}
@@ -129,7 +132,7 @@ export const KeyFieldsForm = ({ quickMovie }: Props) => {
 
           <FormField
             type="text"
-            label="Key"
+            label={t("key")}
             name="key"
             register={register}
             error={errors.key}
@@ -138,7 +141,7 @@ export const KeyFieldsForm = ({ quickMovie }: Props) => {
 
           <FormField
             type="text"
-            label="Title UK"
+            label={t("titleUk")}
             name="title_uk"
             register={register}
             error={errors.title_uk}
@@ -146,7 +149,7 @@ export const KeyFieldsForm = ({ quickMovie }: Props) => {
 
           <FormField
             type="file"
-            label="Title EN"
+            label={t("poster")}
             name="file"
             register={register}
             error={errors.file}

@@ -1,4 +1,5 @@
 import { use } from "react";
+import { useTranslations } from "next-intl";
 import { useLocalStorage } from "@/hooks/use-local-storage";
 import { useForm } from "react-hook-form";
 import { MovieFormContext } from "./utils";
@@ -28,6 +29,8 @@ export type MovieInfoFieldNames = Pick<
 export type MovieInfoSchemeType = z.infer<typeof MovieInfoScheme>;
 
 export const InfoFieldsForm = () => {
+  const t = useTranslations("Form.stepper.info");
+
   const { setMovieFormData, handleNext, handlePrev } = use(MovieFormContext);
 
   const { data: parsedData } = useLocalStorage<MovieFormData>(
@@ -94,14 +97,14 @@ export const InfoFieldsForm = () => {
         className="flex w-full flex-col items-center gap-8"
       >
         <TextareaFormField
-          label="Description EN"
+          label={t("descriptionEn")}
           name="description_en"
           register={register}
           error={errors.description_en}
         />
 
         <TextareaFormField
-          label="Description UK"
+          label={t("descriptionUk")}
           name="description_uk"
           register={register}
           error={errors.description_uk}
@@ -110,7 +113,7 @@ export const InfoFieldsForm = () => {
         <div>
           <FormField
             type="date"
-            label="Release date"
+            label={t("date")}
             name="release_date"
             register={register}
             error={errors.release_date}
@@ -125,7 +128,7 @@ export const InfoFieldsForm = () => {
         <div className="grid grid-flow-row grid-cols-2 items-center gap-8">
           <FormField
             type="text"
-            label="Location EN"
+            label={t("locationEn")}
             name="location_en"
             register={register}
             error={errors.location_en}
@@ -133,7 +136,7 @@ export const InfoFieldsForm = () => {
 
           <FormField
             type="text"
-            label="Location UK"
+            label={t("locationUk")}
             name="location_uk"
             register={register}
             error={errors.location_uk}
@@ -144,7 +147,7 @@ export const InfoFieldsForm = () => {
           {/* show formated value of this inputs */}
           <FormField
             type="text"
-            label="Duration"
+            label={t("duration")}
             name="duration"
             register={register}
             error={errors.duration}
@@ -152,7 +155,7 @@ export const InfoFieldsForm = () => {
 
           <FormField
             type="text"
-            label="Budget"
+            label={t("budget")}
             name="budget"
             register={register}
             error={errors.budget}
@@ -161,7 +164,7 @@ export const InfoFieldsForm = () => {
 
           <FormField
             type="text"
-            label="Domestic gross"
+            label={t("domesticGross")}
             name="domestic_gross"
             register={register}
             error={errors.domestic_gross}
@@ -170,7 +173,7 @@ export const InfoFieldsForm = () => {
 
           <FormField
             type="text"
-            label="Worldwide gross"
+            label={t("worldwideGross")}
             name="worldwide_gross"
             register={register}
             error={errors.worldwide_gross}

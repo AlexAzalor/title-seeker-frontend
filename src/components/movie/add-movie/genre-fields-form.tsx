@@ -1,4 +1,5 @@
 import { Suspense, use, useState } from "react";
+import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
 import { useFieldArray, useForm } from "react-hook-form";
 import { MovieFormContext } from "./utils";
@@ -39,6 +40,8 @@ export type MovieInfoFieldNames = Pick<MovieFormData, GenreType>;
 export type GenreSchemeType = z.infer<typeof GenreSchemeList>;
 
 export const GenreFieldsForm = ({ genres }: Props) => {
+  const t = useTranslations("Form.stepper.genres");
+  const tSelect = useTranslations("Form");
   const { setMovieFormData, handleNext, handlePrev } = use(MovieFormContext);
 
   const [openGenreFormModal, setOpenGenreFormModal] = useState(false);
@@ -126,8 +129,8 @@ export const GenreFieldsForm = ({ genres }: Props) => {
       <div className="text-textOrange flex items-center justify-center gap-3 font-bold">
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">
           <div className="mb-5 flex w-full flex-col items-center gap-6">
-            <h1 className="text-main-ui-purple">Genres</h1>
-            <ResponsiveWrapper title="Genres">
+            <h1 className="text-main-ui-purple">{t("name")}</h1>
+            <ResponsiveWrapper title={`${tSelect("menuSelect")} ${t("name")}`}>
               <ItemsSelector<GenreOut>
                 items={genres}
                 onOpenModal={() => setOpenGenreFormModal(true)}
@@ -171,7 +174,6 @@ export const GenreFieldsForm = ({ genres }: Props) => {
               <div key={field.id} className="grid grid-cols-2 gap-4">
                 <FormField
                   type="text"
-                  label="Name"
                   name={`genres.${index}.name`}
                   register={register}
                   error={undefined}
@@ -219,8 +221,10 @@ export const GenreFieldsForm = ({ genres }: Props) => {
           </div>
 
           <div className="mb-5 flex w-full flex-col items-center gap-6">
-            <h1 className="text-main-ui-purple">Subgenres</h1>
-            <ResponsiveWrapper title="Subgenres">
+            <h1 className="text-main-ui-purple">{t("subgenres")}</h1>
+            <ResponsiveWrapper
+              title={`${tSelect("menuSelect")} ${t("subgenres")}`}
+            >
               <ItemsSelector<SubgenreOut>
                 items={subgenres as SubgenreOut[]}
                 onOpenModal={() => setOpenSubgenreFormModal(true)}
@@ -255,7 +259,6 @@ export const GenreFieldsForm = ({ genres }: Props) => {
               <div key={field.id} className="grid grid-cols-2 gap-4">
                 <FormField
                   type="text"
-                  label="Name"
                   name={`subgenres.${index}.name`}
                   register={register}
                   error={undefined}
@@ -286,7 +289,7 @@ export const GenreFieldsForm = ({ genres }: Props) => {
 
       <Suspense>
         <ModalMovie
-          title="Add new genre"
+          title={t("addNewGenre")}
           open={openGenreFormModal}
           setOpen={setOpenGenreFormModal}
         >
@@ -298,7 +301,7 @@ export const GenreFieldsForm = ({ genres }: Props) => {
         </ModalMovie>
 
         <ModalMovie
-          title="Add new subgenre"
+          title={t("addNewSubgenre")}
           open={openSubgenreFormModal}
           setOpen={setOpenSubgenreFormModal}
         >

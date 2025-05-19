@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { UseFieldArrayAppend, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
@@ -34,6 +35,7 @@ export const AddNewPerson = ({
   fetchApi,
 }: Props<PersonType>) => {
   const router = useRouter();
+  const t = useTranslations("Form.personFields");
 
   const {
     register,
@@ -88,7 +90,7 @@ export const AddNewPerson = ({
     <FormWrapper onSubmit={handleSubmit(onSubmit)} isSubmitting={isSubmitting}>
       <FormField
         type="text"
-        label="Key"
+        label={t("key")}
         name="key"
         register={register}
         error={errors.key}
@@ -97,7 +99,7 @@ export const AddNewPerson = ({
 
       <FormField
         type="text"
-        label="First Name EN"
+        label={t("firstNameEn")}
         name="first_name_en"
         register={register}
         error={errors.first_name_en}
@@ -105,7 +107,7 @@ export const AddNewPerson = ({
 
       <FormField
         type="text"
-        label="Last Name EN"
+        label={t("lastNameEn")}
         name="last_name_en"
         register={register}
         error={errors.last_name_en}
@@ -113,7 +115,7 @@ export const AddNewPerson = ({
 
       <FormField
         type="text"
-        label="First Name UK"
+        label={t("firstNameUk")}
         name="first_name_uk"
         register={register}
         error={errors.first_name_uk}
@@ -121,7 +123,7 @@ export const AddNewPerson = ({
 
       <FormField
         type="text"
-        label="Last Name UK"
+        label={t("lastNameUk")}
         name="last_name_uk"
         register={register}
         error={errors.last_name_uk}
@@ -129,7 +131,7 @@ export const AddNewPerson = ({
 
       <FormField
         type="date"
-        label="Born"
+        label={t("born")}
         name="born"
         register={register}
         error={errors.born}
@@ -137,7 +139,7 @@ export const AddNewPerson = ({
 
       <FormField
         type="date"
-        label="Died"
+        label={t("died")}
         name="died"
         register={register}
         error={errors.died}
@@ -145,7 +147,7 @@ export const AddNewPerson = ({
 
       <FormField
         type="text"
-        label="Born in (EN)"
+        label={t("bornInEn")}
         name="born_in_en"
         register={register}
         error={errors.born_in_en}
@@ -153,7 +155,7 @@ export const AddNewPerson = ({
 
       <FormField
         type="text"
-        label="Born in (UK)"
+        label={t("bornInUk")}
         name="born_in_uk"
         register={register}
         error={errors.born_in_uk}
@@ -161,7 +163,7 @@ export const AddNewPerson = ({
 
       <FormField
         type="file"
-        label="Avatar"
+        label={t("avatar")}
         name="file"
         register={register}
         error={errors.file}

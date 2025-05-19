@@ -1,4 +1,5 @@
 import { use } from "react";
+import { useTranslations } from "next-intl";
 import { Controller, useForm } from "react-hook-form";
 import { RelatedMovieField, RelatedMovieType } from "@/types/zod-scheme";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -36,6 +37,8 @@ type Props = {
 };
 
 export const RelatedMovieForm = ({ baseMovies }: Props) => {
+  const t = useTranslations("Form.stepper.relatedMovie");
+
   const { setMovieFormData, handleNext, handlePrev, setSkipSteps } =
     use(MovieFormContext);
 
@@ -124,7 +127,7 @@ export const RelatedMovieForm = ({ baseMovies }: Props) => {
                   title={
                     baseMovies
                       .find((e) => e.key === value)
-                      ?.name.slice(0, 20) || "Base movie"
+                      ?.name.slice(0, 20) || t("base")
                   }
                 >
                   <ItemsSelector
@@ -132,7 +135,7 @@ export const RelatedMovieForm = ({ baseMovies }: Props) => {
                     onOpenModal={() => {}}
                     onSelect={(value, key) => onChange(key)}
                     checkIconStyle={[value]}
-                    emptyText="If no movie in the list - Skip"
+                    emptyText={t("notFound")}
                   />
                 </ResponsiveWrapper>
 
@@ -145,13 +148,14 @@ export const RelatedMovieForm = ({ baseMovies }: Props) => {
 
           <FormField
             type="text"
-            label="Collection order"
+            label={t("collectionOrder")}
             name="collection_order"
             register={register}
             error={errors.collection_order}
           />
 
           <TypeSelector
+            label={t("relationType")}
             name="relation_type"
             control={control}
             defaultValue={parsedData.relation_type as RelatedMovie}

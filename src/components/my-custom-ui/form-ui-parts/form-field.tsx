@@ -22,7 +22,7 @@ type FieldProps<
   name: TFieldName;
   register: UseFormRegister<TFormValues>;
   error: FieldError | undefined;
-  label: string;
+  label?: string;
   value?: string;
   formattedValue?: string;
 } & InputHTMLAttributes<HTMLInputElement>;
@@ -60,9 +60,11 @@ const FormField = <
 
         <div className="cut absolute top-[-20px] left-[20px] h-[20px] translate-y-0 rounded-[10px] transition-transform duration-200" />
 
-        <label className="placeholder text-gray-purple pointer-events-none absolute top-5 left-5 origin-[0_50%] text-lg leading-3 transition-transform duration-200">
-          {label}
-        </label>
+        {!!label && (
+          <label className="placeholder text-gray-purple pointer-events-none absolute top-5 left-5 origin-[0_50%] text-lg leading-3 transition-transform duration-200">
+            {label}
+          </label>
+        )}
 
         {error && (
           <div className="error-message absolute rounded-md px-2 text-sm">

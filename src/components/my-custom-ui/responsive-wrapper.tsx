@@ -1,3 +1,6 @@
+import { useState } from "react";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { ChevronsUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Command, CommandDialog } from "@/components/ui/command";
 import {
@@ -5,9 +8,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useIsMobile } from "@/hooks/use-mobile";
-import { ChevronsUpDown } from "lucide-react";
-import { useState } from "react";
 
 type Props = {
   title: string;
@@ -44,14 +44,14 @@ export const ResponsiveWrapper = ({ children, title }: Props) => {
           variant="outline"
           role="combobox"
           // aria-expanded={openSpec}
-          className="dark:hover:text-main-ui-purple dark:text-gray-purple h-max w-64 justify-between text-xl"
+          className="dark:hover:text-main-ui-purple dark:text-gray-purple h-max w-74 justify-between text-xl"
         >
           {title}
           <ChevronsUpDown className="opacity-50" />
         </Button>
       </PopoverTrigger>
 
-      <PopoverContent className="w-64 p-0">
+      <PopoverContent className="w-74 p-0">
         <Command>{children}</Command>
       </PopoverContent>
     </Popover>

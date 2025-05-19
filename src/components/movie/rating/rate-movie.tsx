@@ -266,6 +266,50 @@ const RateMovie = ({
         />
       )}
 
+      {!!visual_effects && (
+        <RateSlider
+          type="visual_effects"
+          value={visual_effects || 0}
+          max={RATING_MAX.visual_effects}
+          defaultValue={visual_effects}
+          onValueChange={updateState}
+          showValue={showValues}
+        />
+      )}
+
+      {!!scare_factor && (
+        <RateSlider
+          type="scare_factor"
+          value={scare_factor || 0}
+          max={RATING_MAX.scare_factor}
+          defaultValue={scare_factor}
+          onValueChange={updateState}
+          showValue={showValues}
+        />
+      )}
+
+      {!!humor && (
+        <RateSlider
+          type="humor"
+          value={humor || 0}
+          max={RATING_MAX.humor}
+          defaultValue={humor}
+          onValueChange={updateState}
+          showValue={showValues}
+        />
+      )}
+
+      {!!animation_cartoon && (
+        <RateSlider
+          type="animation_cartoon"
+          value={animation_cartoon || 0}
+          max={RATING_MAX.animation_cartoon}
+          defaultValue={animation_cartoon}
+          onValueChange={updateState}
+          showValue={showValues}
+        />
+      )}
+
       <RateSlider
         type="acting"
         value={acting}
@@ -319,50 +363,6 @@ const RateMovie = ({
         onValueChange={updateState}
         showValue={showValues}
       />
-
-      {!!visual_effects && (
-        <RateSlider
-          type="visual_effects"
-          value={visual_effects || 0}
-          max={RATING_MAX.visual_effects}
-          defaultValue={visual_effects}
-          onValueChange={updateState}
-          showValue={showValues}
-        />
-      )}
-
-      {!!scare_factor && (
-        <RateSlider
-          type="scare_factor"
-          value={scare_factor || 0}
-          max={RATING_MAX.scare_factor}
-          defaultValue={scare_factor}
-          onValueChange={updateState}
-          showValue={showValues}
-        />
-      )}
-
-      {!!humor && (
-        <RateSlider
-          type="humor"
-          value={humor || 0}
-          max={RATING_MAX.humor}
-          defaultValue={humor}
-          onValueChange={updateState}
-          showValue={showValues}
-        />
-      )}
-
-      {!!animation_cartoon && (
-        <RateSlider
-          type="animation_cartoon"
-          value={animation_cartoon || 0}
-          max={RATING_MAX.animation_cartoon}
-          defaultValue={animation_cartoon}
-          onValueChange={updateState}
-          showValue={showValues}
-        />
-      )}
 
       {session.status === "authenticated" && (
         <>

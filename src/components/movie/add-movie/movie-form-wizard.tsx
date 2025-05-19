@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import {
   FIRST_STEP,
@@ -31,7 +32,7 @@ import {
   SharedUniversePreCreateOut,
 } from "@/orval_api/model";
 import { GenreFieldsForm } from "./genre-fields-form";
-import { MovieFilterForm } from "./movie-filter-form";
+import { FilterForm } from "./filter-form";
 import { Summary } from "./summary";
 import { Separator } from "@/components/ui/separator";
 import { FormStepper } from "@/components/my-custom-ui/form-ui-parts/form-stepper";
@@ -66,6 +67,8 @@ export const MovieFormWizard = ({
   base_movies,
   characters,
 }: Props) => {
+  const t = useTranslations("Form");
+
   const [movieFormData, setMovieFormData] = useState<BodyAPICreateMovie>({
     form_data: {} as MovieFormData,
   });
@@ -165,7 +168,7 @@ export const MovieFormWizard = ({
         )}
         {currentStep === GENRES_STEP && <GenreFieldsForm genres={genres} />}
         {currentStep === LAST_STEP && (
-          <MovieFilterForm
+          <FilterForm
             specifications={specifications}
             keywords={keywords}
             actionTimes={actionTimes}
@@ -183,7 +186,7 @@ export const MovieFormWizard = ({
           <div>
             {!isSubmitting ? (
               <FormButtons
-                title="Submit"
+                title={t("submit")}
                 handlePrev={handlePrev}
                 onSubmit={addMovie}
               />

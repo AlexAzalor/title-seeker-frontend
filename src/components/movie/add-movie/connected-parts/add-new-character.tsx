@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { useForm, UseFormSetValue } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
@@ -20,6 +21,8 @@ type Props = {
 };
 
 export const AddNewCharacter = ({ setValue, characterIndexField }: Props) => {
+  const t = useTranslations("Form.itemFields");
+
   const router = useRouter();
   const {
     register,
@@ -68,7 +71,7 @@ export const AddNewCharacter = ({ setValue, characterIndexField }: Props) => {
     <FormWrapper onSubmit={handleSubmit(onSubmit)} isSubmitting={isSubmitting}>
       <FormField
         type="text"
-        label="Key"
+        label={t("key")}
         name="key"
         register={register}
         error={errors.key}
@@ -77,7 +80,7 @@ export const AddNewCharacter = ({ setValue, characterIndexField }: Props) => {
 
       <FormField
         type="text"
-        label="Name En"
+        label={t("nameEn")}
         name="name_en"
         register={register}
         error={errors.name_en}
@@ -85,7 +88,7 @@ export const AddNewCharacter = ({ setValue, characterIndexField }: Props) => {
 
       <FormField
         type="text"
-        label="Name Uk"
+        label={t("nameUk")}
         name="name_uk"
         register={register}
         error={errors.name_uk}

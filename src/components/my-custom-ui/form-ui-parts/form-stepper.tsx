@@ -1,4 +1,5 @@
 import { use } from "react";
+import { useTranslations } from "next-intl";
 import { FormStep } from "./form-step";
 import {
   FIRST_STEP,
@@ -23,19 +24,20 @@ export const FormStepper = ({
   currentStep,
   onStepChange,
 }: Props) => {
+  const t = useTranslations("Form.stepper");
   const { stepsSkipped } = use(MovieFormContext);
 
   return (
     <div className="mx-5 flex items-center justify-center gap-4">
       <FormStep
-        title="Title/Rate"
+        title={t("titleRate.name")}
         step={FIRST_STEP}
         completedSteps={completedSteps}
         goToStep={() => onStepChange(FIRST_STEP)}
         currentStep={currentStep}
       />
       <FormStep
-        title="Shared Universe"
+        title={t("sharedUniverse.name")}
         step={SU_STEP}
         completedSteps={completedSteps}
         goToStep={() => onStepChange(SU_STEP)}
@@ -43,7 +45,7 @@ export const FormStepper = ({
         isStepSkipped={stepsSkipped?.includes(SU_STEP)}
       />
       <FormStep
-        title="Related Movie"
+        title={t("relatedMovie.name")}
         step={RM_STEP}
         completedSteps={completedSteps}
         goToStep={() => onStepChange(RM_STEP)}
@@ -53,7 +55,7 @@ export const FormStepper = ({
 
       <FormStep
         step={INFO_STEP}
-        title="Info"
+        title={t("info.name")}
         completedSteps={completedSteps}
         goToStep={() => onStepChange(INFO_STEP)}
         currentStep={currentStep}
@@ -61,7 +63,7 @@ export const FormStepper = ({
 
       <FormStep
         step={PEOPLE_STEP}
-        title="People"
+        title={t("people.name")}
         completedSteps={completedSteps}
         goToStep={() => onStepChange(PEOPLE_STEP)}
         currentStep={currentStep}
@@ -69,7 +71,7 @@ export const FormStepper = ({
 
       <FormStep
         step={GENRES_STEP}
-        title="Genres"
+        title={t("genres.name")}
         completedSteps={completedSteps}
         goToStep={() => onStepChange(GENRES_STEP)}
         currentStep={currentStep}
@@ -77,7 +79,7 @@ export const FormStepper = ({
 
       <FormStep
         step={LAST_STEP}
-        title="Features"
+        title={t("filters.name")}
         completedSteps={completedSteps}
         goToStep={() => onStepChange(LAST_STEP)}
         currentStep={currentStep}
@@ -85,7 +87,7 @@ export const FormStepper = ({
 
       <FormStep
         step={SUMMARY_STEP}
-        title="Summary"
+        title={t("summary.name")}
         completedSteps={completedSteps}
         goToStep={() => onStepChange(SUMMARY_STEP)}
         currentStep={currentStep}

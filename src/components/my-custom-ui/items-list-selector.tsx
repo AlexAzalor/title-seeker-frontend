@@ -1,5 +1,6 @@
 import { useSession } from "next-auth/react";
 import { memo } from "react";
+import { useTranslations } from "next-intl";
 import { Check, Info } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -39,6 +40,7 @@ const ItemsSelector = <Datum extends ItemFields>({
   emptyText,
 }: Props<Datum>) => {
   const session = useSession();
+  const t = useTranslations("MenuItems");
 
   const isAdmin = session.data?.user.role === "owner";
 
@@ -51,11 +53,11 @@ const ItemsSelector = <Datum extends ItemFields>({
             <span className="font-bold">{emptyText}</span>
           ) : (
             <>
-              No item found.{" "}
+              {t("notFound")}{" "}
               {/* after add set value from this input to form's input */}
               {isAdmin && (
                 <Button variant="link" onClick={onOpenModal}>
-                  Add?
+                  {t("addNew")}
                 </Button>
               )}
             </>
