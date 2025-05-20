@@ -126,5 +126,5 @@ test("Should render FilterEditForm", () => {
     },
   );
 
-  expect(screen.getByLabelText("filter-edit-form")).toBeDefined();
+  expect(screen.getByText("Add new filter")).toBeDefined();
 });

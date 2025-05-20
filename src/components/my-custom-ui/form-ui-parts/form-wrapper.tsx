@@ -19,16 +19,12 @@ export const FormWrapper = ({
       <form onSubmit={onSubmit} className="flex flex-col items-center gap-6">
         {children}
 
-        {!isSubmitting ? (
-          <Button
-            type="submit"
-            className="bg-main-ui-purple hover:bg-dark-blue mt-7 h-12 w-[164px] cursor-pointer rounded-[56px] border-0 text-center text-lg transition-all duration-200"
-          >
-            {buttonTitle || "Submit"}
-          </Button>
-        ) : (
-          <Spinner />
-        )}
+        <Button
+          type="submit"
+          className="bg-main-ui-purple hover:bg-dark-blue mt-7 h-12 w-[164px] cursor-pointer rounded-[56px] border-0 text-center text-lg transition-all duration-200"
+        >
+          {!isSubmitting ? buttonTitle || "Submit" : <Spinner />}
+        </Button>
       </form>
     </div>
   );

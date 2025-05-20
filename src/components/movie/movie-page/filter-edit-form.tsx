@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import { useFieldArray, useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 import {
   editMovieSpecifications,
@@ -24,13 +25,13 @@ import { FormField } from "@/components/my-custom-ui/form-ui-parts/form-field";
 import { SliderFormField } from "@/components/my-custom-ui/form-ui-parts/slider-form-field";
 import { ResponsiveWrapper } from "../../my-custom-ui/responsive-wrapper";
 import { AddNewMovieFilter } from "../add-movie/connected-parts/add-new-movie-filter";
-import { Button } from "@/components/ui/button";
 
 import {
   ACTION_TIME_KEY,
   KEYWORD_KEY,
   SPEC_KEY,
 } from "@/components/super-search/filter-fetch-wrapper";
+import { FormWrapper } from "@/components/my-custom-ui/form-ui-parts/form-wrapper";
 
 const ModalMovie = dynamic(() => import("../../my-custom-ui/modal-window"));
 
@@ -57,7 +58,7 @@ export const FilterEditForm = ({
     control,
     register,
     handleSubmit,
-    formState: { errors, isDirty },
+    formState: { errors, isDirty, isSubmitting },
     getValues,
   } = useForm({
     resolver: zodResolver(MovieFilterListOnlySpec),
@@ -81,89 +82,104 @@ export const FilterEditForm = ({
     }
 
     if (filterType === SPEC_KEY) {
-      await editMovieSpecifications(movieKey, data.specifications);
+      const res = await editMovieSpecifications(movieKey, data.specifications);
+
+      if (res.status === 200) {
+        toast.success(res.message);
+      } else {
+        toast.error(res.message);
+        return;
+      }
     }
     if (filterType === KEYWORD_KEY) {
-      await editMovieKeywords(movieKey, data.specifications);
+      const res = await editMovieKeywords(movieKey, data.specifications);
+
+      if (res.status === 200) {
+        toast.success(res.message);
+      } else {
+        toast.error(res.message);
+        return;
+      }
     }
     if (filterType === ACTION_TIME_KEY) {
-      await editMovieActionTimes(movieKey, data.specifications);
-    }
+      const res = await editMovieActionTimes(movieKey, data.specifications);
 
-    console.log("!!!");
+      if (res.status === 200) {
+        toast.success(res.message);
+      } else {
+        toast.error(res.message);
+        return;
+      }
+    }
 
     router.refresh();
   };
 
   return (
     <>
-      <div
-        aria-label="filter-edit-form"
-        className="flex items-center justify-center gap-3 font-bold"
+      <FormWrapper
+        onSubmit={handleSubmit(onSubmit)}
+        isSubmitting={isSubmitting}
       >
-        <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-          <div className="mb-5 flex w-full flex-col items-center gap-6">
-            <ResponsiveWrapper title={t("addNewItem")}>
-              <ItemsSelector
-                items={filterItems}
-                onOpenModal={() => setOpenFilterFormModal(true)}
-                onSelect={(currentValue, key, item) => {
-                  if (
-                    !specificationFields.find(
+        <div className="mb-5 flex w-full flex-col items-center gap-6">
+          <ResponsiveWrapper title={t("addNewItem")}>
+            <ItemsSelector
+              items={filterItems}
+              onOpenModal={() => setOpenFilterFormModal(true)}
+              onSelect={(currentValue, key, item) => {
+                if (
+                  !specificationFields.find(
+                    (specificationPrev) => specificationPrev.key === key,
+                  )
+                ) {
+                  appendSpecification({
+                    name: currentValue,
+                    percentage_match: 0,
+                    key: key,
+                    description: item.description,
+                  });
+                } else {
+                  removeSpecification(
+                    specificationFields.findIndex(
                       (specificationPrev) => specificationPrev.key === key,
-                    )
-                  ) {
-                    appendSpecification({
-                      name: currentValue,
-                      percentage_match: 0,
-                      key: key,
-                      description: item.description,
-                    });
-                  } else {
-                    removeSpecification(
-                      specificationFields.findIndex(
-                        (specificationPrev) => specificationPrev.key === key,
-                      ),
-                    );
-                  }
-                }}
-                checkIconStyle={specificationFields.map((field) => field.key)}
+                    ),
+                  );
+                }
+              }}
+              checkIconStyle={specificationFields.map((field) => field.key)}
+            />
+          </ResponsiveWrapper>
+
+          {specificationFields.map((field, index) => (
+            <div key={field.id} className="grid grid-cols-2 gap-4">
+              <FormField
+                type="text"
+                name={`specifications.${index}.name`}
+                register={register}
+                error={undefined}
+                disabled
               />
-            </ResponsiveWrapper>
 
-            {specificationFields.map((field, index) => (
-              <div key={field.id} className="grid grid-cols-2 gap-4">
-                <FormField
-                  type="text"
-                  name={`specifications.${index}.name`}
-                  register={register}
-                  error={undefined}
-                  disabled
-                />
+              <SliderFormField
+                name={`specifications.${index}.percentage_match`}
+                register={register}
+                defaultValue={getValues}
+                error={
+                  errors.specifications?.[index]?.percentage_match &&
+                  errors.specifications[index].percentage_match
+                }
+                onClickButton={() => removeSpecification(index)}
+              />
+            </div>
+          ))}
 
-                <SliderFormField
-                  name={`specifications.${index}.percentage_match`}
-                  register={register}
-                  defaultValue={getValues}
-                  error={
-                    errors.specifications?.[index]?.percentage_match &&
-                    errors.specifications[index].percentage_match
-                  }
-                  onClickButton={() => removeSpecification(index)}
-                />
-              </div>
-            ))}
-
-            {errors.specifications && errors.specifications.message && (
-              <span className="text-sm text-red-500">
-                {errors.specifications.message}
-              </span>
-            )}
-          </div>
-
-          <Button variant="ghost">Submit</Button>
-        </form>
-      </div>
+          {errors.specifications && errors.specifications.message && (
+            <span className="text-sm text-red-500">
+              {errors.specifications.message}
+            </span>
+          )}
+        </div>
+      </FormWrapper>
 
       <Suspense>
         <ModalMovie

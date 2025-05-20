@@ -484,6 +484,8 @@ export async function editMovieSpecifications(
       { user_uuid: admin.uuid },
       backendURL,
     );
+
+    return { status: 200, message: "Specifications updated" };
   } catch (error) {
     if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
       return { status: error.status, message: error.response?.data.detail };
@@ -515,6 +517,8 @@ export async function editMovieKeywords(
       { user_uuid: admin.uuid },
       backendURL,
     );
+
+    return { status: 200, message: "Keywords updated" };
   } catch (error) {
     if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
       return { status: error.status, message: error.response?.data.detail };
@@ -545,6 +549,8 @@ export async function editMovieActionTimes(
       { user_uuid: admin.uuid },
       backendURL,
     );
+
+    return { status: 200, message: "Action times updated" };
   } catch (error) {
     if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
       return { status: error.status, message: error.response?.data.detail };

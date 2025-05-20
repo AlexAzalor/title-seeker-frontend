@@ -314,6 +314,8 @@
       "ratingsCount": "Ratings count",
       "releaseDate": "Release date",
       "random": "Random"
-    }
+    },
+    "more": "More",
+    "less": "Less"
   }
 }

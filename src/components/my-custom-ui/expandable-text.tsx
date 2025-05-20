@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 
 const MAX_LENGTH = 256;
@@ -10,6 +11,7 @@ type Props = {
 };
 
 export const ExpandableText = ({ text, maxLength = MAX_LENGTH }: Props) => {
+  const t = useTranslations("Other");
   const [isExpanded, setIsExpanded] = useState(false);
 
   const toggleExpand = () => setIsExpanded(!isExpanded);
@@ -27,7 +29,7 @@ export const ExpandableText = ({ text, maxLength = MAX_LENGTH }: Props) => {
           onClick={toggleExpand}
           className="text-form-ui-blue ml-1 inline cursor-pointer font-semibold hover:underline"
         >
-          {isExpanded ? "Less" : "More"}
+          {isExpanded ? t("less") : t("more")}
         </button>
       )}
     </p>
