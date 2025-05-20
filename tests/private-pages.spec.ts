@@ -26,36 +26,39 @@ test("Should open user profile and navigate to other private links", async ({
   await expect(page.getByRole("button", { name: "CN" })).toBeVisible();
 
   await page.getByRole("button", { name: "CN" }).click();
-  await page.getByRole("menuitem", { name: "Обліковий запис" }).click();
+  await page.getByRole("menuitem", { name: "Profile" }).click();
   await page.waitForURL("/user/profile");
   await expect(page.locator("#main-layout")).toContainText(
     "Top 8 most popular movie genres",
   );
 
-  await page.getByRole("link", { name: "Dashboard" }).click();
+  await page.getByRole("link", { name: "Dashboard" }).nth(1).click();
   await expect(page.locator("h1")).toContainText("Dashboard");
 
-  await page.getByRole("link", { name: "My lists" }).click();
+  await page.getByRole("link", { name: "My lists" }).nth(1).click();
   await page.waitForURL("/user/my-lists**");
 
   await expect(
     page.locator("#main-layout").getByRole("button").filter({ hasText: /^$/ }),
   ).toBeVisible();
 
-  await page.getByRole("link", { name: "New Movies to add" }).click();
+  await page.getByRole("link", { name: "New Movies to add" }).nth(1).click();
   await expect(
     page
-      .getByRole("heading", { name: "No quick movies to add" })
+      .getByRole("heading", { name: "No movies to add" })
       .or(page.getByRole("heading", { name: "New Movies to add" })),
   ).toBeVisible();
 
-  await page.getByRole("link", { name: "Users list" }).click();
+  await page
+    .getByLabel("admin-sidebar-nav")
+    .getByRole("link", { name: "All users" })
+    .click();
   await expect(page.locator("h1")).toContainText("All Users");
-  await page.getByRole("link", { name: "Settings" }).click();
+  await page.getByRole("link", { name: "Settings" }).nth(1).click();
   await expect(page.locator("h1")).toContainText("Settings");
 
   await page.getByRole("button", { name: "CN" }).click();
-  await page.getByRole("menuitem", { name: "Вийти" }).click();
+  await page.getByRole("menuitem", { name: "Log out" }).click();
   await page.waitForURL("/");
   await expect(page.getByRole("button", { name: "CN" })).not.toBeVisible();
 });
@@ -99,6 +102,8 @@ test("Test movie basic Form: add new Movie with basic fields (The Shawshank Rede
   await page.getByRole("button", { name: "Save rating" }).click();
   await page.getByRole("button", { name: "Next step" }).click();
 
+  await expect(page.getByText("Value is required")).not.toBeVisible();
+
   // Shared Universe
   await page.getByRole("button", { name: "Skip" }).click();
   // Related Movie
@@ -128,59 +133,63 @@ test("Test movie basic Form: add new Movie with basic fields (The Shawshank Rede
   await page.locator('input[name="worldwide_gross"]').fill("29332133");
   await page.getByRole("button", { name: "Next step" }).click();
 
+  await expect(page.getByText("Value is required")).not.toBeVisible();
+
   // People
-  await page.getByText("Select Actor").click();
-  await page.getByRole("option", { name: "Морган Фрімен" }).click();
+  await page.getByText("Select the actors").click();
+  await page.getByRole("option", { name: "Morgan Freeman" }).click();
   await page.getByText("Characters").click();
-  await page.getByRole("option", { name: "Елліс Бойд «Ред» Реддінг" }).click();
-  await page.getByText("Select Actor").click();
-  await page.getByRole("option", { name: "Тім Робінс" }).click();
+  await page.getByRole("option", { name: 'Ellis Boyd "Red" Redding' }).click();
+  await page.getByText("Select the actors").click();
+  await page.getByRole("option", { name: "Tim Robbins" }).click();
   await page.getByText("Characters").click();
-  await page.getByRole("option", { name: "Енді Дюфрейн" }).click();
-  await page.getByText("Select Director").click();
-  await page.getByRole("option", { name: "Френк Дарабонт" }).click();
+  await page.getByRole("option", { name: "Andy Dufresne" }).click();
+  await page.getByText("Select the directors").click();
+  await page.getByRole("option", { name: "Frank Darabont" }).click();
   await page.getByRole("button", { name: "Next step" }).click();
+
+  await expect(page.getByText("Value is required")).not.toBeVisible();
 
   // Genres
-  await page
-    .getByRole("combobox")
-    .filter({ hasText: /^Genres$/ })
-    .click();
-  await page.getByRole("option", { name: "Комедія" }).click();
-  await page.getByRole("option", { name: "Драма" }).click();
-  await page
-    .getByRole("combobox")
-    .filter({ hasText: /^Genres$/ })
-    .click();
-  await page.locator("div").filter({ hasText: /^X$/ }).first().click();
+  await page.getByText("Select Genres").click();
+  await page.getByRole("option", { name: "Crime" }).click();
+  await page.getByRole("option", { name: "Drama" }).click();
+  await page.getByText("Select Genres").click();
   await page.locator("div").filter({ hasText: /^X$/ }).nth(1).click();
-  await page.getByRole("button", { name: "Next step" }).click();
-
-  // Filters
-  await page.getByText("Add new Specification").click();
-  await page.getByRole("option", { name: "В'язниця" }).click();
-  await page.getByRole("option", { name: "Розмовне" }).click();
-  await page.getByText("Add new Specification").click();
-  await page.getByText("Add new Keyword").click();
-  await page
-    .getByRole("option", { name: "Дружба/Хімія між персонажами" })
-    .click();
-  await page.getByText("Add new Keyword").click();
-  await page.getByText("Add new Action Time").click();
-  await page.getByRole("option", { name: "20 століття" }).click();
-  await page.getByText("Add new Action Time").click();
-  await page.locator("div").filter({ hasText: /^X$/ }).first().click();
-  await page.locator("div").filter({ hasText: /^X$/ }).nth(1).click();
-  await page.locator("div").filter({ hasText: /^X$/ }).nth(2).click();
   await page.locator("div").filter({ hasText: /^X$/ }).nth(3).click();
   await page.getByRole("button", { name: "Next step" }).click();
 
+  await expect(page.getByText("Value is required")).not.toBeVisible();
+
+  // Filters
+  expect(page.getByRole("heading", { name: "Specifications" })).toBeVisible();
+  await page.getByText("Select Specifications").click();
+  await page.getByRole("option", { name: "Prison" }).click();
+  await page.getByRole("option", { name: "Conversational" }).click();
+  await page.getByText("Select Specifications").click();
+  await page.getByText("Select Keywords").click();
+  await page
+    .getByRole("option", { name: "Friendship/Character Chemistry" })
+    .click();
+  await page.getByText("Select Keywords").click();
+  await page.getByText("Select Action Times").click();
+  await page.getByRole("option", { name: "20th century" }).click();
+  await page.getByText("Select Action Times").click();
+  await page.locator("div:nth-child(3) > div:nth-child(2)").first().click();
+  await page.locator("div:nth-child(4) > div:nth-child(2)").click();
+  await page.locator("div:nth-child(2) > .grid > div:nth-child(2)").click();
+  await page.locator("div:nth-child(3) > .grid > div:nth-child(2)").click();
+  await page.getByRole("button", { name: "Next step" }).click();
+
+  // Check
+  await expect(page.getByText("Value is required")).not.toBeVisible();
+
   // Summary
-  await expect(page.locator("#main-layout")).toContainText("Summary");
-  await expect(page.locator("#main-layout")).toContainText(movieTitleEn);
-  await expect(page.locator("#main-layout")).toContainText(movieTitleUk);
-  await expect(page.locator("#main-layout")).toContainText(movieTitleKey);
-  await expect(page.locator("#main-layout")).toContainText("Submit");
+  await expect(page.getByRole("heading", { name: "Summary" })).toBeVisible();
+  await expect(page.getByText(movieTitleEn)).toBeVisible();
+  await expect(page.getByText(movieTitleUk)).toBeVisible();
+  await expect(page.getByText(movieTitleKey)).toBeVisible();
+  await expect(page.getByRole("button", { name: "Submit" })).toBeVisible();
 });
 
 test("Test movie full Form: add new Movie with all fields (The lord of the ring - two towers)", async ({
@@ -231,30 +240,35 @@ test("Test movie full Form: add new Movie with all fields (The lord of the ring 
   await page.getByRole("button", { name: "Save rating" }).click();
   await page.getByRole("button", { name: "Next step" }).click();
 
+  await expect(page.getByText("Value is required")).not.toBeVisible();
+
   // Shared Universe
-  await page
-    .getByRole("combobox")
-    .filter({ hasText: "Shared Universe" })
-    .click();
+  await page.getByLabel("movie-form-wizard").getByRole("combobox").click();
   await page.getByRole("option", { name: "Middle-earth" }).click();
-  await page.getByPlaceholder(" ", { exact: true }).click();
-  await page.getByPlaceholder(" ", { exact: true }).fill("5");
+  await page.getByLabel("movie-form-wizard").getByText("Middle-earth").click();
+  await page.getByPlaceholder(" ").click();
+  await page.getByPlaceholder(" ").fill("5");
   await page.getByRole("button", { name: "Next step" }).click();
+
+  await expect(page.getByText("Value is required")).not.toBeVisible();
 
   // Related Movie
   await page.getByText("Base movie").click();
-  await page.getByPlaceholder("Search items...").click();
-  await page.getByPlaceholder("Search items...").fill("the lord");
+  await page.getByLabel("", { exact: true }).click();
+  await page.getByLabel("", { exact: true }).fill("the lord");
   await page
     .getByRole("option", {
       name: "The Lord of the Rings: The Fellowship of the Ring",
     })
     .click();
-  await page.getByPlaceholder(" ", { exact: true }).click();
-  await page.getByPlaceholder(" ", { exact: true }).fill("2");
-  await page.getByRole("combobox", { name: "Rating Type" }).click();
+  await page.getByText("The Lord of the Ring", { exact: true }).click();
+  await page.getByPlaceholder(" ").click();
+  await page.getByPlaceholder(" ").fill("2");
+  await page.getByRole("combobox", { name: "Relation type" }).click();
   await page.getByRole("option", { name: "Sequel" }).click();
   await page.getByRole("button", { name: "Next step" }).click();
+
+  await expect(page.getByText("Value is required")).not.toBeVisible();
 
   // Info
   await page.locator('textarea[name="description_en"]').click();
@@ -280,59 +294,67 @@ test("Test movie full Form: add new Movie with all fields (The lord of the ring 
   await page.locator('input[name="worldwide_gross"]').fill("0546546");
   await page.getByRole("button", { name: "Next step" }).click();
 
+  await expect(page.getByText("Value is required")).not.toBeVisible();
+
   // People
-  await page.getByText("Select Actor").click();
+  await page.getByText("Select the actors").click();
   await page.getByRole("option", { name: "Elijah Wood" }).click();
   await page.getByText("Characters").click();
   await page.getByRole("option", { name: "Frodo" }).click();
-  await page.getByText("Select Actor").click();
+  await page.getByText("Select the actors").click();
   await page.getByRole("option", { name: "Ian McKellen" }).click();
   await page.getByText("Characters").click();
   await page.getByRole("option", { name: "Gandalf" }).click();
-  await page.getByText("Select Actor").click();
+  await page.getByText("Select the actors").click();
   await page.getByRole("option", { name: "Hugo Weaving" }).click();
   await page.getByText("Characters").click();
   await page.getByRole("option", { name: "Elrond" }).click();
-  await page.getByText("Select Director").click();
+  await page.getByText("Select the directors").click();
   await page.getByRole("option", { name: "Peter Jackson" }).click();
   await page.getByRole("button", { name: "Next step" }).click();
 
+  await expect(page.getByText("Value is required")).not.toBeVisible();
+
   // Genres
-  await page
-    .getByRole("combobox")
-    .filter({ hasText: /^Genres$/ })
-    .click();
-  await page.getByRole("option", { name: "Fantasy" }).click();
+  await page.getByText("Select Genres").click();
   await page.getByRole("option", { name: "Adventure" }).click();
-  await page
-    .getByRole("combobox")
-    .filter({ hasText: /^Genres$/ })
-    .click();
-  await page.getByRole("combobox").filter({ hasText: "Subgenres" }).click();
-  await page.getByRole("option", { name: "Sword & Sorcery" }).click();
+  await page.getByRole("option", { name: "Fantasy" }).click();
+  await page.getByText("Select Genres").click();
+  await page.getByText("Select Subgenres").click();
   await page.getByRole("option", { name: "Quest" }).click();
-  await page.getByRole("combobox").filter({ hasText: "Subgenres" }).click();
-  await page.locator("div").filter({ hasText: /^X$/ }).first().click();
-  await page.locator("div").filter({ hasText: /^X$/ }).nth(1).click();
-  await page.locator("div").filter({ hasText: /^X$/ }).nth(2).click();
-  await page.locator("div").filter({ hasText: /^X$/ }).nth(3).click();
+  await page.getByRole("option", { name: "Sword & Sorcery" }).click();
+  await page.getByText("Select Subgenres").click();
+  await page.locator(".mb-5 > div > div:nth-child(2)").first().click();
+  await page.locator("div:nth-child(4) > div:nth-child(2)").first().click();
+  await page
+    .locator("form > div:nth-child(2) > div > div:nth-child(2)")
+    .first()
+    .click();
+  await page
+    .locator("div:nth-child(2) > div:nth-child(4) > div:nth-child(2)")
+    .click();
   await page.getByRole("button", { name: "Next step" }).click();
 
+  await expect(page.getByText("Value is required")).not.toBeVisible();
+
   // Filters
-  await page.getByText("Add new Specification").click();
+  await expect(
+    page.getByRole("heading", { name: "Specifications" }),
+  ).toBeVisible();
+  await page.getByText("Select Specifications").click();
   await page.getByRole("option", { name: "Powerful villain" }).click();
   await page.getByRole("option", { name: "Epic" }).click();
-  await page.getByText("Add new Specification").click();
-  await page.getByText("Add new Keyword").click();
+  await page.getByText("Select Specifications").click();
+  await page.getByText("Select Keywords").click();
   await page.getByRole("option", { name: "Breathtaking music" }).click();
-  await page.getByRole("option", { name: "Powerful music" }).click();
   await page
     .getByRole("option", { name: "Friendship/Character Chemistry" })
     .click();
-  await page.getByText("Add new Keyword").click();
-  await page.getByText("Add new Action Time").click();
+  await page.getByRole("option", { name: "Powerful music" }).click();
+  await page.getByText("Select Keywords").click();
+  await page.getByText("Select Action Times").click();
   await page.getByRole("option", { name: "Fantasy Middle Ages" }).click();
-  await page.getByText("Add new Action Time").click();
+  await page.getByText("Select Action Times").click();
   await page.locator("div:nth-child(3) > div:nth-child(2)").first().click();
   await page.locator("div:nth-child(4) > div:nth-child(2)").first().click();
   await page
@@ -345,15 +367,15 @@ test("Test movie full Form: add new Movie with all fields (The lord of the ring 
   await page.locator("div:nth-child(3) > .grid > div:nth-child(2)").click();
   await page.getByRole("button", { name: "Next step" }).click();
 
+  await expect(page.getByText("Value is required")).not.toBeVisible();
+
   // Summary
-  await expect(page.locator("#main-layout")).toContainText("Summary");
-  await expect(page.locator("#main-layout")).toContainText(movieTitleEn);
-  await expect(page.locator("#main-layout")).toContainText(movieTitleUk);
-  await expect(page.locator("#main-layout")).toContainText(movieTitleKey);
-  await expect(page.locator("#main-layout")).toContainText(
-    RatingCriterion.visual_effects,
-  );
-  await expect(page.locator("#main-layout")).toContainText("Submit");
+  await expect(page.getByRole("heading", { name: "Summary" })).toBeVisible();
+  await expect(page.getByText(movieTitleEn)).toBeVisible();
+  await expect(page.getByText(movieTitleUk)).toBeVisible();
+  await expect(page.getByText(movieTitleKey)).toBeVisible();
+  await expect(page.getByText(RatingCriterion.visual_effects)).toBeVisible();
+  await expect(page.getByRole("button", { name: "Submit" })).toBeVisible();
 });
 
 test("Test Quick add new Movie", async ({ page }) => {
@@ -361,13 +383,19 @@ test("Test Quick add new Movie", async ({ page }) => {
   const newMovieKey = convertToSlug(newMovieTitle);
   await page.goto("/");
   await page.getByRole("button", { name: "Quickly add Movie" }).click();
+  await expect(
+    page.getByRole("heading", { name: "Quickly add new Movie" }),
+  ).toBeVisible();
   await page.locator('input[name="title_en"]').click();
   await page.locator('input[name="title_en"]').fill(newMovieTitle);
   await expect(page.locator('input[name="key"]')).toHaveValue(newMovieKey);
-  await page.getByRole("combobox", { name: "Rating Type" }).click();
-  await page.getByRole("option", { name: "Scary Factor" }).click();
-
-  await page.locator(".bg-custom-gradient").first().click();
+  await page.getByRole("combobox", { name: "Rating type" }).click();
+  await page.getByRole("option", { name: "Scare Factor" }).click();
+  await page
+    .locator("div")
+    .filter({ hasText: /^Scare Factor$/ })
+    .first()
+    .click();
   await page
     .locator("div:nth-child(3) > div:nth-child(2) > span > .bg-custom-gradient")
     .click();
@@ -387,7 +415,7 @@ test("Test Quick add new Movie", async ({ page }) => {
     .locator("div:nth-child(8) > div:nth-child(2) > span > .bg-custom-gradient")
     .click();
   await page.getByRole("button", { name: "Save rating" }).click();
-  await expect(page.locator("form")).toContainText("Submit");
+  await expect(page.getByRole("button", { name: "Submit" })).toBeVisible();
 });
 
 test("Should logout", async ({ page }) => {
@@ -395,11 +423,11 @@ test("Should logout", async ({ page }) => {
   await expect(page.getByRole("button", { name: "CN" })).toBeVisible();
 
   await page.getByRole("button", { name: "CN" }).click();
-  await page.getByRole("menuitem", { name: "Обліковий запис" }).click();
+  await page.getByRole("menuitem", { name: "Profile" }).click();
   await page.waitForURL("/user/profile");
 
   await page.getByRole("button", { name: "CN" }).click();
-  await page.getByRole("menuitem", { name: "Вийти" }).click();
+  await page.getByRole("menuitem", { name: "Log out" }).click();
   await page.waitForURL("/");
   await expect(page.getByRole("button", { name: "CN" })).not.toBeVisible();
 });

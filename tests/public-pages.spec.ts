@@ -74,6 +74,10 @@ test("Should open Google login", async ({ page }) => {
 
 test("Should go to the Movie page", async ({ page }) => {
   await page.goto("/");
+
+  await page.getByRole("banner").getByRole("combobox").click();
+  await page.getByRole("option", { name: "English" }).click();
+
   await page
     .getByRole("navigation")
     .getByRole("link", { name: "Фільми" })
@@ -93,25 +97,26 @@ test("Should find movie by Super Search: Втеча з Шоушенка", async 
   page,
 }) => {
   await page.goto("/");
-  await page.getByRole("button", { name: "Супер пошук" }).click();
-  await expect(page.locator("h1")).toContainText("Advanced title search");
 
-  await page.getByText("Genres", { exact: true }).click();
+  await page.getByRole("button", { name: "Супер пошук" }).click();
+  await expect(page.locator("h1")).toContainText("Розширений пошук тайтлів");
+
+  await page.getByText("Жанри", { exact: true }).click();
   await page.getByRole("option", { name: "Драма" }).click();
   await expect(page.locator("#main-layout")).toContainText("Драма(10-100)");
   await page.getByRole("option", { name: "Кримінал" }).click();
   await expect(page.locator("#main-layout")).toContainText("Кримінал(10-100)");
 
-  await page.getByText("Actors").click();
+  await page.getByText("Актори").click();
   await page.getByRole("option", { name: "Морган Фрімен" }).click();
-  await page.getByText("Actors").click();
+  await page.getByText("Актори").click();
   await expect(page.locator("#main-layout")).toContainText("Морган Фрімен");
-  await page.getByText("Actors").click();
+  await page.getByText("Актори").click();
   await page.getByRole("option", { name: "Тім Робінс" }).click();
-  await page.getByText("Actors").click();
+  await page.getByText("Актори").click();
   await expect(page.locator("#main-layout")).toContainText("Тім Робінс");
 
-  await page.getByText("Directors").click();
+  await page.getByText("Режисер").click();
   await page.getByRole("option", { name: "Френк Дарабонт" }).click();
   await expect(page.locator("#main-layout")).toContainText("Френк Дарабонт");
   await page.getByRole("link", { name: "Movie poster" }).click();

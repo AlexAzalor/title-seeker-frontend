@@ -36,9 +36,9 @@ test.describe("Test Mobile view (385x851)", () => {
     page,
   }) => {
     await page.goto("/super-search");
-    await page.getByRole("button", { name: "Enhance Search" }).click();
+    await page.getByRole("button", { name: "Покращення пошуку" }).click();
     await expect(
-      page.getByRole("heading", { name: "Enhance Search" }),
+      page.getByRole("heading", { name: "Покращення пошуку" }),
     ).toBeVisible();
   });
 
@@ -52,6 +52,6 @@ test.describe("Test Mobile view (385x851)", () => {
     await page.waitForURL("/movies");
     await page.getByRole("link", { name: "Movie poster" }).first().click();
     await page.waitForURL("/movies/*");
-    await expect(page.getByText("Genres", { exact: true })).toBeVisible();
+    await expect(page.getByText("Жанри", { exact: true })).toBeVisible();
   });
 });
