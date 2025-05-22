@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 type Props = {
-  title?: string;
+  children?: React.ReactNode;
   handlePrev?: () => void;
   isFirstStep?: boolean;
   onSubmit?: () => void;
@@ -12,7 +12,7 @@ type Props = {
 };
 
 const FormButtons = ({
-  title,
+  children,
   handlePrev,
   isFirstStep,
   onSubmit,
@@ -50,7 +50,7 @@ const FormButtons = ({
         className="bg-main-ui-purple dark:bg-main-ui-purple dark:hover:bg-main-ui-purple/70 hover:bg-dark-blue h-16 w-[164px] cursor-pointer rounded-[56px] border-0 text-center text-lg transition-all duration-200 dark:text-white"
         onClick={onSubmit}
       >
-        <p>{title || t("nextStep")}</p>
+        {children || t("nextStep")}
       </Button>
     </div>
   );

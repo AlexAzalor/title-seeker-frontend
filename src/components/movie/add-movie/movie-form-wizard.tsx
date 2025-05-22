@@ -183,17 +183,9 @@ export const MovieFormWizard = ({
             />
           )}
         {currentStep === SUMMARY_STEP && (
-          <div>
-            {!isSubmitting ? (
-              <FormButtons
-                title={t("submit")}
-                handlePrev={handlePrev}
-                onSubmit={addMovie}
-              />
-            ) : (
-              <Spinner />
-            )}
-          </div>
+          <FormButtons handlePrev={handlePrev} onSubmit={addMovie}>
+            {!isSubmitting ? t("submit") : <Spinner />}
+          </FormButtons>
         )}
       </div>
     </MovieFormContext>

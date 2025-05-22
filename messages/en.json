@@ -114,46 +114,138 @@
   },
 
   "Rating": {
+    "main": {
+      "name": "Main",
+      "description": "main"
+    },
     "basic": "Basic",
     "acting": {
       "name": "Acting",
-      "description": "The acting is evaluated, their ability to convey emotions well, reveal the character's character, how they fit into the universe of the film and their interaction with other actors. It is also evaluated how alive the characters came out (whom you believe 100%). It also happens that the character is just an ordinary person, but the actor played so well that you can't imagine anyone else in this role (even if it's the only such role in the actor's career). Note: you can evaluate both the performance of one actor and all of them. The main thing is that the acting should be of high quality."
+      "description": "The acting is evaluated, their ability to convey emotions well, reveal the character's character, how they fit into the universe of the film and their interaction with other actors. It is also evaluated how alive the characters came out (whom you believe 100%). It also happens that the character is just an ordinary person, but the actor played so well that you can't imagine anyone else in this role (even if it's the only such role in the actor's career). Note: you can evaluate both the performance of one actor and all of them. The main thing is that the acting should be of high quality.",
+      "qualityLevel": {
+        "one": "I wanted to skip (rewind) the actors' performance.",
+        "two": "After the credits, I immediately forgot the actors' names and faces.",
+        "three": "Mediocre performance, nothing interesting.",
+        "four": "They played well but did not reach their full potential.",
+        "five": "High-quality and professional acting by the entire cast.",
+        "six": "Absolutely love the acting. I can't imagine anyone else in their roles.",
+        "cartoon": {
+          "one": "The voice acting is monotonous, the characters sound artificial or annoying.",
+          "two": "The voices are not memorable, the characters' personalities are not felt.",
+          "three": "The voice acting is acceptable, but without much emotion or charisma.",
+          "four": "The actors did a good job, conveyed the character.",
+          "five": "The voice acting lives its own life, the voices clearly match the characters.",
+          "six": "Voices create characters, it's hard to imagine them any other way."
+        }
+      }
     },
     "plot_storyline": {
       "name": "Plot/Storyline",
-      "description": "The plot, character storylines, the revelation of issues and conflicts, the progression of everything (including the world of the film itself) are evaluated. How creatively they approached various clichés. A high-quality ending and an answer to the questions raised or a reasonable continuation (i.e. not just for the sake of money)."
+      "description": "The plot, character storylines, the revelation of issues and conflicts, the progression of everything (including the world of the film itself) are evaluated. How creatively they approached various clichés. A high-quality ending and an answer to the questions raised or a reasonable continuation (i.e. not just for the sake of money).",
+      "qualityLevel": {
+        "one": "A pointless, contradictory plot. I wanted to skip parts.",
+        "two": "The story is not interesting and is immediately forgotten.",
+        "three": "Mediocre plot, typical or predictable.",
+        "four": "The plot holds attention, although there are weaknesses or clichés.",
+        "five": "A well-constructed story with logical development and climax.",
+        "six": "A deep, captivating story that leaves a mark after watching."
+      }
     },
     "script_dialogue": {
       "name": "Script/Dialogue",
-      "description": "The quality of the dialogues is assessed, how well they reveal the characters and the surrounding world. Is there a strength of subtext and intelligent understatement, where everything is not chewed over for you like a child. Where there are no 10-minute dialogues for nothing. Note: you should not compare everything to 'Tarantino' dialogues, which are of course the pinnacle of art, but most films simply do not meet this criterion."
+      "description": "The quality of the dialogues is assessed, how well they reveal the characters and the surrounding world. Is there a strength of subtext and intelligent understatement, where everything is not chewed over for you like a child. Where there are no 10-minute dialogues for nothing. Note: you should not compare everything to 'Tarantino' dialogues, which are of course the pinnacle of art, but most films simply do not meet this criterion.",
+      "qualityLevel": {
+        "one": "Dialogues are unnatural, embarrassing, or irritating.",
+        "two": "Template phrases, nothing memorable.",
+        "three": "Dialogues serve a function, but nothing more.",
+        "four": "There are good moments, some phrases are interesting or accurate.",
+        "five": "The dialogues are lively, organic, and support the characters well.",
+        "six": "Every line sounds apt. I want to remember the quotes."
+      }
     },
     "music": {
       "name": "Music",
-      "description": "It is evaluated how well the music fits the context of the film, sets the right mood and describes the events. It can even immerse you in the film more than any other aspect. Music can be memorable and then give you an incentive to watch the film again. You should not give a bad rating if there is little or no music or it is quiet or absent altogether. Epic music or its absence should work in context."
+      "description": "It is evaluated how well the music fits the context of the film, sets the right mood and describes the events. It can even immerse you in the film more than any other aspect. Music can be memorable and then give you an incentive to watch the film again. You should not give a bad rating if there is little or no music or it is quiet or absent altogether. Epic music or its absence should work in context.",
+      "qualityLevel": {
+        "one": "The soundtrack is distracting or doesn't fit at all.",
+        "two": "The music is inconspicuous or formulaic.",
+        "three": "Several moments highlight the atmosphere.",
+        "four": "The soundtrack is high-quality and supports the emotional background.",
+        "five": "The music is clearly memorable, aptly enhancing the scenes.",
+        "six": "The soundtrack is a separate art form in itself. I want to listen to it after the movie."
+      }
     },
     "enjoyment": {
       "name": "Enjoyment",
-      "description": "The pleasure that the movie brought is evaluated. Here you don't need to think about other evaluation criteria, about reviews or other people's opinions. The most important thing is only subjective impressions. For example, a movie can be stupid, but if it gave a little good mood, then it should be evaluated relatively."
+      "description": "The pleasure that the movie brought is evaluated. Here you don't need to think about other evaluation criteria, about reviews or other people's opinions. The most important thing is only subjective impressions. For example, a movie can be stupid, but if it gave a little good mood, then it should be evaluated relatively.",
+      "qualityLevel": {
+        "one": "I wanted to turn it off. Watching it is torture.",
+        "two": "I watched it to the end just out of principle.",
+        "three": "Average, without strong impressions.",
+        "four": "It was enjoyable to watch, although not completely captivating.",
+        "five": "Very enjoyable viewing, I wanted to share it with someone.",
+        "six": "An absolute pleasure. I would like to watch it again."
+      }
     },
     "production_design": {
       "name": "Production Design",
-      "description": "The quality of clothing, costumes, scenery, props, etc. (not graphics) is evaluated. How well these things convey a certain period of time. For example, if in Ancient Greece instead of beautiful scenery, modern architecture is shown, which is simply similar, then this is poor quality work."
+      "description": "The quality of clothing, costumes, scenery, props, etc. (not graphics) is evaluated. How well these things convey a certain period of time. For example, if in Ancient Greece instead of beautiful scenery, modern architecture is shown, which is simply similar, then this is poor quality work.",
+      "qualityLevel": {
+        "one": "Everything looks cheap or chaotic.",
+        "two": "Minimal effort in creating the atmosphere.",
+        "three": "There is a style, but it is not always consistent.",
+        "four": "The visual world is thoughtful and pleasant.",
+        "five": "A unique atmosphere has been created, the details are captivating.",
+        "six": "Aesthetics at the level of art. Every frame is a painting."
+      }
     },
     "visual_effects": {
       "name": "Visual Effects",
-      "description": "The quality of the graphics and various effects is evaluated in relation to the given film. That is, one should not compare the graphics of the 80s and the 2020s. The graphics should be harmoniously integrated into the overall picture of the film and should be appropriate, and not just graphics for the sake of graphics."
+      "description": "The quality of the graphics and various effects is evaluated in relation to the given film. That is, one should not compare the graphics of the 80s and the 2020s. The graphics should be harmoniously integrated into the overall picture of the film and should be appropriate, and not just graphics for the sake of graphics.",
+      "qualityLevel": {
+        "one": "The effects look like a fan video.",
+        "two": "It's noticeable that it's CGI, and it's distracting.",
+        "three": "The effects are on par, but nothing spectacular.",
+        "four": "Well executed, integrated into the plot.",
+        "five": "Impressive effects that enhance the story.",
+        "six": "Absolute cinema. You can watch it for the effects."
+      }
     },
     "scare_factor": {
       "name": "Scare Factor",
-      "description": "It is assessed how much the film was able to evoke a feeling of fear or creepiness when the events of the film did not let go for some time. Note: simple screamers that scare are not real fear, but simply a reaction to a sudden/sharp action accompanied by a loud sound. This technique should be auxiliary, not the main or frequently used."
+      "description": "It is assessed how much the film was able to evoke a feeling of fear or creepiness when the events of the film did not let go for some time. Note: simple screamers that scare are not real fear, but simply a reaction to a sudden/sharp action accompanied by a loud sound. This technique should be auxiliary, not the main or frequently used.",
+      "qualityLevel": {
+        "one": "Funny instead of scary.",
+        "two": "Predictably, no tension.",
+        "three": "There are a few moments, but they are quickly forgotten.",
+        "four": "Fear or tension is maintained most of the time.",
+        "five": "The atmosphere is truly depressing or frightening.",
+        "six": "Constant immersion in fear, strong emotional reactions."
+      }
     },
     "humor": {
       "name": "Humor",
-      "description": "A film that has a comedic element from beginning to end, where funny acting is an element of the world, not “feigning for the sake of feigning.” The worldbuilding has a funny or caricature element. The characters exist with something that seems funny and stupid to us, but for them it is part of life. The most important thing is that the funny/stupid element remains until the end of the film, and it is not eliminated. For example, Mr. Bean or the Pink Panther, who save the world in bizarre ways. That is, they did not become “normal” by the end of the film, but continued their “natural” life further. It is evaluated how much logic and comedy work together. And how funny the film was overall. Examples: Idiocracy, Don't Threaten South Central..., Jay and Silent Bob... Note: films like 9 Yards do not fit this criterion, because the comedy there is that an ordinary person gets involved in crime and starts behaving like a fool, but then gets used to it and therefore everything smoothly becomes normal for him (and for the viewer)."
+      "description": "A film that has a comedic element from beginning to end, where funny acting is an element of the world, not “feigning for the sake of feigning.” The worldbuilding has a funny or caricature element. The characters exist with something that seems funny and stupid to us, but for them it is part of life. The most important thing is that the funny/stupid element remains until the end of the film, and it is not eliminated. For example, Mr. Bean or the Pink Panther, who save the world in bizarre ways. That is, they did not become “normal” by the end of the film, but continued their “natural” life further. It is evaluated how much logic and comedy work together. And how funny the film was overall. Examples: Idiocracy, Don't Threaten South Central..., Jay and Silent Bob... Note: films like 9 Yards do not fit this criterion, because the comedy there is that an ordinary person gets involved in crime and starts behaving like a fool, but then gets used to it and therefore everything smoothly becomes normal for him (and for the viewer).",
+      "qualityLevel": {
+        "one": "Primitive or cringe.",
+        "two": "There were attempts, but it wasn't funny.",
+        "three": "Sometimes it makes you smile.",
+        "four": "The humor is appropriate, there are good jokes.",
+        "five": "Funny and natural, keeps the mood up.",
+        "six": "Explosive humor, laughed out loud, I want to quote."
+      }
     },
     "animation_cartoon": {
       "name": "Animation/Cartoon",
-      "description": "These are popular full-length cartoons like Shrek or Treasure Island. The quality of the picture, animation, characters, etc. is evaluated. In the 'Action' criterion, the voice, emotions and how the voice actor naturally conveyed the character's character are evaluated."
+      "description": "These are popular full-length cartoons like Shrek or Treasure Island. The quality of the picture, animation, characters, etc. is evaluated. In the 'Action' criterion, the voice, emotions and how the voice actor naturally conveyed the character's character are evaluated.",
+      "qualityLevel": {
+        "one": "Everything looks cheap or sloppy.",
+        "two": "The animation is simple or technically weak.",
+        "three": "Average, but soulless.",
+        "four": "The animation is high-quality and emotional.",
+        "five": "Artistically beautiful, captivating with detail.",
+        "six": "Animation as a visual art. Striking the imagination."
+      }
     },
     "ratingType": {
       "name": "Rating type",
@@ -233,7 +325,7 @@
       "nameEn": "Name (en)",
       "nameUk": "Name (uk)",
       "descriptionEn": "Description (en)",
-      "descriptionUk": "Description (en)"
+      "descriptionUk": "Description (uk)"
     },
     "personFields": {
       "key": "Key",

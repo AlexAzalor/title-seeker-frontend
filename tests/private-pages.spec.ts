@@ -391,11 +391,7 @@ test("Test Quick add new Movie", async ({ page }) => {
   await expect(page.locator('input[name="key"]')).toHaveValue(newMovieKey);
   await page.getByRole("combobox", { name: "Rating type" }).click();
   await page.getByRole("option", { name: "Scare Factor" }).click();
-  await page
-    .locator("div")
-    .filter({ hasText: /^Scare Factor$/ })
-    .first()
-    .click();
+  await page.locator(".bg-custom-gradient").first().click();
   await page
     .locator("div:nth-child(3) > div:nth-child(2) > span > .bg-custom-gradient")
     .click();

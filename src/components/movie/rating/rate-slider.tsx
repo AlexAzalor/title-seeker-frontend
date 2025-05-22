@@ -20,6 +20,7 @@ type Props = {
   max: number;
   className?: string;
   onValueChange: (value: number[], key: RatingType) => void;
+  isCartoon?: boolean;
 };
 
 function RateSlider({
@@ -30,18 +31,50 @@ function RateSlider({
   value,
   defaultValue,
   onValueChange,
+  isCartoon,
 }: Props) {
   const session = useSession();
   const t = useTranslations("Rating");
 
+  const getQualityLabel = (value: number) => {
+    const step = max / 5;
+    const cartoon = isCartoon ? ".cartoon" : "";
+
+    switch (true) {
+      case value < max - step * 4:
+        return t(`${type}.qualityLevel${cartoon}.one`);
+      case value >= max - step * 4 && value < max - step * 3:
+        return t(`${type}.qualityLevel${cartoon}.two`);
+      case value >= max - step * 3 && value < max - step * 2:
+        return t(`${type}.qualityLevel${cartoon}.three`);
+      case value >= max - step * 2 && value < max - step:
+        return t(`${type}.qualityLevel${cartoon}.four`);
+      case value >= max - step && value < max:
+        return t(`${type}.qualityLevel${cartoon}.five`);
+      case value === max:
+        return t(`${type}.qualityLevel${cartoon}.six`);
+      default:
+        return "No value";
+    }
+  };
+
   return (
-    <div>
+    <div className="group">
       <div className="mb-1 flex items-center gap-1">
         <span>{t(`${type}.name`)}</span>
 
         <TooltipWrapper content={t(`${type}.description`)} asChild>
           <InfoIcon className="h-4 w-4" />
         </TooltipWrapper>
+
+        <span
+          className={cn(
+            "text-sm font-normal opacity-0 transition-opacity duration-200 group-hover:opacity-100",
+            showValue && "opacity-100",
+          )}
+        >
+          {getQualityLabel(value)}
+        </span>
 
         <div className="flex items-end gap-1 lg:hidden">
           {showValue && <span className="">{value}</span>}

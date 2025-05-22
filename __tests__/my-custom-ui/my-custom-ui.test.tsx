@@ -82,12 +82,11 @@ test("Should render ActorsCarousel", () => {
 });
 
 test("Should render FormButtons", async () => {
-  const buttonName = "Test form buttons";
-  render(<FormButtons title={buttonName} />, {
+  render(<FormButtons />, {
     wrapper: ProjectProviders,
   });
 
-  expect(screen.getByText(buttonName)).toBeDefined();
+  expect(screen.getByText("Next step")).toBeDefined();
 });
 
 test("Should render FormField", async () => {

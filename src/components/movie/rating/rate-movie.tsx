@@ -317,6 +317,7 @@ const RateMovie = ({
         max={actingMax}
         defaultValue={acting}
         onValueChange={updateState}
+        isCartoon={isAnimationCartoon}
       />
 
       <RateSlider

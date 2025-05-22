@@ -85,12 +85,7 @@ test("Should go to the Movie page", async ({ page }) => {
   await page.waitForURL("/movies");
   await page.getByRole("link", { name: "Movie poster" }).first().click();
   await page.waitForURL("/movies/**");
-  await expect(
-    page
-      .locator("div")
-      .filter({ hasText: /^Acting$/ })
-      .nth(1),
-  ).toBeVisible();
+  await expect(page.getByText("Acting")).toBeVisible();
 });
 
 test("Should find movie by Super Search: Втеча з Шоушенка", async ({

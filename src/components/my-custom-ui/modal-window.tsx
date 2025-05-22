@@ -19,7 +19,9 @@ function ModalWindow({ children, title, open, setOpen, description }: Props) {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="self-center">{title}</DialogTitle>
+          <DialogTitle className="mb-5 self-center text-3xl">
+            {title}
+          </DialogTitle>
           {description && <DialogDescription>{description}</DialogDescription>}
           {children}
         </DialogHeader>
