@@ -3,6 +3,7 @@ import { useTranslations } from "next-intl";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { useLocalStorage } from "@/hooks/use-local-storage";
 import dynamic from "next/dynamic";
+import { motion, AnimatePresence } from "framer-motion";
 import { MovieFormContext } from "./utils";
 
 import { createActor, createDirector } from "@/app/services/admin-api";
@@ -16,6 +17,7 @@ import type {
   DirectorOut,
   MovieFormData,
 } from "@/orval_api/model";
+import { CircleArrowDown, CircleArrowUp, CircleX } from "lucide-react";
 
 import { AddNewPerson } from "./connected-parts/add-new-person";
 import { ItemsSelector } from "../../my-custom-ui/items-list-selector";
@@ -93,6 +95,7 @@ export const PeopleFieldsForm = ({ actors, directors, characters }: Props) => {
     fields: actorFields,
     append: appendActor,
     remove: removeActor,
+    move,
   } = useFieldArray({
     control,
     name: "actors",
@@ -184,6 +187,18 @@ export const PeopleFieldsForm = ({ actors, directors, characters }: Props) => {
     [directorFields, appendDirector, removeDirector],
   );
 
+  const handleMoveUp = (index: number) => {
+    if (index > 0) {
+      move(index, index - 1);
+    }
+  };
+
+  const handleMoveDown = (index: number) => {
+    if (index < actorFields.length - 1) {
+      move(index, index + 1);
+    }
+  };
+
   return (
     <>
       <div className="flex items-center justify-center gap-3 font-bold">
@@ -201,70 +216,99 @@ export const PeopleFieldsForm = ({ actors, directors, characters }: Props) => {
             </ResponsiveWrapper>
 
             {/* TODO: Implement Drag&Drop */}
-            <span>{t("orderInfo")}</span>
+            <span className="text-gray-purple">{t("orderInfo")}</span>
 
-            {actorFields.map((field, index) => (
-              <div key={field.id} className="grid grid-cols-2 gap-4">
-                <FormField
-                  type="text"
-                  name={`actors.${index}.name`}
-                  register={register}
-                  error={undefined}
-                  disabled
-                />
+            <AnimatePresence>
+              {actorFields.map((field, index) => (
+                <motion.div
+                  key={field.id}
+                  layout
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 20 }}
+                  transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                  className="grid grid-cols-2 gap-4"
+                >
+                  <FormField
+                    type="text"
+                    name={`actors.${index}.name`}
+                    register={register}
+                    error={undefined}
+                    disabled
+                  />
 
-                <Controller
-                  control={control}
-                  name={`actors.${index}.character_key`}
-                  render={({
-                    field: { onChange, value },
-                    fieldState: { error },
-                  }) => (
-                    <div className="relative">
-                      <ResponsiveWrapper
-                        title={
-                          characters
-                            .find((e) => e.key === value)
-                            ?.name.slice(0, 20) || "Characters"
-                        }
-                      >
-                        <ItemsSelector
-                          items={characters}
-                          onOpenModal={() =>
-                            setOpenCharacterFormModal({ open: true, index })
+                  <Controller
+                    control={control}
+                    name={`actors.${index}.character_key`}
+                    render={({
+                      field: { onChange, value },
+                      fieldState: { error },
+                    }) => (
+                      <div className="relative flex items-center gap-2">
+                        <ResponsiveWrapper
+                          title={
+                            characters
+                              .find((e) => e.key === value)
+                              ?.name.slice(0, 20) || "Characters"
                           }
-                          onSelect={(value, key) => {
-                            if (
-                              actorFields.find((e) => e.character_key === key)
-                            ) {
-                              return;
+                        >
+                          <ItemsSelector
+                            items={characters}
+                            onOpenModal={() =>
+                              setOpenCharacterFormModal({ open: true, index })
                             }
-                            onChange(key);
-                          }}
-                          checkIconStyle={[
-                            ...actorFields.map((e) => e.character_key),
-                            value,
-                          ]}
-                        />
-                      </ResponsiveWrapper>
+                            onSelect={(value, key) => {
+                              if (
+                                actorFields.find((e) => e.character_key === key)
+                              ) {
+                                return;
+                              }
+                              onChange(key);
+                            }}
+                            checkIconStyle={[
+                              ...actorFields.map((e) => e.character_key),
+                              value,
+                            ]}
+                          />
+                        </ResponsiveWrapper>
 
-                      <button
-                        type="button"
-                        className="ml-2 size-fit"
-                        onClick={() => removeActor(index)}
-                      >
-                        X
-                      </button>
-                      {error && (
-                        <span className="absolute -bottom-4 left-1 text-red-500">
-                          {error.message}
-                        </span>
-                      )}
-                    </div>
-                  )}
-                />
-              </div>
-            ))}
+                        <button
+                          type="button"
+                          className=""
+                          onClick={() => handleMoveUp(index)}
+                        >
+                          <CircleArrowUp className="h-6 w-6 transition-transform hover:scale-110" />
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => handleMoveDown(index)}
+                        >
+                          <CircleArrowDown className="h-6 w-6 transition-transform hover:scale-110" />
+                        </button>
+
+                        <button
+                          type="button"
+                          className="ml-2 size-fit"
+                          onClick={() => removeActor(index)}
+                        >
+                          <CircleX
+                            color="red"
+                            className="h-5 w-5 transition-transform hover:scale-110"
+                          />
+                        </button>
+
+                        {error && (
+                          <span className="absolute -bottom-4 left-1 text-red-500">
+                            {error.message}
+                          </span>
+                        )}
+                      </div>
+                    )}
+                  />
+                </motion.div>
+              ))}
+            </AnimatePresence>
 
             {errors.actors && errors.actors.message && (
               <span className="text-sm text-red-500">
