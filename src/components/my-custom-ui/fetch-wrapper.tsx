@@ -34,7 +34,14 @@ export const FetchWrapper = async <
   const locale = await getLocale();
   const lang = Language[locale as keyof typeof Language];
 
-  const result = await apiFetch({ lang, ...params }, backendURL);
+  let result: AxiosResponse<Datum>;
+
+  try {
+    result = await apiFetch({ lang, ...params }, backendURL);
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
 
   return <>{children({ result, lang })}</>;
 };
