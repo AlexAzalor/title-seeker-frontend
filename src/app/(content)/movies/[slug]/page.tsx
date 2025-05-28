@@ -25,6 +25,7 @@ import { FetchWrapper } from "@/components/my-custom-ui/fetch-wrapper";
 import { Spinner } from "@/components/my-custom-ui/spinner";
 
 import { MovieInfo } from "@/components/movie/movie-page/info/movie-info";
+import { VisualProfile } from "@/components/movie/movie-page/visual-profile.tsx/visual-profile";
 
 export default async function DynamicPage({ params }: PageProps) {
   const { slug: movie_key } = await params;
@@ -133,6 +134,13 @@ export default async function DynamicPage({ params }: PageProps) {
             </div>
 
             <div className="hidden lg:block">
+              {!!data.visual_profile && (
+                <VisualProfile
+                  movieKey={data.key}
+                  radarData={data.visual_profile}
+                  userRole={session?.user.role}
+                />
+              )}
               <MovieRateBox
                 movieKey={data.key}
                 ratingType={data.rating_criterion}

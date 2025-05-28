@@ -159,6 +159,23 @@ export const Summary = ({ movieFormData, file }: Props) => {
         </div>
 
         <div className="border-2 p-2">
+          <h1>Visual Profile</h1>
+          <div>
+            Category:{" "}
+            <span className="text-xl font-bold">
+              {movieFormData.category_key}
+            </span>
+          </div>
+
+          {movieFormData.category_criteria.map((e) => (
+            <div key={e.key}>
+              {e.name}:{" "}
+              <span className="text-2xl font-bold underline">{e.rating}</span>
+            </div>
+          ))}
+        </div>
+
+        <div className="border-2 p-2">
           <h1>Info</h1>
           <div>
             Description EN:{" "}

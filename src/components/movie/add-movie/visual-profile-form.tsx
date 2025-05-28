@@ -1,0 +1,211 @@
+import { use } from "react";
+import { useTranslations } from "next-intl";
+import { Controller, useFieldArray, useForm } from "react-hook-form";
+import { useLocalStorage } from "@/hooks/use-local-storage";
+import { motion, AnimatePresence } from "framer-motion";
+import { MovieFormContext } from "./utils";
+
+import { VisualProfileSchema, VisualProfileType } from "@/types/zod-scheme";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
+import type { MovieFormData, TitleCategoryData } from "@/orval_api/model";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { FormButtons } from "@/components/my-custom-ui/form-ui-parts/form-buttons";
+import { FormField } from "@/components/my-custom-ui/form-ui-parts/form-field";
+import { SliderFormField } from "@/components/my-custom-ui/form-ui-parts/slider-form-field";
+
+type Props = {
+  categories: TitleCategoryData[];
+};
+
+export type MovieInfoFieldNames = Pick<
+  MovieFormData,
+  "category_key" | "category_criteria"
+>;
+
+export const VisualProfileForm = ({ categories }: Props) => {
+  const t = useTranslations("Form.stepper.people");
+
+  const { setMovieFormData, handleNext, handlePrev } = use(MovieFormContext);
+
+  const { data: parsedData } = useLocalStorage<MovieFormData>(
+    "new-movie-data",
+    {} as MovieFormData,
+  );
+
+  const {
+    control,
+    register,
+    handleSubmit,
+    formState: { errors },
+    getValues,
+  } = useForm({
+    resolver: zodResolver(VisualProfileSchema),
+    defaultValues: {
+      category_key: parsedData.category_key || "",
+      category_criteria: parsedData.category_criteria || [],
+    },
+  });
+  console.log("errors: ", errors);
+
+  const {
+    fields: criterionFields,
+    remove: removeCriterion,
+    move,
+    replace,
+  } = useFieldArray({
+    control,
+    name: "category_criteria",
+  });
+
+  const onSubmit = (data: VisualProfileType) => {
+    const dataToSend: MovieInfoFieldNames = {
+      category_criteria: data.category_criteria,
+      category_key: data.category_key,
+    };
+
+    setMovieFormData((prev) => ({
+      ...prev,
+      form_data: {
+        ...prev.form_data,
+        ...dataToSend,
+      },
+    }));
+
+    try {
+      localStorage.setItem(
+        "new-movie-data",
+        JSON.stringify({
+          ...parsedData,
+          ...dataToSend,
+        }),
+      );
+
+      handleNext();
+    } catch (error) {
+      console.error("Error saving data to local storage", error);
+      toast.error("Error saving data to local storage");
+    }
+  };
+
+  const handleMoveUp = (index: number) => {
+    if (index > 0) {
+      move(index, index - 1);
+    }
+  };
+
+  const handleMoveDown = (index: number) => {
+    if (index < criterionFields.length - 1) {
+      move(index, index + 1);
+    }
+  };
+
+  const selectCategory = (key: string) => {
+    const category = categories.find((e) => e.key === key);
+
+    if (category) {
+      replace(category.criteria);
+    }
+  };
+
+  return (
+    <>
+      <div className="flex items-center justify-center gap-3 font-bold">
+        <form onSubmit={handleSubmit(onSubmit)} className="w-full">
+          <div className="mb-5 flex w-full flex-col items-center gap-6">
+            <h1 className="text-main-ui-purple">Visual Profile</h1>
+            <p>Description</p>
+
+            <Controller
+              control={control}
+              name="category_key"
+              render={({
+                field: { onChange, value },
+                fieldState: { error },
+              }) => (
+                <div className="mb-4 grid w-72 gap-2">
+                  <Select
+                    onValueChange={(key) => {
+                      selectCategory(key);
+                      onChange(key);
+                    }}
+                    defaultValue={value}
+                  >
+                    <SelectTrigger id="rating-criteria">
+                      <SelectValue placeholder="Select a category" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {categories.map((item) => (
+                        <SelectItem key={item.key} value={item.key}>
+                          {item.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+
+                  {error && (
+                    <div className="absolute text-red-500">{error.message}</div>
+                  )}
+                </div>
+              )}
+            />
+
+            <span className="text-gray-purple">{t("orderInfo")}</span>
+
+            <div className="mb-5 flex w-full flex-col items-center gap-6">
+              <AnimatePresence initial={false}>
+                {criterionFields.map((field, index) => (
+                  <motion.div
+                    key={field.id}
+                    layout
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 20 }}
+                    transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                    className="grid grid-cols-2 gap-4"
+                  >
+                    <FormField
+                      type="text"
+                      name={`category_criteria.${index}.name`}
+                      register={register}
+                      error={undefined}
+                      disabled
+                    />
+
+                    <SliderFormField
+                      name={`category_criteria.${index}.rating`}
+                      step={1}
+                      max={5}
+                      register={register}
+                      defaultValue={getValues}
+                      error={
+                        errors.category_criteria?.[index]?.rating &&
+                        errors.category_criteria[index].rating
+                      }
+                      removItem={() => removeCriterion(index)}
+                      moveUp={() => handleMoveUp(index)}
+                      moveDown={() => handleMoveDown(index)}
+                    />
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+              {errors.category_criteria && errors.category_criteria.message && (
+                <span className="text-sm text-red-500">
+                  {errors.category_criteria.message}
+                </span>
+              )}
+            </div>
+          </div>
+
+          <FormButtons handlePrev={handlePrev} />
+        </form>
+      </div>
+    </>
+  );
+};

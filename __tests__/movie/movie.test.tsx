@@ -15,6 +15,7 @@ import { FilterEditForm } from "@/components/movie/movie-page/filter-edit-form";
 test("Should render Movie Form", async () => {
   render(
     <MovieFormWizard
+      titleCategories={[]}
       actors={[]}
       directors={[]}
       genres={[]}

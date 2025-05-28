@@ -11,6 +11,7 @@ import {
   RM_STEP,
   SU_STEP,
   SUMMARY_STEP,
+  VISUAL_PROFILE_STEP,
 } from "../../movie/add-movie/utils";
 
 type Props = {
@@ -35,6 +36,14 @@ export const FormStepper = ({
         completedSteps={completedSteps}
         goToStep={() => onStepChange(FIRST_STEP)}
         currentStep={currentStep}
+      />
+      <FormStep
+        title="Visual Profile"
+        step={VISUAL_PROFILE_STEP}
+        completedSteps={completedSteps}
+        goToStep={() => onStepChange(VISUAL_PROFILE_STEP)}
+        currentStep={currentStep}
+        isStepSkipped={stepsSkipped?.includes(VISUAL_PROFILE_STEP)}
       />
       <FormStep
         title={t("sharedUniverse.name")}

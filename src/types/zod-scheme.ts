@@ -261,3 +261,26 @@ export const CharacterFields = z
   .refine((data) => (data.key = formatKey([data.name_en])));
 
 export type CharacterType = z.infer<typeof CharacterFields>;
+
+export const TitleCriterion = z.object({
+  key: z.string().trim().min(1, { message: "Value is required" }),
+  rating: z.coerce.number().min(1, { message: "Value is required" }),
+  name: z.string().trim(),
+});
+
+export const EditTitleVisualProfile = z.object({
+  criteria: z.array(TitleCriterion).min(1, {
+    message: "At least one criterion is required",
+  }),
+});
+
+export type EditTitleVisualProfileType = z.infer<typeof EditTitleVisualProfile>;
+
+export const VisualProfileSchema = z.object({
+  category_key: z.string().trim().min(1, { message: "Value is required" }),
+  category_criteria: z
+    .array(TitleCriterion)
+    .min(1, { message: "At least one Actor must be selected" }),
+});
+
+export type VisualProfileType = z.infer<typeof VisualProfileSchema>;

@@ -188,7 +188,7 @@ export const GenreFieldsForm = ({ genres }: Props) => {
                     errors.genres?.[index]?.percentage_match &&
                     errors.genres[index].percentage_match
                   }
-                  onClickButton={() => {
+                  removItem={() => {
                     removeGenre(index);
                     setSubgenres((prev) =>
                       prev.filter(
@@ -273,7 +273,7 @@ export const GenreFieldsForm = ({ genres }: Props) => {
                     errors.subgenres?.[index]?.percentage_match &&
                     errors.subgenres[index].percentage_match
                   }
-                  onClickButton={() => removeSubgenre(index)}
+                  removItem={() => removeSubgenre(index)}
                 />
 
                 {errors.subgenres?.[index]?.name && (

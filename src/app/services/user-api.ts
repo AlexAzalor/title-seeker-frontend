@@ -5,7 +5,11 @@ import { fetchSettings, getSession } from "./global-api";
 import { backendURL } from "@/lib/constants";
 
 import type { ValidationError } from "@/types/general";
-import type { Language, UserRateMovieIn } from "@/orval_api/model";
+import type {
+  Language,
+  TitleVisualProfileIn,
+  UserRateMovieIn,
+} from "@/orval_api/model";
 import { getUsers } from "@/orval_api/users/users";
 import { getAuth } from "@/orval_api/auth/auth";
 
@@ -63,6 +67,31 @@ export async function setLanguage(user_uuid: string, lang: Language) {
 
   try {
     const response = await aPISetLanguage(user_uuid, { lang }, backendURL);
+    return response.status;
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
+  }
+}
+
+export async function updateVisualRating(data: TitleVisualProfileIn) {
+  const currentUser = await getSession();
+  if (!currentUser) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { backendURL, unknownError } = await fetchSettings();
+  const { aPIUpdateTitleVisualProfile } = getUsers();
+
+  try {
+    const response = await aPIUpdateTitleVisualProfile(
+      currentUser.uuid,
+      data,
+      backendURL,
+    );
     return response.status;
   } catch (error) {
     if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {

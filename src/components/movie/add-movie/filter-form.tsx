@@ -186,7 +186,7 @@ export const FilterForm = ({
                     errors.specifications?.[index]?.percentage_match &&
                     errors.specifications[index].percentage_match
                   }
-                  onClickButton={() => removeSpecification(index)}
+                  removItem={() => removeSpecification(index)}
                 />
               </div>
             ))}
@@ -255,7 +255,7 @@ export const FilterForm = ({
                     errors.keywords?.[index]?.percentage_match &&
                     errors.keywords[index].percentage_match
                   }
-                  onClickButton={() => removeKeyword(index)}
+                  removItem={() => removeKeyword(index)}
                 />
               </div>
             ))}
@@ -324,7 +324,7 @@ export const FilterForm = ({
                     errors.action_times?.[index]?.percentage_match &&
                     errors.action_times[index].percentage_match
                   }
-                  onClickButton={() => removeActionTimes(index)}
+                  removItem={() => removeActionTimes(index)}
                 />
               </div>
             ))}

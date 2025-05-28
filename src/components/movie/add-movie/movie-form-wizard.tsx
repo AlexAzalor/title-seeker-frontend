@@ -13,6 +13,7 @@ import {
   RM_STEP,
   SU_STEP,
   SUMMARY_STEP,
+  VISUAL_PROFILE_STEP,
 } from "./utils";
 import { errorHandling } from "@/lib/utils";
 import { createMovie } from "@/app/services/admin-api";
@@ -30,6 +31,7 @@ import {
   MovieOutShort,
   MoviePreCreateDataQuickMovie,
   SharedUniversePreCreateOut,
+  TitleCategoryData,
 } from "@/orval_api/model";
 import { GenreFieldsForm } from "./genre-fields-form";
 import { FilterForm } from "./filter-form";
@@ -40,8 +42,10 @@ import { FormButtons } from "@/components/my-custom-ui/form-ui-parts/form-button
 import { RelatedMovieForm } from "./related-movie-form";
 import { SharedUniverseForm } from "./shared-universe-form";
 import { Spinner } from "@/components/my-custom-ui/spinner";
+import { VisualProfileForm } from "./visual-profile-form";
 
 type Props = {
+  titleCategories: TitleCategoryData[];
   actors: ActorOut[];
   directors: DirectorOut[];
   genres: GenreOut[];
@@ -56,6 +60,7 @@ type Props = {
 };
 
 export const MovieFormWizard = ({
+  titleCategories,
   actors,
   directors,
   genres,
@@ -151,6 +156,9 @@ export const MovieFormWizard = ({
 
         {currentStep === FIRST_STEP && (
           <KeyFieldsForm quickMovie={quickMovie} />
+        )}
+        {currentStep === VISUAL_PROFILE_STEP && (
+          <VisualProfileForm categories={titleCategories} />
         )}
         {currentStep === SU_STEP && (
           <SharedUniverseForm sharedUniverses={shared_universes} />
