@@ -12,6 +12,7 @@ import type {
 } from "@/orval_api/model";
 import { getUsers } from "@/orval_api/users/users";
 import { getAuth } from "@/orval_api/auth/auth";
+import { getVisualProfile } from "@/orval_api/visual-profile/visual-profile";
 
 export async function updateRateMovie(data: UserRateMovieIn) {
   const currentUser = await getSession();
@@ -93,6 +94,30 @@ export async function updateVisualRating(data: TitleVisualProfileIn) {
       backendURL,
     );
     return response.status;
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
+  }
+}
+
+export async function getTitleCategories(lang: Language) {
+  const currentUser = await getSession();
+  if (!currentUser) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { backendURL, unknownError } = await fetchSettings();
+  const { aPIGetCategories } = getVisualProfile();
+
+  try {
+    const response = await aPIGetCategories(
+      { lang, user_uuid: currentUser.uuid },
+      backendURL,
+    );
+    return response.data.items;
   } catch (error) {
     if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
       return { status: error.status, message: error.response?.data.detail };

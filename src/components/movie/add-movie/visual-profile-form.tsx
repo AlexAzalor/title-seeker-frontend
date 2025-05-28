@@ -52,7 +52,6 @@ export const VisualProfileForm = ({ categories }: Props) => {
       category_criteria: parsedData.category_criteria || [],
     },
   });
-  console.log("errors: ", errors);
 
   const {
     fields: criterionFields,
@@ -65,6 +64,13 @@ export const VisualProfileForm = ({ categories }: Props) => {
   });
 
   const onSubmit = (data: VisualProfileType) => {
+    const len = data.category_criteria.length;
+
+    if (len < 6 || len > 6) {
+      toast.error("There must be exactly 6 criteria!");
+      return;
+    }
+
     const dataToSend: MovieInfoFieldNames = {
       category_criteria: data.category_criteria,
       category_key: data.category_key,

@@ -22,13 +22,19 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { Language, TitleVisualProfileOut, UserRole } from "@/orval_api/model";
+import {
+  Language,
+  TitleCategoryData,
+  TitleVisualProfileOut,
+  UserRole,
+} from "@/orval_api/model";
 import { COLORS } from "@/lib/colors";
 import { Button } from "@/components/ui/button";
 import { useModal } from "@/hooks/use-modal";
-import { Suspense } from "react";
+import { Suspense, useState } from "react";
 import { CustomModal } from "@/components/my-custom-ui/custom-modal";
 import { VisualProfileEditForm } from "./visual-profile-edit-form";
+import { getTitleCategories } from "@/app/services/user-api";
 
 type Props = {
   radarData: TitleVisualProfileOut;
@@ -38,6 +44,7 @@ type Props = {
 
 export function VisualProfile({ movieKey, radarData, userRole }: Props) {
   const { isOpen, open, close } = useModal();
+  const [categories, setCategories] = useState<TitleCategoryData[]>([]);
 
   const locale = useLocale();
   const lang = Language[locale as keyof typeof Language];
@@ -49,8 +56,17 @@ export function VisualProfile({ movieKey, radarData, userRole }: Props) {
     },
   } satisfies ChartConfig;
 
+  const geCategories = async () => {
+    const res = await getTitleCategories(lang);
+
+    if (Array.isArray(res)) {
+      setCategories(res);
+    }
+  };
+
   const handleEdit = () => {
     open();
+    geCategories();
   };
 
   return (
@@ -100,6 +116,7 @@ export function VisualProfile({ movieKey, radarData, userRole }: Props) {
           <VisualProfileEditForm
             movieKey={movieKey}
             visualProfileData={radarData}
+            categories={categories}
           />
         </CustomModal>
       </Suspense>
