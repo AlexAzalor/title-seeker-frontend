@@ -48,9 +48,9 @@ export const CustomModal: React.FC<ModalProps> = ({
           >
             <X
               onClick={onClose}
-              className="ml-auto h-4 w-4 cursor-pointer hover:scale-110"
+              className="ml-auto h-4 w-4 cursor-pointer transition-transform hover:scale-125"
             />
-            <div className="max-h-150 overflow-auto px-2">{children}</div>
+            <div className="overflow-auto px-2">{children}</div>
           </motion.div>
         </motion.div>
       )}

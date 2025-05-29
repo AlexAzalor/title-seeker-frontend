@@ -129,7 +129,11 @@ export const VisualProfileEditForm = ({
               </SelectTrigger>
               <SelectContent>
                 {categories.map((item) => (
-                  <SelectItem key={item.key} value={item.key}>
+                  <SelectItem
+                    key={item.key}
+                    value={item.key}
+                    title={item.description}
+                  >
                     {item.name}
                   </SelectItem>
                 ))}
@@ -156,13 +160,15 @@ export const VisualProfileEditForm = ({
           >
             <FormField
               type="text"
-              name={`category_criteria.${index}.key`}
+              title={field.name + " - " + field.description}
+              name={`category_criteria.${index}.name`}
               register={register}
               error={undefined}
               disabled
             />
 
             <SliderFormField
+              min={1}
               step={1}
               max={5}
               name={`category_criteria.${index}.rating`}

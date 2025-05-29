@@ -22,6 +22,7 @@ type Props<
   max?: number;
   moveUp?: () => void;
   moveDown?: () => void;
+  min?: number;
 };
 
 export const SliderFormField = <
@@ -37,6 +38,7 @@ export const SliderFormField = <
   max = 100,
   moveUp,
   moveDown,
+  min = 0,
 }: Props<TFormValues, TFieldName>) => {
   return (
     <div className="flex items-center gap-2">
@@ -46,6 +48,8 @@ export const SliderFormField = <
           step={step}
           // @ts-expect-error - The `max` type is different from the `Slider` component and `React Hook Form`
           max={max}
+          // @ts-expect-error - The `max` type is different from the `Slider` component and `React Hook Form`
+          min={min}
           {...register(name)}
         />
 

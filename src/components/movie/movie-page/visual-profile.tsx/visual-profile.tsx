@@ -10,13 +10,6 @@ import {
 } from "recharts";
 
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
   ChartConfig,
   ChartContainer,
   ChartTooltip,
@@ -71,48 +64,59 @@ export function VisualProfile({ movieKey, radarData, userRole }: Props) {
 
   return (
     <>
-      <Card className="mb-4 w-fit" aria-label="genre-radar-chart">
-        <CardHeader className="items-center pb-0">
-          {userRole === "owner" && (
-            <Button variant="link" className="h-7 p-0" onClick={handleEdit}>
-              Edit
-            </Button>
-          )}
-          <CardTitle>{radarData.name}</CardTitle>
-          <CardDescription>{radarData.description}</CardDescription>
-        </CardHeader>
-        <CardContent className="relative pb-0">
-          <ChartContainer
-            config={chartConfig}
-            className="mx-auto aspect-square max-h-[250px] w-full p-0 2xl:w-[400px]"
+      <div className="relative text-center">
+        <h2 className="font-semibold tracking-tight">{radarData.name}</h2>
+        <p className="text-sm text-neutral-500 dark:text-neutral-400">
+          {radarData.description}
+        </p>
+
+        {userRole === "owner" && (
+          <Button
+            variant="link"
+            className="absolute top-0 right-0"
+            onClick={handleEdit}
           >
-            <RadarChart data={radarData.criteria}>
-              <ChartTooltip
-                cursor={false}
-                content={<ChartTooltipContent className="w-36" />}
-              />
-              <PolarAngleAxis dataKey="name" />
-              <PolarRadiusAxis domain={[0, 5]} hide />
-              <PolarGrid />
-              <Radar
-                dataKey="rating"
-                fill="var(--color-count)"
-                fillOpacity={0.6}
-                dot={{
-                  r: 4,
-                  fillOpacity: 1,
-                }}
-              />
-            </RadarChart>
-          </ChartContainer>
-        </CardContent>
-      </Card>
+            Edit
+          </Button>
+        )}
+      </div>
+      <ChartContainer
+        config={chartConfig}
+        className="mx-auto aspect-square max-h-[364px] w-full p-0 2xl:w-full"
+      >
+        <RadarChart data={radarData.criteria}>
+          <ChartTooltip
+            cursor={false}
+            content={<ChartTooltipContent className="w-36" />}
+          />
+          {/* color in the dark mode */}
+          <PolarAngleAxis
+            dataKey="name"
+            className="text-sm"
+            // fill="var(--color-count)"
+            // style={{ color: "red" }}
+          />
+          <PolarRadiusAxis domain={[0, 5]} axisLine={false} tick={false} />
+          <PolarGrid />
+          <Radar
+            dataKey="rating"
+            fill="var(--color-count)"
+            fillOpacity={0.6}
+            dot={{
+              r: 4,
+              fillOpacity: 1,
+              // color: "red",
+            }}
+          />
+        </RadarChart>
+      </ChartContainer>
 
       <Suspense>
         <CustomModal isOpen={isOpen} onClose={close}>
           <div className="mb-2 flex items-center justify-center gap-2">
-            <p>Edit Visual Profile</p>
+            <h1>Edit Visual Profile</h1>
           </div>
+
           <VisualProfileEditForm
             movieKey={movieKey}
             visualProfileData={radarData}

@@ -266,6 +266,7 @@ export const TitleCriterion = z.object({
   key: z.string().trim().min(1, { message: "Value is required" }),
   rating: z.coerce.number().min(1, { message: "Value is required" }),
   name: z.string().trim(),
+  description: z.string().trim(),
 });
 
 export const EditTitleVisualProfile = z.object({

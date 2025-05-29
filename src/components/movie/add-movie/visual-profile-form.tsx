@@ -148,7 +148,11 @@ export const VisualProfileForm = ({ categories }: Props) => {
                     </SelectTrigger>
                     <SelectContent>
                       {categories.map((item) => (
-                        <SelectItem key={item.key} value={item.key}>
+                        <SelectItem
+                          title={item.description}
+                          key={item.key}
+                          value={item.key}
+                        >
                           {item.name}
                         </SelectItem>
                       ))}
@@ -178,6 +182,7 @@ export const VisualProfileForm = ({ categories }: Props) => {
                   >
                     <FormField
                       type="text"
+                      title={field.name + " - " + field.description}
                       name={`category_criteria.${index}.name`}
                       register={register}
                       error={undefined}

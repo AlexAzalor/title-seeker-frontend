@@ -26,6 +26,7 @@ import { Spinner } from "@/components/my-custom-ui/spinner";
 
 import { MovieInfo } from "@/components/movie/movie-page/info/movie-info";
 import { VisualProfile } from "@/components/movie/movie-page/visual-profile.tsx/visual-profile";
+import { CustomTabs } from "@/components/my-custom-ui/custom-tabs";
 
 export default async function DynamicPage({ params }: PageProps) {
   const { slug: movie_key } = await params;
@@ -134,20 +135,36 @@ export default async function DynamicPage({ params }: PageProps) {
             </div>
 
             <div className="hidden lg:block">
-              {!!data.visual_profile && (
-                <VisualProfile
-                  movieKey={data.key}
-                  radarData={data.visual_profile}
-                  userRole={session?.user.role}
-                />
-              )}
-              <MovieRateBox
-                movieKey={data.key}
-                ratingType={data.rating_criterion}
-                isOwner={session?.user.role === "owner"}
-                isUserRated={!!data.user_rating}
-                userRatingData={data.user_rating_criteria}
-                overallRatingCriteria={data.overall_average_rating_criteria}
+              <CustomTabs
+                tabs={[
+                  {
+                    key: "visual-profile",
+                    component: (
+                      <VisualProfile
+                        key="visual-profile"
+                        movieKey={data.key}
+                        radarData={data.visual_profile}
+                        userRole={session?.user.role}
+                      />
+                    ),
+                  },
+                  {
+                    key: "movie-rate-box",
+                    component: (
+                      <MovieRateBox
+                        key="movie-rate-box"
+                        movieKey={data.key}
+                        ratingType={data.rating_criterion}
+                        isOwner={session?.user.role === "owner"}
+                        isUserRated={!!data.user_rating}
+                        userRatingData={data.user_rating_criteria}
+                        overallRatingCriteria={
+                          data.overall_average_rating_criteria
+                        }
+                      />
+                    ),
+                  },
+                ]}
               />
             </div>
           </div>
