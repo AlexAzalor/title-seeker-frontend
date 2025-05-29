@@ -285,3 +285,13 @@ export const VisualProfileSchema = z.object({
 });
 
 export type VisualProfileType = z.infer<typeof VisualProfileSchema>;
+
+export const VisualProfileField = z.object({
+  key: z.string().trim().min(1, { message: "Value is required" }),
+  name_en: z.string().trim().min(1, { message: "Value is required" }),
+  name_uk: z.string().trim().min(1, { message: "Value is required" }),
+  description_en: z.string().trim().min(1, { message: "Value is required" }),
+  description_uk: z.string().trim().min(1, { message: "Value is required" }),
+});
+
+export type VisualProfileFieldType = z.infer<typeof VisualProfileField>;

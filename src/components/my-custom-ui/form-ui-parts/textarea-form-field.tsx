@@ -20,6 +20,7 @@ type FieldProps<
   error: FieldError | undefined;
   label: string;
   value?: string;
+  autoResize?: boolean;
 } & TextareaHTMLAttributes<HTMLTextAreaElement>;
 
 const TextareaFormField = <
@@ -31,6 +32,7 @@ const TextareaFormField = <
   error,
   label,
   value,
+  autoResize = true,
   ...inputProps
 }: FieldProps<TFormValues, TFieldName>) => {
   return (
@@ -44,7 +46,8 @@ const TextareaFormField = <
           rows={3}
           {...register(name)}
           className={cn(
-            "textarea shadow-input-default dark:border-main-ui-purple border-light-border [&:focus~.placeholder]:text-gray-purple [&:not(:placeholder-shown)~.placeholder]:text-gray-purple text-form-ui-blue box-border field-sizing-content h-full min-h-20 w-full rounded-xl border px-5 py-1 text-[18px] outline-0 disabled:bg-gray-200 [&:focus~.cut]:translate-y-[8px] [&:focus~.placeholder]:translate-x-[10px] [&:focus~.placeholder]:translate-y-[-38px] [&:focus~.placeholder]:scale-75 [&:not(:placeholder-shown)~.cut]:translate-y-[8px] [&:not(:placeholder-shown)~.placeholder]:translate-x-[10px] [&:not(:placeholder-shown)~.placeholder]:translate-y-[-38px] [&:not(:placeholder-shown)~.placeholder]:scale-75",
+            "textarea shadow-input-default dark:border-main-ui-purple border-light-border [&:focus~.placeholder]:text-gray-purple [&:not(:placeholder-shown)~.placeholder]:text-gray-purple text-form-ui-blue box-border h-full min-h-20 w-full rounded-xl border px-5 py-1 text-[18px] outline-0 disabled:bg-gray-200 [&:focus~.cut]:translate-y-[8px] [&:focus~.placeholder]:translate-x-[10px] [&:focus~.placeholder]:translate-y-[-38px] [&:focus~.placeholder]:scale-75 [&:not(:placeholder-shown)~.cut]:translate-y-[8px] [&:not(:placeholder-shown)~.placeholder]:translate-x-[10px] [&:not(:placeholder-shown)~.placeholder]:translate-y-[-38px] [&:not(:placeholder-shown)~.placeholder]:scale-75",
+            autoResize && "field-sizing-content",
           )}
           {...inputProps}
         />

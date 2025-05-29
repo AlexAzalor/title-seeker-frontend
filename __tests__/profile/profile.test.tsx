@@ -8,6 +8,7 @@ import { UserSettings } from "@/components/profile/settings/user-settings";
 import { UserInfo } from "@/components/profile/user-info";
 import { UserProfileMenu } from "@/components/profile/user-profile-menu";
 import { ProjectProviders, TEST_USER } from "../page.test";
+import { VisualProfileEditPage } from "@/components/profile/admin/visual-profile/visual-profile";
 
 test("Should render AdminSidebarNav", () => {
   render(<AdminSidebarNav />, {
@@ -51,4 +52,11 @@ test("Should render UserProfileMenu", () => {
     wrapper: ProjectProviders,
   });
   expect(screen.getByLabelText("user-profile-menu")).toBeDefined();
+});
+
+test("Should render VisualProfileEditPage", () => {
+  render(<VisualProfileEditPage categories={[]} />, {
+    wrapper: ProjectProviders,
+  });
+  expect(screen.getByLabelText("visual-profile-edit-page")).toBeDefined();
 });
