@@ -7,8 +7,8 @@ import { backendURL } from "@/lib/constants";
 import type { ValidationError } from "@/types/general";
 import type {
   Language,
-  TitleVisualProfileIn,
   UserRateMovieIn,
+  VisualProfileIn,
 } from "@/orval_api/model";
 import { getUsers } from "@/orval_api/users/users";
 import { getAuth } from "@/orval_api/auth/auth";
@@ -78,7 +78,7 @@ export async function setLanguage(user_uuid: string, lang: Language) {
   }
 }
 
-export async function updateVisualRating(data: TitleVisualProfileIn) {
+export async function updateVisualRating(data: VisualProfileIn) {
   const currentUser = await getSession();
   if (!currentUser) {
     return { status: 403, message: "You are not allowed to do this" };
@@ -110,10 +110,10 @@ export async function getTitleCategories(lang: Language) {
   }
 
   const { backendURL, unknownError } = await fetchSettings();
-  const { aPIGetCategories } = getVisualProfile();
+  const { aPIGetVisualProfiles } = getVisualProfile();
 
   try {
-    const response = await aPIGetCategories(
+    const response = await aPIGetVisualProfiles(
       { lang, user_uuid: currentUser.uuid },
       backendURL,
     );

@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import { VisualProfileEditPage } from "@/components/profile/admin/visual-profile/visual-profile";
-import { VisualProfileCriterionForm } from "@/components/profile/admin/visual-profile/visual-profile-form";
+import { VisualProfileEditForm } from "@/components/profile/admin/visual-profile/visual-profile-edit-form";
 import { backendURL } from "@/lib/constants";
 import { getVisualProfile } from "@/orval_api/visual-profile/visual-profile";
 import { redirect } from "next/navigation";
@@ -27,11 +27,7 @@ export default async function VisualProfilePage() {
         className="shadow-form-layout dark:shadow-dark-form-layout border-light-border dark:border-dark-border mb-4 rounded-[34px] border p-3"
       >
         <h2 className="text-xl">{data.impact.name_en}</h2>
-        <VisualProfileCriterionForm
-          type="criterion"
-          criterion={data.impact}
-          oldCriterionKey={data.impact.key}
-        />
+        <VisualProfileEditForm type="criterion" criterion={data.impact} />
       </div>
 
       <div className="flex flex-col gap-3">

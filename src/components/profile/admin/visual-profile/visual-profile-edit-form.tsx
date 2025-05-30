@@ -5,9 +5,11 @@ import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { VisualProfileField, VisualProfileFieldType } from "@/types/zod-scheme";
+import {
+  VisualProfileFieldType,
+  VisualProfileUpdateSchema,
+} from "@/types/zod-scheme";
 
-import { CategoryFormIn } from "@/orval_api/model";
 import { formatKey } from "@/lib/utils";
 import { FormField } from "@/components/my-custom-ui/form-ui-parts/form-field";
 import { TextareaFormField } from "@/components/my-custom-ui/form-ui-parts/textarea-form-field";
@@ -16,18 +18,14 @@ import {
   editVisualProfileCriterion,
 } from "@/app/services/admin/visual-profile-apis";
 import { Button } from "@/components/ui/button";
+import { VisualProfileFieldWithUUID } from "@/orval_api/model";
 
 type Props = {
-  criterion: CategoryFormIn;
-  oldCriterionKey: string;
+  criterion: VisualProfileFieldWithUUID;
   type: "category" | "criterion";
 };
 
-export const VisualProfileCriterionForm = ({
-  oldCriterionKey,
-  criterion,
-  type,
-}: Props) => {
+export const VisualProfileEditForm = ({ criterion, type }: Props) => {
   const router = useRouter();
   const t = useTranslations("Form.itemFields");
 
@@ -37,7 +35,7 @@ export const VisualProfileCriterionForm = ({
     formState: { errors, isDirty },
     watch,
   } = useForm<VisualProfileFieldType>({
-    resolver: zodResolver(VisualProfileField),
+    resolver: zodResolver(VisualProfileUpdateSchema),
     defaultValues: {
       ...criterion,
     },
@@ -50,11 +48,8 @@ export const VisualProfileCriterionForm = ({
       return;
     }
 
-    if (type === "category") {
-      const response = await editVisualProfileCategory(oldCriterionKey, {
-        ...formData,
-        key: formatKey([formData.name_en]),
-      });
+    if (type === "category" && formData.uuid) {
+      const response = await editVisualProfileCategory(formData);
 
       if (response.status === 200) {
         toast.success(response?.message);
@@ -66,15 +61,7 @@ export const VisualProfileCriterionForm = ({
     }
 
     if (type === "criterion") {
-      let key = formatKey([formData.name_en]);
-      if (formData.key === "impact") {
-        key = formData.key;
-      }
-
-      const response = await editVisualProfileCriterion(oldCriterionKey, {
-        ...formData,
-        key,
-      });
+      const response = await editVisualProfileCriterion(formData);
 
       if (response.status === 200) {
         toast.success(response?.message);
@@ -106,6 +93,7 @@ export const VisualProfileCriterionForm = ({
         name="name_en"
         register={register}
         error={errors.name_en}
+        disabled={criterion.key === "impact"}
       />
 
       <FormField
@@ -114,6 +102,7 @@ export const VisualProfileCriterionForm = ({
         name="name_uk"
         register={register}
         error={errors.name_uk}
+        disabled={criterion.key === "impact"}
       />
 
       <TextareaFormField
@@ -135,7 +124,7 @@ export const VisualProfileCriterionForm = ({
       <Button
         disabled={!isDirty}
         type="submit"
-        className="bg-main-ui-purple hover:bg-dark-blue mt-7 h-12 w-[164px] cursor-pointer rounded-2xl border-0 text-center text-lg transition-all duration-200"
+        className="bg-main-ui-purple hover:bg-dark-blue dark:bg-main-ui-purple dark:text-white-dark dark:hover:bg-main-ui-purple/80 mt-7 h-12 w-[164px] cursor-pointer rounded-2xl border-0 text-center text-lg transition-all duration-200"
       >
         Save
       </Button>

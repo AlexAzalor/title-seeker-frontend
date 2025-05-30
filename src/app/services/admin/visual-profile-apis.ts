@@ -1,16 +1,20 @@
 "use server";
 
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 
 import type { ValidationError } from "@/types/general";
-import { CriterionFormList } from "@/orval_api/model";
+import {
+  VisualProfileFieldWithUUID,
+  VisualProfileFormIn,
+} from "@/orval_api/model";
 
 import { getAdmin } from "../admin-api";
 import { fetchSettings } from "../global-api";
 import { getVisualProfile } from "@/orval_api/visual-profile/visual-profile";
-import { VisualProfileFieldType } from "@/types/zod-scheme";
 
-export async function getVisualProfileCriteria() {
+export async function createVisualProfileCategory(
+  categoryFields: VisualProfileFormIn,
+) {
   const admin = await getAdmin();
 
   if (!admin) {
@@ -18,15 +22,16 @@ export async function getVisualProfileCriteria() {
   }
 
   const { backendURL, unknownError } = await fetchSettings();
-  const { aPIGetCriteria } = getVisualProfile();
+  const { aPICreateVisualProfile } = getVisualProfile();
 
   try {
-    const response: AxiosResponse<CriterionFormList> = await aPIGetCriteria(
+    await aPICreateVisualProfile(
+      categoryFields,
       { user_uuid: admin.uuid },
       backendURL,
     );
 
-    return response.data.criteria;
+    return { status: 201, message: "Category created!" };
   } catch (error) {
     if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
       return { status: error.status, message: error.response?.data.detail };
@@ -36,9 +41,8 @@ export async function getVisualProfileCriteria() {
   }
 }
 
-export async function editVisualProfileCriterion(
-  old_key: string,
-  criterionFields: VisualProfileFieldType,
+export async function editVisualProfileCategory(
+  categoryFields: VisualProfileFieldWithUUID,
 ) {
   const admin = await getAdmin();
 
@@ -47,14 +51,11 @@ export async function editVisualProfileCriterion(
   }
 
   const { backendURL, unknownError } = await fetchSettings();
-  const { aPIUpdateCriterion } = getVisualProfile();
+  const { aPIUpdateCategory } = getVisualProfile();
 
   try {
-    await aPIUpdateCriterion(
-      {
-        old_key,
-        ...criterionFields,
-      },
+    await aPIUpdateCategory(
+      categoryFields,
       { user_uuid: admin.uuid },
       backendURL,
     );
@@ -69,9 +70,8 @@ export async function editVisualProfileCriterion(
   }
 }
 
-export async function editVisualProfileCategory(
-  old_key: string,
-  categoryFields: VisualProfileFieldType,
+export async function editVisualProfileCriterion(
+  criterionFields: VisualProfileFieldWithUUID,
 ) {
   const admin = await getAdmin();
 
@@ -80,14 +80,11 @@ export async function editVisualProfileCategory(
   }
 
   const { backendURL, unknownError } = await fetchSettings();
-  const { aPIUpdateCategory } = getVisualProfile();
+  const { aPIUpdateCriterion } = getVisualProfile();
 
   try {
-    await aPIUpdateCategory(
-      {
-        old_key,
-        ...categoryFields,
-      },
+    await aPIUpdateCriterion(
+      criterionFields,
       { user_uuid: admin.uuid },
       backendURL,
     );

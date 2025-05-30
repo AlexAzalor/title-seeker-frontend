@@ -9,9 +9,9 @@ import { VisualProfileSchema, VisualProfileType } from "@/types/zod-scheme";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import {
-  TitleCategoryData,
-  TitleVisualProfileIn,
   TitleVisualProfileOut,
+  VisualProfileData,
+  VisualProfileIn,
 } from "@/orval_api/model";
 import {
   Select,
@@ -24,11 +24,13 @@ import { FormField } from "@/components/my-custom-ui/form-ui-parts/form-field";
 import { SliderFormField } from "@/components/my-custom-ui/form-ui-parts/slider-form-field";
 import { FormWrapper } from "@/components/my-custom-ui/form-ui-parts/form-wrapper";
 import { updateVisualRating } from "@/app/services/user-api";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 type Props = {
   movieKey: string;
   visualProfileData: TitleVisualProfileOut;
-  categories: TitleCategoryData[];
+  categories: VisualProfileData[];
 };
 
 export const VisualProfileEditForm = ({
@@ -73,7 +75,7 @@ export const VisualProfileEditForm = ({
       return;
     }
 
-    const dataToSend: TitleVisualProfileIn = {
+    const dataToSend: VisualProfileIn = {
       category_key: data.category_key,
       criteria: data.category_criteria,
       movie_key: movieKey,
@@ -112,40 +114,50 @@ export const VisualProfileEditForm = ({
 
   return (
     <FormWrapper onSubmit={handleSubmit(onSubmit)} isSubmitting={isSubmitting}>
-      <Controller
-        control={control}
-        name="category_key"
-        render={({ field: { onChange, value }, fieldState: { error } }) => (
-          <div className="mb-2 grid w-72 gap-2">
-            <Select
-              onValueChange={(key) => {
-                selectCategory(key);
-                onChange(key);
-              }}
-              defaultValue={value}
-            >
-              <SelectTrigger id="rating-criteria">
-                <SelectValue placeholder="Select a category" />
-              </SelectTrigger>
-              <SelectContent>
-                {categories.map((item) => (
-                  <SelectItem
-                    key={item.key}
-                    value={item.key}
-                    title={item.description}
-                  >
-                    {item.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+      <div className="relative flex w-full justify-center">
+        <Controller
+          control={control}
+          name="category_key"
+          render={({ field: { onChange, value }, fieldState: { error } }) => (
+            <div className="mb-2 grid w-72 gap-2">
+              <Select
+                onValueChange={(key) => {
+                  selectCategory(key);
+                  onChange(key);
+                }}
+                defaultValue={value}
+              >
+                <SelectTrigger id="rating-criteria">
+                  <SelectValue placeholder="Select a category" />
+                </SelectTrigger>
+                <SelectContent>
+                  {categories.map((item) => (
+                    <SelectItem
+                      key={item.key}
+                      value={item.key}
+                      title={item.description}
+                    >
+                      {item.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
 
-            {error && (
-              <div className="absolute text-red-500">{error.message}</div>
-            )}
-          </div>
-        )}
-      />
+              {error && <div className="text-red-500">{error.message}</div>}
+            </div>
+          )}
+        />
+
+        <Link href="/user/visual-profile">
+          <Button
+            type="button"
+            className="absolute top-0 right-0"
+            variant="link"
+          >
+            Add new?
+          </Button>
+        </Link>
+      </div>
 
       <div className="mb-5 flex w-full flex-col items-center gap-6">
         {criteriaFields.map((field, index) => (

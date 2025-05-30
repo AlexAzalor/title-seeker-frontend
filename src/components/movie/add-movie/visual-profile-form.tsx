@@ -8,7 +8,7 @@ import { MovieFormContext } from "./utils";
 import { VisualProfileSchema, VisualProfileType } from "@/types/zod-scheme";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import type { MovieFormData, TitleCategoryData } from "@/orval_api/model";
+import type { MovieFormData, VisualProfileData } from "@/orval_api/model";
 import {
   Select,
   SelectContent,
@@ -19,9 +19,11 @@ import {
 import { FormButtons } from "@/components/my-custom-ui/form-ui-parts/form-buttons";
 import { FormField } from "@/components/my-custom-ui/form-ui-parts/form-field";
 import { SliderFormField } from "@/components/my-custom-ui/form-ui-parts/slider-form-field";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 type Props = {
-  categories: TitleCategoryData[];
+  categories: VisualProfileData[];
 };
 
 export type MovieInfoFieldNames = Pick<
@@ -29,7 +31,7 @@ export type MovieInfoFieldNames = Pick<
   "category_key" | "category_criteria"
 >;
 
-export const VisualProfileForm = ({ categories }: Props) => {
+export const VisualProfileMovieForm = ({ categories }: Props) => {
   const t = useTranslations("Form.stepper.people");
 
   const { setMovieFormData, handleNext, handlePrev } = use(MovieFormContext);
@@ -128,44 +130,52 @@ export const VisualProfileForm = ({ categories }: Props) => {
             <h1 className="text-main-ui-purple">Visual Profile</h1>
             <p>Description</p>
 
-            <Controller
-              control={control}
-              name="category_key"
-              render={({
-                field: { onChange, value },
-                fieldState: { error },
-              }) => (
-                <div className="mb-4 grid w-72 gap-2">
-                  <Select
-                    onValueChange={(key) => {
-                      selectCategory(key);
-                      onChange(key);
-                    }}
-                    defaultValue={value}
-                  >
-                    <SelectTrigger id="rating-criteria">
-                      <SelectValue placeholder="Select a category" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {categories.map((item) => (
-                        <SelectItem
-                          title={item.description}
-                          key={item.key}
-                          value={item.key}
-                        >
-                          {item.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+            <div className="relative flex w-full justify-center">
+              <Controller
+                control={control}
+                name="category_key"
+                render={({
+                  field: { onChange, value },
+                  fieldState: { error },
+                }) => (
+                  <div className="mb-4 grid w-72 gap-2">
+                    <Select
+                      onValueChange={(key) => {
+                        selectCategory(key);
+                        onChange(key);
+                      }}
+                      defaultValue={value}
+                    >
+                      <SelectTrigger id="rating-criteria">
+                        <SelectValue placeholder="Select a category" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {categories.map((item) => (
+                          <SelectItem
+                            title={item.description}
+                            key={item.key}
+                            value={item.key}
+                          >
+                            {item.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
 
-                  {error && (
-                    <div className="absolute text-red-500">{error.message}</div>
-                  )}
-                </div>
-              )}
-            />
-
+                    {error && (
+                      <div className="absolute text-red-500">
+                        {error.message}
+                      </div>
+                    )}
+                  </div>
+                )}
+              />
+              <Link href="/user/visual-profile">
+                <Button type="button" className="top-0 right-0" variant="link">
+                  Add new?
+                </Button>
+              </Link>
+            </div>
             <span className="text-gray-purple">{t("orderInfo")}</span>
 
             <div className="mb-5 flex w-full flex-col items-center gap-6">

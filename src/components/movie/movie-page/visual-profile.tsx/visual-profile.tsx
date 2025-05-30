@@ -17,9 +17,9 @@ import {
 } from "@/components/ui/chart";
 import {
   Language,
-  TitleCategoryData,
   TitleVisualProfileOut,
   UserRole,
+  VisualProfileData,
 } from "@/orval_api/model";
 import { COLORS } from "@/lib/colors";
 import { Button } from "@/components/ui/button";
@@ -37,7 +37,7 @@ type Props = {
 
 export function VisualProfile({ movieKey, radarData, userRole }: Props) {
   const { isOpen, open, close } = useModal();
-  const [categories, setCategories] = useState<TitleCategoryData[]>([]);
+  const [categories, setCategories] = useState<VisualProfileData[]>([]);
 
   const locale = useLocale();
   const lang = Language[locale as keyof typeof Language];
@@ -93,6 +93,7 @@ export function VisualProfile({ movieKey, radarData, userRole }: Props) {
           <PolarAngleAxis
             dataKey="name"
             className="text-sm"
+            tick={{ fill: "#94a3b8", fontSize: 16 }}
             // fill="var(--color-count)"
             // style={{ color: "red" }}
           />
