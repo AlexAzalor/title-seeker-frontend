@@ -9,4 +9,5 @@ export const COLORS = {
   director: "#f08080",
   grayPurple: "#6f6c90",
   whiteDark: "#f5f5f5",
+  lightGray: "#94a3b8",
 };

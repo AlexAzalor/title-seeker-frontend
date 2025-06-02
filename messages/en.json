@@ -42,6 +42,10 @@
       "key": "new-movies-to-add",
       "label": "New Movies to add"
     },
+    "visualProfile": {
+      "key": "visual-profile",
+      "label": "Title Visual Profile"
+    },
     "allUsers": {
       "key": "all-users",
       "label": "All users"

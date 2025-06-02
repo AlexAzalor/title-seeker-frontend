@@ -28,6 +28,7 @@ import { Suspense, useState } from "react";
 import { CustomModal } from "@/components/my-custom-ui/custom-modal";
 import { VisualProfileEditForm } from "./visual-profile-edit-form";
 import { getTitleCategories } from "@/app/services/user-api";
+import { TooltipWrapper } from "@/components/my-custom-ui/tooltip-wrapper";
 
 type Props = {
   radarData: TitleVisualProfileOut;
@@ -35,7 +36,11 @@ type Props = {
   movieKey: string;
 };
 
-export function VisualProfile({ movieKey, radarData, userRole }: Props) {
+export function VisualProfileRadarChart({
+  movieKey,
+  radarData,
+  userRole,
+}: Props) {
   const { isOpen, open, close } = useModal();
   const [categories, setCategories] = useState<VisualProfileData[]>([]);
 
@@ -43,8 +48,8 @@ export function VisualProfile({ movieKey, radarData, userRole }: Props) {
   const lang = Language[locale as keyof typeof Language];
 
   const chartConfig = {
-    count: {
-      label: lang === Language.uk ? "Кількість" : "Count",
+    rating: {
+      label: lang === Language.uk ? "Бал" : "Rating",
       color: COLORS.mainUiPurple,
     },
   } satisfies ChartConfig;
@@ -65,10 +70,10 @@ export function VisualProfile({ movieKey, radarData, userRole }: Props) {
   return (
     <>
       <div className="relative text-center">
-        <h2 className="font-semibold tracking-tight">{radarData.name}</h2>
-        <p className="text-sm text-neutral-500 dark:text-neutral-400">
-          {radarData.description}
-        </p>
+        <div className="mb-2 flex items-center justify-center gap-2">
+          <h2 className="font-semibold tracking-tight">{radarData.name}</h2>
+          <TooltipWrapper content={radarData.description} className="w-100" />
+        </div>
 
         {userRole === "owner" && (
           <Button
@@ -89,24 +94,21 @@ export function VisualProfile({ movieKey, radarData, userRole }: Props) {
             cursor={false}
             content={<ChartTooltipContent className="w-36" />}
           />
-          {/* color in the dark mode */}
+
           <PolarAngleAxis
             dataKey="name"
             className="text-sm"
-            tick={{ fill: "#94a3b8", fontSize: 16 }}
-            // fill="var(--color-count)"
-            // style={{ color: "red" }}
+            tick={{ fill: COLORS.lightGray, fontSize: 16, width: 140 }}
           />
           <PolarRadiusAxis domain={[0, 5]} axisLine={false} tick={false} />
           <PolarGrid />
           <Radar
             dataKey="rating"
-            fill="var(--color-count)"
+            fill="var(--color-rating)"
             fillOpacity={0.6}
             dot={{
               r: 4,
               fillOpacity: 1,
-              // color: "red",
             }}
           />
         </RadarChart>

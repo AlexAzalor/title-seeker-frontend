@@ -162,7 +162,16 @@ function ChartTooltipContent({
       return null;
     }
 
-    return <div className={cn("font-medium", labelClassName)}>{value}</div>;
+    return (
+      <div className={cn("font-medium", labelClassName)}>
+        {value}
+        {item.payload.description && (
+          <p className="text-gray-purple font-medium">
+            {item.payload.description}
+          </p>
+        )}
+      </div>
+    );
   }, [
     label,
     labelFormatter,

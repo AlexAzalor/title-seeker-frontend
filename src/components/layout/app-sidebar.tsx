@@ -18,6 +18,7 @@ import {
   BadgeJapaneseYenIcon,
   FilePlus,
   Film,
+  Flower,
   Gamepad2,
   LayoutDashboard,
   NotebookText,
@@ -197,6 +198,18 @@ export async function AppSidebar({
                       <Link href={"/user/" + menu("allUsers.key")} className="">
                         <Users />
                         <span>{menu("allUsers.label")}</span>
+                      </Link>
+                    </SidebarMenuSubButton>
+                  </SidebarMenuSubItem>
+
+                  <SidebarMenuSubItem>
+                    <SidebarMenuSubButton asChild>
+                      <Link
+                        href={"/user/" + menu("visualProfile.key")}
+                        className=""
+                      >
+                        <Flower />
+                        <span>{menu("visualProfile.label")}</span>
                       </Link>
                     </SidebarMenuSubButton>
                   </SidebarMenuSubItem>

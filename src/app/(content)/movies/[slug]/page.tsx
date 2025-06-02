@@ -25,7 +25,7 @@ import { FetchWrapper } from "@/components/my-custom-ui/fetch-wrapper";
 import { Spinner } from "@/components/my-custom-ui/spinner";
 
 import { MovieInfo } from "@/components/movie/movie-page/info/movie-info";
-import { VisualProfile } from "@/components/movie/movie-page/visual-profile.tsx/visual-profile";
+import { VisualProfileRadarChart } from "@/components/movie/movie-page/visual-profile.tsx/visual-profile-radar-chart";
 import { CustomTabs } from "@/components/my-custom-ui/custom-tabs";
 
 export default async function DynamicPage({ params }: PageProps) {
@@ -134,39 +134,37 @@ export default async function DynamicPage({ params }: PageProps) {
               />
             </div>
 
-            <div className="hidden lg:block">
-              <CustomTabs
-                tabs={[
-                  {
-                    key: "visual-profile",
-                    component: (
-                      <VisualProfile
-                        key="visual-profile"
-                        movieKey={data.key}
-                        radarData={data.visual_profile}
-                        userRole={session?.user.role}
-                      />
-                    ),
-                  },
-                  {
-                    key: "movie-rate-box",
-                    component: (
-                      <MovieRateBox
-                        key="movie-rate-box"
-                        movieKey={data.key}
-                        ratingType={data.rating_criterion}
-                        isOwner={session?.user.role === "owner"}
-                        isUserRated={!!data.user_rating}
-                        userRatingData={data.user_rating_criteria}
-                        overallRatingCriteria={
-                          data.overall_average_rating_criteria
-                        }
-                      />
-                    ),
-                  },
-                ]}
-              />
-            </div>
+            <CustomTabs
+              tabs={[
+                {
+                  key: "visual-profile",
+                  component: (
+                    <VisualProfileRadarChart
+                      key="visual-profile"
+                      movieKey={data.key}
+                      radarData={data.visual_profile}
+                      userRole={session?.user.role}
+                    />
+                  ),
+                },
+                {
+                  key: "movie-rate-box",
+                  component: (
+                    <MovieRateBox
+                      key="movie-rate-box"
+                      movieKey={data.key}
+                      ratingType={data.rating_criterion}
+                      isOwner={session?.user.role === "owner"}
+                      isUserRated={!!data.user_rating}
+                      userRatingData={data.user_rating_criteria}
+                      overallRatingCriteria={
+                        data.overall_average_rating_criteria
+                      }
+                    />
+                  ),
+                },
+              ]}
+            />
           </div>
 
           <div className="flex flex-col justify-between lg:flex-row lg:gap-6">

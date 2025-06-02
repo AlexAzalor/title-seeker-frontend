@@ -2,6 +2,7 @@
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { motion, AnimatePresence } from "framer-motion";
+import { TooltipWrapper } from "./tooltip-wrapper";
 
 type Tab = {
   key: string;
@@ -23,6 +24,10 @@ export const CustomTabs = ({ tabs }: Props) => {
             </TabsTrigger>
             <TabsTrigger value={tabs[1].key}>Rating</TabsTrigger>
           </TabsList>
+          <TooltipWrapper
+            className="absolute right-0"
+            content={<div>About two ratings systems</div>}
+          />
         </div>
 
         {tabs.map((tab) => (

@@ -43,6 +43,10 @@
       "key": "new-movies-to-add",
       "label": "Додати нові фільми"
     },
+    "visualProfile": {
+      "key": "visual-profile",
+      "label": "Візуальний профіль тайтлу"
+    },
     "allUsers": {
       "key": "all-users",
       "label": "Список всіх користувачів"

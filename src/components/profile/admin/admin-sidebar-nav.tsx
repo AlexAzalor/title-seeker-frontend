@@ -37,7 +37,7 @@ export const AdminSidebarNav = () => {
         href="/user/visual-profile"
         className="dark:hover:bg-main-dark-hover hover:bg-white-dark cursor-pointer rounded-[6px] px-2 py-1 text-lg transition-colors"
       >
-        Visual Profile
+        {t("visualProfile.label")}
       </Link>
     </div>
   );
