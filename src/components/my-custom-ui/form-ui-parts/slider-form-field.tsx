@@ -17,7 +17,7 @@ type Props<
   error: FieldError | undefined;
   value?: string;
   defaultValue: UseFormGetValues<TFormValues>;
-  removItem: () => void;
+  removItem?: () => void;
   step?: number;
   max?: number;
   moveUp?: () => void;
@@ -72,12 +72,14 @@ export const SliderFormField = <
         </button>
       )}
 
-      <button type="button" onClick={removItem}>
-        <CircleX
-          color="red"
-          className="h-5 w-5 transition-transform hover:scale-110"
-        />
-      </button>
+      {removItem && (
+        <button type="button" onClick={removItem}>
+          <CircleX
+            color="red"
+            className="h-5 w-5 transition-transform hover:scale-110"
+          />
+        </button>
+      )}
     </div>
   );
 };

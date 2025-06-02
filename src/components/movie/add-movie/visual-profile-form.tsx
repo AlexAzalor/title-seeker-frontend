@@ -32,7 +32,7 @@ export type MovieInfoFieldNames = Pick<
 >;
 
 export const VisualProfileMovieForm = ({ categories }: Props) => {
-  const t = useTranslations("Form.stepper.people");
+  const t = useTranslations("Form.stepper.visualProfile");
 
   const { setMovieFormData, handleNext, handlePrev } = use(MovieFormContext);
 
@@ -57,7 +57,6 @@ export const VisualProfileMovieForm = ({ categories }: Props) => {
 
   const {
     fields: criterionFields,
-    remove: removeCriterion,
     move,
     replace,
   } = useFieldArray({
@@ -127,8 +126,8 @@ export const VisualProfileMovieForm = ({ categories }: Props) => {
       <div className="flex items-center justify-center gap-3 font-bold">
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">
           <div className="mb-5 flex w-full flex-col items-center gap-6">
-            <h1 className="text-main-ui-purple">Visual Profile</h1>
-            <p>Description</p>
+            <h1 className="text-main-ui-purple">{t("name")}</h1>
+            <p>{t("description")}</p>
 
             <div className="relative flex w-full justify-center">
               <Controller
@@ -170,13 +169,12 @@ export const VisualProfileMovieForm = ({ categories }: Props) => {
                   </div>
                 )}
               />
-              <Link href="/user/visual-profile">
+              <Link href="/user/visual-profile" target="_blank">
                 <Button type="button" className="top-0 right-0" variant="link">
-                  Add new?
+                  {t("addNew")}
                 </Button>
               </Link>
             </div>
-            <span className="text-gray-purple">{t("orderInfo")}</span>
 
             <div className="mb-5 flex w-full flex-col items-center gap-6">
               <AnimatePresence initial={false}>
@@ -202,6 +200,7 @@ export const VisualProfileMovieForm = ({ categories }: Props) => {
                     <SliderFormField
                       name={`category_criteria.${index}.rating`}
                       step={1}
+                      min={1}
                       max={5}
                       register={register}
                       defaultValue={getValues}
@@ -209,7 +208,6 @@ export const VisualProfileMovieForm = ({ categories }: Props) => {
                         errors.category_criteria?.[index]?.rating &&
                         errors.category_criteria[index].rating
                       }
-                      removItem={() => removeCriterion(index)}
                       moveUp={() => handleMoveUp(index)}
                       moveDown={() => handleMoveDown(index)}
                     />

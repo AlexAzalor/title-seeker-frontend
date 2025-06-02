@@ -273,6 +273,11 @@
         "key": "Key",
         "poster": "Poster"
       },
+      "visualProfile": {
+        "name": "Visual Profile",
+        "addNew": "Add new category?",
+        "description": "Text"
+      },
       "sharedUniverse": {
         "name": "Shared Universe",
         "order": "Order",

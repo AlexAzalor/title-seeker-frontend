@@ -20,7 +20,7 @@ export const MovieFormContext = createContext<{
 });
 
 export const FIRST_STEP = 1;
-export const VISUAL_PROFILE_STEP = 2; // Alias for the first step
+export const VISUAL_PROFILE_STEP = 2;
 /**Shared Universe */
 export const SU_STEP = 3;
 /**Related Movie */

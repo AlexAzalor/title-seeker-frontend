@@ -38,12 +38,11 @@ export const FormStepper = ({
         currentStep={currentStep}
       />
       <FormStep
-        title="Visual Profile"
+        title={t("visualProfile.name")}
         step={VISUAL_PROFILE_STEP}
         completedSteps={completedSteps}
         goToStep={() => onStepChange(VISUAL_PROFILE_STEP)}
         currentStep={currentStep}
-        isStepSkipped={stepsSkipped?.includes(VISUAL_PROFILE_STEP)}
       />
       <FormStep
         title={t("sharedUniverse.name")}

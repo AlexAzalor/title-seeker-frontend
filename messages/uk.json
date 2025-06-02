@@ -271,6 +271,11 @@
         "key": "Ключ",
         "poster": "Постер"
       },
+      "visualProfile": {
+        "name": "Візуальний профіль",
+        "addNew": "Додати нову категорію?",
+        "description": "Опис"
+      },
       "sharedUniverse": {
         "name": "Спільний Всесвіт",
         "order": "Порядок",

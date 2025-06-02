@@ -144,7 +144,7 @@ export const MovieFormWizard = ({
     >
       <div
         aria-label="movie-form-wizard"
-        className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border mx-auto my-5 w-[1400px] rounded-[34px] border p-9"
+        className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border mx-auto my-5 w-[1520px] rounded-[34px] border p-9"
       >
         <FormStepper
           completedSteps={completedSteps}

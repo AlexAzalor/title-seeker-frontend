@@ -2,7 +2,7 @@ import { Suspense, use, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Controller, useForm } from "react-hook-form";
 import { SharedUniverseFields, SharedUniverseType } from "@/types/zod-scheme";
-import { MovieFormContext } from "./utils";
+import { MovieFormContext, SU_STEP } from "./utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormField } from "@/components/my-custom-ui/form-ui-parts/form-field";
 
@@ -91,7 +91,7 @@ export const SharedUniverseForm = ({ sharedUniverses }: Props) => {
     };
 
     if (setSkipSteps) {
-      setSkipSteps((prev) => prev.filter((step) => step !== 2));
+      setSkipSteps((prev) => prev.filter((step) => step !== SU_STEP));
     }
 
     handleFormData(dataToSend);
@@ -106,7 +106,7 @@ export const SharedUniverseForm = ({ sharedUniverses }: Props) => {
     };
 
     if (setSkipSteps) {
-      setSkipSteps((prev) => [...prev, 2]);
+      setSkipSteps((prev) => [...prev, SU_STEP]);
     }
 
     handleFormData(dataToSend);

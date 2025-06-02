@@ -3,7 +3,7 @@ import { useTranslations } from "next-intl";
 import { Controller, useForm } from "react-hook-form";
 import { RelatedMovieField, RelatedMovieType } from "@/types/zod-scheme";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { MovieFormContext } from "./utils";
+import { MovieFormContext, RM_STEP } from "./utils";
 
 import {
   MovieFormData,
@@ -89,7 +89,7 @@ export const RelatedMovieForm = ({ baseMovies }: Props) => {
     };
 
     if (setSkipSteps) {
-      setSkipSteps((prev) => prev.filter((step) => step !== 3));
+      setSkipSteps((prev) => prev.filter((step) => step !== RM_STEP));
     }
 
     handleFormData(dataToSend);
@@ -105,7 +105,7 @@ export const RelatedMovieForm = ({ baseMovies }: Props) => {
     };
 
     if (setSkipSteps) {
-      setSkipSteps((prev) => [...prev, 3]);
+      setSkipSteps((prev) => [...prev, RM_STEP]);
     }
 
     handleFormData(dataToSend);
