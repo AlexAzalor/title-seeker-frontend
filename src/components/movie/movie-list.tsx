@@ -10,8 +10,9 @@ type Props = {
 };
 
 export const MovieList = ({ movies, lang }: Props) => {
-  return movies.map((movie) => (
+  return movies.map((movie, i) => (
     <Link
+      aria-label={"movie-link" + "-" + i}
       key={movie.key}
       className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border grid h-[158px] w-[340px] grid-cols-[1fr_3fr] items-center gap-2 rounded-[34px] border p-6"
       href={`/movies/${movie.key}`}

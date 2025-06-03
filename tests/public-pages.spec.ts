@@ -72,20 +72,21 @@ test("Should open Google login", async ({ page }) => {
   await expect(page).toHaveURL(regex);
 });
 
-test("Should go to the Movie page", async ({ page }) => {
+test("Should go to the Movie page and find two rating types", async ({
+  page,
+}) => {
   await page.goto("/");
 
-  await page.getByRole("banner").getByRole("combobox").click();
-  await page.getByRole("option", { name: "English" }).click();
-
   await page
-    .getByRole("navigation")
+    .getByLabel("project-header")
     .getByRole("link", { name: "Фільми" })
     .click();
-  await page.waitForURL("/movies");
-  await page.getByRole("link", { name: "Movie poster" }).first().click();
-  await page.waitForURL("/movies/**");
-  await expect(page.getByText("Acting")).toBeVisible();
+  await page.getByRole("link", { name: "movie-link-0" }).click();
+  await expect(
+    page.locator('[id="radix-«rs»-trigger-visual-profile"]'),
+  ).toContainText("Візуальний профіль");
+  await page.getByRole("tab", { name: "Оцінка" }).click();
+  await expect(page.getByLabel("rate-movie")).toContainText("Акторська гра");
 });
 
 test("Should find movie by Super Search: Втеча з Шоушенка", async ({
@@ -114,7 +115,7 @@ test("Should find movie by Super Search: Втеча з Шоушенка", async 
   await page.getByText("Режисер").click();
   await page.getByRole("option", { name: "Френк Дарабонт" }).click();
   await expect(page.locator("#main-layout")).toContainText("Френк Дарабонт");
-  await page.getByRole("link", { name: "Movie poster" }).click();
+  await page.getByRole("link", { name: "movie-link-0" }).click();
 
   await expect(page.locator("h1")).toContainText("Втеча з Шоушенка");
 });
@@ -123,14 +124,16 @@ test("Should find movie by Search: The Dark Knight", async ({ page }) => {
   const movieTitle = "The Dark Knight";
   await page.goto("/");
   // Switch to language
-  await page.getByRole("banner").getByRole("combobox").click();
-  await page.getByRole("option", { name: "English" }).click();
-
-  await page.getByRole("textbox", { name: "Search..." }).click();
-  await page.getByPlaceholder("Type to search...").click();
-  await page.getByPlaceholder("Type to search...").fill(movieTitle);
   await page
-    .getByRole("link", { name: "Movie poster The Dark Knight" })
+    .getByRole("banner", { name: "project-header" })
+    .getByLabel("language-selector")
     .click();
-  await expect(page.locator("h1")).toContainText(movieTitle);
+  await page.getByRole("option", { name: "English" }).click();
+  await page.getByRole("textbox", { name: "Search..." }).click();
+  await page.getByRole("textbox", { name: "Type to search..." }).click();
+  await page
+    .getByRole("textbox", { name: "Type to search..." })
+    .fill(movieTitle);
+  await page.getByRole("link", { name: `Movie poster ${movieTitle}` }).click();
+  await page.getByRole("heading", { name: movieTitle }).click();
 });

@@ -1,7 +1,7 @@
 import {
   GenreChartDataList,
   Language,
-  MovieChartData,
+  MovieOut,
   PageMoviePreviewOut,
   SortBy,
   SortOrder,
@@ -44,21 +44,16 @@ test.describe("API", () => {
     expect(data.items[0]).toHaveProperty("title");
   });
 
-  test("Test Get Time Rate chart data: /api/users/time-rate-movies", async ({
-    request,
-  }) => {
+  test("Test Get movie: /api/movies/movie-key", async ({ request }) => {
+    const movieKey = "the-shawshank-redemption";
     const response = await request.get(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/users/time-rate-movies`,
-      {
-        params: { ...API_OPTIONS },
-      },
+      `${process.env.NEXT_PUBLIC_API_URL}/api/movies/${movieKey}`,
     );
     expect(response.ok()).toBeTruthy();
-    const data: MovieChartData = await response.json();
+    const data: MovieOut = await response.json();
     expect(data).toBeDefined();
-    expect(data).toHaveProperty("movie_chart_data");
-    expect(data.movie_chart_data.length).toBeGreaterThan(0);
-    expect(data.movie_chart_data[0]).toHaveProperty("rating");
+    expect(data).toHaveProperty("title");
+    expect(data.key).toBe(movieKey);
   });
 
   test("Test Get Radar chart data: /api/users/genre-radar-chart", async ({

@@ -118,7 +118,9 @@
   },
 
   "Rating": {
+    "name": "Rating",
     "visualProfile": {
+      "name": "Visual Profile",
       "mainInfo": "A visual profile is a graphic form of a film that can help you understand the overall impression. It prevents comparisons with films of a completely different type. It minimizes the Fast and Furious syndrome and false expectations. It allows you to choose a film according to your mood. It highlights the emotional state.",
       "criteria": "The criteria have a score, which does not mean that the title is good or bad, but shows the degree to which the title is strong in a certain category.",
       "syndrome": {
@@ -266,7 +268,8 @@
       "my": "My Rating",
       "overall": "Overall Rating",
       "owner": "Owner Rating"
-    }
+    },
+    "myList": "All my rated movies"
   },
   "Form": {
     "submit": "Submit",

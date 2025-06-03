@@ -45,8 +45,10 @@ export const CustomTabs = ({ tabs }: Props) => {
           />
 
           <TabsList className="flex w-60">
-            <TabsTrigger value={tabs[0].key}>Visual Profile</TabsTrigger>
-            <TabsTrigger value={tabs[1].key}>Rating</TabsTrigger>
+            <TabsTrigger value={tabs[0].key}>
+              {t("visualProfile.name")}
+            </TabsTrigger>
+            <TabsTrigger value={tabs[1].key}>{t("name")}</TabsTrigger>
           </TabsList>
         </div>
 

@@ -24,43 +24,38 @@ test("Should open user profile and navigate to other private links", async ({
 }) => {
   await page.goto("/");
   await expect(page.getByRole("button", { name: "CN" })).toBeVisible();
-
   await page.getByRole("button", { name: "CN" }).click();
-  await page.getByRole("menuitem", { name: "Profile" }).click();
+  await page.getByRole("menuitem", { name: "Profile", exact: true }).click();
   await page.waitForURL("/user/profile");
-  await expect(page.locator("#main-layout")).toContainText(
+
+  await expect(page.getByLabel("genre-radar-chart")).toContainText(
     "Top 8 most popular movie genres",
   );
-
   await page.getByRole("link", { name: "Dashboard" }).nth(1).click();
-  await expect(page.locator("h1")).toContainText("Dashboard");
-
+  await expect(page.getByRole("heading", { name: "Dashboard" })).toBeVisible();
   await page.getByRole("link", { name: "My lists" }).nth(1).click();
-  await page.waitForURL("/user/my-lists**");
-
-  await expect(
-    page.locator("#main-layout").getByRole("button").filter({ hasText: /^$/ }),
-  ).toBeVisible();
-
-  await page.getByRole("link", { name: "New Movies to add" }).nth(1).click();
+  await expect(page.locator("h1")).toContainText("All my rated movies");
+  await page
+    .getByLabel("admin-sidebar-nav")
+    .getByRole("link", { name: "New Movies to add" })
+    .click();
   await expect(
     page
       .getByRole("heading", { name: "No movies to add" })
       .or(page.getByRole("heading", { name: "New Movies to add" })),
   ).toBeVisible();
-
   await page
     .getByLabel("admin-sidebar-nav")
     .getByRole("link", { name: "All users" })
     .click();
   await expect(page.locator("h1")).toContainText("All Users");
+  await page
+    .getByLabel("admin-sidebar-nav")
+    .getByRole("link", { name: "Title Visual Profile" })
+    .click();
+  await expect(page.locator("h1")).toContainText("Visual Profile");
   await page.getByRole("link", { name: "Settings" }).nth(1).click();
-  await expect(page.locator("h1")).toContainText("Settings");
-
-  await page.getByRole("button", { name: "CN" }).click();
-  await page.getByRole("menuitem", { name: "Log out" }).click();
-  await page.waitForURL("/");
-  await expect(page.getByRole("button", { name: "CN" })).not.toBeVisible();
+  await expect(page.getByLabel("settings")).toContainText("Settings");
 });
 
 test("Test movie basic Form: add new Movie with basic fields (The Shawshank Redemption)", async ({
@@ -100,6 +95,22 @@ test("Test movie basic Form: add new Movie with basic fields (The Shawshank Rede
     .locator("div:nth-child(7) > div:nth-child(2) > span > .bg-custom-gradient")
     .click();
   await page.getByRole("button", { name: "Save rating" }).click();
+  await page.getByRole("button", { name: "Next step" }).click();
+
+  await expect(page.getByText("Value is required")).not.toBeVisible();
+
+  // Visual Profile
+  await expect(page.getByRole("heading")).toContainText("Visual Profile");
+  await page.locator("#rating-criteria").click();
+  await page.getByRole("option", { name: "Simple action" }).click();
+  await page.locator(".mb-5 > div > div:nth-child(2)").first().click();
+  await page.locator(".mb-5 > div:nth-child(2) > div:nth-child(2)").click();
+  await page.locator("div:nth-child(3) > div:nth-child(2)").click();
+  await page
+    .locator("div:nth-child(4) > div:nth-child(4) > div:nth-child(2)")
+    .click();
+  await page.locator("div:nth-child(5) > div:nth-child(2)").click();
+  await page.locator("div:nth-child(6) > div:nth-child(2)").click();
   await page.getByRole("button", { name: "Next step" }).click();
 
   await expect(page.getByText("Value is required")).not.toBeVisible();
@@ -155,8 +166,8 @@ test("Test movie basic Form: add new Movie with basic fields (The Shawshank Rede
   await page.getByRole("option", { name: "Crime" }).click();
   await page.getByRole("option", { name: "Drama" }).click();
   await page.getByText("Select Genres").click();
-  await page.locator("div").filter({ hasText: /^X$/ }).nth(1).click();
-  await page.locator("div").filter({ hasText: /^X$/ }).nth(3).click();
+  await page.locator(".mb-5 > div > div:nth-child(2)").first().click();
+  await page.locator("div:nth-child(4) > div:nth-child(2)").click();
   await page.getByRole("button", { name: "Next step" }).click();
 
   await expect(page.getByText("Value is required")).not.toBeVisible();
@@ -238,6 +249,22 @@ test("Test movie full Form: add new Movie with all fields (The lord of the ring 
     .locator("div:nth-child(8) > div:nth-child(2) > span > .bg-custom-gradient")
     .click();
   await page.getByRole("button", { name: "Save rating" }).click();
+  await page.getByRole("button", { name: "Next step" }).click();
+
+  await expect(page.getByText("Value is required")).not.toBeVisible();
+
+  // Visual Profile
+  await expect(page.getByRole("heading")).toContainText("Visual Profile");
+  await page.locator("#rating-criteria").click();
+  await page.getByRole("option", { name: "Simple action" }).click();
+  await page.locator(".mb-5 > div > div:nth-child(2)").first().click();
+  await page.locator(".mb-5 > div:nth-child(2) > div:nth-child(2)").click();
+  await page.locator("div:nth-child(3) > div:nth-child(2)").click();
+  await page
+    .locator("div:nth-child(4) > div:nth-child(4) > div:nth-child(2)")
+    .click();
+  await page.locator("div:nth-child(5) > div:nth-child(2)").click();
+  await page.locator("div:nth-child(6) > div:nth-child(2)").click();
   await page.getByRole("button", { name: "Next step" }).click();
 
   await expect(page.getByText("Value is required")).not.toBeVisible();
@@ -419,7 +446,7 @@ test("Should logout", async ({ page }) => {
   await expect(page.getByRole("button", { name: "CN" })).toBeVisible();
 
   await page.getByRole("button", { name: "CN" }).click();
-  await page.getByRole("menuitem", { name: "Profile" }).click();
+  await page.getByRole("menuitem", { name: "Profile", exact: true }).click();
   await page.waitForURL("/user/profile");
 
   await page.getByRole("button", { name: "CN" }).click();

@@ -26,7 +26,7 @@ import { Button } from "@/components/ui/button";
 import { useModal } from "@/hooks/use-modal";
 import { Suspense, useState } from "react";
 import { CustomModal } from "@/components/my-custom-ui/custom-modal";
-import { VisualProfileEditForm } from "./visual-profile-edit-form";
+import { VisualProfileEditForm } from "./visual-profile-movie-edit-form";
 import { getTitleCategories } from "@/app/services/user-api";
 import { TooltipWrapper } from "@/components/my-custom-ui/tooltip-wrapper";
 
