@@ -81,9 +81,14 @@ export default async function DynamicPage({ params }: PageProps) {
 
       <LastWatchedWrapper movie={{ key: movie_key, poster: data.poster }}>
         <div className="container min-h-screen max-w-[1280px] px-4 lg:px-0">
-          <h1 className="py-5 text-center text-3xl lg:text-left">
-            {data.title}
-          </h1>
+          <div className="py-2 text-center lg:py-3 lg:text-left">
+            <h1 className="text-3xl">{data.title}</h1>
+            {data.title_en && (
+              <span className="text-light-gray text-lg font-medium">
+                ({data.title_en})
+              </span>
+            )}
+          </div>
 
           <div className="flex flex-col items-center xl:flex-row">
             <div className="">

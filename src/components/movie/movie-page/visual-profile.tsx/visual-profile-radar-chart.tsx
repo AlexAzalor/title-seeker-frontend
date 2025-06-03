@@ -70,8 +70,10 @@ export function VisualProfileRadarChart({
   return (
     <>
       <div className="relative text-center">
-        <div className="mb-2 flex items-center justify-center gap-2">
-          <h2 className="font-semibold tracking-tight">{radarData.name}</h2>
+        <div className="flex items-center justify-center gap-2">
+          <h3 className="text-gray-purple text-xl font-semibold tracking-tight">
+            {radarData.name}
+          </h3>
           <TooltipWrapper content={radarData.description} className="w-100" />
         </div>
 
@@ -116,10 +118,6 @@ export function VisualProfileRadarChart({
 
       <Suspense>
         <CustomModal isOpen={isOpen} onClose={close}>
-          <div className="mb-2 flex items-center justify-center gap-2">
-            <h1>Edit Visual Profile</h1>
-          </div>
-
           <VisualProfileEditForm
             movieKey={movieKey}
             visualProfileData={radarData}

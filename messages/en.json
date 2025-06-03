@@ -118,6 +118,16 @@
   },
 
   "Rating": {
+    "visualProfile": {
+      "mainInfo": "A visual profile is a graphic form of a film that can help you understand the overall impression. It prevents comparisons with films of a completely different type. It minimizes the Fast and Furious syndrome and false expectations. It allows you to choose a film according to your mood. It highlights the emotional state.",
+      "criteria": "The criteria have a score, which does not mean that the title is good or bad, but shows the degree to which the title is strong in a certain category.",
+      "syndrome": {
+        "info": "«The Fast and the Furious» syndrome - we came up with this expression with a friend, which describes a false impression or evaluation of a movie, when a person is unable to evaluate a certain type of movie and starts writing negative comments and giving a low rating.",
+        "movieSeries": "Fast and Furious is a series of action films centered around cars, racing, crime, and character relationships. The first installments focused on a more down-to-earth plot, and then the genre moved toward science fiction or even fantasy, with the car even being sent into space.",
+        "problem": "The problem or syndrome itself is that people evaluate such «fantastic» events from the point of view of reality or seriousness. But the fact is that this is a very wrong attitude towards a title that does not claim to be realism. That is, such titles do not need to be analyzed, turn on the brain, think a lot, etc., because the main goal is banal - to entertain the viewer, to give positive emotions.",
+        "example": "A simple example of such a syndrome: the movie «Havoc» is a typical representative of an action shooter, where the main character punishes scum. It has scenes where the main character has endless ammo and the thing is that such unrealistic mechanics suit such titles because the main thing for you is the impression of the action scenes, but there are people who give bad marks because of such a detail. Therefore, we say about such people that they have the «Fast and Furious» syndrome."
+      }
+    },
     "main": {
       "name": "Main",
       "description": "main"
@@ -275,7 +285,7 @@
       },
       "visualProfile": {
         "name": "Visual Profile",
-        "addNew": "Add new category?",
+        "addNew": "Add new category",
         "description": "Text"
       },
       "sharedUniverse": {

@@ -33,6 +33,7 @@ export type MovieInfoFieldNames = Pick<
 
 export const VisualProfileMovieForm = ({ categories }: Props) => {
   const t = useTranslations("Form.stepper.visualProfile");
+  const tVisualProfile = useTranslations("Rating");
 
   const { setMovieFormData, handleNext, handlePrev } = use(MovieFormContext);
 
@@ -127,7 +128,15 @@ export const VisualProfileMovieForm = ({ categories }: Props) => {
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">
           <div className="mb-5 flex w-full flex-col items-center gap-6">
             <h1 className="text-main-ui-purple">{t("name")}</h1>
-            <p>{t("description")}</p>
+
+            <div className="w-200">
+              <p className="mb-1 font-semibold">
+                {tVisualProfile("visualProfile.mainInfo")}
+              </p>
+              <p className="font-semibold">
+                {tVisualProfile("visualProfile.criteria")}
+              </p>
+            </div>
 
             <div className="relative flex w-full justify-center">
               <Controller
@@ -177,43 +186,42 @@ export const VisualProfileMovieForm = ({ categories }: Props) => {
             </div>
 
             <div className="mb-5 flex w-full flex-col items-center gap-6">
-              <AnimatePresence initial={false}>
-                {criterionFields.map((field, index) => (
-                  <motion.div
-                    key={field.id}
-                    layout
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 20 }}
-                    transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                    className="grid grid-cols-2 gap-4"
-                  >
-                    <FormField
-                      type="text"
-                      title={field.name + " - " + field.description}
-                      name={`category_criteria.${index}.name`}
-                      register={register}
-                      error={undefined}
-                      disabled
-                    />
+              {criterionFields.map((field, index) => (
+                <motion.div
+                  key={field.id}
+                  layout
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 20 }}
+                  transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                  className="grid grid-cols-2 gap-4"
+                >
+                  <FormField
+                    type="text"
+                    title={field.name + " - " + field.description}
+                    name={`category_criteria.${index}.name`}
+                    register={register}
+                    error={undefined}
+                    disabled
+                  />
 
-                    <SliderFormField
-                      name={`category_criteria.${index}.rating`}
-                      step={1}
-                      min={1}
-                      max={5}
-                      register={register}
-                      defaultValue={getValues}
-                      error={
-                        errors.category_criteria?.[index]?.rating &&
-                        errors.category_criteria[index].rating
-                      }
-                      moveUp={() => handleMoveUp(index)}
-                      moveDown={() => handleMoveDown(index)}
-                    />
-                  </motion.div>
-                ))}
-              </AnimatePresence>
+                  <SliderFormField
+                    name={`category_criteria.${index}.rating`}
+                    step={1}
+                    min={1}
+                    max={5}
+                    register={register}
+                    defaultValue={getValues}
+                    error={
+                      errors.category_criteria?.[index]?.rating &&
+                      errors.category_criteria[index].rating
+                    }
+                    moveUp={() => handleMoveUp(index)}
+                    moveDown={() => handleMoveDown(index)}
+                  />
+                </motion.div>
+              ))}
+
               {errors.category_criteria && errors.category_criteria.message && (
                 <span className="text-sm text-red-500">
                   {errors.category_criteria.message}

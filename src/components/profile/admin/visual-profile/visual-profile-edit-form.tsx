@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
@@ -32,8 +33,9 @@ export const VisualProfileEditForm = ({ criterion, type }: Props) => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isDirty },
+    formState: { errors, isDirty, isSubmitSuccessful },
     watch,
+    reset,
   } = useForm<VisualProfileFieldType>({
     resolver: zodResolver(VisualProfileUpdateSchema),
     defaultValues: {
@@ -42,6 +44,18 @@ export const VisualProfileEditForm = ({ criterion, type }: Props) => {
   });
 
   const watchFields = watch(["name_en"]);
+
+  // Need to correctly handle dirty state
+  useEffect(() => {
+    reset(
+      {
+        ...criterion,
+        key: formatKey(watchFields),
+      },
+      { keepValues: true, keepDirty: false },
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSubmitSuccessful]);
 
   const onSubmit = async (formData: VisualProfileFieldType) => {
     if (!isDirty) {

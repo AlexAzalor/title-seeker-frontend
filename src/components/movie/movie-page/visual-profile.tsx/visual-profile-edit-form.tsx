@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -39,6 +40,7 @@ export const VisualProfileEditForm = ({
   categories,
 }: Props) => {
   const router = useRouter();
+  const t = useTranslations("Form.stepper.visualProfile");
 
   const {
     control,
@@ -114,6 +116,12 @@ export const VisualProfileEditForm = ({
 
   return (
     <FormWrapper onSubmit={handleSubmit(onSubmit)} isSubmitting={isSubmitting}>
+      <Link href="/user/visual-profile" target="_blank">
+        <Button type="button" variant="link">
+          {t("addNew")}
+        </Button>
+      </Link>
+
       <div className="relative flex w-full justify-center">
         <Controller
           control={control}
@@ -147,16 +155,6 @@ export const VisualProfileEditForm = ({
             </div>
           )}
         />
-
-        <Link href="/user/visual-profile">
-          <Button
-            type="button"
-            className="absolute top-0 right-0"
-            variant="link"
-          >
-            Add new?
-          </Button>
-        </Link>
       </div>
 
       <div className="mb-5 flex w-full flex-col items-center gap-6">

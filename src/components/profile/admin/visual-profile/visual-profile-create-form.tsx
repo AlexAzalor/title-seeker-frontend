@@ -136,7 +136,7 @@ export const VisualProfileCreateForm = ({ category }: Props) => {
               // name="key"
               name={`criteria.${index}.key`}
               register={register}
-              error={errors.key}
+              error={errors.criteria?.[index]?.key}
               value={formatKey([watchFields[index + 1]])}
               disabled
             />
@@ -146,7 +146,7 @@ export const VisualProfileCreateForm = ({ category }: Props) => {
               label={t("nameEn")}
               name={`criteria.${index}.name_en`}
               register={register}
-              error={errors.name_en}
+              error={errors.criteria?.[index]?.name_en}
             />
 
             <FormField
@@ -154,14 +154,14 @@ export const VisualProfileCreateForm = ({ category }: Props) => {
               label={t("nameUk")}
               name={`criteria.${index}.name_uk`}
               register={register}
-              error={errors.name_uk}
+              error={errors.criteria?.[index]?.name_uk}
             />
 
             <TextareaFormField
               label={t("descriptionEn")}
               name={`criteria.${index}.description_en`}
               register={register}
-              error={errors.description_en}
+              error={errors.criteria?.[index]?.description_en}
               autoResize={false}
             />
 
@@ -169,7 +169,7 @@ export const VisualProfileCreateForm = ({ category }: Props) => {
               label={t("descriptionUk")}
               name={`criteria.${index}.description_uk`}
               register={register}
-              error={errors.description_uk}
+              error={errors.criteria?.[index]?.description_uk}
               autoResize={false}
             />
           </div>
