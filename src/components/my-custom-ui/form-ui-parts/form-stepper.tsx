@@ -11,6 +11,7 @@ import {
   RM_STEP,
   SU_STEP,
   SUMMARY_STEP,
+  VISUAL_PROFILE_STEP,
 } from "../../movie/add-movie/utils";
 
 type Props = {
@@ -34,6 +35,13 @@ export const FormStepper = ({
         step={FIRST_STEP}
         completedSteps={completedSteps}
         goToStep={() => onStepChange(FIRST_STEP)}
+        currentStep={currentStep}
+      />
+      <FormStep
+        title={t("visualProfile.name")}
+        step={VISUAL_PROFILE_STEP}
+        completedSteps={completedSteps}
+        goToStep={() => onStepChange(VISUAL_PROFILE_STEP)}
         currentStep={currentStep}
       />
       <FormStep

@@ -20,12 +20,13 @@ export const MovieFormContext = createContext<{
 });
 
 export const FIRST_STEP = 1;
+export const VISUAL_PROFILE_STEP = 2;
 /**Shared Universe */
-export const SU_STEP = 2;
+export const SU_STEP = 3;
 /**Related Movie */
-export const RM_STEP = 3;
-export const INFO_STEP = 4;
-export const PEOPLE_STEP = 5;
-export const GENRES_STEP = 6;
-export const LAST_STEP = 7;
-export const SUMMARY_STEP = 8;
+export const RM_STEP = 4;
+export const INFO_STEP = 5;
+export const PEOPLE_STEP = 6;
+export const GENRES_STEP = 7;
+export const LAST_STEP = 8;
+export const SUMMARY_STEP = 9;

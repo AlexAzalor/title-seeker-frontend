@@ -1,5 +1,4 @@
 import { memo } from "react";
-import { useTranslations } from "next-intl";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -11,35 +10,31 @@ import {
 import { RatingCriterion } from "@/orval_api/model";
 
 type Props = {
+  items: { value: string; label: string }[];
+  label: string;
   defaultValue: RatingCriterion;
   onValueChange: (value: RatingCriterion) => void;
 };
 
-const RatingTypeSelector = ({ defaultValue, onValueChange }: Props) => {
-  const t = useTranslations("Rating");
-
+const RatingTypeSelector = ({
+  items,
+  label,
+  defaultValue,
+  onValueChange,
+}: Props) => {
   return (
     <div className="mb-4 grid w-72 gap-2">
-      <Label htmlFor="rating-criteria">{t("ratingType.name")}</Label>
+      <Label htmlFor="rating-criteria">{label}</Label>
       <Select onValueChange={onValueChange} defaultValue={defaultValue}>
         <SelectTrigger id="rating-criteria">
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value={RatingCriterion.basic}>{t("basic")}</SelectItem>
-          <SelectItem value={RatingCriterion.visual_effects}>
-            {t("visual_effects.name")}
-          </SelectItem>
-          <SelectItem value={RatingCriterion.scare_factor}>
-            {t("scare_factor.name")}
-          </SelectItem>
-          <SelectItem value={RatingCriterion.humor}>
-            {" "}
-            {t("humor.name")}
-          </SelectItem>
-          <SelectItem value={RatingCriterion.animation_cartoon}>
-            {t("animation_cartoon.name")}
-          </SelectItem>
+          {items.map((item) => (
+            <SelectItem key={item.value} value={item.value}>
+              {item.label}
+            </SelectItem>
+          ))}
         </SelectContent>
       </Select>
     </div>

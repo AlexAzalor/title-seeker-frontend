@@ -53,6 +53,7 @@ const RateMovie = ({
 }: Props) => {
   const session = useSession();
   const t = useTranslations("Other");
+  const tRating = useTranslations("Rating");
   const [showValues, setShowValues] = useState(false);
 
   const [ratingCriteria, setRatingCriteria] = useState<RatingCriterion>(
@@ -257,10 +258,31 @@ const RateMovie = ({
     }
   }, []);
 
+  const items = useMemo(() => {
+    return [
+      { value: RatingCriterion.basic, label: tRating("basic") },
+      {
+        value: RatingCriterion.visual_effects,
+        label: tRating("visual_effects.name"),
+      },
+      {
+        value: RatingCriterion.scare_factor,
+        label: tRating("scare_factor.name"),
+      },
+      { value: RatingCriterion.humor, label: tRating("humor.name") },
+      {
+        value: RatingCriterion.animation_cartoon,
+        label: tRating("animation_cartoon.name"),
+      },
+    ];
+  }, [tRating]);
+
   return (
     <div className="max-w-[594px] py-6 lg:w-[594px]" aria-label="rate-movie">
       {!onRateSubmit && !movieKey && (
         <RatingTypeSelector
+          items={items}
+          label={tRating("ratingType.name")}
           onValueChange={handleSelectRatingType}
           defaultValue={ratingCriteria}
         />

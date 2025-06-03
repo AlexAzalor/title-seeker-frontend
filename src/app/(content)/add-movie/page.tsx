@@ -30,6 +30,7 @@ export default async function AddMoviePage(props: {
 
   const {
     data: {
+      visual_profile_categories,
       actors,
       directors,
       specifications,
@@ -53,6 +54,7 @@ export default async function AddMoviePage(props: {
   return (
     <div className="min-h-screen">
       <MovieFormWizard
+        visualProfileCategories={visual_profile_categories}
         actors={actors}
         directors={directors}
         genres={genres}

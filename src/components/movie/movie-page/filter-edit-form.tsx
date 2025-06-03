@@ -168,7 +168,7 @@ export const FilterEditForm = ({
                   errors.specifications?.[index]?.percentage_match &&
                   errors.specifications[index].percentage_match
                 }
-                onClickButton={() => removeSpecification(index)}
+                removItem={() => removeSpecification(index)}
               />
             </div>
           ))}

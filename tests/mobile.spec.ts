@@ -50,7 +50,7 @@ test.describe("Test Mobile view (385x851)", () => {
     await page.getByRole("button", { name: "Toggle Sidebar" }).click();
     await page.getByRole("link", { name: "Фільми" }).click();
     await page.waitForURL("/movies");
-    await page.getByRole("link", { name: "Movie poster" }).first().click();
+    await page.getByRole("link", { name: "movie-link-0" }).click();
     await page.waitForURL("/movies/*");
     await expect(page.getByText("Жанри", { exact: true })).toBeVisible();
   });

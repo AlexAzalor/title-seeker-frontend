@@ -13,6 +13,7 @@ import {
   RM_STEP,
   SU_STEP,
   SUMMARY_STEP,
+  VISUAL_PROFILE_STEP,
 } from "./utils";
 import { errorHandling } from "@/lib/utils";
 import { createMovie } from "@/app/services/admin-api";
@@ -30,6 +31,7 @@ import {
   MovieOutShort,
   MoviePreCreateDataQuickMovie,
   SharedUniversePreCreateOut,
+  VisualProfileData,
 } from "@/orval_api/model";
 import { GenreFieldsForm } from "./genre-fields-form";
 import { FilterForm } from "./filter-form";
@@ -40,8 +42,10 @@ import { FormButtons } from "@/components/my-custom-ui/form-ui-parts/form-button
 import { RelatedMovieForm } from "./related-movie-form";
 import { SharedUniverseForm } from "./shared-universe-form";
 import { Spinner } from "@/components/my-custom-ui/spinner";
+import { VisualProfileMovieForm } from "./visual-profile-form";
 
 type Props = {
+  visualProfileCategories: VisualProfileData[];
   actors: ActorOut[];
   directors: DirectorOut[];
   genres: GenreOut[];
@@ -56,6 +60,7 @@ type Props = {
 };
 
 export const MovieFormWizard = ({
+  visualProfileCategories,
   actors,
   directors,
   genres,
@@ -139,7 +144,7 @@ export const MovieFormWizard = ({
     >
       <div
         aria-label="movie-form-wizard"
-        className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border mx-auto my-5 w-[1400px] rounded-[34px] border p-9"
+        className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border mx-auto my-5 w-[1520px] rounded-[34px] border p-9"
       >
         <FormStepper
           completedSteps={completedSteps}
@@ -151,6 +156,9 @@ export const MovieFormWizard = ({
 
         {currentStep === FIRST_STEP && (
           <KeyFieldsForm quickMovie={quickMovie} />
+        )}
+        {currentStep === VISUAL_PROFILE_STEP && (
+          <VisualProfileMovieForm categories={visualProfileCategories} />
         )}
         {currentStep === SU_STEP && (
           <SharedUniverseForm sharedUniverses={shared_universes} />

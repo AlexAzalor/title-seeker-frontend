@@ -32,6 +32,18 @@ export default async function AllUsersPage() {
             <p>Role: {user.role}</p>
             <p>UUID: {user.uuid}</p>
             <p>Created At: {formatDate(user.created_at, locale)}</p>
+            <p>
+              Ratings count:{" "}
+              <span className="font-bold">{user.ratings_count}</span>
+            </p>
+            {user.last_movie_rate_date && (
+              <p>
+                Last rate date:{" "}
+                <span className="font-bold">
+                  {formatDate(user.last_movie_rate_date, locale)}
+                </span>
+              </p>
+            )}
           </div>
         ))}
       </div>

@@ -25,6 +25,8 @@ import { FetchWrapper } from "@/components/my-custom-ui/fetch-wrapper";
 import { Spinner } from "@/components/my-custom-ui/spinner";
 
 import { MovieInfo } from "@/components/movie/movie-page/info/movie-info";
+import { VisualProfileRadarChart } from "@/components/movie/movie-page/visual-profile.tsx/visual-profile-radar-chart";
+import { CustomTabs } from "@/components/my-custom-ui/custom-tabs";
 
 export default async function DynamicPage({ params }: PageProps) {
   const { slug: movie_key } = await params;
@@ -79,9 +81,14 @@ export default async function DynamicPage({ params }: PageProps) {
 
       <LastWatchedWrapper movie={{ key: movie_key, poster: data.poster }}>
         <div className="container min-h-screen max-w-[1280px] px-4 lg:px-0">
-          <h1 className="py-5 text-center text-3xl lg:text-left">
-            {data.title}
-          </h1>
+          <div className="py-2 text-center lg:py-3 lg:text-left">
+            <h1 className="text-3xl">{data.title}</h1>
+            {data.title_en && (
+              <span className="text-light-gray text-lg font-medium">
+                ({data.title_en})
+              </span>
+            )}
+          </div>
 
           <div className="flex flex-col items-center xl:flex-row">
             <div className="">
@@ -132,16 +139,37 @@ export default async function DynamicPage({ params }: PageProps) {
               />
             </div>
 
-            <div className="hidden lg:block">
-              <MovieRateBox
-                movieKey={data.key}
-                ratingType={data.rating_criterion}
-                isOwner={session?.user.role === "owner"}
-                isUserRated={!!data.user_rating}
-                userRatingData={data.user_rating_criteria}
-                overallRatingCriteria={data.overall_average_rating_criteria}
-              />
-            </div>
+            <CustomTabs
+              tabs={[
+                {
+                  key: "visual-profile",
+                  component: (
+                    <VisualProfileRadarChart
+                      key="visual-profile"
+                      movieKey={data.key}
+                      radarData={data.visual_profile}
+                      userRole={session?.user.role}
+                    />
+                  ),
+                },
+                {
+                  key: "movie-rate-box",
+                  component: (
+                    <MovieRateBox
+                      key="movie-rate-box"
+                      movieKey={data.key}
+                      ratingType={data.rating_criterion}
+                      isOwner={session?.user.role === "owner"}
+                      isUserRated={!!data.user_rating}
+                      userRatingData={data.user_rating_criteria}
+                      overallRatingCriteria={
+                        data.overall_average_rating_criteria
+                      }
+                    />
+                  ),
+                },
+              ]}
+            />
           </div>
 
           <div className="flex flex-col justify-between lg:flex-row lg:gap-6">

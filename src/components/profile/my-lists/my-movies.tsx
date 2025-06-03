@@ -1,4 +1,4 @@
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -12,10 +12,14 @@ type Props = {
 
 export const MyMovies = ({ movies }: Props) => {
   const locale = useLocale() as Language;
+  const t = useTranslations("Rating");
+
   return (
     <div className="mb-2 flex flex-col gap-4" aria-label="my-movies">
-      {movies.map((movie) => (
+      <h1>{t("myList")}</h1>
+      {movies.map((movie, i) => (
         <Link
+          aria-label={`movie-link-${i}`}
           href={`/movies/${movie.key}`}
           key={movie.key}
           className={cn(
