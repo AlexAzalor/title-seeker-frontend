@@ -19,6 +19,9 @@ import {
   type PersonForm,
   type QuickMovieFormData,
   FilterItemField,
+  FilterFieldsWithUUID,
+  FilterEnum,
+  GenreFormFieldsWithUUID,
 } from "@/orval_api/model";
 
 import { getMovies } from "@/orval_api/movies/movies";
@@ -138,6 +141,57 @@ export async function createDirector(formData: PersonForm, file: Blob) {
   }
 }
 
+export async function getGenresList() {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { lang, backendURL, unknownError } = await fetchSettings();
+  const { aPIGetGenres } = getGenres();
+
+  try {
+    const response: AxiosResponse<FilterList> = await aPIGetGenres(
+      { lang, user_uuid: admin.uuid },
+      backendURL,
+    );
+
+    return response.data.items;
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
+  }
+}
+export async function getSubgenresList() {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { lang, backendURL, unknownError } = await fetchSettings();
+  const { aPIGetSubgenres } = getGenres();
+
+  try {
+    const response: AxiosResponse<FilterList> = await aPIGetSubgenres(
+      { lang, user_uuid: admin.uuid },
+      backendURL,
+    );
+
+    return response.data.items;
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
+  }
+}
+
 export async function createGenre(formData: GenreFormIn) {
   const admin = await getAdmin();
 
@@ -200,6 +254,66 @@ export async function createSubgenre(formData: GenreFormIn) {
   }
 }
 
+export async function getGenreFormFields(itemKey: string, type: FilterEnum) {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { backendURL, unknownError } = await fetchSettings();
+  const { aPIGetGenreFormFields } = getGenres();
+
+  try {
+    const response: AxiosResponse<FilterFieldsWithUUID> =
+      await aPIGetGenreFormFields(
+        { user_uuid: admin.uuid, item_key: itemKey, type },
+        backendURL,
+      );
+
+    return { status: response.status, data: response.data };
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
+  }
+}
+
+export async function updateGenre(
+  formData: GenreFormFieldsWithUUID,
+  type: FilterEnum,
+) {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { backendURL, unknownError } = await fetchSettings();
+  const { aPIUpdateGenreItem } = getGenres();
+
+  try {
+    const response = await aPIUpdateGenreItem(
+      formData,
+      { user_uuid: admin.uuid, type },
+      backendURL,
+    );
+
+    return {
+      status: response.status,
+      message: "Genre item updated!",
+    };
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
+  }
+}
+
 export async function createSpecification(formData: MovieFilterFormIn) {
   const admin = await getAdmin();
 
@@ -222,6 +336,67 @@ export async function createSpecification(formData: MovieFilterFormIn) {
       message: "Specification created",
       newItem: response.data,
     };
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
+  }
+}
+
+export async function updateFilterItem(
+  formData: FilterFieldsWithUUID,
+  type: FilterEnum,
+) {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { backendURL, unknownError } = await fetchSettings();
+  const { aPIUpdateFilterItem } = getFilters();
+
+  try {
+    const response = await aPIUpdateFilterItem(
+      formData,
+      { user_uuid: admin.uuid, type },
+      backendURL,
+    );
+
+    return {
+      status: response.status,
+
+      message: "Specification updated!",
+    };
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
+  }
+}
+
+export async function getFilterFormFields(key: string, type: FilterEnum) {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { backendURL, unknownError } = await fetchSettings();
+  const { aPIGetFilterFormFields } = getFilters();
+
+  try {
+    const response: AxiosResponse<FilterFieldsWithUUID> =
+      await aPIGetFilterFormFields(
+        { user_uuid: admin.uuid, item_key: key, type },
+        backendURL,
+      );
+
+    return { status: response.status, data: response.data };
   } catch (error) {
     if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
       return { status: error.status, message: error.response?.data.detail };

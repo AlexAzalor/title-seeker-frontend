@@ -39,6 +39,13 @@ export const AdminSidebarNav = () => {
       >
         {t("visualProfile.label")}
       </Link>
+
+      <Link
+        href="/user/title-filters"
+        className="dark:hover:bg-main-dark-hover hover:bg-white-dark cursor-pointer rounded-[6px] px-2 py-1 text-lg transition-colors"
+      >
+        {t("titleFilters.label")}
+      </Link>
     </div>
   );
 };

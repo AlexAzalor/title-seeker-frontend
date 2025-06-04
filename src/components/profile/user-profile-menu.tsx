@@ -4,6 +4,7 @@ import { signOut } from "next-auth/react";
 import {
   ChevronsUpDown,
   FilePlus,
+  FileScan,
   Flower,
   LayoutDashboard,
   LogOut,
@@ -153,6 +154,13 @@ export function UserProfileMenu({ user }: Props) {
                     <Link href={"/user/" + menu("visualProfile.key")}>
                       <Flower />
                       {menu("visualProfile.label")}
+                    </Link>
+                  </DropdownMenuItem>
+
+                  <DropdownMenuItem asChild className="cursor-pointer">
+                    <Link href={"/user/" + menu("titleFilters.key")}>
+                      <FileScan />
+                      {menu("titleFilters.label")}
                     </Link>
                   </DropdownMenuItem>
                 </DropdownMenuGroup>

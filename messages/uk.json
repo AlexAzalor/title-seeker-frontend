@@ -43,13 +43,17 @@
       "key": "new-movies-to-add",
       "label": "Додати нові фільми"
     },
+    "allUsers": {
+      "key": "all-users",
+      "label": "Список всіх користувачів"
+    },
     "visualProfile": {
       "key": "visual-profile",
       "label": "Візуальний профіль тайтлу"
     },
-    "allUsers": {
-      "key": "all-users",
-      "label": "Список всіх користувачів"
+    "titleFilters": {
+      "key": "title-filters",
+      "label": "Фільтри тайтлу"
     },
     "settings": {
       "key": "settings",

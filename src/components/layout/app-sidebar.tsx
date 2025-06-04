@@ -17,6 +17,7 @@ import { Button } from "../ui/button";
 import {
   BadgeJapaneseYenIcon,
   FilePlus,
+  FileScan,
   Film,
   Flower,
   Gamepad2,
@@ -210,6 +211,17 @@ export async function AppSidebar({
                       >
                         <Flower />
                         <span>{menu("visualProfile.label")}</span>
+                      </Link>
+                    </SidebarMenuSubButton>
+                  </SidebarMenuSubItem>
+                  <SidebarMenuSubItem>
+                    <SidebarMenuSubButton asChild>
+                      <Link
+                        href={"/user/" + menu("titleFilters.key")}
+                        className=""
+                      >
+                        <FileScan />
+                        <span>{menu("titleFilters.label")}</span>
                       </Link>
                     </SidebarMenuSubButton>
                   </SidebarMenuSubItem>

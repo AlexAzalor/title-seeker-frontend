@@ -42,13 +42,17 @@
       "key": "new-movies-to-add",
       "label": "New Movies to add"
     },
+    "allUsers": {
+      "key": "all-users",
+      "label": "All users"
+    },
     "visualProfile": {
       "key": "visual-profile",
       "label": "Title Visual Profile"
     },
-    "allUsers": {
-      "key": "all-users",
-      "label": "All users"
+    "titleFilters": {
+      "key": "title-filters",
+      "label": "Title Filters"
     },
     "settings": {
       "key": "settings",

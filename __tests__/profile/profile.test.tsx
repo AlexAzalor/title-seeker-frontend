@@ -9,6 +9,7 @@ import { UserInfo } from "@/components/profile/user-info";
 import { UserProfileMenu } from "@/components/profile/user-profile-menu";
 import { ProjectProviders, TEST_USER } from "../page.test";
 import { VisualProfileEditPage } from "@/components/profile/admin/visual-profile/visual-profile";
+import { TitleFilterSelector } from "@/components/profile/admin/title-filters/title-filter-selector";
 
 test("Should render AdminSidebarNav", () => {
   render(<AdminSidebarNav />, {
@@ -59,4 +60,11 @@ test("Should render VisualProfileEditPage", () => {
     wrapper: ProjectProviders,
   });
   expect(screen.getByLabelText("visual-profile-edit-page")).toBeDefined();
+});
+
+test("Should render TitleFilterSelector", () => {
+  render(<TitleFilterSelector />, {
+    wrapper: ProjectProviders,
+  });
+  expect(screen.getByLabelText("title-filter-selector")).toBeDefined();
 });
