@@ -79,7 +79,7 @@ export const VisualProfileCreateForm = ({ category }: Props) => {
     <form onSubmit={handleSubmit(onSubmit)} className="font-bold">
       <h3>Category</h3>
 
-      <div className="flex items-center justify-between gap-3 font-bold">
+      <div className="flex flex-col items-center justify-between gap-3 font-bold lg:flex-row">
         <FormField
           type="text"
           label={t("key")}
@@ -128,7 +128,7 @@ export const VisualProfileCreateForm = ({ category }: Props) => {
         {criteriaFields.map((field, index) => (
           <div
             key={field.id}
-            className="flex items-center justify-between gap-3 font-bold"
+            className="flex flex-col items-center justify-between gap-6 font-bold lg:flex-row lg:gap-3"
           >
             <FormField
               type="text"

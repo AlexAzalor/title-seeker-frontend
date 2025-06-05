@@ -7,84 +7,112 @@ import { InfoIcon } from "lucide-react";
 import { useModal } from "@/hooks/use-modal";
 import { cn } from "@/lib/utils";
 import { CustomModal } from "../../my-custom-ui/custom-modal";
-import { FilterItemOut, MovieFilterItem } from "@/orval_api/model";
+import {
+  FilterEnum,
+  FilterItemOut,
+  GenreOut,
+  MovieFilterItem,
+} from "@/orval_api/model";
 
 import { TooltipWrapper } from "@/components/my-custom-ui/tooltip-wrapper";
-import {
-  ACTION_TIME_KEY,
-  KEYWORD_KEY,
-  SPEC_KEY,
-} from "@/components/super-search/filter-fetch-wrapper";
 import { Button } from "@/components/ui/button";
 import {
   getActionTimes,
+  getGenresSubgenres,
   getKeywords,
   getSpecifications,
+  getSubgenresList,
 } from "@/app/services/admin-api";
 import { FilterEditForm } from "./filter-edit-form";
-import {
-  GENRE_KEY,
-  SUBGENRE_KEY,
-} from "@/components/super-search/genre-selector";
 import { FilterItemLink } from "./filter-item-link";
-
-type QueryKeys =
-  | typeof GENRE_KEY
-  | typeof SUBGENRE_KEY
-  | typeof SPEC_KEY
-  | typeof KEYWORD_KEY
-  | typeof ACTION_TIME_KEY;
+import { GenreEditForm } from "./genre-edit-form";
+import { toast } from "sonner";
 
 type Props = {
   movieKey: string;
   data: MovieFilterItem[];
-  filterKey: QueryKeys;
+  filterKey: FilterEnum;
+  subgenres?: MovieFilterItem[];
 };
 
 const textColor = {
-  [GENRE_KEY]: "movie-genre-text",
-  [SUBGENRE_KEY]: "movie-subgenre-text",
-  [SPEC_KEY]: "movie-spec-text",
-  [KEYWORD_KEY]: "movie-keywords-text",
-  [ACTION_TIME_KEY]: "movie-act-time-text",
+  [FilterEnum.genre]: "movie-genre-text",
+  [FilterEnum.subgenre]: "movie-subgenre-text",
+  [FilterEnum.specification]: "movie-spec-text",
+  [FilterEnum.keyword]: "movie-keywords-text",
+  [FilterEnum.action_time]: "movie-act-time-text",
 };
 
-export const MovieFilter = ({ movieKey, data, filterKey }: Props) => {
+export const MovieFilter = ({
+  movieKey,
+  data,
+  filterKey,
+  subgenres,
+}: Props) => {
   const session = useSession();
   const t = useTranslations("Filters");
   const { isOpen, open, close } = useModal();
   const [filterData, setFilterData] = useState<FilterItemOut[]>([]);
+  const [genreList, setGenreList] = useState<GenreOut[]>([]);
 
   const getFilterData = async () => {
-    if (filterKey === SPEC_KEY) {
+    if (filterKey === FilterEnum.genre) {
+      const res = await getGenresSubgenres(movieKey);
+
+      if (res.status === 200 && res.data) {
+        setGenreList(res.data.genres);
+        return;
+      }
+    }
+
+    if (filterKey === FilterEnum.subgenre) {
+      const res = await getSubgenresList();
+
+      if (Array.isArray(res)) {
+        setFilterData(res);
+        return;
+      }
+    }
+
+    if (filterKey === FilterEnum.specification) {
       const res = await getSpecifications();
 
       if (Array.isArray(res)) {
         setFilterData(res);
+        return;
       }
     }
 
-    if (filterKey === KEYWORD_KEY) {
+    if (filterKey === FilterEnum.keyword) {
       const res = await getKeywords();
 
       if (Array.isArray(res)) {
         setFilterData(res);
+        return;
       }
     }
 
-    if (filterKey === ACTION_TIME_KEY) {
+    if (filterKey === FilterEnum.action_time) {
       const res = await getActionTimes();
 
       if (Array.isArray(res)) {
         setFilterData(res);
+        return;
       }
     }
+
+    toast.error("Error");
   };
 
   const handleEdit = () => {
     open();
     getFilterData();
   };
+
+  const isFilter =
+    filterKey === FilterEnum.specification ||
+    filterKey === FilterEnum.keyword ||
+    filterKey === FilterEnum.action_time;
 
   return (
     <>
@@ -103,7 +131,7 @@ export const MovieFilter = ({ movieKey, data, filterKey }: Props) => {
           </TooltipWrapper>
 
           {session.data?.user.role === "owner" &&
-            [SPEC_KEY, KEYWORD_KEY, ACTION_TIME_KEY].includes(filterKey) && (
+            filterKey !== FilterEnum.subgenre && (
               <Button variant="link" className="h-7 p-0" onClick={handleEdit}>
                 Edit
               </Button>
@@ -119,9 +147,10 @@ export const MovieFilter = ({ movieKey, data, filterKey }: Props) => {
             <p
               className={cn(
                 "base-neon-text text-2xl",
-                filterKey === SPEC_KEY && "movie-spec-text",
-                filterKey === KEYWORD_KEY && "movie-keywords-text",
-                filterKey === ACTION_TIME_KEY && "movie-act-time-text",
+                filterKey === FilterEnum.genre && "movie-genre-text",
+                filterKey === FilterEnum.specification && "movie-spec-text",
+                filterKey === FilterEnum.keyword && "movie-keywords-text",
+                filterKey === FilterEnum.action_time && "movie-act-time-text",
               )}
             >
               {t(`${filterKey}.name`)}
@@ -130,12 +159,24 @@ export const MovieFilter = ({ movieKey, data, filterKey }: Props) => {
               <InfoIcon className="h-4 w-4" />
             </TooltipWrapper>
           </div>
-          <FilterEditForm
-            movieKey={movieKey}
-            filterItems={filterData}
-            selectedFilterItems={data}
-            filterType={filterKey}
-          />
+
+          {genreList.length && subgenres && (
+            <GenreEditForm
+              movieKey={movieKey}
+              allGenres={genreList}
+              selectedGenres={data}
+              selectedSubgenres={subgenres}
+            />
+          )}
+
+          {isFilter && (
+            <FilterEditForm
+              movieKey={movieKey}
+              filterItems={filterData}
+              selectedFilterItems={data}
+              filterType={filterKey}
+            />
+          )}
         </CustomModal>
       </Suspense>
     </>

@@ -43,9 +43,9 @@ export const FilterItemLink = ({ filterKey, data }: Props) => {
       {data.map((item) => (
         <Link
           href={
-            !item.parent_genre?.key
+            !item.subgenre_parent_key
               ? `/super-search/?${filterKey}=${item.key}`
-              : `/super-search/?genre=${item.parent_genre?.key}&subgenre=${item.key}`
+              : `/super-search/?genre=${item.subgenre_parent_key}&subgenre=${item.key}`
           }
           className={cn(
             "relative flex max-w-fit items-center rounded-xl border-2 leading-4 transition-shadow",
@@ -63,14 +63,14 @@ export const FilterItemLink = ({ filterKey, data }: Props) => {
               hoveredSubgenre === item.key &&
               "shadow-genre border-genre",
             filterKey === SUBGENRE_KEY &&
-              hoveredGenre === item.parent_genre?.key &&
+              hoveredGenre === item.subgenre_parent_key &&
               "shadow-subgenre border-subgenre",
           )}
           key={item.key}
           style={{}}
           onMouseEnter={
             onMouseEnter
-              ? () => onMouseEnter(item.parent_genre?.key || item.key)
+              ? () => onMouseEnter(item.subgenre_parent_key || item.key)
               : undefined
           }
           onMouseLeave={onMouseLeave ? () => onMouseLeave(null) : undefined}

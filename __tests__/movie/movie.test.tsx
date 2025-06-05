@@ -11,6 +11,7 @@ import { RelatedSimilarList } from "@/components/movie/movie-page/related-simila
 import { MoviesCarousel } from "@/components/movie/movie-carousel";
 import { ProjectProviders } from "../page.test";
 import { FilterEditForm } from "@/components/movie/movie-page/filter-edit-form";
+import { GenreEditForm } from "@/components/movie/movie-page/genre-edit-form";
 
 test("Should render Movie Form", async () => {
   render(
@@ -43,7 +44,7 @@ test("Should render QuicklyAddNewMovie", () => {
 });
 
 test("Should render GenresList", () => {
-  render(<GenresList genres={[]} />, {
+  render(<GenresList movieKey="test-key" genres={[]} />, {
     wrapper: ProjectProviders,
   });
 
@@ -128,4 +129,19 @@ test("Should render FilterEditForm", () => {
   );
 
   expect(screen.getByText("Add new filter")).toBeDefined();
+});
+test("Should render GenreEditForm", () => {
+  render(
+    <GenreEditForm
+      movieKey="movie-key"
+      allGenres={[]}
+      selectedGenres={[]}
+      selectedSubgenres={[]}
+    />,
+    {
+      wrapper: ProjectProviders,
+    },
+  );
+
+  expect(screen.getByText("Select Genres")).toBeDefined();
 });

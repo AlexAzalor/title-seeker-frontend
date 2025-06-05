@@ -22,6 +22,8 @@ import {
   FilterFieldsWithUUID,
   FilterEnum,
   GenreFormFieldsWithUUID,
+  GenresSubgenresOut,
+  GenreItemFieldEditFormIn,
 } from "@/orval_api/model";
 
 import { getMovies } from "@/orval_api/movies/movies";
@@ -397,6 +399,63 @@ export async function getFilterFormFields(key: string, type: FilterEnum) {
       );
 
     return { status: response.status, data: response.data };
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
+  }
+}
+
+export async function getGenresSubgenres(movieKey: string) {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { backendURL, unknownError } = await fetchSettings();
+  const { aPIGetGenresSubgenres } = getMovies();
+
+  try {
+    const response: AxiosResponse<GenresSubgenresOut> =
+      await aPIGetGenresSubgenres(
+        { user_uuid: admin.uuid, movie_key: movieKey },
+        backendURL,
+      );
+
+    return { status: response.status, data: response.data };
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
+  }
+}
+
+export async function updateGenresSubgenres(
+  movieKey: string,
+  formData: GenreItemFieldEditFormIn,
+) {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { backendURL, unknownError } = await fetchSettings();
+  const { aPIEditGenresSubgenres } = getMovies();
+
+  try {
+    await aPIEditGenresSubgenres(
+      formData,
+      { user_uuid: admin.uuid, movie_key: movieKey },
+      backendURL,
+    );
+
+    return { status: 204, message: "Genres and subgenres updated" };
   } catch (error) {
     if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
       return { status: error.status, message: error.response?.data.detail };

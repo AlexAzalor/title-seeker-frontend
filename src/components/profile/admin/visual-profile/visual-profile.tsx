@@ -71,11 +71,11 @@ export const VisualProfileEditPage = ({ categories }: Props) => {
 
   return (
     <div aria-label="visual-profile-edit-page">
-      <div className="flex justify-center gap-3">
+      <div className="flex flex-col justify-center gap-3 lg:flex-row">
         <Select onValueChange={handleCategoryChange}>
           <SelectTrigger
             id="rating-criteria"
-            className="ml-auto w-100 self-center justify-self-center"
+            className="ml-auto max-w-100 self-center justify-self-center"
           >
             <SelectValue placeholder="Select a category" />
           </SelectTrigger>
@@ -94,7 +94,7 @@ export const VisualProfileEditPage = ({ categories }: Props) => {
 
         <Button
           onClick={handleAddNewVisualProfile}
-          className="bg-main-ui-purple hover:bg-main-ui-purple/80 dark:bg-main-ui-purple dark:text-white-dark dark:hover:bg-main-ui-purple/80 ml-auto w-max transition-colors"
+          className="bg-main-ui-purple hover:bg-main-ui-purple/80 dark:bg-main-ui-purple dark:text-white-dark dark:hover:bg-main-ui-purple/80 my-4 ml-auto w-max transition-colors lg:my-2"
         >
           <PlusCircle />
           Add new Visual Profile

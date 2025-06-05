@@ -102,7 +102,11 @@ export default async function DynamicPage({ params }: PageProps) {
             </div>
 
             <div className="mx-6">
-              <GenresList genres={data.genres} subgenres={data.subgenres} />
+              <GenresList
+                movieKey={movie_key}
+                genres={data.genres}
+                subgenres={data.subgenres}
+              />
 
               <MovieFilterList
                 movieKey={movie_key}

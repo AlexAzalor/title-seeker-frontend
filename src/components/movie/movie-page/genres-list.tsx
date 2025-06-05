@@ -9,6 +9,7 @@ import {
 } from "@/components/super-search/genre-selector";
 
 type Props = {
+  movieKey: string;
   genres: MovieFilterItem[];
   subgenres?: MovieFilterItem[];
 };
@@ -23,7 +24,7 @@ export const GenreContext = createContext<{
   hoveredGenre: null,
   hoveredSubgenre: null,
 });
-export const GenresList = ({ genres, subgenres }: Props) => {
+export const GenresList = ({ movieKey, genres, subgenres }: Props) => {
   const [hoveredGenre, setHoveredGenre] = useState<string | null>(null);
   const [hoveredSubgenre, setHoveredSubgenre] = useState<string | null>(null);
 
@@ -37,9 +38,10 @@ export const GenresList = ({ genres, subgenres }: Props) => {
         }}
       >
         <MovieFilter
-          movieKey={"movieKey"}
+          movieKey={movieKey}
           data={genres}
           filterKey={GENRE_KEY}
+          subgenres={subgenres}
         />
       </GenreContext>
 
@@ -52,7 +54,7 @@ export const GenresList = ({ genres, subgenres }: Props) => {
           }}
         >
           <MovieFilter
-            movieKey={"movieKey"}
+            movieKey={movieKey}
             data={subgenres}
             filterKey={SUBGENRE_KEY}
           />

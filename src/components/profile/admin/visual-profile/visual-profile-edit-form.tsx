@@ -90,7 +90,7 @@ export const VisualProfileEditForm = ({ criterion, type }: Props) => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex items-center justify-between gap-3 font-bold"
+      className="flex flex-col items-center justify-between gap-6 font-bold lg:flex-row lg:gap-3"
     >
       <FormField
         type="text"
