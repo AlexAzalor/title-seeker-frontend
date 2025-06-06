@@ -12,6 +12,7 @@ import {
 } from "./filter-fetch-wrapper";
 
 import { getFilterColor } from "../movie/utils";
+import { FilterEnum } from "@/orval_api/model";
 
 type Data = {
   key: string;
@@ -75,6 +76,10 @@ export const FilterBrick = <ItemData extends Data>({
             "hover:shadow-action-time dark:border-action-time",
           type === ACTOR_KEY && "hover:shadow-actor dark:border-actor",
           type === DIRECTOR_KEY && "hover:shadow-director dark:border-director",
+          type === FilterEnum.shared_universe &&
+            "hover:shadow-su dark:border-su",
+          type === FilterEnum.visual_profile &&
+            "hover:shadow-vp dark:border-vp",
         )}
         onMouseEnter={
           type === GENRE_KEY && onMouseEnter
@@ -101,7 +106,12 @@ export const FilterBrick = <ItemData extends Data>({
           )}
           <div className="flex flex-col items-center leading-4">
             <p style={{ fontWeight: "bold" }}>{item.name}</p>
-            {![ACTOR_KEY, DIRECTOR_KEY].includes(type) && (
+            {![
+              ACTOR_KEY,
+              DIRECTOR_KEY,
+              FilterEnum.shared_universe,
+              FilterEnum.visual_profile,
+            ].includes(type) && (
               <p className="text-sm">({itemPercentMatchRange.join("-")})</p>
             )}
           </div>

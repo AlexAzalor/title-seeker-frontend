@@ -8,6 +8,7 @@ import {
   SPEC_KEY,
 } from "../super-search/filter-fetch-wrapper";
 import { COLORS } from "@/lib/colors";
+import { FilterEnum } from "@/orval_api/model";
 
 /**
  *
@@ -43,4 +44,6 @@ export const getFilterColor = (type: string) =>
     [ACTION_TIME_KEY]: COLORS.actionTime,
     [ACTOR_KEY]: COLORS.actor,
     [DIRECTOR_KEY]: COLORS.director,
+    [FilterEnum.shared_universe]: COLORS.sharedUniverse,
+    [FilterEnum.visual_profile]: COLORS.visualProfile,
   })[type] || "#000";

@@ -147,6 +147,8 @@ describe("Components with search params", () => {
         action_times={[]}
         actors={[]}
         directors={[]}
+        shared_universes={[]}
+        visual_profile_categories={[]}
       />,
       {
         wrapper: ProjectProviders,
@@ -166,6 +168,8 @@ describe("Components with search params", () => {
         action_times={[]}
         actors={[]}
         directors={[]}
+        shared_universes={[]}
+        visual_profile_categories={[]}
       >
         <h1>Test content</h1>
       </SelectedFilters>,

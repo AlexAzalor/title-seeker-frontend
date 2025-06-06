@@ -8,6 +8,7 @@ import {
   SUBGENRE_KEY,
 } from "@/components/super-search/genre-selector";
 import {
+  FilterEnum,
   Language,
   PageMoviePreviewOutPage,
   PageMoviePreviewOutPages,
@@ -29,8 +30,9 @@ const PARAM_KEYS: SuperSearchParams[] = [
   "specification",
   "keyword",
   "action_time",
-  "universe",
+  FilterEnum.shared_universe,
   "exact_match",
+  "visual_profile",
 ];
 
 type IntlOptions = Intl.DateTimeFormatOptions;

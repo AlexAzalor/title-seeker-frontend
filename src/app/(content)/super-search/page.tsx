@@ -55,7 +55,8 @@ export default async function SuperSearchPage(props: {
     action_time: actionTimeNamesList,
     actor: actorNamesList,
     director: directorNamesList,
-    universe: universesList,
+    shared_universe: universesList,
+    visual_profile: visualProfileList,
   } = FilterSchema.parse(searchParams);
 
   const exactMatch =
@@ -69,6 +70,7 @@ export default async function SuperSearchPage(props: {
   } = await aPISuperSearchMovies(
     {
       lang,
+      // Filters
       genre: genreNamesList,
       subgenre: subgenreNamesList,
       specification: specificationNamesList,
@@ -76,10 +78,13 @@ export default async function SuperSearchPage(props: {
       action_time: actionTimeNamesList,
       actor: actorNamesList,
       director: directorNamesList,
-      universe: universesList,
+      shared_universe: universesList,
+      visual_profile: visualProfileList,
+
+      // Extra filters
       exact_match: Boolean(exactMatch),
 
-      // query: query,
+      // Pagination and sorting,
       page: pageNumber,
       size: pageSize,
       sort_order: sortOrder,

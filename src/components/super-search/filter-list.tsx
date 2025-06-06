@@ -3,6 +3,9 @@ import {
   FilterItemOut,
   ActorOut,
   DirectorOut,
+  VisualProfileCategoryOut,
+  FilterEnum,
+  SharedUniversePreCreateOut,
 } from "@/orval_api/model";
 import { PersonSelector } from "./person-selector";
 import {
@@ -22,6 +25,8 @@ type Props = {
   action_times: FilterItemOut[];
   actors: ActorOut[];
   directors: DirectorOut[];
+  shared_universes: SharedUniversePreCreateOut[];
+  visual_profile_categories: VisualProfileCategoryOut[];
 };
 
 export const FilterList = ({
@@ -31,6 +36,8 @@ export const FilterList = ({
   action_times,
   actors,
   directors,
+  shared_universes,
+  visual_profile_categories,
 }: Props) => {
   return (
     <div
@@ -45,6 +52,15 @@ export const FilterList = ({
 
       <PersonSelector peopleList={actors} personKey={ACTOR_KEY} />
       <PersonSelector peopleList={directors} personKey={DIRECTOR_KEY} />
+
+      <FilterSelector
+        data={shared_universes}
+        param_key={FilterEnum.shared_universe}
+      />
+      <FilterSelector
+        data={visual_profile_categories}
+        param_key={FilterEnum.visual_profile}
+      />
     </div>
   );
 };

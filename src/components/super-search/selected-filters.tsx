@@ -20,6 +20,9 @@ import {
   DirectorOut,
   GenreOut,
   SubgenreOut,
+  VisualProfileCategoryOut,
+  FilterEnum,
+  SharedUniversePreCreateOut,
 } from "@/orval_api/model";
 
 import { FilterBrick } from "./filter-brick";
@@ -38,6 +41,8 @@ type Props = {
   action_times: FilterItemOut[];
   actors: ActorOut[];
   directors: DirectorOut[];
+  shared_universes: SharedUniversePreCreateOut[];
+  visual_profile_categories: VisualProfileCategoryOut[];
 };
 
 export const SelectedFilters = ({
@@ -49,6 +54,8 @@ export const SelectedFilters = ({
   action_times,
   actors,
   directors,
+  shared_universes,
+  visual_profile_categories,
 }: Props) => {
   const router = useRouter();
   const t = useTranslations("SuperSearch");
@@ -61,7 +68,13 @@ export const SelectedFilters = ({
   const selectedActionTimes = currentSearchParams.getAll(ACTION_TIME_KEY);
   const selectedActors = currentSearchParams.getAll(ACTOR_KEY);
   const selectedDirectors = currentSearchParams.getAll(DIRECTOR_KEY);
+  const selectedUniverses = currentSearchParams.getAll(
+    FilterEnum.shared_universe,
+  );
   const selectedExactMatch = currentSearchParams.get(EXACT_MATCH_KEY);
+  const selectedVisualProfiles = currentSearchParams.getAll(
+    FilterEnum.visual_profile,
+  );
 
   const deleteSubgenres = (genre: string, urlSearchParams: URLSearchParams) => {
     if (subgenres.length) {
@@ -114,6 +127,8 @@ export const SelectedFilters = ({
                   action_times,
                   actors,
                   directors,
+                  shared_universes,
+                  visual_profile_categories,
                 }}
               />
             </SideMenuPanel>
@@ -160,6 +175,18 @@ export const SelectedFilters = ({
               type={DIRECTOR_KEY}
               searchParamsList={selectedDirectors}
               data={directors}
+              deleteItem={deleteSearchParam}
+            />
+            <FilterBrick
+              type={FilterEnum.shared_universe}
+              searchParamsList={selectedUniverses}
+              data={shared_universes}
+              deleteItem={deleteSearchParam}
+            />
+            <FilterBrick
+              type={FilterEnum.visual_profile}
+              searchParamsList={selectedVisualProfiles}
+              data={visual_profile_categories}
               deleteItem={deleteSearchParam}
             />
 

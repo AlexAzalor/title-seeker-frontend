@@ -105,6 +105,14 @@
     "actor": "Актори",
     "director": "Режисер",
     "directorPlural": "Режисери",
+    "shared_universe": {
+      "name": "Спільний Всесвіт",
+      "description": "Text"
+    },
+    "visual_profile": {
+      "name": "Візуальний профіль",
+      "description": "Text"
+    },
     "genreNotFound": "Жанр не знайдено",
     "subgenreNotFound": "Піджанрів не знайдено АБО спочатку виберіть жанр.",
     "filterNotFound": "Фільтр не знайдено",

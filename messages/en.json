@@ -104,6 +104,14 @@
     "actor": "Actors",
     "director": "Director",
     "directorPlural": "Directors",
+    "shared_universe": {
+      "name": "Shared Universe",
+      "description": "Text"
+    },
+    "visual_profile": {
+      "name": "Visual Profile",
+      "description": "Text"
+    },
     "genreNotFound": "Genre not found",
     "subgenreNotFound": "No subgenres found OR select a genre first.",
     "filterNotFound": "Filter not found",

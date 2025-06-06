@@ -40,6 +40,8 @@
   --color-action-time: #92a8d1;
   --color-actor: #90ee90;
   --color-director: #f08080;
+  --color-su: #1e90ff;
+  --color-vp: #ff5f1f;
 
   /* Statuses */
   --color-danger: #fc4349;
@@ -121,6 +123,11 @@
   --shadow-director: 0px 0px 0px 0px var(--color-director),
     0 0 0px var(--color-director), 0 0 10px var(--color-director),
     inset 0 0 10px var(--color-director);
+
+  --shadow-su: 0px 0px 0px 0px var(--color-su), 0 0 0px var(--color-su),
+    0 0 10px var(--color-su), inset 0 0 10px var(--color-su);
+  --shadow-vp: 0px 0px 0px 0px var(--color-vp), 0 0 0px var(--color-vp),
+    0 0 10px var(--color-vp), inset 0 0 10px var(--color-vp);
 
   /* Search */
   --shadow-exact-match: 0px 0px 0px 0px #000000, 0 0 10px #000000,

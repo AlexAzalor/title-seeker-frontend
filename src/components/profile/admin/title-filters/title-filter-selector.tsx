@@ -36,18 +36,21 @@ const FILTERS_LIST = [
   { key: FilterEnum.action_time, label: "Action Times" },
 ];
 
+type FilterItem = {
+  item: FilterFieldsWithUUID;
+  key: FilterEnum;
+  itemKey: string;
+};
+
 export const TitleFilterSelector = () => {
   const [selectedFilterType, setSelectedFilterType] =
     useState<FilterEnum | null>(null);
 
   const [filterList, setFilterList] = useState<FilterItemOut[]>([]);
-  const [selectedFilter, setSelectedFilter] = useState<{
-    item: FilterFieldsWithUUID;
-    key: FilterEnum;
-  } | null>(null);
+  const [selectedFilters, setSelectedFilters] = useState<FilterItem[]>([]);
 
   const selectFilterType = async (filterKey: FilterEnum) => {
-    setSelectedFilter(null);
+    setSelectedFilters([]);
     setFilterList([]);
 
     if (filterKey === FilterEnum.genre) {
@@ -59,6 +62,7 @@ export const TitleFilterSelector = () => {
         return;
       }
     }
+
     if (filterKey === FilterEnum.subgenre) {
       setSelectedFilterType(filterKey);
       const res = await getSubgenresList();
@@ -68,6 +72,7 @@ export const TitleFilterSelector = () => {
         return;
       }
     }
+
     if (filterKey === FilterEnum.specification) {
       setSelectedFilterType(filterKey);
       const res = await getSpecifications();
@@ -107,7 +112,10 @@ export const TitleFilterSelector = () => {
       return;
     }
 
-    setSelectedFilter(null);
+    if (selectedFilters.some((e) => e.item.key === key)) {
+      setSelectedFilters((prev) => prev.filter((e) => e.item.key !== key));
+      return;
+    }
 
     if (
       selectedFilterType === FilterEnum.genre ||
@@ -116,10 +124,14 @@ export const TitleFilterSelector = () => {
       const res = await getGenreFormFields(key, selectedFilterType);
 
       if (res.status === 200 && res.data) {
-        setSelectedFilter({
-          item: res.data,
-          key: selectedFilterType,
-        });
+        setSelectedFilters((prev) => [
+          ...prev,
+          {
+            item: res.data,
+            key: selectedFilterType,
+            itemKey: res.data.key,
+          },
+        ]);
         return;
       } else {
         toast.error(`${res.status}: ${res.message}`);
@@ -130,10 +142,14 @@ export const TitleFilterSelector = () => {
     const res = await getFilterFormFields(key, selectedFilterType);
 
     if (res.status === 200 && res.data) {
-      setSelectedFilter({
-        item: res.data,
-        key: selectedFilterType,
-      });
+      setSelectedFilters((prev) => [
+        ...prev,
+        {
+          item: res.data,
+          key: selectedFilterType,
+          itemKey: res.data.key,
+        },
+      ]);
       return;
     } else {
       toast.error(`${res.status}: ${res.message}`);
@@ -171,17 +187,19 @@ export const TitleFilterSelector = () => {
             onSelect={(currentValue, key, item) => {
               selectFilterItem(item.key);
             }}
-            checkIconStyle={[selectedFilter?.item.key || ""]}
+            checkIconStyle={selectedFilters.map((e) => e.item.key)}
           />
         </ResponsiveWrapper>
       </div>
 
-      {selectedFilter && (
-        <TitleFilterEditForm
-          filterItem={selectedFilter.item}
-          type={selectedFilter.key}
-        />
-      )}
+      {!!selectedFilters.length &&
+        selectedFilters.map((filter) => (
+          <TitleFilterEditForm
+            key={filter.itemKey}
+            filterItem={filter.item}
+            type={filter.key}
+          />
+        ))}
     </div>
   );
 };

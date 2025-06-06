@@ -16,18 +16,11 @@ import {
   GENRE_KEY,
   SUBGENRE_KEY,
 } from "@/components/super-search/genre-selector";
-import { MovieFilterItem } from "@/orval_api/model";
+import { FilterEnum, MovieFilterItem } from "@/orval_api/model";
 import { GenreContext } from "./genres-list";
 
-type QueryKeys =
-  | typeof GENRE_KEY
-  | typeof SUBGENRE_KEY
-  | typeof SPEC_KEY
-  | typeof KEYWORD_KEY
-  | typeof ACTION_TIME_KEY;
-
 type Props = {
-  filterKey: QueryKeys;
+  filterKey: FilterEnum;
   data: MovieFilterItem[];
 };
 

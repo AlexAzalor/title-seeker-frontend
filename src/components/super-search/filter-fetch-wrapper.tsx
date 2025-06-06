@@ -35,6 +35,8 @@ export const FilterFetchWrapper = async ({ children }: PropsWithChildren) => {
       specifications,
       keywords,
       action_times,
+      shared_universes,
+      visual_profile_categories,
     },
   } = await aPIGetMovieFilters({ lang }, backendURL);
 
@@ -58,6 +60,8 @@ export const FilterFetchWrapper = async ({ children }: PropsWithChildren) => {
           action_times={action_times}
           actors={actors}
           directors={directors}
+          shared_universes={shared_universes}
+          visual_profile_categories={visual_profile_categories}
         >
           <ResizablePanel defaultSize={50} className="">
             <ResizablePanelGroup
@@ -77,6 +81,8 @@ export const FilterFetchWrapper = async ({ children }: PropsWithChildren) => {
                     action_times,
                     actors,
                     directors,
+                    shared_universes,
+                    visual_profile_categories,
                   }}
                 />
               </ResizablePanel>

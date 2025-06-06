@@ -6,7 +6,7 @@ import Link from "next/link";
 
 import { TooltipWrapper } from "@/components/my-custom-ui/tooltip-wrapper";
 import { cn } from "@/lib/utils";
-import { SharedUniverseOut } from "@/orval_api/model";
+import { FilterEnum, SharedUniverseOut } from "@/orval_api/model";
 
 type Props = {
   data: SharedUniverseOut;
@@ -44,7 +44,7 @@ export const MoviesCollection = ({
       className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border mb-4 flex w-full flex-col rounded-[34px] border p-5"
     >
       <Link
-        href={`/super-search/?universe=${data.key}`}
+        href={`/super-search/?${FilterEnum.shared_universe}=${data.key}`}
         scroll={false}
         className="flex items-center gap-4 p-2 text-2xl"
       >

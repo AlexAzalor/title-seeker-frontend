@@ -10,4 +10,6 @@ export const COLORS = {
   grayPurple: "#6f6c90",
   whiteDark: "#f5f5f5",
   lightGray: "#94a3b8",
+  sharedUniverse: "#1E90FF",
+  visualProfile: "#FF5F1F",
 };
