@@ -69,7 +69,7 @@ function RateSlider({
 
         <span
           className={cn(
-            "text-sm font-normal opacity-0 transition-opacity duration-200 group-hover:opacity-100",
+            "hidden text-sm font-normal opacity-0 transition-opacity duration-200 group-hover:opacity-100 lg:block",
             showValue && "opacity-100",
           )}
         >

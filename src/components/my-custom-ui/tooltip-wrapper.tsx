@@ -30,7 +30,7 @@ export const TooltipWrapper = ({
   const isMobile = useMediaQuery("(max-width: 640px)");
 
   if (isMobile) {
-    return children;
+    return null; // Do not render tooltip on mobile
   }
 
   // TODO: add tooltip for mobile - dropdown or modal

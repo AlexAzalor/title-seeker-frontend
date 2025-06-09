@@ -1,5 +1,6 @@
 import { auth } from "@/auth";
 import { Suspense } from "react";
+import Link from "next/link";
 import Image from "next/image";
 import { AVATAR_URL, backendURL, POSTER_URL } from "@/lib/constants";
 import {
@@ -16,6 +17,7 @@ import { GenresList } from "@/components/movie/movie-page/genres-list";
 import { MovieFilterList } from "@/components/movie/movie-page/movie-filter-list";
 import { ExpandableText } from "@/components/my-custom-ui/expandable-text";
 import { MovieCrew } from "@/components/movie/movie-page/movie-crew";
+import { Button } from "@/components/ui/button";
 
 import { LastWatchedWrapper } from "@/components/layout/last-watched-wrapper";
 
@@ -144,6 +146,21 @@ export default async function DynamicPage({ params }: PageProps) {
             </div>
 
             <CustomTabs
+              className="h-[498px] max-w-[594px] lg:w-[594px]"
+              header={
+                <Link
+                  href="/about-rating-system"
+                  className="mx-auto"
+                  target="_blank"
+                >
+                  <Button
+                    variant="link"
+                    className="text-light-gray h-auto w-auto p-0"
+                  >
+                    About rating system
+                  </Button>
+                </Link>
+              }
               tabs={[
                 {
                   key: "visual-profile",

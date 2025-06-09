@@ -58,7 +58,6 @@ export const VisualProfileEditForm = ({
 
   const {
     fields: criteriaFields,
-    remove: removeCriterion,
     move,
     replace,
   } = useFieldArray({
@@ -188,7 +187,6 @@ export const VisualProfileEditForm = ({
                 errors.category_criteria?.[index]?.rating &&
                 errors.category_criteria[index].rating
               }
-              removItem={() => removeCriterion(index)}
               moveUp={() => handleMoveUp(index)}
               moveDown={() => handleMoveDown(index)}
             />
