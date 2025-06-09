@@ -36,7 +36,7 @@ export const Header = ({ session }: Props) => {
             className="rounded-full"
           />
 
-          <p className="logo hidden text-xl font-bold text-white lg:block">
+          <p className="logo hidden text-xl font-bold text-black lg:block">
             Title Seeker
           </p>
         </Link>
@@ -45,7 +45,7 @@ export const Header = ({ session }: Props) => {
           <ul className="flex items-center space-x-5">
             {navigationKeys.map((key) => (
               <li key={key}>
-                <Link href={`/${key}`} className="text-white">
+                <Link href={`/${key}`} className="link-style text-black">
                   {t(`navigation.${key}`)}
                 </Link>
               </li>

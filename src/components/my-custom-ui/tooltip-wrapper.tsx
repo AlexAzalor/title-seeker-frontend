@@ -16,6 +16,7 @@ type Props = {
   asChild?: boolean;
   side?: "top" | "right" | "bottom" | "left";
   className?: string;
+  delay?: number;
 };
 
 export const TooltipWrapper = ({
@@ -24,6 +25,7 @@ export const TooltipWrapper = ({
   asChild,
   side,
   className,
+  delay = 300,
 }: Props) => {
   const isMobile = useMediaQuery("(max-width: 640px)");
 
@@ -33,7 +35,7 @@ export const TooltipWrapper = ({
 
   // TODO: add tooltip for mobile - dropdown or modal
   return (
-    <TooltipProvider delayDuration={300}>
+    <TooltipProvider delayDuration={delay}>
       <Tooltip>
         <TooltipTrigger className="cursor-default" asChild={asChild}>
           {children}

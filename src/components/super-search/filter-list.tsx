@@ -17,6 +17,7 @@ import {
 } from "./filter-fetch-wrapper";
 import { GenreSelector } from "./genre-selector";
 import { FilterSelector } from "./filter-selector";
+import { SearchControlButtons } from "./search-control-buttons";
 
 type Props = {
   genres: GenreOut[];
@@ -44,6 +45,13 @@ export const FilterList = ({
       className="mb-20 flex flex-col gap-4 overflow-auto"
       aria-label="filter-list"
     >
+      <SearchControlButtons />
+
+      <FilterSelector
+        data={visual_profile_categories}
+        param_key={FilterEnum.visual_profile}
+      />
+
       <GenreSelector genres={genres} />
 
       <FilterSelector data={specifications} param_key={SPEC_KEY} />
@@ -56,10 +64,6 @@ export const FilterList = ({
       <FilterSelector
         data={shared_universes}
         param_key={FilterEnum.shared_universe}
-      />
-      <FilterSelector
-        data={visual_profile_categories}
-        param_key={FilterEnum.visual_profile}
       />
     </div>
   );

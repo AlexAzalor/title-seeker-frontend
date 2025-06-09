@@ -1,19 +1,14 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import { GenreOut, SubgenreOut } from "@/orval_api/model";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ItemsSelector } from "../my-custom-ui/items-list-selector";
 
-import { Checkbox } from "../ui/checkbox";
-import { Label } from "../ui/label";
-import { Button } from "../ui/button";
-
 import {
   DEFAULT_RANGE,
   extractWord,
-  syncSearchParameters,
   manageSearchParameters,
 } from "@/lib/utils";
 import { ResponsiveWrapper } from "../my-custom-ui/responsive-wrapper";
@@ -28,13 +23,11 @@ export const EXACT_MATCH_KEY = "exact_match";
 
 export const GenreSelector = ({ genres }: Props) => {
   const router = useRouter();
-  const t = useTranslations("SuperSearch");
   const tFilters = useTranslations("Filters");
 
   const currentSearchParams = useSearchParams();
   const currentSelectedGenres = currentSearchParams.getAll(GENRE_KEY);
   const currentSelectedSubgenres = currentSearchParams.getAll(SUBGENRE_KEY);
-  const currentExactMatch = currentSearchParams.get(EXACT_MATCH_KEY);
 
   const selectedGenres = useMemo(() => {
     return genres.filter(
@@ -57,6 +50,14 @@ export const GenreSelector = ({ genres }: Props) => {
   const [subgenres, setSubgenres] = useState<SubgenreOut[]>(
     availableSubgenres || [],
   );
+
+  // Reset subgenres when genres are cleared (Clear all filters button)
+  useEffect(() => {
+    if (!currentSelectedGenres.length && subgenres.length) {
+      setSubgenres([]);
+      return;
+    }
+  }, [currentSelectedGenres.length, subgenres.length]);
 
   const deleteSubgenresParams = (
     value: string,
@@ -117,46 +118,12 @@ export const GenreSelector = ({ genres }: Props) => {
     }
   }
 
-  const clearAllFilters = () => {
-    const { refreshPage } = syncSearchParameters(router);
-    refreshPage();
-
-    setSubgenres([]);
-  };
-
   const checkGenreType = (item: GenreOut | SubgenreOut): item is GenreOut => {
     return (item as GenreOut).subgenres !== undefined;
   };
 
-  function handleExactMatch() {
-    manageSearchParameters(
-      EXACT_MATCH_KEY,
-      "true",
-      currentSearchParams.has(EXACT_MATCH_KEY) ? "true" : "",
-      currentSearchParams,
-      router,
-      deleteSubgenresParams,
-    );
-  }
-
   return (
     <div className="flex flex-col gap-4">
-      <Button
-        className="mb-4 cursor-pointer"
-        variant="destructive"
-        onClick={clearAllFilters}
-      >
-        {t("clear")}
-      </Button>
-
-      <Label
-        onClick={handleExactMatch}
-        className="my-2 flex w-max cursor-pointer items-center gap-3 text-xl"
-      >
-        <span>{t("exactMatch")}</span>
-        <Checkbox checked={!!currentExactMatch} className="cursor-pointer" />
-      </Label>
-
       <ResponsiveWrapper title={tFilters("genre.name")}>
         <ItemsSelector
           items={genres}

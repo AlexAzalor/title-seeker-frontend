@@ -371,7 +371,8 @@
       "died": "Died",
       "bornInEn": "Born in (en)",
       "bornInUk": "Born in (uk)",
-      "avatar": "Avatar"
+      "avatar": "Avatar",
+      "age": "years old"
     },
     "quickMovie": {
       "title": "Quickly add new Movie",
