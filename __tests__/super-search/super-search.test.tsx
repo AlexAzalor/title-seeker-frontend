@@ -15,6 +15,7 @@ import { FilterBrick } from "@/components/super-search/filter-brick";
 import { HoverBrick } from "@/components/super-search/hover-brick";
 import { SideMenuPanel } from "@/components/super-search/side-menu-panel";
 import { SessionProvider } from "next-auth/react";
+import { FilterEnum } from "@/orval_api/model";
 
 const ProjectProviders = ({ children }: PropsWithChildren) => (
   <ThemeProvider
@@ -51,7 +52,7 @@ test("Should render FilterBrick", () => {
       ]}
       deleteItem={() => {}}
       searchParamsList={["test"]}
-      type="test"
+      type={FilterEnum.genre}
       onMouseEnter={() => {}}
       onMouseLeave={() => {}}
     />,

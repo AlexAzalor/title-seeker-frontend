@@ -9,12 +9,8 @@ import {
   CarouselPrevious,
 } from "../../ui/carousel";
 import { PersonLink } from "./people-link";
-import { MovieActor, MovieDirector } from "@/orval_api/model";
+import { FilterEnum, MovieActor, MovieDirector } from "@/orval_api/model";
 import { useMediaQuery } from "@/hooks/use-media-query";
-import {
-  ACTOR_KEY,
-  DIRECTOR_KEY,
-} from "../../super-search/filter-fetch-wrapper";
 
 type Props = {
   actors: MovieActor[];
@@ -45,7 +41,7 @@ export const MovieCrew = ({ actors, avatarURL, directors }: Props) => {
                     avatarURL={avatarURL}
                     key={actor.key}
                     person={actor}
-                    linkQueryParam={ACTOR_KEY}
+                    linkQueryParam={FilterEnum.actor}
                     type="actors"
                   />
                 </CarouselItem>
@@ -61,7 +57,7 @@ export const MovieCrew = ({ actors, avatarURL, directors }: Props) => {
                 avatarURL={avatarURL}
                 key={actor.key}
                 person={actor}
-                linkQueryParam={ACTOR_KEY}
+                linkQueryParam={FilterEnum.actor}
                 type="actors"
               />
             ))}
@@ -84,7 +80,7 @@ export const MovieCrew = ({ actors, avatarURL, directors }: Props) => {
                   avatarURL={avatarURL}
                   key={director.key}
                   person={director}
-                  linkQueryParam={DIRECTOR_KEY}
+                  linkQueryParam={FilterEnum.director}
                   type="directors"
                 />
               </CarouselItem>
@@ -100,7 +96,7 @@ export const MovieCrew = ({ actors, avatarURL, directors }: Props) => {
               avatarURL={avatarURL}
               key={director.key}
               person={director}
-              linkQueryParam={DIRECTOR_KEY}
+              linkQueryParam={FilterEnum.director}
               type="directors"
             />
           ))}

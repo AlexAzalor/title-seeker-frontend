@@ -1,12 +1,7 @@
 "use client";
 
-import { MovieFilterItem } from "@/orval_api/model";
+import { FilterEnum, MovieFilterItem } from "@/orval_api/model";
 import { MovieFilter } from "./movie-filter";
-import {
-  ACTION_TIME_KEY,
-  KEYWORD_KEY,
-  SPEC_KEY,
-} from "@/components/super-search/filter-fetch-wrapper";
 
 type Props = {
   movieKey: string;
@@ -26,19 +21,19 @@ export const MovieFilterList = ({
       <MovieFilter
         movieKey={movieKey}
         data={specifications}
-        filterKey={SPEC_KEY}
+        filterKey={FilterEnum.specification}
       />
 
       <MovieFilter
         movieKey={movieKey}
         data={keywords}
-        filterKey={KEYWORD_KEY}
+        filterKey={FilterEnum.keyword}
       />
 
       <MovieFilter
         movieKey={movieKey}
         data={action_times}
-        filterKey={ACTION_TIME_KEY}
+        filterKey={FilterEnum.action_time}
       />
     </div>
   );

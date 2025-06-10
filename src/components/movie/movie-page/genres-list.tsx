@@ -1,12 +1,8 @@
 "use client";
 
 import { useState, createContext } from "react";
-import type { MovieFilterItem } from "@/orval_api/model";
+import { FilterEnum, type MovieFilterItem } from "@/orval_api/model";
 import { MovieFilter } from "./movie-filter";
-import {
-  GENRE_KEY,
-  SUBGENRE_KEY,
-} from "@/components/super-search/genre-selector";
 
 type Props = {
   movieKey: string;
@@ -40,7 +36,7 @@ export const GenresList = ({ movieKey, genres, subgenres }: Props) => {
         <MovieFilter
           movieKey={movieKey}
           data={genres}
-          filterKey={GENRE_KEY}
+          filterKey={FilterEnum.genre}
           subgenres={subgenres}
         />
       </GenreContext>
@@ -56,7 +52,7 @@ export const GenresList = ({ movieKey, genres, subgenres }: Props) => {
           <MovieFilter
             movieKey={movieKey}
             data={subgenres}
-            filterKey={SUBGENRE_KEY}
+            filterKey={FilterEnum.subgenre}
           />
         </GenreContext>
       )}

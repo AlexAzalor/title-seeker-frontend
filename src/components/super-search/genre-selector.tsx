@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
-import { GenreOut, SubgenreOut } from "@/orval_api/model";
+import { FilterEnum, GenreOut, SubgenreOut } from "@/orval_api/model";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ItemsSelector } from "../my-custom-ui/items-list-selector";
 
@@ -17,8 +17,6 @@ type Props = {
   genres: GenreOut[];
 };
 
-export const GENRE_KEY = "genre";
-export const SUBGENRE_KEY = "subgenre";
 export const EXACT_MATCH_KEY = "exact_match";
 
 export const GenreSelector = ({ genres }: Props) => {
@@ -26,8 +24,10 @@ export const GenreSelector = ({ genres }: Props) => {
   const tFilters = useTranslations("Filters");
 
   const currentSearchParams = useSearchParams();
-  const currentSelectedGenres = currentSearchParams.getAll(GENRE_KEY);
-  const currentSelectedSubgenres = currentSearchParams.getAll(SUBGENRE_KEY);
+  const currentSelectedGenres = currentSearchParams.getAll(FilterEnum.genre);
+  const currentSelectedSubgenres = currentSearchParams.getAll(
+    FilterEnum.subgenre,
+  );
 
   const selectedGenres = useMemo(() => {
     return genres.filter(
@@ -75,7 +75,7 @@ export const GenreSelector = ({ genres }: Props) => {
           );
 
           if (subgenreKey) {
-            urlSearchParams.delete(SUBGENRE_KEY, subgenreKey);
+            urlSearchParams.delete(FilterEnum.subgenre, subgenreKey);
           }
         }
 
@@ -92,7 +92,7 @@ export const GenreSelector = ({ genres }: Props) => {
       e.includes(value),
     );
 
-    if (key === GENRE_KEY) {
+    if (key === FilterEnum.genre) {
       manageSearchParameters(
         key,
         // action(10,100)
@@ -105,7 +105,7 @@ export const GenreSelector = ({ genres }: Props) => {
       return;
     }
 
-    if (key === SUBGENRE_KEY) {
+    if (key === FilterEnum.subgenre) {
       manageSearchParameters(
         key,
         value + `(${DEFAULT_RANGE.join()})`,
@@ -129,7 +129,7 @@ export const GenreSelector = ({ genres }: Props) => {
           items={genres}
           emptyText={tFilters("genreNotFound")}
           onSelect={(currentValue, key, genre) => {
-            updateSearchParameters(genre.key, GENRE_KEY);
+            updateSearchParameters(genre.key, FilterEnum.genre);
 
             if (
               !currentSelectedGenres
@@ -156,7 +156,7 @@ export const GenreSelector = ({ genres }: Props) => {
           items={subgenres}
           emptyText={tFilters("subgenreNotFound")}
           onSelect={(currentValue, key) => {
-            updateSearchParameters(key, SUBGENRE_KEY);
+            updateSearchParameters(key, FilterEnum.subgenre);
           }}
           checkIconStyle={currentSelectedSubgenres.map((e) => extractWord(e))}
         />

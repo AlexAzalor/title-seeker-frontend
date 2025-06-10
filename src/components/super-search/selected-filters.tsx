@@ -2,14 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { EXACT_MATCH_KEY, GENRE_KEY, SUBGENRE_KEY } from "./genre-selector";
-import {
-  ACTION_TIME_KEY,
-  ACTOR_KEY,
-  DIRECTOR_KEY,
-  KEYWORD_KEY,
-  SPEC_KEY,
-} from "./filter-fetch-wrapper";
+import { EXACT_MATCH_KEY } from "./genre-selector";
 
 import { ResizableHandle, ResizablePanel } from "../ui/resizable";
 import { manageSearchParameters } from "@/lib/utils";
@@ -61,13 +54,17 @@ export const SelectedFilters = ({
   const t = useTranslations("SuperSearch");
 
   const currentSearchParams = useSearchParams();
-  const selectedGenres = currentSearchParams.getAll(GENRE_KEY);
-  const selectedSubgenres = currentSearchParams.getAll(SUBGENRE_KEY);
-  const selectedSpecifications = currentSearchParams.getAll(SPEC_KEY);
-  const selectedKeywords = currentSearchParams.getAll(KEYWORD_KEY);
-  const selectedActionTimes = currentSearchParams.getAll(ACTION_TIME_KEY);
-  const selectedActors = currentSearchParams.getAll(ACTOR_KEY);
-  const selectedDirectors = currentSearchParams.getAll(DIRECTOR_KEY);
+  const selectedGenres = currentSearchParams.getAll(FilterEnum.genre);
+  const selectedSubgenres = currentSearchParams.getAll(FilterEnum.subgenre);
+  const selectedSpecifications = currentSearchParams.getAll(
+    FilterEnum.specification,
+  );
+  const selectedKeywords = currentSearchParams.getAll(FilterEnum.keyword);
+  const selectedActionTimes = currentSearchParams.getAll(
+    FilterEnum.action_time,
+  );
+  const selectedActors = currentSearchParams.getAll(FilterEnum.actor);
+  const selectedDirectors = currentSearchParams.getAll(FilterEnum.director);
   const selectedUniverses = currentSearchParams.getAll(
     FilterEnum.shared_universe,
   );
@@ -89,7 +86,7 @@ export const SelectedFilters = ({
           );
 
           if (subgenreKey) {
-            urlSearchParams.delete(SUBGENRE_KEY, subgenreKey);
+            urlSearchParams.delete(FilterEnum.subgenre, subgenreKey);
           }
         }
       }
@@ -147,32 +144,32 @@ export const SelectedFilters = ({
             />
 
             <FilterBrick
-              type={SPEC_KEY}
+              type={FilterEnum.specification}
               searchParamsList={selectedSpecifications}
               data={specifications}
               deleteItem={deleteSearchParam}
             />
             <FilterBrick
-              type={KEYWORD_KEY}
+              type={FilterEnum.keyword}
               searchParamsList={selectedKeywords}
               data={keywords}
               deleteItem={deleteSearchParam}
             />
             <FilterBrick
-              type={ACTION_TIME_KEY}
+              type={FilterEnum.action_time}
               searchParamsList={selectedActionTimes}
               data={action_times}
               deleteItem={deleteSearchParam}
             />
 
             <FilterBrick
-              type={ACTOR_KEY}
+              type={FilterEnum.actor}
               searchParamsList={selectedActors}
               data={actors}
               deleteItem={deleteSearchParam}
             />
             <FilterBrick
-              type={DIRECTOR_KEY}
+              type={FilterEnum.director}
               searchParamsList={selectedDirectors}
               data={directors}
               deleteItem={deleteSearchParam}

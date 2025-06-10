@@ -9,8 +9,6 @@ import { Button } from "../ui/button";
 
 import { syncSearchParameters, manageSearchParameters } from "@/lib/utils";
 
-export const GENRE_KEY = "genre";
-export const SUBGENRE_KEY = "subgenre";
 export const EXACT_MATCH_KEY = "exact_match";
 
 export const SearchControlButtons = () => {

@@ -1,12 +1,4 @@
 import { cn } from "@/lib/utils";
-import { GENRE_KEY, SUBGENRE_KEY } from "../super-search/genre-selector";
-import {
-  ACTION_TIME_KEY,
-  ACTOR_KEY,
-  DIRECTOR_KEY,
-  KEYWORD_KEY,
-  SPEC_KEY,
-} from "../super-search/filter-fetch-wrapper";
 import { COLORS } from "@/lib/colors";
 import { FilterEnum } from "@/orval_api/model";
 
@@ -37,13 +29,13 @@ export const percentageMatchColor = (percentage: number, text: string) => {
 
 export const getFilterColor = (type: string) =>
   ({
-    [GENRE_KEY]: COLORS.genre,
-    [SUBGENRE_KEY]: COLORS.subgenre,
-    [SPEC_KEY]: COLORS.specification,
-    [KEYWORD_KEY]: COLORS.keyword,
-    [ACTION_TIME_KEY]: COLORS.actionTime,
-    [ACTOR_KEY]: COLORS.actor,
-    [DIRECTOR_KEY]: COLORS.director,
+    [FilterEnum.genre]: COLORS.genre,
+    [FilterEnum.subgenre]: COLORS.subgenre,
+    [FilterEnum.specification]: COLORS.specification,
+    [FilterEnum.keyword]: COLORS.keyword,
+    [FilterEnum.action_time]: COLORS.actionTime,
+    [FilterEnum.actor]: COLORS.actor,
+    [FilterEnum.director]: COLORS.director,
     [FilterEnum.shared_universe]: COLORS.sharedUniverse,
     [FilterEnum.visual_profile]: COLORS.visualProfile,
   })[type] || "#000";

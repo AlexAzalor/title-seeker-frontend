@@ -1,7 +1,6 @@
 import { FilterBrick } from "./filter-brick";
-import { GENRE_KEY, SUBGENRE_KEY } from "./genre-selector";
 import { useState } from "react";
-import { GenreOut, SubgenreOut } from "@/orval_api/model";
+import { FilterEnum, GenreOut, SubgenreOut } from "@/orval_api/model";
 
 type Props = {
   genres: GenreOut[];
@@ -32,7 +31,7 @@ export const HoverBrick = ({
     <>
       <span aria-label="hover-brick" className="sr-only"></span>
       <FilterBrick
-        type={GENRE_KEY}
+        type={FilterEnum.genre}
         searchParamsList={genreItemsList}
         data={genres}
         deleteItem={deleteSearchParam}
@@ -43,7 +42,7 @@ export const HoverBrick = ({
 
       <FilterBrick
         searchParamsList={subgenreItemsList}
-        type={SUBGENRE_KEY}
+        type={FilterEnum.subgenre}
         data={subgenres}
         deleteItem={deleteSearchParam}
         onMouseEnter={handleSubgenreHover}

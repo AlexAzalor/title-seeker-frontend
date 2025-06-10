@@ -1,13 +1,4 @@
 import {
-  ACTION_TIME_KEY,
-  KEYWORD_KEY,
-  SPEC_KEY,
-} from "@/components/super-search/filter-fetch-wrapper";
-import {
-  GENRE_KEY,
-  SUBGENRE_KEY,
-} from "@/components/super-search/genre-selector";
-import {
   FilterEnum,
   Language,
   PageMoviePreviewOutPage,
@@ -234,11 +225,15 @@ export const extractWord = (str: string): string => {
 export const formatSearchParams = (
   currentSearchParams: ReadonlyURLSearchParams,
 ) => {
-  const selectedGenres = currentSearchParams.getAll(GENRE_KEY);
-  const selectedSubgenres = currentSearchParams.getAll(SUBGENRE_KEY);
-  const selectedSpecifications = currentSearchParams.getAll(SPEC_KEY);
-  const selectedKeywords = currentSearchParams.getAll(KEYWORD_KEY);
-  const selectedActionTimes = currentSearchParams.getAll(ACTION_TIME_KEY);
+  const selectedGenres = currentSearchParams.getAll(FilterEnum.genre);
+  const selectedSubgenres = currentSearchParams.getAll(FilterEnum.subgenre);
+  const selectedSpecifications = currentSearchParams.getAll(
+    FilterEnum.specification,
+  );
+  const selectedKeywords = currentSearchParams.getAll(FilterEnum.keyword);
+  const selectedActionTimes = currentSearchParams.getAll(
+    FilterEnum.action_time,
+  );
 
   const showForm = () => {
     return (

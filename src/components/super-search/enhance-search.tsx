@@ -8,9 +8,6 @@ import { useTranslations } from "next-intl";
 import { EnhanceSearchScheme } from "@/types/zod-scheme";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { GENRE_KEY, SUBGENRE_KEY } from "./genre-selector";
-
-import { ACTION_TIME_KEY, KEYWORD_KEY, SPEC_KEY } from "./filter-fetch-wrapper";
 import {
   extractValues,
   extractWord,
@@ -19,6 +16,7 @@ import {
   SearchValue,
 } from "@/lib/utils";
 import { EnhancedFormSlider } from "./enhance-form-slider";
+import { FilterEnum } from "@/orval_api/model";
 
 export const EnhanceSearch = () => {
   const router = useRouter();
@@ -64,11 +62,11 @@ export const EnhanceSearch = () => {
     };
 
     reset({
-      genres: getItems(GENRE_KEY),
-      subgenres: getItems(SUBGENRE_KEY),
-      specifications: getItems(SPEC_KEY),
-      keywords: getItems(KEYWORD_KEY),
-      action_times: getItems(ACTION_TIME_KEY),
+      genres: getItems(FilterEnum.genre),
+      subgenres: getItems(FilterEnum.subgenre),
+      specifications: getItems(FilterEnum.specification),
+      keywords: getItems(FilterEnum.keyword),
+      action_times: getItems(FilterEnum.action_time),
     }); // Reset form with new values
   }, [currentSearchParams, reset]);
 
@@ -108,11 +106,11 @@ export const EnhanceSearch = () => {
     urlSearchParams.set("page", "1");
 
     const keysList = [
-      GENRE_KEY,
-      SUBGENRE_KEY,
-      SPEC_KEY,
-      KEYWORD_KEY,
-      ACTION_TIME_KEY,
+      FilterEnum.genre,
+      FilterEnum.subgenre,
+      FilterEnum.specification,
+      FilterEnum.keyword,
+      FilterEnum.action_time,
     ];
 
     // First we delete all the search parameters because they are dynamic and then we add the old and updated ones
@@ -133,11 +131,11 @@ export const EnhanceSearch = () => {
       }
     }
 
-    constructSearchQuery(data.genres, GENRE_KEY);
-    constructSearchQuery(data.subgenres, SUBGENRE_KEY);
-    constructSearchQuery(data.specifications, SPEC_KEY);
-    constructSearchQuery(data.keywords, KEYWORD_KEY);
-    constructSearchQuery(data.action_times, ACTION_TIME_KEY);
+    constructSearchQuery(data.genres, FilterEnum.genre);
+    constructSearchQuery(data.subgenres, FilterEnum.subgenre);
+    constructSearchQuery(data.specifications, FilterEnum.specification);
+    constructSearchQuery(data.keywords, FilterEnum.keyword);
+    constructSearchQuery(data.action_times, FilterEnum.action_time);
 
     // To refresh the page with the new search parameters
     router.replace("/super-search" + "?" + urlSearchParams.toString(), {

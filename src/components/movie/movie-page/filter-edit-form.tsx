@@ -18,7 +18,7 @@ import {
 import { FilterListType, MovieFilterListOnlySpec } from "@/types/zod-scheme";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { FilterItemOut } from "@/orval_api/model";
+import { FilterEnum, FilterItemOut } from "@/orval_api/model";
 
 import { ItemsSelector } from "../../my-custom-ui/items-list-selector";
 import { FormField } from "@/components/my-custom-ui/form-ui-parts/form-field";
@@ -26,11 +26,6 @@ import { SliderFormField } from "@/components/my-custom-ui/form-ui-parts/slider-
 import { ResponsiveWrapper } from "../../my-custom-ui/responsive-wrapper";
 import { AddNewMovieFilter } from "../add-movie/connected-parts/add-new-movie-filter";
 
-import {
-  ACTION_TIME_KEY,
-  KEYWORD_KEY,
-  SPEC_KEY,
-} from "@/components/super-search/filter-fetch-wrapper";
 import { FormWrapper } from "@/components/my-custom-ui/form-ui-parts/form-wrapper";
 
 const ModalMovie = dynamic(() => import("../../my-custom-ui/modal-window"));
@@ -81,7 +76,7 @@ export const FilterEditForm = ({
       return;
     }
 
-    if (filterType === SPEC_KEY) {
+    if (filterType === FilterEnum.specification) {
       const res = await editMovieSpecifications(movieKey, data.specifications);
 
       if (res.status === 200) {
@@ -91,7 +86,7 @@ export const FilterEditForm = ({
         return;
       }
     }
-    if (filterType === KEYWORD_KEY) {
+    if (filterType === FilterEnum.keyword) {
       const res = await editMovieKeywords(movieKey, data.specifications);
 
       if (res.status === 200) {
@@ -101,7 +96,7 @@ export const FilterEditForm = ({
         return;
       }
     }
-    if (filterType === ACTION_TIME_KEY) {
+    if (filterType === FilterEnum.action_time) {
       const res = await editMovieActionTimes(movieKey, data.specifications);
 
       if (res.status === 200) {
@@ -190,9 +185,9 @@ export const FilterEditForm = ({
           <AddNewMovieFilter
             appendItem={appendSpecification}
             fetchApi={
-              filterType === SPEC_KEY
+              filterType === FilterEnum.specification
                 ? createSpecification
-                : filterType === KEYWORD_KEY
+                : filterType === FilterEnum.keyword
                   ? createKeyword
                   : createActionTime
             }

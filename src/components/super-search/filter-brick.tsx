@@ -2,14 +2,6 @@ import { useMemo } from "react";
 import { CircleX, InfoIcon } from "lucide-react";
 import { TooltipWrapper } from "../my-custom-ui/tooltip-wrapper";
 import { cn, extractValues, extractWord } from "@/lib/utils";
-import { GENRE_KEY, SUBGENRE_KEY } from "./genre-selector";
-import {
-  ACTION_TIME_KEY,
-  ACTOR_KEY,
-  DIRECTOR_KEY,
-  KEYWORD_KEY,
-  SPEC_KEY,
-} from "./filter-fetch-wrapper";
 
 import { getFilterColor } from "../movie/utils";
 import { FilterEnum } from "@/orval_api/model";
@@ -24,7 +16,7 @@ type Data = {
 type Props<ItemData extends Data> = {
   searchParamsList: string[];
   data: ItemData[];
-  type: string;
+  type: FilterEnum;
   deleteItem: (value: string, key: string) => void;
   onMouseEnter?: (genre: string) => void;
   onMouseLeave?: () => void;
@@ -46,6 +38,15 @@ export const FilterBrick = <ItemData extends Data>({
     return getFilterColor(type);
   }, [type]);
 
+  const specialFilters = [
+    FilterEnum.actor,
+    FilterEnum.director,
+    FilterEnum.shared_universe,
+    FilterEnum.visual_profile,
+  ] as const;
+
+  const isFilters = (specialFilters as readonly FilterEnum[]).includes(type);
+
   return searchParamsList.map((searchParam) => {
     const cleanSearchParam = extractWord(searchParam);
     const item = data.find((d) => d.key === cleanSearchParam);
@@ -61,30 +62,32 @@ export const FilterBrick = <ItemData extends Data>({
         key={searchParam}
         className={cn(
           "hover:shadow-genre group relative flex min-h-12 min-w-28 items-center rounded-xl border-2 transition-shadow",
-          type === GENRE_KEY && "dark:border-genre",
-          type === SUBGENRE_KEY && "dark:border-subgenre",
+          type === FilterEnum.genre && "dark:border-genre",
+          type === FilterEnum.subgenre && "dark:border-subgenre",
           hoveredSubgenre === cleanSearchParam &&
-            type === GENRE_KEY &&
+            type === FilterEnum.genre &&
             "shadow-genre",
           hoveredGenre === item.parent_genre_key &&
-            type === SUBGENRE_KEY &&
+            type === FilterEnum.subgenre &&
             "shadow-genre",
-          type === SPEC_KEY &&
+          type === FilterEnum.specification &&
             "hover:shadow-specification dark:border-specification",
-          type === KEYWORD_KEY && "hover:shadow-keyword dark:border-keyword",
-          type === ACTION_TIME_KEY &&
+          type === FilterEnum.keyword &&
+            "hover:shadow-keyword dark:border-keyword",
+          type === FilterEnum.action_time &&
             "hover:shadow-action-time dark:border-action-time",
-          type === ACTOR_KEY && "hover:shadow-actor dark:border-actor",
-          type === DIRECTOR_KEY && "hover:shadow-director dark:border-director",
+          type === FilterEnum.actor && "hover:shadow-actor dark:border-actor",
+          type === FilterEnum.director &&
+            "hover:shadow-director dark:border-director",
           type === FilterEnum.shared_universe &&
             "hover:shadow-su dark:border-su",
           type === FilterEnum.visual_profile &&
             "hover:shadow-vp dark:border-vp",
         )}
         onMouseEnter={
-          type === GENRE_KEY && onMouseEnter
+          type === FilterEnum.genre && onMouseEnter
             ? () => onMouseEnter(cleanSearchParam)
-            : type === SUBGENRE_KEY && onMouseEnter
+            : type === FilterEnum.subgenre && onMouseEnter
               ? () => onMouseEnter(item.parent_genre_key!)
               : undefined
         }
@@ -106,12 +109,7 @@ export const FilterBrick = <ItemData extends Data>({
           )}
           <div className="flex flex-col items-center leading-4">
             <p style={{ fontWeight: "bold" }}>{item.name}</p>
-            {![
-              ACTOR_KEY,
-              DIRECTOR_KEY,
-              FilterEnum.shared_universe,
-              FilterEnum.visual_profile,
-            ].includes(type) && (
+            {!isFilters && (
               <p className="text-sm">({itemPercentMatchRange.join("-")})</p>
             )}
           </div>

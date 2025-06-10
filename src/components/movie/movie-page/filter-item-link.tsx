@@ -7,15 +7,7 @@ import { cn } from "@/lib/utils";
 import { getFilterColor, percentageMatchColor } from "../utils";
 
 import { TooltipWrapper } from "@/components/my-custom-ui/tooltip-wrapper";
-import {
-  ACTION_TIME_KEY,
-  KEYWORD_KEY,
-  SPEC_KEY,
-} from "@/components/super-search/filter-fetch-wrapper";
-import {
-  GENRE_KEY,
-  SUBGENRE_KEY,
-} from "@/components/super-search/genre-selector";
+
 import { FilterEnum, MovieFilterItem } from "@/orval_api/model";
 import { GenreContext } from "./genres-list";
 
@@ -42,20 +34,20 @@ export const FilterItemLink = ({ filterKey, data }: Props) => {
           }
           className={cn(
             "relative flex max-w-fit items-center rounded-xl border-2 leading-4 transition-shadow",
-            filterKey === GENRE_KEY &&
+            filterKey === FilterEnum.genre &&
               "hover:shadow-genre dark:border-genre hover:border-genre",
-            filterKey === SUBGENRE_KEY &&
+            filterKey === FilterEnum.subgenre &&
               "hover:shadow-subgenre dark:border-subgenre hover:border-subgenre",
-            filterKey === SPEC_KEY &&
+            filterKey === FilterEnum.specification &&
               "hover:shadow-specification dark:border-specification hover:border-specification",
-            filterKey === KEYWORD_KEY &&
+            filterKey === FilterEnum.keyword &&
               "hover:shadow-keyword dark:border-keyword hover:border-keyword",
-            filterKey === ACTION_TIME_KEY &&
+            filterKey === FilterEnum.action_time &&
               "hover:shadow-action-time dark:border-action-time hover:border-action-time",
-            filterKey === GENRE_KEY &&
+            filterKey === FilterEnum.genre &&
               hoveredSubgenre === item.key &&
               "shadow-genre border-genre",
-            filterKey === SUBGENRE_KEY &&
+            filterKey === FilterEnum.subgenre &&
               hoveredGenre === item.subgenre_parent_key &&
               "shadow-subgenre border-subgenre",
           )}

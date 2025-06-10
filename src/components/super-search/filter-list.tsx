@@ -8,13 +8,6 @@ import {
   SharedUniversePreCreateOut,
 } from "@/orval_api/model";
 import { PersonSelector } from "./person-selector";
-import {
-  SPEC_KEY,
-  KEYWORD_KEY,
-  ACTION_TIME_KEY,
-  ACTOR_KEY,
-  DIRECTOR_KEY,
-} from "./filter-fetch-wrapper";
 import { GenreSelector } from "./genre-selector";
 import { FilterSelector } from "./filter-selector";
 import { SearchControlButtons } from "./search-control-buttons";
@@ -54,12 +47,15 @@ export const FilterList = ({
 
       <GenreSelector genres={genres} />
 
-      <FilterSelector data={specifications} param_key={SPEC_KEY} />
-      <FilterSelector data={keywords} param_key={KEYWORD_KEY} />
-      <FilterSelector data={action_times} param_key={ACTION_TIME_KEY} />
+      <FilterSelector
+        data={specifications}
+        param_key={FilterEnum.specification}
+      />
+      <FilterSelector data={keywords} param_key={FilterEnum.keyword} />
+      <FilterSelector data={action_times} param_key={FilterEnum.action_time} />
 
-      <PersonSelector peopleList={actors} personKey={ACTOR_KEY} />
-      <PersonSelector peopleList={directors} personKey={DIRECTOR_KEY} />
+      <PersonSelector peopleList={actors} personKey={FilterEnum.actor} />
+      <PersonSelector peopleList={directors} personKey={FilterEnum.director} />
 
       <FilterSelector
         data={shared_universes}
