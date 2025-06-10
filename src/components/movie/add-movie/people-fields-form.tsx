@@ -215,7 +215,6 @@ export const PeopleFieldsForm = ({ actors, directors, characters }: Props) => {
               />
             </ResponsiveWrapper>
 
-            {/* TODO: Implement Drag&Drop */}
             <span className="text-gray-purple">{t("orderInfo")}</span>
 
             <AnimatePresence>

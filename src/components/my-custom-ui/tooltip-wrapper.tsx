@@ -33,7 +33,6 @@ export const TooltipWrapper = ({
     return null; // Do not render tooltip on mobile
   }
 
-  // TODO: add tooltip for mobile - dropdown or modal
   return (
     <TooltipProvider delayDuration={delay}>
       <Tooltip>

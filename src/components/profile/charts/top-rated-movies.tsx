@@ -11,10 +11,10 @@ import {
 } from "@/components/ui/card";
 import { POSTER_URL } from "@/lib/constants";
 import { cn } from "@/lib/utils";
-import { GenreChartDataList } from "@/orval_api/model";
+import { UserInfoReport } from "@/orval_api/model";
 
 type Props = {
-  radarData: GenreChartDataList;
+  radarData: UserInfoReport;
 };
 
 export const TopRatedMovies = ({ radarData }: Props) => {

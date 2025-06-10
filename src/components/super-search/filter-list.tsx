@@ -11,6 +11,7 @@ import { PersonSelector } from "./person-selector";
 import { GenreSelector } from "./genre-selector";
 import { FilterSelector } from "./filter-selector";
 import { SearchControlButtons } from "./search-control-buttons";
+import { Separator } from "../ui/separator";
 
 type Props = {
   genres: GenreOut[];
@@ -45,7 +46,11 @@ export const FilterList = ({
         param_key={FilterEnum.visual_profile}
       />
 
+      <Separator className="my-2" />
+
       <GenreSelector genres={genres} />
+
+      <Separator className="my-2" />
 
       <FilterSelector
         data={specifications}
@@ -54,8 +59,12 @@ export const FilterList = ({
       <FilterSelector data={keywords} param_key={FilterEnum.keyword} />
       <FilterSelector data={action_times} param_key={FilterEnum.action_time} />
 
+      <Separator className="my-2" />
+
       <PersonSelector peopleList={actors} personKey={FilterEnum.actor} />
       <PersonSelector peopleList={directors} personKey={FilterEnum.director} />
+
+      <Separator className="my-2" />
 
       <FilterSelector
         data={shared_universes}

@@ -1,5 +1,5 @@
 import {
-  GenreChartDataList,
+  UserInfoReport,
   Language,
   MovieOut,
   PageMoviePreviewOut,
@@ -66,7 +66,7 @@ test.describe("API", () => {
       },
     );
     expect(response.ok()).toBeTruthy();
-    const data: GenreChartDataList = await response.json();
+    const data: UserInfoReport = await response.json();
     expect(data).toBeDefined();
     expect(data).toHaveProperty("genre_data");
     expect(data.genre_data.length).toBeGreaterThan(0);

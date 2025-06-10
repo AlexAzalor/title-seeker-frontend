@@ -117,7 +117,7 @@ export default async function SuperSearchPage(props: {
           <h2 className="mx-auto mt-10">{t("notFound")}</h2>
         )}
 
-        {!!pages && total && total > 10 && (
+        {!!pages && total && total > DEFAULT_PAGE_SIZE && (
           <PaginationContoller
             uriKey="super-search"
             currentPage={page}

@@ -18,12 +18,12 @@ export default async function ProfilePage() {
   const locale = await getLocale();
   const lang = Language[locale as keyof typeof Language];
 
-  const { aPITimeRateMovie, aPIGenreRadarChart } = getUsers();
+  const { aPITimeRateMovie, aPIGetInfoReport } = getUsers();
   const { data } = await aPITimeRateMovie(
     { user_uuid: user.uuid, lang },
     backendURL,
   );
-  const { data: radarData } = await aPIGenreRadarChart(
+  const { data: radarData } = await aPIGetInfoReport(
     { user_uuid: user.uuid, lang },
     backendURL,
   );

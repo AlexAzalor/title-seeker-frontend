@@ -4,10 +4,7 @@ import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { formatDate } from "@/lib/utils";
-import {
-  GenreChartDataListTotalActorsCount,
-  Language,
-} from "@/orval_api/model";
+import { UserInfoReportTotalActorsCount, Language } from "@/orval_api/model";
 import { Separator } from "../ui/separator";
 
 type Props = {
@@ -15,7 +12,7 @@ type Props = {
   joinedDate: string;
   moviesRated: number;
   lastMovieRateDate: string | null;
-  totalActorsCount?: GenreChartDataListTotalActorsCount;
+  totalActorsCount?: UserInfoReportTotalActorsCount;
 };
 
 export const UserInfo = ({
