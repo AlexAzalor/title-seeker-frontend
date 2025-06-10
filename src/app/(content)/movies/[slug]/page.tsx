@@ -11,7 +11,7 @@ import {
 import { getMovies } from "@/orval_api/movies/movies";
 
 import { PageProps } from "@/types/general";
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { MovieRateBox } from "@/components/movie/movie-page/movie-rate-box";
 import { GenresList } from "@/components/movie/movie-page/genres-list";
 import { MovieFilterList } from "@/components/movie/movie-page/movie-filter-list";
@@ -34,7 +34,7 @@ export default async function DynamicPage({ params }: PageProps) {
   const { slug: movie_key } = await params;
 
   const session = await auth();
-
+  const t = await getTranslations("Rating");
   const locale = await getLocale();
   const lang = Language[locale as keyof typeof Language];
 
@@ -157,7 +157,7 @@ export default async function DynamicPage({ params }: PageProps) {
                     variant="link"
                     className="text-light-gray h-auto w-auto p-0"
                   >
-                    About rating system
+                    {t("about")}
                   </Button>
                 </Link>
               }

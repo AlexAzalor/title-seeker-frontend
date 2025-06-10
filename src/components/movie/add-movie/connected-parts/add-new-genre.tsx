@@ -110,6 +110,14 @@ export const AddNewGenre = ({
                 <span>{genre.name}</span>
               </Label>
             ))}
+
+          <span>
+            {errors.parent_genre_key && (
+              <div className="error-message absolute rounded-md px-2 text-sm">
+                {errors.parent_genre_key.message}
+              </div>
+            )}
+          </span>
         </div>
       )}
 

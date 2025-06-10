@@ -17,7 +17,7 @@ type Props = {
 function ModalWindow({ children, title, open, setOpen, description }: Props) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent>
+      <DialogContent className="max-h-200 overflow-auto lg:max-h-260">
         <DialogHeader>
           <DialogTitle className="mb-5 self-center text-3xl">
             {title}

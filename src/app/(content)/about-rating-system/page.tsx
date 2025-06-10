@@ -13,25 +13,27 @@ export default function AboutRatingSystemPage() {
             component: (
               <>
                 <h1 className="mb-2 text-center">{t("visualProfile.name")}</h1>
-                <p className="mb-1 font-semibold">
-                  {t("visualProfile.mainInfo")}
-                </p>
-                <p className="p-2 text-center font-semibold underline">
-                  {t("visualProfile.important")}
-                </p>
-                <p className="my-2 rounded-md bg-[#E6F2FF] text-center font-bold dark:bg-[#1E1C3D]">
-                  {t("visualProfile.criteria")}
-                </p>
 
-                <h2 className="mb-2 text-center">
+                <div className="flex flex-col items-center gap-4">
+                  <p className="font-semibold">{t("visualProfile.mainInfo")}</p>
+                  <p className="text-center font-semibold underline">
+                    {t("visualProfile.important")}
+                  </p>
+                  <p className="dark:bg-main-dark-hover bg-baby-blue rounded-md p-1 text-center font-bold">
+                    {t("visualProfile.criteria")}
+                  </p>
+                </div>
+
+                <h2 className="my-4 text-center">
                   {t("visualProfile.syndrome.name")}
                 </h2>
-                <p className="mb-1">{t("visualProfile.syndrome.info")}</p>
-                <p className="mb-1">
-                  {t("visualProfile.syndrome.movieSeries")}
-                </p>
-                <p className="mb-1">{t("visualProfile.syndrome.problem")}</p>
-                <p className="mb-1">{t("visualProfile.syndrome.example")}</p>
+
+                <div className="flex flex-col items-center gap-4">
+                  <p>{t("visualProfile.syndrome.info")}</p>
+                  <p>{t("visualProfile.syndrome.movieSeries")}</p>
+                  <p>{t("visualProfile.syndrome.problem")}</p>
+                  <p>{t("visualProfile.syndrome.example")}</p>
+                </div>
               </>
             ),
           },
@@ -42,7 +44,7 @@ export default function AboutRatingSystemPage() {
                 <h1 className="mb-2 text-center">{t("name")}</h1>
                 <p className="mb-1 font-semibold">{t("mainInfo")}</p>
 
-                <p className="my-2 rounded-md bg-[#E6F2FF] text-center font-bold dark:bg-[#1E1C3D]">
+                <p className="bg-baby-blue dark:bg-main-dark-hover my-2 rounded-md text-center font-bold">
                   {t("description")}
                 </p>
 

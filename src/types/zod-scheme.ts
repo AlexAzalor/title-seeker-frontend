@@ -71,11 +71,14 @@ export type PersonSchemeType = z.infer<typeof PersonScheme>;
 export const GenreScheme = z
   .object({
     key: z.string().trim(),
-    name_uk: z.string().min(1, { message: "name_uk is required" }).trim(),
-    name_en: z.string().min(1, { message: "name_en is required" }).trim(),
+    name_uk: z.string().min(1, { message: "Name uk is required" }).trim(),
+    name_en: z.string().min(1, { message: "Name en is required" }).trim(),
     description_uk: z.union([z.string().trim(), z.literal("")]),
     description_en: z.union([z.string().trim(), z.literal("")]),
-    parent_genre_key: z.string().trim().optional(),
+    parent_genre_key: z
+      .string({ message: "Choose a parent genre" })
+      .trim()
+      .optional(),
   })
   .refine((data) => (data.key = formatKey([data.name_en])));
 
