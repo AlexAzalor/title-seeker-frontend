@@ -27,6 +27,7 @@ export const FilterSchema = z.object({
   action_time: stringOrStringArray.optional(),
   actor: stringOrStringArray.optional(),
   director: stringOrStringArray.optional(),
+  character: stringOrStringArray.optional(),
   shared_universe: stringOrStringArray.optional(),
   visual_profile: stringOrStringArray.optional(),
 });

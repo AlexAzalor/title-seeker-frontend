@@ -55,6 +55,7 @@ export default async function SuperSearchPage(props: {
     action_time: actionTimeNamesList,
     actor: actorNamesList,
     director: directorNamesList,
+    character: characterNamesList,
     shared_universe: universesList,
     visual_profile: visualProfileList,
   } = FilterSchema.parse(searchParams);
@@ -78,6 +79,7 @@ export default async function SuperSearchPage(props: {
       action_time: actionTimeNamesList,
       actor: actorNamesList,
       director: directorNamesList,
+      character: characterNamesList,
       shared_universe: universesList,
       visual_profile: visualProfileList,
 

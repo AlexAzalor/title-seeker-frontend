@@ -573,6 +573,22 @@
   --movie-bg: #eafbea;
   --movie-border: #c2e6c2;
 }
+.actor-color-set {
+  --movie-text: #6b17a3;
+  --movie-bg: #f5eafb;
+  --movie-border: #e1c2e6;
+}
+
+.director-color-set {
+  --movie-text: #a3172c;
+  --movie-bg: #fbeaec;
+  --movie-border: #e6c2c9;
+}
+.character-color-set {
+  --movie-text: #17a39e;
+  --movie-bg: #eafafb;
+  --movie-border: #c2e4e6;
+}
 
 .error-message {
   color: var(--color-danger);

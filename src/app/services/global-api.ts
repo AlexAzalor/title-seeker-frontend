@@ -7,8 +7,9 @@ import axios, { AxiosResponse } from "axios";
 
 import { backendURL, HTTP_STATUS } from "@/lib/constants";
 import { ValidationError } from "@/types/general";
-import { Language, MovieSearchResult, TitleType } from "@/orval_api/model";
+import { Language, SearchResults, SearchType } from "@/orval_api/model";
 import { getMovies } from "@/orval_api/movies/movies";
+import { getPeople } from "@/orval_api/people/people";
 
 export const fetchSettings = cache(async () => {
   const locale = await getLocale();
@@ -32,13 +33,88 @@ export async function getSession() {
   return user;
 }
 
-export async function searchTitles(query: string, titleType: TitleType) {
+export async function searchTitles(query: string, searchType: SearchType) {
   const { lang, backendURL, unknownError } = await fetchSettings();
   const { aPISearch } = getMovies();
 
   try {
-    const result: AxiosResponse<MovieSearchResult> = await aPISearch(
-      { lang, query, title_type: titleType },
+    const result: AxiosResponse<SearchResults> = await aPISearch(
+      { lang, query, title_type: searchType },
+      {
+        baseURL: backendURL.baseURL,
+      },
+    );
+
+    return {
+      status: result.status,
+      data: result.data,
+    };
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
+  }
+}
+
+export async function searchActors(query: string) {
+  const { backendURL, unknownError } = await fetchSettings();
+  const { aPISearchActors } = getPeople();
+
+  try {
+    const result: AxiosResponse<SearchResults> = await aPISearchActors(
+      { query },
+      {
+        baseURL: backendURL.baseURL,
+      },
+    );
+
+    return {
+      status: result.status,
+      data: result.data,
+    };
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
+  }
+}
+
+export async function searchDirectors(query: string) {
+  const { backendURL, unknownError } = await fetchSettings();
+  const { aPISearchDirectors } = getPeople();
+
+  try {
+    const result: AxiosResponse<SearchResults> = await aPISearchDirectors(
+      { query },
+      {
+        baseURL: backendURL.baseURL,
+      },
+    );
+
+    return {
+      status: result.status,
+      data: result.data,
+    };
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
+  }
+}
+
+export async function searchCharacters(query: string) {
+  const { backendURL, unknownError } = await fetchSettings();
+  const { aPISearchCharacters } = getPeople();
+
+  try {
+    const result: AxiosResponse<SearchResults> = await aPISearchCharacters(
+      { query },
       {
         baseURL: backendURL.baseURL,
       },
