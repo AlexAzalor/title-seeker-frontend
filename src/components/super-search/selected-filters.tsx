@@ -2,10 +2,11 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
+import { useSubgenreStore } from "@/lib/store";
 import { EXACT_MATCH_KEY } from "./genre-selector";
 
 import { ResizableHandle, ResizablePanel } from "../ui/resizable";
-import { manageSearchParameters } from "@/lib/utils";
+import { extractWord, manageSearchParameters } from "@/lib/utils";
 
 import {
   FilterItemOut,
@@ -52,6 +53,7 @@ export const SelectedFilters = ({
 }: Props) => {
   const router = useRouter();
   const t = useTranslations("SuperSearch");
+  const { setSubgenres, subgenres: subgenresState } = useSubgenreStore();
 
   const currentSearchParams = useSearchParams();
   const selectedGenres = currentSearchParams.getAll(FilterEnum.genre);
@@ -74,6 +76,10 @@ export const SelectedFilters = ({
   );
 
   const deleteSubgenres = (genre: string, urlSearchParams: URLSearchParams) => {
+    setSubgenres(
+      subgenresState.filter((e) => e.parent_genre_key !== extractWord(genre)),
+    );
+
     if (subgenres.length) {
       const filtredSubgenres = subgenres.filter((subgenre) =>
         genre.includes(subgenre.parent_genre_key),

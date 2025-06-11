@@ -1,3 +1,4 @@
+import { SubgenreOut } from "@/orval_api/model";
 import { create } from "zustand";
 
 type Movie = {
@@ -44,4 +45,14 @@ export const useLastWatchedStore = create<LastWatchedStore>((set, get) => ({
       set({ hasLoaded: true });
     }
   },
+}));
+
+type SubgenreStore = {
+  subgenres: SubgenreOut[];
+  setSubgenres: (subgenres: SubgenreOut[]) => void;
+};
+
+export const useSubgenreStore = create<SubgenreStore>((set) => ({
+  subgenres: [],
+  setSubgenres: (subgenres) => set({ subgenres }),
 }));

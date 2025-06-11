@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { useTranslations } from "next-intl";
 import { FilterEnum, GenreOut, SubgenreOut } from "@/orval_api/model";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -12,6 +12,11 @@ import {
   manageSearchParameters,
 } from "@/lib/utils";
 import { ResponsiveWrapper } from "../my-custom-ui/responsive-wrapper";
+import { useSubgenreStore } from "@/lib/store";
+
+const checkGenreType = (item: GenreOut | SubgenreOut): item is GenreOut => {
+  return (item as GenreOut).subgenres !== undefined;
+};
 
 type Props = {
   genres: GenreOut[];
@@ -20,11 +25,14 @@ type Props = {
 export const EXACT_MATCH_KEY = "exact_match";
 
 export const GenreSelector = ({ genres }: Props) => {
+  console.log("=== GenreSelector rendered ===");
+
   const router = useRouter();
   const tFilters = useTranslations("Filters");
 
   const currentSearchParams = useSearchParams();
   const currentSelectedGenres = currentSearchParams.getAll(FilterEnum.genre);
+
   const currentSelectedSubgenres = currentSearchParams.getAll(
     FilterEnum.subgenre,
   );
@@ -37,27 +45,27 @@ export const GenreSelector = ({ genres }: Props) => {
     );
   }, [currentSelectedGenres, genres]);
 
-  const availableSubgenres = useMemo(() => {
+  const subgenres = useSubgenreStore((state) => state.subgenres);
+  const setSubgenres = useSubgenreStore((state) => state.setSubgenres);
+
+  const availableSubgenres = useCallback(() => {
     if (!currentSelectedGenres.length) {
+      setSubgenres([]);
       return [];
     }
 
     const subgenres = selectedGenres.map((e) => e.subgenres).flat();
+    setSubgenres(subgenres);
+  }, [currentSelectedGenres.length, selectedGenres, setSubgenres]);
 
-    return subgenres;
-  }, [currentSelectedGenres.length, selectedGenres]);
-
-  const [subgenres, setSubgenres] = useState<SubgenreOut[]>(
-    availableSubgenres || [],
-  );
-
-  // Reset subgenres when genres are cleared (Clear all filters button)
+  // The state of subgenres is managed in other components (e.g. Clear all filters),
+  // so search params and state need to be synchronized.
   useEffect(() => {
-    if (!currentSelectedGenres.length && subgenres.length) {
-      setSubgenres([]);
-      return;
+    if (currentSelectedGenres.length) {
+      availableSubgenres();
     }
-  }, [currentSelectedGenres.length, subgenres.length]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const deleteSubgenresParams = (
     value: string,
@@ -79,8 +87,8 @@ export const GenreSelector = ({ genres }: Props) => {
           }
         }
 
-        setSubgenres((prev) =>
-          prev.filter((subgenre) => subgenre.parent_genre_key !== value),
+        setSubgenres(
+          subgenres.filter((subgenre) => subgenre.parent_genre_key !== value),
         );
       }
     }
@@ -118,10 +126,6 @@ export const GenreSelector = ({ genres }: Props) => {
     }
   }
 
-  const checkGenreType = (item: GenreOut | SubgenreOut): item is GenreOut => {
-    return (item as GenreOut).subgenres !== undefined;
-  };
-
   return (
     <div className="flex flex-col gap-4">
       <ResponsiveWrapper title={tFilters("genre.name")}>
@@ -137,11 +141,11 @@ export const GenreSelector = ({ genres }: Props) => {
                 .find((genrePrev) => genrePrev === key)
             ) {
               if (genre && checkGenreType(genre) && genre.subgenres?.length) {
-                setSubgenres((prev) => [...prev, ...(genre.subgenres || [])]);
+                setSubgenres([...subgenres, ...(genre.subgenres || [])]);
               }
             } else {
-              setSubgenres((prev) =>
-                prev.filter(
+              setSubgenres(
+                subgenres.filter(
                   (subgenrePrev) => subgenrePrev.parent_genre_key !== key,
                 ),
               );

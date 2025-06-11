@@ -8,13 +8,14 @@ import { Label } from "../ui/label";
 import { Button } from "../ui/button";
 
 import { syncSearchParameters, manageSearchParameters } from "@/lib/utils";
+import { useSubgenreStore } from "@/lib/store";
 
 export const EXACT_MATCH_KEY = "exact_match";
 
 export const SearchControlButtons = () => {
   const router = useRouter();
   const t = useTranslations("SuperSearch");
-
+  const { setSubgenres } = useSubgenreStore();
   const currentSearchParams = useSearchParams();
 
   const currentExactMatch = currentSearchParams.get(EXACT_MATCH_KEY);
@@ -22,6 +23,7 @@ export const SearchControlButtons = () => {
   const clearAllFilters = () => {
     const { refreshPage } = syncSearchParameters(router);
     refreshPage();
+    setSubgenres([]);
   };
 
   function handleExactMatch() {
