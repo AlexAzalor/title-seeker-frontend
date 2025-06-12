@@ -178,7 +178,7 @@ export const VisualProfileMovieForm = ({ categories }: Props) => {
                   </div>
                 )}
               />
-              <Link href="/user/visual-profile" target="_blank">
+              <Link href="/account/admin/visual-profile" target="_blank">
                 <Button type="button" className="top-0 right-0" variant="link">
                   {t("addNew")}
                 </Button>

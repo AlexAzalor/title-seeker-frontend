@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
+import { ADMINS_ROLES, ALL_ROLES } from "@/middleware";
 
 import { ThemeSelector } from "./theme-selector";
 import { Button } from "../ui/button";
@@ -11,7 +12,6 @@ import { SidebarTrigger } from "../ui/sidebar";
 import { UserProfileMenu } from "../profile/menu-nav/user-profile-menu";
 import { LanguageSelector } from "./language-selector";
 import { RoleGate } from "../providers/role-gate";
-import { ADMINS_ROLES, ALL_ROLES } from "@/lib/utils";
 
 export const Header = () => {
   const t = useTranslations("HomePage");
@@ -56,14 +56,14 @@ export const Header = () => {
         <RoleGate allowedRoles={ADMINS_ROLES}>
           {() => (
             <>
-              <Link href="/add-movie" className="hidden lg:block">
+              <Link href="/owner/add-movie" className="hidden lg:block">
                 <Button>
                   <PlusCircle />
                   {t("addMovie")}
                 </Button>
               </Link>
 
-              <Link href="/quick-add-movie" className="hidden 2xl:block">
+              <Link href="/owner/quick-add-movie" className="hidden 2xl:block">
                 <Button>
                   <PlusCircle />
                   {t("quicklyAddMovie")}

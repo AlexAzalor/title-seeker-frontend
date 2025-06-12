@@ -2,6 +2,7 @@
 
 import { signOut } from "next-auth/react";
 import { LogOut } from "lucide-react";
+import { checkIfAdmin } from "@/middleware";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -21,7 +22,6 @@ import { useTranslations } from "next-intl";
 import { User as UserType } from "next-auth";
 import { UserExtended } from "@/auth";
 
-import { checkIfAdmin } from "@/lib/utils";
 import { ItemsGroup } from "./items-group";
 import {
   ADMIN_ITEMS,

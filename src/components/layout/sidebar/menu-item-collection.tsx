@@ -40,25 +40,25 @@ export function getMenuItems(
   const items = [
     {
       key: "profile",
-      href: "/user/" + menu("profile.key"),
+      href: "/account/user/" + menu("profile.key"),
       icon: <User />,
       label: menu("profile.label"),
     },
     {
       key: "dashboard",
-      href: "/user/" + menu("dashboard.key"),
+      href: "/account/user/" + menu("dashboard.key"),
       icon: <LayoutDashboard />,
       label: menu("dashboard.label"),
     },
     {
       key: "myLists",
-      href: "/user/" + menu("myLists.key"),
+      href: "/account/user/" + menu("myLists.key"),
       icon: <NotebookText />,
       label: menu("myLists.label"),
     },
     {
       key: "settings",
-      href: "/user/" + menu("settings.key"),
+      href: "/account/user/" + menu("settings.key"),
       icon: <Settings />,
       label: menu("settings.label"),
     },
@@ -67,7 +67,7 @@ export function getMenuItems(
 
     {
       key: "newMoviesToAdd",
-      href: "/user/" + menu("newMoviesToAdd.key"),
+      href: "/account/admin/" + menu("newMoviesToAdd.key"),
       icon: <FilePlus />,
       label: menu("newMoviesToAdd.label"),
       extraElement: !!moviesCount ? (
@@ -78,19 +78,19 @@ export function getMenuItems(
     },
     {
       key: "allUsers",
-      href: "/user/" + menu("allUsers.key"),
+      href: "/account/admin/" + menu("allUsers.key"),
       icon: <Users />,
       label: menu("allUsers.label"),
     },
     {
       key: "visualProfile",
-      href: "/user/" + menu("visualProfile.key"),
+      href: "/account/admin/" + menu("visualProfile.key"),
       icon: <Flower />,
       label: menu("visualProfile.label"),
     },
     {
       key: "titleFilters",
-      href: "/user/" + menu("titleFilters.key"),
+      href: "/account/admin/" + menu("titleFilters.key"),
       icon: <FileScan />,
       label: menu("titleFilters.label"),
     },

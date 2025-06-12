@@ -26,7 +26,7 @@ test("Should open user profile and navigate to other private links", async ({
   await expect(page.getByRole("button", { name: "CN" })).toBeVisible();
   await page.getByRole("button", { name: "CN" }).click();
   await page.getByRole("menuitem", { name: "Profile", exact: true }).click();
-  await page.waitForURL("/user/profile");
+  await page.waitForURL("/account/user/profile");
 
   await expect(page.getByLabel("genre-radar-chart")).toContainText(
     "Top 8 most popular movie genres",
@@ -447,7 +447,7 @@ test("Should logout", async ({ page }) => {
 
   await page.getByRole("button", { name: "CN" }).click();
   await page.getByRole("menuitem", { name: "Profile", exact: true }).click();
-  await page.waitForURL("/user/profile");
+  await page.waitForURL("/account/user/profile");
 
   await page.getByRole("button", { name: "CN" }).click();
   await page.getByRole("menuitem", { name: "Log out" }).click();

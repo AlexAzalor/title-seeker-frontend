@@ -1,12 +1,4 @@
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarGroup,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-} from "@/components/ui/sidebar";
+import { checkIfAdmin } from "@/middleware";
 import Link from "next/link";
 import { ThemeSelector } from "../theme-selector";
 import { Button } from "../../ui/button";
@@ -16,7 +8,16 @@ import { auth } from "@/auth";
 import { GoogleLogin } from "../google-login";
 import { SignOut } from "../../my-custom-ui/sign-out";
 import { LanguageSelector } from "../language-selector";
-import { checkIfAdmin } from "@/lib/utils";
+
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+} from "@/components/ui/sidebar";
 
 import { MenuItem, SidebarNavMenuGroup } from "./sidebar-nav-menu-group";
 import { UserProfileCard } from "./user-link";
@@ -52,7 +53,7 @@ export async function AppSidebar({
       {session ? (
         <SidebarHeader className="border-sidebar-border mt-3 border-b">
           {isAdmin && (
-            <Link href="/quick-add-movie" className="mb-2">
+            <Link href="/account/admin/quick-add-movie" className="mb-2">
               <Button className="w-full">
                 <PlusCircle />
                 Quickly add new Movie
@@ -61,7 +62,7 @@ export async function AppSidebar({
           )}
 
           <SidebarMenuButton>
-            <Link href="/user/profile">
+            <Link href="/account/user/profile">
               <UserProfileCard
                 name={session.user.name ?? ""}
                 image={session.user.image ?? ""}

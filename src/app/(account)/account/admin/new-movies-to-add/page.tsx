@@ -36,7 +36,7 @@ export default async function NewMoviesToAddPage() {
         {data.quick_movies.map((movie) => (
           <Link
             href={{
-              pathname: "/add-movie",
+              pathname: "/owner/add-movie",
               query: { quick_movie_key: movie.key },
             }}
             key={movie.key}
