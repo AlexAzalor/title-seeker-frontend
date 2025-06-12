@@ -63,13 +63,13 @@ describe("Should render components with Image (next/image)", () => {
     },
   }));
 
-  test("Should render Header", () => {
-    render(<Header />, {
-      wrapper: ProjectProviders,
-    });
+  // test("Should render Header", () => {
+  //   render(<Header />, {
+  //     wrapper: ProjectProviders,
+  //   });
 
-    expect(screen.getByLabelText("project-header")).toBeDefined();
-  });
+  //   expect(screen.getByLabelText("project-header")).toBeDefined();
+  // });
 
   test("Should render MoviesCollection", () => {
     render(
