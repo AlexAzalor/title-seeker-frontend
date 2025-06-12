@@ -11,7 +11,7 @@ import AuthProvider from "@/components/providers/auth-provider";
 import { Toaster } from "@/components/ui/sonner";
 import Script from "next/script";
 import { SidebarProvider } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/layout/app-sidebar";
+import { AppSidebar } from "@/components/layout/sidebar/app-sidebar";
 // import { after } from "next/server";
 
 const sourceSans3 = Source_Sans_3({

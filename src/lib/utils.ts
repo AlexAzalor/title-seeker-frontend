@@ -3,6 +3,7 @@ import {
   Language,
   PageMoviePreviewOutPage,
   PageMoviePreviewOutPages,
+  UserRole,
 } from "@/orval_api/model";
 
 import { clsx, type ClassValue } from "clsx";
@@ -11,6 +12,15 @@ import { ReadonlyURLSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import { twMerge } from "tailwind-merge";
 import { APISuperSearchMoviesParams } from "@/orval_api/model/aPISuperSearchMoviesParams";
+
+export const ADMINS_ROLES: UserRole[] = [UserRole.admin, UserRole.owner];
+export const ALL_ROLES: UserRole[] = [...ADMINS_ROLES, UserRole.user];
+
+export const checkIfAdmin = (role?: UserRole) => {
+  if (!role) return false;
+  return ADMINS_ROLES.includes(role);
+};
+export const checkIfOwner = (role?: UserRole) => role === UserRole.owner;
 
 type SuperSearchParams = keyof APISuperSearchMoviesParams;
 const PARAM_KEYS: SuperSearchParams[] = [

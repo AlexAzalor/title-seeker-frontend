@@ -1,53 +1,52 @@
 import Link from "next/link";
 
 import { useTranslations } from "next-intl";
-import { SortBy, SortOrder } from "@/orval_api/model";
-import { AdminSidebarNav } from "@/components/profile/admin/admin-sidebar-nav";
-import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from "@/lib/constants";
+import { AdminPanel } from "@/components/profile/admin/admin-panel";
+import { RoleGate } from "@/components/providers/role-gate";
+import { Separator } from "@/components/ui/separator";
+import { ADMINS_ROLES } from "@/lib/utils";
+import {
+  getMenuItems,
+  OTHER_ITEMS,
+  USER_ITEMS,
+} from "@/components/layout/sidebar/menu-item-collection";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const t = useTranslations("MenuItems");
+  const menuItems = getMenuItems(t, USER_ITEMS);
+  const otherItems = getMenuItems(t, OTHER_ITEMS);
 
   return (
     <div className="flex min-h-screen w-full gap-10 p-4 2xl:p-20">
-      <div className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border hidden max-h-120 w-60 flex-col justify-between rounded-[34px] border p-4 transition-colors duration-300 2xl:flex">
-        <ul className="grid gap-2">
-          <Link
-            href="/user/profile"
-            className="dark:hover:bg-main-dark-hover hover:bg-white-dark cursor-pointer rounded-[6px] px-2 py-1 text-lg transition-colors"
-          >
-            {t("profile.label")}
-          </Link>
-          <Link
-            href="/user/dashboard"
-            className="dark:hover:bg-main-dark-hover hover:bg-white-dark cursor-pointer rounded-[6px] px-2 py-1 text-lg transition-colors"
-          >
-            {t("dashboard.label")}
-          </Link>
-          <Link
-            href={{
-              pathname: "/user/my-lists",
-              query: {
-                sort_by: SortBy.rated_at,
-                sort_order: SortOrder.desc,
-                page: DEFAULT_PAGE,
-                size: DEFAULT_PAGE_SIZE,
-              },
-            }}
-            className="dark:hover:bg-main-dark-hover hover:bg-white-dark cursor-pointer rounded-[6px] px-2 py-1 text-lg transition-colors"
-          >
-            {t("myLists.label")}
-          </Link>
-        </ul>
+      <div className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border hidden max-h-fit w-60 flex-col justify-between rounded-[34px] border p-4 transition-colors duration-300 2xl:flex">
+        <div className="grid gap-2">
+          {menuItems.map((e) => (
+            <Link
+              key={e.key}
+              href={e.href}
+              className="dark:hover:bg-main-dark-hover hover:bg-white-dark relative cursor-pointer rounded-[6px] px-2 py-1 text-lg transition-colors"
+            >
+              {e.label}
+              {e.extraElement}
+            </Link>
+          ))}
+        </div>
 
-        <AdminSidebarNav />
+        <RoleGate allowedRoles={ADMINS_ROLES}>
+          {(session) => <AdminPanel session={session} />}
+        </RoleGate>
 
-        <Link
-          href="/user/settings"
-          className="dark:hover:bg-main-dark-hover hover:bg-white-dark cursor-pointer rounded-[6px] px-2 py-1 text-lg transition-colors"
-        >
-          {t("settings.label")}
-        </Link>
+        <Separator className="my-4" />
+
+        {otherItems.map((e) => (
+          <Link
+            key={e.key}
+            href={e.href}
+            className="dark:hover:bg-main-dark-hover hover:bg-white-dark cursor-pointer rounded-[6px] px-2 py-1 text-lg transition-colors"
+          >
+            {e.label}
+          </Link>
+        ))}
       </div>
 
       <div className="flex-1">{children}</div>

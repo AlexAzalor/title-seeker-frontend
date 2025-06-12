@@ -1,4 +1,3 @@
-import { Session } from "next-auth";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
@@ -9,15 +8,12 @@ import { PlusCircle } from "lucide-react";
 import { Search } from "./search";
 import { POSTER_URL } from "@/lib/constants";
 import { SidebarTrigger } from "../ui/sidebar";
-import { GoogleLogin } from "./google-login";
-import { UserProfileMenu } from "../profile/user-profile-menu";
+import { UserProfileMenu } from "../profile/menu-nav/user-profile-menu";
 import { LanguageSelector } from "./language-selector";
+import { RoleGate } from "../providers/role-gate";
+import { ADMINS_ROLES, ALL_ROLES } from "@/lib/utils";
 
-type Props = {
-  session: Session | null;
-};
-
-export const Header = ({ session }: Props) => {
+export const Header = () => {
   const t = useTranslations("HomePage");
   const navigationKeys = Object.keys(t.raw("navigation"));
 
@@ -57,23 +53,25 @@ export const Header = ({ session }: Props) => {
       <Search posterURL={POSTER_URL ?? "NO POSTER"} />
 
       <div className="flex items-center gap-2">
-        {session?.user.role === "owner" && (
-          <>
-            <Link href="/add-movie" className="hidden lg:block">
-              <Button>
-                <PlusCircle />
-                {t("addMovie")}
-              </Button>
-            </Link>
+        <RoleGate allowedRoles={ADMINS_ROLES}>
+          {() => (
+            <>
+              <Link href="/add-movie" className="hidden lg:block">
+                <Button>
+                  <PlusCircle />
+                  {t("addMovie")}
+                </Button>
+              </Link>
 
-            <Link href="/quick-add-movie" className="hidden 2xl:block">
-              <Button>
-                <PlusCircle />
-                {t("quicklyAddMovie")}
-              </Button>
-            </Link>
-          </>
-        )}
+              <Link href="/quick-add-movie" className="hidden 2xl:block">
+                <Button>
+                  <PlusCircle />
+                  {t("quicklyAddMovie")}
+                </Button>
+              </Link>
+            </>
+          )}
+        </RoleGate>
 
         <div className="hidden 2xl:block">
           <LanguageSelector />
@@ -82,12 +80,11 @@ export const Header = ({ session }: Props) => {
         <div className="hidden 2xl:block">
           <ThemeSelector />
         </div>
-        {!session && (
-          <div className="hidden 2xl:block">{!session && <GoogleLogin />}</div>
-        )}
 
         <div className="hidden 2xl:block">
-          {session?.user && <UserProfileMenu user={session.user} />}
+          <RoleGate allowedRoles={ALL_ROLES} showLogin>
+            {(session) => <UserProfileMenu user={session.user} />}
+          </RoleGate>
         </div>
 
         <div className="2xl:hidden">
