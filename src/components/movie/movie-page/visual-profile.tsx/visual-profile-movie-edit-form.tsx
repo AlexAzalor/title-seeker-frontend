@@ -115,7 +115,7 @@ export const VisualProfileEditForm = ({
 
   return (
     <FormWrapper onSubmit={handleSubmit(onSubmit)} isSubmitting={isSubmitting}>
-      <Link href="/user/visual-profile" target="_blank">
+      <Link href="/account/admin/visual-profile" target="_blank">
         <Button type="button" variant="link">
           {t("addNew")}
         </Button>

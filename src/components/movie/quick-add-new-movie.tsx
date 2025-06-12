@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import type { Session } from "next-auth";
+import { checkIfAdmin } from "@/middleware";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -63,7 +64,7 @@ export const QuicklyAddNewMovie = () => {
     if (response.status === 201) {
       toast.success(response?.message);
 
-      if (sessionData?.user.role === "owner") {
+      if (sessionData && checkIfAdmin(sessionData.user.role)) {
         await update({
           user: {
             ...sessionData.user,

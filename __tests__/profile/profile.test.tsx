@@ -2,19 +2,32 @@ import { expect, test } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { Language } from "@/orval_api/model";
 
-import { AdminSidebarNav } from "@/components/profile/admin/admin-sidebar-nav";
+import { AdminPanel } from "@/components/profile/admin/admin-panel";
 import { MyMovies } from "@/components/profile/my-lists/my-movies";
 import { UserSettings } from "@/components/profile/settings/user-settings";
 import { UserInfo } from "@/components/profile/user-info";
-import { UserProfileMenu } from "@/components/profile/user-profile-menu";
+import { UserProfileMenu } from "@/components/profile/menu-nav/user-profile-menu";
 import { ProjectProviders, TEST_USER } from "../page.test";
 import { VisualProfileEditPage } from "@/components/profile/admin/visual-profile/visual-profile";
 import { TitleFilterSelector } from "@/components/profile/admin/title-filters/title-filter-selector";
 
 test("Should render AdminSidebarNav", () => {
-  render(<AdminSidebarNav />, {
-    wrapper: ProjectProviders,
-  });
+  render(
+    <AdminPanel
+      session={{
+        expires: "",
+        user: {
+          my_language: Language.uk,
+          uuid: "uuid",
+          role: "admin",
+          new_movies_to_add_count: 1,
+        },
+      }}
+    />,
+    {
+      wrapper: ProjectProviders,
+    },
+  );
 
   expect(screen.getByLabelText("admin-sidebar-nav")).toBeDefined();
 });

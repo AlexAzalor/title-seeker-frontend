@@ -2,6 +2,7 @@ import { auth } from "@/auth";
 import { Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { checkIfAdmin, checkIfOwner } from "@/middleware";
 import { AVATAR_URL, backendURL, POSTER_URL } from "@/lib/constants";
 import {
   APIGetSimilarMoviesParams,
@@ -77,6 +78,9 @@ export default async function DynamicPage({ params }: PageProps) {
     );
   };
 
+  const isAdmin = checkIfAdmin(session?.user.role);
+  const isOwner = checkIfOwner(session?.user.role);
+
   return (
     <>
       <title>{`${data.title} (${new Date(data.release_date).getFullYear()}) | Title Seeker`}</title>
@@ -132,7 +136,7 @@ export default async function DynamicPage({ params }: PageProps) {
             </div>
           </div>
 
-          <MovieInfo data={data} lang={lang} userRole={session?.user.role} />
+          <MovieInfo data={data} lang={lang} isOwner={isOwner} />
 
           <div className="mb-4 flex flex-col justify-between gap-6 lg:flex-row">
             <div className="pt-6">
@@ -169,7 +173,7 @@ export default async function DynamicPage({ params }: PageProps) {
                       key="visual-profile"
                       movieKey={data.key}
                       radarData={data.visual_profile}
-                      userRole={session?.user.role}
+                      isOwner={isOwner}
                     />
                   ),
                 },
@@ -180,7 +184,7 @@ export default async function DynamicPage({ params }: PageProps) {
                       key="movie-rate-box"
                       movieKey={data.key}
                       ratingType={data.rating_criterion}
-                      isOwner={session?.user.role === "owner"}
+                      isAdmin={isAdmin}
                       isUserRated={!!data.user_rating}
                       userRatingData={data.user_rating_criteria}
                       overallRatingCriteria={

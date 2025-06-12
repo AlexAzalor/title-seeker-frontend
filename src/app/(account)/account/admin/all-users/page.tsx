@@ -1,4 +1,4 @@
-import { auth } from "@/auth";
+import { getAdminOrRedirect } from "@/app/services/admin-api";
 import { backendURL } from "@/lib/constants";
 import { formatDate } from "@/lib/utils";
 import { Language } from "@/orval_api/model";
@@ -6,17 +6,14 @@ import { getUsers } from "@/orval_api/users/users";
 import { getLocale, getTranslations } from "next-intl/server";
 
 export default async function AllUsersPage() {
-  const session = await auth();
-  if (session?.user.role !== "owner") {
-    return null;
-  }
+  const admin = await getAdminOrRedirect();
 
   const t = await getTranslations("AllUsers");
   const locale = (await getLocale()) as Language;
 
   const { aPIGetAllUsers } = getUsers();
   const { data: users } = await aPIGetAllUsers(
-    { user_uuid: session.user.uuid },
+    { user_uuid: admin.uuid },
     backendURL,
   );
 

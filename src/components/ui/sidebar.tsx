@@ -519,20 +519,34 @@ function SidebarMenuButton({
   const { isMobile, state, setOpenMobile } = useSidebar();
 
   // Own solution to handle the click event.
-  const handleClick = React.useCallback(
-    (event: React.MouseEvent<HTMLButtonElement>) => {
-      if (props.onClick) {
-        props.onClick(event);
-      }
+  // Not work...
+  // const handleClick = React.useCallback(
+  //   (event: React.MouseEvent<HTMLButtonElement>) => {
+  //     console.log("1");
 
-      if (closeOnClick && !event.defaultPrevented) {
-        if (isMobile) {
-          setOpenMobile(false);
-        }
-      }
-    },
-    [closeOnClick, isMobile, props, setOpenMobile],
-  );
+  //     if (props.onClick) {
+  //       props.onClick(event);
+  //     }
+  //     console.log("2");
+
+  //     if (closeOnClick && !event.defaultPrevented) {
+  //       console.log("3");
+
+  //       if (isMobile) {
+  //         console.log("4");
+
+  //         setOpenMobile(false);
+  //       }
+  //     }
+  //   },
+  //   [closeOnClick, isMobile, props, setOpenMobile],
+  // );
+
+  // My custom solution to handle the click event.
+  const handleClose = React.useCallback(() => {
+    setOpenMobile(false);
+  }, [setOpenMobile]);
+
   const button = (
     <Comp
       data-slot="sidebar-menu-button"
@@ -540,7 +554,7 @@ function SidebarMenuButton({
       data-size={size}
       data-active={isActive}
       className={cn(sidebarMenuButtonVariants({ variant, size }), className)}
-      onClick={handleClick}
+      onClick={handleClose}
       {...props}
     />
   );

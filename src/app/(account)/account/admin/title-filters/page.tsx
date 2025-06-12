@@ -1,12 +1,8 @@
-import { redirect } from "next/navigation";
-import { auth } from "@/auth";
 import { TitleFilterSelector } from "@/components/profile/admin/title-filters/title-filter-selector";
+import { getAdminOrRedirect } from "@/app/services/admin-api";
 
 export default async function TitleFiltersPage() {
-  const session = await auth();
-  if (session?.user.role !== "owner") {
-    return redirect("/");
-  }
+  await getAdminOrRedirect();
 
   return (
     <div>

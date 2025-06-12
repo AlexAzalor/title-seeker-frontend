@@ -14,14 +14,7 @@ import {
   searchTitles,
 } from "@/app/services/global-api";
 
-import {
-  BadgeJapaneseYenIcon,
-  Film,
-  Gamepad2,
-  ScanSearch,
-  Search as SearchIcon,
-  Tv,
-} from "lucide-react";
+import { ScanSearch, Search as SearchIcon } from "lucide-react";
 
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
@@ -32,16 +25,11 @@ import { useMediaQuery } from "@/hooks/use-media-query";
 import { CustomModal } from "../my-custom-ui/custom-modal";
 import { useModal } from "@/hooks/use-modal";
 import { Separator } from "../ui/separator";
+import { CONTENT_ICONS } from "./sidebar/menu-item-collection";
 
 // Her (2013), It (2017)
 const MIN_CHARACTERS = 1;
 
-export const CONTENT_ICONS = {
-  movies: <Film />,
-  tvseries: <Tv />,
-  games: <Gamepad2 />,
-  anime: <BadgeJapaneseYenIcon />,
-};
 type Props = {
   posterURL: string;
 };

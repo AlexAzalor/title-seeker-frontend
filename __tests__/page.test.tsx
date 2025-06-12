@@ -64,7 +64,7 @@ describe("Should render components with Image (next/image)", () => {
   }));
 
   test("Should render Header", () => {
-    render(<Header session={null} />, {
+    render(<Header />, {
       wrapper: ProjectProviders,
     });
 

@@ -2,6 +2,7 @@
 
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
+import { checkIfAdmin } from "@/middleware";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { formatDate } from "@/lib/utils";
 import { UserInfoReportTotalActorsCount, Language } from "@/orval_api/model";
@@ -59,7 +60,7 @@ export const UserInfo = ({
             <span className="font-bold">{moviesRated}</span>
           </div>
 
-          {!!totalActorsCount && user.role === "owner" && (
+          {!!totalActorsCount && checkIfAdmin(user.role) && (
             <div>
               <p>{t("totalActors")}:</p>
               <span className="font-bold">{totalActorsCount}</span>

@@ -1,6 +1,7 @@
 import { useSession } from "next-auth/react";
 import { memo } from "react";
 import { useTranslations } from "next-intl";
+import { checkIfAdmin } from "@/middleware";
 import { Check, Info } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -41,7 +42,7 @@ const ItemsSelector = <Datum extends ItemFields>({
   const session = useSession();
   const t = useTranslations("MenuItems");
 
-  const isAdmin = session.data?.user.role === "owner";
+  const isAdmin = checkIfAdmin(session.data?.user.role);
 
   return (
     <>

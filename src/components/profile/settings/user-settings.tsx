@@ -6,11 +6,12 @@ import { Session } from "next-auth";
 import { signOut, useSession } from "next-auth/react";
 import { deleteProfile, setLanguage } from "@/app/services/user-api";
 
-import { Language, UserRole } from "@/orval_api/model";
+import { Language } from "@/orval_api/model";
 import { Button } from "@/components/ui/button";
 import ModalWindow from "@/components/my-custom-ui/modal-window";
 import { setUserLocale } from "@/app/services/locale";
 import { Separator } from "@/components/ui/separator";
+import { checkIfOwner } from "@/middleware";
 
 export const UserSettings = () => {
   const t = useTranslations("Settings");
@@ -22,7 +23,7 @@ export const UserSettings = () => {
     return null;
   }
 
-  const isOwner = data.user.role === UserRole.owner;
+  const isOwner = checkIfOwner(data.user.role);
 
   const handleOpen = () => {
     setOpen(true);

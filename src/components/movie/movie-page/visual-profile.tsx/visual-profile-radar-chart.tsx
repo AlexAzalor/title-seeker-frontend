@@ -18,7 +18,6 @@ import {
 import {
   Language,
   TitleVisualProfileOut,
-  UserRole,
   VisualProfileData,
 } from "@/orval_api/model";
 import { COLORS } from "@/lib/colors";
@@ -27,19 +26,19 @@ import { useModal } from "@/hooks/use-modal";
 import { Suspense, useState } from "react";
 import { CustomModal } from "@/components/my-custom-ui/custom-modal";
 import { VisualProfileEditForm } from "./visual-profile-movie-edit-form";
-import { getTitleCategories } from "@/app/services/user-api";
+import { getVisualProfileCategories } from "@/app/services/user-api";
 import { TooltipWrapper } from "@/components/my-custom-ui/tooltip-wrapper";
 
 type Props = {
   radarData: TitleVisualProfileOut;
-  userRole?: UserRole;
+  isOwner?: boolean;
   movieKey: string;
 };
 
 export function VisualProfileRadarChart({
   movieKey,
   radarData,
-  userRole,
+  isOwner,
 }: Props) {
   const { isOpen, open, close } = useModal();
   const [categories, setCategories] = useState<VisualProfileData[]>([]);
@@ -55,7 +54,7 @@ export function VisualProfileRadarChart({
   } satisfies ChartConfig;
 
   const geCategories = async () => {
-    const res = await getTitleCategories(lang);
+    const res = await getVisualProfileCategories(lang);
 
     if (Array.isArray(res)) {
       setCategories(res);
@@ -77,7 +76,7 @@ export function VisualProfileRadarChart({
           <TooltipWrapper content={radarData.description} className="w-100" />
         </div>
 
-        {userRole === "owner" && (
+        {isOwner && (
           <Button
             variant="link"
             className="absolute top-0 right-0"

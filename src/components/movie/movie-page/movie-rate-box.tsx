@@ -17,14 +17,14 @@ import { RatingDataOut } from "../add-movie/key-fields-form";
 type Props = {
   movieKey: string;
   ratingType: RatingCriterion;
-  isOwner: boolean;
+  isAdmin: boolean;
   isUserRated: boolean;
   userRatingData?: MovieOutUserRatingCriteria;
   overallRatingCriteria: UserRatingCriteria;
 };
 export const MovieRateBox = ({
   movieKey,
-  isOwner,
+  isAdmin,
   userRatingData,
   isUserRated,
   overallRatingCriteria,
@@ -38,7 +38,7 @@ export const MovieRateBox = ({
   });
 
   const submitRating = async (userRatingInput: UserRateMovieIn) => {
-    if (isUserRated || isOwner) {
+    if (isUserRated || isAdmin) {
       try {
         await updateRateMovie(userRatingInput);
         toast.success("Rating UPDATED");

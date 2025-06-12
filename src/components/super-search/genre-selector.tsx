@@ -25,8 +25,6 @@ type Props = {
 export const EXACT_MATCH_KEY = "exact_match";
 
 export const GenreSelector = ({ genres }: Props) => {
-  console.log("=== GenreSelector rendered ===");
-
   const router = useRouter();
   const tFilters = useTranslations("Filters");
 

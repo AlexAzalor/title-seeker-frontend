@@ -53,7 +53,7 @@ export default async function MyListsPage(props: {
 
   return (
     <SortingControls
-      uriKey="user/my-lists"
+      uriKey="account/user/my-lists"
       currentPage={page}
       pageSize={size}
       query={""}
@@ -66,7 +66,7 @@ export default async function MyListsPage(props: {
 
           {pages > 1 && (
             <PaginationContoller
-              uriKey="user/my-lists"
+              uriKey="account/user/my-lists"
               currentPage={page}
               totalPages={pages}
               pageSize={size}

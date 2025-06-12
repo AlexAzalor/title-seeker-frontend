@@ -1,23 +1,18 @@
-import { auth } from "@/auth";
 import Link from "next/link";
+import { checkIfOwner } from "@/middleware";
 import { getTranslations } from "next-intl/server";
+import { cn } from "@/lib/utils";
 import { backendURL } from "@/lib/constants";
 import { getMovies } from "@/orval_api/movies/movies";
+import { getAdminOrRedirect } from "@/app/services/admin-api";
 
 export default async function NewMoviesToAddPage() {
-  const session = await auth();
+  const admin = await getAdminOrRedirect();
+
   const t = await getTranslations("QuickMovie");
-
-  if (!session?.user && session?.user.role !== "owner") {
-    return null;
-  }
-
   const { aPIMoviesToAdd } = getMovies();
 
-  const { data } = await aPIMoviesToAdd(
-    { user_uuid: session?.user.uuid },
-    backendURL,
-  );
+  const { data } = await aPIMoviesToAdd({ user_uuid: admin.uuid }, backendURL);
 
   if (!data.quick_movies.length) {
     return (
@@ -36,11 +31,14 @@ export default async function NewMoviesToAddPage() {
         {data.quick_movies.map((movie) => (
           <Link
             href={{
-              pathname: "/add-movie",
+              pathname: "/owner/add-movie",
               query: { quick_movie_key: movie.key },
             }}
             key={movie.key}
-            className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border size-fit rounded-[16px] border p-4"
+            className={cn(
+              "shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border size-fit rounded-[16px] border p-4",
+              !checkIfOwner(admin.role) && "pointer-events-none",
+            )}
           >
             <div className="text-xl">{movie.title_en}</div>
             <div>

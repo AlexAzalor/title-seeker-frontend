@@ -1,12 +1,13 @@
 "use server";
 
 import { auth } from "@/auth";
+import { redirect } from "next/navigation";
+import { checkIfAdmin } from "@/middleware";
 import axios, { AxiosResponse } from "axios";
 import { fetchSettings } from "./global-api";
 import type { ValidationError } from "@/types/general";
 import {
   FilterList,
-  UserRole,
   type ActorOut,
   type BodyAPICreateMovie,
   type CharacterFormIn,
@@ -44,11 +45,21 @@ export async function getAdmin() {
 
   const { user } = session;
 
-  if (user.role !== UserRole.admin && user.role !== UserRole.owner) {
+  if (!checkIfAdmin(user.role)) {
     return null;
   }
 
   return user;
+}
+
+export async function getAdminOrRedirect() {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return redirect("/");
+  }
+
+  return admin;
 }
 
 export async function createMovie(
@@ -155,7 +166,7 @@ export async function getGenresList() {
 
   try {
     const response: AxiosResponse<FilterList> = await aPIGetGenres(
-      { lang, user_uuid: admin.uuid },
+      { lang },
       backendURL,
     );
 
@@ -180,7 +191,7 @@ export async function getSubgenresList() {
 
   try {
     const response: AxiosResponse<FilterList> = await aPIGetSubgenres(
-      { lang, user_uuid: admin.uuid },
+      { lang },
       backendURL,
     );
 
@@ -630,7 +641,7 @@ export async function getSpecifications() {
 
   try {
     const response: AxiosResponse<FilterList> = await aPIGetSpecifications(
-      { lang, user_uuid: admin.uuid },
+      { lang },
       backendURL,
     );
 
@@ -656,7 +667,7 @@ export async function getKeywords() {
 
   try {
     const response: AxiosResponse<FilterList> = await aPIGetKeywords(
-      { lang, user_uuid: admin.uuid },
+      { lang },
       backendURL,
     );
 
@@ -682,7 +693,7 @@ export async function getActionTimes() {
 
   try {
     const response: AxiosResponse<FilterList> = await aPIGetActionTimes(
-      { lang, user_uuid: admin.uuid },
+      { lang },
       backendURL,
     );
 

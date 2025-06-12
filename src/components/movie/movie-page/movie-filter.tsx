@@ -3,6 +3,7 @@
 import { Suspense, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
+import { checkIfAdmin } from "@/middleware";
 import { InfoIcon } from "lucide-react";
 import { useModal } from "@/hooks/use-modal";
 import { cn } from "@/lib/utils";
@@ -130,7 +131,7 @@ export const MovieFilter = ({
             <InfoIcon className="h-4 w-4" />
           </TooltipWrapper>
 
-          {session.data?.user.role === "owner" &&
+          {checkIfAdmin(session.data?.user.role) &&
             filterKey !== FilterEnum.subgenre && (
               <Button variant="link" className="h-7 p-0" onClick={handleEdit}>
                 Edit

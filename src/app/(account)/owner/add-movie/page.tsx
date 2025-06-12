@@ -1,5 +1,4 @@
-import { redirect } from "next/navigation";
-import { auth } from "@/auth";
+import { getAdminOrRedirect } from "@/app/services/admin-api";
 import { getLocale } from "next-intl/server";
 import { backendURL } from "@/lib/constants";
 import type { SearchParams } from "@/types/general";
@@ -11,11 +10,7 @@ import { MovieFormWizard } from "@/components/movie/add-movie/movie-form-wizard"
 export default async function AddMoviePage(props: {
   searchParams: SearchParams;
 }) {
-  const session = await auth();
-
-  if (session?.user.role !== "owner") {
-    return redirect("/");
-  }
+  const admin = await getAdminOrRedirect();
 
   const searchParams = await props.searchParams;
   const quickMovieKey =
@@ -46,7 +41,7 @@ export default async function AddMoviePage(props: {
     {
       lang,
       quick_movie_key: quickMovieKey,
-      user_uuid: session?.user.uuid,
+      user_uuid: admin.uuid,
     },
     backendURL,
   );
