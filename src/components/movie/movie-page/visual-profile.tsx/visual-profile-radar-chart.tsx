@@ -18,7 +18,6 @@ import {
 import {
   Language,
   TitleVisualProfileOut,
-  UserRole,
   VisualProfileData,
 } from "@/orval_api/model";
 import { COLORS } from "@/lib/colors";
@@ -32,14 +31,14 @@ import { TooltipWrapper } from "@/components/my-custom-ui/tooltip-wrapper";
 
 type Props = {
   radarData: TitleVisualProfileOut;
-  userRole?: UserRole;
+  isAdmin?: boolean;
   movieKey: string;
 };
 
 export function VisualProfileRadarChart({
   movieKey,
   radarData,
-  userRole,
+  isAdmin,
 }: Props) {
   const { isOpen, open, close } = useModal();
   const [categories, setCategories] = useState<VisualProfileData[]>([]);
@@ -77,7 +76,7 @@ export function VisualProfileRadarChart({
           <TooltipWrapper content={radarData.description} className="w-100" />
         </div>
 
-        {userRole === "owner" && (
+        {isAdmin && (
           <Button
             variant="link"
             className="absolute top-0 right-0"

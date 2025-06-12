@@ -1,23 +1,16 @@
-import { auth } from "@/auth";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { backendURL } from "@/lib/constants";
 import { getMovies } from "@/orval_api/movies/movies";
+import { getAdminOrRedirect } from "@/app/services/admin-api";
 
 export default async function NewMoviesToAddPage() {
-  const session = await auth();
+  const admin = await getAdminOrRedirect();
+
   const t = await getTranslations("QuickMovie");
-
-  if (!session?.user && session?.user.role !== "owner") {
-    return null;
-  }
-
   const { aPIMoviesToAdd } = getMovies();
 
-  const { data } = await aPIMoviesToAdd(
-    { user_uuid: session?.user.uuid },
-    backendURL,
-  );
+  const { data } = await aPIMoviesToAdd({ user_uuid: admin.uuid }, backendURL);
 
   if (!data.quick_movies.length) {
     return (

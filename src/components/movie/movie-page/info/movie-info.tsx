@@ -1,20 +1,18 @@
 import { useTranslations } from "next-intl";
-import { Language, MovieOut, UserRole } from "@/orval_api/model";
+import { Language, MovieOut } from "@/orval_api/model";
 import { cn, formatDate } from "@/lib/utils";
 import { MovieMoney } from "@/components/movie/movie-page/movie-money";
 
 type Props = {
   data: MovieOut;
-  userRole?: UserRole;
+  isOwner?: boolean;
   lang: Language;
 };
 
 const TEXT_LIMIT = 30;
 
-export const MovieInfo = ({ data, userRole, lang }: Props) => {
+export const MovieInfo = ({ data, isOwner, lang }: Props) => {
   const t = useTranslations("Rating.ratingType");
-
-  const isOwner = userRole === "owner";
 
   const filmingLocation =
     data.location.length >= TEXT_LIMIT

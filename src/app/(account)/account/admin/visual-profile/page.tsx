@@ -1,19 +1,15 @@
-import { auth } from "@/auth";
+import { getAdminOrRedirect } from "@/app/services/admin-api";
 import { VisualProfileEditPage } from "@/components/profile/admin/visual-profile/visual-profile";
 import { VisualProfileEditForm } from "@/components/profile/admin/visual-profile/visual-profile-edit-form";
 import { backendURL } from "@/lib/constants";
 import { getVisualProfile } from "@/orval_api/visual-profile/visual-profile";
-import { redirect } from "next/navigation";
 
 export default async function VisualProfilePage() {
-  const session = await auth();
-  if (session?.user.role !== "owner") {
-    return redirect("/");
-  }
+  const admin = await getAdminOrRedirect();
 
   const { aPIGetVisualProfileForms } = getVisualProfile();
   const { data } = await aPIGetVisualProfileForms(
-    { user_uuid: session.user.uuid },
+    { user_uuid: admin.uuid },
     backendURL,
   );
 

@@ -1,12 +1,13 @@
 "use server";
 
 import { auth } from "@/auth";
+import { redirect } from "next/navigation";
+import { checkIfAdmin } from "@/middleware";
 import axios, { AxiosResponse } from "axios";
 import { fetchSettings } from "./global-api";
 import type { ValidationError } from "@/types/general";
 import {
   FilterList,
-  UserRole,
   type ActorOut,
   type BodyAPICreateMovie,
   type CharacterFormIn,
@@ -44,11 +45,21 @@ export async function getAdmin() {
 
   const { user } = session;
 
-  if (user.role !== UserRole.admin && user.role !== UserRole.owner) {
+  if (!checkIfAdmin(user.role)) {
     return null;
   }
 
   return user;
+}
+
+export async function getAdminOrRedirect() {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return redirect("/");
+  }
+
+  return admin;
 }
 
 export async function createMovie(
