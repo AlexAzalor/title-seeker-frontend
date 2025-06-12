@@ -71,7 +71,7 @@ export const VisualProfileEditForm = ({ criterion, type }: Props) => {
         return;
       }
 
-      toast.error(`Error status: ${response.status}`);
+      toast.error(`Error status: ${response.status} - ${response.message}`);
     }
 
     if (type === "criterion") {
@@ -83,7 +83,7 @@ export const VisualProfileEditForm = ({ criterion, type }: Props) => {
         return;
       }
 
-      toast.error(`Error status: ${response.status}`);
+      toast.error(`Error status: ${response.status} - ${response.message}`);
     }
   };
 

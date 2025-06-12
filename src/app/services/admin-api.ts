@@ -166,7 +166,7 @@ export async function getGenresList() {
 
   try {
     const response: AxiosResponse<FilterList> = await aPIGetGenres(
-      { lang, user_uuid: admin.uuid },
+      { lang },
       backendURL,
     );
 
@@ -191,7 +191,7 @@ export async function getSubgenresList() {
 
   try {
     const response: AxiosResponse<FilterList> = await aPIGetSubgenres(
-      { lang, user_uuid: admin.uuid },
+      { lang },
       backendURL,
     );
 
@@ -641,7 +641,7 @@ export async function getSpecifications() {
 
   try {
     const response: AxiosResponse<FilterList> = await aPIGetSpecifications(
-      { lang, user_uuid: admin.uuid },
+      { lang },
       backendURL,
     );
 
@@ -667,7 +667,7 @@ export async function getKeywords() {
 
   try {
     const response: AxiosResponse<FilterList> = await aPIGetKeywords(
-      { lang, user_uuid: admin.uuid },
+      { lang },
       backendURL,
     );
 
@@ -693,7 +693,7 @@ export async function getActionTimes() {
 
   try {
     const response: AxiosResponse<FilterList> = await aPIGetActionTimes(
-      { lang, user_uuid: admin.uuid },
+      { lang },
       backendURL,
     );
 

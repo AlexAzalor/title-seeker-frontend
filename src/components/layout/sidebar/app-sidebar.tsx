@@ -1,4 +1,4 @@
-import { checkIfAdmin } from "@/middleware";
+import { checkIfAdmin, checkIfOwner } from "@/middleware";
 import Link from "next/link";
 import { ThemeSelector } from "../theme-selector";
 import { Button } from "../../ui/button";
@@ -35,6 +35,7 @@ export async function AppSidebar({
   const session = await auth();
 
   const isAdmin = checkIfAdmin(session?.user.role);
+  const isOwner = checkIfOwner(session?.user.role);
 
   const t = await getTranslations("HomePage");
   const menu = await getTranslations("MenuItems");
@@ -52,7 +53,7 @@ export async function AppSidebar({
     <Sidebar {...props} className="p-4 dark:border-r-black">
       {session ? (
         <SidebarHeader className="border-sidebar-border mt-3 border-b">
-          {isAdmin && (
+          {isOwner && (
             <Link href="/account/admin/quick-add-movie" className="mb-2">
               <Button className="w-full">
                 <PlusCircle />

@@ -103,7 +103,7 @@ export async function updateVisualRating(data: VisualProfileIn) {
   }
 }
 
-export async function getTitleCategories(lang: Language) {
+export async function getVisualProfileCategories(lang: Language) {
   const currentUser = await getSession();
   if (!currentUser) {
     return { status: 403, message: "You are not allowed to do this" };
@@ -113,10 +113,7 @@ export async function getTitleCategories(lang: Language) {
   const { aPIGetVisualProfiles } = getVisualProfile();
 
   try {
-    const response = await aPIGetVisualProfiles(
-      { lang, user_uuid: currentUser.uuid },
-      backendURL,
-    );
+    const response = await aPIGetVisualProfiles({ lang }, backendURL);
     return response.data.items;
   } catch (error) {
     if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {

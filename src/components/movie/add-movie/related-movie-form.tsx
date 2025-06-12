@@ -135,7 +135,7 @@ export const RelatedMovieForm = ({ baseMovies }: Props) => {
                     onOpenModal={() => {}}
                     onSelect={(value, key) => onChange(key)}
                     checkIconStyle={[value]}
-                    emptyText={t("notFound")}
+                    emptyText="Not found"
                   />
                 </ResponsiveWrapper>
 

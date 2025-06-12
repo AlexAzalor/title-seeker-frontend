@@ -173,7 +173,7 @@ export default async function DynamicPage({ params }: PageProps) {
                       key="visual-profile"
                       movieKey={data.key}
                       radarData={data.visual_profile}
-                      isAdmin={isAdmin}
+                      isOwner={isOwner}
                     />
                   ),
                 },

@@ -9,6 +9,7 @@ export const checkIfAdmin = (role?: UserRole) => {
   if (!role) return false;
   return ADMINS_ROLES.includes(role);
 };
+/**Only owner is allowed to work with Add Movie, Quickly add Movie, Visual Profile (post, put) */
 export const checkIfOwner = (role?: UserRole) => role === UserRole.owner;
 
 export default auth((req) => {
@@ -21,9 +22,15 @@ export default auth((req) => {
     return NextResponse.redirect(newUrl);
   }
 
+  const isOwnerRoute = pathname.startsWith("/owner");
+  const isOwner = checkIfOwner(req.auth?.user.role);
+
+  if (!isOwner && isOwnerRoute) {
+    return NextResponse.redirect(newUrl);
+  }
+
   const isAdmin = checkIfAdmin(req.auth?.user.role);
   const isAdminRoute = pathname.startsWith("/account/admin");
-  const isOwnerRoute = pathname.startsWith("/owner");
 
   if (!isAdmin && (isAdminRoute || isOwnerRoute)) {
     return NextResponse.redirect(newUrl);

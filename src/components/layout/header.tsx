@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
-import { ADMINS_ROLES, ALL_ROLES } from "@/middleware";
+import { ALL_ROLES } from "@/middleware";
 
 import { ThemeSelector } from "./theme-selector";
 import { Button } from "../ui/button";
@@ -12,6 +12,7 @@ import { SidebarTrigger } from "../ui/sidebar";
 import { UserProfileMenu } from "../profile/menu-nav/user-profile-menu";
 import { LanguageSelector } from "./language-selector";
 import { RoleGate } from "../providers/role-gate";
+import { UserRole } from "@/orval_api/model";
 
 export const Header = () => {
   const t = useTranslations("HomePage");
@@ -53,7 +54,7 @@ export const Header = () => {
       <Search posterURL={POSTER_URL ?? "NO POSTER"} />
 
       <div className="flex items-center gap-2">
-        <RoleGate allowedRoles={ADMINS_ROLES}>
+        <RoleGate allowedRoles={[UserRole.owner]}>
           {() => (
             <>
               <Link href="/owner/add-movie" className="hidden lg:block">
