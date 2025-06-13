@@ -6,11 +6,11 @@ import { Slider } from "@/components/ui/slider";
 import { MIN_RATE } from "./utils";
 import { TooltipWrapper } from "../../my-custom-ui/tooltip-wrapper";
 import { InfoIcon } from "lucide-react";
-import { UserRatingCriteria } from "@/orval_api/model";
+import { BaseRatingCriteria } from "@/orval_api/model";
 
 // type SliderProps = React.ComponentProps<typeof Slider>;
 // https://github.com/shadcn-ui/ui/blob/main/apps/www/app/(app)/examples/playground/components/temperature-selector.tsx
-export type RatingType = keyof UserRatingCriteria;
+export type RatingType = keyof BaseRatingCriteria;
 
 type Props = {
   type: RatingType;

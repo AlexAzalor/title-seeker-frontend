@@ -9,11 +9,7 @@ import { motion } from "framer-motion";
 import { VisualProfileSchema, VisualProfileType } from "@/types/zod-scheme";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import {
-  TitleVisualProfileOut,
-  VisualProfileData,
-  VisualProfileIn,
-} from "@/orval_api/model";
+import { VisualProfileData, VisualProfileIn } from "@/orval_api/model";
 import {
   Select,
   SelectContent,
@@ -30,7 +26,7 @@ import Link from "next/link";
 
 type Props = {
   movieKey: string;
-  visualProfileData: TitleVisualProfileOut;
+  visualProfileData: VisualProfileData;
   categories: VisualProfileData[];
 };
 

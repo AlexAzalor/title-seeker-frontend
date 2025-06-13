@@ -14,7 +14,7 @@ import { quicklyAddNewMovie } from "@/app/services/admin-api";
 import {
   QuickMovieFormData,
   RatingCriterion,
-  UserRatingCriteria,
+  BaseRatingCriteria,
 } from "@/orval_api/model";
 import { FormField } from "../my-custom-ui/form-ui-parts/form-field";
 import { QuickMovieScheme, QuickMovieType } from "@/types/zod-scheme";
@@ -27,7 +27,7 @@ export const QuicklyAddNewMovie = () => {
   const { data: sessionData, update } = useSession();
 
   const ratingRef = useRef<RatingDataOut>({
-    ratingData: {} as UserRatingCriteria,
+    ratingData: {} as BaseRatingCriteria,
     ratingCriterionType: RatingCriterion.basic,
     rating: 0,
   });

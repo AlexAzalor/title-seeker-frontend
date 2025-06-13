@@ -1,16 +1,16 @@
 import {
   MovieOutUserRatingCriteria,
-  UserRatingCriteria,
+  BaseRatingCriteria,
 } from "@/orval_api/model";
 
-export type RateCriteriesEnum = keyof UserRatingCriteria;
+export type RateCriteriesEnum = keyof BaseRatingCriteria;
 
 // export type RatingAction = {
 //   [K in keyof UserRatingCriteria]: { type: K; value: UserRatingCriteria[K] };
 // }[keyof UserRatingCriteria];
 
-export type GroupedCriteria<T extends keyof UserRatingCriteria> = Extract<
-  keyof UserRatingCriteria,
+export type GroupedCriteria<T extends keyof BaseRatingCriteria> = Extract<
+  keyof BaseRatingCriteria,
   T
 >;
 
@@ -18,7 +18,7 @@ export type ExtraRateCriteria = GroupedCriteria<
   "visual_effects" | "scare_factor" | "humor" | "animation_cartoon"
 >;
 
-export type RatingTemplate = Omit<UserRatingCriteria, ExtraRateCriteria> & {
+export type RatingTemplate = Omit<BaseRatingCriteria, ExtraRateCriteria> & {
   visual_effects: number;
   scare_factor: number;
   humor: number;
@@ -28,7 +28,7 @@ export type RatingTemplate = Omit<UserRatingCriteria, ExtraRateCriteria> & {
 export const MIN_RATE = 0.01;
 
 /**BASIC Initial Rate */
-export const INITIAL_RATE: UserRatingCriteria = {
+export const INITIAL_RATE: BaseRatingCriteria = {
   acting: MIN_RATE,
   plot_storyline: MIN_RATE,
   script_dialogue: MIN_RATE,
@@ -38,25 +38,25 @@ export const INITIAL_RATE: UserRatingCriteria = {
 };
 
 /**Visual effect */
-export const VE_INITIAL_RATE: UserRatingCriteria = {
+export const VE_INITIAL_RATE: BaseRatingCriteria = {
   ...INITIAL_RATE,
   visual_effects: MIN_RATE,
 };
 
 /**Scare factor */
-export const SF_INITIAL_RATE: UserRatingCriteria = {
+export const SF_INITIAL_RATE: BaseRatingCriteria = {
   ...INITIAL_RATE,
   scare_factor: MIN_RATE,
 };
 
 /**Humor */
-export const H_INITIAL_RATE: UserRatingCriteria = {
+export const H_INITIAL_RATE: BaseRatingCriteria = {
   ...INITIAL_RATE,
   humor: MIN_RATE,
 };
 
 /**Animation/Cartoon */
-export const AC_INITIAL_RATE: UserRatingCriteria = {
+export const AC_INITIAL_RATE: BaseRatingCriteria = {
   ...INITIAL_RATE,
   animation_cartoon: MIN_RATE,
 };
@@ -113,7 +113,7 @@ export const AC_MAX: RatingTemplate = {
 // }
 
 export const checkRatingChanges = (
-  state: UserRatingCriteria,
+  state: BaseRatingCriteria,
   ratingCriteria: MovieOutUserRatingCriteria | undefined,
   isVisualEffects: boolean,
   isScareFactor: boolean,

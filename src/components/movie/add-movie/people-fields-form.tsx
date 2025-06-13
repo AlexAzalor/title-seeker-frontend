@@ -12,9 +12,8 @@ import { MovieCrewListScheme } from "@/types/zod-scheme";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import type {
-  ActorOut,
+  PersonBase,
   CharacterOut,
-  DirectorOut,
   MovieFormData,
 } from "@/orval_api/model";
 import { CircleArrowDown, CircleArrowUp, CircleX } from "lucide-react";
@@ -29,8 +28,8 @@ import { AddNewCharacter } from "./connected-parts/add-new-character";
 const ModalMovie = dynamic(() => import("../../my-custom-ui/modal-window"));
 
 type Props = {
-  actors: ActorOut[];
-  directors: DirectorOut[];
+  actors: PersonBase[];
+  directors: PersonBase[];
   characters: CharacterOut[];
 };
 

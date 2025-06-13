@@ -6,10 +6,10 @@ import { useRouter } from "next/navigation";
 import { rateMovie, updateRateMovie } from "@/app/services/user-api";
 import { toast } from "sonner";
 import {
+  BaseRatingCriteria,
   MovieOutUserRatingCriteria,
   RatingCriterion,
   UserRateMovieIn,
-  UserRatingCriteria,
 } from "@/orval_api/model";
 import { RateMovie } from "../rating/rate-movie";
 import { RatingDataOut } from "../add-movie/key-fields-form";
@@ -20,7 +20,7 @@ type Props = {
   isAdmin: boolean;
   isUserRated: boolean;
   userRatingData?: MovieOutUserRatingCriteria;
-  overallRatingCriteria: UserRatingCriteria;
+  overallRatingCriteria: BaseRatingCriteria;
 };
 export const MovieRateBox = ({
   movieKey,
@@ -32,7 +32,7 @@ export const MovieRateBox = ({
 }: Props) => {
   const router = useRouter();
   const ratingRef = useRef<RatingDataOut>({
-    ratingData: userRatingData || ({} as UserRatingCriteria),
+    ratingData: userRatingData || ({} as BaseRatingCriteria),
     ratingCriterionType: RatingCriterion.basic,
     rating: 0,
   });

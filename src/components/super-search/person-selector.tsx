@@ -2,13 +2,13 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
-import type { ActorOut, DirectorOut } from "@/orval_api/model";
+import type { PersonBase } from "@/orval_api/model";
 import { ItemsSelector } from "../my-custom-ui/items-list-selector";
 import { manageSearchParameters } from "@/lib/utils";
 import { ResponsiveWrapper } from "../my-custom-ui/responsive-wrapper";
 
 type Props = {
-  peopleList: ActorOut[] | DirectorOut[];
+  peopleList: PersonBase[];
   personKey: string;
 };
 

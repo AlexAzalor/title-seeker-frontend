@@ -9,8 +9,8 @@ import { FormField } from "@/components/my-custom-ui/form-ui-parts/form-field";
 import {
   MovieFormData,
   RatingCriterion,
-  SharedUniversePreCreateOut,
-  UserRatingCriteria,
+  BaseRatingCriteria,
+  BaseSharedUniverse,
 } from "@/orval_api/model";
 
 import { useLocalStorage } from "@/hooks/use-local-storage";
@@ -31,11 +31,11 @@ export type MovieKeyFields = Pick<
 export type RatingDataOut = {
   rating: number;
   ratingCriterionType: RatingCriterion;
-  ratingData: UserRatingCriteria;
+  ratingData: BaseRatingCriteria;
 };
 
 type Props = {
-  sharedUniverses: SharedUniversePreCreateOut[];
+  sharedUniverses: BaseSharedUniverse[];
 };
 
 export const SharedUniverseForm = ({ sharedUniverses }: Props) => {

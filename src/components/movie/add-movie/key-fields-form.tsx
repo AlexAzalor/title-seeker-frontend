@@ -11,7 +11,7 @@ import {
   MovieFormData,
   MoviePreCreateDataQuickMovie,
   RatingCriterion,
-  UserRatingCriteria,
+  BaseRatingCriteria,
 } from "@/orval_api/model";
 import { INITIAL_RATE } from "@/components/movie/rating/utils";
 import { RateMovie } from "../rating/rate-movie";
@@ -33,7 +33,7 @@ type MovieKeyFields = Pick<
 export type RatingDataOut = {
   rating: number;
   ratingCriterionType: RatingCriterion;
-  ratingData: UserRatingCriteria;
+  ratingData: BaseRatingCriteria;
 };
 
 type Props = {

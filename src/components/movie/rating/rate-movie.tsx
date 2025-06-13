@@ -9,7 +9,7 @@ import {
   MoviePreCreateDataQuickMovie,
   RatingCriterion,
   UserRateMovieIn,
-  UserRatingCriteria,
+  BaseRatingCriteria,
 } from "@/orval_api/model";
 import { toast } from "sonner";
 import {
@@ -36,7 +36,7 @@ type Props = {
   ratingRef: RefObject<RatingDataOut>;
   quickMovie?: MoviePreCreateDataQuickMovie;
   parsedData?: MovieFormData;
-  movieRateData?: UserRatingCriteria;
+  movieRateData?: BaseRatingCriteria;
   type?: RatingCriterion;
   onRateSubmit?: (data: UserRateMovieIn) => Promise<void>;
   movieKey?: string;
@@ -69,7 +69,7 @@ const RateMovie = ({
   const isAnimationCartoon =
     ratingCriteria === RatingCriterion.animation_cartoon;
 
-  const [states, setStates] = useState<UserRatingCriteria>(
+  const [states, setStates] = useState<BaseRatingCriteria>(
     movieRateData ||
       quickMovie?.rating_criteria ||
       parsedData?.rating_criteria ||
@@ -90,7 +90,7 @@ const RateMovie = ({
   } = states;
 
   const updateState = useCallback(
-    (value: number[], key: keyof UserRatingCriteria) => {
+    (value: number[], key: keyof BaseRatingCriteria) => {
       setStates((prev) => ({ ...prev, [key]: value[0] }));
     },
     [],

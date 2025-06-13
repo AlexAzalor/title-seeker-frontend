@@ -7,10 +7,10 @@ import { MovieFormContext, RM_STEP } from "./utils";
 
 import {
   MovieFormData,
-  MovieOutShort,
+  MovieMenuItem,
   RatingCriterion,
   RelatedMovie,
-  UserRatingCriteria,
+  BaseRatingCriteria,
 } from "@/orval_api/model";
 
 import { useLocalStorage } from "@/hooks/use-local-storage";
@@ -29,11 +29,11 @@ export type MovieKeyFields = Pick<
 export type RatingDataOut = {
   rating: number;
   ratingCriterionType: RatingCriterion;
-  ratingData: UserRatingCriteria;
+  ratingData: BaseRatingCriteria;
 };
 
 type Props = {
-  baseMovies: MovieOutShort[];
+  baseMovies: MovieMenuItem[];
 };
 
 export const RelatedMovieForm = ({ baseMovies }: Props) => {

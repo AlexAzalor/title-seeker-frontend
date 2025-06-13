@@ -10,13 +10,12 @@ import { extractWord, manageSearchParameters } from "@/lib/utils";
 
 import {
   FilterItemOut,
-  ActorOut,
-  DirectorOut,
+  PersonBase,
   GenreOut,
   SubgenreOut,
   VisualProfileCategoryOut,
   FilterEnum,
-  SharedUniversePreCreateOut,
+  BaseSharedUniverse,
 } from "@/orval_api/model";
 
 import { FilterBrick } from "./filter-brick";
@@ -33,9 +32,9 @@ type Props = {
   specifications: FilterItemOut[];
   keywords: FilterItemOut[];
   action_times: FilterItemOut[];
-  actors: ActorOut[];
-  directors: DirectorOut[];
-  shared_universes: SharedUniversePreCreateOut[];
+  actors: PersonBase[];
+  directors: PersonBase[];
+  shared_universes: BaseSharedUniverse[];
   visual_profile_categories: VisualProfileCategoryOut[];
 };
 

@@ -22,16 +22,15 @@ import { InfoFieldsForm } from "./info-fields-form";
 import { PeopleFieldsForm } from "./people-fields-form";
 import {
   FilterItemOut,
-  ActorOut,
+  PersonBase,
   BodyAPICreateMovie,
   CharacterOut,
-  DirectorOut,
   GenreOut,
   MovieFormData,
-  MovieOutShort,
   MoviePreCreateDataQuickMovie,
-  SharedUniversePreCreateOut,
   VisualProfileData,
+  BaseSharedUniverse,
+  MovieMenuItem,
 } from "@/orval_api/model";
 import { GenreFieldsForm } from "./genre-fields-form";
 import { FilterForm } from "./filter-form";
@@ -46,16 +45,16 @@ import { VisualProfileMovieForm } from "./visual-profile-form";
 
 type Props = {
   visualProfileCategories: VisualProfileData[];
-  actors: ActorOut[];
-  directors: DirectorOut[];
+  actors: PersonBase[];
+  directors: PersonBase[];
   genres: GenreOut[];
 
   specifications: FilterItemOut[];
   keywords: FilterItemOut[];
   actionTimes: FilterItemOut[];
   quickMovie?: MoviePreCreateDataQuickMovie;
-  shared_universes: SharedUniversePreCreateOut[];
-  base_movies: MovieOutShort[];
+  shared_universes: BaseSharedUniverse[];
+  base_movies: MovieMenuItem[];
   characters: CharacterOut[];
 };
 

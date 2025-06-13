@@ -1,11 +1,10 @@
 import {
   GenreOut,
   FilterItemOut,
-  ActorOut,
-  DirectorOut,
+  PersonBase,
   VisualProfileCategoryOut,
   FilterEnum,
-  SharedUniversePreCreateOut,
+  BaseSharedUniverse,
 } from "@/orval_api/model";
 import { PersonSelector } from "./person-selector";
 import { GenreSelector } from "./genre-selector";
@@ -18,9 +17,9 @@ type Props = {
   specifications: FilterItemOut[];
   keywords: FilterItemOut[];
   action_times: FilterItemOut[];
-  actors: ActorOut[];
-  directors: DirectorOut[];
-  shared_universes: SharedUniversePreCreateOut[];
+  actors: PersonBase[];
+  directors: PersonBase[];
+  shared_universes: BaseSharedUniverse[];
   visual_profile_categories: VisualProfileCategoryOut[];
 };
 

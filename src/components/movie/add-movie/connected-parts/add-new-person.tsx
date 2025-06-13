@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 
 import { PersonScheme, PersonSchemeType } from "@/types/zod-scheme";
-import { ActorOut, DirectorOut, PersonForm } from "@/orval_api/model";
+import { PersonBase, PersonForm } from "@/orval_api/model";
 import { formatKey } from "@/lib/utils";
 import { FormField } from "@/components/my-custom-ui/form-ui-parts/form-field";
 import { FormWrapper } from "@/components/my-custom-ui/form-ui-parts/form-wrapper";
@@ -25,7 +25,7 @@ type Props<T extends PersonType> = {
   ) => Promise<{
     status?: number;
     message?: string;
-    newItem?: ActorOut | DirectorOut;
+    newItem?: PersonBase;
   }>;
 };
 

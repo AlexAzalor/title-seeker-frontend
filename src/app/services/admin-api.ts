@@ -8,11 +8,10 @@ import { fetchSettings } from "./global-api";
 import type { ValidationError } from "@/types/general";
 import {
   FilterList,
-  type ActorOut,
+  type PersonBase,
   type BodyAPICreateMovie,
   type CharacterFormIn,
   type CharacterOut,
-  type DirectorOut,
   type GenreFormIn,
   type GenreFormOut,
   type MovieFilterFormIn,
@@ -103,7 +102,7 @@ export async function createActor(formData: PersonForm, file: Blob) {
   const { aPICreateActor } = getPeople();
 
   try {
-    const response: AxiosResponse<ActorOut> = await aPICreateActor(
+    const response: AxiosResponse<PersonBase> = await aPICreateActor(
       { form_data: formData, file },
       { lang, user_uuid: admin.uuid },
       backendURL,
@@ -134,7 +133,7 @@ export async function createDirector(formData: PersonForm, file: Blob) {
   const { aPICreateDirector } = getPeople();
 
   try {
-    const response: AxiosResponse<DirectorOut> = await aPICreateDirector(
+    const response: AxiosResponse<PersonBase> = await aPICreateDirector(
       { form_data: formData, file },
       { lang, user_uuid: admin.uuid },
       backendURL,

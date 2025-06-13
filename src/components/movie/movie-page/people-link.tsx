@@ -1,11 +1,11 @@
 import Link from "next/link";
 import Image from "next/image";
-import { MovieActor, MovieDirector } from "@/orval_api/model";
+import { MovieActorOut, MoviePersonOut } from "@/orval_api/model";
 import { formatDate } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 
 type Props = {
-  person: MovieActor | MovieDirector;
+  person: MovieActorOut | MoviePersonOut;
   linkQueryParam: string;
   type: "actors" | "directors";
   avatarURL: string;

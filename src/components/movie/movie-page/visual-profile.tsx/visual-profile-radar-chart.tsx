@@ -15,11 +15,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import {
-  Language,
-  TitleVisualProfileOut,
-  VisualProfileData,
-} from "@/orval_api/model";
+import { Language, VisualProfileData } from "@/orval_api/model";
 import { COLORS } from "@/lib/colors";
 import { Button } from "@/components/ui/button";
 import { useModal } from "@/hooks/use-modal";
@@ -30,7 +26,7 @@ import { getVisualProfileCategories } from "@/app/services/user-api";
 import { TooltipWrapper } from "@/components/my-custom-ui/tooltip-wrapper";
 
 type Props = {
-  radarData: TitleVisualProfileOut;
+  radarData: VisualProfileData;
   isOwner?: boolean;
   movieKey: string;
 };

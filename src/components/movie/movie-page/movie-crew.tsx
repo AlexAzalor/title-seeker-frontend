@@ -9,12 +9,12 @@ import {
   CarouselPrevious,
 } from "../../ui/carousel";
 import { PersonLink } from "./people-link";
-import { FilterEnum, MovieActor, MovieDirector } from "@/orval_api/model";
+import { FilterEnum, MovieActorOut, MoviePersonOut } from "@/orval_api/model";
 import { useMediaQuery } from "@/hooks/use-media-query";
 
 type Props = {
-  actors: MovieActor[];
-  directors: MovieDirector[];
+  actors: MovieActorOut[];
+  directors: MoviePersonOut[];
   avatarURL: string;
 };
 
