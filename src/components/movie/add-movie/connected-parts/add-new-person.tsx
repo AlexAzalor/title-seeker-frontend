@@ -6,17 +6,17 @@ import { UseFieldArrayAppend, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 
-import { PersonScheme, PersonSchemeType } from "@/types/zod-scheme";
+import { PersonSchema, PersonSchemaType } from "@/types/people-schema";
 import { PersonBase, PersonForm } from "@/orval_api/model";
 import { formatKey } from "@/lib/utils";
 import { FormField } from "@/components/my-custom-ui/form-ui-parts/form-field";
 import { FormWrapper } from "@/components/my-custom-ui/form-ui-parts/form-wrapper";
-import { MovieCrewListScheme } from "@/types/zod-scheme";
+import { PeopleListSchemaType } from "@/types/people-schema";
 
 type PersonType = "actors" | "directors";
 
 type Props<T extends PersonType> = {
-  appendPerson: UseFieldArrayAppend<MovieCrewListScheme, T>;
+  appendPerson: UseFieldArrayAppend<PeopleListSchemaType, T>;
   type?: T;
   fetchApi: (
     data: PersonForm,
@@ -42,8 +42,8 @@ export const AddNewPerson = ({
     handleSubmit,
     formState: { errors, isSubmitting },
     watch,
-  } = useForm<PersonSchemeType>({
-    resolver: zodResolver(PersonScheme),
+  } = useForm<PersonSchemaType>({
+    resolver: zodResolver(PersonSchema),
     defaultValues: {
       key: "",
       first_name_en: "",
@@ -53,7 +53,7 @@ export const AddNewPerson = ({
 
   const watchFields = watch(["first_name_en", "last_name_en"]);
 
-  const onSubmit = async (formData: PersonSchemeType) => {
+  const onSubmit = async (formData: PersonSchemaType) => {
     const response = await fetchApi(formData, formData.file[0]);
 
     if (response.status === 201 && response.newItem) {

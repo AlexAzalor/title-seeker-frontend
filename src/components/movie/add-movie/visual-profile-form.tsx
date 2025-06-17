@@ -2,10 +2,13 @@ import { use } from "react";
 import { useTranslations } from "next-intl";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { useLocalStorage } from "@/hooks/use-local-storage";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { MovieFormContext } from "./utils";
 
-import { VisualProfileSchema, VisualProfileType } from "@/types/zod-scheme";
+import {
+  VisualProfileSchema,
+  VisualProfileType,
+} from "@/types/visual-profile-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import type { MovieFormData, VisualProfileData } from "@/orval_api/model";

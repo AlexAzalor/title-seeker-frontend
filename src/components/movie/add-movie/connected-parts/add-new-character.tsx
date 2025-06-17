@@ -8,7 +8,7 @@ import { toast } from "sonner";
 import { formatKey } from "@/lib/utils";
 
 import { createCharacter } from "@/app/services/admin-api";
-import { CharacterFields, CharacterType } from "@/types/zod-scheme";
+import { CharacterFields, CharacterType } from "@/types/people-schema";
 import { CharacterFormIn } from "@/orval_api/model";
 
 import { PeopleSchemeType } from "../../add-movie/people-fields-form";

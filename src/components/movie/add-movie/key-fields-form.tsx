@@ -1,7 +1,7 @@
 import { use, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
-import { MovieScheme, MovieSchemeType } from "@/types/zod-scheme";
+import { MovieSchema, MovieSchemaType } from "@/types/movie-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { MovieFormContext } from "./utils";
 import { formatKey } from "@/lib/utils";
@@ -67,8 +67,8 @@ export const KeyFieldsForm = ({ quickMovie }: Props) => {
     handleSubmit,
     formState: { errors, isSubmitting },
     watch,
-  } = useForm<MovieSchemeType>({
-    resolver: zodResolver(MovieScheme),
+  } = useForm<MovieSchemaType>({
+    resolver: zodResolver(MovieSchema),
     defaultValues: {
       key: quickMovie?.key || parsedData.key || "",
       title_en: quickMovie?.title_en || parsedData.title_en || "",
@@ -77,7 +77,7 @@ export const KeyFieldsForm = ({ quickMovie }: Props) => {
   });
   const watchFields = watch(["title_en"]);
 
-  const onSubmit = async (data: MovieSchemeType) => {
+  const onSubmit = async (data: MovieSchemaType) => {
     if (ratingRef.current.rating < 1) {
       toast.error("Rating must be more than 1");
       return;

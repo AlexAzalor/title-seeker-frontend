@@ -1,5 +1,5 @@
 import { getLocale } from "next-intl/server";
-import { PaginationParamsSchema } from "@/types/search-params-scheme";
+import { PaginationParamsSchema } from "@/types/search-params-schema";
 import type { SearchParams } from "@/types/general";
 import { backendURL } from "@/lib/constants";
 

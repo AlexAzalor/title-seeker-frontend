@@ -5,7 +5,10 @@ import { FieldArrayWithId, useFieldArray, useForm } from "react-hook-form";
 
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { GenreSchemeList, GenreSchemeListType } from "@/types/zod-scheme";
+import {
+  GenreSchemaList,
+  GenreSchemaListType,
+} from "@/types/genre-filter-schema";
 
 import {
   createGenre,
@@ -48,7 +51,7 @@ type Props = {
 export type GenreType = "genres" | "subgenres";
 export type MovieInfoFieldNames = Pick<MovieFormData, GenreType>;
 
-export type GenreSchemeType = z.infer<typeof GenreSchemeList>;
+export type GenreSchemeType = z.infer<typeof GenreSchemaList>;
 
 export const GenreEditForm = ({
   movieKey,
@@ -86,7 +89,7 @@ export const GenreEditForm = ({
     formState: { errors, isSubmitting },
     getValues,
   } = useForm({
-    resolver: zodResolver(GenreSchemeList),
+    resolver: zodResolver(GenreSchemaList),
     defaultValues: {
       genres: selectedGenres,
       subgenres: selectedSubgenres,
@@ -161,7 +164,7 @@ export const GenreEditForm = ({
   );
 
   const handleRemoveGenre = useCallback(
-    (field: FieldArrayWithId<GenreSchemeListType, "genres">, index: number) => {
+    (field: FieldArrayWithId<GenreSchemaListType, "genres">, index: number) => {
       removeGenre(index);
 
       setSubgenres((prev) =>

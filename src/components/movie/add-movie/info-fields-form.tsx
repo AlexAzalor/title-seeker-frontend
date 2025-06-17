@@ -6,7 +6,7 @@ import { MovieFormContext } from "./utils";
 
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { MovieInfoScheme } from "@/types/zod-scheme";
+import { MovieInfoSchema } from "@/types/movie-schema";
 import type { MovieFormData } from "@/orval_api/model";
 import { FormField } from "@/components/my-custom-ui/form-ui-parts/form-field";
 import { FormButtons } from "@/components/my-custom-ui/form-ui-parts/form-buttons";
@@ -26,7 +26,7 @@ export type MovieInfoFieldNames = Pick<
   | "release_date"
 >;
 
-export type MovieInfoSchemeType = z.infer<typeof MovieInfoScheme>;
+export type MovieInfoSchemeType = z.infer<typeof MovieInfoSchema>;
 
 export const InfoFieldsForm = () => {
   const t = useTranslations("Form.stepper.info");
@@ -46,7 +46,7 @@ export const InfoFieldsForm = () => {
     // getFieldState,
     // getFieldState("budget").isDirty
   } = useForm<MovieInfoSchemeType>({
-    resolver: zodResolver(MovieInfoScheme),
+    resolver: zodResolver(MovieInfoSchema),
     defaultValues: {
       description_en: parsedData.description_en || "",
       description_uk: parsedData.description_uk || "",

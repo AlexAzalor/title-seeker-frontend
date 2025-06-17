@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/select";
 import { RelatedMovie } from "@/orval_api/model";
 import { FieldError, Controller, Control } from "react-hook-form";
-import { RelatedMovieType } from "@/types/zod-scheme";
+import { RelatedMovieType } from "@/types/movie-schema";
 
 type Props = {
   label: string;

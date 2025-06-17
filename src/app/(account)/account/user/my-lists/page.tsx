@@ -1,7 +1,7 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { getLocale } from "next-intl/server";
-import { PaginationParamsSchema } from "@/types/search-params-scheme";
+import { PaginationParamsSchema } from "@/types/search-params-schema";
 import { backendURL, DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from "@/lib/constants";
 import type { SearchParams } from "@/types/general";
 

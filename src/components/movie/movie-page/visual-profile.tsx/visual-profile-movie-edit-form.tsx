@@ -6,7 +6,10 @@ import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
 
-import { VisualProfileSchema, VisualProfileType } from "@/types/zod-scheme";
+import {
+  VisualProfileSchema,
+  VisualProfileType,
+} from "@/types/visual-profile-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { VisualProfileData, VisualProfileIn } from "@/orval_api/model";

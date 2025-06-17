@@ -5,7 +5,7 @@ import { useFieldArray, useForm } from "react-hook-form";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 
-import { EnhanceSearchScheme } from "@/types/zod-scheme";
+import { EnhanceSearchSchema } from "@/types/search-params-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import {
@@ -38,7 +38,7 @@ export const EnhanceSearch = () => {
     formState: { isDirty },
     reset,
   } = useForm({
-    resolver: zodResolver(EnhanceSearchScheme),
+    resolver: zodResolver(EnhanceSearchSchema),
     defaultValues: {
       genres: formatGenreData,
       subgenres: formatSubgenreData,

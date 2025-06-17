@@ -15,7 +15,10 @@ import {
   editMovieActionTimes,
   editMovieKeywords,
 } from "@/app/services/admin-api";
-import { FilterListType, MovieFilterListOnlySpec } from "@/types/zod-scheme";
+import {
+  FilterListType,
+  TitleFilterListOnlySpec,
+} from "@/types/genre-filter-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { FilterEnum, FilterItemOut } from "@/orval_api/model";
@@ -56,7 +59,7 @@ export const FilterEditForm = ({
     formState: { errors, isDirty, isSubmitting },
     getValues,
   } = useForm({
-    resolver: zodResolver(MovieFilterListOnlySpec),
+    resolver: zodResolver(TitleFilterListOnlySpec),
     defaultValues: {
       specifications: selectedFilterItems,
     },

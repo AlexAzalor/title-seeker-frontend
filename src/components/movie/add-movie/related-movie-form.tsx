@@ -1,7 +1,7 @@
 import { use } from "react";
 import { useTranslations } from "next-intl";
 import { Controller, useForm } from "react-hook-form";
-import { RelatedMovieField, RelatedMovieType } from "@/types/zod-scheme";
+import { RelatedMovieField, RelatedMovieType } from "@/types/movie-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { MovieFormContext, RM_STEP } from "./utils";
 

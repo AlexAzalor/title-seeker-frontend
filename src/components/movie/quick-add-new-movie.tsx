@@ -17,7 +17,7 @@ import {
   BaseRatingCriteria,
 } from "@/orval_api/model";
 import { FormField } from "../my-custom-ui/form-ui-parts/form-field";
-import { QuickMovieScheme, QuickMovieType } from "@/types/zod-scheme";
+import { QuickMovieSchema, QuickMovieType } from "@/types/movie-schema";
 import { RateMovie } from "./rating/rate-movie";
 import { RatingDataOut } from "./add-movie/key-fields-form";
 import { FormWrapper } from "../my-custom-ui/form-ui-parts/form-wrapper";
@@ -38,7 +38,7 @@ export const QuicklyAddNewMovie = () => {
     formState: { errors, isSubmitting },
     watch,
   } = useForm<QuickMovieType>({
-    resolver: zodResolver(QuickMovieScheme),
+    resolver: zodResolver(QuickMovieSchema),
     defaultValues: {
       key: "",
       title_en: "",

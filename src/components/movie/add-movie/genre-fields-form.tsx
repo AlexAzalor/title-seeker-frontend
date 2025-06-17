@@ -6,7 +6,7 @@ import { MovieFormContext } from "./utils";
 
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { GenreSchemeList } from "@/types/zod-scheme";
+import { GenreSchemaList } from "@/types/genre-filter-schema";
 
 import { createGenre, createSubgenre } from "@/app/services/admin-api";
 import type {
@@ -37,7 +37,7 @@ type Props = {
 export type GenreType = "genres" | "subgenres";
 export type MovieInfoFieldNames = Pick<MovieFormData, GenreType>;
 
-export type GenreSchemeType = z.infer<typeof GenreSchemeList>;
+export type GenreSchemeType = z.infer<typeof GenreSchemaList>;
 
 export const GenreFieldsForm = ({ genres }: Props) => {
   const t = useTranslations("Form.stepper.genres");
@@ -74,7 +74,7 @@ export const GenreFieldsForm = ({ genres }: Props) => {
     formState: { errors },
     getValues,
   } = useForm({
-    resolver: zodResolver(GenreSchemeList),
+    resolver: zodResolver(GenreSchemaList),
     defaultValues: {
       genres: parsedData.genres,
       subgenres: parsedData.subgenres,

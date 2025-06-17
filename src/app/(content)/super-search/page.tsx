@@ -6,7 +6,7 @@ import type { SearchParams } from "@/types/general";
 import {
   FilterSchema,
   PaginationParamsSchema,
-} from "@/types/search-params-scheme";
+} from "@/types/search-params-schema";
 
 import { Language, SortBy, SortOrder } from "@/orval_api/model";
 

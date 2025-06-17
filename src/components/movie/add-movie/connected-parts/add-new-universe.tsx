@@ -7,9 +7,9 @@ import { toast } from "sonner";
 
 import { createSharedUniverse } from "@/app/services/admin-api";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { TypeGenreScheme } from "@/types/general";
+import { EntityFormSchema, EntityFormType } from "@/types/general";
 import { formatKey } from "@/lib/utils";
-import { GenreScheme, SharedUniverseType } from "@/types/zod-scheme";
+import { SharedUniverseType } from "@/types/movie-schema";
 
 import { GenreFormIn } from "@/orval_api/model";
 import { FormWrapper } from "@/components/my-custom-ui/form-ui-parts/form-wrapper";
@@ -29,8 +29,8 @@ export const AddNewUniverse = ({ setValue }: Props) => {
     handleSubmit,
     formState: { errors, isSubmitting },
     watch,
-  } = useForm<TypeGenreScheme>({
-    resolver: zodResolver(GenreScheme),
+  } = useForm<EntityFormType>({
+    resolver: zodResolver(EntityFormSchema),
     defaultValues: {
       key: "",
       name_en: "",

@@ -31,3 +31,18 @@ export const FilterSchema = z.object({
   shared_universe: stringOrStringArray.optional(),
   visual_profile: stringOrStringArray.optional(),
 });
+
+export const EnhanceSearchField = z.object({
+  name: z.string().trim(),
+  percentage_match: z.array(z.number()),
+});
+
+export const EnhanceSearchSchema = z.object({
+  genres: z.array(EnhanceSearchField),
+  subgenres: z.array(EnhanceSearchField),
+  specifications: z.array(EnhanceSearchField),
+  keywords: z.array(EnhanceSearchField),
+  action_times: z.array(EnhanceSearchField),
+});
+
+export type EnhanceSearchType = z.infer<typeof EnhanceSearchField>;

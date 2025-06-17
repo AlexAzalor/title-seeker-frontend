@@ -11,8 +11,9 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 
-import { TypeGenreScheme } from "@/types/general";
-import { GenreScheme, GenreSchemeListType } from "@/types/zod-scheme";
+import { EntityFormType } from "@/types/general";
+import { GenreSchemaListType } from "@/types/genre-filter-schema";
+import { EntityFormSchema } from "@/types/general";
 import { GenreFormIn, GenreFormOut } from "@/orval_api/model";
 import { formatKey } from "@/lib/utils";
 import { FormWrapper } from "@/components/my-custom-ui/form-ui-parts/form-wrapper";
@@ -24,13 +25,13 @@ import { Input } from "@/components/ui/input";
 
 type Props<T extends GenreType> = {
   type: GenreType;
-  appendItem: UseFieldArrayAppend<GenreSchemeListType, T>;
+  appendItem: UseFieldArrayAppend<GenreSchemaListType, T>;
   fetchApi: (formData: GenreFormIn) => Promise<{
     status?: number;
     message?: string;
     newItem?: GenreFormOut;
   }>;
-  genresList?: FieldArrayWithId<GenreSchemeListType, "genres">[];
+  genresList?: FieldArrayWithId<GenreSchemaListType, "genres">[];
   setSubgenres?: Dispatch<SetStateAction<GenreFormOut[]>>;
 };
 
@@ -50,8 +51,8 @@ export const AddNewGenre = ({
     handleSubmit,
     formState: { errors, isSubmitting },
     watch,
-  } = useForm<TypeGenreScheme>({
-    resolver: zodResolver(GenreScheme),
+  } = useForm<EntityFormType>({
+    resolver: zodResolver(EntityFormSchema),
     defaultValues: {
       key: "",
       name_en: "",
@@ -60,7 +61,7 @@ export const AddNewGenre = ({
 
   const watchFields = watch(["name_en"]);
 
-  const onSubmit = async (data: TypeGenreScheme) => {
+  const onSubmit = async (data: EntityFormType) => {
     const dataToSend: GenreFormIn = {
       ...data,
     };

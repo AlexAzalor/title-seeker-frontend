@@ -8,7 +8,7 @@ import { MovieFormContext } from "./utils";
 
 import { createActor, createDirector } from "@/app/services/admin-api";
 import { z } from "zod";
-import { MovieCrewListScheme } from "@/types/zod-scheme";
+import { PeopleListSchema } from "@/types/people-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import type {
@@ -38,7 +38,7 @@ export type MovieInfoFieldNames = Pick<
   "actors_keys" | "directors_keys"
 >;
 
-export type PeopleSchemeType = z.infer<typeof MovieCrewListScheme>;
+export type PeopleSchemeType = z.infer<typeof PeopleListSchema>;
 
 export const PeopleFieldsForm = ({ actors, directors, characters }: Props) => {
   const t = useTranslations("Form.stepper.people");
@@ -83,7 +83,7 @@ export const PeopleFieldsForm = ({ actors, directors, characters }: Props) => {
     formState: { errors },
     setValue,
   } = useForm({
-    resolver: zodResolver(MovieCrewListScheme),
+    resolver: zodResolver(PeopleListSchema),
     defaultValues: {
       actors: defaultActors || undefined,
       directors: defaultDirectors || undefined,

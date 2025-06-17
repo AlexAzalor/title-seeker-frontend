@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import { Control, Controller, FieldArrayWithId } from "react-hook-form";
 import { Slider } from "../ui/slider";
-import { EnhanceSearchType } from "@/types/zod-scheme";
+import { EnhanceSearchType } from "@/types/search-params-schema";
 import { Separator } from "../ui/separator";
 
 type FormData = {

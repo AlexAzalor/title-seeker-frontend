@@ -9,7 +9,7 @@ import {
   VisualProfileCreate,
   VisualProfileCreateType,
   VisualProfileFieldType,
-} from "@/types/zod-scheme";
+} from "@/types/visual-profile-schema";
 
 import { formatKey } from "@/lib/utils";
 import { FormField } from "@/components/my-custom-ui/form-ui-parts/form-field";

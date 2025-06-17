@@ -1,7 +1,7 @@
 import { Suspense, use, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Controller, useForm } from "react-hook-form";
-import { SharedUniverseFields, SharedUniverseType } from "@/types/zod-scheme";
+import { SharedUniverseFields, SharedUniverseType } from "@/types/movie-schema";
 import { MovieFormContext, SU_STEP } from "./utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormField } from "@/components/my-custom-ui/form-ui-parts/form-field";

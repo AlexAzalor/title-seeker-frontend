@@ -13,7 +13,10 @@ import {
 } from "@/app/services/admin-api";
 import { MovieFormContext } from "./utils";
 import { InfoIcon } from "lucide-react";
-import { MovieFilterList, MovieFilterListType } from "@/types/zod-scheme";
+import {
+  TitleFilterList,
+  TitleFilterListType,
+} from "@/types/genre-filter-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { MovieFormData, FilterItemOut } from "@/orval_api/model";
@@ -64,7 +67,7 @@ export const FilterForm = ({
     formState: { errors },
     getValues,
   } = useForm({
-    resolver: zodResolver(MovieFilterList),
+    resolver: zodResolver(TitleFilterList),
     defaultValues: {
       specifications: parsedData.specifications || [],
       keywords: parsedData.keywords || [],
@@ -99,7 +102,7 @@ export const FilterForm = ({
     name: "action_times",
   });
 
-  const onSubmit = (data: MovieFilterListType) => {
+  const onSubmit = (data: TitleFilterListType) => {
     const dataToApi: MovieFilterFileds = {
       specifications: data.specifications,
       keywords: data.keywords,

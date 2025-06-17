@@ -5,9 +5,9 @@ import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { TypeGenreScheme } from "@/types/general";
+import { EntityFormType } from "@/types/general";
 
-import { GenreScheme } from "@/types/zod-scheme";
+import { EntityFormSchema } from "@/types/general";
 import { MovieFilterFormIn, FilterItemOut } from "@/orval_api/model";
 import { formatKey } from "@/lib/utils";
 import { FormWrapper } from "@/components/my-custom-ui/form-ui-parts/form-wrapper";
@@ -32,8 +32,8 @@ export const AddNewMovieFilter = ({ appendItem, fetchApi }: Props) => {
     handleSubmit,
     formState: { errors, isSubmitting },
     watch,
-  } = useForm<TypeGenreScheme>({
-    resolver: zodResolver(GenreScheme),
+  } = useForm<EntityFormType>({
+    resolver: zodResolver(EntityFormSchema),
     defaultValues: {
       key: "",
       name_en: "",
@@ -42,7 +42,7 @@ export const AddNewMovieFilter = ({ appendItem, fetchApi }: Props) => {
 
   const watchFields = watch(["name_en"]);
 
-  const onSubmit = async (formData: TypeGenreScheme) => {
+  const onSubmit = async (formData: EntityFormType) => {
     const response = await fetchApi(formData);
 
     if (response.status === 201 && response.newItem) {
