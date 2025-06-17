@@ -108,7 +108,7 @@ export default async function SuperSearchPage(props: {
       query={""}
       sortOrder={sortOrder}
       sortBy={sortBy}
-      sortByID
+      ratedAt
     >
       <div className="flex h-190 flex-wrap gap-4 py-3 lg:px-3">
         {movies.length ? (

@@ -29,9 +29,11 @@ import {
   USER_ITEMS,
 } from "./menu-item-collection";
 
-export async function AppSidebar({
-  ...props
-}: React.ComponentProps<typeof Sidebar>) {
+type AppSidebarProps = React.ComponentProps<typeof Sidebar> & {
+  locale: string;
+};
+
+export async function AppSidebar({ locale, ...props }: AppSidebarProps) {
   const session = await auth();
 
   const isAdmin = checkIfAdmin(session?.user.role);
@@ -109,7 +111,7 @@ export async function AppSidebar({
 
       <SidebarFooter>
         <div className="flex items-center justify-between">
-          <LanguageSelector />
+          <LanguageSelector locale={locale} />
           <ThemeSelector />
         </div>
         {session && <SignOut name={menu("logout")} />}

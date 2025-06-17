@@ -10,11 +10,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Language } from "@/orval_api/model";
-import { useLocale } from "next-intl";
 
-export const LanguageSelector = () => {
-  const locale = useLocale();
-
+export function LanguageSelector({ locale }: { locale: string }) {
   const handleLocaleChange = async (locale: string) => {
     setUserLocale(locale as Language);
   };
@@ -32,4 +29,4 @@ export const LanguageSelector = () => {
       </SelectContent>
     </Select>
   );
-};
+}

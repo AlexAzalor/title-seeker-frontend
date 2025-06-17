@@ -4,7 +4,6 @@ import { useCallback, useState } from "react";
 import { useDebounce } from "@/hooks/use-debounce";
 import { useLocalStorage } from "@/hooks/use-local-storage";
 import { useTranslations } from "next-intl";
-import Image from "next/image";
 import Link from "next/link";
 import { toast } from "sonner";
 import {
@@ -16,16 +15,21 @@ import {
 
 import { ScanSearch, Search as SearchIcon } from "lucide-react";
 
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
+import { Input } from "../../ui/input";
+import { Button } from "../../ui/button";
 
 import { SearchResult, SearchType } from "@/orval_api/model";
-import { cn } from "@/lib/utils";
 import { useMediaQuery } from "@/hooks/use-media-query";
-import { CustomModal } from "../my-custom-ui/custom-modal";
+
 import { useModal } from "@/hooks/use-modal";
-import { Separator } from "../ui/separator";
-import { CONTENT_ICONS } from "./sidebar/menu-item-collection";
+import { Separator } from "../../ui/separator";
+import { CONTENT_ICONS } from "../sidebar/menu-item-collection";
+
+import { SearchTabs } from "./search-tabs";
+import { SearchItemList } from "./search-item-list";
+import dynamic from "next/dynamic";
+
+const CustomModal = dynamic(() => import("../../my-custom-ui/custom-modal"));
 
 // Her (2013), It (2017)
 const MIN_CHARACTERS = 1;
@@ -115,9 +119,11 @@ export const Search = ({ posterURL }: Props) => {
     if (tab === SearchType.actors) {
       getActorList(query);
     }
+
     if (tab === SearchType.directors) {
       getDirectorList(query);
     }
+
     if (tab === SearchType.characters) {
       getCharacterList(query);
     }
@@ -136,13 +142,16 @@ export const Search = ({ posterURL }: Props) => {
     debounce(searchQuery);
   };
 
-  const setSearchResultToLocalStorage = (newItem: SearchResult) => {
-    const data = parsedData;
+  const setSearchResultToLocalStorage = useCallback(
+    (newItem: SearchResult) => {
+      const data = parsedData;
 
-    const filtered = data.filter((m) => m.key !== newItem.key);
-    const updated = [newItem, ...filtered].slice(0, 3);
-    setData(updated);
-  };
+      const filtered = data.filter((m) => m.key !== newItem.key);
+      const updated = [newItem, ...filtered].slice(0, 3);
+      setData(updated);
+    },
+    [parsedData, setData],
+  );
 
   const handleTabChange = useCallback((tab: SearchType) => {
     setTab(tab);
@@ -159,51 +168,14 @@ export const Search = ({ posterURL }: Props) => {
     setWarning(false);
   }, []);
 
-  const handleChooseItem = (newItem: SearchResult) => {
-    close();
-    setSearchResultToLocalStorage(newItem);
-    setSearchResults(null);
-  };
-
-  const getSearchTypeUrl = (type: SearchType, key: string) => {
-    switch (type) {
-      case SearchType.movies:
-        return `/movies/${key}`;
-      case SearchType.tvseries:
-        return "/tvseries";
-      case SearchType.anime:
-        return "/anime";
-      case SearchType.games:
-        return "/games";
-      case SearchType.actors:
-        return `/super-search?page=1&actor=${key}`;
-      case SearchType.directors:
-        return `/super-search?page=1&director=${key}`;
-      case SearchType.characters:
-        return `/super-search?page=1&character=${key}`;
-      default:
-        return "/";
-    }
-  };
-
-  const getImageUrl = (type: SearchType, image: string) => {
-    switch (type) {
-      case SearchType.movies:
-        return `${posterURL}/posters/${image}`;
-      case SearchType.tvseries:
-        return `${posterURL}/posters/${image}`;
-      case SearchType.anime:
-        return `${posterURL}/posters/${image}`;
-      case SearchType.games:
-        return `${posterURL}/posters/${image}`;
-      case SearchType.actors:
-        return `${posterURL}/actors/${image}`;
-      case SearchType.directors:
-        return `${posterURL}/directors/${image}`;
-      default:
-        return "";
-    }
-  };
+  const handleChooseItem = useCallback(
+    (newItem: SearchResult) => {
+      close();
+      setSearchResultToLocalStorage(newItem);
+      setSearchResults(null);
+    },
+    [close, setSearchResultToLocalStorage],
+  );
 
   return (
     <div
@@ -232,54 +204,11 @@ export const Search = ({ posterURL }: Props) => {
       </div>
 
       <CustomModal isOpen={isOpen} onClose={close}>
-        <div className="mb-2 flex gap-4 px-2">
-          {navigationKeys.map(({ key, title }) => {
-            const isTab = tab === key;
-
-            return (
-              <button
-                key={key}
-                onClick={() => handleTabChange(key)}
-                className={cn(
-                  "search-nav rounded-md border px-1 font-medium",
-                  isTab && key === SearchType.movies && "movie-color-set",
-                  isTab && key === SearchType.tvseries && "tvseries-color-set",
-                  isTab && key === SearchType.anime && "anime-color-set",
-                  isTab && key === SearchType.games && "game-color-set",
-                )}
-              >
-                {title}
-              </button>
-            );
-          })}
-        </div>
-
-        <div className="mb-2 flex gap-4 px-2">
-          {[
-            { key: SearchType.actors, label: "Actors" },
-            { key: SearchType.directors, label: "Directors" },
-            { key: SearchType.characters, label: "Characters" },
-          ].map(({ key, label }) => {
-            const isTab = tab === key;
-
-            return (
-              <button
-                key={key}
-                onClick={() => handleTabChange(key)}
-                className={cn(
-                  "search-nav rounded-md border px-1 font-medium",
-                  isTab && key === SearchType.actors && "actor-color-set",
-                  isTab && key === SearchType.directors && "director-color-set",
-                  isTab &&
-                    key === SearchType.characters &&
-                    "character-color-set",
-                )}
-              >
-                {label}
-              </button>
-            );
-          })}
-        </div>
+        <SearchTabs
+          navKeys={navigationKeys}
+          tab={tab}
+          onChange={handleTabChange}
+        />
 
         {warning && (
           <p className="error-message mx-6 rounded-md text-center">
@@ -304,67 +233,30 @@ export const Search = ({ posterURL }: Props) => {
 
         {!!searchResults && searchResults.length === 0 && (
           <p className="error-message mx-6 rounded-md text-center">
-            Titles Not found
+            Items Not found
           </p>
         )}
 
         {!!searchResults && !!searchResults.length && (
-          <div className="flex flex-col gap-1">
-            {searchResults.map((item) => (
-              <Link
-                key={item.key}
-                href={getSearchTypeUrl(item.type, item.key)}
-                className="dark:hover:bg-main-dark-hover flex w-full items-center gap-2 rounded-sm p-2 transition-all duration-200 select-none hover:bg-neutral-100"
-                onClick={() => handleChooseItem(item)}
-              >
-                {item.image && (
-                  <Image
-                    src={getImageUrl(item.type, item.image)}
-                    alt="Movie poster"
-                    height={60}
-                    width={40}
-                  />
-                )}
-                <div>
-                  <p className="text-lg font-bold">{item.name}</p>
-                  {item.extra_info && <span>{item.extra_info}</span>}
-                </div>
-              </Link>
-            ))}
-
+          <>
+            <SearchItemList
+              title={t("result")}
+              posterURL={posterURL}
+              recentSearchItems={searchResults}
+              close={handleChooseItem}
+            />
             <Separator className="my-3" />
-          </div>
+          </>
         )}
 
         {parsedData.length > 0 && (
           <>
-            <div className="flex flex-col gap-1">
-              <p className="mb-1 text-[var(--color-neutral-500)]">
-                {t("recent")}
-              </p>
-              {parsedData.map((item) => (
-                <Link
-                  key={item.key}
-                  href={getSearchTypeUrl(item.type, item.key)}
-                  className="dark:hover:bg-main-dark-hover flex w-full items-center gap-2 rounded-sm p-2 transition-all duration-200 select-none hover:bg-neutral-100"
-                  onClick={close}
-                >
-                  {item.image && (
-                    <Image
-                      src={getImageUrl(item.type, item.image)}
-                      alt="Title Poster"
-                      height={60}
-                      width={40}
-                    />
-                  )}
-                  <div>
-                    <p className="text-lg font-bold">{item.name}</p>
-                    {item.extra_info && <span>{item.extra_info}</span>}
-                  </div>
-                </Link>
-              ))}
-            </div>
-
+            <SearchItemList
+              title={t("recent")}
+              posterURL={posterURL}
+              recentSearchItems={parsedData}
+              close={handleChooseItem}
+            />
             <Separator className="my-3" />
           </>
         )}

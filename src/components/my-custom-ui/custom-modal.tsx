@@ -9,11 +9,7 @@ interface ModalProps {
   children: React.ReactNode;
 }
 
-export const CustomModal: React.FC<ModalProps> = ({
-  isOpen,
-  onClose,
-  children,
-}) => {
+function CustomModal({ isOpen, onClose, children }: ModalProps) {
   const backdropRef = useRef(null);
 
   useBodyScrollLock(isOpen);
@@ -56,4 +52,6 @@ export const CustomModal: React.FC<ModalProps> = ({
       )}
     </AnimatePresence>
   );
-};
+}
+
+export default CustomModal;

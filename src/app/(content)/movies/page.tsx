@@ -51,7 +51,7 @@ export default async function MoviesPage(props: {
       query={""}
       sortOrder={sortOrder}
       sortBy={sortBy}
-      sortByID
+      ratedAt
     >
       <title>Movies | Title Seeker</title>
 

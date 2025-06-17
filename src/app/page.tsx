@@ -46,7 +46,7 @@ export default function Home() {
         >
           {({ result, lang }) => (
             <MoviesCarousel
-              name={t("navigation.movies")}
+              name={t("randomMovies")}
               movies={result.data.movies}
               lang={lang}
               posterURL={POSTER_URL || "NO URL!"}

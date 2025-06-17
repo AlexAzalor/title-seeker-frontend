@@ -28,7 +28,7 @@ import { FetchWrapper } from "@/components/my-custom-ui/fetch-wrapper";
 import { Spinner } from "@/components/my-custom-ui/spinner";
 
 import { MovieInfo } from "@/components/movie/movie-page/info/movie-info";
-import { VisualProfileRadarChart } from "@/components/movie/movie-page/visual-profile.tsx/visual-profile-radar-chart";
+import { VisualProfile } from "@/components/movie/movie-page/visual-profile.tsx/visual-profile";
 import { CustomTabs } from "@/components/my-custom-ui/custom-tabs";
 
 export default async function DynamicPage({ params }: PageProps) {
@@ -170,7 +170,7 @@ export default async function DynamicPage({ params }: PageProps) {
                 {
                   key: "visual-profile",
                   component: (
-                    <VisualProfileRadarChart
+                    <VisualProfile
                       key="visual-profile"
                       movieKey={data.key}
                       radarData={data.visual_profile}

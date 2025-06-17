@@ -20,6 +20,7 @@
     },
     "addMovie": "Add Movie",
     "quicklyAddMovie": "Quickly add Movie",
+    "randomMovies": "Random Movies",
     "topActorsCarousel": "Top Actors by movies count"
   },
   "MenuItems": {
@@ -68,7 +69,8 @@
     "type": "Type to search...",
     "super": "Super search",
     "recent": "Recent searches",
-    "suggestions": "Suggestions"
+    "suggestions": "Suggestions",
+    "result": "Search Result"
   },
 
   "SuperSearch": {
@@ -290,7 +292,8 @@
       "overall": "Overall Rating",
       "owner": "Owner Rating"
     },
-    "myList": "All my rated movies"
+    "myList": "All my rated movies",
+    "noUserRating": "You have not rated any movies yet."
   },
   "Form": {
     "submit": "Submit",

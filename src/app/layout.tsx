@@ -71,7 +71,7 @@ export default async function RootLayout({
             <AuthProvider>
               <SidebarProvider defaultOpen={false}>
                 <MainLayout>
-                  <AppSidebar />
+                  <AppSidebar locale={locale} />
                   {children}
                 </MainLayout>
               </SidebarProvider>

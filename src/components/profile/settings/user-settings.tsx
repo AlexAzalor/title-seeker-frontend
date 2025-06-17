@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense } from "react";
 import { useTranslations } from "next-intl";
 import { Session } from "next-auth";
 import { signOut, useSession } from "next-auth/react";
@@ -8,16 +8,19 @@ import { deleteProfile, setLanguage } from "@/app/services/user-api";
 
 import { Language } from "@/orval_api/model";
 import { Button } from "@/components/ui/button";
-import ModalWindow from "@/components/my-custom-ui/modal-window";
 import { setUserLocale } from "@/app/services/locale";
 import { Separator } from "@/components/ui/separator";
 import { checkIfOwner } from "@/middleware";
+import { useModal } from "@/hooks/use-modal";
+import dynamic from "next/dynamic";
+
+const CustomModal = dynamic(() => import("../../my-custom-ui/custom-modal"));
 
 export const UserSettings = () => {
   const t = useTranslations("Settings");
 
   const { data, update } = useSession();
-  const [open, setOpen] = useState(false);
+  const { open, close, isOpen } = useModal();
 
   if (!data?.user) {
     return null;
@@ -26,14 +29,14 @@ export const UserSettings = () => {
   const isOwner = checkIfOwner(data.user.role);
 
   const handleOpen = () => {
-    setOpen(true);
+    open();
   };
 
   const handleDeleteProfile = async () => {
     const res = await deleteProfile(data.user.uuid);
 
     if (res === 200) {
-      setOpen(false);
+      close();
       signOut({ redirectTo: "/" });
     } else {
       console.error("Failed to delete profile", res);
@@ -94,25 +97,29 @@ export const UserSettings = () => {
         </div>
       </div>
 
-      <ModalWindow title={t("delete")} open={open} setOpen={setOpen}>
-        <div>
-          <p className="text-lg">{t("deleteWarning")}</p>
+      <Suspense>
+        <CustomModal isOpen={isOpen} onClose={close}>
+          <h1>{t("delete")}</h1>
+          <div>
+            <p className="text-lg">{t("deleteWarning")}</p>
 
-          {isOwner && (
-            <p className="text-sm font-bold text-red-500">
-              Note: If you are the Owner of the Platform, you cannot delete it.
-            </p>
-          )}
+            {isOwner && (
+              <p className="text-sm font-bold text-red-500">
+                Note: If you are the Owner of the Platform, you cannot delete
+                it.
+              </p>
+            )}
 
-          <Button
-            disabled={isOwner}
-            variant="destructive"
-            onClick={handleDeleteProfile}
-          >
-            Confirm
-          </Button>
-        </div>
-      </ModalWindow>
+            <Button
+              disabled={isOwner}
+              variant="destructive"
+              onClick={handleDeleteProfile}
+            >
+              Confirm
+            </Button>
+          </div>
+        </CustomModal>
+      </Suspense>
     </>
   );
 };

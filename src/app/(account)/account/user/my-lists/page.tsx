@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { PaginationParamsSchema } from "@/types/search-params-schema";
 import { backendURL, DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from "@/lib/constants";
 import type { SearchParams } from "@/types/general";
@@ -20,6 +20,7 @@ export default async function MyListsPage(props: {
     redirect("/");
   }
 
+  const t = await getTranslations("Rating");
   const locale = await getLocale();
   const lang = Language[locale as keyof typeof Language];
 
@@ -59,6 +60,7 @@ export default async function MyListsPage(props: {
       query={""}
       sortOrder={sortOrder}
       sortBy={orderBy}
+      sortByID
     >
       {!!total && !!pages ? (
         <>
@@ -77,7 +79,7 @@ export default async function MyListsPage(props: {
           )}
         </>
       ) : (
-        <div>You have not rated any movies yet.</div>
+        <div>{t("noUserRating")}</div>
       )}
     </SortingControls>
   );

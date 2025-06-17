@@ -84,7 +84,10 @@ export function formatKey(names: string[]) {
   return convertToSlug(names.join(" "));
 }
 
-export const errorHandling = (response: any, endSubmitting: () => void) => {
+export const errorHandling = (
+  response: { status?: number; message?: string },
+  endSubmitting: () => void,
+) => {
   if (response.status === 201) {
     toast.success(response?.message);
     // localStorage.removeItem("new-movie-data");

@@ -7,7 +7,7 @@ import { checkIfAdmin } from "@/middleware";
 import { InfoIcon } from "lucide-react";
 import { useModal } from "@/hooks/use-modal";
 import { cn } from "@/lib/utils";
-import { CustomModal } from "../../my-custom-ui/custom-modal";
+
 import {
   FilterEnum,
   FilterItemOut,
@@ -28,6 +28,9 @@ import { FilterEditForm } from "./filter-edit-form";
 import { FilterItemLink } from "./filter-item-link";
 import { GenreEditForm } from "./genre-edit-form";
 import { toast } from "sonner";
+import dynamic from "next/dynamic";
+
+const CustomModal = dynamic(() => import("../../my-custom-ui/custom-modal"));
 
 type Props = {
   movieKey: string;

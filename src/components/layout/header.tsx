@@ -1,12 +1,12 @@
 import Image from "next/image";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
 import { ALL_ROLES } from "@/middleware";
 
 import { ThemeSelector } from "./theme-selector";
 import { Button } from "../ui/button";
 import { PlusCircle } from "lucide-react";
-import { Search } from "./search";
+import { Search } from "./search/search";
 import { POSTER_URL } from "@/lib/constants";
 import { SidebarTrigger } from "../ui/sidebar";
 import { UserProfileMenu } from "../profile/menu-nav/user-profile-menu";
@@ -17,6 +17,7 @@ import { UserRole } from "@/orval_api/model";
 export const Header = () => {
   const t = useTranslations("HomePage");
   const navigationKeys = Object.keys(t.raw("navigation"));
+  const locale = useLocale();
 
   return (
     <header
@@ -75,7 +76,7 @@ export const Header = () => {
         </RoleGate>
 
         <div className="hidden 2xl:block">
-          <LanguageSelector />
+          <LanguageSelector locale={locale} />
         </div>
 
         <div className="hidden 2xl:block">

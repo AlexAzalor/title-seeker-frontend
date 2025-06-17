@@ -8,7 +8,7 @@ import messages from "../../messages/en.json";
 
 import { GoogleLogin } from "@/components/layout/google-login";
 import { LanguageSelector } from "@/components/layout/language-selector";
-import { Search } from "@/components/layout/search";
+import { Search } from "@/components/layout/search/search";
 import { ThemeSelector } from "@/components/layout/theme-selector";
 import { SessionProvider } from "next-auth/react";
 import { SidebarProvider } from "@/components/ui/sidebar";
@@ -37,7 +37,7 @@ test("Should render GoogleLogin", () => {
 });
 
 test("Should render LanguageSelector", async () => {
-  render(<LanguageSelector />, {
+  render(<LanguageSelector locale="en" />, {
     wrapper: ProjectProviders,
   });
 
