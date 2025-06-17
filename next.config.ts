@@ -1,5 +1,7 @@
 import type { NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
+// const { version } = require('./package.json');
+import { version } from "./package.json";
 
 const withNextIntl = createNextIntlPlugin();
 
@@ -32,6 +34,9 @@ const nextConfig: NextConfig = {
     dangerouslyAllowSVG: true,
     contentDispositionType: "attachment",
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+  },
+  env: {
+    NEXT_PUBLIC_APP_VERSION: version,
   },
 };
 

@@ -15,6 +15,7 @@ export const MainLayout = ({ children }: { children: React.ReactNode }) => {
       <footer className="grid h-20 place-content-center bg-black text-white">
         Footer
         <span>Version {process.env.npm_package_version ?? "0.0.0"}</span>
+        <div>Version 2: {process.env.NEXT_PUBLIC_APP_VERSION}</div>
       </footer>
     </div>
   );

@@ -104,6 +104,7 @@ export default async function DynamicPage({ params }: PageProps) {
                 className="h-[450px] w-[300px] max-w-none"
                 height={450}
                 width={300}
+                priority
               />
             </div>
 

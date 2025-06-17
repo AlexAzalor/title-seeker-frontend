@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { GenreRadarChart } from "@/components/profile/charts/genre-radar-chart";
 import { TimeRateChart } from "@/components/profile/charts/time-rate-chart";
 import { UserInfo } from "@/components/profile/user-info";
@@ -15,6 +15,7 @@ export default async function ProfilePage() {
     return null;
   }
 
+  const t = await getTranslations();
   const locale = await getLocale();
   const lang = Language[locale as keyof typeof Language];
 
@@ -36,9 +37,9 @@ export default async function ProfilePage() {
 
           <TopRatedMovies radarData={radarData} />
 
-          <div className="mx-auto hidden self-center 2xl:block">
-            Not yet implemented chart
-          </div>
+          <p className="mx-auto hidden self-center font-bold 2xl:block">
+            {t("notImplemented")}
+          </p>
         </div>
         <TimeRateChart moviesTimeRateData={data.movie_chart_data} />
       </div>

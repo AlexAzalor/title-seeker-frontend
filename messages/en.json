@@ -230,7 +230,7 @@
       "qualityLevel": {
         "one": "Everything looks cheap or chaotic.",
         "two": "Minimal effort in creating the atmosphere.",
-        "three": "There is a style, but it is not always consistent.",
+        "three": "Basic decorations and style. Nothing unique.",
         "four": "The visual world is thoughtful and pleasant.",
         "five": "A unique atmosphere has been created, the details are captivating.",
         "six": "Aesthetics at the level of art. Every frame is a painting."
@@ -430,7 +430,7 @@
     "deleteWarning": "Are you sure you want to delete your profile? This action cannot be undone."
   },
 
-  "notImplemented": "not implemented yet",
+  "notImplemented": "This part is not yet implemented.",
   "Other": {
     "showValues": "Show values",
     "total": "Total",
