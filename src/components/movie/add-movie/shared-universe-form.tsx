@@ -18,10 +18,13 @@ import { FormButtons } from "@/components/my-custom-ui/form-ui-parts/form-button
 import { ResponsiveWrapper } from "../../my-custom-ui/responsive-wrapper";
 import { ItemsSelector } from "../../my-custom-ui/items-list-selector";
 import dynamic from "next/dynamic";
-import { AddNewUniverse } from "./connected-parts/add-new-universe";
-import { Spinner } from "@/components/my-custom-ui/spinner";
 
-const ModalMovie = dynamic(() => import("../../my-custom-ui/modal-window"));
+import { Spinner } from "@/components/my-custom-ui/spinner";
+import { AddNewUniverse } from "./connected-parts/add-new-universe";
+
+const ModalMovie = dynamic(() => import("../../my-custom-ui/modal-window"), {
+  ssr: false,
+});
 
 export type MovieKeyFields = Pick<
   MovieFormData,
@@ -167,7 +170,7 @@ export const SharedUniverseForm = ({ sharedUniverses }: Props) => {
         </form>
       </div>
 
-      <Suspense>
+      {openAddNewUniverseModal && (
         <ModalMovie
           title={t("addNewSU")}
           open={openAddNewUniverseModal}
@@ -175,7 +178,7 @@ export const SharedUniverseForm = ({ sharedUniverses }: Props) => {
         >
           <AddNewUniverse setValue={setValue} />
         </ModalMovie>
-      </Suspense>
+      )}
     </>
   );
 };

@@ -29,7 +29,9 @@ import { SearchTabs } from "./search-tabs";
 import { SearchItemList } from "./search-item-list";
 import dynamic from "next/dynamic";
 
-const CustomModal = dynamic(() => import("../../my-custom-ui/custom-modal"));
+const CustomModal = dynamic(() => import("../../my-custom-ui/custom-modal"), {
+  ssr: false,
+});
 
 // Her (2013), It (2017)
 const MIN_CHARACTERS = 1;
@@ -203,85 +205,87 @@ export const Search = ({ posterURL }: Props) => {
         </Link>
       </div>
 
-      <CustomModal isOpen={isOpen} onClose={close}>
-        <SearchTabs
-          navKeys={navigationKeys}
-          tab={tab}
-          onChange={handleTabChange}
-        />
-
-        {warning && (
-          <p className="error-message mx-6 rounded-md text-center">
-            Title type not supported!
-          </p>
-        )}
-
-        <div
-          className="mb-3 flex items-center border-b px-3 dark:border-b-neutral-700"
-          cmdk-input-wrapper=""
-        >
-          <SearchIcon className="mr-2 h-4 w-4 shrink-0 opacity-50" />
-          <Input
-            placeholder={t("type")}
-            onChange={(e) => handleSearch(e.target.value)}
-            autoFocus={!isMobile}
-            className={
-              "flex field-sizing-content h-11 w-full rounded-md border-none bg-transparent py-3 text-sm outline-hidden placeholder:text-neutral-500 disabled:cursor-not-allowed disabled:opacity-50 dark:placeholder:text-neutral-400"
-            }
+      {isOpen && (
+        <CustomModal isOpen={isOpen} onClose={close}>
+          <SearchTabs
+            navKeys={navigationKeys}
+            tab={tab}
+            onChange={handleTabChange}
           />
-        </div>
 
-        {!!searchResults && searchResults.length === 0 && (
-          <p className="error-message mx-6 rounded-md text-center">
-            Items Not found
-          </p>
-        )}
+          {warning && (
+            <p className="error-message mx-6 rounded-md text-center">
+              Title type not supported!
+            </p>
+          )}
 
-        {!!searchResults && !!searchResults.length && (
-          <>
-            <SearchItemList
-              title={t("result")}
-              posterURL={posterURL}
-              recentSearchItems={searchResults}
-              close={handleChooseItem}
-            />
-            <Separator className="my-3" />
-          </>
-        )}
-
-        {parsedData.length > 0 && (
-          <>
-            <SearchItemList
-              title={t("recent")}
-              posterURL={posterURL}
-              recentSearchItems={parsedData}
-              close={handleChooseItem}
-            />
-            <Separator className="my-3" />
-          </>
-        )}
-
-        <div className="flex flex-col gap-2">
-          <p className="mb-1 text-[var(--color-neutral-500)]">
-            {t("suggestions")}
-          </p>
-          {navigationKeys.map((item) => (
-            <Link
-              key={item.key}
-              href={item.key}
-              className="dark:hover:bg-main-dark-hover flex w-full items-center gap-1 rounded-sm p-1 transition-all duration-200 select-none hover:bg-neutral-100"
-              onClick={close}
-            >
-              {
-                CONTENT_ICONS[
-                  item.key.replace("/", "") as keyof typeof CONTENT_ICONS
-                ]
+          <div
+            className="mb-3 flex items-center border-b px-3 dark:border-b-neutral-700"
+            cmdk-input-wrapper=""
+          >
+            <SearchIcon className="mr-2 h-4 w-4 shrink-0 opacity-50" />
+            <Input
+              placeholder={t("type")}
+              onChange={(e) => handleSearch(e.target.value)}
+              autoFocus={!isMobile}
+              className={
+                "flex field-sizing-content h-11 w-full rounded-md border-none bg-transparent py-3 text-sm outline-hidden placeholder:text-neutral-500 disabled:cursor-not-allowed disabled:opacity-50 dark:placeholder:text-neutral-400"
               }
-              <span>{item.title}</span>
-            </Link>
-          ))}
-        </div>
-      </CustomModal>
+            />
+          </div>
+
+          {!!searchResults && searchResults.length === 0 && (
+            <p className="error-message mx-6 rounded-md text-center">
+              Items Not found
+            </p>
+          )}
+
+          {!!searchResults && !!searchResults.length && (
+            <>
+              <SearchItemList
+                title={t("result")}
+                posterURL={posterURL}
+                recentSearchItems={searchResults}
+                close={handleChooseItem}
+              />
+              <Separator className="my-3" />
+            </>
+          )}
+
+          {parsedData.length > 0 && (
+            <>
+              <SearchItemList
+                title={t("recent")}
+                posterURL={posterURL}
+                recentSearchItems={parsedData}
+                close={handleChooseItem}
+              />
+              <Separator className="my-3" />
+            </>
+          )}
+
+          <div className="flex flex-col gap-2">
+            <p className="mb-1 text-[var(--color-neutral-500)]">
+              {t("suggestions")}
+            </p>
+            {navigationKeys.map((item) => (
+              <Link
+                key={item.key}
+                href={item.key}
+                className="dark:hover:bg-main-dark-hover flex w-full items-center gap-1 rounded-sm p-1 transition-all duration-200 select-none hover:bg-neutral-100"
+                onClick={close}
+              >
+                {
+                  CONTENT_ICONS[
+                    item.key.replace("/", "") as keyof typeof CONTENT_ICONS
+                  ]
+                }
+                <span>{item.title}</span>
+              </Link>
+            ))}
+          </div>
+        </CustomModal>
+      )}
     </div>
   );
 };

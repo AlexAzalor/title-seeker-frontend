@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useState } from "react";
+import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
@@ -27,11 +27,13 @@ import { ItemsSelector } from "../../my-custom-ui/items-list-selector";
 import { FormField } from "@/components/my-custom-ui/form-ui-parts/form-field";
 import { SliderFormField } from "@/components/my-custom-ui/form-ui-parts/slider-form-field";
 import { ResponsiveWrapper } from "../../my-custom-ui/responsive-wrapper";
-import { AddNewMovieFilter } from "../add-movie/connected-parts/add-new-movie-filter";
 
 import { FormWrapper } from "@/components/my-custom-ui/form-ui-parts/form-wrapper";
+import { AddNewMovieFilter } from "../add-movie/connected-parts/add-new-movie-filter";
 
-const ModalMovie = dynamic(() => import("../../my-custom-ui/modal-window"));
+const ModalMovie = dynamic(() => import("../../my-custom-ui/modal-window"), {
+  ssr: false,
+});
 
 type Props = {
   movieKey: string;
@@ -179,7 +181,7 @@ export const FilterEditForm = ({
         </div>
       </FormWrapper>
 
-      <Suspense>
+      {openFilterFormModal && (
         <ModalMovie
           title="Filter"
           open={openFilterFormModal}
@@ -196,7 +198,7 @@ export const FilterEditForm = ({
             }
           />
         </ModalMovie>
-      </Suspense>
+      )}
     </>
   );
 };

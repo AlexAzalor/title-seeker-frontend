@@ -46,6 +46,7 @@ export default async function ProfilePage() {
 
       <UserInfo
         lang={lang}
+        user={user}
         joinedDate={radarData.joined_date}
         lastMovieRateDate={radarData.last_movie_rate_date}
         moviesRated={radarData.movies_rated}

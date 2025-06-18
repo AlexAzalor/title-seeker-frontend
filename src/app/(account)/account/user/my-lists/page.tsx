@@ -57,7 +57,6 @@ export default async function MyListsPage(props: {
       uriKey="account/user/my-lists"
       currentPage={page}
       pageSize={size}
-      query={""}
       sortOrder={sortOrder}
       sortBy={orderBy}
       sortByID
@@ -72,7 +71,6 @@ export default async function MyListsPage(props: {
               currentPage={page}
               totalPages={pages}
               pageSize={size}
-              query={""}
               sortOrder={sortOrder}
               sortBy={orderBy}
             />

@@ -27,11 +27,13 @@ export const Header = () => {
       <div className="flex items-center justify-between gap-10">
         <Link href="/" className="flex items-center gap-2">
           <Image
-            src="/logo.jpg"
+            src="/static/logo.webp"
             alt="Logo"
             width={50}
             height={50}
             className="rounded-full"
+            priority
+            loading="eager"
           />
 
           <p className="logo hidden text-xl font-bold text-black lg:block">

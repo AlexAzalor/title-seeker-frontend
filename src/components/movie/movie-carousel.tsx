@@ -114,6 +114,9 @@ export function MoviesCarousel({
                                 className="size-12 rounded-full object-cover"
                                 height={50}
                                 width={50}
+                                blurDataURL="/static/blur-image.webp"
+                                placeholder="blur"
+                                loading="lazy"
                               />
                             ))}
                           </div>
@@ -131,6 +134,9 @@ export function MoviesCarousel({
                                 className="size-12 rounded-full object-cover"
                                 height={50}
                                 width={50}
+                                blurDataURL="/static/blur-image.webp"
+                                placeholder="blur"
+                                loading="lazy"
                               />
                             ))}
                           </div>

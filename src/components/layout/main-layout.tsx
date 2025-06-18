@@ -1,7 +1,6 @@
-import React from "react";
 import { Header } from "./header";
-import { LastSeenTitles } from "./last-watched";
 import { POSTER_URL } from "@/lib/constants";
+import { LastSeenTitles } from "./last-watched";
 
 export const MainLayout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -14,8 +13,8 @@ export const MainLayout = ({ children }: { children: React.ReactNode }) => {
 
       <footer className="grid h-20 place-content-center bg-black text-white">
         Footer
-        <span>Version {process.env.npm_package_version ?? "0.0.0"}</span>
-        <div>Version 2: {process.env.NEXT_PUBLIC_APP_VERSION}</div>
+        <span>Version {process.env.NEXT_PUBLIC_APP_VERSION ?? "0.0.0"}</span>
+        <span>Version {process.env.NEXT_PUBLIC_APP_VERSION}</span>
       </footer>
     </div>
   );

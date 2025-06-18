@@ -41,6 +41,9 @@ export const TopRatedMovies = ({ radarData }: Props) => {
               height={60}
               width={40}
               className="rounded-lg"
+              blurDataURL="/static/blur-image.webp"
+              placeholder="blur"
+              loading="lazy"
             />
             <div>
               <div className="text-[16px]">{movie.title}</div>

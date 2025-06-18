@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useState } from "react";
+import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { checkIfAdmin } from "@/middleware";
@@ -30,7 +30,9 @@ import { GenreEditForm } from "./genre-edit-form";
 import { toast } from "sonner";
 import dynamic from "next/dynamic";
 
-const CustomModal = dynamic(() => import("../../my-custom-ui/custom-modal"));
+const CustomModal = dynamic(() => import("../../my-custom-ui/custom-modal"), {
+  ssr: false,
+});
 
 type Props = {
   movieKey: string;
@@ -145,7 +147,7 @@ export const MovieFilter = ({
         <FilterItemLink data={data} filterKey={filterKey} />
       </div>
 
-      <Suspense>
+      {isOpen && (
         <CustomModal isOpen={isOpen} onClose={close}>
           <div className="mb-2 flex items-center justify-center gap-2">
             <p
@@ -164,7 +166,7 @@ export const MovieFilter = ({
             </TooltipWrapper>
           </div>
 
-          {genreList.length && subgenres && (
+          {!!genreList.length && subgenres && (
             <GenreEditForm
               movieKey={movieKey}
               allGenres={genreList}
@@ -173,7 +175,7 @@ export const MovieFilter = ({
             />
           )}
 
-          {isFilter && (
+          {!!isFilter && (
             <FilterEditForm
               movieKey={movieKey}
               filterItems={filterData}
@@ -182,7 +184,7 @@ export const MovieFilter = ({
             />
           )}
         </CustomModal>
-      </Suspense>
+      )}
     </>
   );
 };

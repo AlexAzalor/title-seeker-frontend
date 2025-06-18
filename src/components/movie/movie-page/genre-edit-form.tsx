@@ -1,4 +1,4 @@
-import { Suspense, useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
 import { FieldArrayWithId, useFieldArray, useForm } from "react-hook-form";
@@ -35,7 +35,9 @@ import { useRouter } from "next/navigation";
 import { TooltipWrapper } from "@/components/my-custom-ui/tooltip-wrapper";
 import { InfoIcon } from "lucide-react";
 
-const ModalMovie = dynamic(() => import("../../my-custom-ui/modal-window"));
+const ModalMovie = dynamic(() => import("../../my-custom-ui/modal-window"), {
+  ssr: false,
+});
 
 const checkGenreType = (item: GenreOut | SubgenreOut): item is GenreOut => {
   return (item as GenreOut).subgenres !== undefined;
@@ -316,7 +318,7 @@ export const GenreEditForm = ({
         </div>
       </FormWrapper>
 
-      <Suspense>
+      {openGenreFormModal && (
         <ModalMovie
           title={t("addNewGenre")}
           open={openGenreFormModal}
@@ -328,7 +330,9 @@ export const GenreEditForm = ({
             fetchApi={createGenre}
           />
         </ModalMovie>
+      )}
 
+      {openSubgenreFormModal && (
         <ModalMovie
           title={t("addNewSubgenre")}
           open={openSubgenreFormModal}
@@ -342,7 +346,7 @@ export const GenreEditForm = ({
             genresList={genreFields}
           />
         </ModalMovie>
-      </Suspense>
+      )}
     </>
   );
 };

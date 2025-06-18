@@ -55,7 +55,6 @@ test("Should render PaginationContoller", () => {
       sortOrder={SortOrder.asc}
       totalPages={1}
       uriKey="test"
-      query="test"
     />,
     {
       wrapper: ProjectProviders,
@@ -224,7 +223,6 @@ test("Should render SortingControls", () => {
     <SortingControls
       currentPage={1}
       pageSize={10}
-      query="test"
       sortBy={SortBy.id}
       sortByID={false}
       sortOrder={SortOrder.asc}

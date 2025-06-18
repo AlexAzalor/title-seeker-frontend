@@ -48,7 +48,6 @@ export default async function MoviesPage(props: {
       uriKey="movies"
       currentPage={page}
       pageSize={size}
-      query={""}
       sortOrder={sortOrder}
       sortBy={sortBy}
       ratedAt
@@ -66,7 +65,6 @@ export default async function MoviesPage(props: {
             currentPage={page}
             totalPages={pages}
             pageSize={size}
-            query={""}
             sortOrder={sortOrder}
             sortBy={sortBy}
           />

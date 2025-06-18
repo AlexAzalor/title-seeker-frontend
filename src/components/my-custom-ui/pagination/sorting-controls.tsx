@@ -26,7 +26,6 @@ import { SortingItemList } from "./sorting-item-list";
 
 type Props = {
   uriKey: string;
-  query: string;
   children?: React.ReactNode;
   pageSize: PageMoviePreviewOutSize;
   sortOrder: SortOrder;
@@ -39,7 +38,6 @@ type Props = {
 export const SortingControls = ({
   uriKey,
   children,
-  query,
   currentPage,
   pageSize,
   sortOrder,
@@ -56,7 +54,6 @@ export const SortingControls = ({
 
   const params: URIParams = {
     uriKey,
-    query,
     page: currentPage,
     size: pageSize,
     sortOrder,

@@ -1,5 +1,3 @@
-// "use client";
-
 import { useTranslations } from "next-intl";
 import { GlobeIcon, HomeIcon, WalletIcon } from "lucide-react";
 import { TooltipWrapper } from "@/components/my-custom-ui/tooltip-wrapper";

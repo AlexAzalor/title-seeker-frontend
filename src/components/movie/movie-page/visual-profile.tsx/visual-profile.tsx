@@ -10,7 +10,10 @@ import { getVisualProfileCategories } from "@/app/services/user-api";
 import { TooltipWrapper } from "@/components/my-custom-ui/tooltip-wrapper";
 import { VisualProfileChartMemo } from "./visual-profile-chart";
 import dynamic from "next/dynamic";
-const CustomModal = dynamic(() => import("../../../my-custom-ui/custom-modal"));
+const CustomModal = dynamic(
+  () => import("../../../my-custom-ui/custom-modal"),
+  { ssr: false },
+);
 
 type Props = {
   radarData: VisualProfileData;
@@ -61,7 +64,7 @@ export function VisualProfile({ movieKey, radarData, isOwner }: Props) {
 
       <VisualProfileChartMemo criteria={radarData.criteria} lang={lang} />
 
-      <Suspense>
+      {isOpen && (
         <CustomModal isOpen={isOpen} onClose={close}>
           <VisualProfileEditForm
             movieKey={movieKey}
@@ -69,7 +72,7 @@ export function VisualProfile({ movieKey, radarData, isOwner }: Props) {
             categories={categories}
           />
         </CustomModal>
-      </Suspense>
+      )}
     </>
   );
 }

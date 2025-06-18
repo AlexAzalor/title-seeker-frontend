@@ -4,9 +4,8 @@ import { useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-import { TooltipWrapper } from "@/components/my-custom-ui/tooltip-wrapper";
 import { cn } from "@/lib/utils";
-import { FilterEnum, SharedUniverseOut } from "@/orval_api/model";
+import { SharedUniverseOut } from "@/orval_api/model";
 
 type Props = {
   data: SharedUniverseOut;
@@ -41,47 +40,36 @@ export const MoviesCollection = ({
   return (
     <div
       aria-label="movies-collection"
-      className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border mb-4 flex w-full flex-col rounded-[34px] border p-5"
+      ref={listRef}
+      className="flex max-h-80 flex-col gap-1 overflow-y-auto"
     >
-      <Link
-        href={`/super-search/?${FilterEnum.shared_universe}=${data.key}`}
-        scroll={false}
-        className="flex items-center gap-4 p-2 text-2xl"
-      >
-        {data.name}
+      {data.movies.map((movie, i) => (
+        <Link
+          ref={index === i ? activeItemRef : null}
+          href={`/movies/${movie.key}`}
+          key={movie.key}
+          scroll={false}
+          className={cn(
+            "dark:hover:bg-main-dark-hover flex items-center gap-4 rounded-xl transition-all duration-200 select-none hover:bg-neutral-100",
+            currentMovieKey === movie.key &&
+              "dark:bg-main-dark-hover pointer-events-none bg-neutral-100",
+          )}
+        >
+          <Image
+            src={`${posterUrl}/posters/${movie.poster}`}
+            alt="Movie poster"
+            height={60}
+            width={40}
+            blurDataURL="/static/blur-image.webp"
+            placeholder="blur"
+            loading="lazy"
+          />
 
-        <TooltipWrapper content={data.description} className="text-center" />
-      </Link>
-
-      <div
-        ref={listRef}
-        className="flex max-h-80 flex-col gap-1 overflow-y-auto"
-      >
-        {data.movies.map((movie, i) => (
-          <Link
-            ref={index === i ? activeItemRef : null}
-            href={`/movies/${movie.key}`}
-            key={movie.key}
-            scroll={false}
-            className={cn(
-              "dark:hover:bg-main-dark-hover flex items-center gap-4 rounded-xl transition-all duration-200 select-none hover:bg-neutral-100",
-              currentMovieKey === movie.key &&
-                "dark:bg-main-dark-hover pointer-events-none bg-neutral-100",
-            )}
-          >
-            <Image
-              src={`${posterUrl}/posters/${movie.poster}`}
-              alt="Movie poster"
-              height={60}
-              width={40}
-            />
-
-            <div className="text-lg">
-              {movie.order}. {movie.title}
-            </div>
-          </Link>
-        ))}
-      </div>
+          <div className="text-lg">
+            {movie.order}. {movie.title}
+          </div>
+        </Link>
+      ))}
     </div>
   );
 };

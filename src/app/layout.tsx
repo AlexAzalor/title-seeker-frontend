@@ -39,7 +39,7 @@ export const metadata: Metadata = {
       "Платформа, де ви можете шукати тайтли за допомогою багатьох фільтрів, оцінювати їх, переглядати статистику та багато іншого!",
     url: "https://titleseeker.com",
     siteName: "Title Seeker",
-    images: ["https://static.titleseeker.com/other/title-seeker-logo.jpg"],
+    images: ["https://static.titleseeker.com/other/title-seeker-logo.webp"],
   },
 };
 

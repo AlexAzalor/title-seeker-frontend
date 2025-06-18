@@ -1,4 +1,4 @@
-import { Suspense, use, useCallback, useMemo, useState } from "react";
+import { use, useCallback, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { useLocalStorage } from "@/hooks/use-local-storage";
@@ -18,14 +18,16 @@ import type {
 } from "@/orval_api/model";
 import { CircleArrowDown, CircleArrowUp, CircleX } from "lucide-react";
 
-import { AddNewPerson } from "./connected-parts/add-new-person";
 import { ItemsSelector } from "../../my-custom-ui/items-list-selector";
 import { FormButtons } from "@/components/my-custom-ui/form-ui-parts/form-buttons";
 import { FormField } from "@/components/my-custom-ui/form-ui-parts/form-field";
 import { ResponsiveWrapper } from "../../my-custom-ui/responsive-wrapper";
 import { AddNewCharacter } from "./connected-parts/add-new-character";
+import { AddNewPerson } from "./connected-parts/add-new-person";
 
-const ModalMovie = dynamic(() => import("../../my-custom-ui/modal-window"));
+const ModalMovie = dynamic(() => import("../../my-custom-ui/modal-window"), {
+  ssr: false,
+});
 
 type Props = {
   actors: PersonBase[];
@@ -355,7 +357,7 @@ export const PeopleFieldsForm = ({ actors, directors, characters }: Props) => {
         </form>
       </div>
 
-      <Suspense>
+      {openActorFormModal && (
         <ModalMovie
           title={t("addActor")}
           open={openActorFormModal}
@@ -367,7 +369,9 @@ export const PeopleFieldsForm = ({ actors, directors, characters }: Props) => {
             fetchApi={createActor}
           />
         </ModalMovie>
+      )}
 
+      {openDirectorFormModal && (
         <ModalMovie
           title={t("addDirector")}
           open={openDirectorFormModal}
@@ -379,7 +383,9 @@ export const PeopleFieldsForm = ({ actors, directors, characters }: Props) => {
             fetchApi={createDirector}
           />
         </ModalMovie>
+      )}
 
+      {openCharacterFormModal.open && (
         <ModalMovie
           title={t("addChar")}
           open={openCharacterFormModal.open}
@@ -392,7 +398,7 @@ export const PeopleFieldsForm = ({ actors, directors, characters }: Props) => {
             characterIndexField={openCharacterFormModal.index}
           />
         </ModalMovie>
-      </Suspense>
+      )}
     </>
   );
 };

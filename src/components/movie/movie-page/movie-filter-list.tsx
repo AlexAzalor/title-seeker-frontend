@@ -1,5 +1,3 @@
-"use client";
-
 import { FilterEnum, MovieFilterItem } from "@/orval_api/model";
 import { MovieFilter } from "./movie-filter";
 

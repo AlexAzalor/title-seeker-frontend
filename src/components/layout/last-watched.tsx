@@ -14,9 +14,11 @@ import {
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { useEffect } from "react";
 import { useLastWatchedStore } from "@/lib/store";
+
 type Props = {
   posterURL: string;
 };
+
 export const LastSeenTitles = ({ posterURL }: Props) => {
   const t = useTranslations("Other");
   const isMobile = useMediaQuery("(max-width: 640px)");
@@ -58,6 +60,9 @@ export const LastSeenTitles = ({ posterURL }: Props) => {
                           alt="Title Poster"
                           height={100}
                           width={80}
+                          blurDataURL="/static/blur-image.webp"
+                          placeholder="blur"
+                          loading="lazy"
                         />
                       </Link>
                     </CardContent>
@@ -79,6 +84,9 @@ export const LastSeenTitles = ({ posterURL }: Props) => {
                 className="h-auto w-auto"
                 height={100}
                 width={80}
+                blurDataURL="/static/blur-image.webp"
+                placeholder="blur"
+                loading="lazy"
               />
             </Link>
           ))}

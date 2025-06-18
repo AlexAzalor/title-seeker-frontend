@@ -78,7 +78,7 @@ test("Test movie basic Form: add new Movie with basic fields (The Shawshank Rede
   await page.getByRole("button", { name: "Choose File" }).click();
   await page
     .getByRole("button", { name: "Choose File" })
-    .setInputFiles("public/logo.jpg");
+    .setInputFiles("public/static/logo.webp");
   await page
     .locator("div:nth-child(3) > div:nth-child(2) > span > .bg-custom-gradient")
     .click();
@@ -226,7 +226,7 @@ test("Test movie full Form: add new Movie with all fields (The lord of the ring 
   await page.getByRole("button", { name: "Choose File" }).click();
   await page
     .getByRole("button", { name: "Choose File" })
-    .setInputFiles("public/logo.jpg");
+    .setInputFiles("public/static/logo.webp");
   await page.getByRole("combobox", { name: "Rating Type" }).click();
   await page.getByRole("option", { name: "Visual Effects" }).click();
   await page.locator(".bg-custom-gradient").first().click();

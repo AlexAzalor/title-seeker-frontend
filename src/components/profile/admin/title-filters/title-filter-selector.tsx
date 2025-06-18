@@ -156,6 +156,10 @@ export const TitleFilterSelector = () => {
     }
   };
 
+  const filterTitle =
+    FILTERS_LIST.find((e) => e.key === selectedFilterType)?.label ||
+    "Select a filter first";
+
   return (
     <div aria-label="title-filter-selector">
       <div className="mb-6 flex flex-col justify-center gap-3 lg:flex-row">
@@ -175,12 +179,7 @@ export const TitleFilterSelector = () => {
           </SelectContent>
         </Select>
 
-        <ResponsiveWrapper
-          title={
-            FILTERS_LIST.find((e) => e.key === selectedFilterType)?.label ||
-            "Select a filter first"
-          }
-        >
+        <ResponsiveWrapper title={filterTitle}>
           <ItemsSelector
             items={filterList}
             emptyText="No items found"

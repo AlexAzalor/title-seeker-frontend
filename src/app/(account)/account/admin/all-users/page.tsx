@@ -21,7 +21,7 @@ export default async function AllUsersPage() {
     <div>
       <h1 className="mb-3 text-2xl">{t("title")}</h1>
 
-      <div className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border flex w-fit flex-wrap rounded-[24px] border p-3">
+      <div className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border flex w-fit flex-col rounded-[24px] border p-3 sm:flex-wrap">
         {users.users.map((user) => (
           <div key={user.uuid} className="mb-2">
             <h2 className="text-xl">{user.full_name}</h2>

@@ -29,7 +29,6 @@ test("Should get the filter color", () => {
 test("Should format query params for list of items with pagination", () => {
   const uriString = formatURI({
     uriKey: "test",
-    query: "test",
     page: 1,
     size: 10,
     sortOrder: SortOrder.asc,

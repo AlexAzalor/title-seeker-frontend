@@ -115,7 +115,7 @@ export async function AppSidebar({ locale, ...props }: AppSidebarProps) {
           <ThemeSelector />
         </div>
         {session && <SignOut name={menu("logout")} />}
-        <span>Version {process.env.npm_package_version ?? "0.0.0"}</span>
+        <span>Version {process.env.NEXT_PUBLIC_APP_VERSION}</span>
       </SidebarFooter>
     </Sidebar>
   );

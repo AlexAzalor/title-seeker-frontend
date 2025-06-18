@@ -11,13 +11,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-// import type {
-//   OrderType,
-//   PageUserSearchOutPage,
-//   PageUserSearchOutPages,
-//   PageUserSearchOutSize,
-//   UsersOrderBy,
-// } from "@/orval_api/model";
+
 import { cn, getVisiblePages } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import {
@@ -33,7 +27,6 @@ export const DEFAULT_PAGE_SIZE: PageMoviePreviewOutSize = 10;
 
 export function formatURI({
   uriKey,
-  query,
   otherParams,
   page = DEFAULT_PAGE,
   size = DEFAULT_PAGE_SIZE,
@@ -48,7 +41,6 @@ const THREE_DOTS = "...";
 
 export type URIParams = {
   uriKey: string;
-  query: string;
   page?: PageMoviePreviewOutPage;
   size?: PageMoviePreviewOutSize;
   sortOrder?: SortOrder;
@@ -58,7 +50,6 @@ export type URIParams = {
 
 type Props = {
   uriKey: string;
-  query: string;
   totalPages: PageMoviePreviewOutPages;
   currentPage: PageMoviePreviewOutPage;
   pageSize: PageMoviePreviewOutSize;
@@ -68,7 +59,6 @@ type Props = {
 
 export const PaginationContoller = ({
   uriKey,
-  query,
   totalPages,
   currentPage,
   pageSize,
@@ -80,7 +70,6 @@ export const PaginationContoller = ({
 
   const params: URIParams = {
     uriKey,
-    query,
     page: currentPage,
     size: pageSize,
     sortOrder,

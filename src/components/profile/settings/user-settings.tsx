@@ -14,7 +14,9 @@ import { checkIfOwner } from "@/middleware";
 import { useModal } from "@/hooks/use-modal";
 import dynamic from "next/dynamic";
 
-const CustomModal = dynamic(() => import("../../my-custom-ui/custom-modal"));
+const CustomModal = dynamic(() => import("../../my-custom-ui/custom-modal"), {
+  ssr: false,
+});
 
 export const UserSettings = () => {
   const t = useTranslations("Settings");
@@ -97,7 +99,7 @@ export const UserSettings = () => {
         </div>
       </div>
 
-      <Suspense>
+      {isOpen && (
         <CustomModal isOpen={isOpen} onClose={close}>
           <h1>{t("delete")}</h1>
           <div>
@@ -119,7 +121,7 @@ export const UserSettings = () => {
             </Button>
           </div>
         </CustomModal>
-      </Suspense>
+      )}
     </>
   );
 };

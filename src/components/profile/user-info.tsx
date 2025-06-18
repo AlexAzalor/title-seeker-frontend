@@ -1,8 +1,7 @@
-"use client";
-
-import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { checkIfAdmin } from "@/middleware";
+import type { UserExtended } from "@/auth";
+import type { User } from "next-auth";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { formatDate } from "@/lib/utils";
 import { UserInfoReportTotalActorsCount, Language } from "@/orval_api/model";
@@ -14,6 +13,7 @@ type Props = {
   moviesRated: number;
   lastMovieRateDate: string | null;
   totalActorsCount?: UserInfoReportTotalActorsCount;
+  user: User & UserExtended;
 };
 
 export const UserInfo = ({
@@ -22,13 +22,9 @@ export const UserInfo = ({
   lastMovieRateDate,
   moviesRated,
   totalActorsCount,
+  user,
 }: Props) => {
   const t = useTranslations("User");
-  const session = useSession();
-  const user = session?.data?.user;
-  if (!user) {
-    return null;
-  }
 
   return (
     <div

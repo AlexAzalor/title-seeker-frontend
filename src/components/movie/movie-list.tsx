@@ -4,6 +4,8 @@ import { Language, MoviePreviewOut } from "@/orval_api/model";
 import Image from "next/image";
 import Link from "next/link";
 
+const MAX_LENGTH = 40;
+
 type Props = {
   movies: MoviePreviewOut[];
   lang: Language;
@@ -27,8 +29,8 @@ export const MovieList = ({ movies, lang }: Props) => {
       )}
       <div className="flex h-full flex-col justify-between self-start">
         <p title={movie.title} className="text-xl font-bold">
-          {movie.title.length > 40
-            ? movie.title.slice(0, 40) + "..."
+          {movie.title.length > MAX_LENGTH
+            ? movie.title.slice(0, MAX_LENGTH) + "..."
             : movie.title}
         </p>
         <div>

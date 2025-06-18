@@ -51,6 +51,12 @@ test("Should render UserInfo", () => {
     <UserInfo
       joinedDate={"2023-10-01T00:00:00Z"}
       lang={Language.en}
+      user={{
+        my_language: Language.uk,
+        uuid: "uuid",
+        role: "admin",
+        new_movies_to_add_count: 1,
+      }}
       lastMovieRateDate={"2023-10-01T00:00:00Z"}
       moviesRated={3}
     />,

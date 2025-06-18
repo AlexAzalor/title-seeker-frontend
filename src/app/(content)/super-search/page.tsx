@@ -105,7 +105,6 @@ export default async function SuperSearchPage(props: {
       uriKey="super-search"
       currentPage={page}
       pageSize={size}
-      query={""}
       sortOrder={sortOrder}
       sortBy={sortBy}
       ratedAt
@@ -123,7 +122,6 @@ export default async function SuperSearchPage(props: {
             currentPage={page}
             totalPages={pages}
             pageSize={size}
-            query={""}
             sortOrder={sortOrder}
             sortBy={sortBy}
           />

@@ -27,7 +27,7 @@ export default async function NewMoviesToAddPage() {
       <h1 className="mb-2">{t("title")}</h1>
       <p className="mb-4">{t("subTitle")}</p>
 
-      <div className="flex flex-wrap gap-5">
+      <div className="flex flex-col gap-5 sm:flex-wrap">
         {data.quick_movies.map((movie) => (
           <Link
             href={{
