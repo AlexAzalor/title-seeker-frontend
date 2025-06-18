@@ -33,7 +33,7 @@ type AppSidebarProps = React.ComponentProps<typeof Sidebar> & {
   locale: string;
 };
 
-export async function AppSidebar({ locale, ...props }: AppSidebarProps) {
+async function AppSidebar({ locale, ...props }: AppSidebarProps) {
   const session = await auth();
 
   const isAdmin = checkIfAdmin(session?.user.role);
@@ -120,3 +120,5 @@ export async function AppSidebar({ locale, ...props }: AppSidebarProps) {
     </Sidebar>
   );
 }
+
+export default AppSidebar;

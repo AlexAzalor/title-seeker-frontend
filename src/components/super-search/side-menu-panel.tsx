@@ -18,7 +18,7 @@ type Props = {
   handleOnly?: boolean;
 };
 
-export const SideMenuPanel = ({ children, side, type, handleOnly }: Props) => {
+function SideMenuPanel({ children, side, type, handleOnly }: Props) {
   return (
     <Drawer direction={side} handleOnly={handleOnly}>
       <DrawerTrigger asChild className="lg:hidden">
@@ -39,4 +39,6 @@ export const SideMenuPanel = ({ children, side, type, handleOnly }: Props) => {
       </DrawerContent>
     </Drawer>
   );
-};
+}
+
+export default SideMenuPanel;

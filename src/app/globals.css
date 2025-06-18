@@ -619,3 +619,7 @@
 .link-style:hover::before {
   transform: scaleX(1);
 }
+
+.header-shadow {
+  box-shadow: 0 0 0.5rem 0.1rem var(--color-header);
+}

@@ -50,8 +50,6 @@ export const EnhanceSearch = () => {
 
   // Need to apply new form sliders when the search parameters change
   useEffect(() => {
-    console.log("?");
-
     const getItems = (key: string) => {
       const paramsItemsList = currentSearchParams.getAll(key);
 

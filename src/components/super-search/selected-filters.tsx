@@ -4,6 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useSubgenreStore } from "@/lib/store";
 import { EXACT_MATCH_KEY } from "./genre-selector";
+import dynamic from "next/dynamic";
 
 import { ResizableHandle, ResizablePanel } from "../ui/resizable";
 import { extractWord, manageSearchParameters } from "@/lib/utils";
@@ -22,8 +23,11 @@ import { FilterBrick } from "./filter-brick";
 import { HoverBrick } from "./hover-brick";
 import { CircleX } from "lucide-react";
 import { FilterList } from "./filter-list";
-import { SideMenuPanel } from "./side-menu-panel";
 import { EnhanceSearch } from "./enhance-search";
+
+const SideMenuPanel = dynamic(() => import("./side-menu-panel"), {
+  ssr: false,
+});
 
 type Props = {
   children: React.ReactNode;

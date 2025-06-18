@@ -19,15 +19,16 @@ export const MovieList = ({ movies, lang }: Props) => {
       className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border grid h-[158px] w-[340px] grid-cols-[1fr_3fr] items-center gap-2 rounded-[34px] border p-6"
       href={`/movies/${movie.key}`}
     >
-      {movie.poster && (
-        <Image
-          src={`${POSTER_URL}/posters/${movie.poster}`}
-          alt="Movie poster"
-          height={200}
-          width={100}
-        />
-      )}
-      <div className="flex h-full flex-col justify-between self-start">
+      <Image
+        src={`${POSTER_URL}/posters/${movie.poster}`}
+        alt="Movie poster"
+        height={104}
+        width={70}
+        blurDataURL="/static/blur-image.webp"
+        placeholder="blur"
+      />
+
+      <div className="my-auto flex flex-col justify-between gap-2 self-start">
         <p title={movie.title} className="text-xl font-bold">
           {movie.title.length > MAX_LENGTH
             ? movie.title.slice(0, MAX_LENGTH) + "..."
