@@ -32,9 +32,9 @@ export default async function ProfilePage() {
   );
 
   return (
-    <div className="flex h-full flex-col-reverse justify-between gap-10 2xl:flex-row">
+    <div className="flex h-full flex-col-reverse items-center justify-between gap-10 2xl:flex-row 2xl:items-stretch">
       <div className="w-full">
-        <div className="flex flex-col gap-4 2xl:flex-row">
+        <div className="flex flex-col items-center gap-4 2xl:flex-row 2xl:items-stretch">
           <GenreRadarChart radarData={radarData.genre_data} />
 
           <TopRatedMovies radarData={radarData} />

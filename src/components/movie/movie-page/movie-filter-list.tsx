@@ -15,7 +15,10 @@ export const MovieFilterList = ({
   action_times,
 }: Props) => {
   return (
-    <div className="my-4 flex flex-wrap gap-4" aria-label="movie-filter-list">
+    <div
+      className="my-4 flex flex-wrap justify-center gap-4 xl:justify-start"
+      aria-label="movie-filter-list"
+    >
       <MovieFilter
         movieKey={movieKey}
         data={specifications}

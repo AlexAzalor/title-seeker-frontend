@@ -25,7 +25,10 @@ export const GenresList = ({ movieKey, genres, subgenres }: Props) => {
   const [hoveredSubgenre, setHoveredSubgenre] = useState<string | null>(null);
 
   return (
-    <div className="flex flex-wrap gap-4" aria-label="genres-list">
+    <div
+      className="flex flex-wrap justify-center gap-4 xl:justify-start"
+      aria-label="genres-list"
+    >
       <GenreContext
         value={{
           onMouseEnter: (key: string) => setHoveredGenre(key),

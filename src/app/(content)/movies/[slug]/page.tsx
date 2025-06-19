@@ -54,7 +54,7 @@ export default async function DynamicPage({ params }: PageProps) {
 
       <LastWatchedWrapper movieKey={movie_key} poster={data.poster}>
         <div className="container min-h-screen max-w-[1280px] px-4 lg:px-0">
-          <div className="py-2 text-center lg:py-3 lg:text-left">
+          <div className="py-2 text-center lg:py-3 xl:text-left">
             <h1 className="text-3xl">{data.title}</h1>
             {data.title_en && (
               <span className="text-light-gray text-lg font-medium">
@@ -91,7 +91,7 @@ export default async function DynamicPage({ params }: PageProps) {
               />
             </div>
 
-            <div className="lg:ml-auto">
+            <div className="xl:ml-auto">
               {data.related_movies?.length ? (
                 <RelatedSimilarList
                   type="related"
@@ -107,8 +107,8 @@ export default async function DynamicPage({ params }: PageProps) {
 
           <MovieInfo data={data} lang={lang} isOwner={isOwner} />
 
-          <div className="mb-4 flex flex-col justify-between gap-6 lg:flex-row">
-            <div className="pt-6">
+          <div className="mb-4 flex flex-col justify-between gap-6 xl:flex-row">
+            <div className="pt-6 sm:mx-auto">
               <ExpandableText text={data.description} />
 
               <MovieCrew
@@ -119,7 +119,7 @@ export default async function DynamicPage({ params }: PageProps) {
             </div>
 
             <CustomTabs
-              className="h-[498px] max-w-[594px] lg:w-[594px]"
+              className="h-[498px] max-w-[594px] sm:mx-auto xl:w-[594px] xl:max-w-none"
               header={
                 <Link
                   href="/about-rating-system"
@@ -166,7 +166,7 @@ export default async function DynamicPage({ params }: PageProps) {
             />
           </div>
 
-          <div className="flex flex-col justify-between lg:flex-row lg:gap-6">
+          <div className="flex flex-col justify-between xl:flex-row xl:gap-6">
             {!!data.shared_universe && data.shared_universe_order && (
               <div className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border mb-4 flex w-full flex-col rounded-[34px] border p-5">
                 <Link

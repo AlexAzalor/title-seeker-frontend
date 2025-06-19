@@ -17,11 +17,11 @@ export const ExpandableText = ({ text, maxLength = MAX_LENGTH }: Props) => {
   const toggleExpand = () => setIsExpanded(!isExpanded);
 
   if (text.length < maxLength) {
-    return <p>{text}</p>;
+    return <p className="sm:max-w-166">{text}</p>;
   }
 
   return (
-    <p>
+    <p className="sm:max-w-166">
       {isExpanded ? text : `${text.slice(0, maxLength)}...`}
 
       {text.length > maxLength && (

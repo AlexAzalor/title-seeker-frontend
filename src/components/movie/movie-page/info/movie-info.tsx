@@ -27,7 +27,7 @@ export const MovieInfo = ({ data, isOwner, lang }: Props) => {
     data.user_rating || (data.owner_rating && isOwner) ? t("my") : t("overall");
 
   return (
-    <div className="my-4 grid w-full grid-cols-1 place-items-center gap-3 lg:grid-cols-3">
+    <div className="my-4 grid w-full grid-cols-1 place-items-center gap-3 xl:grid-cols-3">
       <MovieMoney
         budget={data.budget}
         domesticGross={data.domestic_gross}

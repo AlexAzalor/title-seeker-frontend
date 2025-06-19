@@ -16,7 +16,7 @@ export const MovieMoney = ({
   const t = useTranslations("MovieParts.boxOffice");
 
   return (
-    <div className="flex flex-col text-lg lg:justify-self-start">
+    <div className="flex flex-col text-lg xl:justify-self-start">
       <TooltipWrapper className="max-w-80" content={t("budget")}>
         <div className="flex items-center gap-1">
           <WalletIcon size={24} />
