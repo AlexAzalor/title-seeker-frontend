@@ -24,6 +24,7 @@ import type {
   PersonBase,
   CharacterOut,
   MovieFormData,
+  MainItemMenu,
 } from "@/orval_api/model";
 
 const ModalMovie = dynamic(
@@ -34,8 +35,8 @@ const ModalMovie = dynamic(
 );
 
 type Props = {
-  actors: PersonBase[];
-  directors: PersonBase[];
+  actors: MainItemMenu[];
+  directors: MainItemMenu[];
   characters: CharacterOut[];
 };
 

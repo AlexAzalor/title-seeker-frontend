@@ -36,30 +36,30 @@ import { VisualProfileMovieForm } from "@/components/movie/add-movie/visual-prof
 import { createMovie } from "@/app/services/admin-api";
 import type {
   FilterItemOut,
-  PersonBase,
   BodyAPICreateMovie,
-  CharacterOut,
   GenreOut,
   MovieFormData,
   MoviePreCreateDataQuickMovie,
   VisualProfileData,
   BaseSharedUniverse,
   MovieMenuItem,
+  MainItemMenu,
 } from "@/orval_api/model";
 
 type Props = {
   visualProfileCategories: VisualProfileData[];
-  actors: PersonBase[];
-  directors: PersonBase[];
-  genres: GenreOut[];
+  shared_universes: BaseSharedUniverse[];
+  base_movies: MovieMenuItem[];
 
+  actors: MainItemMenu[];
+  directors: MainItemMenu[];
+  characters: MainItemMenu[];
+
+  genres: GenreOut[];
   specifications: FilterItemOut[];
   keywords: FilterItemOut[];
   actionTimes: FilterItemOut[];
   quickMovie?: MoviePreCreateDataQuickMovie;
-  shared_universes: BaseSharedUniverse[];
-  base_movies: MovieMenuItem[];
-  characters: CharacterOut[];
 };
 
 export const MovieFormWizard = ({

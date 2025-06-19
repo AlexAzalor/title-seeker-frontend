@@ -18,6 +18,7 @@ import { TooltipWrapper } from "@/components/my-custom-ui/tooltip-wrapper";
 type ItemFields = {
   key: string;
   name: string;
+  another_lang_name?: string;
   description?: string;
   parent_genre_key?: string;
 };
@@ -67,7 +68,11 @@ const ItemsSelector = <Datum extends ItemFields>({
           {items.map((item) => (
             <CommandItem
               key={item.key}
-              value={item.name}
+              value={
+                item.another_lang_name
+                  ? item.name + " " + item.another_lang_name
+                  : item.name
+              }
               onSelect={() => onSelect(item)}
               className="cursor-pointer"
             >
