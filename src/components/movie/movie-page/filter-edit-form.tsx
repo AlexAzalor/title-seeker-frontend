@@ -24,10 +24,7 @@ import {
 } from "@/app/services/admin-api";
 
 import { FilterEnum, type FilterItemOut } from "@/orval_api/model";
-import {
-  type FilterListType,
-  TitleFilterListOnlySpec,
-} from "@/types/genre-filter-schema";
+import { type TitleFilterType, TitleFilter } from "@/types/genre-filter-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 const ModalMovie = dynamic(
@@ -41,10 +38,21 @@ type Props = {
   movieKey: string;
   filterItems: FilterItemOut[];
   selectedFilterItems: FilterItemOut[];
-  filterType: string;
+  filterType: FilterEnum;
 };
 
-export type MovieFilterType = "specifications" | "keywords" | "action_times";
+const filterPostApi = (filterType: FilterEnum) => {
+  switch (filterType) {
+    case FilterEnum.specification:
+      return createSpecification;
+    case FilterEnum.keyword:
+      return createKeyword;
+    case FilterEnum.action_time:
+      return createActionTime;
+    default:
+      throw new Error("Invalid filter type");
+  }
+};
 
 export const FilterEditForm = ({
   movieKey,
@@ -63,28 +71,28 @@ export const FilterEditForm = ({
     formState: { errors, isDirty, isSubmitting },
     getValues,
   } = useForm({
-    resolver: zodResolver(TitleFilterListOnlySpec),
+    resolver: zodResolver(TitleFilter),
     defaultValues: {
-      specifications: selectedFilterItems,
+      items: selectedFilterItems,
     },
   });
 
   const {
-    fields: specificationFields,
-    append: appendSpecification,
-    remove: removeSpecification,
+    fields: itemFields,
+    append: appendItem,
+    remove: removeItem,
   } = useFieldArray({
     control,
-    name: "specifications",
+    name: "items",
   });
 
-  const onSubmit = async (data: FilterListType) => {
-    if (data.specifications.length === 0 || !isDirty) {
+  const onSubmit = async (data: TitleFilterType) => {
+    if (data.items.length === 0 || !isDirty) {
       return;
     }
 
     if (filterType === FilterEnum.specification) {
-      const res = await editMovieSpecifications(movieKey, data.specifications);
+      const res = await editMovieSpecifications(movieKey, data.items);
 
       if (res.status === 200) {
         toast.success(res.message);
@@ -94,7 +102,7 @@ export const FilterEditForm = ({
       }
     }
     if (filterType === FilterEnum.keyword) {
-      const res = await editMovieKeywords(movieKey, data.specifications);
+      const res = await editMovieKeywords(movieKey, data.items);
 
       if (res.status === 200) {
         toast.success(res.message);
@@ -104,7 +112,7 @@ export const FilterEditForm = ({
       }
     }
     if (filterType === FilterEnum.action_time) {
-      const res = await editMovieActionTimes(movieKey, data.specifications);
+      const res = await editMovieActionTimes(movieKey, data.items);
 
       if (res.status === 200) {
         toast.success(res.message);
@@ -117,6 +125,25 @@ export const FilterEditForm = ({
     router.refresh();
   };
 
+  const handleSelectItem = ({ key, name, description }: FilterItemOut) => {
+    if (!itemFields.find((prevItem) => prevItem.key === key)) {
+      appendItem({
+        key,
+        name,
+        percentage_match: 0,
+        description,
+      });
+    } else {
+      removeItem(itemFields.findIndex((prevItem) => prevItem.key === key));
+    }
+  };
+
+  const handleOpenModal = () => {
+    setOpenFilterFormModal(true);
+  };
+
+  const selectedItemKeys = itemFields.map((field) => field.key);
+
   return (
     <>
       <FormWrapper
@@ -127,58 +154,37 @@ export const FilterEditForm = ({
           <ResponsiveWrapper title={t("addNewItem")}>
             <ItemsSelector
               items={filterItems}
-              onOpenModal={() => setOpenFilterFormModal(true)}
-              onSelect={(currentValue, key, item) => {
-                if (
-                  !specificationFields.find(
-                    (specificationPrev) => specificationPrev.key === key,
-                  )
-                ) {
-                  appendSpecification({
-                    name: currentValue,
-                    percentage_match: 0,
-                    key: key,
-                    description: item.description,
-                  });
-                } else {
-                  removeSpecification(
-                    specificationFields.findIndex(
-                      (specificationPrev) => specificationPrev.key === key,
-                    ),
-                  );
-                }
-              }}
-              checkIconStyle={specificationFields.map((field) => field.key)}
+              onOpenModal={handleOpenModal}
+              onSelect={handleSelectItem}
+              checkIconStyle={selectedItemKeys}
             />
           </ResponsiveWrapper>
 
-          {specificationFields.map((field, index) => (
+          {itemFields.map((field, index) => (
             <div key={field.id} className="grid grid-cols-2 gap-4">
               <FormField
                 type="text"
-                name={`specifications.${index}.name`}
+                name={`items.${index}.name`}
                 register={register}
                 error={undefined}
                 disabled
               />
 
               <SliderFormField
-                name={`specifications.${index}.percentage_match`}
+                name={`items.${index}.percentage_match`}
                 register={register}
                 defaultValue={getValues}
                 error={
-                  errors.specifications?.[index]?.percentage_match &&
-                  errors.specifications[index].percentage_match
+                  errors.items?.[index]?.percentage_match &&
+                  errors.items[index].percentage_match
                 }
-                removItem={() => removeSpecification(index)}
+                removItem={() => removeItem(index)}
               />
             </div>
           ))}
 
-          {errors.specifications && errors.specifications.message && (
-            <span className="text-sm text-red-500">
-              {errors.specifications.message}
-            </span>
+          {errors.items && errors.items.message && (
+            <span className="text-sm text-red-500">{errors.items.message}</span>
           )}
         </div>
       </FormWrapper>
@@ -190,14 +196,8 @@ export const FilterEditForm = ({
           setOpen={setOpenFilterFormModal}
         >
           <AddNewMovieFilter
-            appendItem={appendSpecification}
-            fetchApi={
-              filterType === FilterEnum.specification
-                ? createSpecification
-                : filterType === FilterEnum.keyword
-                  ? createKeyword
-                  : createActionTime
-            }
+            appendItem={appendItem}
+            fetchApi={filterPostApi(filterType)}
           />
         </ModalMovie>
       )}

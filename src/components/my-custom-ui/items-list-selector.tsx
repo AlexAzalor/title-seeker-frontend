@@ -24,7 +24,7 @@ type ItemFields = {
 
 type Props<Datum extends ItemFields> = {
   items: Datum[];
-  onSelect: (value: string, itemKey: string, genre: Datum) => void;
+  onSelect: (item: Datum) => void;
   onOpenModal?: () => void;
   checkIconStyle: string[];
   emptyText?: string;
@@ -52,7 +52,7 @@ const ItemsSelector = <Datum extends ItemFields>({
           ) : (
             <>
               {t("notFound")}{" "}
-              {/* after add set value from this input to form's input */}
+              {/* after add, set value from this input to form's input */}
               {isAdmin && (
                 <Button variant="link" onClick={onOpenModal}>
                   {t("addNew")}
@@ -68,7 +68,7 @@ const ItemsSelector = <Datum extends ItemFields>({
             <CommandItem
               key={item.key}
               value={item.name}
-              onSelect={(value) => onSelect(value, item.key, item)}
+              onSelect={() => onSelect(item)}
               className="cursor-pointer"
             >
               <p>{item.name}</p>

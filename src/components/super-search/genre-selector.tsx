@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ItemsSelector } from "@/components/my-custom-ui/items-list-selector";
-import { FilterEnum, type GenreOut, type SubgenreOut } from "@/orval_api/model";
+import { FilterEnum, type GenreOut } from "@/orval_api/model";
 
 import {
   DEFAULT_RANGE,
@@ -14,9 +14,9 @@ import {
 import { ResponsiveWrapper } from "../my-custom-ui/responsive-wrapper";
 import { useSubgenreStore } from "@/lib/store";
 
-const checkGenreType = (item: GenreOut | SubgenreOut): item is GenreOut => {
-  return (item as GenreOut).subgenres !== undefined;
-};
+// const checkGenreType = (item: GenreOut | SubgenreOut): item is GenreOut => {
+//   return (item as GenreOut).subgenres !== undefined;
+// };
 
 type Props = {
   genres: GenreOut[];
@@ -65,91 +65,106 @@ export const GenreSelector = ({ genres }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const deleteSubgenresParams = (
-    value: string,
-    urlSearchParams: URLSearchParams,
-  ) => {
-    if (subgenres.length) {
-      const filtredSubgenres = subgenres.filter((subgenre) =>
-        value.includes(subgenre.parent_genre_key),
+  const deleteSubgenresParams = useCallback(
+    (value: string, urlSearchParams: URLSearchParams) => {
+      if (subgenres.length) {
+        const filtredSubgenres = subgenres.filter((subgenre) =>
+          value.includes(subgenre.parent_genre_key),
+        );
+
+        if (filtredSubgenres.length) {
+          for (const subgenre of filtredSubgenres) {
+            const subgenreKey = currentSelectedSubgenres.find((e) =>
+              e.includes(subgenre.key),
+            );
+
+            if (subgenreKey) {
+              urlSearchParams.delete(FilterEnum.subgenre, subgenreKey);
+            }
+          }
+
+          setSubgenres(
+            subgenres.filter((subgenre) => subgenre.parent_genre_key !== value),
+          );
+        }
+      }
+    },
+    [currentSelectedSubgenres, setSubgenres, subgenres],
+  );
+
+  const updateSearchParameters = useCallback(
+    (value: string, key: string) => {
+      const genreToDelete = currentSelectedGenres.find((e) =>
+        e.includes(value),
+      );
+      const subgenreToDelete = currentSelectedSubgenres.find((e) =>
+        e.includes(value),
       );
 
-      if (filtredSubgenres.length) {
-        for (const subgenre of filtredSubgenres) {
-          const subgenreKey = currentSelectedSubgenres.find((e) =>
-            e.includes(subgenre.key),
-          );
+      if (key === FilterEnum.genre) {
+        manageSearchParameters(
+          key,
+          // action(10,100)
+          value + `(${DEFAULT_RANGE.join()})`,
+          genreToDelete,
+          currentSearchParams,
+          router,
+          deleteSubgenresParams,
+        );
+        return;
+      }
 
-          if (subgenreKey) {
-            urlSearchParams.delete(FilterEnum.subgenre, subgenreKey);
-          }
-        }
+      if (key === FilterEnum.subgenre) {
+        manageSearchParameters(
+          key,
+          value + `(${DEFAULT_RANGE.join()})`,
+          subgenreToDelete,
+          currentSearchParams,
+          router,
+          deleteSubgenresParams,
+        );
+        return;
+      }
+    },
+    [
+      currentSearchParams,
+      currentSelectedGenres,
+      currentSelectedSubgenres,
+      deleteSubgenresParams,
+      router,
+    ],
+  );
 
+  const updateSubgenreList = useCallback(
+    (genre: GenreOut) => {
+      updateSearchParameters(genre.key, FilterEnum.genre);
+
+      if (genre.subgenres.length) {
+        setSubgenres([...subgenres, ...genre.subgenres]);
+      } else {
         setSubgenres(
-          subgenres.filter((subgenre) => subgenre.parent_genre_key !== value),
+          subgenres.filter(
+            (subgenrePrev) => subgenrePrev.parent_genre_key !== genre.key,
+          ),
         );
       }
-    }
-  };
+    },
+    [updateSearchParameters, setSubgenres, subgenres],
+  );
 
-  function updateSearchParameters(value: string, key: string) {
-    const genreToDelete = currentSelectedGenres.find((e) => e.includes(value));
-    const subgenreToDelete = currentSelectedSubgenres.find((e) =>
-      e.includes(value),
-    );
-
-    if (key === FilterEnum.genre) {
-      manageSearchParameters(
-        key,
-        // action(10,100)
-        value + `(${DEFAULT_RANGE.join()})`,
-        genreToDelete,
-        currentSearchParams,
-        router,
-        deleteSubgenresParams,
-      );
-      return;
-    }
-
-    if (key === FilterEnum.subgenre) {
-      manageSearchParameters(
-        key,
-        value + `(${DEFAULT_RANGE.join()})`,
-        subgenreToDelete,
-        currentSearchParams,
-        router,
-        deleteSubgenresParams,
-      );
-      return;
-    }
-  }
+  const selectedGenresKeys = currentSelectedGenres.map((e) => extractWord(e));
+  const selectedSubgenresKeys = currentSelectedSubgenres.map((e) =>
+    extractWord(e),
+  );
 
   return (
     <div className="flex flex-col gap-4">
       <ResponsiveWrapper title={tFilters("genre.name")}>
-        <ItemsSelector
+        <ItemsSelector<GenreOut>
           items={genres}
           emptyText={tFilters("genreNotFound")}
-          onSelect={(currentValue, key, genre) => {
-            updateSearchParameters(genre.key, FilterEnum.genre);
-
-            if (
-              !currentSelectedGenres
-                .map((e) => extractWord(e))
-                .find((genrePrev) => genrePrev === key)
-            ) {
-              if (genre && checkGenreType(genre) && genre.subgenres?.length) {
-                setSubgenres([...subgenres, ...(genre.subgenres || [])]);
-              }
-            } else {
-              setSubgenres(
-                subgenres.filter(
-                  (subgenrePrev) => subgenrePrev.parent_genre_key !== key,
-                ),
-              );
-            }
-          }}
-          checkIconStyle={currentSelectedGenres.map((e) => extractWord(e))}
+          onSelect={updateSubgenreList}
+          checkIconStyle={selectedGenresKeys}
         />
       </ResponsiveWrapper>
 
@@ -157,10 +172,10 @@ export const GenreSelector = ({ genres }: Props) => {
         <ItemsSelector
           items={subgenres}
           emptyText={tFilters("subgenreNotFound")}
-          onSelect={(currentValue, key) => {
+          onSelect={({ key }) => {
             updateSearchParameters(key, FilterEnum.subgenre);
           }}
-          checkIconStyle={currentSelectedSubgenres.map((e) => extractWord(e))}
+          checkIconStyle={selectedSubgenresKeys}
         />
       </ResponsiveWrapper>
     </div>

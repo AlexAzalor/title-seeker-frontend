@@ -1,4 +1,4 @@
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { backendURL } from "@/lib/constants";
 
 import { PaginationContoller } from "@/components/my-custom-ui/pagination/pagination-contoller";
@@ -16,6 +16,7 @@ const DEFAULT_PAGE_SIZE = 30;
 export default async function MoviesPage(props: {
   searchParams: SearchParams;
 }) {
+  const t = await getTranslations("Other");
   const locale = await getLocale();
   const lang = Language[locale as keyof typeof Language];
 
@@ -44,32 +45,34 @@ export default async function MoviesPage(props: {
   );
 
   return (
-    <SortingControls
-      uriKey="movies"
-      currentPage={page}
-      pageSize={size}
-      sortOrder={sortOrder}
-      sortBy={sortBy}
-      ratedAt
-    >
-      <title>Movies | Title Seeker</title>
-
+    <>
+      {/* <title>Movies | Title Seeker</title> */}
       <div className="min-h-screen">
-        <div className="my-5 grid grid-cols-1 gap-4 lg:grid-cols-5">
-          <MovieList movies={items} lang={lang} />
-        </div>
+        <SortingControls
+          uriKey="movies"
+          currentPage={page}
+          pageSize={size}
+          sortOrder={sortOrder}
+          sortBy={sortBy}
+          ratedAt
+          title={t("allMovies")}
+        >
+          <div className="3xl:grid-cols-5 my-5 grid grid-cols-1 gap-4 md:grid-cols-2 2xl:grid-cols-3">
+            <MovieList movies={items} lang={lang} />
+          </div>
 
-        {!!pages && (
-          <PaginationContoller
-            uriKey="movies"
-            currentPage={page}
-            totalPages={pages}
-            pageSize={size}
-            sortOrder={sortOrder}
-            sortBy={sortBy}
-          />
-        )}
+          {!!pages && (
+            <PaginationContoller
+              uriKey="movies"
+              currentPage={page}
+              totalPages={pages}
+              pageSize={size}
+              sortOrder={sortOrder}
+              sortBy={sortBy}
+            />
+          )}
+        </SortingControls>
       </div>
-    </SortingControls>
+    </>
   );
 }

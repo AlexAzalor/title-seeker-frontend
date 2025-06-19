@@ -39,13 +39,13 @@ export function MoviesCarousel({
     <div className="w-full" aria-label="movies-carousel">
       <h2 className="mb-3">{name}</h2>
       <Carousel
-        className="lg:w-full"
+        className="xl:w-full"
         plugins={[plugin.current]}
         onMouseEnter={plugin.current.stop}
         onMouseLeave={() => plugin.current.play()}
         opts={{ loop: true }}
       >
-        <CarouselContent className="max-w-[340px] lg:max-w-none">
+        <CarouselContent className="max-w-[340px] xl:max-w-none">
           {movies.map((movie) => (
             <CarouselItem key={movie.key} className="">
               <div className="p-1">
@@ -72,21 +72,21 @@ export function MoviesCarousel({
                             : movie.title}
                         </h3>
 
-                        <div className="flex flex-col gap-1 lg:flex-row">
+                        <div className="flex flex-col gap-1 xl:flex-row">
                           <div>
                             {movie.release_date
                               ? formatDate(movie.release_date, lang)
                               : "no date"}
                           </div>
-                          <span className="hidden lg:inline">|</span>
+                          <span className="hidden xl:inline">|</span>
                           <div>{movie.duration}</div>
-                          <span className="hidden lg:inline">|</span>
-                          <div className="hidden lg:block">
+                          <span className="hidden xl:inline">|</span>
+                          <div className="hidden xl:block">
                             {movie.location}
                           </div>
                         </div>
 
-                        <p className="hidden lg:block">
+                        <p className="hidden xl:block">
                           {movie.description.length >= 100
                             ? movie.description.slice(0, 100) + "..."
                             : movie.description}
@@ -103,7 +103,7 @@ export function MoviesCarousel({
                           ))}
                         </div>
 
-                        <div className="hidden gap-1 lg:flex">
+                        <div className="hidden gap-1 xl:flex">
                           <div className="flex gap-1">
                             {movie.directors.map((director) => (
                               <Image
@@ -149,8 +149,8 @@ export function MoviesCarousel({
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious className="hidden lg:flex" />
-        <CarouselNext className="hidden lg:flex" />
+        <CarouselPrevious className="hidden xl:flex" />
+        <CarouselNext className="hidden xl:flex" />
       </Carousel>
     </div>
   );

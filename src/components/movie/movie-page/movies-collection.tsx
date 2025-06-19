@@ -57,6 +57,12 @@ export const MoviesCollection = ({
           <Image
             src={`${posterUrl}/posters/${movie.poster}`}
             alt="Movie poster"
+            className="rounded-lg"
+            // remove warning about width and height
+            style={{
+              height: "60px",
+              width: "40px",
+            }}
             height={60}
             width={40}
             blurDataURL="/static/blur-image.webp"

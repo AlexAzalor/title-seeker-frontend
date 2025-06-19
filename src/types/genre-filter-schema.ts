@@ -37,11 +37,13 @@ export const TitleFilterList = z.object({
     .min(1, { message: "At least one Action Time must be selected" }),
 });
 
-export const TitleFilterListOnlySpec = TitleFilterList.pick({
-  specifications: true,
+export const TitleFilter = z.object({
+  items: z
+    .array(TitleFilterField)
+    .min(1, { message: "At least one item must be selected" }),
 });
 
 // Export types for the schemas
 export type GenreSchemaListType = z.infer<typeof GenreSchemaList>;
 export type TitleFilterListType = z.infer<typeof TitleFilterList>;
-export type FilterListType = z.infer<typeof TitleFilterListOnlySpec>;
+export type TitleFilterType = z.infer<typeof TitleFilter>;

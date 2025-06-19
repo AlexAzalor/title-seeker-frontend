@@ -53,7 +53,7 @@ export const FilterSelector = ({ data, param_key }: Props) => {
       <ItemsSelector
         items={data}
         emptyText={t("filterNotFound")}
-        onSelect={(currentValue, key) => {
+        onSelect={({ key }) => {
           onClick(key);
         }}
         checkIconStyle={selectedFilter.map((e) => extractWord(e))}

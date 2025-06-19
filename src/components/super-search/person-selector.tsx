@@ -34,7 +34,7 @@ export const PersonSelector = ({ peopleList, personKey }: Props) => {
       <ItemsSelector
         items={peopleList}
         emptyText={t("peopleNotFound")}
-        onSelect={(v, key) => selectPerson(key)}
+        onSelect={({ key }) => selectPerson(key)}
         checkIconStyle={selectedPersons}
       />
     </ResponsiveWrapper>

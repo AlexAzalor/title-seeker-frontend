@@ -22,6 +22,11 @@ export const MovieList = ({ movies, lang }: Props) => {
       <Image
         src={`${POSTER_URL}/posters/${movie.poster}`}
         alt="Movie poster"
+        // remove warning about width and height
+        style={{
+          height: "104px",
+          width: "70px",
+        }}
         height={104}
         width={70}
         blurDataURL="/static/blur-image.webp"

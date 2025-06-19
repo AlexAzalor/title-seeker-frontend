@@ -44,9 +44,9 @@ const ModalMovie = dynamic(
   },
 );
 
-const checkGenreType = (item: GenreOut | SubgenreOut): item is GenreOut => {
-  return (item as GenreOut).subgenres !== undefined;
-};
+// const checkGenreType = (item: GenreOut | SubgenreOut): item is GenreOut => {
+//   return (item as GenreOut).subgenres !== undefined;
+// };
 
 type Props = {
   movieKey: string;
@@ -133,22 +133,16 @@ export const GenreEditForm = ({
   };
 
   const handleSelectGenre = useCallback(
-    (currentValue: string, key: string, genre: GenreOut) => {
+    ({ key, name, subgenres }: GenreOut) => {
       if (!genreFields.find((genrePrev) => genrePrev.key === key)) {
         appendGenre({
-          // description: genre.description || "",
-          // subgenre_parent_key: "",
-          name: currentValue,
+          key,
+          name,
           percentage_match: 0,
-          key: key,
         });
 
-        if (genre && checkGenreType(genre) && genre.subgenres?.length) {
-          setSubgenres((prev) => [
-            ...prev,
-            // ...subgenresData,
-            ...(genre.subgenres || []),
-          ]);
+        if (subgenres.length) {
+          setSubgenres((prev) => [...prev, ...subgenres]);
         }
       } else {
         removeGenre(
@@ -192,18 +186,13 @@ export const GenreEditForm = ({
   );
 
   const handleSubgenreSelect = useCallback(
-    (currentValue: string, key: string, subgenre: SubgenreOut) => {
-      if (
-        !subgenreFields.find((subgenrePrev) => subgenrePrev.key === key) &&
-        subgenre
-      ) {
+    ({ key, name, parent_genre_key }: SubgenreOut) => {
+      if (!subgenreFields.find((subgenrePrev) => subgenrePrev.key === key)) {
         appendSubgenre({
-          name: currentValue,
+          key,
+          name,
           percentage_match: 0,
-          subgenre_parent_key: !checkGenreType(subgenre)
-            ? subgenre.parent_genre_key
-            : "",
-          key: key,
+          subgenre_parent_key: parent_genre_key,
         });
       } else {
         removeSubgenre(
@@ -213,6 +202,14 @@ export const GenreEditForm = ({
     },
     [appendSubgenre, removeSubgenre, subgenreFields],
   );
+
+  const handleOpenGenreModal = () => {
+    setOpenGenreFormModal(true);
+  };
+
+  const handleOpenSubgenreModal = () => {
+    setOpenSubgenreFormModal(true);
+  };
 
   const selectedGenreskeys = genreFields.map((field) => field.key);
   const selectedSubgenresKeys = subgenreFields.map((field) => field.key);
@@ -227,13 +224,10 @@ export const GenreEditForm = ({
           aria-label="genre-edit-form"
           className="mb-5 flex w-full flex-col items-center gap-6"
         >
-          {/* <h1 className="base-neon-text movie-genre-text text-2xl font-medium">
-            {t("name")}
-          </h1> */}
           <ResponsiveWrapper title={`${tSelect("menuSelect")} ${t("name")}`}>
             <ItemsSelector
               items={allGenres}
-              onOpenModal={() => setOpenGenreFormModal(true)}
+              onOpenModal={handleOpenGenreModal}
               onSelect={handleSelectGenre}
               checkIconStyle={selectedGenreskeys}
             />
@@ -288,7 +282,7 @@ export const GenreEditForm = ({
           >
             <ItemsSelector<SubgenreOut>
               items={subgenres as SubgenreOut[]}
-              onOpenModal={() => setOpenSubgenreFormModal(true)}
+              onOpenModal={handleOpenSubgenreModal}
               onSelect={handleSubgenreSelect}
               checkIconStyle={selectedSubgenresKeys}
             />

@@ -133,7 +133,7 @@ export const RelatedMovieForm = ({ baseMovies }: Props) => {
                   <ItemsSelector
                     items={baseMovies}
                     onOpenModal={() => {}}
-                    onSelect={(value, key) => onChange(key)}
+                    onSelect={({ key }) => onChange(key)}
                     checkIconStyle={[value]}
                     emptyText="Not found"
                   />

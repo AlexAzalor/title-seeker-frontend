@@ -52,6 +52,11 @@ export const RelatedSimilarList = ({
             <Image
               src={`${posterUrl}/posters/${movie.poster}`}
               alt="Movie poster"
+              // remove warning about width and height
+              style={{
+                height: "60px",
+                width: "40px",
+              }}
               height={60}
               width={40}
               className="rounded-lg"

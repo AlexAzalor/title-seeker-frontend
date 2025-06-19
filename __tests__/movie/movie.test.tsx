@@ -1,6 +1,6 @@
 import { expect, test } from "vitest";
 import { render, screen } from "@testing-library/react";
-import { Language } from "@/orval_api/model";
+import { FilterEnum, Language } from "@/orval_api/model";
 
 import { MovieFormWizard } from "@/components/movie/add-movie/movie-form-wizard";
 import { QuicklyAddNewMovie } from "@/components/movie/quick-add-new-movie";
@@ -121,7 +121,7 @@ test("Should render FilterEditForm", () => {
         },
       ]}
       selectedFilterItems={[]}
-      filterType="specifications"
+      filterType={FilterEnum.specification}
     />,
     {
       wrapper: ProjectProviders,

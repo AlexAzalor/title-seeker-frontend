@@ -21,11 +21,11 @@ export function ActorsCarousel({ name, actors, avatarURL }: Props) {
     <div className="w-full" aria-label="actors-carousel">
       <h2 className="mb-3 text-2xl lg:text-3xl">{name}</h2>
       <Carousel className="w-full" opts={{ dragFree: true }}>
-        <CarouselContent className="-ml-1 max-w-[340px] lg:max-w-none">
+        <CarouselContent className="-ml-1 max-w-[340px] xl:max-w-none">
           {actors.map((actor) => (
             <CarouselItem
               key={actor.key}
-              className="basis-auto pl-1 md:basis-1/2 lg:basis-1/10"
+              className="basis-auto pl-1 md:basis-1/2 xl:basis-1/10"
             >
               <div className="p-1">
                 <Card className="">
@@ -44,7 +44,7 @@ export function ActorsCarousel({ name, actors, avatarURL }: Props) {
                           width={72}
                         />
                       </div>
-                      <div className="w-[152px] text-center lg:w-auto">
+                      <div className="w-[152px] text-center xl:w-auto">
                         <div className="text-lg font-bold">
                           {actor.name} ({actor.movie_count})
                         </div>
@@ -56,8 +56,8 @@ export function ActorsCarousel({ name, actors, avatarURL }: Props) {
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious className="hidden lg:flex" />
-        <CarouselNext className="hidden lg:flex" />
+        <CarouselPrevious className="hidden xl:flex" />
+        <CarouselNext className="hidden xl:flex" />
       </Carousel>
     </div>
   );

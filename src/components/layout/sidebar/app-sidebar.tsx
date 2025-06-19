@@ -55,7 +55,7 @@ async function AppSidebar({ locale, ...props }: AppSidebarProps) {
   );
 
   return (
-    <Sidebar {...props} className="p-4 dark:border-r-black">
+    <Sidebar {...props} className="dark:border-r-black">
       {session ? (
         <SidebarHeader className="border-sidebar-border mt-3 border-b">
           {isOwner && (

@@ -14,23 +14,32 @@ export const MyMovies = ({ movies }: Props) => {
   const t = useTranslations("Rating");
 
   return (
-    <div className="mb-2 flex flex-col gap-4" aria-label="my-movies">
+    <div
+      className="mb-2 flex flex-col gap-4 md:h-[798px]"
+      aria-label="my-movies"
+    >
       <h1>{t("myList")}</h1>
+
       {movies.map((movie, i) => (
         <Link
           aria-label={`movie-link-${i}`}
           href={`/movies/${movie.key}`}
           key={movie.key}
-          className={cn(
-            "dark:hover:bg-main-dark-hover flex items-center gap-4 rounded-xl px-2 transition-all duration-200 select-none hover:bg-neutral-100",
-          )}
+          className="dark:hover:bg-main-dark-hover flex items-center gap-4 rounded-xl px-2 transition-all duration-200 select-none hover:bg-neutral-100"
         >
           <Image
             src={`${POSTER_URL}/posters/${movie.poster}`}
             alt="Movie poster"
+            // remove warning about width and height
+            style={{
+              height: "60px",
+              width: "40px",
+            }}
             height={60}
             width={40}
             className="rounded-lg"
+            blurDataURL="/static/blur-image.webp"
+            placeholder="blur"
           />
           <div>
             <h3 title={movie.title} className="xs:text-2xl text-lg">

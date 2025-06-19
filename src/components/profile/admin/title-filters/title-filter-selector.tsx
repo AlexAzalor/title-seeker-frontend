@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { toast } from "sonner";
 
 import {
@@ -109,22 +109,41 @@ export const TitleFilterSelector = () => {
     toast.error("No data found for this filter type");
   };
 
-  const selectFilterItem = async (key: string) => {
-    if (!selectedFilterType) {
-      toast.error("Please select a filter type first");
-      return;
-    }
+  const selectFilterItem = useCallback(
+    async (key: string) => {
+      if (!selectedFilterType) {
+        toast.error("Please select a filter type first");
+        return;
+      }
 
-    if (selectedFilters.some((e) => e.item.key === key)) {
-      setSelectedFilters((prev) => prev.filter((e) => e.item.key !== key));
-      return;
-    }
+      if (selectedFilters.some((e) => e.item.key === key)) {
+        setSelectedFilters((prev) => prev.filter((e) => e.item.key !== key));
+        return;
+      }
 
-    if (
-      selectedFilterType === FilterEnum.genre ||
-      selectedFilterType === FilterEnum.subgenre
-    ) {
-      const res = await getGenreFormFields(key, selectedFilterType);
+      if (
+        selectedFilterType === FilterEnum.genre ||
+        selectedFilterType === FilterEnum.subgenre
+      ) {
+        const res = await getGenreFormFields(key, selectedFilterType);
+
+        if (res.status === 200 && res.data) {
+          setSelectedFilters((prev) => [
+            ...prev,
+            {
+              item: res.data,
+              key: selectedFilterType,
+              itemKey: res.data.key,
+            },
+          ]);
+          return;
+        } else {
+          toast.error(`${res.status}: ${res.message}`);
+          return;
+        }
+      }
+
+      const res = await getFilterFormFields(key, selectedFilterType);
 
       if (res.status === 200 && res.data) {
         setSelectedFilters((prev) => [
@@ -138,30 +157,16 @@ export const TitleFilterSelector = () => {
         return;
       } else {
         toast.error(`${res.status}: ${res.message}`);
-        return;
       }
-    }
-
-    const res = await getFilterFormFields(key, selectedFilterType);
-
-    if (res.status === 200 && res.data) {
-      setSelectedFilters((prev) => [
-        ...prev,
-        {
-          item: res.data,
-          key: selectedFilterType,
-          itemKey: res.data.key,
-        },
-      ]);
-      return;
-    } else {
-      toast.error(`${res.status}: ${res.message}`);
-    }
-  };
+    },
+    [selectedFilterType, selectedFilters],
+  );
 
   const filterTitle =
     FILTERS_LIST.find((e) => e.key === selectedFilterType)?.label ||
     "Select a filter first";
+
+  const selectedFilterKeys = selectedFilters.map((e) => e.item.key);
 
   return (
     <div aria-label="title-filter-selector">
@@ -186,21 +191,17 @@ export const TitleFilterSelector = () => {
           <ItemsSelector
             items={filterList}
             emptyText="No items found"
-            onSelect={(currentValue, key, item) => {
-              selectFilterItem(item.key);
+            onSelect={({ key }) => {
+              selectFilterItem(key);
             }}
-            checkIconStyle={selectedFilters.map((e) => e.item.key)}
+            checkIconStyle={selectedFilterKeys}
           />
         </ResponsiveWrapper>
       </div>
 
       {!!selectedFilters.length &&
-        selectedFilters.map((filter) => (
-          <TitleFilterEditForm
-            key={filter.itemKey}
-            filterItem={filter.item}
-            type={filter.key}
-          />
+        selectedFilters.map(({ itemKey, item, key }) => (
+          <TitleFilterEditForm key={itemKey} filterItem={item} type={key} />
         ))}
     </div>
   );

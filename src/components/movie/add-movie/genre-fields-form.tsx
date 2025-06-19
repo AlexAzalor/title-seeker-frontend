@@ -1,4 +1,4 @@
-import { use, useState } from "react";
+import { use, useCallback, useState } from "react";
 import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
 import { useFieldArray, useForm } from "react-hook-form";
@@ -31,9 +31,9 @@ const ModalMovie = dynamic(
   },
 );
 
-const checkGenreType = (item: GenreOut | SubgenreOut): item is GenreOut => {
-  return (item as GenreOut).subgenres !== undefined;
-};
+// const checkGenreType = (item: GenreOut | SubgenreOut): item is GenreOut => {
+//   return (item as GenreOut).subgenres !== undefined;
+// };
 
 type Props = {
   genres: GenreOut[];
@@ -51,6 +51,8 @@ export const GenreFieldsForm = ({ genres }: Props) => {
 
   const [openGenreFormModal, setOpenGenreFormModal] = useState(false);
   const [openSubgenreFormModal, setOpenSubgenreFormModal] = useState(false);
+
+  // const [openModal, setOpenModal] = useState(false);
 
   const { data: parsedData } = useLocalStorage<MovieFormData>(
     "new-movie-data",
@@ -129,49 +131,91 @@ export const GenreFieldsForm = ({ genres }: Props) => {
     handleNext();
   };
 
+  const handleSelectGenre = useCallback(
+    ({ key, name, subgenres }: GenreOut) => {
+      if (!genreFields.find((genrePrev) => genrePrev.key === key)) {
+        appendGenre({
+          key,
+          name,
+          percentage_match: 0,
+        });
+
+        if (subgenres.length) {
+          setSubgenres((prev) => [...prev, ...subgenres]);
+        }
+      } else {
+        removeGenre(
+          genreFields.findIndex((genrePrev) => genrePrev.key === key),
+        );
+
+        setSubgenres((prev) =>
+          prev.filter((subgenrePrev) => subgenrePrev.parent_genre_key !== key),
+        );
+      }
+    },
+    [appendGenre, genreFields, removeGenre],
+  );
+
+  const handleSelectSubgenre = useCallback(
+    ({ key, name, parent_genre_key }: SubgenreOut) => {
+      if (!subgenreFields.find((subgenrePrev) => subgenrePrev.key === key)) {
+        appendSubgenre({
+          key,
+          name,
+          percentage_match: 0,
+          subgenre_parent_key: parent_genre_key,
+        });
+      } else {
+        removeSubgenre(
+          subgenreFields.findIndex((subgenrePrev) => subgenrePrev.key === key),
+        );
+      }
+    },
+    [appendSubgenre, removeSubgenre, subgenreFields],
+  );
+
+  const handleRemoveGenre = useCallback(
+    (index: number, key: string) => {
+      removeGenre(index);
+      setSubgenres((prev) =>
+        prev.filter((subgenrePrev) => subgenrePrev.parent_genre_key !== key),
+      );
+
+      const indices = subgenreFields.flatMap((val, index) =>
+        val.subgenre_parent_key === key ? index : [],
+      );
+
+      if (indices.length) {
+        removeSubgenre(indices);
+      }
+    },
+    [removeGenre, removeSubgenre, subgenreFields],
+  );
+
+  const handleOpenGenreModal = () => {
+    setOpenGenreFormModal(true);
+  };
+
+  const handleOpenSubgenreModal = () => {
+    setOpenSubgenreFormModal(true);
+  };
+
+  const selectedGenres = genreFields.map((field) => field.key);
+  const selectedSubgenreKeys = subgenreFields.map((field) => field.key);
+
   return (
     <>
       <div className="text-textOrange flex items-center justify-center gap-3 font-bold">
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">
           <div className="mb-5 flex w-full flex-col items-center gap-6">
             <h1 className="text-main-ui-purple">{t("name")}</h1>
+
             <ResponsiveWrapper title={`${tSelect("menuSelect")} ${t("name")}`}>
               <ItemsSelector<GenreOut>
                 items={genres}
-                onOpenModal={() => setOpenGenreFormModal(true)}
-                onSelect={(currentValue, key, genre) => {
-                  if (!genreFields.find((genrePrev) => genrePrev.key === key)) {
-                    appendGenre({
-                      name: currentValue,
-                      percentage_match: 0,
-                      key: key,
-                    });
-
-                    if (
-                      genre &&
-                      checkGenreType(genre) &&
-                      genre.subgenres?.length
-                    ) {
-                      setSubgenres((prev) => [
-                        ...prev,
-                        ...(genre.subgenres || []),
-                      ]);
-                    }
-                  } else {
-                    removeGenre(
-                      genreFields.findIndex(
-                        (genrePrev) => genrePrev.key === key,
-                      ),
-                    );
-
-                    setSubgenres((prev) =>
-                      prev.filter(
-                        (subgenrePrev) => subgenrePrev.parent_genre_key !== key,
-                      ),
-                    );
-                  }
-                }}
-                checkIconStyle={genreFields.map((field) => field.key)}
+                onOpenModal={handleOpenGenreModal}
+                onSelect={handleSelectGenre}
+                checkIconStyle={selectedGenres}
               />
             </ResponsiveWrapper>
 
@@ -193,23 +237,7 @@ export const GenreFieldsForm = ({ genres }: Props) => {
                     errors.genres?.[index]?.percentage_match &&
                     errors.genres[index].percentage_match
                   }
-                  removItem={() => {
-                    removeGenre(index);
-                    setSubgenres((prev) =>
-                      prev.filter(
-                        (subgenrePrev) =>
-                          subgenrePrev.parent_genre_key !== field.key,
-                      ),
-                    );
-
-                    const indices = subgenreFields.flatMap((val, index) =>
-                      val.subgenre_parent_key === field.key ? index : [],
-                    );
-
-                    if (indices.length) {
-                      removeSubgenre(indices);
-                    }
-                  }}
+                  removItem={() => handleRemoveGenre(index, field.key)}
                 />
 
                 {errors.genres && errors.genres.message && (
@@ -232,31 +260,9 @@ export const GenreFieldsForm = ({ genres }: Props) => {
             >
               <ItemsSelector<SubgenreOut>
                 items={subgenres as SubgenreOut[]}
-                onOpenModal={() => setOpenSubgenreFormModal(true)}
-                onSelect={(currentValue, key, subgenre) => {
-                  if (
-                    !subgenreFields.find(
-                      (subgenrePrev) => subgenrePrev.key === key,
-                    ) &&
-                    subgenre
-                  ) {
-                    appendSubgenre({
-                      name: currentValue,
-                      percentage_match: 0,
-                      subgenre_parent_key: !checkGenreType(subgenre)
-                        ? subgenre.parent_genre_key
-                        : "",
-                      key: key,
-                    });
-                  } else {
-                    removeSubgenre(
-                      subgenreFields.findIndex(
-                        (subgenrePrev) => subgenrePrev.key === key,
-                      ),
-                    );
-                  }
-                }}
-                checkIconStyle={subgenreFields.map((field) => field.key)}
+                onOpenModal={handleOpenSubgenreModal}
+                onSelect={handleSelectSubgenre}
+                checkIconStyle={selectedSubgenreKeys}
               />
             </ResponsiveWrapper>
 

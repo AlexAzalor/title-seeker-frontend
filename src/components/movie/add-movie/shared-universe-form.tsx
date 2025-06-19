@@ -147,7 +147,7 @@ export const SharedUniverseForm = ({ sharedUniverses }: Props) => {
                     <ItemsSelector
                       items={sharedUniverses}
                       onOpenModal={() => setOpenAddNewUniverseModal(true)}
-                      onSelect={(value, key) => onChange(key)}
+                      onSelect={({ key }) => onChange(key)}
                       checkIconStyle={[value]}
                     />
                   </ResponsiveWrapper>

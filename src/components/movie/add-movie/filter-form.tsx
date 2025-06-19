@@ -1,6 +1,6 @@
 "use client";
 
-import { use, useState } from "react";
+import { use, useCallback, useState } from "react";
 import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
 import { useFieldArray, useForm } from "react-hook-form";
@@ -134,6 +134,81 @@ export const FilterForm = ({
     handleNext();
   };
 
+  const handleSelectSpec = useCallback(
+    ({ name, key }: FilterItemOut) => {
+      const isNoSpec = !specificationFields.find(
+        (specPrev) => specPrev.key === key,
+      );
+
+      if (isNoSpec) {
+        appendSpecification({
+          key,
+          name,
+          percentage_match: 0,
+        });
+      } else {
+        removeSpecification(
+          specificationFields.findIndex(
+            (specificationPrev) => specificationPrev.key === key,
+          ),
+        );
+      }
+    },
+    [appendSpecification, removeSpecification, specificationFields],
+  );
+
+  const handleSelectKeyword = useCallback(
+    ({ name, key }: FilterItemOut) => {
+      const isNoKeyword = !keywordFields.find(
+        (keywordPrev) => keywordPrev.key === key,
+      );
+
+      if (isNoKeyword) {
+        appendKeyword({
+          key,
+          name,
+          percentage_match: 0,
+        });
+      } else {
+        removeKeyword(
+          keywordFields.findIndex((keywordPrev) => keywordPrev.key === key),
+        );
+      }
+    },
+    [appendKeyword, keywordFields, removeKeyword],
+  );
+
+  const handleSelectActionTime = useCallback(
+    ({ name, key }: FilterItemOut) => {
+      const isNoActionTime = !actionTimeFields.find(
+        (actionTimePrev) => actionTimePrev.key === key,
+      );
+
+      if (isNoActionTime) {
+        appendActionTime({
+          key,
+          name,
+          percentage_match: 0,
+        });
+      } else {
+        removeActionTimes(
+          actionTimeFields.findIndex(
+            (actionTimePrev) => actionTimePrev.key === key,
+          ),
+        );
+      }
+    },
+    [actionTimeFields, appendActionTime, removeActionTimes],
+  );
+
+  const handleOpenSpecModal = () => setOpenSpecificationFormModal(true);
+  const handleOpenKeywordModal = () => setOpenKeywordFormModal(true);
+  const handleOpenActionTimeModal = () => setOpenActionTimeFormModal(true);
+
+  const selectedSpecKeys = specificationFields.map((field) => field.key);
+  const selectedKeywordKeys = keywordFields.map((field) => field.key);
+  const selectedActionTimeKeys = actionTimeFields.map((field) => field.key);
+
   return (
     <>
       <div className="flex items-center justify-center gap-3 font-bold">
@@ -153,27 +228,9 @@ export const FilterForm = ({
             >
               <ItemsSelector
                 items={specifications}
-                onOpenModal={() => setOpenSpecificationFormModal(true)}
-                onSelect={(currentValue, key) => {
-                  if (
-                    !specificationFields.find(
-                      (specificationPrev) => specificationPrev.key === key,
-                    )
-                  ) {
-                    appendSpecification({
-                      name: currentValue,
-                      percentage_match: 0,
-                      key: key,
-                    });
-                  } else {
-                    removeSpecification(
-                      specificationFields.findIndex(
-                        (specificationPrev) => specificationPrev.key === key,
-                      ),
-                    );
-                  }
-                }}
-                checkIconStyle={specificationFields.map((field) => field.key)}
+                onOpenModal={handleOpenSpecModal}
+                onSelect={handleSelectSpec}
+                checkIconStyle={selectedSpecKeys}
               />
             </ResponsiveWrapper>
 
@@ -222,27 +279,9 @@ export const FilterForm = ({
             >
               <ItemsSelector
                 items={keywords}
-                onOpenModal={() => setOpenKeywordFormModal(true)}
-                onSelect={(currentValue, key) => {
-                  if (
-                    !keywordFields.find(
-                      (keywordPrev) => keywordPrev.key === key,
-                    )
-                  ) {
-                    appendKeyword({
-                      name: currentValue,
-                      percentage_match: 0,
-                      key: key,
-                    });
-                  } else {
-                    removeKeyword(
-                      keywordFields.findIndex(
-                        (keywordPrev) => keywordPrev.key === key,
-                      ),
-                    );
-                  }
-                }}
-                checkIconStyle={keywordFields.map((field) => field.key)}
+                onOpenModal={handleOpenKeywordModal}
+                onSelect={handleSelectKeyword}
+                checkIconStyle={selectedKeywordKeys}
               />
             </ResponsiveWrapper>
 
@@ -291,27 +330,9 @@ export const FilterForm = ({
             >
               <ItemsSelector
                 items={actionTimes}
-                onOpenModal={() => setOpenActionTimeFormModal(true)}
-                onSelect={(currentValue, key) => {
-                  if (
-                    !actionTimeFields.find(
-                      (actionTimePrev) => actionTimePrev.key === key,
-                    )
-                  ) {
-                    appendActionTime({
-                      name: currentValue,
-                      percentage_match: 0,
-                      key: key,
-                    });
-                  } else {
-                    removeActionTimes(
-                      actionTimeFields.findIndex(
-                        (actionTimePrev) => actionTimePrev.key === key,
-                      ),
-                    );
-                  }
-                }}
-                checkIconStyle={keywordFields.map((field) => field.key)}
+                onOpenModal={handleOpenActionTimeModal}
+                onSelect={handleSelectActionTime}
+                checkIconStyle={selectedActionTimeKeys}
               />
             </ResponsiveWrapper>
 

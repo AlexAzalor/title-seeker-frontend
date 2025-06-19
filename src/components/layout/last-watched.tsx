@@ -76,7 +76,7 @@ export const LastSeenTitles = ({ posterURL }: Props) => {
           <CarouselNext className="hidden lg:flex" />
         </Carousel>
       ) : (
-        <div className="flex flex-row justify-center gap-5">
+        <div className="flex flex-row justify-center gap-1 lg:gap-5">
           {movies.map((title) => (
             <Link key={title.key} href={`/movies/${title.key}`}>
               <Image

@@ -36,6 +36,7 @@ type Props = {
   currentPage: PageMoviePreviewOutPage;
   sortByID?: boolean;
   ratedAt?: boolean;
+  title?: string;
 };
 
 export const SortingControls = ({
@@ -47,6 +48,7 @@ export const SortingControls = ({
   sortBy,
   sortByID,
   ratedAt,
+  title,
 }: Props) => {
   const router = useRouter();
   const currentOrderType = useRef(sortOrder);
@@ -103,10 +105,13 @@ export const SortingControls = ({
     <>
       <div
         className={cn(
-          "relative my-2 flex items-end justify-end rounded-[32px]",
-          sortByID && "mb-0",
+          "justify-ent relative m-3 flex justify-end rounded-[32px]",
+          sortByID && "m-0",
+          title && "justify-between",
         )}
       >
+        {title && <h1 className="bold">{title}</h1>}
+
         <DropdownMenu>
           <DropdownMenuTrigger asChild className="">
             <Button className="h-11 w-11 rounded-full px-1" variant="outline">

@@ -154,14 +154,14 @@ export const PeopleFieldsForm = ({ actors, directors, characters }: Props) => {
   }, []);
 
   const handleSelectActor = useCallback(
-    (currentValue: string, key: string) => {
-      const is_actor_selected = actorFields.find((actor) => actor.key === key);
+    ({ key, name }: PersonBase) => {
+      const isNoActor = !actorFields.find((actor) => actor.key === key);
 
-      if (!is_actor_selected) {
+      if (isNoActor) {
         appendActor({
-          name: currentValue,
+          key,
+          name,
           character_key: "",
-          key: key,
         });
       } else {
         removeActor(
@@ -173,15 +173,15 @@ export const PeopleFieldsForm = ({ actors, directors, characters }: Props) => {
   );
 
   const handleSelectDerector = useCallback(
-    (currentValue: string, key: string) => {
-      const is_director_selected = directorFields.find(
+    ({ key, name }: PersonBase) => {
+      const isNoDirector = !directorFields.find(
         (director) => director.key === key,
       );
 
-      if (!is_director_selected) {
+      if (isNoDirector) {
         appendDirector({
-          name: currentValue,
-          key: key,
+          key,
+          name,
         });
       } else {
         removeDirector(
@@ -204,6 +204,9 @@ export const PeopleFieldsForm = ({ actors, directors, characters }: Props) => {
     }
   };
 
+  const selectedActorKeys = actorFields.map((field) => field.key);
+  const selectedDirectorKeys = directorFields.map((field) => field.key);
+
   return (
     <>
       <div className="flex items-center justify-center gap-3 font-bold">
@@ -216,7 +219,7 @@ export const PeopleFieldsForm = ({ actors, directors, characters }: Props) => {
                 items={actors}
                 onOpenModal={handleOpenActorFormModal}
                 onSelect={handleSelectActor}
-                checkIconStyle={actorFields.map((field) => field.key)}
+                checkIconStyle={selectedActorKeys}
               />
             </ResponsiveWrapper>
 
@@ -261,12 +264,15 @@ export const PeopleFieldsForm = ({ actors, directors, characters }: Props) => {
                             onOpenModal={() =>
                               setOpenCharacterFormModal({ open: true, index })
                             }
-                            onSelect={(value, key) => {
-                              if (
-                                actorFields.find((e) => e.character_key === key)
-                              ) {
+                            onSelect={({ key }) => {
+                              const isChar = actorFields.find(
+                                (e) => e.character_key === key,
+                              );
+
+                              if (isChar) {
                                 return;
                               }
+
                               onChange(key);
                             }}
                             checkIconStyle={[
@@ -329,7 +335,7 @@ export const PeopleFieldsForm = ({ actors, directors, characters }: Props) => {
                 items={directors}
                 onOpenModal={handleOpenDirectorFormModal}
                 onSelect={handleSelectDerector}
-                checkIconStyle={directorFields.map((field) => field.key)}
+                checkIconStyle={selectedDirectorKeys}
               />
             </ResponsiveWrapper>
 
