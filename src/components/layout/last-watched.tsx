@@ -7,14 +7,8 @@ import { useTranslations } from "next-intl";
 import { useMediaQuery } from "@/hooks/use-media-query";
 
 import { Card, CardContent } from "@/components/ui/card";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselPrevious,
-  CarouselNext,
-} from "@/components/ui/carousel";
 import { useLastWatchedStore } from "@/lib/store";
+import { ReusableSimpleCarousel } from "@/components/my-custom-ui/reusable-simple-carousel";
 
 type Props = {
   posterURL: string;
@@ -22,7 +16,7 @@ type Props = {
 
 export const LastSeenTitles = ({ posterURL }: Props) => {
   const t = useTranslations("Other");
-  const isMobile = useMediaQuery("(max-width: 640px)");
+  const isMobile = useMediaQuery("(max-width: 1024px)");
 
   const movies = useLastWatchedStore((s) => s.movies);
   const loadFromStorage = useLastWatchedStore((s) => s.loadFromStorage);
@@ -40,41 +34,32 @@ export const LastSeenTitles = ({ posterURL }: Props) => {
       <h2 className="mb-3 text-2xl font-bold">{t("lastSeenTitles")}</h2>
 
       {isMobile ? (
-        <Carousel className="w-full" opts={{ dragFree: true }}>
-          <CarouselContent className="-ml-1 max-w-[340px] lg:max-w-none">
-            {movies.map((title) => (
-              <CarouselItem
-                key={title.key}
-                className="basis-auto pl-1 md:basis-1/2 lg:basis-1/10"
-              >
-                <div className="p-1">
-                  <Card className="">
-                    <CardContent className="flex aspect-square items-center justify-center p-2">
-                      <Link
-                        href={`/movies/${title.key}`}
-                        scroll
-                        key={title.key}
-                        className="flex flex-col items-center justify-start gap-3"
-                      >
-                        <Image
-                          src={`${posterURL}/posters/${title.poster}`}
-                          alt="Title Poster"
-                          height={100}
-                          width={80}
-                          blurDataURL="/static/blur-image.webp"
-                          placeholder="blur"
-                          loading="lazy"
-                        />
-                      </Link>
-                    </CardContent>
-                  </Card>
-                </div>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious className="hidden lg:flex" />
-          <CarouselNext className="hidden lg:flex" />
-        </Carousel>
+        <ReusableSimpleCarousel items={movies}>
+          {(title) => (
+            <div className="p-1">
+              <Card className="">
+                <CardContent className="flex aspect-square items-center justify-center p-2">
+                  <Link
+                    href={`/movies/${title.key}`}
+                    scroll
+                    key={title.key}
+                    className="flex flex-col items-center justify-start gap-3"
+                  >
+                    <Image
+                      src={`${posterURL}/posters/${title.poster}`}
+                      alt="Title Poster"
+                      height={100}
+                      width={80}
+                      blurDataURL="/static/blur-image.webp"
+                      placeholder="blur"
+                      loading="lazy"
+                    />
+                  </Link>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+        </ReusableSimpleCarousel>
       ) : (
         <div className="flex flex-row justify-center gap-1 lg:gap-5">
           {movies.map((title) => (
