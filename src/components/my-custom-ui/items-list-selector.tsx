@@ -1,11 +1,10 @@
-import { useSession } from "next-auth/react";
 import { memo } from "react";
+import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { checkIfAdmin } from "@/middleware";
 import { Check, Info } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-
 import { Button } from "@/components/ui/button";
 import {
   CommandEmpty,
@@ -14,7 +13,6 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-
 import { TooltipWrapper } from "@/components/my-custom-ui/tooltip-wrapper";
 
 type ItemFields = {

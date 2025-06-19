@@ -1,8 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
-import { MovieActorOut, MoviePersonOut } from "@/orval_api/model";
-import { formatDate } from "@/lib/utils";
 import { useTranslations } from "next-intl";
+import { formatDate } from "@/lib/utils";
+import type { MovieActorOut, MoviePersonOut } from "@/orval_api/model";
 
 type Props = {
   person: MovieActorOut | MoviePersonOut;

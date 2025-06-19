@@ -1,20 +1,33 @@
 import { useCallback, useState } from "react";
+import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
-import { FieldArrayWithId, useFieldArray, useForm } from "react-hook-form";
 
+import { type FieldArrayWithId, useFieldArray, useForm } from "react-hook-form";
+import { InfoIcon } from "lucide-react";
+import { toast } from "sonner";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  GenreSchemaList,
-  GenreSchemaListType,
-} from "@/types/genre-filter-schema";
+
+import { ItemsSelector } from "@/components/my-custom-ui/items-list-selector";
+import { FormField } from "@/components/my-custom-ui/form-ui-parts/form-field";
+import { SliderFormField } from "@/components/my-custom-ui/form-ui-parts/slider-form-field";
+import { ResponsiveWrapper } from "@/components/my-custom-ui/responsive-wrapper";
+import { FormWrapper } from "@/components/my-custom-ui/form-ui-parts/form-wrapper";
+import { TooltipWrapper } from "@/components/my-custom-ui/tooltip-wrapper";
+import { AddNewGenre } from "@/components/movie/add-movie/connected-parts/add-new-genre";
 
 import {
   createGenre,
   createSubgenre,
   updateGenresSubgenres,
 } from "@/app/services/admin-api";
+
+import {
+  GenreSchemaList,
+  type GenreSchemaListType,
+} from "@/types/genre-filter-schema";
+
 import type {
   GenreFormOut,
   GenreItemFieldEditFormIn,
@@ -24,20 +37,12 @@ import type {
   SubgenreOut,
 } from "@/orval_api/model";
 
-import { ItemsSelector } from "../../my-custom-ui/items-list-selector";
-import { FormField } from "@/components/my-custom-ui/form-ui-parts/form-field";
-import { SliderFormField } from "@/components/my-custom-ui/form-ui-parts/slider-form-field";
-import { ResponsiveWrapper } from "../../my-custom-ui/responsive-wrapper";
-import { AddNewGenre } from "../add-movie/connected-parts/add-new-genre";
-import { FormWrapper } from "@/components/my-custom-ui/form-ui-parts/form-wrapper";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
-import { TooltipWrapper } from "@/components/my-custom-ui/tooltip-wrapper";
-import { InfoIcon } from "lucide-react";
-
-const ModalMovie = dynamic(() => import("../../my-custom-ui/modal-window"), {
-  ssr: false,
-});
+const ModalMovie = dynamic(
+  () => import("@/components/my-custom-ui/modal-window"),
+  {
+    ssr: false,
+  },
+);
 
 const checkGenreType = (item: GenreOut | SubgenreOut): item is GenreOut => {
   return (item as GenreOut).subgenres !== undefined;

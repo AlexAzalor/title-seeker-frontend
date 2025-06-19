@@ -1,6 +1,6 @@
 import { use } from "react";
 import { useTranslations } from "next-intl";
-import { FormStep } from "./form-step";
+import { FormStep } from "@/components/my-custom-ui/form-ui-parts/form-step";
 import {
   FIRST_STEP,
   GENRES_STEP,
@@ -12,7 +12,7 @@ import {
   SU_STEP,
   SUMMARY_STEP,
   VISUAL_PROFILE_STEP,
-} from "../../movie/add-movie/utils";
+} from "@/components/movie/add-movie/utils";
 
 type Props = {
   onStepChange: (step: number) => void;

@@ -1,16 +1,20 @@
 "use client";
 
 import { useTranslations } from "next-intl";
+import { useMediaQuery } from "@/hooks/use-media-query";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "../../ui/carousel";
-import { PersonLink } from "./people-link";
-import { FilterEnum, MovieActorOut, MoviePersonOut } from "@/orval_api/model";
-import { useMediaQuery } from "@/hooks/use-media-query";
+} from "@/components/ui/carousel";
+import { PersonLink } from "@/components/movie/movie-page/people-link";
+import {
+  FilterEnum,
+  type MovieActorOut,
+  type MoviePersonOut,
+} from "@/orval_api/model";
 
 type Props = {
   actors: MovieActorOut[];

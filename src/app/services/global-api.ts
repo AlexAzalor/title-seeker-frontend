@@ -3,11 +3,11 @@
 import { cache } from "react";
 import { auth } from "@/auth";
 import { getLocale } from "next-intl/server";
-import axios, { AxiosResponse } from "axios";
+import axios, { type AxiosResponse } from "axios";
 
 import { backendURL, HTTP_STATUS } from "@/lib/constants";
-import { ValidationError } from "@/types/general";
-import { Language, SearchResults, SearchType } from "@/orval_api/model";
+import { type ValidationError } from "@/types/general";
+import { Language, type SearchResults, SearchType } from "@/orval_api/model";
 import { getMovies } from "@/orval_api/movies/movies";
 import { getPeople } from "@/orval_api/people/people";
 

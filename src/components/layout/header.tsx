@@ -1,17 +1,17 @@
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
-import { ALL_ROLES } from "@/middleware";
-
-import { ThemeSelector } from "./theme-selector";
-import { Button } from "../ui/button";
 import { PlusCircle } from "lucide-react";
-import { Search } from "./search/search";
+import { ALL_ROLES } from "@/middleware";
 import { POSTER_URL } from "@/lib/constants";
-import { SidebarTrigger } from "../ui/sidebar";
-import { UserProfileMenu } from "../profile/menu-nav/user-profile-menu";
-import { LanguageSelector } from "./language-selector";
-import { RoleGate } from "../providers/role-gate";
+
+import { Button } from "@/components/ui/button";
+import { SidebarTrigger } from "@/components/ui/sidebar";
+import { RoleGate } from "@/components/providers/role-gate";
+import { ThemeSelector } from "@/components/layout/theme-selector";
+import { Search } from "@/components/layout/search/search";
+import { LanguageSelector } from "@/components/layout/language-selector";
+import { UserProfileMenu } from "@/components/profile/menu-nav/user-profile-menu";
 import { UserRole } from "@/orval_api/model";
 
 export const Header = () => {

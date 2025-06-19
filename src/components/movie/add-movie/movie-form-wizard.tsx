@@ -14,13 +14,27 @@ import {
   SU_STEP,
   SUMMARY_STEP,
   VISUAL_PROFILE_STEP,
-} from "./utils";
+} from "@/components/movie/add-movie/utils";
 import { errorHandling } from "@/lib/utils";
+
+import { KeyFieldsForm } from "@/components/movie/add-movie/key-fields-form";
+import { InfoFieldsForm } from "@/components/movie/add-movie/info-fields-form";
+import { PeopleFieldsForm } from "@/components/movie/add-movie/people-fields-form";
+
+import { Separator } from "@/components/ui/separator";
+import { FormStepper } from "@/components/my-custom-ui/form-ui-parts/form-stepper";
+import { FormButtons } from "@/components/my-custom-ui/form-ui-parts/form-buttons";
+import { Spinner } from "@/components/my-custom-ui/spinner";
+
+import { GenreFieldsForm } from "@/components/movie/add-movie/genre-fields-form";
+import { FilterForm } from "@/components/movie/add-movie/filter-form";
+import { Summary } from "@/components/movie/add-movie/summary";
+import { RelatedMovieForm } from "@/components/movie/add-movie/related-movie-form";
+import { SharedUniverseForm } from "@/components/movie/add-movie/shared-universe-form";
+import { VisualProfileMovieForm } from "@/components/movie/add-movie/visual-profile-form";
+
 import { createMovie } from "@/app/services/admin-api";
-import { KeyFieldsForm } from "./key-fields-form";
-import { InfoFieldsForm } from "./info-fields-form";
-import { PeopleFieldsForm } from "./people-fields-form";
-import {
+import type {
   FilterItemOut,
   PersonBase,
   BodyAPICreateMovie,
@@ -32,16 +46,6 @@ import {
   BaseSharedUniverse,
   MovieMenuItem,
 } from "@/orval_api/model";
-import { GenreFieldsForm } from "./genre-fields-form";
-import { FilterForm } from "./filter-form";
-import { Summary } from "./summary";
-import { Separator } from "@/components/ui/separator";
-import { FormStepper } from "@/components/my-custom-ui/form-ui-parts/form-stepper";
-import { FormButtons } from "@/components/my-custom-ui/form-ui-parts/form-buttons";
-import { RelatedMovieForm } from "./related-movie-form";
-import { SharedUniverseForm } from "./shared-universe-form";
-import { Spinner } from "@/components/my-custom-ui/spinner";
-import { VisualProfileMovieForm } from "./visual-profile-form";
 
 type Props = {
   visualProfileCategories: VisualProfileData[];

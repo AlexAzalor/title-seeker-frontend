@@ -1,14 +1,14 @@
 import { getLocale } from "next-intl/server";
-import { PaginationParamsSchema } from "@/types/search-params-schema";
-import type { SearchParams } from "@/types/general";
 import { backendURL } from "@/lib/constants";
-
-import { getMovies } from "@/orval_api/movies/movies";
-import { Language, SortBy, SortOrder } from "@/orval_api/model";
 
 import { PaginationContoller } from "@/components/my-custom-ui/pagination/pagination-contoller";
 import { MovieList } from "@/components/movie/movie-list";
 import { SortingControls } from "@/components/my-custom-ui/pagination/sorting-controls";
+
+import { getMovies } from "@/orval_api/movies/movies";
+import { Language, SortBy, SortOrder } from "@/orval_api/model";
+import { PaginationParamsSchema } from "@/types/search-params-schema";
+import type { SearchParams } from "@/types/general";
 
 const DEFAULT_PAGE = 1;
 const DEFAULT_PAGE_SIZE = 30;

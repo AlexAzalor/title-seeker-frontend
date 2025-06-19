@@ -1,16 +1,18 @@
 import { useTranslations } from "next-intl";
+import { AVATAR_URL, POSTER_URL } from "@/lib/constants";
+
 import { ActorsCarousel } from "@/components/actors-carousel";
 import { FetchWrapper } from "@/components/my-custom-ui/fetch-wrapper";
 import { MoviesCarousel } from "@/components/movie/movie-carousel";
-import { AVATAR_URL, POSTER_URL } from "@/lib/constants";
+
 import { getPeople } from "@/orval_api/people/people";
-import {
+import { getMovies } from "@/orval_api/movies/movies";
+import type {
   ActorsList,
   APIGetActorsWithMostMoviesParams,
   APIGetRandomListParams,
   MovieCarouselList,
 } from "@/orval_api/model";
-import { getMovies } from "@/orval_api/movies/movies";
 
 export default function Home() {
   const t = useTranslations("HomePage");

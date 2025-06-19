@@ -1,8 +1,8 @@
 "use client";
 
-import React, { TextareaHTMLAttributes } from "react";
+import React, { type TextareaHTMLAttributes } from "react";
 import { cn } from "@/lib/utils";
-import {
+import type {
   FieldError,
   FieldValues,
   Path,

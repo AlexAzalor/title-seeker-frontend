@@ -1,33 +1,37 @@
 import { use, useCallback, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
+import dynamic from "next/dynamic";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { useLocalStorage } from "@/hooks/use-local-storage";
-import dynamic from "next/dynamic";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
-import { MovieFormContext } from "./utils";
+import { CircleArrowDown, CircleArrowUp, CircleX } from "lucide-react";
+import { MovieFormContext } from "@/components/movie/add-movie/utils";
+
+import { ItemsSelector } from "@/components/my-custom-ui/items-list-selector";
+import { FormButtons } from "@/components/my-custom-ui/form-ui-parts/form-buttons";
+import { FormField } from "@/components/my-custom-ui/form-ui-parts/form-field";
+import { ResponsiveWrapper } from "@/components/my-custom-ui/responsive-wrapper";
+import { AddNewCharacter } from "@/components/movie/add-movie/connected-parts/add-new-character";
+import { AddNewPerson } from "@/components/movie/add-movie/connected-parts/add-new-person";
 
 import { createActor, createDirector } from "@/app/services/admin-api";
-import { z } from "zod";
 import { PeopleListSchema } from "@/types/people-schema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { toast } from "sonner";
+
 import type {
   PersonBase,
   CharacterOut,
   MovieFormData,
 } from "@/orval_api/model";
-import { CircleArrowDown, CircleArrowUp, CircleX } from "lucide-react";
 
-import { ItemsSelector } from "../../my-custom-ui/items-list-selector";
-import { FormButtons } from "@/components/my-custom-ui/form-ui-parts/form-buttons";
-import { FormField } from "@/components/my-custom-ui/form-ui-parts/form-field";
-import { ResponsiveWrapper } from "../../my-custom-ui/responsive-wrapper";
-import { AddNewCharacter } from "./connected-parts/add-new-character";
-import { AddNewPerson } from "./connected-parts/add-new-person";
-
-const ModalMovie = dynamic(() => import("../../my-custom-ui/modal-window"), {
-  ssr: false,
-});
+const ModalMovie = dynamic(
+  () => import("@/components/my-custom-ui/modal-window"),
+  {
+    ssr: false,
+  },
+);
 
 type Props = {
   actors: PersonBase[];

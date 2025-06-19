@@ -2,28 +2,27 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { useSubgenreStore } from "@/lib/store";
-import { EXACT_MATCH_KEY } from "./genre-selector";
 import dynamic from "next/dynamic";
-
-import { ResizableHandle, ResizablePanel } from "../ui/resizable";
+import { CircleX } from "lucide-react";
+import { useSubgenreStore } from "@/lib/store";
 import { extractWord, manageSearchParameters } from "@/lib/utils";
 
-import {
-  FilterItemOut,
-  PersonBase,
-  GenreOut,
-  SubgenreOut,
-  VisualProfileCategoryOut,
-  FilterEnum,
-  BaseSharedUniverse,
-} from "@/orval_api/model";
+import { ResizableHandle, ResizablePanel } from "@/components/ui/resizable";
+import { EXACT_MATCH_KEY } from "@/components/super-search/genre-selector";
+import { FilterBrick } from "@/components/super-search/filter-brick";
+import { HoverBrick } from "@/components/super-search/hover-brick";
+import { FilterList } from "@/components/super-search/filter-list";
+import { EnhanceSearch } from "@/components/super-search/enhance-search";
 
-import { FilterBrick } from "./filter-brick";
-import { HoverBrick } from "./hover-brick";
-import { CircleX } from "lucide-react";
-import { FilterList } from "./filter-list";
-import { EnhanceSearch } from "./enhance-search";
+import {
+  type FilterItemOut,
+  type PersonBase,
+  type GenreOut,
+  type SubgenreOut,
+  type VisualProfileCategoryOut,
+  FilterEnum,
+  type BaseSharedUniverse,
+} from "@/orval_api/model";
 
 const SideMenuPanel = dynamic(() => import("./side-menu-panel"), {
   ssr: false,

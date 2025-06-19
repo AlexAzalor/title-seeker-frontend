@@ -1,5 +1,5 @@
-import { QuicklyAddNewMovie } from "@/components/movie/quick-add-new-movie";
 import { useTranslations } from "next-intl";
+import { QuicklyAddNewMovie } from "@/components/movie/quick-add-new-movie";
 
 export default function QuickAddMoviePage() {
   const t = useTranslations("Form.quickMovie");

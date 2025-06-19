@@ -1,16 +1,16 @@
 "use client";
 
-import { FilterEnum, FilterItemOut } from "@/orval_api/model";
 import { useTranslations } from "next-intl";
 import { useRouter, useSearchParams } from "next/navigation";
-import { ItemsSelector } from "../my-custom-ui/items-list-selector";
 
 import {
   DEFAULT_RANGE,
   extractWord,
   manageSearchParameters,
 } from "@/lib/utils";
-import { ResponsiveWrapper } from "../my-custom-ui/responsive-wrapper";
+import { ItemsSelector } from "@/components/my-custom-ui/items-list-selector";
+import { ResponsiveWrapper } from "@/components/my-custom-ui/responsive-wrapper";
+import { FilterEnum, type FilterItemOut } from "@/orval_api/model";
 
 type NoPm = Omit<FilterItemOut, "percentage_match">;
 type Props = {

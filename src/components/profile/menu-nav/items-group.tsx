@@ -1,10 +1,10 @@
+import { Fragment } from "react";
 import Link from "next/link";
 import {
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuSeparator,
-} from "../../ui/dropdown-menu";
-import { Fragment } from "react";
+} from "@/components/ui/dropdown-menu";
 
 export type MenuItem = {
   href: string;

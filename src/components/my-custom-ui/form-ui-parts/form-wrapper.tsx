@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { FormEventHandler } from "react";
-import { Spinner } from "../spinner";
+import { Spinner } from "@/components/my-custom-ui/spinner";
+import type { FormEventHandler } from "react";
 
 type Props = {
   children: React.ReactNode;

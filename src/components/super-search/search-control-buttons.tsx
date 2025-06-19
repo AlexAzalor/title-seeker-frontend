@@ -2,13 +2,12 @@
 
 import { useTranslations } from "next-intl";
 import { useRouter, useSearchParams } from "next/navigation";
-
-import { Checkbox } from "../ui/checkbox";
-import { Label } from "../ui/label";
-import { Button } from "../ui/button";
+import { useSubgenreStore } from "@/lib/store";
 
 import { syncSearchParameters, manageSearchParameters } from "@/lib/utils";
-import { useSubgenreStore } from "@/lib/store";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 
 export const EXACT_MATCH_KEY = "exact_match";
 

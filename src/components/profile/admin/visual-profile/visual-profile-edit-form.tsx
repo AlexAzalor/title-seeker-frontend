@@ -6,20 +6,21 @@ import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  VisualProfileFieldType,
-  VisualProfileUpdateSchema,
-} from "@/types/visual-profile-schema";
-
 import { formatKey } from "@/lib/utils";
+
+import { Button } from "@/components/ui/button";
 import { FormField } from "@/components/my-custom-ui/form-ui-parts/form-field";
 import { TextareaFormField } from "@/components/my-custom-ui/form-ui-parts/textarea-form-field";
+
 import {
   editVisualProfileCategory,
   editVisualProfileCriterion,
 } from "@/app/services/admin/visual-profile-apis";
-import { Button } from "@/components/ui/button";
-import { VisualProfileFieldWithUUID } from "@/orval_api/model";
+import {
+  type VisualProfileFieldType,
+  VisualProfileUpdateSchema,
+} from "@/types/visual-profile-schema";
+import type { VisualProfileFieldWithUUID } from "@/orval_api/model";
 
 type Props = {
   criterion: VisualProfileFieldWithUUID;

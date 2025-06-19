@@ -3,20 +3,21 @@
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
-import { checkIfAdmin } from "@/middleware";
-import { InfoIcon } from "lucide-react";
+import dynamic from "next/dynamic";
 import { useModal } from "@/hooks/use-modal";
-import { cn } from "@/lib/utils";
 
-import {
-  FilterEnum,
-  FilterItemOut,
-  GenreOut,
-  MovieFilterItem,
-} from "@/orval_api/model";
+import { InfoIcon } from "lucide-react";
+import { toast } from "sonner";
+import { cn } from "@/lib/utils";
+import { checkIfAdmin } from "@/middleware";
 
 import { TooltipWrapper } from "@/components/my-custom-ui/tooltip-wrapper";
 import { Button } from "@/components/ui/button";
+
+import { FilterEditForm } from "@/components/movie/movie-page/filter-edit-form";
+import { FilterItemLink } from "@/components/movie/movie-page/filter-item-link";
+import { GenreEditForm } from "@/components/movie/movie-page/genre-edit-form";
+
 import {
   getActionTimes,
   getGenresSubgenres,
@@ -24,15 +25,20 @@ import {
   getSpecifications,
   getSubgenresList,
 } from "@/app/services/admin-api";
-import { FilterEditForm } from "./filter-edit-form";
-import { FilterItemLink } from "./filter-item-link";
-import { GenreEditForm } from "./genre-edit-form";
-import { toast } from "sonner";
-import dynamic from "next/dynamic";
 
-const CustomModal = dynamic(() => import("../../my-custom-ui/custom-modal"), {
-  ssr: false,
-});
+import {
+  FilterEnum,
+  type FilterItemOut,
+  type GenreOut,
+  type MovieFilterItem,
+} from "@/orval_api/model";
+
+const CustomModal = dynamic(
+  () => import("@/components/my-custom-ui/custom-modal"),
+  {
+    ssr: false,
+  },
+);
 
 type Props = {
   movieKey: string;

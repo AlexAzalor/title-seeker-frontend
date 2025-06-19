@@ -2,7 +2,7 @@
 
 import { useState, createContext } from "react";
 import { FilterEnum, type MovieFilterItem } from "@/orval_api/model";
-import { MovieFilter } from "./movie-filter";
+import { MovieFilter } from "@/components/movie/movie-page/movie-filter";
 
 type Props = {
   movieKey: string;

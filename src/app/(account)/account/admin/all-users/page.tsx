@@ -1,9 +1,9 @@
-import { getAdminOrRedirect } from "@/app/services/admin-api";
+import { getLocale, getTranslations } from "next-intl/server";
 import { backendURL } from "@/lib/constants";
 import { formatDate } from "@/lib/utils";
 import { Language } from "@/orval_api/model";
 import { getUsers } from "@/orval_api/users/users";
-import { getLocale, getTranslations } from "next-intl/server";
+import { getAdminOrRedirect } from "@/app/services/admin-api";
 
 export default async function AllUsersPage() {
   const admin = await getAdminOrRedirect();

@@ -2,18 +2,19 @@
 
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { useForm, UseFormSetValue } from "react-hook-form";
+import { useForm, type UseFormSetValue } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { formatKey } from "@/lib/utils";
 
-import { createCharacter } from "@/app/services/admin-api";
-import { CharacterFields, CharacterType } from "@/types/people-schema";
-import { CharacterFormIn } from "@/orval_api/model";
-
-import { PeopleSchemeType } from "../../add-movie/people-fields-form";
 import { FormWrapper } from "@/components/my-custom-ui/form-ui-parts/form-wrapper";
 import { FormField } from "@/components/my-custom-ui/form-ui-parts/form-field";
+
+import { createCharacter } from "@/app/services/admin-api";
+
+import { CharacterFields, type CharacterType } from "@/types/people-schema";
+import type { CharacterFormIn } from "@/orval_api/model";
+import type { PeopleSchemeType } from "@/components/movie/add-movie/people-fields-form";
 
 type Props = {
   setValue: UseFormSetValue<PeopleSchemeType>;

@@ -1,8 +1,17 @@
 "use client";
 
 import { signOut } from "next-auth/react";
+import { useTranslations } from "next-intl";
 import { LogOut } from "lucide-react";
 import { checkIfAdmin } from "@/middleware";
+
+import {
+  ADMIN_ITEMS,
+  getMenuItems,
+  OTHER_ITEMS,
+  USER_ITEMS,
+} from "@/components/layout/sidebar/menu-item-collection";
+import { UserProfileCard } from "@/components/layout/sidebar/user-link";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -18,18 +27,10 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { useTranslations } from "next-intl";
-import { User as UserType } from "next-auth";
-import { UserExtended } from "@/auth";
+import { ItemsGroup } from "@/components/profile/menu-nav/items-group";
 
-import { ItemsGroup } from "./items-group";
-import {
-  ADMIN_ITEMS,
-  getMenuItems,
-  OTHER_ITEMS,
-  USER_ITEMS,
-} from "@/components/layout/sidebar/menu-item-collection";
-import { UserProfileCard } from "@/components/layout/sidebar/user-link";
+import type { User as UserType } from "next-auth";
+import type { UserExtended } from "@/auth";
 
 type Props = {
   user: UserType & UserExtended;

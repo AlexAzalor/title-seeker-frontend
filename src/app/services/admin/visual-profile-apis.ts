@@ -2,15 +2,15 @@
 
 import axios from "axios";
 
+import { getAdmin } from "@/app/services/admin-api";
+import { fetchSettings } from "@/app/services/global-api";
+import { getVisualProfile } from "@/orval_api/visual-profile/visual-profile";
+
 import type { ValidationError } from "@/types/general";
-import {
+import type {
   VisualProfileFieldWithUUID,
   VisualProfileFormIn,
 } from "@/orval_api/model";
-
-import { getAdmin } from "../admin-api";
-import { fetchSettings } from "../global-api";
-import { getVisualProfile } from "@/orval_api/visual-profile/visual-profile";
 
 export async function createVisualProfileCategory(
   categoryFields: VisualProfileFormIn,

@@ -1,25 +1,25 @@
 import { use } from "react";
 import { useTranslations } from "next-intl";
 import { Controller, useForm } from "react-hook-form";
-import { RelatedMovieField, RelatedMovieType } from "@/types/movie-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { MovieFormContext, RM_STEP } from "./utils";
-
-import {
-  MovieFormData,
-  MovieMenuItem,
-  RatingCriterion,
-  RelatedMovie,
-  BaseRatingCriteria,
-} from "@/orval_api/model";
-
 import { useLocalStorage } from "@/hooks/use-local-storage";
+import { MovieFormContext, RM_STEP } from "@/components/movie/add-movie/utils";
+
 import { FormField } from "@/components/my-custom-ui/form-ui-parts/form-field";
 import { FormButtons } from "@/components/my-custom-ui/form-ui-parts/form-buttons";
-import { TypeSelector } from "./type-selector";
-import { ResponsiveWrapper } from "../../my-custom-ui/responsive-wrapper";
-import { ItemsSelector } from "../../my-custom-ui/items-list-selector";
+import { ResponsiveWrapper } from "@/components/my-custom-ui/responsive-wrapper";
+import { ItemsSelector } from "@/components/my-custom-ui/items-list-selector";
 import { Spinner } from "@/components/my-custom-ui/spinner";
+import { TypeSelector } from "@/components/movie/add-movie/type-selector";
+
+import { RelatedMovieField, type RelatedMovieType } from "@/types/movie-schema";
+import {
+  type MovieFormData,
+  type MovieMenuItem,
+  type RatingCriterion,
+  RelatedMovie,
+  type BaseRatingCriteria,
+} from "@/orval_api/model";
 
 export type MovieKeyFields = Pick<
   MovieFormData,

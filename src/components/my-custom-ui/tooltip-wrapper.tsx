@@ -1,6 +1,7 @@
 "use client";
 
 import { useMediaQuery } from "@/hooks/use-media-query";
+import { cn } from "@/lib/utils";
 import { Info } from "lucide-react";
 import {
   Tooltip,
@@ -8,7 +9,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { cn } from "@/lib/utils";
 
 type Props = {
   children?: React.ReactNode;

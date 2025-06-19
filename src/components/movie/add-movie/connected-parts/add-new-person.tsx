@@ -2,16 +2,17 @@
 
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { UseFieldArrayAppend, useForm } from "react-hook-form";
+import { type UseFieldArrayAppend, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-
-import { PersonSchema, PersonSchemaType } from "@/types/people-schema";
-import { PersonBase, PersonForm } from "@/orval_api/model";
 import { formatKey } from "@/lib/utils";
+
 import { FormField } from "@/components/my-custom-ui/form-ui-parts/form-field";
 import { FormWrapper } from "@/components/my-custom-ui/form-ui-parts/form-wrapper";
-import { PeopleListSchemaType } from "@/types/people-schema";
+
+import { PersonSchema, type PersonSchemaType } from "@/types/people-schema";
+import type { PersonBase, PersonForm } from "@/orval_api/model";
+import type { PeopleListSchemaType } from "@/types/people-schema";
 
 type PersonType = "actors" | "directors";
 

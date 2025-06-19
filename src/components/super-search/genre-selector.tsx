@@ -2,9 +2,9 @@
 
 import { useCallback, useEffect, useMemo } from "react";
 import { useTranslations } from "next-intl";
-import { FilterEnum, GenreOut, SubgenreOut } from "@/orval_api/model";
 import { useRouter, useSearchParams } from "next/navigation";
-import { ItemsSelector } from "../my-custom-ui/items-list-selector";
+import { ItemsSelector } from "@/components/my-custom-ui/items-list-selector";
+import { FilterEnum, type GenreOut, type SubgenreOut } from "@/orval_api/model";
 
 import {
   DEFAULT_RANGE,

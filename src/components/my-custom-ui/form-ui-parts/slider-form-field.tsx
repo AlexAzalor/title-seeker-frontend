@@ -1,12 +1,12 @@
-import {
+import { CircleArrowDown, CircleArrowUp, CircleX } from "lucide-react";
+import { Slider } from "@/components/ui/slider";
+import type {
   FieldError,
   FieldValues,
   Path,
   UseFormGetValues,
   UseFormRegister,
 } from "react-hook-form";
-import { Slider } from "@/components/ui/slider";
-import { CircleArrowDown, CircleArrowUp, CircleX } from "lucide-react";
 
 type Props<
   TFormValues extends FieldValues,

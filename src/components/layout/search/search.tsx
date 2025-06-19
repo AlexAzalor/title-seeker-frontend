@@ -1,33 +1,31 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import { useDebounce } from "@/hooks/use-debounce";
-import { useLocalStorage } from "@/hooks/use-local-storage";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
+import dynamic from "next/dynamic";
+
+import { ScanSearch, Search as SearchIcon } from "lucide-react";
+import { useDebounce } from "@/hooks/use-debounce";
+import { useLocalStorage } from "@/hooks/use-local-storage";
+import { useMediaQuery } from "@/hooks/use-media-query";
+import { useModal } from "@/hooks/use-modal";
 import { toast } from "sonner";
+
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { CONTENT_ICONS } from "@/components/layout/sidebar/menu-item-collection";
+import { SearchTabs } from "@/components/layout/search/search-tabs";
+import { SearchItemList } from "@/components/layout/search/search-item-list";
+
+import { type SearchResult, SearchType } from "@/orval_api/model";
 import {
   searchActors,
   searchCharacters,
   searchDirectors,
   searchTitles,
 } from "@/app/services/global-api";
-
-import { ScanSearch, Search as SearchIcon } from "lucide-react";
-
-import { Input } from "../../ui/input";
-import { Button } from "../../ui/button";
-
-import { SearchResult, SearchType } from "@/orval_api/model";
-import { useMediaQuery } from "@/hooks/use-media-query";
-
-import { useModal } from "@/hooks/use-modal";
-import { Separator } from "../../ui/separator";
-import { CONTENT_ICONS } from "../sidebar/menu-item-collection";
-
-import { SearchTabs } from "./search-tabs";
-import { SearchItemList } from "./search-item-list";
-import dynamic from "next/dynamic";
 
 const CustomModal = dynamic(() => import("../../my-custom-ui/custom-modal"), {
   ssr: false,

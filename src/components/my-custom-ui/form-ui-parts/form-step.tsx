@@ -1,11 +1,11 @@
+import { DiamondMinus } from "lucide-react";
 import { CheckIcon, SummaryIcon } from "@/lib/icons";
 import { cn } from "@/lib/utils";
-import { DiamondMinus } from "lucide-react";
 import {
   FIRST_STEP,
   LAST_STEP,
   SUMMARY_STEP,
-} from "../../movie/add-movie/utils";
+} from "@/components/movie/add-movie/utils";
 
 type Props = {
   title: string;

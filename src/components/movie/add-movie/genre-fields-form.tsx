@@ -2,13 +2,21 @@ import { use, useState } from "react";
 import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
 import { useFieldArray, useForm } from "react-hook-form";
-import { MovieFormContext } from "./utils";
-
+import { useLocalStorage } from "@/hooks/use-local-storage";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { GenreSchemaList } from "@/types/genre-filter-schema";
+
+import { MovieFormContext } from "@/components/movie/add-movie/utils";
+import { ItemsSelector } from "@/components/my-custom-ui/items-list-selector";
+import { FormButtons } from "@/components/my-custom-ui/form-ui-parts/form-buttons";
+import { FormField } from "@/components/my-custom-ui/form-ui-parts/form-field";
+import { SliderFormField } from "@/components/my-custom-ui/form-ui-parts/slider-form-field";
+import { ResponsiveWrapper } from "@/components/my-custom-ui/responsive-wrapper";
+import { AddNewGenre } from "@/components/movie/add-movie/connected-parts/add-new-genre";
 
 import { createGenre, createSubgenre } from "@/app/services/admin-api";
+
+import { GenreSchemaList } from "@/types/genre-filter-schema";
 import type {
   GenreFormOut,
   GenreOut,
@@ -16,17 +24,12 @@ import type {
   SubgenreOut,
 } from "@/orval_api/model";
 
-import { ItemsSelector } from "../../my-custom-ui/items-list-selector";
-import { useLocalStorage } from "@/hooks/use-local-storage";
-import { FormButtons } from "@/components/my-custom-ui/form-ui-parts/form-buttons";
-import { FormField } from "@/components/my-custom-ui/form-ui-parts/form-field";
-import { SliderFormField } from "@/components/my-custom-ui/form-ui-parts/slider-form-field";
-import { ResponsiveWrapper } from "../../my-custom-ui/responsive-wrapper";
-import { AddNewGenre } from "./connected-parts/add-new-genre";
-
-const ModalMovie = dynamic(() => import("../../my-custom-ui/modal-window"), {
-  ssr: false,
-});
+const ModalMovie = dynamic(
+  () => import("@/components/my-custom-ui/modal-window"),
+  {
+    ssr: false,
+  },
+);
 
 const checkGenreType = (item: GenreOut | SubgenreOut): item is GenreOut => {
   return (item as GenreOut).subgenres !== undefined;

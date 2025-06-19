@@ -1,5 +1,5 @@
-import { SubgenreOut } from "@/orval_api/model";
 import { create } from "zustand";
+import type { SubgenreOut } from "@/orval_api/model";
 
 type Movie = {
   key: string;

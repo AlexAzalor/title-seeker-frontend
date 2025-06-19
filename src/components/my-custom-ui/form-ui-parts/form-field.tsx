@@ -1,11 +1,11 @@
 "use client";
 
 import React, {
-  HTMLInputTypeAttribute,
-  InputHTMLAttributes,
+  type HTMLInputTypeAttribute,
+  type InputHTMLAttributes,
   memo,
 } from "react";
-import {
+import type {
   FieldError,
   FieldValues,
   Path,

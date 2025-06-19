@@ -2,17 +2,17 @@
 
 import { useRef } from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { RateMovie } from "@/components/movie/rating/rate-movie";
 
 import { rateMovie, updateRateMovie } from "@/app/services/user-api";
-import { toast } from "sonner";
 import {
-  BaseRatingCriteria,
-  MovieOutUserRatingCriteria,
+  type BaseRatingCriteria,
+  type MovieOutUserRatingCriteria,
   RatingCriterion,
-  UserRateMovieIn,
+  type UserRateMovieIn,
 } from "@/orval_api/model";
-import { RateMovie } from "../rating/rate-movie";
-import { RatingDataOut } from "../add-movie/key-fields-form";
+import type { RatingDataOut } from "@/components/movie/add-movie/key-fields-form";
 
 type Props = {
   movieKey: string;

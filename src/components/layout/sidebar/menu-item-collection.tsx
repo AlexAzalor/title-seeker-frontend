@@ -12,7 +12,7 @@ import {
   User,
   Users,
 } from "lucide-react";
-import { Formats, TranslationValues } from "next-intl";
+import type { Formats, TranslationValues } from "next-intl";
 
 export const CONTENT_ICONS = {
   movies: <Film />,

@@ -1,7 +1,7 @@
+import { getLocale } from "next-intl/server";
 import { backendURL } from "@/lib/constants";
 import { Language } from "@/orval_api/model";
-import { getLocale } from "next-intl/server";
-import { AxiosRequestConfig, AxiosResponse } from "axios";
+import type { AxiosRequestConfig, AxiosResponse } from "axios";
 
 type Props<
   Datum,

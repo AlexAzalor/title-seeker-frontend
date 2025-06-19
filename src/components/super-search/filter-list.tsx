@@ -1,16 +1,17 @@
+import { Separator } from "@/components/ui/separator";
+import { PersonSelector } from "@/components/super-search/person-selector";
+import { GenreSelector } from "@/components/super-search/genre-selector";
+import { FilterSelector } from "@/components/super-search/filter-selector";
+import { SearchControlButtons } from "@/components/super-search/search-control-buttons";
+
 import {
-  GenreOut,
-  FilterItemOut,
-  PersonBase,
-  VisualProfileCategoryOut,
+  type GenreOut,
+  type FilterItemOut,
+  type PersonBase,
+  type VisualProfileCategoryOut,
   FilterEnum,
-  BaseSharedUniverse,
+  type BaseSharedUniverse,
 } from "@/orval_api/model";
-import { PersonSelector } from "./person-selector";
-import { GenreSelector } from "./genre-selector";
-import { FilterSelector } from "./filter-selector";
-import { SearchControlButtons } from "./search-control-buttons";
-import { Separator } from "../ui/separator";
 
 type Props = {
   genres: GenreOut[];

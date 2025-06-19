@@ -1,6 +1,6 @@
-import { useTranslations } from "next-intl";
 import Link from "next/link";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 import {
   Card,
@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/card";
 import { POSTER_URL } from "@/lib/constants";
 import { cn } from "@/lib/utils";
-import { UserInfoReport } from "@/orval_api/model";
+import type { UserInfoReport } from "@/orval_api/model";
 
 type Props = {
   radarData: UserInfoReport;

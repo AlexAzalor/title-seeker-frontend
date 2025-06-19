@@ -10,12 +10,12 @@ import {
 } from "recharts";
 
 import {
-  ChartConfig,
+  type ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { Language, VisualProfileCriterionData } from "@/orval_api/model";
+import { Language, type VisualProfileCriterionData } from "@/orval_api/model";
 import { COLORS } from "@/lib/colors";
 
 type Props = {

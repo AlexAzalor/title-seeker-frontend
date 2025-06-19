@@ -1,13 +1,13 @@
+import { test, expect } from "@playwright/test";
 import {
-  UserInfoReport,
+  type UserInfoReport,
   Language,
-  MovieOut,
-  PageMoviePreviewOut,
+  type MovieOut,
+  type PageMoviePreviewOut,
   SortBy,
   SortOrder,
-  UsersListOut,
+  type UsersListOut,
 } from "@/orval_api/model";
-import { test, expect } from "@playwright/test";
 
 const SIZE = 10;
 const PAGE = 1;

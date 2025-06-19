@@ -1,11 +1,15 @@
 import { useTranslations } from "next-intl";
 import { checkIfAdmin } from "@/middleware";
+import { formatDate } from "@/lib/utils";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Separator } from "@/components/ui/separator";
+
+import type {
+  UserInfoReportTotalActorsCount,
+  Language,
+} from "@/orval_api/model";
 import type { UserExtended } from "@/auth";
 import type { User } from "next-auth";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { formatDate } from "@/lib/utils";
-import { UserInfoReportTotalActorsCount, Language } from "@/orval_api/model";
-import { Separator } from "../ui/separator";
 
 type Props = {
   lang: Language;

@@ -1,18 +1,17 @@
 "use client";
 
-import { Suspense } from "react";
 import { useTranslations } from "next-intl";
-import { Session } from "next-auth";
 import { signOut, useSession } from "next-auth/react";
-import { deleteProfile, setLanguage } from "@/app/services/user-api";
-
-import { Language } from "@/orval_api/model";
-import { Button } from "@/components/ui/button";
-import { setUserLocale } from "@/app/services/locale";
-import { Separator } from "@/components/ui/separator";
-import { checkIfOwner } from "@/middleware";
-import { useModal } from "@/hooks/use-modal";
 import dynamic from "next/dynamic";
+import { useModal } from "@/hooks/use-modal";
+import { checkIfOwner } from "@/middleware";
+import { Language } from "@/orval_api/model";
+
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { setUserLocale } from "@/app/services/locale";
+import { deleteProfile, setLanguage } from "@/app/services/user-api";
+import type { Session } from "next-auth";
 
 const CustomModal = dynamic(() => import("../../my-custom-ui/custom-modal"), {
   ssr: false,

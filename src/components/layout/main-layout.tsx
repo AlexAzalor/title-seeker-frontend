@@ -1,6 +1,6 @@
-import { Header } from "./header";
 import { POSTER_URL } from "@/lib/constants";
-import { LastSeenTitles } from "./last-watched";
+import { Header } from "@/components/layout/header";
+import { LastSeenTitles } from "@/components/layout/last-watched";
 
 export const MainLayout = ({ children }: { children: React.ReactNode }) => {
   return (

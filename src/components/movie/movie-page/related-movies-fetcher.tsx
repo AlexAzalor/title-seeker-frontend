@@ -1,13 +1,13 @@
+import { Suspense } from "react";
+import { POSTER_URL } from "@/lib/constants";
 import { FetchWrapper } from "@/components/my-custom-ui/fetch-wrapper";
 import { Spinner } from "@/components/my-custom-ui/spinner";
-import { POSTER_URL } from "@/lib/constants";
-import {
+import { RelatedSimilarList } from "@/components/movie/movie-page/related-similar-list";
+import { getMovies } from "@/orval_api/movies/movies";
+import type {
   SimilarMovieOutList,
   APIGetSimilarMoviesParams,
 } from "@/orval_api/model";
-import { Suspense } from "react";
-import { RelatedSimilarList } from "./related-similar-list";
-import { getMovies } from "@/orval_api/movies/movies";
 
 type Props = {
   movieKey: string;

@@ -1,6 +1,11 @@
 "use client";
 import { useRef } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import Autoplay from "embla-carousel-autoplay";
+import { useMediaQuery } from "@/hooks/use-media-query";
 
+import { formatDate } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
@@ -9,13 +14,8 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import Autoplay from "embla-carousel-autoplay";
-import { Language, MovieCarousel } from "@/orval_api/model";
-import Image from "next/image";
-import Link from "next/link";
-import { formatDate } from "@/lib/utils";
-import { Separator } from "../ui/separator";
-import { useMediaQuery } from "@/hooks/use-media-query";
+import { Separator } from "@/components/ui/separator";
+import type { Language, MovieCarousel } from "@/orval_api/model";
 
 type Props = {
   name: string;

@@ -1,18 +1,19 @@
 "use client";
 
+import { useEffect } from "react";
+import Link from "next/link";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import Link from "next/link";
-import { Card, CardContent } from "../ui/card";
+import { useMediaQuery } from "@/hooks/use-media-query";
+
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselPrevious,
   CarouselNext,
-} from "../ui/carousel";
-import { useMediaQuery } from "@/hooks/use-media-query";
-import { useEffect } from "react";
+} from "@/components/ui/carousel";
 import { useLastWatchedStore } from "@/lib/store";
 
 type Props = {

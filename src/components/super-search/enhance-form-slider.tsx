@@ -1,8 +1,12 @@
 import { Fragment } from "react";
-import { Control, Controller, FieldArrayWithId } from "react-hook-form";
-import { Slider } from "../ui/slider";
-import { EnhanceSearchType } from "@/types/search-params-schema";
-import { Separator } from "../ui/separator";
+import {
+  type Control,
+  Controller,
+  type FieldArrayWithId,
+} from "react-hook-form";
+import { Slider } from "@/components/ui/slider";
+import { Separator } from "@/components/ui/separator";
+import type { EnhanceSearchType } from "@/types/search-params-schema";
 
 type FormData = {
   genres: EnhanceSearchType[];

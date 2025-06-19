@@ -1,3 +1,4 @@
+import Link from "next/link";
 import {
   SidebarGroupLabel,
   SidebarMenuItem,
@@ -5,7 +6,6 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
-import Link from "next/link";
 
 export type MenuItem = {
   href: string;

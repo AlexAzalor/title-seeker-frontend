@@ -1,4 +1,4 @@
-import { beforeEach, expect, test, describe, Mock } from "vitest";
+import { beforeEach, expect, test, describe, type Mock } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { useSearchParams } from "next/navigation";
 import type { PropsWithChildren } from "react";
@@ -13,7 +13,7 @@ import { SelectedFilters } from "@/components/super-search/selected-filters";
 import { FilterList } from "@/components/super-search/filter-list";
 import { FilterBrick } from "@/components/super-search/filter-brick";
 import { HoverBrick } from "@/components/super-search/hover-brick";
-import { SideMenuPanel } from "@/components/super-search/side-menu-panel";
+import SideMenuPanel from "@/components/super-search/side-menu-panel";
 import { SessionProvider } from "next-auth/react";
 import { FilterEnum } from "@/orval_api/model";
 

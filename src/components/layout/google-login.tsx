@@ -1,8 +1,8 @@
 "use client";
 
-import { signIn } from "next-auth/react";
 import { usePathname } from "next/navigation";
-import { Button } from "../ui/button";
+import { signIn } from "next-auth/react";
+import { Button } from "@/components/ui/button";
 
 export const GoogleLogin = () => {
   const pathname = usePathname();

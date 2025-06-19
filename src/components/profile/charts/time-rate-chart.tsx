@@ -13,7 +13,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import {
-  ChartConfig,
+  type ChartConfig,
   ChartContainer,
   ChartLegend,
   ChartLegendContent,
@@ -27,7 +27,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Language, TimeRateMovieOut } from "@/orval_api/model";
+import { Language, type TimeRateMovieOut } from "@/orval_api/model";
 
 const formatDateForChart = (
   value: string,

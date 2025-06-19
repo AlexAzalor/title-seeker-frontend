@@ -2,12 +2,19 @@
 
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
+import axios, { type AxiosResponse } from "axios";
 import { checkIfAdmin } from "@/middleware";
-import axios, { AxiosResponse } from "axios";
+
 import { fetchSettings } from "./global-api";
+import { getMovies } from "@/orval_api/movies/movies";
+import { getPeople } from "@/orval_api/people/people";
+import { getGenres } from "@/orval_api/genres/genres";
+import { getSharedUniverses } from "@/orval_api/shared-universes/shared-universes";
+import { getFilters } from "@/orval_api/filters/filters";
+
 import type { ValidationError } from "@/types/general";
 import {
-  FilterList,
+  type FilterList,
   type PersonBase,
   type BodyAPICreateMovie,
   type CharacterFormIn,
@@ -18,19 +25,13 @@ import {
   type FilterItemOut,
   type PersonForm,
   type QuickMovieFormData,
-  FilterItemField,
-  FilterFieldsWithUUID,
-  FilterEnum,
-  GenreFormFieldsWithUUID,
-  GenresSubgenresOut,
-  GenreItemFieldEditFormIn,
+  type FilterItemField,
+  type FilterFieldsWithUUID,
+  type FilterEnum,
+  type GenreFormFieldsWithUUID,
+  type GenresSubgenresOut,
+  type GenreItemFieldEditFormIn,
 } from "@/orval_api/model";
-
-import { getMovies } from "@/orval_api/movies/movies";
-import { getPeople } from "@/orval_api/people/people";
-import { getGenres } from "@/orval_api/genres/genres";
-import { getSharedUniverses } from "@/orval_api/shared-universes/shared-universes";
-import { getFilters } from "@/orval_api/filters/filters";
 
 /**
  * @description Get the admin or owner user from the session.

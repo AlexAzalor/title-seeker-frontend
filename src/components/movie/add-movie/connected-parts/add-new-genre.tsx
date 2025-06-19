@@ -1,27 +1,28 @@
 "use client";
 
-import { Dispatch, SetStateAction } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import {
-  FieldArrayWithId,
-  UseFieldArrayAppend,
+  type FieldArrayWithId,
+  type UseFieldArrayAppend,
   useForm,
 } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-
-import { EntityFormType } from "@/types/general";
-import { GenreSchemaListType } from "@/types/genre-filter-schema";
-import { EntityFormSchema } from "@/types/general";
-import { GenreFormIn, GenreFormOut } from "@/orval_api/model";
 import { formatKey } from "@/lib/utils";
+
 import { FormWrapper } from "@/components/my-custom-ui/form-ui-parts/form-wrapper";
 import { FormField } from "@/components/my-custom-ui/form-ui-parts/form-field";
 import { TextareaFormField } from "@/components/my-custom-ui/form-ui-parts/textarea-form-field";
-import { GenreType } from "../../add-movie/genre-fields-form";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+
+import { EntityFormSchema } from "@/types/general";
+import type { Dispatch, SetStateAction } from "react";
+import type { EntityFormType } from "@/types/general";
+import type { GenreSchemaListType } from "@/types/genre-filter-schema";
+import type { GenreFormIn, GenreFormOut } from "@/orval_api/model";
+import type { GenreType } from "@/components/movie/add-movie/genre-fields-form";
 
 type Props<T extends GenreType> = {
   type: GenreType;

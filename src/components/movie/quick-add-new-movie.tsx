@@ -3,24 +3,25 @@
 import { useRef } from "react";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
-import type { Session } from "next-auth";
 import { checkIfAdmin } from "@/middleware";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { formatKey } from "@/lib/utils";
 
+import { FormField } from "@/components/my-custom-ui/form-ui-parts/form-field";
+import { RateMovie } from "@/components/movie/rating/rate-movie";
+import { FormWrapper } from "@/components/my-custom-ui/form-ui-parts/form-wrapper";
+
 import { quicklyAddNewMovie } from "@/app/services/admin-api";
 import {
-  QuickMovieFormData,
+  type QuickMovieFormData,
   RatingCriterion,
-  BaseRatingCriteria,
+  type BaseRatingCriteria,
 } from "@/orval_api/model";
-import { FormField } from "../my-custom-ui/form-ui-parts/form-field";
-import { QuickMovieSchema, QuickMovieType } from "@/types/movie-schema";
-import { RateMovie } from "./rating/rate-movie";
-import { RatingDataOut } from "./add-movie/key-fields-form";
-import { FormWrapper } from "../my-custom-ui/form-ui-parts/form-wrapper";
+import { QuickMovieSchema, type QuickMovieType } from "@/types/movie-schema";
+import type { Session } from "next-auth";
+import type { RatingDataOut } from "@/components/movie/add-movie/key-fields-form";
 
 export const QuicklyAddNewMovie = () => {
   const t = useTranslations("Form.quickMovie");

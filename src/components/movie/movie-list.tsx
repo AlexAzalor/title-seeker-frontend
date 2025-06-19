@@ -1,8 +1,8 @@
-import { POSTER_URL } from "@/lib/constants";
-import { formatDate } from "@/lib/utils";
-import { Language, MoviePreviewOut } from "@/orval_api/model";
 import Image from "next/image";
 import Link from "next/link";
+import { POSTER_URL } from "@/lib/constants";
+import { formatDate } from "@/lib/utils";
+import type { Language, MoviePreviewOut } from "@/orval_api/model";
 
 const MAX_LENGTH = 40;
 

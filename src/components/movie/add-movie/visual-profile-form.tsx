@@ -1,16 +1,13 @@
 import { use } from "react";
+import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { useLocalStorage } from "@/hooks/use-local-storage";
-import { motion } from "framer-motion";
-import { MovieFormContext } from "./utils";
-
-import {
-  VisualProfileSchema,
-  VisualProfileType,
-} from "@/types/visual-profile-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { motion } from "framer-motion";
 import { toast } from "sonner";
+import { MovieFormContext } from "@/components/movie/add-movie/utils";
+
 import type { MovieFormData, VisualProfileData } from "@/orval_api/model";
 import {
   Select,
@@ -19,11 +16,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
 import { FormButtons } from "@/components/my-custom-ui/form-ui-parts/form-buttons";
 import { FormField } from "@/components/my-custom-ui/form-ui-parts/form-field";
 import { SliderFormField } from "@/components/my-custom-ui/form-ui-parts/slider-form-field";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
+
+import {
+  VisualProfileSchema,
+  type VisualProfileType,
+} from "@/types/visual-profile-schema";
 
 type Props = {
   categories: VisualProfileData[];

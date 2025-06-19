@@ -1,30 +1,30 @@
 import { auth } from "@/auth";
 import Link from "next/link";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import { getLocale, getTranslations } from "next-intl/server";
+
 import { checkIfAdmin, checkIfOwner } from "@/middleware";
 import { AVATAR_URL, backendURL, POSTER_URL } from "@/lib/constants";
-import dynamic from "next/dynamic";
 import { FilterEnum, Language } from "@/orval_api/model";
-import { getMovies } from "@/orval_api/movies/movies";
 
-import { PageProps } from "@/types/general";
+import { ExpandableText } from "@/components/my-custom-ui/expandable-text";
+import { CustomTabs } from "@/components/my-custom-ui/custom-tabs";
+import { TooltipWrapper } from "@/components/my-custom-ui/tooltip-wrapper";
+import { Button } from "@/components/ui/button";
+import { LastWatchedWrapper } from "@/components/layout/last-watched-wrapper";
+
 import { MovieRateBox } from "@/components/movie/movie-page/movie-rate-box";
 import { GenresList } from "@/components/movie/movie-page/genres-list";
 import { MovieFilterList } from "@/components/movie/movie-page/movie-filter-list";
-import { ExpandableText } from "@/components/my-custom-ui/expandable-text";
 import { MovieCrew } from "@/components/movie/movie-page/movie-crew";
-import { Button } from "@/components/ui/button";
-
-import { LastWatchedWrapper } from "@/components/layout/last-watched-wrapper";
-
 import { RelatedSimilarList } from "@/components/movie/movie-page/related-similar-list";
 import { MoviesCollection } from "@/components/movie/movie-page/movies-collection";
-
 import { MovieInfo } from "@/components/movie/movie-page/info/movie-info";
 import { VisualProfile } from "@/components/movie/movie-page/visual-profile.tsx/visual-profile";
-import { CustomTabs } from "@/components/my-custom-ui/custom-tabs";
-import { TooltipWrapper } from "@/components/my-custom-ui/tooltip-wrapper";
+
+import { getMovies } from "@/orval_api/movies/movies";
+import type { PageProps } from "@/types/general";
 
 const RelatedMoviesFetcher = dynamic(
   () => import("@/components/movie/movie-page/related-movies-fetcher"),

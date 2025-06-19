@@ -1,18 +1,18 @@
-import type { Metadata } from "next";
-// import localFont from "next/font/local";
-import { Source_Sans_3 } from "next/font/google";
-import "./globals.css";
-import { MainLayout } from "@/components/layout/main-layout";
+import dynamic from "next/dynamic";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
-import dynamic from "next/dynamic";
+import { Source_Sans_3 } from "next/font/google";
+
+import { MainLayout } from "@/components/layout/main-layout";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import AuthProvider from "@/components/providers/auth-provider";
-// import { Toaster } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
-import Script from "next/script";
 import { SidebarProvider } from "@/components/ui/sidebar";
-// import { AppSidebar } from "@/components/layout/sidebar/app-sidebar";
+
+// import Script from "next/script";
+import "./globals.css";
+import type { Metadata } from "next";
+
 // import { after } from "next/server";
 
 const AppSidebar = dynamic(

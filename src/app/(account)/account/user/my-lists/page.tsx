@@ -1,15 +1,17 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
-import { PaginationParamsSchema } from "@/types/search-params-schema";
 import { backendURL, DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from "@/lib/constants";
-import type { SearchParams } from "@/types/general";
 
-import { getMovies } from "@/orval_api/movies/movies";
-import { Language, SortBy, SortOrder } from "@/orval_api/model";
 import { MyMovies } from "@/components/profile/my-lists/my-movies";
 import { PaginationContoller } from "@/components/my-custom-ui/pagination/pagination-contoller";
 import { SortingControls } from "@/components/my-custom-ui/pagination/sorting-controls";
+
+import { getMovies } from "@/orval_api/movies/movies";
+
+import { Language, SortBy, SortOrder } from "@/orval_api/model";
+import { PaginationParamsSchema } from "@/types/search-params-schema";
+import type { SearchParams } from "@/types/general";
 
 export default async function MyListsPage(props: {
   searchParams: SearchParams;

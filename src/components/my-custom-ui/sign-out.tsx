@@ -1,8 +1,8 @@
 "use client";
 
 import { LogOut } from "lucide-react";
-import { Button } from "../ui/button";
 import { signOut } from "next-auth/react";
+import { Button } from "@/components/ui/button";
 
 type Props = {
   name: string;

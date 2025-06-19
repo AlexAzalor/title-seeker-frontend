@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { toast } from "sonner";
+
 import {
   Select,
   SelectContent,
@@ -8,12 +10,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  FilterEnum,
-  FilterFieldsWithUUID,
-  FilterItemOut,
-} from "@/orval_api/model";
-import { toast } from "sonner";
+
+import { ItemsSelector } from "@/components/my-custom-ui/items-list-selector";
+import { ResponsiveWrapper } from "@/components/my-custom-ui/responsive-wrapper";
+import { TitleFilterEditForm } from "@/components/profile/admin/title-filters/title-filter-edit-form";
 
 import {
   getActionTimes,
@@ -24,9 +24,12 @@ import {
   getSpecifications,
   getSubgenresList,
 } from "@/app/services/admin-api";
-import { ItemsSelector } from "@/components/my-custom-ui/items-list-selector";
-import { ResponsiveWrapper } from "@/components/my-custom-ui/responsive-wrapper";
-import { TitleFilterEditForm } from "./title-filter-edit-form";
+
+import {
+  FilterEnum,
+  type FilterFieldsWithUUID,
+  type FilterItemOut,
+} from "@/orval_api/model";
 
 const FILTERS_LIST = [
   { key: FilterEnum.genre, label: "Genres" },

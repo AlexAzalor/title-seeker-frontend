@@ -7,6 +7,13 @@ import dynamic from "next/dynamic";
 import { useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
+import { ItemsSelector } from "@/components/my-custom-ui/items-list-selector";
+import { FormField } from "@/components/my-custom-ui/form-ui-parts/form-field";
+import { SliderFormField } from "@/components/my-custom-ui/form-ui-parts/slider-form-field";
+import { ResponsiveWrapper } from "@/components/my-custom-ui/responsive-wrapper";
+import { FormWrapper } from "@/components/my-custom-ui/form-ui-parts/form-wrapper";
+import { AddNewMovieFilter } from "@/components/movie/add-movie/connected-parts/add-new-movie-filter";
+
 import {
   editMovieSpecifications,
   createActionTime,
@@ -15,25 +22,20 @@ import {
   editMovieActionTimes,
   editMovieKeywords,
 } from "@/app/services/admin-api";
+
+import { FilterEnum, type FilterItemOut } from "@/orval_api/model";
 import {
-  FilterListType,
+  type FilterListType,
   TitleFilterListOnlySpec,
 } from "@/types/genre-filter-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { FilterEnum, FilterItemOut } from "@/orval_api/model";
-
-import { ItemsSelector } from "../../my-custom-ui/items-list-selector";
-import { FormField } from "@/components/my-custom-ui/form-ui-parts/form-field";
-import { SliderFormField } from "@/components/my-custom-ui/form-ui-parts/slider-form-field";
-import { ResponsiveWrapper } from "../../my-custom-ui/responsive-wrapper";
-
-import { FormWrapper } from "@/components/my-custom-ui/form-ui-parts/form-wrapper";
-import { AddNewMovieFilter } from "../add-movie/connected-parts/add-new-movie-filter";
-
-const ModalMovie = dynamic(() => import("../../my-custom-ui/modal-window"), {
-  ssr: false,
-});
+const ModalMovie = dynamic(
+  () => import("@/components/my-custom-ui/modal-window"),
+  {
+    ssr: false,
+  },
+);
 
 type Props = {
   movieKey: string;

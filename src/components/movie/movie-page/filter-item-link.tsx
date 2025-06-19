@@ -7,9 +7,8 @@ import { cn } from "@/lib/utils";
 import { getFilterColor, percentageMatchColor } from "../utils";
 
 import { TooltipWrapper } from "@/components/my-custom-ui/tooltip-wrapper";
-
-import { FilterEnum, MovieFilterItem } from "@/orval_api/model";
 import { GenreContext } from "./genres-list";
+import { FilterEnum, type MovieFilterItem } from "@/orval_api/model";
 
 type Props = {
   filterKey: FilterEnum;

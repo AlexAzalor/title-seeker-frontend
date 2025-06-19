@@ -1,11 +1,11 @@
+import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { Separator } from "@/components/ui/separator";
 import {
   ADMIN_ITEMS,
   getMenuItems,
 } from "@/components/layout/sidebar/menu-item-collection";
-import { Separator } from "@/components/ui/separator";
-import { Session } from "next-auth";
-import { useTranslations } from "next-intl";
-import Link from "next/link";
+import type { Session } from "next-auth";
 
 type Props = {
   session: Session;

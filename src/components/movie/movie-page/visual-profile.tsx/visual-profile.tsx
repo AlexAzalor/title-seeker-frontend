@@ -1,17 +1,20 @@
 "use client";
 
+import { useState } from "react";
 import { useLocale } from "next-intl";
-import { Language, VisualProfileData } from "@/orval_api/model";
-import { Button } from "@/components/ui/button";
-import { useModal } from "@/hooks/use-modal";
-import { Suspense, useState } from "react";
-import { VisualProfileEditForm } from "./visual-profile-movie-edit-form";
-import { getVisualProfileCategories } from "@/app/services/user-api";
-import { TooltipWrapper } from "@/components/my-custom-ui/tooltip-wrapper";
-import { VisualProfileChartMemo } from "./visual-profile-chart";
 import dynamic from "next/dynamic";
+import { useModal } from "@/hooks/use-modal";
+
+import { Button } from "@/components/ui/button";
+import { TooltipWrapper } from "@/components/my-custom-ui/tooltip-wrapper";
+import { VisualProfileEditForm } from "@/components/movie/movie-page/visual-profile.tsx/visual-profile-movie-edit-form";
+import { VisualProfileChartMemo } from "@/components/movie/movie-page/visual-profile.tsx/visual-profile-chart";
+
+import { getVisualProfileCategories } from "@/app/services/user-api";
+import { Language, type VisualProfileData } from "@/orval_api/model";
+
 const CustomModal = dynamic(
-  () => import("../../../my-custom-ui/custom-modal"),
+  () => import("@/components/my-custom-ui/custom-modal"),
   { ssr: false },
 );
 

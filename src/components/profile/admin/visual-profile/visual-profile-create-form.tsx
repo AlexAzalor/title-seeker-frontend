@@ -2,22 +2,23 @@
 
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { toast } from "sonner";
 import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  VisualProfileCreate,
-  VisualProfileCreateType,
-  VisualProfileFieldType,
-} from "@/types/visual-profile-schema";
-
+import { toast } from "sonner";
 import { formatKey } from "@/lib/utils";
-import { FormField } from "@/components/my-custom-ui/form-ui-parts/form-field";
-import { TextareaFormField } from "@/components/my-custom-ui/form-ui-parts/textarea-form-field";
-import { createVisualProfileCategory } from "@/app/services/admin/visual-profile-apis";
+
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { VisualProfileFormIn } from "@/orval_api/model";
+import { FormField } from "@/components/my-custom-ui/form-ui-parts/form-field";
+import { TextareaFormField } from "@/components/my-custom-ui/form-ui-parts/textarea-form-field";
+
+import { createVisualProfileCategory } from "@/app/services/admin/visual-profile-apis";
+import {
+  VisualProfileCreate,
+  type VisualProfileCreateType,
+  type VisualProfileFieldType,
+} from "@/types/visual-profile-schema";
+import type { VisualProfileFormIn } from "@/orval_api/model";
 
 type Props = {
   category: VisualProfileFormIn;

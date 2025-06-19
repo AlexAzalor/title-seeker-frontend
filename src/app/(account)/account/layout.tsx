@@ -1,11 +1,10 @@
 import Link from "next/link";
-
 import { useTranslations } from "next-intl";
 import { ADMINS_ROLES } from "@/middleware";
+
 import { AdminPanel } from "@/components/profile/admin/admin-panel";
 import { RoleGate } from "@/components/providers/role-gate";
 import { Separator } from "@/components/ui/separator";
-
 import {
   getMenuItems,
   OTHER_ITEMS,

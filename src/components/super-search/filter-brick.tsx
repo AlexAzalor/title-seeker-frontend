@@ -1,9 +1,8 @@
 import { useMemo } from "react";
 import { CircleX, InfoIcon } from "lucide-react";
-import { TooltipWrapper } from "../my-custom-ui/tooltip-wrapper";
+import { TooltipWrapper } from "@/components/my-custom-ui/tooltip-wrapper";
 import { cn, extractValues, extractWord } from "@/lib/utils";
-
-import { getFilterColor } from "../movie/utils";
+import { getFilterColor } from "@/components/movie/utils";
 import { FilterEnum } from "@/orval_api/model";
 
 type Data = {

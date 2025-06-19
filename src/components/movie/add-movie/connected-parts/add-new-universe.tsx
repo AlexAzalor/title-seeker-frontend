@@ -2,19 +2,20 @@
 
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { useForm, UseFormSetValue } from "react-hook-form";
-import { toast } from "sonner";
-
-import { createSharedUniverse } from "@/app/services/admin-api";
+import { useForm, type UseFormSetValue } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { EntityFormSchema, EntityFormType } from "@/types/general";
+import { toast } from "sonner";
 import { formatKey } from "@/lib/utils";
-import { SharedUniverseType } from "@/types/movie-schema";
 
-import { GenreFormIn } from "@/orval_api/model";
 import { FormWrapper } from "@/components/my-custom-ui/form-ui-parts/form-wrapper";
 import { FormField } from "@/components/my-custom-ui/form-ui-parts/form-field";
 import { TextareaFormField } from "@/components/my-custom-ui/form-ui-parts/textarea-form-field";
+
+import { createSharedUniverse } from "@/app/services/admin-api";
+
+import { EntityFormSchema, type EntityFormType } from "@/types/general";
+import type { SharedUniverseType } from "@/types/movie-schema";
+import type { GenreFormIn } from "@/orval_api/model";
 
 type Props = {
   setValue: UseFormSetValue<SharedUniverseType>;

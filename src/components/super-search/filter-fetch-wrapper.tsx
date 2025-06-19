@@ -1,18 +1,19 @@
-import { PropsWithChildren } from "react";
-import { Language } from "@/orval_api/model";
 import { getLocale } from "next-intl/server";
 import { backendURL } from "@/lib/constants";
-import { getMovies } from "@/orval_api/movies/movies";
 
-import { SelectedFilters } from "./selected-filters";
 import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
-} from "../ui/resizable";
-import { ScrollArea } from "../ui/scroll-area";
-import { EnhanceSearch } from "./enhance-search";
-import { FilterList } from "./filter-list";
+} from "@/components/ui/resizable";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { SelectedFilters } from "@/components/super-search/selected-filters";
+import { EnhanceSearch } from "@/components/super-search/enhance-search";
+import { FilterList } from "@/components/super-search/filter-list";
+
+import { getMovies } from "@/orval_api/movies/movies";
+import { Language } from "@/orval_api/model";
+import type { PropsWithChildren } from "react";
 
 export const FilterFetchWrapper = async ({ children }: PropsWithChildren) => {
   const locale = await getLocale();

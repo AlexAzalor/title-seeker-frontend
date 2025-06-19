@@ -1,7 +1,7 @@
 import { auth } from "@/auth";
+import { GoogleLogin } from "@/components/layout/google-login";
 import { UserRole } from "@/orval_api/model";
-import { Session } from "next-auth";
-import { GoogleLogin } from "../layout/google-login";
+import type { Session } from "next-auth";
 
 type Props = {
   allowedRoles?: UserRole[];

@@ -1,17 +1,18 @@
+import { afterEach } from "node:test";
 import { expect, test, vi, describe } from "vitest";
 import { render, screen } from "@testing-library/react";
-
 import { NextIntlClientProvider } from "next-intl";
-import messages from "../messages/en.json";
 import { SessionProvider } from "next-auth/react";
+
+import messages from "../messages/en.json";
 import { Language, UserRole } from "@/orval_api/model";
-import { PropsWithChildren } from "react";
-import { Session } from "next-auth";
 import { ThemeProvider } from "next-themes";
-import { Header } from "@/components/layout/header";
+// import { Header } from "@/components/layout/header";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { MoviesCollection } from "@/components/movie/movie-page/movies-collection";
-import { afterEach } from "node:test";
+
+import type { PropsWithChildren } from "react";
+import type { Session } from "next-auth";
 
 const currentDate = new Date();
 currentDate.setMonth(currentDate.getMonth() + 1);

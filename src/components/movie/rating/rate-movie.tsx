@@ -1,17 +1,10 @@
 "use client";
 
-import { memo, RefObject, useCallback, useMemo, useState } from "react";
+import { memo, type RefObject, useCallback, useMemo, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
-
-import {
-  MovieFormData,
-  MoviePreCreateDataQuickMovie,
-  RatingCriterion,
-  UserRateMovieIn,
-  BaseRatingCriteria,
-} from "@/orval_api/model";
 import { toast } from "sonner";
+
 import {
   AC_INITIAL_RATE,
   AC_MAX,
@@ -25,12 +18,20 @@ import {
   SF_MAX,
   VE_INITIAL_RATE,
   VS_MAX,
-} from "./utils";
-import { RateSlider } from "./rate-slider";
-import { Switch } from "../../ui/switch";
-import { Label } from "../../ui/label";
-import { RatingTypeSelector } from "./rating-type-selector";
-import { RatingDataOut } from "../add-movie/key-fields-form";
+} from "@/components/movie/rating/utils";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
+import { RateSlider } from "@/components/movie/rating/rate-slider";
+import { RatingTypeSelector } from "@/components/movie/rating/rating-type-selector";
+import type { RatingDataOut } from "@/components/movie/add-movie/key-fields-form";
+
+import {
+  type MovieFormData,
+  type MoviePreCreateDataQuickMovie,
+  RatingCriterion,
+  type UserRateMovieIn,
+  type BaseRatingCriteria,
+} from "@/orval_api/model";
 
 type Props = {
   ratingRef: RefObject<RatingDataOut>;

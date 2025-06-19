@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { checkIfOwner } from "@/middleware";
 import { getTranslations } from "next-intl/server";
+import { checkIfOwner } from "@/middleware";
 import { cn } from "@/lib/utils";
 import { backendURL } from "@/lib/constants";
 import { getMovies } from "@/orval_api/movies/movies";

@@ -1,7 +1,7 @@
-import { getAdminOrRedirect } from "@/app/services/admin-api";
+import { backendURL } from "@/lib/constants";
 import { VisualProfileEditPage } from "@/components/profile/admin/visual-profile/visual-profile";
 import { VisualProfileEditForm } from "@/components/profile/admin/visual-profile/visual-profile-edit-form";
-import { backendURL } from "@/lib/constants";
+import { getAdminOrRedirect } from "@/app/services/admin-api";
 import { getVisualProfile } from "@/orval_api/visual-profile/visual-profile";
 
 export default async function VisualProfilePage() {

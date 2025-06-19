@@ -11,13 +11,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import {
-  ChartConfig,
+  type ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { GenreChartDataOut, Language } from "@/orval_api/model";
 import { COLORS } from "@/lib/colors";
+import { type GenreChartDataOut, Language } from "@/orval_api/model";
 
 type Props = {
   radarData: GenreChartDataOut[];

@@ -1,9 +1,9 @@
 "use server";
 
 import { auth } from "@/auth";
+import { cookies } from "next/headers";
 import { defaultLocale } from "@/i18n/config";
 import { Language } from "@/orval_api/model";
-import { cookies } from "next/headers";
 
 const COOKIE_NAME = process.env.COOKIE_NAME || "";
 

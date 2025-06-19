@@ -1,24 +1,25 @@
 import { use, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
-import { MovieSchema, MovieSchemaType } from "@/types/movie-schema";
+import { MovieSchema, type MovieSchemaType } from "@/types/movie-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { MovieFormContext } from "./utils";
+import { MovieFormContext } from "@/components/movie/add-movie/utils";
+import { toast } from "sonner";
 import { formatKey } from "@/lib/utils";
 
 import { FormField } from "@/components/my-custom-ui/form-ui-parts/form-field";
-import {
-  MovieFormData,
-  MoviePreCreateDataQuickMovie,
-  RatingCriterion,
-  BaseRatingCriteria,
-} from "@/orval_api/model";
-import { INITIAL_RATE } from "@/components/movie/rating/utils";
-import { RateMovie } from "../rating/rate-movie";
-import { toast } from "sonner";
-import { useLocalStorage } from "@/hooks/use-local-storage";
 import { FormButtons } from "@/components/my-custom-ui/form-ui-parts/form-buttons";
 import { Spinner } from "@/components/my-custom-ui/spinner";
+import { INITIAL_RATE } from "@/components/movie/rating/utils";
+import { RateMovie } from "@/components/movie/rating/rate-movie";
+import { useLocalStorage } from "@/hooks/use-local-storage";
+
+import {
+  type MovieFormData,
+  type MoviePreCreateDataQuickMovie,
+  RatingCriterion,
+  type BaseRatingCriteria,
+} from "@/orval_api/model";
 
 type MovieKeyFields = Pick<
   MovieFormData,

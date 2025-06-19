@@ -1,12 +1,14 @@
 import { auth } from "@/auth";
 import { getLocale, getTranslations } from "next-intl/server";
+import { backendURL } from "@/lib/constants";
+
 import { GenreRadarChart } from "@/components/profile/charts/genre-radar-chart";
 import { TimeRateChart } from "@/components/profile/charts/time-rate-chart";
 import { UserInfo } from "@/components/profile/user-info";
-import { backendURL } from "@/lib/constants";
-import { Language } from "@/orval_api/model";
-import { getUsers } from "@/orval_api/users/users";
 import { TopRatedMovies } from "@/components/profile/charts/top-rated-movies";
+
+import { getUsers } from "@/orval_api/users/users";
+import { Language } from "@/orval_api/model";
 
 export default async function ProfilePage() {
   const session = await auth();

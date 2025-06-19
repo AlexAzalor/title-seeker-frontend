@@ -1,5 +1,5 @@
-import { BodyAPICreateMovie } from "@/orval_api/model";
-import { createContext, Dispatch, SetStateAction } from "react";
+import { createContext, type Dispatch, type SetStateAction } from "react";
+import type { BodyAPICreateMovie } from "@/orval_api/model";
 
 export const MovieFormContext = createContext<{
   movieFormData: BodyAPICreateMovie;

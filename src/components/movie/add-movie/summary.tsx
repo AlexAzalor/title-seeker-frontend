@@ -1,7 +1,7 @@
-import { Button } from "@/components/ui/button";
-import { formatDate } from "@/lib/utils";
-import { Language, MovieFormData } from "@/orval_api/model";
 import { toast } from "sonner";
+import { formatDate } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Language, type MovieFormData } from "@/orval_api/model";
 
 type Props = {
   movieFormData: MovieFormData;

@@ -1,4 +1,4 @@
-import {
+import type {
   MovieOutUserRatingCriteria,
   BaseRatingCriteria,
 } from "@/orval_api/model";

@@ -1,30 +1,36 @@
-import { Suspense, use, useState } from "react";
+import { use, useState } from "react";
 import { useTranslations } from "next-intl";
+import dynamic from "next/dynamic";
 import { Controller, useForm } from "react-hook-form";
-import { SharedUniverseFields, SharedUniverseType } from "@/types/movie-schema";
-import { MovieFormContext, SU_STEP } from "./utils";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useLocalStorage } from "@/hooks/use-local-storage";
+
+import { MovieFormContext, SU_STEP } from "@/components/movie/add-movie/utils";
 import { FormField } from "@/components/my-custom-ui/form-ui-parts/form-field";
 
+import { FormButtons } from "@/components/my-custom-ui/form-ui-parts/form-buttons";
+import { ResponsiveWrapper } from "@/components/my-custom-ui/responsive-wrapper";
+import { ItemsSelector } from "@/components/my-custom-ui/items-list-selector";
+import { Spinner } from "@/components/my-custom-ui/spinner";
+import { AddNewUniverse } from "@/components/movie/add-movie/connected-parts/add-new-universe";
+
 import {
+  SharedUniverseFields,
+  type SharedUniverseType,
+} from "@/types/movie-schema";
+import type {
   MovieFormData,
   RatingCriterion,
   BaseRatingCriteria,
   BaseSharedUniverse,
 } from "@/orval_api/model";
 
-import { useLocalStorage } from "@/hooks/use-local-storage";
-import { FormButtons } from "@/components/my-custom-ui/form-ui-parts/form-buttons";
-import { ResponsiveWrapper } from "../../my-custom-ui/responsive-wrapper";
-import { ItemsSelector } from "../../my-custom-ui/items-list-selector";
-import dynamic from "next/dynamic";
-
-import { Spinner } from "@/components/my-custom-ui/spinner";
-import { AddNewUniverse } from "./connected-parts/add-new-universe";
-
-const ModalMovie = dynamic(() => import("../../my-custom-ui/modal-window"), {
-  ssr: false,
-});
+const ModalMovie = dynamic(
+  () => import("@/components/my-custom-ui/modal-window"),
+  {
+    ssr: false,
+  },
+);
 
 export type MovieKeyFields = Pick<
   MovieFormData,

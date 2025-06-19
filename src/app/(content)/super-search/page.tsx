@@ -1,18 +1,18 @@
-import type { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
-import { getMovies } from "@/orval_api/movies/movies";
 import { backendURL } from "@/lib/constants";
-import type { SearchParams } from "@/types/general";
-import {
-  FilterSchema,
-  PaginationParamsSchema,
-} from "@/types/search-params-schema";
-
-import { Language, SortBy, SortOrder } from "@/orval_api/model";
 
 import { PaginationContoller } from "@/components/my-custom-ui/pagination/pagination-contoller";
 import { MovieList } from "@/components/movie/movie-list";
 import { SortingControls } from "@/components/my-custom-ui/pagination/sorting-controls";
+
+import { getMovies } from "@/orval_api/movies/movies";
+import {
+  FilterSchema,
+  PaginationParamsSchema,
+} from "@/types/search-params-schema";
+import { Language, SortBy, SortOrder } from "@/orval_api/model";
+import type { SearchParams } from "@/types/general";
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Super Search | Title Seeker",

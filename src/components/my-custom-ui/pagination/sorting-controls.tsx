@@ -1,6 +1,11 @@
 "use client";
 
 import { useMemo, useRef } from "react";
+import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
+import { useDeletePaginationParams } from "@/hooks/use-delete-pagination-params";
+import { SlidersHorizontal } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 import {
   DropdownMenu,
@@ -8,21 +13,19 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { cn } from "@/lib/utils";
-
-import { useTranslations } from "next-intl";
-import { useRouter } from "next/navigation";
-import { formatURI, URIParams } from "./pagination-contoller";
+import { Button } from "@/components/ui/button";
 import {
-  PageMoviePreviewOutPage,
-  PageMoviePreviewOutSize,
+  formatURI,
+  type URIParams,
+} from "@/components/my-custom-ui/pagination/pagination-contoller";
+import { SortingItemList } from "@/components/my-custom-ui/pagination/sorting-item-list";
+
+import {
+  type PageMoviePreviewOutPage,
+  type PageMoviePreviewOutSize,
   SortBy,
   SortOrder,
 } from "@/orval_api/model";
-import { Button } from "@/components/ui/button";
-import { SlidersHorizontal } from "lucide-react";
-import { useDeletePaginationParams } from "@/hooks/use-delete-pagination-params";
-import { SortingItemList } from "./sorting-item-list";
 
 type Props = {
   uriKey: string;

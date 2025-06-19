@@ -1,22 +1,21 @@
 "use client";
 
 import { useEffect } from "react";
+import { useTranslations } from "next-intl";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useTranslations } from "next-intl";
-
-import { EnhanceSearchSchema } from "@/types/search-params-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import {
   extractValues,
   extractWord,
   formatSearchParams,
-  SearchFormValue,
-  SearchValue,
+  type SearchFormValue,
+  type SearchValue,
 } from "@/lib/utils";
-import { EnhancedFormSlider } from "./enhance-form-slider";
+import { EnhancedFormSlider } from "@/components/super-search/enhance-form-slider";
 import { FilterEnum } from "@/orval_api/model";
+import { EnhanceSearchSchema } from "@/types/search-params-schema";
 
 export const EnhanceSearch = () => {
   const router = useRouter();

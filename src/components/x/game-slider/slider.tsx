@@ -1,17 +1,17 @@
 "use client";
 
 import React from "react";
-
-import { Card, CardContent } from "../../ui/card";
-import Autoplay from "embla-carousel-autoplay";
 import Image from "next/image";
+import Autoplay from "embla-carousel-autoplay";
+
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselPrevious,
   CarouselNext,
-} from "../../ui/carousel";
+} from "@/components/ui/carousel";
 
 const imagesSource = [
   "/static/screen-2.png",

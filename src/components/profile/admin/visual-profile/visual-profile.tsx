@@ -1,5 +1,8 @@
 "use client";
 
+import { useState } from "react";
+import { PlusCircle } from "lucide-react";
+
 import {
   Select,
   SelectContent,
@@ -7,18 +10,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
+import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
+import { VisualProfileEditForm } from "@/components/profile/admin/visual-profile/visual-profile-edit-form";
+import { VisualProfileCreateForm } from "@/components/profile/admin/visual-profile/visual-profile-create-form";
+
+import type {
   VisualProfileFieldWithUUID,
   VisualProfileForm,
   VisualProfileFormIn,
 } from "@/orval_api/model";
-import { useState } from "react";
-import { VisualProfileEditForm } from "./visual-profile-edit-form";
-import { Separator } from "@/components/ui/separator";
-import { Button } from "@/components/ui/button";
-
-import { VisualProfileCreateForm } from "./visual-profile-create-form";
-import { PlusCircle } from "lucide-react";
 
 const EMPTY_CRITERION = {
   key: "",

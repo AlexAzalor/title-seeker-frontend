@@ -1,5 +1,5 @@
-import { FilterEnum, MovieFilterItem } from "@/orval_api/model";
-import { MovieFilter } from "./movie-filter";
+import { MovieFilter } from "@/components/movie/movie-page/movie-filter";
+import { FilterEnum, type MovieFilterItem } from "@/orval_api/model";
 
 type Props = {
   movieKey: string;

@@ -1,5 +1,6 @@
 import { memo } from "react";
 import { useTranslations } from "next-intl";
+import { type FieldError, Controller, type Control } from "react-hook-form";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -9,8 +10,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { RelatedMovie } from "@/orval_api/model";
-import { FieldError, Controller, Control } from "react-hook-form";
-import { RelatedMovieType } from "@/types/movie-schema";
+import type { RelatedMovieType } from "@/types/movie-schema";
 
 type Props = {
   label: string;

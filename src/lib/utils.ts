@@ -1,18 +1,19 @@
-import {
-  FilterEnum,
-  Language,
-  PageMoviePreviewOutPage,
-  PageMoviePreviewOutPages,
-} from "@/orval_api/model";
-
-import { clsx, type ClassValue } from "clsx";
-import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { ReadonlyURLSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import { twMerge } from "tailwind-merge";
-import { APISuperSearchMoviesParams } from "@/orval_api/model/aPISuperSearchMoviesParams";
+import { clsx, type ClassValue } from "clsx";
+
+import {
+  FilterEnum,
+  Language,
+  type PageMoviePreviewOutPage,
+  type PageMoviePreviewOutPages,
+} from "@/orval_api/model";
+import type { APISuperSearchMoviesParams } from "@/orval_api/model/aPISuperSearchMoviesParams";
+import type { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 type SuperSearchParams = keyof APISuperSearchMoviesParams;
+
 const PARAM_KEYS: SuperSearchParams[] = [
   "genre",
   "subgenre",

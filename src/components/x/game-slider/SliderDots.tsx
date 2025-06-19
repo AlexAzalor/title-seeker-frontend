@@ -1,10 +1,10 @@
 import React, {
-  PropsWithChildren,
+  type PropsWithChildren,
   useCallback,
   useEffect,
   useState,
 } from "react";
-import { EmblaCarouselType } from "embla-carousel";
+import type { EmblaCarouselType } from "embla-carousel";
 
 type UseDotButtonType = {
   selectedIndex: number;

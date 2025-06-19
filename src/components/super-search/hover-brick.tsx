@@ -1,6 +1,6 @@
-import { FilterBrick } from "./filter-brick";
 import { useState } from "react";
-import { FilterEnum, GenreOut, SubgenreOut } from "@/orval_api/model";
+import { FilterBrick } from "@/components/super-search/filter-brick";
+import { FilterEnum, type GenreOut, type SubgenreOut } from "@/orval_api/model";
 
 type Props = {
   genres: GenreOut[];

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { SearchResult, SearchType } from "@/orval_api/model";
+import { type SearchResult, SearchType } from "@/orval_api/model";
 
 type Props = {
   posterURL: string;

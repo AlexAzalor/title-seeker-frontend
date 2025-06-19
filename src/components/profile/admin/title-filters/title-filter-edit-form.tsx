@@ -6,18 +6,18 @@ import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  VisualProfileFieldType,
-  VisualProfileUpdateSchema,
-} from "@/types/visual-profile-schema";
-
 import { formatKey } from "@/lib/utils";
+
+import { Button } from "@/components/ui/button";
 import { FormField } from "@/components/my-custom-ui/form-ui-parts/form-field";
 import { TextareaFormField } from "@/components/my-custom-ui/form-ui-parts/textarea-form-field";
 
-import { Button } from "@/components/ui/button";
-import { FilterEnum, FilterFieldsWithUUID } from "@/orval_api/model";
 import { updateFilterItem, updateGenre } from "@/app/services/admin-api";
+import {
+  type VisualProfileFieldType,
+  VisualProfileUpdateSchema,
+} from "@/types/visual-profile-schema";
+import { FilterEnum, type FilterFieldsWithUUID } from "@/orval_api/model";
 
 type Props = {
   filterItem: FilterFieldsWithUUID;

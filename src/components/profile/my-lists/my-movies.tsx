@@ -1,10 +1,9 @@
 import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
 import Image from "next/image";
-
 import { POSTER_URL } from "@/lib/constants";
 import { cn, formatDate } from "@/lib/utils";
-import { Language, MoviePreviewOut } from "@/orval_api/model";
+import type { Language, MoviePreviewOut } from "@/orval_api/model";
 
 type Props = {
   movies: MoviePreviewOut[];

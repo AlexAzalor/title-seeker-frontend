@@ -1,18 +1,13 @@
 "use client";
 
+import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
-
-import {
-  VisualProfileSchema,
-  VisualProfileType,
-} from "@/types/visual-profile-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { VisualProfileData, VisualProfileIn } from "@/orval_api/model";
 import {
   Select,
   SelectContent,
@@ -23,9 +18,14 @@ import {
 import { FormField } from "@/components/my-custom-ui/form-ui-parts/form-field";
 import { SliderFormField } from "@/components/my-custom-ui/form-ui-parts/slider-form-field";
 import { FormWrapper } from "@/components/my-custom-ui/form-ui-parts/form-wrapper";
-import { updateVisualRating } from "@/app/services/user-api";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
+
+import { updateVisualRating } from "@/app/services/user-api";
+import {
+  VisualProfileSchema,
+  type VisualProfileType,
+} from "@/types/visual-profile-schema";
+import type { VisualProfileData, VisualProfileIn } from "@/orval_api/model";
 
 type Props = {
   movieKey: string;

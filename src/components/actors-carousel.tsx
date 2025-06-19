@@ -1,3 +1,5 @@
+import Image from "next/image";
+import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
@@ -6,9 +8,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { Actor, Language } from "@/orval_api/model";
-import Image from "next/image";
-import Link from "next/link";
+import { type Actor, Language } from "@/orval_api/model";
 
 type Props = {
   name: string;

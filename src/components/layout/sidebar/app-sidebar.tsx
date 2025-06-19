@@ -1,13 +1,8 @@
-import { checkIfAdmin, checkIfOwner } from "@/middleware";
 import Link from "next/link";
-import { ThemeSelector } from "../theme-selector";
-import { Button } from "../../ui/button";
-import { PlusCircle } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { auth } from "@/auth";
-import { GoogleLogin } from "../google-login";
-import { SignOut } from "../../my-custom-ui/sign-out";
-import { LanguageSelector } from "../language-selector";
+import { PlusCircle } from "lucide-react";
+import { checkIfAdmin, checkIfOwner } from "@/middleware";
 
 import {
   Sidebar,
@@ -18,16 +13,24 @@ import {
   SidebarMenu,
   SidebarMenuButton,
 } from "@/components/ui/sidebar";
+import { Button } from "@/components/ui/button";
 
-import { MenuItem, SidebarNavMenuGroup } from "./sidebar-nav-menu-group";
-import { UserProfileCard } from "./user-link";
 import {
   ADMIN_ITEMS,
   CONTENT_ICONS,
   getMenuItems,
   OTHER_ITEMS,
   USER_ITEMS,
-} from "./menu-item-collection";
+} from "@/components/layout/sidebar/menu-item-collection";
+import { ThemeSelector } from "@/components/layout/theme-selector";
+import { GoogleLogin } from "@/components/layout//google-login";
+import { SignOut } from "@/components/my-custom-ui/sign-out";
+import { LanguageSelector } from "@/components/layout/language-selector";
+import {
+  type MenuItem,
+  SidebarNavMenuGroup,
+} from "@/components/layout/sidebar/sidebar-nav-menu-group";
+import { UserProfileCard } from "@/components/layout/sidebar/user-link";
 
 type AppSidebarProps = React.ComponentProps<typeof Sidebar> & {
   locale: string;

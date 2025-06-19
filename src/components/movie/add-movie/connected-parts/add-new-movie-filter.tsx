@@ -2,17 +2,18 @@
 
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { EntityFormType } from "@/types/general";
-
-import { EntityFormSchema } from "@/types/general";
-import { MovieFilterFormIn, FilterItemOut } from "@/orval_api/model";
+import { toast } from "sonner";
 import { formatKey } from "@/lib/utils";
+
 import { FormWrapper } from "@/components/my-custom-ui/form-ui-parts/form-wrapper";
 import { FormField } from "@/components/my-custom-ui/form-ui-parts/form-field";
 import { TextareaFormField } from "@/components/my-custom-ui/form-ui-parts/textarea-form-field";
+
+import { EntityFormSchema } from "@/types/general";
+import type { EntityFormType } from "@/types/general";
+import type { MovieFilterFormIn, FilterItemOut } from "@/orval_api/model";
 
 type Props = {
   appendItem: (item: FilterItemOut) => void;

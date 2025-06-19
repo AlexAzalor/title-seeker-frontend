@@ -1,6 +1,9 @@
 "use client";
 
 import { Fragment } from "react";
+import { useTranslations } from "next-intl";
+import { useDeletePaginationParams } from "@/hooks/use-delete-pagination-params";
+import { cn, getVisiblePages } from "@/lib/utils";
 
 import {
   Pagination,
@@ -12,16 +15,14 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 
-import { cn, getVisiblePages } from "@/lib/utils";
-import { useTranslations } from "next-intl";
 import {
-  PageMoviePreviewOutPage,
-  PageMoviePreviewOutPages,
-  PageMoviePreviewOutSize,
+  type PageMoviePreviewOutPage,
+  type PageMoviePreviewOutPages,
+  type PageMoviePreviewOutSize,
   SortBy,
   SortOrder,
 } from "@/orval_api/model";
-import { useDeletePaginationParams } from "@/hooks/use-delete-pagination-params";
+
 export const DEFAULT_PAGE = 1;
 export const DEFAULT_PAGE_SIZE: PageMoviePreviewOutSize = 10;
 

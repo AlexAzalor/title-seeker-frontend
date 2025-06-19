@@ -1,11 +1,11 @@
-import { getAdminOrRedirect } from "@/app/services/admin-api";
 import { getLocale } from "next-intl/server";
+import { getAdminOrRedirect } from "@/app/services/admin-api";
 import { backendURL } from "@/lib/constants";
-import type { SearchParams } from "@/types/general";
-
-import { Language } from "@/orval_api/model";
-import { getMovies } from "@/orval_api/movies/movies";
 import { MovieFormWizard } from "@/components/movie/add-movie/movie-form-wizard";
+
+import { getMovies } from "@/orval_api/movies/movies";
+import { Language } from "@/orval_api/model";
+import type { SearchParams } from "@/types/general";
 
 export default async function AddMoviePage(props: {
   searchParams: SearchParams;

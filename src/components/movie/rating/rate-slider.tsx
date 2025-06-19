@@ -1,12 +1,13 @@
+import { memo } from "react";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
-import { memo } from "react";
-import { cn } from "@/lib/utils";
-import { Slider } from "@/components/ui/slider";
-import { MIN_RATE } from "./utils";
-import { TooltipWrapper } from "../../my-custom-ui/tooltip-wrapper";
 import { InfoIcon } from "lucide-react";
-import { BaseRatingCriteria } from "@/orval_api/model";
+import { cn } from "@/lib/utils";
+
+import { Slider } from "@/components/ui/slider";
+import { MIN_RATE } from "@/components/movie/rating/utils";
+import { TooltipWrapper } from "@/components/my-custom-ui/tooltip-wrapper";
+import type { BaseRatingCriteria } from "@/orval_api/model";
 
 // type SliderProps = React.ComponentProps<typeof Slider>;
 // https://github.com/shadcn-ui/ui/blob/main/apps/www/app/(app)/examples/playground/components/temperature-selector.tsx

@@ -1,11 +1,11 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
-import type { PersonBase } from "@/orval_api/model";
-import { ItemsSelector } from "../my-custom-ui/items-list-selector";
+import { useRouter, useSearchParams } from "next/navigation";
 import { manageSearchParameters } from "@/lib/utils";
-import { ResponsiveWrapper } from "../my-custom-ui/responsive-wrapper";
+import { ItemsSelector } from "@/components/my-custom-ui/items-list-selector";
+import { ResponsiveWrapper } from "@/components/my-custom-ui/responsive-wrapper";
+import type { PersonBase } from "@/orval_api/model";
 
 type Props = {
   peopleList: PersonBase[];

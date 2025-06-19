@@ -1,7 +1,7 @@
 import { useTranslations } from "next-intl";
-import { Language, MovieOut } from "@/orval_api/model";
 import { cn, formatDate } from "@/lib/utils";
 import { MovieMoney } from "@/components/movie/movie-page/movie-money";
+import type { Language, MovieOut } from "@/orval_api/model";
 
 type Props = {
   data: MovieOut;
