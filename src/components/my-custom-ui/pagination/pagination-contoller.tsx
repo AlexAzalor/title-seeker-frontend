@@ -19,6 +19,7 @@ import {
   type PageMoviePreviewOutPage,
   type PageMoviePreviewOutPages,
   type PageMoviePreviewOutSize,
+  type PageMoviePreviewOutTotal,
   SortBy,
   SortOrder,
 } from "@/orval_api/model";
@@ -56,6 +57,7 @@ type Props = {
   pageSize: PageMoviePreviewOutSize;
   sortOrder: SortOrder;
   sortBy: SortBy;
+  totalItems: PageMoviePreviewOutTotal;
 };
 
 export const PaginationContoller = ({
@@ -65,6 +67,7 @@ export const PaginationContoller = ({
   pageSize,
   sortOrder,
   sortBy,
+  totalItems,
 }: Props) => {
   const t = useTranslations("Other");
   const cleanParams = useDeletePaginationParams();
@@ -96,6 +99,12 @@ export const PaginationContoller = ({
   });
 
   const pageButtonsList = getVisiblePages(currentPage, totalPages);
+
+  const isLastPage = currentPage === totalPages;
+  const lastPageTotal = totalItems + " of " + totalItems;
+  const currentPageTotal =
+    (pageSize || DEFAULT_PAGE_SIZE) * (currentPage || 1) + " of " + totalItems;
+  const pageInfo = isLastPage ? lastPageTotal : currentPageTotal;
 
   return (
     <Pagination aria-label="pagination">
@@ -185,6 +194,7 @@ export const PaginationContoller = ({
             name={t("paginationNext")}
             href={nextPageLink}
           />
+          {pageInfo}
         </PaginationItem>
       </PaginationContent>
     </Pagination>

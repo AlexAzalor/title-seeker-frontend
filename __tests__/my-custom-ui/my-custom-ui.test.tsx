@@ -54,6 +54,7 @@ test("Should render PaginationContoller", () => {
       sortBy={SortBy.id}
       sortOrder={SortOrder.asc}
       totalPages={1}
+      totalItems={10}
       uriKey="test"
     />,
     {

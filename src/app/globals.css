@@ -42,6 +42,7 @@
   --color-action-time: #92a8d1;
   --color-actor: #90ee90;
   --color-director: #f08080;
+  --color-character: #fefd33;
   --color-su: #1e90ff;
   --color-vp: #ff5f1f;
 
@@ -125,6 +126,9 @@
   --shadow-director: 0px 0px 0px 0px var(--color-director),
     0 0 0px var(--color-director), 0 0 10px var(--color-director),
     inset 0 0 10px var(--color-director);
+  --shadow-character: 0px 0px 0px 0px var(--color-character),
+    0 0 0px var(--color-character), 0 0 10px var(--color-character),
+    inset 0 0 10px var(--color-character);
 
   --shadow-su: 0px 0px 0px 0px var(--color-su), 0 0 0px var(--color-su),
     0 0 10px var(--color-su), inset 0 0 10px var(--color-su);
@@ -349,6 +353,26 @@
 
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
+}
+
+.users-rated-movie {
+  --color-rating: #4ba3c7;
+  border-radius: 1rem;
+  border: 0.1px solid white;
+
+  box-shadow:
+    var(--color-rating) 0px 0px 10px 0px,
+    var(--color-rating) 0px 0px 10px 0px;
+}
+
+.user-rating-text {
+  --lights: #4ba3c7;
+  text-shadow:
+    0 0 0.3vh var(--lights),
+    0 0 0.3vh var(--lights),
+    0 0 0.3vh var(--lights),
+    0 0 0.3vh var(--lights),
+    0 0 1vh var(--lights);
 }
 
 .dark {

@@ -32,7 +32,7 @@ export default async function MoviesPage(props: {
 
   const { aPIGetMovies } = getMovies();
   const {
-    data: { items, page, size, pages },
+    data: { items, page, size, pages, total },
   } = await aPIGetMovies(
     {
       lang,
@@ -69,6 +69,7 @@ export default async function MoviesPage(props: {
               pageSize={size}
               sortOrder={sortOrder}
               sortBy={sortBy}
+              totalItems={total}
             />
           )}
         </SortingControls>

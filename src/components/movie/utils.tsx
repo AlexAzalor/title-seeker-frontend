@@ -36,6 +36,7 @@ export const getFilterColor = (type: string) =>
     [FilterEnum.action_time]: COLORS.actionTime,
     [FilterEnum.actor]: COLORS.actor,
     [FilterEnum.director]: COLORS.director,
+    [FilterEnum.character]: COLORS.character,
     [FilterEnum.shared_universe]: COLORS.sharedUniverse,
     [FilterEnum.visual_profile]: COLORS.visualProfile,
   })[type] || "#000";

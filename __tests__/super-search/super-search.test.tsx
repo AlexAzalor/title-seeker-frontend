@@ -1,21 +1,20 @@
 import { beforeEach, expect, test, describe, type Mock } from "vitest";
+import { SessionProvider } from "next-auth/react";
 import { render, screen } from "@testing-library/react";
 import { useSearchParams } from "next/navigation";
-import type { PropsWithChildren } from "react";
-
+import messages from "../../messages/en.json";
 import { ThemeProvider } from "next-themes";
 import { NextIntlClientProvider } from "next-intl";
-import { ResizablePanelGroup } from "@/components/ui/resizable";
-import messages from "../../messages/en.json";
 
+import { ResizablePanelGroup } from "@/components/ui/resizable";
 import { EnhanceSearch } from "@/components/super-search/enhance-search";
 import { SelectedFilters } from "@/components/super-search/selected-filters";
 import { FilterList } from "@/components/super-search/filter-list";
 import { FilterBrick } from "@/components/super-search/filter-brick";
 import { HoverBrick } from "@/components/super-search/hover-brick";
 import SideMenuPanel from "@/components/super-search/side-menu-panel";
-import { SessionProvider } from "next-auth/react";
 import { FilterEnum } from "@/orval_api/model";
+import type { PropsWithChildren } from "react";
 
 const ProjectProviders = ({ children }: PropsWithChildren) => (
   <ThemeProvider
@@ -148,6 +147,7 @@ describe("Components with search params", () => {
         action_times={[]}
         actors={[]}
         directors={[]}
+        characters={[]}
         shared_universes={[]}
         visual_profile_categories={[]}
       />,
@@ -169,6 +169,7 @@ describe("Components with search params", () => {
         action_times={[]}
         actors={[]}
         directors={[]}
+        characters={[]}
         shared_universes={[]}
         visual_profile_categories={[]}
       >

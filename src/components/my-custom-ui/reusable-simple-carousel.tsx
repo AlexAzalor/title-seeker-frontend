@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import {
   Carousel,
   CarouselContent,
@@ -9,15 +10,20 @@ import {
 type Props<Datum> = {
   items: Datum[];
   children: (items: Datum) => React.ReactElement;
+  /** For items container */
+  className?: string;
 };
 
 export const ReusableSimpleCarousel = <Datum extends { key: string }>({
   items,
   children,
+  className = "",
 }: Props<Datum>) => {
   return (
     <Carousel className="w-full" opts={{ dragFree: true }}>
-      <CarouselContent className="-ml-1 max-w-[340px] xl:max-w-none">
+      <CarouselContent
+        className={cn("-ml-1 max-w-[340px] xl:max-w-none", className)}
+      >
         {items.map((item) => (
           <CarouselItem
             key={item.key}

@@ -20,6 +20,7 @@ type Props = {
   action_times: FilterItemOut[];
   actors: PersonBase[];
   directors: PersonBase[];
+  characters: PersonBase[];
   shared_universes: BaseSharedUniverse[];
   visual_profile_categories: VisualProfileCategoryOut[];
 };
@@ -31,6 +32,7 @@ export const FilterList = ({
   action_times,
   actors,
   directors,
+  characters,
   shared_universes,
   visual_profile_categories,
 }: Props) => {
@@ -63,6 +65,10 @@ export const FilterList = ({
 
       <PersonSelector peopleList={actors} personKey={FilterEnum.actor} />
       <PersonSelector peopleList={directors} personKey={FilterEnum.director} />
+      <PersonSelector
+        peopleList={characters}
+        personKey={FilterEnum.character}
+      />
 
       <Separator className="my-2" />
 

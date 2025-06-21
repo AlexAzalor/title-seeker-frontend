@@ -40,6 +40,7 @@ export const FilterBrick = <ItemData extends Data>({
   const specialFilters = [
     FilterEnum.actor,
     FilterEnum.director,
+    FilterEnum.character,
     FilterEnum.shared_universe,
     FilterEnum.visual_profile,
   ] as const;
@@ -78,6 +79,8 @@ export const FilterBrick = <ItemData extends Data>({
           type === FilterEnum.actor && "hover:shadow-actor dark:border-actor",
           type === FilterEnum.director &&
             "hover:shadow-director dark:border-director",
+          type === FilterEnum.character &&
+            "hover:shadow-character dark:border-character",
           type === FilterEnum.shared_universe &&
             "hover:shadow-su dark:border-su",
           type === FilterEnum.visual_profile &&

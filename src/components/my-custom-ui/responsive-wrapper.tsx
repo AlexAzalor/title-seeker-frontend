@@ -25,6 +25,7 @@ export const ResponsiveWrapper = ({ children, title }: Props) => {
           onClick={() => setOpenItemsList(true)}
           variant="outline"
           className="w-full"
+          type="button"
         >
           {title}
         </Button>

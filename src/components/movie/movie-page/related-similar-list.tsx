@@ -30,7 +30,7 @@ export const RelatedSimilarList = ({
     <div
       aria-label="related-similar-list"
       className={cn(
-        "shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border w-76 rounded-[34px] border p-5",
+        "shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border max-w-84 rounded-lg border p-2 lg:w-76 lg:rounded-[34px] lg:p-5",
         bottom && "mb-4 w-full min-w-76",
       )}
     >
@@ -38,7 +38,7 @@ export const RelatedSimilarList = ({
         {type === "related" ? t("related") : t("similar")}
       </h4>
 
-      <div className="flex max-h-80 flex-grow-1 flex-col gap-1 overflow-y-auto">
+      <div className="flex max-h-80 flex-grow-1 flex-row gap-1 overflow-y-auto xl:max-w-none xl:flex-col">
         {movies.map((movie) => (
           <Link
             href={`/movies/${movie.key}`}
@@ -59,12 +59,12 @@ export const RelatedSimilarList = ({
               }}
               height={60}
               width={40}
-              className="rounded-lg"
+              className="shrink-0 grow-0 basis-auto rounded-lg md:basis-1/2 xl:basis-1/10"
               blurDataURL="/static/blur-image.webp"
               placeholder="blur"
               loading="lazy"
             />
-            <div>
+            <div className="hidden xl:block">
               <div className="text-[16px]">{movie.title}</div>
               {type === "related" && (
                 <div className="italic">{movie.relation_type}</div>

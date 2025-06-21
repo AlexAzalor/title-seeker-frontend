@@ -1,10 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { POSTER_URL } from "@/lib/constants";
-import { formatDate } from "@/lib/utils";
+import { cn, formatDate } from "@/lib/utils";
 import type { Language, MoviePreviewOut } from "@/orval_api/model";
 
-const MAX_LENGTH = 40;
+const MAX_LENGTH = 30;
 
 type Props = {
   movies: MoviePreviewOut[];
@@ -16,7 +16,10 @@ export const MovieList = ({ movies, lang }: Props) => {
     <Link
       aria-label={"movie-link" + "-" + i}
       key={movie.key}
-      className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border grid h-[158px] w-[340px] grid-cols-[1fr_3fr] items-center gap-2 rounded-[34px] border p-6"
+      className={cn(
+        "shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border flex h-[158px] w-76 items-center gap-2 rounded-[34px] border p-6 lg:w-86",
+        !!movie.rating && "users-rated-movie p-2",
+      )}
       href={`/movies/${movie.key}`}
     >
       <Image
@@ -40,14 +43,23 @@ export const MovieList = ({ movies, lang }: Props) => {
             : movie.title}
         </p>
         <div>
-          {movie.release_date
-            ? formatDate(movie.release_date, lang)
-            : "no date"}
-        </div>
-        <div className="flex gap-1">
-          <div>{movie.duration}</div>|<div>{movie.main_genre}</div>
+          <span>
+            {movie.release_date
+              ? formatDate(movie.release_date, lang)
+              : "no date"}
+          </span>
+          {!movie.main_genre ? (
+            <div>{movie.duration}</div>
+          ) : (
+            <div className="flex gap-1">
+              <div>{movie.duration}</div>|<div>{movie.main_genre}</div>
+            </div>
+          )}
         </div>
       </div>
+      {!!movie.rating && (
+        <div className="user-rating-text ml-auto text-3xl">{movie.rating}</div>
+      )}
     </Link>
   ));
 };

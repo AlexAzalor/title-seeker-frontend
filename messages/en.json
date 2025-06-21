@@ -75,7 +75,7 @@
 
   "SuperSearch": {
     "title": "Advanced title search",
-    "emptyState": "Please select at least one filter to search for movies",
+    "emptyState": "Select at least one filter to search for movies",
     "enhance": "Enhance Search",
     "exactMatch": "Exact match",
     "clear": "Clear all filters",
@@ -104,7 +104,8 @@
       "description": "Indicates the time or historically known events in which the main plot of the film takes place. Here are only the most basic, because it is impossible to cover all existing ones. If the film shows many locations and an unknown time, for example, a planet of aliens who are more developed, then in this case simply indicate the time in which the main characters live. This can be both real time and time that is invented for the film."
     },
     "actor": "Actors",
-    "director": "Director",
+    "director": "Directors",
+    "character": "Characters",
     "directorPlural": "Directors",
     "shared_universe": {
       "name": "Shared Universe",

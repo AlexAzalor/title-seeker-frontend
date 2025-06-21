@@ -37,6 +37,7 @@ type Props = {
   action_times: FilterItemOut[];
   actors: PersonBase[];
   directors: PersonBase[];
+  characters: PersonBase[];
   shared_universes: BaseSharedUniverse[];
   visual_profile_categories: VisualProfileCategoryOut[];
 };
@@ -50,6 +51,7 @@ export const SelectedFilters = ({
   action_times,
   actors,
   directors,
+  characters,
   shared_universes,
   visual_profile_categories,
 }: Props) => {
@@ -69,6 +71,7 @@ export const SelectedFilters = ({
   );
   const selectedActors = currentSearchParams.getAll(FilterEnum.actor);
   const selectedDirectors = currentSearchParams.getAll(FilterEnum.director);
+  const selectedCharacters = currentSearchParams.getAll(FilterEnum.character);
   const selectedUniverses = currentSearchParams.getAll(
     FilterEnum.shared_universe,
   );
@@ -132,6 +135,7 @@ export const SelectedFilters = ({
                   action_times,
                   actors,
                   directors,
+                  characters,
                   shared_universes,
                   visual_profile_categories,
                 }}
@@ -180,6 +184,12 @@ export const SelectedFilters = ({
               type={FilterEnum.director}
               searchParamsList={selectedDirectors}
               data={directors}
+              deleteItem={deleteSearchParam}
+            />
+            <FilterBrick
+              type={FilterEnum.character}
+              searchParamsList={selectedCharacters}
+              data={characters}
               deleteItem={deleteSearchParam}
             />
             <FilterBrick

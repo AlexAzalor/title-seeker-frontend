@@ -25,11 +25,12 @@ export const FilterFetchWrapper = async ({ children }: PropsWithChildren) => {
     data: {
       genres,
       subgenres,
-      actors,
-      directors,
       specifications,
       keywords,
       action_times,
+      actors,
+      directors,
+      characters,
       shared_universes,
       visual_profile_categories,
     },
@@ -55,6 +56,7 @@ export const FilterFetchWrapper = async ({ children }: PropsWithChildren) => {
           action_times={action_times}
           actors={actors}
           directors={directors}
+          characters={characters}
           shared_universes={shared_universes}
           visual_profile_categories={visual_profile_categories}
         >
@@ -76,6 +78,7 @@ export const FilterFetchWrapper = async ({ children }: PropsWithChildren) => {
                     action_times,
                     actors,
                     directors,
+                    characters,
                     shared_universes,
                     visual_profile_categories,
                   }}

@@ -1,3 +1,4 @@
+import { auth } from "@/auth";
 import { getLocale, getTranslations } from "next-intl/server";
 import { backendURL } from "@/lib/constants";
 
@@ -38,6 +39,7 @@ export default async function SuperSearchPage(props: {
 
   const locale = await getLocale();
   const lang = Language[locale as keyof typeof Language];
+  const session = await auth();
 
   const {
     // name: query = "",
@@ -91,6 +93,7 @@ export default async function SuperSearchPage(props: {
       size: pageSize,
       sort_order: sortOrder,
       sort_by: sortBy,
+      user_uuid: session?.user?.uuid,
     },
     {
       baseURL: backendURL.baseURL,
@@ -109,7 +112,7 @@ export default async function SuperSearchPage(props: {
       sortBy={sortBy}
       ratedAt
     >
-      <div className="flex h-190 flex-wrap gap-4 py-3 lg:px-3">
+      <div className="flex flex-col items-center gap-4 py-3 md:flex-row md:flex-wrap lg:px-3">
         {movies.length ? (
           <MovieList movies={movies} lang={lang} />
         ) : (
@@ -124,6 +127,7 @@ export default async function SuperSearchPage(props: {
             pageSize={size}
             sortOrder={sortOrder}
             sortBy={sortBy}
+            totalItems={total}
           />
         )}
       </div>

@@ -46,7 +46,9 @@ function CustomModal({ isOpen, onClose, children }: ModalProps) {
               onClick={onClose}
               className="ml-auto h-4 w-4 cursor-pointer transition-transform hover:scale-125"
             />
-            <div className="max-h-180 overflow-auto px-2">{children}</div>
+            <div className="max-h-150 overflow-auto px-2 lg:max-h-180">
+              {children}
+            </div>
           </motion.div>
         </motion.div>
       )}

@@ -75,6 +75,7 @@ export default async function MyListsPage(props: {
               pageSize={size}
               sortOrder={sortOrder}
               sortBy={orderBy}
+              totalItems={total}
             />
           )}
         </>
