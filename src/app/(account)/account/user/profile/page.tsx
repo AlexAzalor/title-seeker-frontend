@@ -21,8 +21,8 @@ export default async function ProfilePage() {
   const locale = await getLocale();
   const lang = Language[locale as keyof typeof Language];
 
-  const { aPITimeRateMovie, aPIGetInfoReport } = getUsers();
-  const { data } = await aPITimeRateMovie(
+  const { aPIGetTimeRateMovie, aPIGetInfoReport } = getUsers();
+  const { data } = await aPIGetTimeRateMovie(
     { user_uuid: user.uuid, lang },
     backendURL,
   );

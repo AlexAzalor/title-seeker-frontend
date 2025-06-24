@@ -419,7 +419,7 @@ export async function getFilterFormFields(key: string, type: FilterEnum) {
   }
 }
 
-export async function getGenresSubgenres(movieKey: string) {
+export async function getGenresSubgenres() {
   const admin = await getAdmin();
 
   if (!admin) {
@@ -431,10 +431,7 @@ export async function getGenresSubgenres(movieKey: string) {
 
   try {
     const response: AxiosResponse<GenresSubgenresOut> =
-      await aPIGetGenresSubgenres(
-        { user_uuid: admin.uuid, movie_key: movieKey },
-        backendURL,
-      );
+      await aPIGetGenresSubgenres({ user_uuid: admin.uuid }, backendURL);
 
     return { status: response.status, data: response.data };
   } catch (error) {

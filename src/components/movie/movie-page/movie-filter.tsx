@@ -69,7 +69,7 @@ export const MovieFilter = ({
 
   const getFilterData = async () => {
     if (filterKey === FilterEnum.genre) {
-      const res = await getGenresSubgenres(movieKey);
+      const res = await getGenresSubgenres();
 
       if (res.status === 200 && res.data) {
         setGenreList(res.data.genres);
