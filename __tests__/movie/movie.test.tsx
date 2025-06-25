@@ -7,7 +7,7 @@ import { QuicklyAddNewMovie } from "@/components/movie/quick-add-new-movie";
 import { GenresList } from "@/components/movie/movie-page/genres-list";
 import { MovieCrew } from "@/components/movie/movie-page/movie-crew";
 import { MovieFilterList } from "@/components/movie/movie-page/movie-filter-list";
-import { RelatedSimilarList } from "@/components/movie/movie-page/related-similar-list";
+import { RelatedSimilarMovieList } from "@/components/movie/movie-page/related-similar-list";
 import { MoviesCarousel } from "@/components/movie/movie-carousel";
 import { ProjectProviders } from "../page.test";
 import { FilterEditForm } from "@/components/movie/movie-page/filter-edit-form";
@@ -77,7 +77,7 @@ test("Should render MovieCrew", () => {
 
 test("Should render RelatedSimilarList", () => {
   render(
-    <RelatedSimilarList
+    <RelatedSimilarMovieList
       currentMovieKey="test"
       movies={[]}
       posterUrl="test"

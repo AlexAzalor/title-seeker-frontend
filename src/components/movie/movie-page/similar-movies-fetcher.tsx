@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import { POSTER_URL } from "@/lib/constants";
 import { FetchWrapper } from "@/components/my-custom-ui/fetch-wrapper";
 import { Spinner } from "@/components/my-custom-ui/spinner";
-import { RelatedSimilarList } from "@/components/movie/movie-page/related-similar-list";
+import { RelatedSimilarMovieList } from "@/components/movie/movie-page/related-similar-list";
 import { getMovies } from "@/orval_api/movies/movies";
 import type {
   SimilarMovieOutList,
@@ -14,7 +14,7 @@ type Props = {
   bottom?: boolean;
 };
 
-function RelatedMoviesFetcher({ movieKey, bottom }: Props) {
+function SimilarMoviesFetcher({ movieKey, bottom }: Props) {
   const { aPIGetSimilarMovies } = getMovies();
 
   return (
@@ -34,7 +34,7 @@ function RelatedMoviesFetcher({ movieKey, bottom }: Props) {
         params={{ movie_key: movieKey }}
       >
         {({ result }) => (
-          <RelatedSimilarList
+          <RelatedSimilarMovieList
             type="similar"
             movies={result.data.similar_movies}
             posterUrl={POSTER_URL || "NO URL!!!"}
@@ -47,4 +47,4 @@ function RelatedMoviesFetcher({ movieKey, bottom }: Props) {
   );
 }
 
-export default RelatedMoviesFetcher;
+export default SimilarMoviesFetcher;

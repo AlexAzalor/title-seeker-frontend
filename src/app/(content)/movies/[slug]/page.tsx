@@ -18,7 +18,7 @@ import { MovieRateBox } from "@/components/movie/movie-page/movie-rate-box";
 import { GenresList } from "@/components/movie/movie-page/genres-list";
 import { MovieFilterList } from "@/components/movie/movie-page/movie-filter-list";
 import { MovieCrew } from "@/components/movie/movie-page/movie-crew";
-import { RelatedSimilarList } from "@/components/movie/movie-page/related-similar-list";
+import { RelatedSimilarMovieList } from "@/components/movie/movie-page/related-similar-list";
 import { MoviesCollection } from "@/components/movie/movie-page/movies-collection";
 import { MovieInfo } from "@/components/movie/movie-page/info/movie-info";
 import { VisualProfile } from "@/components/movie/movie-page/visual-profile.tsx/visual-profile";
@@ -26,8 +26,8 @@ import { VisualProfile } from "@/components/movie/movie-page/visual-profile.tsx/
 import { getMovies } from "@/orval_api/movies/movies";
 import type { PageProps } from "@/types/general";
 
-const RelatedMoviesFetcher = dynamic(
-  () => import("@/components/movie/movie-page/related-movies-fetcher"),
+const SimilarMoviesFetcher = dynamic(
+  () => import("@/components/movie/movie-page/similar-movies-fetcher"),
 );
 
 export default async function DynamicPage({ params }: PageProps) {
@@ -68,7 +68,7 @@ export default async function DynamicPage({ params }: PageProps) {
               <Image
                 src={`${POSTER_URL}/posters/${data.poster}`}
                 alt="Movie poster"
-                className="h-[450px] w-[300px] max-w-none"
+                className="max-h-75 max-w-50 sm:max-h-112 sm:max-w-76"
                 height={450}
                 width={300}
                 priority
@@ -92,16 +92,21 @@ export default async function DynamicPage({ params }: PageProps) {
             </div>
 
             <div className="xl:ml-auto">
-              {data.related_movies?.length ? (
-                <RelatedSimilarList
-                  type="related"
-                  movies={data.related_movies}
-                  posterUrl={POSTER_URL || "NO URL!!!"}
-                  currentMovieKey={data.key}
-                />
-              ) : (
-                <RelatedMoviesFetcher movieKey={movie_key} />
-              )}
+              <div
+                aria-label="related-similar-list"
+                className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border max-w-84 rounded-lg border p-2 lg:w-76 lg:rounded-[34px] lg:p-5"
+              >
+                {data.related_movies?.length ? (
+                  <RelatedSimilarMovieList
+                    type="related"
+                    movies={data.related_movies}
+                    posterUrl={POSTER_URL || "NO URL!!!"}
+                    currentMovieKey={data.key}
+                  />
+                ) : (
+                  <SimilarMoviesFetcher movieKey={movie_key} />
+                )}
+              </div>
             </div>
           </div>
 
@@ -192,8 +197,8 @@ export default async function DynamicPage({ params }: PageProps) {
             )}
 
             {!!data.related_movies?.length && (
-              <div className="w-full">
-                <RelatedMoviesFetcher movieKey={movie_key} bottom />
+              <div className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border mb-4 flex w-full flex-col rounded-[34px] border p-5">
+                <SimilarMoviesFetcher movieKey={movie_key} bottom />
               </div>
             )}
           </div>
