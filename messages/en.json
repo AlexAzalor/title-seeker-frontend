@@ -294,7 +294,9 @@
       "owner": "Owner Rating"
     },
     "myList": "All my rated movies",
-    "noUserRating": "You have not rated any movies yet."
+    "noUserRating": "You have not rated any movies yet.",
+    "ratingAdded": "Rating added successfully!",
+    "ratingUpdated": "Rating updated successfully!"
   },
   "Form": {
     "submit": "Submit",

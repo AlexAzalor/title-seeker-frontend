@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { RateMovie } from "@/components/movie/rating/rate-movie";
 
@@ -30,6 +31,7 @@ export const MovieRateBox = ({
   overallRatingCriteria,
   ratingType,
 }: Props) => {
+  const t = useTranslations("Rating");
   const router = useRouter();
   const ratingRef = useRef<RatingDataOut>({
     ratingData: userRatingData || ({} as BaseRatingCriteria),
@@ -41,16 +43,18 @@ export const MovieRateBox = ({
     if (isUserRated || isAdmin) {
       try {
         await updateRateMovie(userRatingInput);
-        toast.success("Rating UPDATED");
+        toast.success(t("ratingUpdated"));
       } catch {
-        toast.error("Error occured");
+        toast.error("Error updating rating");
+        return;
       }
     } else {
       try {
         await rateMovie(userRatingInput);
-        toast.success("Rating ADDED");
+        toast.success(t("ratingAdded"));
       } catch {
-        toast.error("Error occured");
+        toast.error("Error adding rating");
+        return;
       }
     }
 

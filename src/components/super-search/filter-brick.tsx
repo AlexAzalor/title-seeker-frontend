@@ -23,6 +23,13 @@ type Props<ItemData extends Data> = {
   hoveredGenre?: string | null;
 };
 
+const cutLongWords = (word: string, maxLength: number) => {
+  if (word.length > maxLength) {
+    return `${word.slice(0, maxLength)}...`;
+  }
+  return word;
+};
+
 export const FilterBrick = <ItemData extends Data>({
   data,
   searchParamsList,
@@ -110,7 +117,9 @@ export const FilterBrick = <ItemData extends Data>({
             </TooltipWrapper>
           )}
           <div className="flex flex-col items-center leading-4">
-            <p style={{ fontWeight: "bold" }}>{item.name}</p>
+            <p title={item.name} style={{ fontWeight: "bold" }}>
+              {cutLongWords(item.name, 24)}
+            </p>
             {!isFilters && (
               <p className="text-sm">({itemPercentMatchRange.join("-")})</p>
             )}

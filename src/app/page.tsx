@@ -1,9 +1,11 @@
+import { Suspense } from "react";
 import { useTranslations } from "next-intl";
 import { AVATAR_URL, POSTER_URL } from "@/lib/constants";
 
 import { ActorsCarousel } from "@/components/actors-carousel";
 import { FetchWrapper } from "@/components/my-custom-ui/fetch-wrapper";
 import { MoviesCarousel } from "@/components/movie/movie-carousel";
+import { Spinner } from "@/components/my-custom-ui/spinner";
 
 import { getPeople } from "@/orval_api/people/people";
 import { getMovies } from "@/orval_api/movies/movies";
@@ -38,42 +40,58 @@ export default function Home() {
           ))}
         </ul>
 
-        <FetchWrapper<
-          MovieCarouselList,
-          APIGetRandomListParams,
-          typeof aPIGetRandomList
+        <Suspense
+          fallback={
+            <div className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border w-full rounded-xl border p-5">
+              <Spinner className="mx-auto w-fit" />
+            </div>
+          }
         >
-          apiFetch={aPIGetRandomList}
-          params={{}}
-        >
-          {({ result, lang }) => (
-            <MoviesCarousel
-              name={t("randomMovies")}
-              movies={result.data.movies}
-              lang={lang}
-              posterURL={POSTER_URL || "NO URL!"}
-              avatarURL={AVATAR_URL || "NO URL!"}
-            />
-          )}
-        </FetchWrapper>
+          <FetchWrapper<
+            MovieCarouselList,
+            APIGetRandomListParams,
+            typeof aPIGetRandomList
+          >
+            apiFetch={aPIGetRandomList}
+            params={{}}
+          >
+            {({ result, lang }) => (
+              <MoviesCarousel
+                name={t("randomMovies")}
+                movies={result.data.movies}
+                lang={lang}
+                posterURL={POSTER_URL || "NO URL!"}
+                avatarURL={AVATAR_URL || "NO URL!"}
+              />
+            )}
+          </FetchWrapper>
+        </Suspense>
 
-        <FetchWrapper<
-          ActorsList,
-          APIGetActorsWithMostMoviesParams,
-          typeof aPIGetActorsWithMostMovies
+        <Suspense
+          fallback={
+            <div className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border w-full rounded-xl border p-5">
+              <Spinner className="mx-auto w-fit" />
+            </div>
+          }
         >
-          apiFetch={aPIGetActorsWithMostMovies}
-          params={{}}
-        >
-          {({ result, lang }) => (
-            <ActorsCarousel
-              name={t("topActorsCarousel")}
-              actors={result.data.actors}
-              lang={lang}
-              avatarURL={AVATAR_URL || "NO URL!"}
-            />
-          )}
-        </FetchWrapper>
+          <FetchWrapper<
+            ActorsList,
+            APIGetActorsWithMostMoviesParams,
+            typeof aPIGetActorsWithMostMovies
+          >
+            apiFetch={aPIGetActorsWithMostMovies}
+            params={{}}
+          >
+            {({ result, lang }) => (
+              <ActorsCarousel
+                name={t("topActorsCarousel")}
+                actors={result.data.actors}
+                lang={lang}
+                avatarURL={AVATAR_URL || "NO URL!"}
+              />
+            )}
+          </FetchWrapper>
+        </Suspense>
       </main>
     </>
   );

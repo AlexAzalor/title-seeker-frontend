@@ -140,7 +140,14 @@ export const GenreSelector = ({ genres }: Props) => {
       updateSearchParameters(genre.key, FilterEnum.genre);
 
       if (genre.subgenres.length) {
-        setSubgenres([...subgenres, ...genre.subgenres]);
+        const isSubgenreSelected = genre.subgenres.every((currentSubgenre) =>
+          subgenres.some(
+            (newSubgenre) => newSubgenre.key === currentSubgenre.key,
+          ),
+        );
+
+        const newSubgenres = isSubgenreSelected ? [] : genre.subgenres;
+        setSubgenres([...subgenres, ...newSubgenres]);
       } else {
         setSubgenres(
           subgenres.filter(
