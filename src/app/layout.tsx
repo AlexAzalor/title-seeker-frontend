@@ -55,8 +55,7 @@ export default async function RootLayout({
 }>) {
   const locale = await getLocale();
 
-  // Providing all messages to the client
-  // side is the easiest way to get started
+  // Providing all messages to the client side is the easiest way to get started
   const messages = await getMessages();
 
   // Secondary task
@@ -67,8 +66,7 @@ export default async function RootLayout({
   return (
     <html lang={locale} className={sourceSans3.className}>
       <body
-      // className="!pointer-events-auto !cursor-auto"
-      // className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${sourceSans3.variable} ${sourceSans3.variable} antialiased`}
       >
         {/* <Script src="https://unpkg.com/react-scan/dist/auto.global.js" async /> */}
         <ThemeProvider>

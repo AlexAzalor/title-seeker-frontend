@@ -23,7 +23,6 @@ export default async function MoviesPage(props: {
   const searchParams = await props.searchParams;
 
   const {
-    // name: query = "",
     page: pageNumber = DEFAULT_PAGE,
     size: pageSize = DEFAULT_PAGE_SIZE,
     sort_order: sortOrder = SortOrder.desc,
@@ -45,35 +44,32 @@ export default async function MoviesPage(props: {
   );
 
   return (
-    <>
-      {/* <title>Movies | Title Seeker</title> */}
-      <div className="min-h-screen">
-        <SortingControls
-          uriKey="movies"
-          currentPage={page}
-          pageSize={size}
-          sortOrder={sortOrder}
-          sortBy={sortBy}
-          ratedAt
-          title={t("allMovies")}
-        >
-          <div className="3xl:grid-cols-5 my-5 grid grid-cols-1 gap-4 md:grid-cols-2 2xl:grid-cols-3">
-            <MovieList movies={items} lang={lang} />
-          </div>
+    <div className="min-h-screen">
+      <SortingControls
+        uriKey="movies"
+        currentPage={page}
+        pageSize={size}
+        sortOrder={sortOrder}
+        sortBy={sortBy}
+        ratedAt
+        title={t("allMovies")}
+      >
+        <div className="3xl:grid-cols-5 my-5 grid grid-cols-1 gap-4 md:grid-cols-2 2xl:grid-cols-3">
+          <MovieList movies={items} lang={lang} />
+        </div>
 
-          {!!pages && (
-            <PaginationContoller
-              uriKey="movies"
-              currentPage={page}
-              totalPages={pages}
-              pageSize={size}
-              sortOrder={sortOrder}
-              sortBy={sortBy}
-              totalItems={total}
-            />
-          )}
-        </SortingControls>
-      </div>
-    </>
+        {!!pages && (
+          <PaginationContoller
+            uriKey="movies"
+            currentPage={page}
+            totalPages={pages}
+            pageSize={size}
+            sortOrder={sortOrder}
+            sortBy={sortBy}
+            totalItems={total}
+          />
+        )}
+      </SortingControls>
+    </div>
   );
 }

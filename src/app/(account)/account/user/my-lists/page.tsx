@@ -1,5 +1,3 @@
-import { auth } from "@/auth";
-import { redirect } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 import { backendURL, DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from "@/lib/constants";
 
@@ -12,15 +10,12 @@ import { getMovies } from "@/orval_api/movies/movies";
 import { Language, SortBy, SortOrder } from "@/orval_api/model";
 import { PaginationParamsSchema } from "@/types/search-params-schema";
 import type { SearchParams } from "@/types/general";
+import { getUserOrRedirect } from "@/app/services/user-api";
 
 export default async function MyListsPage(props: {
   searchParams: SearchParams;
 }) {
-  const session = await auth();
-
-  if (!session) {
-    redirect("/");
-  }
+  const user = await getUserOrRedirect();
 
   const t = await getTranslations("Rating");
   const locale = await getLocale();
@@ -29,7 +24,6 @@ export default async function MyListsPage(props: {
   const searchParams = await props.searchParams;
 
   const {
-    // name: query = "",
     page: pageNumber = DEFAULT_PAGE,
     size: pageSize = DEFAULT_PAGE_SIZE,
     sort_order: sortOrder = SortOrder.desc,
@@ -42,10 +36,9 @@ export default async function MyListsPage(props: {
   } = await aPIGetMovies(
     {
       lang,
-      user_uuid: session.user.uuid,
+      user_uuid: user.uuid,
 
       // Pagination
-      // query: query,
       page: pageNumber,
       size: pageSize,
       sort_order: sortOrder,

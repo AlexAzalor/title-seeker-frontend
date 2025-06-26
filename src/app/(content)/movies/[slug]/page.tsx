@@ -53,7 +53,7 @@ export default async function DynamicPage({ params }: PageProps) {
       <title>{`${data.title} (${new Date(data.release_date).getFullYear()}) | Title Seeker`}</title>
 
       <LastWatchedWrapper movieKey={movie_key} poster={data.poster}>
-        <div className="container min-h-screen max-w-[1280px] px-4 lg:px-0">
+        <div className="container min-h-screen max-w-320 px-4 lg:px-0">
           <div className="py-2 text-center lg:py-3 xl:text-left">
             <h1 className="text-3xl">{data.title}</h1>
             {data.title_en && (
@@ -92,7 +92,7 @@ export default async function DynamicPage({ params }: PageProps) {
             </div>
 
             <div className="xl:ml-auto">
-              <div className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border max-w-84 rounded-lg border p-2 lg:w-76 lg:rounded-[34px] lg:p-5">
+              <div className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border max-w-84 rounded-lg border p-2 lg:w-76 lg:rounded-4xl lg:p-5">
                 {data.related_movies?.length ? (
                   <RelatedSimilarMovieList
                     type="related"
@@ -121,7 +121,7 @@ export default async function DynamicPage({ params }: PageProps) {
             </div>
 
             <CustomTabs
-              className="h-[498px] max-w-[594px] sm:mx-auto xl:w-[594px] xl:max-w-none"
+              className="h-124 max-w-148 sm:mx-auto xl:w-148 xl:max-w-none"
               header={
                 <Link
                   href="/about-rating-system"
@@ -170,7 +170,7 @@ export default async function DynamicPage({ params }: PageProps) {
 
           <div className="flex flex-col justify-between xl:flex-row xl:gap-6">
             {!!data.shared_universe && data.shared_universe_order && (
-              <div className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border mb-4 flex w-full flex-col rounded-[34px] border p-5">
+              <div className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border mb-4 flex w-full flex-col rounded-4xl border p-5">
                 <Link
                   href={`/super-search/?${FilterEnum.shared_universe}=${data.key}`}
                   scroll={false}
@@ -194,7 +194,7 @@ export default async function DynamicPage({ params }: PageProps) {
             )}
 
             {!!data.related_movies?.length && (
-              <div className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border mb-4 flex w-full flex-col rounded-[34px] border p-5">
+              <div className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border mb-4 flex w-full flex-col rounded-4xl border p-5">
                 <SimilarMoviesFetcher movieKey={movie_key} bottom />
               </div>
             )}

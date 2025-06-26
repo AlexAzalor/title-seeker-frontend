@@ -1,4 +1,3 @@
-import { auth } from "@/auth";
 import { getLocale, getTranslations } from "next-intl/server";
 import { backendURL } from "@/lib/constants";
 
@@ -9,13 +8,10 @@ import { TopRatedMovies } from "@/components/profile/charts/top-rated-movies";
 
 import { getUsers } from "@/orval_api/users/users";
 import { Language } from "@/orval_api/model";
+import { getUserOrRedirect } from "@/app/services/user-api";
 
 export default async function ProfilePage() {
-  const session = await auth();
-  const user = session?.user;
-  if (!user) {
-    return null;
-  }
+  const user = await getUserOrRedirect();
 
   const t = await getTranslations();
   const locale = await getLocale();

@@ -18,7 +18,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="flex min-h-screen w-full gap-10 p-4 2xl:p-20">
-      <div className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border hidden max-h-fit w-60 flex-col justify-between rounded-[34px] border p-4 transition-colors duration-300 2xl:flex">
+      <div className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border hidden max-h-fit w-60 flex-col justify-between rounded-4xl border p-4 transition-colors duration-300 2xl:flex">
         <div className="grid gap-2">
           {menuItems.map((e) => (
             <Link

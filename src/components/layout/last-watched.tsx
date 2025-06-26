@@ -30,7 +30,7 @@ export const LastSeenTitles = ({ posterURL }: Props) => {
   if (movies.length === 0) return null;
 
   return (
-    <div className="mx-auto my-2 max-w-[1280px] text-center">
+    <div className="mx-auto my-2 max-w-320 text-center">
       <h2 className="mb-3 text-2xl font-bold">{t("lastSeenTitles")}</h2>
 
       {isMobile ? (

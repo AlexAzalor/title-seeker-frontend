@@ -1,9 +1,5 @@
 name: Title Seeker Frontend
 
-# on:
-#   push:
-#     branches:
-#       - main
 on:
   push:
     tags:
@@ -70,30 +66,3 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-  # deploy:
-  #   runs-on: ubuntu-latest
-  #   needs: build
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v4
-  #     - name: update compose file
-  #       uses: appleboy/scp-action@v0.1.4
-  #       with:
-  #         host: ${{ secrets.STAGE_HOST }}
-  #         username: ${{ secrets.STAGE_USERNAME }}
-  #         key: "${{ secrets.STAGE_SSH_KEY }}"
-  #         port: ${{ secrets.STAGE_PORT }}
-  #         source: docker-compose.stage.yaml
-  #         target: ~/kraftjar_web/kraftjar-website
-  #     - name: Deploy to stage
-  #       uses: appleboy/ssh-action@v0.1.10
-  #       with:
-  #         host: ${{ secrets.STAGE_HOST }}
-  #         username: ${{ secrets.STAGE_USERNAME }}
-  #         key: ${{ secrets.STAGE_SSH_KEY }}
-  #         port: ${{ secrets.STAGE_PORT }}
-  #         script: |
-  #           cd ~/kraftjar_web/kraftjar-website &&
-  #           mv docker-compose.stage.yaml docker-compose.yml &&
-  #           docker compose pull &&
-  #           docker compose up -d

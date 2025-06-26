@@ -19,11 +19,13 @@ import type {
 export default function Home() {
   const t = useTranslations("HomePage");
   const keyFeatures = Object.keys(t.raw("keyFeatures.keys"));
+
   const { aPIGetActorsWithMostMovies } = getPeople();
   const { aPIGetRandomList } = getMovies();
+
   return (
     <>
-      <main className="container flex min-h-screen max-w-[1280px] flex-col items-center gap-5 p-4 lg:p-10">
+      <main className="container flex min-h-screen max-w-320 flex-col items-center gap-5 p-4 lg:p-10">
         <h1 className="text-4xl lg:text-7xl">{t("title")}</h1>
         <h2 className="max-w-200 text-center">{t("subTitle")}</h2>
         <p className="text-2xl">{t("description")}</p>
@@ -33,7 +35,7 @@ export default function Home() {
         <ul className="flex flex-wrap items-center justify-center gap-3">
           {keyFeatures.map((key) => (
             <li key={key}>
-              <p className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border h-[158px] max-w-[340px] items-center gap-2 rounded-[34px] border p-6 font-bold">
+              <p className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border h-[158px] max-w-[340px] items-center gap-2 rounded-4xl border p-6 font-bold">
                 {t(`keyFeatures.keys.${key}`)}
               </p>
             </li>

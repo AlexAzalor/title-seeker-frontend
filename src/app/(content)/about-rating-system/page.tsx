@@ -5,7 +5,7 @@ export default function AboutRatingSystemPage() {
   const t = useTranslations("Rating");
 
   return (
-    <div className="container flex min-h-screen max-w-[1280px] flex-col items-center gap-5 p-4 text-lg lg:p-10">
+    <div className="container flex min-h-screen max-w-320 flex-col items-center gap-5 p-4 text-lg lg:p-10">
       <CustomTabs
         tabs={[
           {
