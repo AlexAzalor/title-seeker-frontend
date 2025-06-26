@@ -92,10 +92,7 @@ export default async function DynamicPage({ params }: PageProps) {
             </div>
 
             <div className="xl:ml-auto">
-              <div
-                aria-label="related-similar-list"
-                className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border max-w-84 rounded-lg border p-2 lg:w-76 lg:rounded-[34px] lg:p-5"
-              >
+              <div className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border max-w-84 rounded-lg border p-2 lg:w-76 lg:rounded-[34px] lg:p-5">
                 {data.related_movies?.length ? (
                   <RelatedSimilarMovieList
                     type="related"

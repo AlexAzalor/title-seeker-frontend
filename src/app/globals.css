@@ -324,7 +324,7 @@
   border: 0.1px solid white;
 
   box-shadow:
-    var(--color-rating) 6px 2px 16px 0px,
+    var(--color-rating) 0px 2px 16px 0px,
     var(--color-rating) 0px -2px 10px 0px;
 
   border-top-right-radius: 0;

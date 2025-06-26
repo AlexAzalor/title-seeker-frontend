@@ -32,7 +32,10 @@ export const RelatedSimilarMovieList = ({
         {type === "related" ? t("related") : t("similar")}
       </h4>
 
-      <div className="mx-2 flex max-h-80 flex-grow-1 flex-row gap-2 overflow-visible overflow-y-auto md:m-0 xl:max-w-none xl:flex-col">
+      <div
+        aria-label="related-similar-list"
+        className="mx-2 flex max-h-80 flex-grow-1 flex-row gap-2 overflow-visible overflow-y-auto md:m-0 xl:max-w-none xl:flex-col"
+      >
         {movies.map((movie) => (
           <Link
             href={`/movies/${movie.key}`}

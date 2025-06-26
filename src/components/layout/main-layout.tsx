@@ -13,7 +13,6 @@ export const MainLayout = ({ children }: { children: React.ReactNode }) => {
 
       <footer className="grid h-20 place-content-center bg-black text-white">
         Footer
-        <span>Version {process.env.NEXT_PUBLIC_APP_VERSION ?? "0.0.0"}</span>
         <span>Version {process.env.NEXT_PUBLIC_APP_VERSION}</span>
       </footer>
     </div>
