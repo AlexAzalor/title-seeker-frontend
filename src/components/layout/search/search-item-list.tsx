@@ -16,43 +16,37 @@ export function SearchItemList({
   close,
 }: Props) {
   const getSearchTypeUrl = (type: SearchType, key: string) => {
-    switch (type) {
-      case SearchType.movies:
-        return `/movies/${key}`;
-      case SearchType.tvseries:
-        return "/tvseries";
-      case SearchType.anime:
-        return "/anime";
-      case SearchType.games:
-        return "/games";
-      case SearchType.actors:
-        return `/super-search?page=1&actor=${key}`;
-      case SearchType.directors:
-        return `/super-search?page=1&director=${key}`;
-      case SearchType.characters:
-        return `/super-search?page=1&character=${key}`;
-      default:
-        return "/";
-    }
+    // Create search params for super-search routes
+    const createSearchParams = (paramName: string, value: string) => {
+      const params = new URLSearchParams({ page: "1", [paramName]: value });
+      return `/super-search?${params.toString()}`;
+    };
+
+    const directRoutes: Record<SearchType, string | null> = {
+      [SearchType.movies]: `/movies/${encodeURIComponent(key)}`,
+      [SearchType.tvseries]: `/tvseries/${encodeURIComponent(key)}`,
+      [SearchType.anime]: `/anime/${encodeURIComponent(key)}`,
+      [SearchType.games]: `/games/${encodeURIComponent(key)}`,
+      [SearchType.actors]: createSearchParams("actor", key),
+      [SearchType.directors]: createSearchParams("director", key),
+      [SearchType.characters]: createSearchParams("character", key),
+    };
+
+    return directRoutes[type] || "/";
   };
 
-  const getImageUrl = (type: SearchType, image: string) => {
-    switch (type) {
-      case SearchType.movies:
-        return `${posterURL}/posters/${image}`;
-      case SearchType.tvseries:
-        return `${posterURL}/posters/${image}`;
-      case SearchType.anime:
-        return `${posterURL}/posters/${image}`;
-      case SearchType.games:
-        return `${posterURL}/posters/${image}`;
-      case SearchType.actors:
-        return `${posterURL}/actors/${image}`;
-      case SearchType.directors:
-        return `${posterURL}/directors/${image}`;
-      default:
-        return "";
-    }
+  const getImageUrl = (type: SearchType, image: string): string => {
+    const imagePathMap: Record<SearchType, string> = {
+      [SearchType.movies]: `${posterURL}/posters/${image}`,
+      [SearchType.tvseries]: `${posterURL}/posters/${image}`,
+      [SearchType.anime]: `${posterURL}/posters/${image}`,
+      [SearchType.games]: `${posterURL}/posters/${image}`,
+      [SearchType.actors]: `${posterURL}/actors/${image}`,
+      [SearchType.directors]: `${posterURL}/directors/${image}`,
+      [SearchType.characters]: "", // No image path for characters
+    };
+
+    return imagePathMap[type] || "";
   };
 
   return (
