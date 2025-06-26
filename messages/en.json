@@ -21,7 +21,12 @@
     "addMovie": "Add Movie",
     "quicklyAddMovie": "Quickly add Movie",
     "randomMovies": "Random Movies",
-    "topActorsCarousel": "Top Actors by movies count"
+    "topActorsCarousel": "Top Actors by movies count",
+    "theme": {
+      "light": "Light",
+      "dark": "Dark",
+      "system": "system"
+    }
   },
   "MenuItems": {
     "content": "Content",

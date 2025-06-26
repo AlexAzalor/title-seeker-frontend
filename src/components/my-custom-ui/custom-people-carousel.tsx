@@ -26,8 +26,8 @@ export const CustomPeopleCarousel = ({
   type,
 }: Props) => {
   return (
-    <Carousel opts={{ dragFree: true }} className="w-full lg:max-w-[640px]">
-      <CarouselContent className="-ml-1 max-w-[340px] lg:max-w-none">
+    <Carousel opts={{ dragFree: true }} className="w-full lg:max-w-160">
+      <CarouselContent className="-ml-1 max-w-85 lg:max-w-none">
         {people.map((person) => (
           <CarouselItem
             key={person.key}

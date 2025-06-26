@@ -21,7 +21,12 @@
     "addMovie": "Додати кіно",
     "quicklyAddMovie": "Швидко додати кіно",
     "randomMovies": "Випадкові фільми",
-    "topActorsCarousel": "Найкращі актори за кількістю фільмів"
+    "topActorsCarousel": "Найкращі актори за кількістю фільмів",
+    "theme": {
+      "light": "Світла",
+      "dark": "Темна",
+      "system": "Системна"
+    }
   },
 
   "MenuItems": {

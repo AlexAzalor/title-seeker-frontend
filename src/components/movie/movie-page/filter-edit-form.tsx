@@ -34,24 +34,33 @@ const ModalMovie = dynamic(
   },
 );
 
+// API mapping for different filter types
+const editApiMap = {
+  [FilterEnum.specification]: editMovieSpecifications,
+  [FilterEnum.keyword]: editMovieKeywords,
+  [FilterEnum.action_time]: editMovieActionTimes,
+} as const;
+
+// API mapping for creating new filter items
+const createApiMap = {
+  [FilterEnum.specification]: createSpecification,
+  [FilterEnum.keyword]: createKeyword,
+  [FilterEnum.action_time]: createActionTime,
+} as const;
+
+const filterPostApi = (filterType: FilterEnum) => {
+  const createApi = createApiMap[filterType as keyof typeof createApiMap];
+  if (!createApi) {
+    throw new Error("Invalid filter type");
+  }
+  return createApi;
+};
+
 type Props = {
   movieKey: string;
   filterItems: FilterItemOut[];
   selectedFilterItems: FilterItemOut[];
   filterType: FilterEnum;
-};
-
-const filterPostApi = (filterType: FilterEnum) => {
-  switch (filterType) {
-    case FilterEnum.specification:
-      return createSpecification;
-    case FilterEnum.keyword:
-      return createKeyword;
-    case FilterEnum.action_time:
-      return createActionTime;
-    default:
-      throw new Error("Invalid filter type");
-  }
 };
 
 export const FilterEditForm = ({
@@ -91,38 +100,25 @@ export const FilterEditForm = ({
       return;
     }
 
-    if (filterType === FilterEnum.specification) {
-      const res = await editMovieSpecifications(movieKey, data.items);
+    try {
+      const editApi = editApiMap[filterType as keyof typeof editApiMap];
+      if (!editApi) {
+        toast.error("Invalid filter type");
+        return;
+      }
+
+      const res = await editApi(movieKey, data.items);
 
       if (res.status === 200) {
         toast.success(res.message);
+        router.refresh();
       } else {
         toast.error(res.message);
-        return;
       }
+    } catch (error) {
+      toast.error("An error occurred while updating the filter");
+      console.error("Filter update error:", error);
     }
-    if (filterType === FilterEnum.keyword) {
-      const res = await editMovieKeywords(movieKey, data.items);
-
-      if (res.status === 200) {
-        toast.success(res.message);
-      } else {
-        toast.error(res.message);
-        return;
-      }
-    }
-    if (filterType === FilterEnum.action_time) {
-      const res = await editMovieActionTimes(movieKey, data.items);
-
-      if (res.status === 200) {
-        toast.success(res.message);
-      } else {
-        toast.error(res.message);
-        return;
-      }
-    }
-
-    router.refresh();
   };
 
   const handleSelectItem = ({ key, name, description }: FilterItemOut) => {

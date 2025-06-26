@@ -191,7 +191,7 @@ export const VisualProfileCreateForm = ({ category }: Props) => {
         <Button
           disabled={!isDirty}
           type="submit"
-          className="bg-main-ui-purple hover:bg-dark-blue dark:bg-main-ui-purple dark:text-white-dark dark:hover:bg-main-ui-purple/80 h-12 w-[164px] cursor-pointer rounded-2xl border-0 text-center text-lg transition-all duration-200"
+          className="bg-main-ui-purple hover:bg-dark-blue dark:bg-main-ui-purple dark:text-white-dark dark:hover:bg-main-ui-purple/80 h-12 w-41 cursor-pointer rounded-2xl border-0 text-center text-lg transition-all duration-200"
         >
           Save
         </Button>

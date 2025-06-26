@@ -13,9 +13,12 @@ import { setUserLocale } from "@/app/services/locale";
 import { deleteProfile, setLanguage } from "@/app/services/user-api";
 import type { Session } from "next-auth";
 
-const CustomModal = dynamic(() => import("../../my-custom-ui/custom-modal"), {
-  ssr: false,
-});
+const CustomModal = dynamic(
+  () => import("@/components/my-custom-ui/custom-modal"),
+  {
+    ssr: false,
+  },
+);
 
 export const UserSettings = () => {
   const t = useTranslations("Settings");

@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { CircleX, InfoIcon } from "lucide-react";
 import { TooltipWrapper } from "@/components/my-custom-ui/tooltip-wrapper";
-import { cn, extractValues, extractWord } from "@/lib/utils";
+import { cn, cutLongWords, extractValues, extractWord } from "@/lib/utils";
 import { getFilterColor } from "@/components/movie/utils";
 import { FilterEnum } from "@/orval_api/model";
 
@@ -21,13 +21,6 @@ type Props<ItemData extends Data> = {
   onMouseLeave?: () => void;
   hoveredSubgenre?: string | null;
   hoveredGenre?: string | null;
-};
-
-const cutLongWords = (word: string, maxLength: number) => {
-  if (word.length > maxLength) {
-    return `${word.slice(0, maxLength)}...`;
-  }
-  return word;
 };
 
 export const FilterBrick = <ItemData extends Data>({

@@ -39,6 +39,30 @@ const FILTERS_LIST = [
   { key: FilterEnum.action_time, label: "Action Times" },
 ];
 
+// Configuration mapping for filter types
+const filterConfig = {
+  [FilterEnum.genre]: {
+    api: getGenresList,
+    message: "Genres loaded!",
+  },
+  [FilterEnum.subgenre]: {
+    api: getSubgenresList,
+    message: "Subgenres loaded!",
+  },
+  [FilterEnum.specification]: {
+    api: getSpecifications,
+    message: "Specifications loaded!",
+  },
+  [FilterEnum.keyword]: {
+    api: getKeywords,
+    message: "Keywords loaded!",
+  },
+  [FilterEnum.action_time]: {
+    api: getActionTimes,
+    message: "Action times loaded!",
+  },
+} as const;
+
 type FilterItem = {
   item: FilterFieldsWithUUID;
   key: FilterEnum;
@@ -56,57 +80,26 @@ export const TitleFilterSelector = () => {
     setSelectedFilters([]);
     setFilterList([]);
 
-    if (filterKey === FilterEnum.genre) {
-      setSelectedFilterType(filterKey);
-      const res = await getGenresList();
-      if (Array.isArray(res)) {
-        setFilterList(res);
-        toast.info("Genres loaded!");
+    try {
+      const config = filterConfig[filterKey as keyof typeof filterConfig];
+      if (!config) {
+        toast.error("No data found for this filter type");
         return;
       }
-    }
 
-    if (filterKey === FilterEnum.subgenre) {
       setSelectedFilterType(filterKey);
-      const res = await getSubgenresList();
+      const res = await config.api();
+
       if (Array.isArray(res)) {
         setFilterList(res);
-        toast.info("Subgenres loaded!");
-        return;
+        toast.info(config.message);
+      } else {
+        toast.error("No data found for this filter type");
       }
+    } catch (error) {
+      console.error("Error loading filter data:", error);
+      toast.error("Failed to load filter data");
     }
-
-    if (filterKey === FilterEnum.specification) {
-      setSelectedFilterType(filterKey);
-      const res = await getSpecifications();
-      if (Array.isArray(res)) {
-        setFilterList(res);
-        toast.info("Specifications loaded!");
-        return;
-      }
-    }
-
-    if (filterKey === FilterEnum.keyword) {
-      setSelectedFilterType(filterKey);
-      const res = await getKeywords();
-      if (Array.isArray(res)) {
-        setFilterList(res);
-        toast.info("Keywords loaded!");
-        return;
-      }
-    }
-
-    if (filterKey === FilterEnum.action_time) {
-      setSelectedFilterType(filterKey);
-      const res = await getActionTimes();
-      if (Array.isArray(res)) {
-        setFilterList(res);
-        toast.info("Action times loaded!");
-        return;
-      }
-    }
-
-    toast.error("No data found for this filter type");
   };
 
   const selectFilterItem = useCallback(
@@ -116,16 +109,27 @@ export const TitleFilterSelector = () => {
         return;
       }
 
+      // Check if item is already selected and toggle if so
       if (selectedFilters.some((e) => e.item.key === key)) {
         setSelectedFilters((prev) => prev.filter((e) => e.item.key !== key));
         return;
       }
 
-      if (
-        selectedFilterType === FilterEnum.genre ||
-        selectedFilterType === FilterEnum.subgenre
-      ) {
-        const res = await getGenreFormFields(key, selectedFilterType);
+      // Configuration for different API calls based on filter type
+      const apiConfig = {
+        genre: () => getGenreFormFields(key, selectedFilterType),
+        subgenre: () => getGenreFormFields(key, selectedFilterType),
+        default: () => getFilterFormFields(key, selectedFilterType),
+      };
+
+      try {
+        // Determine which API to use
+        const isGenreType =
+          selectedFilterType === FilterEnum.genre ||
+          selectedFilterType === FilterEnum.subgenre;
+        const apiCall = isGenreType ? apiConfig.genre : apiConfig.default;
+
+        const res = await apiCall();
 
         if (res.status === 200 && res.data) {
           setSelectedFilters((prev) => [
@@ -136,27 +140,12 @@ export const TitleFilterSelector = () => {
               itemKey: res.data.key,
             },
           ]);
-          return;
         } else {
           toast.error(`${res.status}: ${res.message}`);
-          return;
         }
-      }
-
-      const res = await getFilterFormFields(key, selectedFilterType);
-
-      if (res.status === 200 && res.data) {
-        setSelectedFilters((prev) => [
-          ...prev,
-          {
-            item: res.data,
-            key: selectedFilterType,
-            itemKey: res.data.key,
-          },
-        ]);
-        return;
-      } else {
-        toast.error(`${res.status}: ${res.message}`);
+      } catch (error) {
+        console.error("Error selecting filter item:", error);
+        toast.error("Failed to load filter item data");
       }
     },
     [selectedFilterType, selectedFilters],

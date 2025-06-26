@@ -31,10 +31,6 @@ const ModalMovie = dynamic(
   },
 );
 
-// const checkGenreType = (item: GenreOut | SubgenreOut): item is GenreOut => {
-//   return (item as GenreOut).subgenres !== undefined;
-// };
-
 type Props = {
   genres: GenreOut[];
 };
@@ -51,8 +47,6 @@ export const GenreFieldsForm = ({ genres }: Props) => {
 
   const [openGenreFormModal, setOpenGenreFormModal] = useState(false);
   const [openSubgenreFormModal, setOpenSubgenreFormModal] = useState(false);
-
-  // const [openModal, setOpenModal] = useState(false);
 
   const { data: parsedData } = useLocalStorage<MovieFormData>(
     "new-movie-data",

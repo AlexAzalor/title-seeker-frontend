@@ -80,7 +80,7 @@ export const MovieFormWizard = ({
   const [movieFormData, setMovieFormData] = useState<BodyAPICreateMovie>({
     form_data: {} as MovieFormData,
   });
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(FIRST_STEP);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
@@ -147,7 +147,7 @@ export const MovieFormWizard = ({
     >
       <div
         aria-label="movie-form-wizard"
-        className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border mx-auto my-5 w-[1520px] rounded-[34px] border p-9"
+        className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border mx-auto my-5 w-380 rounded-4xl border p-9"
       >
         <FormStepper
           completedSteps={completedSteps}

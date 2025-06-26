@@ -37,7 +37,7 @@ export const LastSeenTitles = ({ posterURL }: Props) => {
         <ReusableSimpleCarousel items={movies}>
           {(title) => (
             <div className="p-1">
-              <Card className="">
+              <Card>
                 <CardContent className="flex aspect-square items-center justify-center p-2">
                   <Link
                     href={`/movies/${title.key}`}

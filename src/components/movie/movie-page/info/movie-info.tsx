@@ -68,8 +68,8 @@ export const MovieInfo = ({ data, isOwner, lang }: Props) => {
             <div
               title={t("overall")}
               className={cn(
-                "user-rating-box relative mb-3 grid h-[46px] w-[124px] place-content-center text-2xl",
-                isOwner && "mb-0 h-[100px] text-3xl",
+                "user-rating-box relative mb-3 grid h-12 w-31 place-content-center text-2xl",
+                isOwner && "mb-0 h-25 text-3xl",
               )}
             >
               <span className="relative">
@@ -87,8 +87,8 @@ export const MovieInfo = ({ data, isOwner, lang }: Props) => {
             <div
               title={t("owner")}
               className={cn(
-                "owner-rating-box rating-text relative grid h-[100px] w-[124px] place-content-center text-3xl",
-                data.user_rating && "h-[46px] text-2xl",
+                "owner-rating-box rating-text relative grid h-25 w-31 place-content-center text-3xl",
+                data.user_rating && "h-12 text-2xl",
               )}
             >
               {data.owner_rating}
