@@ -9,6 +9,7 @@ import {
   ADMIN_ITEMS,
   getMenuItems,
   OTHER_ITEMS,
+  PUBLIC_ITEMS,
   USER_ITEMS,
 } from "@/components/layout/sidebar/menu-item-collection";
 import { UserProfileCard } from "@/components/layout/sidebar/user-link";
@@ -93,7 +94,7 @@ export function UserProfileMenu({ user }: Props) {
 
             <ItemsGroup
               showAfterKeys={[]}
-              items={getMenuItems(menu, OTHER_ITEMS)}
+              items={getMenuItems(menu, [...OTHER_ITEMS, ...PUBLIC_ITEMS])}
             />
 
             <DropdownMenuSeparator />

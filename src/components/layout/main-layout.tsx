@@ -1,6 +1,7 @@
 import { POSTER_URL } from "@/lib/constants";
 import { Header } from "@/components/layout/header";
 import { LastSeenTitles } from "@/components/layout/last-watched";
+import { Footer } from "./footer";
 
 export const MainLayout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -11,10 +12,7 @@ export const MainLayout = ({ children }: { children: React.ReactNode }) => {
 
       <LastSeenTitles posterURL={POSTER_URL || "NO URL!"} />
 
-      <footer className="grid h-20 place-content-center bg-black text-white">
-        Footer
-        <span>Version {process.env.NEXT_PUBLIC_APP_VERSION}</span>
-      </footer>
+      <Footer />
     </div>
   );
 };

@@ -1,5 +1,6 @@
 import {
   BadgeJapaneseYenIcon,
+  CircleHelp,
   FilePlus,
   FileScan,
   Film,
@@ -31,6 +32,7 @@ export const ADMIN_ITEMS = [
 ];
 
 export const OTHER_ITEMS = ["settings"];
+export const PUBLIC_ITEMS = ["helpCenter"];
 
 export function getMenuItems(
   menu: (key: string, values?: TranslationValues, formats?: Formats) => string,
@@ -61,6 +63,15 @@ export function getMenuItems(
       href: "/account/user/" + menu("settings.key"),
       icon: <Settings />,
       label: menu("settings.label"),
+    },
+
+    ////////// Public items //////////
+
+    {
+      key: "helpCenter",
+      href: "/" + menu("helpCenter.key"),
+      icon: <CircleHelp />,
+      label: menu("helpCenter.label"),
     },
 
     ////////// Admin items //////////

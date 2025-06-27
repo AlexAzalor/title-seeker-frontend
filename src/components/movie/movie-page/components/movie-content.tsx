@@ -36,7 +36,7 @@ export const MovieContent = ({
     <CustomTabs
       className="h-124 max-w-148 sm:mx-auto xl:w-148 xl:max-w-none"
       header={
-        <Link href="/about-rating-system" className="mx-auto" target="_blank">
+        <Link href="/help-center" className="mx-auto" target="_blank">
           <Button variant="link" className="text-light-gray h-auto w-auto p-0">
             {t("about")}
           </Button>
@@ -45,6 +45,7 @@ export const MovieContent = ({
       tabs={[
         {
           key: "visual-profile",
+          name: t("visualProfile.name"),
           component: (
             <VisualProfile
               key="visual-profile"
@@ -56,6 +57,7 @@ export const MovieContent = ({
         },
         {
           key: "movie-rate-box",
+          name: t("name"),
           component: (
             <MovieRateBox
               key="movie-rate-box"

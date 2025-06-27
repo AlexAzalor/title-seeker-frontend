@@ -1,11 +1,11 @@
 "use client";
 
-import { useTranslations } from "next-intl";
 import { motion, AnimatePresence } from "framer-motion";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 type Tab = {
   key: string;
+  name: string;
   component: React.ReactNode;
 };
 
@@ -18,19 +18,18 @@ type Props = {
 };
 
 export const CustomTabs = ({ tabs, className, header }: Props) => {
-  const t = useTranslations("Rating");
-
   return (
     <AnimatePresence>
       <Tabs defaultValue={tabs[0].key}>
         {header}
 
         <div className="flex w-full justify-center">
-          <TabsList className="flex w-60">
-            <TabsTrigger value={tabs[0].key}>
-              {t("visualProfile.name")}
-            </TabsTrigger>
-            <TabsTrigger value={tabs[1].key}>{t("name")}</TabsTrigger>
+          <TabsList className="flex w-fit">
+            {tabs.map((tab) => (
+              <TabsTrigger key={tab.key} value={tab.key}>
+                {tab.name}
+              </TabsTrigger>
+            ))}
           </TabsList>
         </div>
 
