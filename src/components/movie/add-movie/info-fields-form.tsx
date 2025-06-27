@@ -44,8 +44,6 @@ export const InfoFieldsForm = () => {
     handleSubmit,
     formState: { errors },
     watch,
-    // getFieldState,
-    // getFieldState("budget").isDirty
   } = useForm<MovieInfoSchemeType>({
     resolver: zodResolver(MovieInfoSchema),
     defaultValues: {
@@ -145,7 +143,6 @@ export const InfoFieldsForm = () => {
         </div>
 
         <div className="grid grid-cols-2 items-center gap-10">
-          {/* show formated value of this inputs */}
           <FormField
             type="text"
             label={t("duration")}

@@ -21,7 +21,7 @@ export const FormWrapper = ({
 
         <Button
           type="submit"
-          className="bg-main-ui-purple hover:bg-dark-blue mt-7 h-12 w-[164px] cursor-pointer rounded-[56px] border-0 text-center text-lg transition-all duration-200"
+          className="bg-main-ui-purple hover:bg-dark-blue mt-7 h-12 w-41 cursor-pointer rounded-[56px] border-0 text-center text-lg transition-all duration-200"
         >
           {!isSubmitting ? buttonTitle || "Submit" : <Spinner />}
         </Button>

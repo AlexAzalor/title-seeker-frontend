@@ -36,7 +36,7 @@ export default async function NewMoviesToAddPage() {
             }}
             key={movie.key}
             className={cn(
-              "shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border size-fit rounded-[16px] border p-4",
+              "shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border size-fit rounded-2xl border p-4",
               !checkIfOwner(admin.role) && "pointer-events-none",
             )}
           >

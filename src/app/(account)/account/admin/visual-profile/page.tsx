@@ -20,7 +20,7 @@ export default async function VisualProfilePage() {
 
       <div
         key={data.impact.key}
-        className="shadow-form-layout dark:shadow-dark-form-layout border-light-border dark:border-dark-border mb-4 rounded-[34px] border p-3"
+        className="shadow-form-layout dark:shadow-dark-form-layout border-light-border dark:border-dark-border mb-4 rounded-4xl border p-3"
       >
         <h2 className="mb-5 text-xl lg:mb-0">{data.impact.name_en}</h2>
         <VisualProfileEditForm type="criterion" criterion={data.impact} />

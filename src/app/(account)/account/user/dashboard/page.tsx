@@ -1,11 +1,15 @@
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
+import { getUserOrRedirect } from "@/app/services/user-api";
 
-export default function DashboardPage() {
-  const t = useTranslations("Dashboard");
+export default async function DashboardPage() {
+  await getUserOrRedirect();
+
+  const t = await getTranslations("");
   return (
     <div>
-      <h1 className="text-2xl">{t("title")}</h1>
-      <p>{t("subTitle")}</p>
+      <h1 className="text-2xl">{t("Dashboard.title")}</h1>
+      <p>{t("Dashboard.subTitle")}</p>
+      <p className="text-danger font-bold">{t("notImplemented")}</p>
     </div>
   );
 }

@@ -65,35 +65,37 @@ const ItemsSelector = <Datum extends ItemFields>({
 
         <CommandGroup className="text-left">
           {/* need switch lang to search items */}
-          {items.map((item) => (
-            <CommandItem
-              key={item.key}
-              value={
-                item.another_lang_name
-                  ? item.name + " " + item.another_lang_name
-                  : item.name
-              }
-              onSelect={() => onSelect(item)}
-              className="cursor-pointer"
-            >
-              <p>{item.name}</p>
+          {items.map((item) => {
+            const value = item.another_lang_name
+              ? item.name + " " + item.another_lang_name
+              : item.name;
 
-              {!!item.description && (
-                <TooltipWrapper content={item.description}>
-                  <Info className="ml-2" />
-                </TooltipWrapper>
-              )}
+            return (
+              <CommandItem
+                key={item.key}
+                value={value}
+                onSelect={() => onSelect(item)}
+                className="cursor-pointer"
+              >
+                <p>{item.name}</p>
 
-              <Check
-                className={cn(
-                  "ml-auto",
-                  checkIconStyle.find((key) => key === item.key)
-                    ? "opacity-100"
-                    : "opacity-0",
+                {!!item.description && (
+                  <TooltipWrapper content={item.description}>
+                    <Info className="ml-2" />
+                  </TooltipWrapper>
                 )}
-              />
-            </CommandItem>
-          ))}
+
+                <Check
+                  className={cn(
+                    "ml-auto",
+                    checkIconStyle.find((key) => key === item.key)
+                      ? "opacity-100"
+                      : "opacity-0",
+                  )}
+                />
+              </CommandItem>
+            );
+          })}
         </CommandGroup>
       </CommandList>
     </>

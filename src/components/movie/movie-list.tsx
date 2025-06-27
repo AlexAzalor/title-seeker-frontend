@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { POSTER_URL } from "@/lib/constants";
-import { cn, formatDate } from "@/lib/utils";
+import { cn, cutLongWords, formatDate } from "@/lib/utils";
 import type { Language, MoviePreviewOut } from "@/orval_api/model";
 
 const MAX_LENGTH = 30;
@@ -17,7 +17,7 @@ export const MovieList = ({ movies, lang }: Props) => {
       aria-label={"movie-link" + "-" + i}
       key={movie.key}
       className={cn(
-        "shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border flex h-[158px] w-76 items-center gap-2 rounded-[34px] border p-6 lg:w-86",
+        "shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border flex h-[158px] w-76 items-center gap-2 rounded-4xl border p-6 lg:w-86",
         !!movie.rating && "users-rated-movie p-2",
       )}
       href={`/movies/${movie.key}`}
@@ -38,9 +38,7 @@ export const MovieList = ({ movies, lang }: Props) => {
 
       <div className="my-auto flex flex-col justify-between gap-2 self-start">
         <p title={movie.title} className="text-xl font-bold">
-          {movie.title.length > MAX_LENGTH
-            ? movie.title.slice(0, MAX_LENGTH) + "..."
-            : movie.title}
+          {cutLongWords(movie.title, MAX_LENGTH)}
         </p>
         <div>
           <span>

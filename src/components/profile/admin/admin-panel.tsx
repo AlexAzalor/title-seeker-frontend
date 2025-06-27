@@ -22,14 +22,14 @@ export const AdminPanel = ({ session }: Props) => {
       <Separator className="my-4" />
 
       <div className="grid gap-2" aria-label="admin-sidebar-nav">
-        {items.map((e) => (
+        {items.map((item) => (
           <Link
-            key={e.key}
-            href={e.href}
+            key={item.key}
+            href={item.href}
             className="dark:hover:bg-main-dark-hover hover:bg-white-dark relative cursor-pointer rounded-[6px] px-2 py-1 text-lg transition-colors"
           >
-            {e.label}
-            {e.extraElement}
+            {item.label}
+            {item.extraElement}
           </Link>
         ))}
       </div>

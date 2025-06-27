@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
@@ -44,10 +44,6 @@ const ModalMovie = dynamic(
   },
 );
 
-// const checkGenreType = (item: GenreOut | SubgenreOut): item is GenreOut => {
-//   return (item as GenreOut).subgenres !== undefined;
-// };
-
 type Props = {
   movieKey: string;
   allGenres: GenreOut[];
@@ -75,17 +71,18 @@ export const GenreEditForm = ({
   const [openGenreFormModal, setOpenGenreFormModal] = useState(false);
   const [openSubgenreFormModal, setOpenSubgenreFormModal] = useState(false);
 
-  const genresKeys = selectedGenres?.map((g) => g.key);
-  const subgenresData = genresKeys
-    ? allGenres
-        .map(
-          (g) =>
-            g.subgenres?.filter((e) =>
-              genresKeys.includes(e.parent_genre_key),
-            ) || [],
-        )
-        .flat()
-    : [];
+  // Get all subgenres that belong to the selected genres
+  const subgenresData = useMemo(() => {
+    const genreKeys = selectedGenres?.map((g) => g.key) ?? [];
+
+    if (genreKeys.length === 0) {
+      return [];
+    }
+
+    return allGenres
+      .flatMap((genre) => genre.subgenres ?? [])
+      .filter((subgenre) => genreKeys.includes(subgenre.parent_genre_key));
+  }, [selectedGenres, allGenres]);
 
   const [subgenres, setSubgenres] = useState<GenreFormOut[]>(subgenresData);
 
@@ -211,8 +208,16 @@ export const GenreEditForm = ({
     setOpenSubgenreFormModal(true);
   };
 
-  const selectedGenreskeys = genreFields.map((field) => field.key);
-  const selectedSubgenresKeys = subgenreFields.map((field) => field.key);
+  // Memoized selected keys for performance optimization
+  const selectedGenreskeys = useMemo(
+    () => genreFields.map((field) => field.key),
+    [genreFields],
+  );
+
+  const selectedSubgenresKeys = useMemo(
+    () => subgenreFields.map((field) => field.key),
+    [subgenreFields],
+  );
 
   return (
     <>

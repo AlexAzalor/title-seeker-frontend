@@ -58,7 +58,7 @@ const FormField = <
           <span className="absolute top-1/4 right-4">{formattedValue}</span>
         )}
 
-        <div className="cut absolute top-[-20px] left-[20px] h-[20px] translate-y-0 rounded-[10px] transition-transform duration-200" />
+        <div className="cut absolute top-[-20px] left-5 h-5 translate-y-0 rounded-[10px] transition-transform duration-200" />
 
         {!!label && (
           <label className="placeholder text-gray-purple pointer-events-none absolute top-5 left-5 origin-[0_50%] text-lg leading-3 transition-transform duration-200">

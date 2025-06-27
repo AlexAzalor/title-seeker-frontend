@@ -1,27 +1,52 @@
 {
   "HomePage": {
     "title": "Title Seeker",
-    "subTitle": "Flexibility, speed, and simplicity will allow you to find the desired title at any time and place!",
+    "subTitle": "The flexibility, speed, and simplicity of this platform will allow you to find the title you want at any time and place!",
+    "meaning": "Title refers to an individual piece of media — such as a movie, TV show, anime or video game. It's commonly used to describe a specific work as a whole, not just its name.",
     "navigation": {
       "movies": "Movies",
       "tvseries": "TV Series",
       "anime": "Anime",
       "games": "Games"
     },
-    "description": "There are times when you want to watch a good movie, especially when you are not in the mood or when you have already watched everything you wanted, but instead of watching it, you spend a lot of time searching for the desired movie in hundreds of lists and compilations, and as a result - you do not watch anything.",
+    "description": "There are times when you want to watch a good movie, especially when you're not in the mood or when you've already watched everything you wanted, but instead of watching anything, you end up spending a lot of time searching for the title you want in hundreds of lists and compilations, and as a result, you find nothing...",
     "solution": "This platform was created to solve this problem!",
     "keyFeatures": {
       "title": "Key features:",
       "keys": {
-        "first": "Movie search with many filters that will help narrow down the list as much as possible.",
-        "second": "The ability to rate movies and form your own movie lists, have statistics and much more (only for registered users).",
-        "third": "The mobile version of the site will allow you to do almost everything that is available on the desktop with maximum adaptability and speed."
+        "feature1": {
+          "title": "Search",
+          "description": "Search for titles using various filters that will help you narrow down the results as much as possible."
+        },
+        "feature2": {
+          "title": "Rating",
+          "description": "The ability to rate titles, create your own lists, view statistics, and much more."
+        },
+        "feature3": {
+          "title": "Visual Profile",
+          "description": "A unique system that clearly shows the essence of each title with a «print», allowing you to instantly feel the atmosphere, style and tone."
+        },
+        "feature4": {
+          "title": "Mobile adaptability",
+          "description": "The mobile version of the site will allow you to do almost everything that is available on the main one with maximum adaptability and speed."
+        }
       }
     },
     "addMovie": "Add Movie",
     "quicklyAddMovie": "Quickly add Movie",
     "randomMovies": "Random Movies",
-    "topActorsCarousel": "Top Actors by movies count"
+    "topActorsCarousel": "Top Actors by movies count",
+    "theme": {
+      "light": "Light",
+      "dark": "Dark",
+      "system": "system"
+    },
+    "footer": {
+      "shortText": "Discover, rate, and explore your favorite movies and other titles.",
+      "contact": "Contact the Owner",
+      "support": "Support"
+    },
+    "warning": "This project is under development and therefore some parts will not be available yet."
   },
   "MenuItems": {
     "content": "Content",
@@ -54,6 +79,10 @@
     "titleFilters": {
       "key": "title-filters",
       "label": "Title Filters"
+    },
+    "helpCenter": {
+      "key": "help-center",
+      "label": "Help Center"
     },
     "settings": {
       "key": "settings",
@@ -119,7 +148,72 @@
     "subgenreNotFound": "No subgenres found OR select a genre first.",
     "filterNotFound": "Filter not found",
     "peopleNotFound": "No person found",
-    "addNewItem": "Add new filter"
+    "addNewItem": "Add new filter",
+
+    "about": {
+      "title": "Title filters",
+      "filters": "On this platform, filters are entities that help in searching for titles. Some of these entities have an additional setting that helps to narrow down the resulting selection much better.",
+      "percentageMatch": "Genres, Subgenres, Specifications, Keywords, and Action Times have a numerical value – a percentage match (PM). PM shows how much of a particular filter matches or describes a title.",
+      "example": {
+        "animal": "Example with the «Animals» Specification:",
+        "link": "Go to search",
+        "half": "50% - this PM means that animals are an important component in the title but are not central! Animals in this title may play an important role or simply be in the frame for a long time, but they are not the main characters and the plot does not revolve around them.",
+        "max": "100% - animals play the main role / the title is entirely about animals (real or drawn - it doesn't matter).",
+        "min": "10% - there are animals, but they most likely just act as functions and are not participants in the main events."
+      },
+      "feeling": "PM can also be considered as a percentage of time, that is, how much time a specific filter is present in the title. But this is very abstract! It's not about a dry number, but about a feeling that doesn't need to be measured with a ruler! In general, you will simply understand whether it was a lot, a little or enough.",
+      "cheatSheet": {
+        "about": "Below is a list of percentages and a brief description of them. You should treat this as a cheat sheet, not as an instruction manual! Because there are so many different filters that it will be impossible to reduce them to a common denominator.",
+        "list": {
+          "ten": {
+            "value": "10%",
+            "label": "There wasn't much, but it had a noticeable effect on the atmosphere."
+          },
+          "twenty": {
+            "value": "20%",
+            "label": "It is present as a background element — not the main thing, but it is felt."
+          },
+          "thirty": {
+            "value": "30%",
+            "label": "This is visible from time to time."
+          },
+          "forty": {
+            "value": "40%",
+            "label": "Noticeably present, but not dominant."
+          },
+          "fifty": {
+            "value": "50%",
+            "label": "Half of the title is based on this."
+          },
+          "sixty ": {
+            "value": "60%",
+            "label": "This is one of the main components."
+          },
+          "seventy": {
+            "value": "70%",
+            "label": "It affects mood and feelings almost all the time."
+          },
+          "eighty": {
+            "value": "80%",
+            "label": "The title is almost entirely dependent on this factor."
+          },
+          "ninety": {
+            "value": "90%",
+            "label": "A strong component that lacks detail."
+          },
+          "hundred": {
+            "value": "100%",
+            "label": "The title is entirely made up of this."
+          }
+        }
+      },
+      "description": {
+        "about": "In addition to the PM, each filter has a short description.",
+        "note": "I usually create these descriptions in relation to several titles (I'm not a supercomputer, so I can't analyze all the existing titles at once), so they may not reveal the full idea. I watched most of the titles a long time ago, so this can also be a problem in creating a quality description.",
+        "advice": "Treat these descriptions as a free interpretation that you can come up with yourself!",
+        "updating": "The descriptions will be updated and supplemented over time. The more titles in the database, the better quality they will be."
+      }
+    }
   },
 
   "MovieParts": {
@@ -147,8 +241,8 @@
       "important": "Important! It is forbidden to compare titles from different categories of the Visual Profile with each other!",
       "syndrome": {
         "name": "«Fast and Furious» syndrome",
-        "info": "«Fast and Furious» syndrome is an unofficial expression that my friends and I coined to describe the false impressions when a person is unable to appreciate a certain type of movie and starts writing negative comments and giving it a low rating.",
-        "movieSeries": "The Fast and the Furious is a series of action movies centered on cars, racing, crime, and relationships between characters. The first installments were focused on a more mundane plot, and then the genre moved towards science fiction or even fantasy, where the car was even sent into space.",
+        "info": "«Fast and Furious» syndrome is an unofficial expression that my friends and I coined to describe the false impressions when a person is unable to appreciate a certain type of movie (or specific scenes) and begins to have a negative attitude towards it.",
+        "movieSeries": "The Fast and the Furious is a series of action movies centered on cars, racing, crime, and relationships between characters. The first installments were focused on a more mundane plot, and then the genre moved towards science fiction or even fantasy, where the car (with people!) was even sent into space.",
         "problem": "The very problem or syndrome is that some people evaluate such “fantastic” events in terms of reality or seriousness. But the fact is that this is a very wrong attitude towards a title that does not claim to be realistic. In other words, such titles do not require analysis, brainpower, much thinking, etc., because the main goal is banal: to entertain the viewer and give positive emotions.",
         "example": "A simple example of this syndrome: the movie «Havoc (2025)» is a typical representative of an action shooter where the main character punishes the scum. It has scenes where the protagonist has endless ammo, and the thing is that such unrealistic mechanics are suitable for such titles, because you are mainly interested in the impression of the action scenes, but there are people who give bad ratings because of this detail. That's why we say that these people have the «Fast and Furious»"
       }

@@ -1,5 +1,6 @@
 "use server";
 
+import { redirect } from "next/navigation";
 import axios from "axios";
 import { fetchSettings, getSession } from "./global-api";
 import { backendURL } from "@/lib/constants";
@@ -13,6 +14,17 @@ import type {
 import { getUsers } from "@/orval_api/users/users";
 import { getAuth } from "@/orval_api/auth/auth";
 import { getVisualProfile } from "@/orval_api/visual-profile/visual-profile";
+
+/**Any user role */
+export async function getUserOrRedirect() {
+  const user = await getSession();
+
+  if (!user) {
+    return redirect("/");
+  }
+
+  return user;
+}
 
 export async function updateRateMovie(data: UserRateMovieIn) {
   const currentUser = await getSession();

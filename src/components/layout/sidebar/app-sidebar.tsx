@@ -20,6 +20,7 @@ import {
   CONTENT_ICONS,
   getMenuItems,
   OTHER_ITEMS,
+  PUBLIC_ITEMS,
   USER_ITEMS,
 } from "@/components/layout/sidebar/menu-item-collection";
 import { ThemeSelector } from "@/components/layout/theme-selector";
@@ -94,7 +95,11 @@ async function AppSidebar({ locale, ...props }: AppSidebarProps) {
             {session && (
               <SidebarNavMenuGroup
                 title={menu("user")}
-                items={getMenuItems(menu, [...USER_ITEMS, ...OTHER_ITEMS])}
+                items={getMenuItems(menu, [
+                  ...USER_ITEMS,
+                  ...PUBLIC_ITEMS,
+                  ...OTHER_ITEMS,
+                ])}
               />
             )}
 

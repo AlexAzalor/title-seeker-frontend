@@ -20,7 +20,7 @@ function SimilarMoviesFetcher({ movieKey, bottom }: Props) {
   return (
     <Suspense
       fallback={
-        <div className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border min-w-76 rounded-[34px] border p-5">
+        <div className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border min-w-76 rounded-4xl border p-5">
           <Spinner className="mx-auto w-fit" />
         </div>
       }

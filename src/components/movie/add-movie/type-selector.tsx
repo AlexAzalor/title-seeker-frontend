@@ -22,7 +22,6 @@ type Props = {
 };
 
 const TYPE_LIST = [
-  // { value: RelatedMovie.base, label: "Base" },
   { value: RelatedMovie.sequel, label: "Sequel" },
   { value: RelatedMovie.prequel, label: "Prequel" },
   { value: RelatedMovie.spin_off, label: "Spin-off" },
@@ -30,7 +29,6 @@ const TYPE_LIST = [
   { value: RelatedMovie.reboot, label: "Reboot" },
   { value: RelatedMovie.crossover, label: "Crossover" },
   { value: RelatedMovie.alternative_timeline, label: "Alternative Timeline" },
-  // { value: RelatedMovie.shared_universe, label: "Shared Universe" },
 ];
 
 const TypeSelector = ({ label, defaultValue, name, control }: Props) => {
@@ -42,10 +40,12 @@ const TypeSelector = ({ label, defaultValue, name, control }: Props) => {
       render={({ field: { onChange }, fieldState: { error } }) => (
         <div className="mb-4 grid w-64 gap-2">
           <Label htmlFor="rating-criteria">{label}</Label>
+
           <Select onValueChange={onChange} defaultValue={defaultValue}>
             <SelectTrigger id="rating-criteria">
               <SelectValue placeholder={t("menuSelect")} />
             </SelectTrigger>
+
             <SelectContent>
               {TYPE_LIST.map((type) => (
                 <SelectItem key={type.value} value={type.value}>

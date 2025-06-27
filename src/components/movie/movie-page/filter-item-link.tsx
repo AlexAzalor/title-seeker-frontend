@@ -10,6 +10,16 @@ import { TooltipWrapper } from "@/components/my-custom-ui/tooltip-wrapper";
 import { GenreContext } from "./genres-list";
 import { FilterEnum, type MovieFilterItem } from "@/orval_api/model";
 
+// Helper function to generate URL based on filter type and item
+const generateUrl = (filterKey: FilterEnum, item: MovieFilterItem): string => {
+  const value = "(10,100)";
+
+  if (item.subgenre_parent_key) {
+    return `/super-search/?genre=${item.subgenre_parent_key + encodeURIComponent(value)}&subgenre=${item.key + encodeURIComponent(value)}`;
+  }
+  return `/super-search/?${filterKey}=${item.key + encodeURIComponent(value)}`;
+};
+
 type Props = {
   filterKey: FilterEnum;
   data: MovieFilterItem[];
@@ -26,11 +36,7 @@ export const FilterItemLink = ({ filterKey, data }: Props) => {
     <div aria-label="filter-item-link" className="flex flex-wrap gap-4">
       {data.map((item) => (
         <Link
-          href={
-            !item.subgenre_parent_key
-              ? `/super-search/?${filterKey}=${item.key}`
-              : `/super-search/?genre=${item.subgenre_parent_key}&subgenre=${item.key}`
-          }
+          href={generateUrl(filterKey, item)}
           className={cn(
             "relative flex max-w-fit items-center rounded-xl border-2 leading-4 transition-shadow",
             filterKey === FilterEnum.genre &&

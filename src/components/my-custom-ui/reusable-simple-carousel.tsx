@@ -22,7 +22,7 @@ export const ReusableSimpleCarousel = <Datum extends { key: string }>({
   return (
     <Carousel className="w-full" opts={{ dragFree: true }}>
       <CarouselContent
-        className={cn("-ml-1 max-w-[340px] xl:max-w-none", className)}
+        className={cn("-ml-1 max-w-85 xl:max-w-none", className)}
       >
         {items.map((item) => (
           <CarouselItem

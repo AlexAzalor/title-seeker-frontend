@@ -1,4 +1,3 @@
-import { auth } from "@/auth";
 import { getLocale, getTranslations } from "next-intl/server";
 import { backendURL } from "@/lib/constants";
 
@@ -14,6 +13,7 @@ import {
 import { Language, SortBy, SortOrder } from "@/orval_api/model";
 import type { SearchParams } from "@/types/general";
 import type { Metadata } from "next";
+import { getSession } from "@/app/services/global-api";
 
 export const metadata: Metadata = {
   title: "Super Search | Title Seeker",
@@ -39,10 +39,9 @@ export default async function SuperSearchPage(props: {
 
   const locale = await getLocale();
   const lang = Language[locale as keyof typeof Language];
-  const session = await auth();
+  const session = await getSession();
 
   const {
-    // name: query = "",
     page: pageNumber = DEFAULT_PAGE,
     size: pageSize = DEFAULT_PAGE_SIZE,
     sort_order: sortOrder = SortOrder.desc,
@@ -93,7 +92,7 @@ export default async function SuperSearchPage(props: {
       size: pageSize,
       sort_order: sortOrder,
       sort_by: sortBy,
-      user_uuid: session?.user?.uuid,
+      user_uuid: session?.uuid,
     },
     {
       baseURL: backendURL.baseURL,

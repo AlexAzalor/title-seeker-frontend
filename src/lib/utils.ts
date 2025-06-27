@@ -312,3 +312,10 @@ export function getVisiblePages(
 
   return pages;
 }
+
+export const cutLongWords = (word: string, maxLength: number) => {
+  if (word.length > maxLength) {
+    return `${word.slice(0, maxLength)}...`;
+  }
+  return word;
+};

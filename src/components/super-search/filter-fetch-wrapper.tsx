@@ -36,11 +36,6 @@ export const FilterFetchWrapper = async ({ children }: PropsWithChildren) => {
     },
   } = await aPIGetMovieFilters({ lang }, backendURL);
 
-  // do calculations on server side
-
-  // "grid grid-cols-[minmax(200px,1fr)_minmax(1240px,2fr)_minmax(200px,1fr)] grid-rows-[auto_1fr] justify-items-center gap-4 p-4"
-
-  // filter-fetch-wrapper.tsx => layout.tsx => page.tsx (movie list)
   return (
     <div className="Filter-Fetch-Wrapper h-screen w-full">
       <ResizablePanelGroup

@@ -26,10 +26,6 @@ function ModalWindow({ children, title, open, setOpen, description }: Props) {
           {children}
         </DialogHeader>
       </DialogContent>
-
-      {/* <DialogFooter>
-      <Button type="submit">Confirm</Button>
-    </DialogFooter> */}
     </Dialog>
   );
 }
