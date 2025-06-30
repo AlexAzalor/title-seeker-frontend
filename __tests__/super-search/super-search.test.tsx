@@ -97,7 +97,7 @@ test("Should render HoverBrick", () => {
 test("Should render SideMenuPanel", () => {
   const content = "test-side-menu-panel";
   render(
-    <SideMenuPanel side="left" type={content} handleOnly>
+    <SideMenuPanel side="left" type={content} handleOnly description="Text">
       <h1>Test children content</h1>
     </SideMenuPanel>,
     {

@@ -12,7 +12,7 @@ export const VisualProfileSchema = z.object({
   category_key: z.string().trim().min(1, { message: "Value is required" }),
   category_criteria: z
     .array(CategoryCriterion)
-    .min(1, { message: "At least one Actor must be selected" }),
+    .min(1, { message: "Visual Profile is required" }),
 });
 
 export const VisualProfileField = z.object({

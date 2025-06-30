@@ -27,7 +27,7 @@ export const EnhancedFormSlider = ({ name, itemsList, control }: Props) => {
     <>
       {itemsList.map((field, index) => (
         <Fragment key={field.id}>
-          <p>{field.name}</p>
+          <p className="font-bold">{field.name}</p>
 
           <Controller
             control={control}

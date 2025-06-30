@@ -131,6 +131,20 @@ export const Search = ({ posterURL }: Props) => {
     [close, setSearchResultToLocalStorage, setSearchResults],
   );
 
+  const getInputPlaceholder = useCallback(
+    (type: SapportedSearchType) => {
+      const directRoutes: Record<SapportedSearchType, string | null> = {
+        [SearchType.movies]: t("searchByMovies"),
+        [SearchType.actors]: t("searchByActors"),
+        [SearchType.directors]: t("searchByDirectors"),
+        [SearchType.characters]: t("searchByCharacters"),
+      };
+
+      return directRoutes[type] || t("searchByMovies");
+    },
+    [t],
+  );
+
   return (
     <div
       className="flex flex-1 flex-col items-center sm:mx-3"
@@ -171,7 +185,11 @@ export const Search = ({ posterURL }: Props) => {
             </p>
           )}
 
-          <SearchInput t={t} isMobile={isMobile} onSearch={handleSearch} />
+          <SearchInput
+            placeholder={getInputPlaceholder(tab)}
+            isMobile={isMobile}
+            onSearch={handleSearch}
+          />
 
           <SearchResults
             searchResults={searchResults}

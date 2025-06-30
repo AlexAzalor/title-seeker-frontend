@@ -126,7 +126,11 @@ export const SelectedFilters = ({
 
           {/* for mobile */}
           <div className="mb-2 flex justify-between">
-            <SideMenuPanel side="left" type="Filters">
+            <SideMenuPanel
+              side="left"
+              type={t("filters")}
+              description={t("description")}
+            >
               <FilterList
                 {...{
                   genres,
@@ -142,7 +146,12 @@ export const SelectedFilters = ({
               />
             </SideMenuPanel>
 
-            <SideMenuPanel side="right" type={t("enhance")} handleOnly>
+            <SideMenuPanel
+              side="right"
+              type={t("enhance")}
+              description={t("description")}
+              handleOnly
+            >
               <EnhanceSearch />
             </SideMenuPanel>
           </div>

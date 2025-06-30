@@ -1,12 +1,16 @@
 import { cn } from "@/lib/utils";
 import { SearchType } from "@/orval_api/model";
 import { SUPPORTED_SEARCH_TYPES, type SapportedSearchType } from "./search";
+import { useCallback } from "react";
+import { useTranslations } from "next-intl";
 
 const SEARCH_TYPE_OPTIONS = [
-  { key: SearchType.actors, label: "Actors" },
-  { key: SearchType.directors, label: "Directors" },
-  { key: SearchType.characters, label: "Characters" },
+  { key: SearchType.actors },
+  { key: SearchType.directors },
+  { key: SearchType.characters },
 ] as const;
+
+type OnlyPersonsType = Exclude<SapportedSearchType, "movies">;
 
 type Props = {
   navKeys: {
@@ -18,6 +22,8 @@ type Props = {
 };
 
 export const SearchTabs = ({ navKeys, tab, onChange }: Props) => {
+  const t = useTranslations("Filters");
+
   const colorClassMap: Record<SapportedSearchType, string> = {
     [SearchType.movies]: "movie-color-set",
     [SearchType.actors]: "actor-color-set",
@@ -31,6 +37,19 @@ export const SearchTabs = ({ navKeys, tab, onChange }: Props) => {
       isActive && colorClassMap[key],
     );
   };
+
+  const getPersonLabel = useCallback(
+    (type: OnlyPersonsType) => {
+      const person: Record<OnlyPersonsType, string | null> = {
+        [SearchType.actors]: t("actor"),
+        [SearchType.directors]: t("director"),
+        [SearchType.characters]: t("character"),
+      };
+
+      return person[type] || "";
+    },
+    [t],
+  );
 
   return (
     <>
@@ -54,7 +73,7 @@ export const SearchTabs = ({ navKeys, tab, onChange }: Props) => {
       </div>
 
       <div className="mb-2 flex gap-4 px-2">
-        {SEARCH_TYPE_OPTIONS.map(({ key, label }) => {
+        {SEARCH_TYPE_OPTIONS.map(({ key }) => {
           const isTab = tab === key;
 
           return (
@@ -63,7 +82,7 @@ export const SearchTabs = ({ navKeys, tab, onChange }: Props) => {
               onClick={() => onChange(key)}
               className={getTabClasses(key, isTab)}
             >
-              {label}
+              {getPersonLabel(key)}
             </button>
           );
         })}

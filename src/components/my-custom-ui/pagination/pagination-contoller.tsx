@@ -100,10 +100,12 @@ export const PaginationContoller = ({
 
   const pageButtonsList = getVisiblePages(currentPage, totalPages);
 
+  const mark = ` ${t("of")} `;
+
   const isLastPage = currentPage === totalPages;
-  const lastPageTotal = totalItems + " of " + totalItems;
+  const lastPageTotal = totalItems + mark + totalItems;
   const currentPageTotal =
-    (pageSize || DEFAULT_PAGE_SIZE) * (currentPage || 1) + " of " + totalItems;
+    (pageSize || DEFAULT_PAGE_SIZE) * (currentPage || 1) + mark + totalItems;
   const pageInfo = isLastPage ? lastPageTotal : currentPageTotal;
 
   return (

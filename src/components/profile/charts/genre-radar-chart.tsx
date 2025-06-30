@@ -47,6 +47,7 @@ export function GenreRadarChart({ radarData }: Props) {
           isEmpty={radarData.length < 3}
           config={chartConfig}
           className="mx-auto aspect-square max-h-62 w-full p-0 2xl:w-100"
+          emptyState={t("noStats")}
         >
           <RadarChart data={radarData}>
             <ChartTooltip

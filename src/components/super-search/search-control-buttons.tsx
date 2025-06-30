@@ -38,7 +38,7 @@ export const SearchControlButtons = () => {
   return (
     <div className="flex flex-col gap-4">
       <Button
-        className="mb-4 cursor-pointer text-black"
+        className="mb-4 cursor-pointer font-bold text-black"
         variant="destructive"
         onClick={clearAllFilters}
       >

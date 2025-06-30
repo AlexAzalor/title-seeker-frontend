@@ -195,7 +195,7 @@ export const EnhanceSearch = () => {
             className="bg-main-ui-purple dark:bg-main-ui-purple hover:bg-dark-blue dark:hover:bg-main-ui-purple/70 mt-5 w-full rounded-2xl p-2 text-white transition-colors duration-200"
             type="submit"
           >
-            Submit
+            {t("apply")}
           </button>
         </form>
       )}

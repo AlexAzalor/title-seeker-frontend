@@ -88,7 +88,7 @@ export function TimeRateChart({ moviesTimeRateData }: Props) {
 
         <Select value={moviesCount} onValueChange={setMoviesCount}>
           <SelectTrigger
-            className="w-[160px] rounded-lg sm:ml-auto"
+            className="w-44 rounded-lg sm:ml-auto"
             aria-label="Select a value"
           >
             <SelectValue placeholder="Last 30 movies" />
@@ -96,13 +96,13 @@ export function TimeRateChart({ moviesTimeRateData }: Props) {
 
           <SelectContent className="rounded-xl">
             <SelectItem value="30" className="rounded-lg">
-              Last 30 movies
+              {t("last30")}
             </SelectItem>
             <SelectItem value="20" className="rounded-lg">
-              Last 20 movies
+              {t("last20")}
             </SelectItem>
             <SelectItem value="10" className="rounded-lg">
-              Last 10 movies
+              {t("last10")}
             </SelectItem>
           </SelectContent>
         </Select>
@@ -113,6 +113,7 @@ export function TimeRateChart({ moviesTimeRateData }: Props) {
           isEmpty={moviesTimeRateData.length < 3}
           config={chartConfig}
           className="aspect-auto h-[300px] w-full"
+          emptyState={t("noStats")}
         >
           <AreaChart data={moviesTimeRateData.slice(-num)}>
             <defs>

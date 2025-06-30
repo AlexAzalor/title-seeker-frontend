@@ -25,19 +25,25 @@ export const Header = () => {
       className="bg-header header-shadow flex items-center justify-between px-4 py-4 shadow-sm shadow-gray-200 sm:px-10 lg:px-40"
     >
       <div className="flex items-center justify-between gap-10">
-        <Link href="/" className="flex items-center gap-2">
-          <Image
-            src="/static/logo.webp"
-            alt="Logo"
-            width={50}
-            height={50}
-            className="rounded-full"
-            priority
-            loading="eager"
-          />
+        <Link
+          href="/"
+          className="group flex items-center gap-3 transition-all duration-300 ease-in-out hover:scale-105"
+        >
+          <div className="relative">
+            <Image
+              src="/static/logo.webp"
+              alt="Logo"
+              width={50}
+              height={50}
+              className="rounded-full ring-2 shadow-lg ring-white/30 transition-all duration-300 group-hover:shadow-xl group-hover:ring-white/60"
+              priority
+              loading="eager"
+            />
+            <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+          </div>
 
-          <p className="logo hidden text-xl font-bold text-black lg:block">
-            Title Seeker
+          <p className="to-main-dark-hover from-main-dark-bg hidden bg-gradient-to-r bg-clip-text text-xl font-bold text-transparent drop-shadow-sm transition-all duration-300 group-hover:drop-shadow-md lg:block">
+            {t("title")}
           </p>
         </Link>
 

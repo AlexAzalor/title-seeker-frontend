@@ -99,7 +99,11 @@
     "super": "Super search",
     "recent": "Recent searches",
     "suggestions": "Suggestions",
-    "result": "Search Result"
+    "result": "Search Result",
+    "searchByMovies": "Search by movies...",
+    "searchByActors": "Search by actors...",
+    "searchByDirectors": "Search by directors...",
+    "searchByCharacters": "Search by characters..."
   },
 
   "SuperSearch": {
@@ -108,7 +112,10 @@
     "enhance": "Enhance Search",
     "exactMatch": "Exact match",
     "clear": "Clear all filters",
-    "notFound": "No movies found with selected filters"
+    "notFound": "No movies found with selected filters",
+    "apply": "Apply",
+    "filters": "Filters",
+    "description": "Select filters to start"
   },
 
   "Filters": {
@@ -496,7 +503,11 @@
     "topMoviesTitle": "My Top 3 Movies",
     "topMoviesSubtext": "Shows your most rated movies.",
     "timeChart": "Latest movie ratings",
-    "timeChartSubtext": "Shows the dynamics of movie ratings."
+    "timeChartSubtext": "Shows the dynamics of movie ratings.",
+    "noStats": "To view statistics, you need to rate at least 3 movies.",
+    "last30": "Last 30 movies",
+    "last20": "Last 20 movies",
+    "last10": "Last 10 movies"
   },
   "User": {
     "joined": "Joined",
@@ -539,6 +550,7 @@
 
     "paginationPrev": "Previous",
     "paginationNext": "Next",
+    "of": "of",
 
     "sorting": {
       "sortOrder": "Sort Order",

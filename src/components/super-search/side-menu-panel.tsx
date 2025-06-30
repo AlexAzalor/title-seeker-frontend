@@ -14,9 +14,16 @@ type Props = {
   side: "top" | "right" | "bottom" | "left";
   type: string;
   handleOnly?: boolean;
+  description: string;
 };
 
-function SideMenuPanel({ children, side, type, handleOnly }: Props) {
+function SideMenuPanel({
+  children,
+  side,
+  type,
+  handleOnly,
+  description,
+}: Props) {
   return (
     <Drawer direction={side} handleOnly={handleOnly}>
       <DrawerTrigger asChild className="lg:hidden">
@@ -31,7 +38,7 @@ function SideMenuPanel({ children, side, type, handleOnly }: Props) {
       >
         <DrawerHeader>
           <DrawerTitle className="text-center font-bold">{type}</DrawerTitle>
-          <DrawerDescription>Select filters to start</DrawerDescription>
+          <DrawerDescription>{description}</DrawerDescription>
         </DrawerHeader>
         {children}
       </DrawerContent>

@@ -175,9 +175,7 @@ export const VisualProfileMovieForm = ({ categories }: Props) => {
                     </Select>
 
                     {error && (
-                      <div className="absolute text-red-500">
-                        {error.message}
-                      </div>
+                      <div className="text-red-500">{error.message}</div>
                     )}
                   </div>
                 )}

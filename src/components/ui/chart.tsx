@@ -40,9 +40,11 @@ function ChartContainer({
   children,
   config,
   isEmpty,
+  emptyState,
   ...props
 }: React.ComponentProps<"div"> & {
   isEmpty?: boolean;
+  emptyState?: string;
   config: ChartConfig;
   children: React.ComponentProps<
     typeof RechartsPrimitive.ResponsiveContainer
@@ -70,7 +72,7 @@ function ChartContainer({
         {/* My custom UI */}
         {isEmpty && (
           <div className="bg-white-dark/70 absolute top-[25%] mx-2 max-w-100 rounded-xl py-8 text-center text-xl text-gray-500 dark:text-black">
-            To view the chart, you must rate at least 3 movies.
+            {emptyState}
           </div>
         )}
       </div>
