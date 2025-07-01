@@ -46,7 +46,10 @@ export default async function DynamicPage({ params }: PageProps) {
       <title>{`${data.title} (${new Date(data.release_date).getFullYear()}) | Title Seeker`}</title>
 
       <LastWatchedWrapper movieKey={movie_key} poster={data.poster}>
-        <div className="container min-h-screen max-w-320 px-4 lg:px-0">
+        <div
+          className="container min-h-screen max-w-320 px-4 lg:px-0"
+          id="movie"
+        >
           <div className="py-2 text-center lg:py-3 xl:text-left">
             <h1 className="text-3xl">{data.title}</h1>
             {data.title_en && (
@@ -100,7 +103,7 @@ export default async function DynamicPage({ params }: PageProps) {
             />
 
             {!!data.related_movies?.length && (
-              <div className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border mb-4 flex w-full flex-col rounded-4xl border p-5">
+              <div className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border mb-4 flex max-w-88 flex-col rounded-4xl border p-5 md:w-full md:max-w-none">
                 <SimilarMoviesFetcher movieKey={movie_key} bottom />
               </div>
             )}

@@ -109,96 +109,103 @@ export const PaginationContoller = ({
   const pageInfo = isLastPage ? lastPageTotal : currentPageTotal;
 
   return (
-    <Pagination aria-label="pagination">
-      <PaginationContent className="items-end">
-        <PaginationItem>
-          <PaginationPrevious
-            className={cn(currentPage === FIRST_PAGE && "pointer-events-none")}
-            name={t("paginationPrev")}
-            href={prevPageLink}
-          />
-        </PaginationItem>
-
-        {pageButtonsList.map((pageNumber, i) => {
-          const isPageActive = pageNumber === currentPage;
-          const showThreeDots = pageNumber === THREE_DOTS;
-
-          const isNumber = typeof pageNumber === "number";
-          const showPageButton =
-            ![FIRST_PAGE, totalPages].includes(isNumber ? pageNumber : 0) &&
-            pageNumber !== THREE_DOTS;
-
-          return (
-            <Fragment key={pageNumber + "-" + i}>
-              {pageNumber === FIRST_PAGE && (
-                <PaginationItem>
-                  <PaginationLink
-                    href={formatURI({
-                      ...params,
-                      page: FIRST_PAGE,
-                      otherParams: cleanParams,
-                    })}
-                    isActive={isPageActive}
-                  >
-                    {FIRST_PAGE}
-                  </PaginationLink>
-                </PaginationItem>
+    <>
+      <Pagination aria-label="pagination">
+        <PaginationContent className="items-end">
+          <PaginationItem>
+            <PaginationPrevious
+              className={cn(
+                currentPage === FIRST_PAGE && "pointer-events-none",
               )}
+              name={t("paginationPrev")}
+              href={prevPageLink}
+            />
+          </PaginationItem>
 
-              {showThreeDots && i === 1 && (
-                <PaginationItem>
-                  <PaginationEllipsis />
-                </PaginationItem>
+          {pageButtonsList.map((pageNumber, i) => {
+            const isPageActive = pageNumber === currentPage;
+            const showThreeDots = pageNumber === THREE_DOTS;
+
+            const isNumber = typeof pageNumber === "number";
+            const showPageButton =
+              ![FIRST_PAGE, totalPages].includes(isNumber ? pageNumber : 0) &&
+              pageNumber !== THREE_DOTS;
+
+            return (
+              <Fragment key={pageNumber + "-" + i}>
+                {pageNumber === FIRST_PAGE && (
+                  <PaginationItem>
+                    <PaginationLink
+                      href={formatURI({
+                        ...params,
+                        page: FIRST_PAGE,
+                        otherParams: cleanParams,
+                      })}
+                      isActive={isPageActive}
+                    >
+                      {FIRST_PAGE}
+                    </PaginationLink>
+                  </PaginationItem>
+                )}
+
+                {showThreeDots && i === 1 && (
+                  <PaginationItem>
+                    <PaginationEllipsis />
+                  </PaginationItem>
+                )}
+
+                {showPageButton && (
+                  <PaginationItem>
+                    <PaginationLink
+                      href={formatURI({
+                        ...params,
+                        page: Number(pageNumber),
+                        otherParams: cleanParams,
+                      })}
+                      isActive={isPageActive}
+                    >
+                      {pageNumber}
+                    </PaginationLink>
+                  </PaginationItem>
+                )}
+
+                {showThreeDots && i === pageButtonsList.length - 2 && (
+                  <PaginationItem>
+                    <PaginationEllipsis />
+                  </PaginationItem>
+                )}
+
+                {pageNumber === totalPages && (
+                  <PaginationItem>
+                    <PaginationLink
+                      href={formatURI({
+                        ...params,
+                        page: totalPages,
+                        otherParams: cleanParams,
+                      })}
+                      isActive={isPageActive}
+                    >
+                      {totalPages}
+                    </PaginationLink>
+                  </PaginationItem>
+                )}
+              </Fragment>
+            );
+          })}
+
+          <PaginationItem>
+            <PaginationNext
+              className={cn(
+                currentPage === totalPages && "pointer-events-none",
               )}
+              name={t("paginationNext")}
+              href={nextPageLink}
+            />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
 
-              {showPageButton && (
-                <PaginationItem>
-                  <PaginationLink
-                    href={formatURI({
-                      ...params,
-                      page: Number(pageNumber),
-                      otherParams: cleanParams,
-                    })}
-                    isActive={isPageActive}
-                  >
-                    {pageNumber}
-                  </PaginationLink>
-                </PaginationItem>
-              )}
-
-              {showThreeDots && i === pageButtonsList.length - 2 && (
-                <PaginationItem>
-                  <PaginationEllipsis />
-                </PaginationItem>
-              )}
-
-              {pageNumber === totalPages && (
-                <PaginationItem>
-                  <PaginationLink
-                    href={formatURI({
-                      ...params,
-                      page: totalPages,
-                      otherParams: cleanParams,
-                    })}
-                    isActive={isPageActive}
-                  >
-                    {totalPages}
-                  </PaginationLink>
-                </PaginationItem>
-              )}
-            </Fragment>
-          );
-        })}
-
-        <PaginationItem>
-          <PaginationNext
-            className={cn(currentPage === totalPages && "pointer-events-none")}
-            name={t("paginationNext")}
-            href={nextPageLink}
-          />
-          {pageInfo}
-        </PaginationItem>
-      </PaginationContent>
-    </Pagination>
+      <div className="mx-auto text-center">{pageInfo}</div>
+    </>
   );
 };

@@ -51,9 +51,9 @@ export default function Home() {
           {keyFeatures.map((key) => (
             <div
               key={key}
-              className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border flex min-h-[200px] flex-col rounded-4xl border p-2 md:p-4"
+              className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border flex flex-col rounded-4xl border p-2 md:min-h-50 md:p-4"
             >
-              <h3 className="mb-4 text-center text-xl font-bold">
+              <h3 className="mb-1 text-center text-xl font-bold md:mb-4">
                 {t(`keyFeatures.keys.${key}.title`)}
               </h3>
               <p className="flex flex-1 items-center justify-center text-center">

@@ -113,7 +113,7 @@ export default async function SuperSearchPage(props: {
     >
       <div className="flex flex-col items-center gap-4 py-3 md:flex-row md:flex-wrap lg:px-3">
         {movies.length ? (
-          <MovieList movies={movies} lang={lang} />
+          <MovieList movies={movies} lang={lang} className="w-76 lg:w-86" />
         ) : (
           <h2 className="mx-auto mt-10">{t("notFound")}</h2>
         )}

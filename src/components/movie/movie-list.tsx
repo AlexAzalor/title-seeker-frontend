@@ -9,16 +9,18 @@ const MAX_LENGTH = 30;
 type Props = {
   movies: MoviePreviewOut[];
   lang: Language;
+  className?: string;
 };
 
-export const MovieList = ({ movies, lang }: Props) => {
+export const MovieList = ({ movies, lang, className = "" }: Props) => {
   return movies.map((movie, i) => (
     <Link
       aria-label={"movie-link" + "-" + i}
       key={movie.key}
       className={cn(
-        "shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border flex h-[158px] w-76 items-center gap-2 rounded-4xl border p-6 lg:w-86",
+        "shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border flex h-40 w-86 items-center gap-2 rounded-4xl border p-6",
         !!movie.rating && "users-rated-movie p-2",
+        className,
       )}
       href={`/movies/${movie.key}`}
     >

@@ -60,7 +60,7 @@ async function AppSidebar({ locale, ...props }: AppSidebarProps) {
       {session ? (
         <SidebarHeader className="border-sidebar-border mt-3 border-b">
           {isOwner && (
-            <Link href="/account/admin/quick-add-movie" className="mb-2">
+            <Link href="/owner/quick-add-movie" className="mb-2">
               <Button className="w-full">
                 <PlusCircle />
                 Quickly add new Movie
