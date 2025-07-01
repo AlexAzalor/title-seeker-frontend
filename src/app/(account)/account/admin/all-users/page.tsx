@@ -21,7 +21,7 @@ export default async function AllUsersPage() {
     <div>
       <h1 className="mb-3 text-2xl">{t("title")}</h1>
 
-      <div className="flex flex-col gap-2 sm:flex-wrap">
+      <div className="flex flex-col gap-2 sm:flex-wrap md:flex-row">
         {users.users.map((user) => (
           <div
             key={user.uuid}

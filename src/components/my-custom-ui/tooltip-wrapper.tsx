@@ -39,7 +39,7 @@ export const TooltipWrapper = ({
         <TooltipTrigger className="cursor-default" asChild={asChild}>
           {children}
         </TooltipTrigger>
-        <TooltipContent side={side} className={cn("w-171", className)}>
+        <TooltipContent side={side} className={cn("max-w-171", className)}>
           {content}
         </TooltipContent>
       </Tooltip>

@@ -51,7 +51,7 @@ export function VisualProfile({ movieKey, radarData, isOwner }: Props) {
           <h3 className="text-gray-purple text-xl font-semibold tracking-tight">
             {radarData.name}
           </h3>
-          <TooltipWrapper content={radarData.description} className="w-100" />
+          <TooltipWrapper content={radarData.description} />
         </div>
 
         {isOwner && (

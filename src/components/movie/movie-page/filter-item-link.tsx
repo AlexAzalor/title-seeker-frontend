@@ -80,6 +80,7 @@ export const FilterItemLink = ({ filterKey, data }: Props) => {
               content={percentageMatchColor(
                 item.percentage_match,
                 item.description,
+                item.name,
               )}
             >
               <InfoIcon className="h-4 w-4" />

@@ -52,11 +52,16 @@
   --color-danger2: var(--color-danger2) / 40; */
   --color-success: #2dc26a;
   --color-warning: #f38500;
+  --color-medium: oklch(0.707 0.165 254.624);
 
-  --shadow-danger: 0 0 5px var(--color-danger), 0 0 10px var(--color-danger),
-    0 0 15px var(--color-danger);
-  --shadow-success: 0 0 5px var(--color-success), 0 0 10px var(--color-success),
-    0 0 15px var(--color-success);
+  --shadow-danger: 0 0 6px var(--color-danger), 0 0 0px var(--color-danger),
+    0 0 6px var(--color-danger);
+  --shadow-warning: 0 0 6px var(--color-warning), 0 0 0px var(--color-warning),
+    0 0 6px var(--color-warning);
+  --shadow-medium: 0 0 6px var(--color-medium), 0 0 0px var(--color-medium),
+    0 0 6px var(--color-medium);
+  --shadow-success: 0 0 6px var(--color-success), 0 0 0px var(--color-success),
+    0 0 6px var(--color-success);
 
   /* --color-background: var(--background);
   --color-foreground: var(--foreground);

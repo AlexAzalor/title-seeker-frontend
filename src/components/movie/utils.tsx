@@ -2,27 +2,39 @@ import { cn } from "@/lib/utils";
 import { COLORS } from "@/lib/colors";
 import { FilterEnum } from "@/orval_api/model";
 
+const EXCELLENT = 75;
+const GOOD = 50;
+const POOR = 25;
+
 /**
  *
 Renders the color of the match percentage for movie filters (genres, keywords...)
  */
-export const percentageMatchColor = (percentage: number, text: string) => {
+export const percentageMatchColor = (
+  percentage: number,
+  text: string,
+  name: string,
+) => {
+  const veryPoor = percentage < POOR;
+  const fair = percentage >= POOR && percentage < GOOD;
+  const good = percentage >= GOOD && percentage < EXCELLENT;
+  const excellent = percentage >= EXCELLENT;
+
   return (
     <div>
       <div
         className={cn(
-          "ml-auto grid size-10 place-items-center rounded-full bg-transparent text-center font-bold text-black",
-          percentage < 25 && "shadow-danger bg-danger",
-          percentage >= 25 &&
-            percentage < 50 &&
-            "bg-warning shadow-2xl shadow-orange-300",
-          percentage >= 50 && percentage < 75 && "bg-blue-400",
-          percentage >= 75 && "shadow-success bg-success",
+          "mb-2 flex items-center justify-between gap-2 rounded-2xl px-3 text-center font-bold text-black",
+          veryPoor && "bg-danger shadow-danger",
+          fair && "bg-warning shadow-warning",
+          good && "bg-medium shadow-medium",
+          excellent && "bg-success shadow-success",
         )}
       >
-        <p>{percentage}%</p>
+        <span className="text-base">{name}</span>
+        <span className="text-lg">{percentage}%</span>
       </div>
-      {text}
+      <p>{text}</p>
     </div>
   );
 };

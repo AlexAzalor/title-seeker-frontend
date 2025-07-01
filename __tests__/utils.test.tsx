@@ -15,7 +15,7 @@ import {
 import { COLORS } from "@/lib/colors";
 
 test("Should render color of the match percentage for movie filters", () => {
-  const jsxElement = percentageMatchColor(50, "Test description");
+  const jsxElement = percentageMatchColor(50, "Test description", "Name");
   render(jsxElement);
   expect(screen.getByText("Test description")).toBeDefined();
   expect(screen.getByText("50%")).toBeDefined();

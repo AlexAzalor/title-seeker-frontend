@@ -504,7 +504,8 @@
     "topMoviesSubtext": "Shows your most rated movies.",
     "timeChart": "Latest movie ratings",
     "timeChartSubtext": "Shows the dynamics of movie ratings.",
-    "noStats": "To view statistics, you need to rate at least 3 movies.",
+    "noStats": "To view statistics, you need to rate at least 5 titles.",
+    "noStatsRadar": "To view statistics, you need to rate at least 10 titles.",
     "last30": "Last 30 movies",
     "last20": "Last 20 movies",
     "last10": "Last 10 movies"

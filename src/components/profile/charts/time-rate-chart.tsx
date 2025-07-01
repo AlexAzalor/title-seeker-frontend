@@ -29,6 +29,8 @@ import {
 } from "@/components/ui/select";
 import { Language, type TimeRateMovieOut } from "@/orval_api/model";
 
+const MIN = 5;
+
 const formatDateForChart = (
   value: string,
   title: string,
@@ -77,6 +79,8 @@ export function TimeRateChart({ moviesTimeRateData }: Props) {
 
   const num = Number(moviesCount);
 
+  const movies = moviesTimeRateData.length < MIN ? [] : moviesTimeRateData;
+
   return (
     <Card aria-label="time-rate-chart">
       <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
@@ -110,12 +114,12 @@ export function TimeRateChart({ moviesTimeRateData }: Props) {
 
       <CardContent className="relative px-2 pt-4 sm:px-6 sm:pt-6">
         <ChartContainer
-          isEmpty={moviesTimeRateData.length < 3}
+          isEmpty={moviesTimeRateData.length < MIN}
           config={chartConfig}
-          className="aspect-auto h-[300px] w-full"
+          className="aspect-auto h-75 w-full"
           emptyState={t("noStats")}
         >
-          <AreaChart data={moviesTimeRateData.slice(-num)}>
+          <AreaChart data={movies.slice(-num)}>
             <defs>
               <linearGradient id="fillDesktop" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor="#0072f5" stopOpacity={0.8} />

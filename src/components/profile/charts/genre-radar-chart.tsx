@@ -19,6 +19,8 @@ import {
 import { COLORS } from "@/lib/colors";
 import { type GenreChartDataOut, Language } from "@/orval_api/model";
 
+const MIN = 5;
+
 type Props = {
   radarData: GenreChartDataOut[];
 };
@@ -36,6 +38,8 @@ export function GenreRadarChart({ radarData }: Props) {
     },
   } satisfies ChartConfig;
 
+  const genres = radarData.length < MIN ? [] : radarData;
+
   return (
     <Card className="mb-4 w-fit" aria-label="genre-radar-chart">
       <CardHeader className="items-center pb-0">
@@ -44,12 +48,12 @@ export function GenreRadarChart({ radarData }: Props) {
       </CardHeader>
       <CardContent className="relative pb-0">
         <ChartContainer
-          isEmpty={radarData.length < 3}
+          isEmpty={radarData.length < MIN}
           config={chartConfig}
           className="mx-auto aspect-square max-h-62 w-full p-0 2xl:w-100"
-          emptyState={t("noStats")}
+          emptyState={t("noStatsRadar")}
         >
-          <RadarChart data={radarData}>
+          <RadarChart data={genres}>
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent className="w-36" />}
