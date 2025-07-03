@@ -160,7 +160,7 @@
     "about": {
       "title": "Title filters",
       "filters": "On this platform, filters are entities that help in searching for titles. Some of these entities have an additional setting that helps to narrow down the resulting selection much better.",
-      "percentageMatch": "Genres, Subgenres, Specifications, Keywords, and Action Times have a numerical value – a percentage match (PM). PM shows how much of a particular filter matches or describes a title.",
+      "percentageMatch": "Genres, Subgenres, Specifications, Keywords, and Action Times have a numerical value – a percentage match (PM). PM shows how much of a particular filter matches (corresponds to) the title.",
       "example": {
         "animal": "Example with the «Animals» Specification:",
         "link": "Go to search",
@@ -170,7 +170,7 @@
       },
       "feeling": "PM can also be considered as a percentage of time, that is, how much time a specific filter is present in the title. But this is very abstract! It's not about a dry number, but about a feeling that doesn't need to be measured with a ruler! In general, you will simply understand whether it was a lot, a little or enough.",
       "cheatSheet": {
-        "about": "Below is a list of percentages and a brief description of them. You should treat this as a cheat sheet, not as an instruction manual! Because there are so many different filters that it will be impossible to reduce them to a common denominator.",
+        "about": "Below is a list of percentages and a brief description of them. You should treat this as a cheat sheet, not as an instruction manual! Because there are so many different filters that it is impossible to reduce them to a common denominator.",
         "list": {
           "ten": {
             "value": "10%",
@@ -236,22 +236,38 @@
   "Rating": {
     "name": "Rating",
     "mainInfo": "A numerical rating is a standardized evaluation system that consists of criteria that, in turn, have their own maximum score, the sum of which is 10.",
-    "description": "First of all, the title is evaluated as a piece of art, as a product created by a human idea. How skillfully the actors played their roles. The quality of the work of the director, set designers and other members of the film crew. The plot and overall impression are also important.",
+    "description": "First of all, the title is evaluated as a technical component, as a product created by a human idea. How skillfully the actors played their roles, the quality of the work of the scriptwriters, composers, set designers and other members of the film crew. Also, the title is evaluated as a part of art or how well the director did his job and what impressions it gave.",
     "advice": {
       "name": "Evaluation tip:",
-      "description": "The most effective way is to rate your impressions without looking at the numbers and without using math in your head. Sliders and hints will help you with this."
+      "description": "The most effective way to rate your impressions is without looking at the numbers or using math (calculations). Sliders and prompts will help with this."
     },
     "visualProfile": {
-      "name": "Visual Profile",
-      "mainInfo": "A visual profile is a graphic form that helps you quickly understand what a title is. It minimizes the «Fast and Furious» syndrome and false expectations. It will help you choose a title to match your emotional state or mood.",
-      "criteria": "A small profile form does NOT mean that the movie is bad! It shows that the category to which the movie belongs does not reflect the maximum concept. That is, a comedy movie will not be completely light or funny, but will raise, for example, heavy/dramatic topics, BUT in the end it will still be a movie where the main concept is a comedy component.",
-      "important": "Important! It is forbidden to compare titles from different categories of the Visual Profile with each other!",
+      "name": "Visual profile",
+      "description": "A visual profile is a graphic form or “imprint” that helps you quickly understand what a title is about. Minimizes Fast & Furious syndrome and false expectations. Highlights the emotional state and helps you choose a title that matches your mood.",
+      "shape": "The difference in form between titles does NOT mean they are good or bad! Form is not about evaluation, but about ideological depth and richness, which can be expressed in ideas, impressions, emotions, etc.",
+      "difference": "And the difference is that the small form does not fully reveal itself in a specific category. In other words, a title with a small (or minimal) form claims several categories of visual profile, but the current one reveals it best. That is, a comedy film will not be completely light or funny, but will raise, for example, heavy / dramatic topics, BUT in the end it will still be a movie where the main concept is a comedic component.",
+      "separation": "I have divided all the films into a small number of groups to help you understand which category a particular title belongs to.",
+      "simple": "By understanding, I mean the situation where you have memorized all these categories (which will be easy) and with this experience, it will be easier for you to find the next desired title and analyze it more easily.",
+      "count": "There can be many Genres, Subgenres and other filters, but the visual profile categories should be as few as possible (currently there are 12*). Categories should be kept to a minimum to ensure high quality of this system.",
+      "category": "The visual profile is not about finding a «clone», but about finding a title that is close in emotion and potential.",
+      "important": "Important!",
+      "prohibition": {
+        "info": "It is forbidden to compare titles with different visual profile categories. Even if the description, idea, filters, etc. are similar, it is forbidden to compare!",
+        "whyBad": "Why this is bad:",
+        "first": "First, it will break the system.",
+        "second": "Secondly, the chance of «Fast and Furious» syndrome and false expectations will increase.",
+        "third": "Thirdly, breaking the ban of the owner of this platform is a detriment to your experience."
+      },
+
+      "note": "*The current number is not a limit, as there are an infinite number of titles that cannot be categorized from the start, and therefore this number may increase over time, but this will only happen with very unique titles.",
+
       "syndrome": {
         "name": "«Fast and Furious» syndrome",
         "info": "«Fast and Furious» syndrome is an unofficial expression that my friends and I coined to describe the false impressions when a person is unable to appreciate a certain type of movie (or specific scenes) and begins to have a negative attitude towards it.",
         "movieSeries": "The Fast and the Furious is a series of action movies centered on cars, racing, crime, and relationships between characters. The first installments were focused on a more mundane plot, and then the genre moved towards science fiction or even fantasy, where the car (with people!) was even sent into space.",
         "problem": "The very problem or syndrome is that some people evaluate such “fantastic” events in terms of reality or seriousness. But the fact is that this is a very wrong attitude towards a title that does not claim to be realistic. In other words, such titles do not require analysis, brainpower, much thinking, etc., because the main goal is banal: to entertain the viewer and give positive emotions.",
-        "example": "A simple example of this syndrome: the movie «Havoc (2025)» is a typical representative of an action shooter where the main character punishes the scum. It has scenes where the protagonist has endless ammo, and the thing is that such unrealistic mechanics are suitable for such titles, because you are mainly interested in the impression of the action scenes, but there are people who give bad ratings because of this detail. That's why we say that these people have the «Fast and Furious»"
+        "example": "A simple example of this syndrome:",
+        "movie": "The movie «Havoc (2025)» is a typical representative of an action shooter where the main character punishes the scum. It has scenes where the protagonist has endless ammo, and the thing is that such unrealistic mechanics are suitable for such titles, because you are mainly interested in the impression of the action scenes, but there are people who give bad ratings because of this detail. That's why we say that these people have the «Fast and Furious»"
       }
     },
     "about": "About rating system",

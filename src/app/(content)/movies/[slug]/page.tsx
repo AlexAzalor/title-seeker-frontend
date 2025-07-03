@@ -99,7 +99,6 @@ export default async function DynamicPage({ params }: PageProps) {
               sharedUniverseOrder={data.shared_universe_order}
               movieKey={data.key}
               posterUrl={posterUrl}
-              description={data.description}
             />
 
             {!!data.related_movies?.length && (

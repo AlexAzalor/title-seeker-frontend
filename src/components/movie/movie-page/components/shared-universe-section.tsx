@@ -8,7 +8,6 @@ type Props = {
   sharedUniverseOrder?: number | null;
   movieKey: string;
   posterUrl: string;
-  description: string;
 };
 
 export const SharedUniverseSection = ({
@@ -16,7 +15,6 @@ export const SharedUniverseSection = ({
   sharedUniverseOrder,
   movieKey,
   posterUrl,
-  description,
 }: Props) => {
   if (!sharedUniverse || !sharedUniverseOrder) return null;
 
@@ -29,7 +27,10 @@ export const SharedUniverseSection = ({
       >
         {sharedUniverse.name}
 
-        <TooltipWrapper content={description} className="text-center" />
+        <TooltipWrapper
+          content={sharedUniverse.description}
+          className="text-center"
+        />
       </Link>
 
       <MoviesCollection

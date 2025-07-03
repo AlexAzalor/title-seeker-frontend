@@ -21,25 +21,74 @@ export default function AboutRatingSystemPage() {
               <>
                 <h1 className="mb-2 text-center">{t("visualProfile.name")}</h1>
 
-                <div className="flex flex-col items-center gap-4">
-                  <p className="font-semibold">{t("visualProfile.mainInfo")}</p>
-                  <p className="text-center font-semibold underline">
-                    {t("visualProfile.important")}
+                <div className="mb-4 flex flex-col gap-6">
+                  <p className="font-semibold">
+                    {t("visualProfile.description")}
                   </p>
                   <p className="dark:bg-main-dark-hover bg-baby-blue rounded-md p-1 text-center font-bold">
-                    {t("visualProfile.criteria")}
+                    {t("visualProfile.shape")}
                   </p>
+                  <p className="">{t("visualProfile.difference")}</p>
+
+                  <div className="flex flex-col gap-2">
+                    <p className="dark:bg-main-dark-hover bg-baby-blue rounded-md p-1 text-center font-bold">
+                      {t("visualProfile.separation")}
+                    </p>
+                    <p className="">{t("visualProfile.simple")}</p>
+                    <p className="">{t("visualProfile.count")}</p>
+                    <p className="dark:bg-main-dark-hover bg-baby-blue rounded-md p-1 text-center text-xl font-bold">
+                      {t("visualProfile.category")}
+                    </p>
+                  </div>
                 </div>
 
+                <div className="mb-3 flex flex-col gap-2">
+                  <h2 className="text-center font-semibold underline">
+                    {t("visualProfile.important")}
+                  </h2>
+                  <p className="dark:bg-main-dark-hover bg-danger/20 rounded-md p-1 text-center font-bold">
+                    {t("visualProfile.prohibition.info")}
+                  </p>
+                  <p className="font-semibold">
+                    {t("visualProfile.prohibition.whyBad")}
+                  </p>
+
+                  <ul className="list-inside list-disc">
+                    <li className="">{t("visualProfile.prohibition.first")}</li>
+                    <li className="">
+                      {t("visualProfile.prohibition.second")}
+                    </li>
+                    <li className="">{t("visualProfile.prohibition.third")}</li>
+                  </ul>
+                </div>
+
+                <p className="text-base">{t("visualProfile.note")}</p>
+              </>
+            ),
+          },
+          {
+            key: "syndrome",
+            name: t("visualProfile.syndrome.name"),
+            component: (
+              <>
                 <h2 className="my-4 text-center">
                   {t("visualProfile.syndrome.name")}
                 </h2>
 
                 <div className="flex flex-col items-center gap-4">
-                  <p>{t("visualProfile.syndrome.info")}</p>
+                  <p className="font-semibold">
+                    {t("visualProfile.syndrome.info")}
+                  </p>
                   <p>{t("visualProfile.syndrome.movieSeries")}</p>
-                  <p>{t("visualProfile.syndrome.problem")}</p>
-                  <p>{t("visualProfile.syndrome.example")}</p>
+                  <p className="dark:bg-main-dark-hover bg-baby-blue rounded-md px-2 py-1 font-semibold">
+                    {t("visualProfile.syndrome.problem")}
+                  </p>
+                  <div>
+                    <p className="mb-2 font-semibold">
+                      {t("visualProfile.syndrome.example")}
+                    </p>
+                    <p>{t("visualProfile.syndrome.movie")}</p>
+                  </div>
                 </div>
               </>
             ),
@@ -52,7 +101,7 @@ export default function AboutRatingSystemPage() {
                 <h1 className="mb-2 text-center">{t("name")}</h1>
                 <p className="mb-1 font-semibold">{t("mainInfo")}</p>
 
-                <p className="bg-baby-blue dark:bg-main-dark-hover my-2 rounded-md text-center font-bold">
+                <p className="bg-baby-blue dark:bg-main-dark-hover my-2 rounded-md p-2 text-center font-bold">
                   {t("description")}
                 </p>
 
@@ -63,7 +112,7 @@ export default function AboutRatingSystemPage() {
           },
           {
             key: "title-filters",
-            name: "Фільтри тайтлів",
+            name: filters("title"),
             component: (
               <>
                 <h1 className="mb-2 text-center">{filters("title")}</h1>
