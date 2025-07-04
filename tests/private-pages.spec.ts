@@ -23,8 +23,10 @@ test("Should open user profile and navigate to other private links", async ({
   page,
 }) => {
   await page.goto("/");
-  await expect(page.getByRole("button", { name: "CN" })).toBeVisible();
-  await page.getByRole("button", { name: "CN" }).click();
+  await expect(
+    page.getByRole("button", { name: "CN", exact: true }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "CN", exact: true }).click();
   await page.getByRole("menuitem", { name: "Profile", exact: true }).click();
   await page.waitForURL("/account/user/profile");
 
@@ -54,6 +56,11 @@ test("Should open user profile and navigate to other private links", async ({
     .getByRole("link", { name: "Title Visual Profile" })
     .click();
   await expect(page.locator("h1")).toContainText("Visual Profile");
+  await page
+    .getByLabel("admin-sidebar-nav")
+    .getByRole("link", { name: "Title Filters" })
+    .click();
+  await expect(page.locator("h1")).toContainText("Title Filters");
   await page.getByRole("link", { name: "Settings" }).nth(1).click();
   await expect(page.getByLabel("settings")).toContainText("Settings");
 });
@@ -105,7 +112,7 @@ test("Test movie basic Form: add new Movie with basic fields (The Shawshank Rede
   await page.getByRole("option", { name: "Simple action" }).click();
   await page.locator(".mb-5 > div > div:nth-child(2)").first().click();
   await page.locator(".mb-5 > div:nth-child(2) > div:nth-child(2)").click();
-  await page.locator("div:nth-child(3) > div:nth-child(2)").click();
+  await page.locator("div:nth-child(3) > div:nth-child(2)").first().click();
   await page
     .locator("div:nth-child(4) > div:nth-child(4) > div:nth-child(2)")
     .click();
@@ -259,7 +266,7 @@ test("Test movie full Form: add new Movie with all fields (The lord of the ring 
   await page.getByRole("option", { name: "Simple action" }).click();
   await page.locator(".mb-5 > div > div:nth-child(2)").first().click();
   await page.locator(".mb-5 > div:nth-child(2) > div:nth-child(2)").click();
-  await page.locator("div:nth-child(3) > div:nth-child(2)").click();
+  await page.locator("div:nth-child(3) > div:nth-child(2)").first().click();
   await page
     .locator("div:nth-child(4) > div:nth-child(4) > div:nth-child(2)")
     .click();
@@ -443,14 +450,18 @@ test("Test Quick add new Movie", async ({ page }) => {
 
 test("Should logout", async ({ page }) => {
   await page.goto("/");
-  await expect(page.getByRole("button", { name: "CN" })).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "CN", exact: true }),
+  ).toBeVisible();
 
-  await page.getByRole("button", { name: "CN" }).click();
+  await page.getByRole("button", { name: "CN", exact: true }).click();
   await page.getByRole("menuitem", { name: "Profile", exact: true }).click();
   await page.waitForURL("/account/user/profile");
 
-  await page.getByRole("button", { name: "CN" }).click();
+  await page.getByRole("button", { name: "CN", exact: true }).click();
   await page.getByRole("menuitem", { name: "Log out" }).click();
   await page.waitForURL("/");
-  await expect(page.getByRole("button", { name: "CN" })).not.toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "CN", exact: true }),
+  ).not.toBeVisible();
 });

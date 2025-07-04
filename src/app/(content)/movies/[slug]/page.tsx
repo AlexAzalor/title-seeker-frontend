@@ -26,7 +26,7 @@ const posterUrl = POSTER_URL || "";
 const avatarUrl = AVATAR_URL || "";
 
 /** Prevent two requests to the backend */
-export const getMovie = cache(async (slug: string) => {
+const getMovie = cache(async (slug: string) => {
   const session = await auth();
   const locale = await getLocale();
   const lang = Language[locale as keyof typeof Language];
@@ -58,7 +58,7 @@ export async function generateMetadata({
   };
 }
 
-export default async function DynamicPage({ params }: PageProps) {
+export default async function MoviePage({ params }: PageProps) {
   const { slug: movie_key } = await params;
 
   const session = await auth();

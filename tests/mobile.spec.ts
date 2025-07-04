@@ -28,8 +28,8 @@ test.describe("Test Mobile view (385x851)", () => {
 
   test("Should be Filters sidebar in the Super Search", async ({ page }) => {
     await page.goto("/super-search");
-    await page.getByRole("button", { name: "Filters" }).click();
-    await expect(page.getByRole("heading", { name: "Filters" })).toBeVisible();
+    await page.getByRole("button", { name: "Фільтри" }).click();
+    await expect(page.getByRole("heading", { name: "Фільтри" })).toBeVisible();
   });
 
   test("Should be Enhance Search sidebar in the Super Search", async ({

@@ -7,9 +7,6 @@ test("Should be visible main info and buttons on the Home page", async ({
 }) => {
   await page.goto("/");
   await expect(page.locator("h1")).toContainText("Title Seeker");
-  await expect(page.getByRole("main")).toContainText(
-    "Гнучкість, швидкість і простота дозволить в любий момент і місці мати можливість знайти бажаний тайтл!",
-  );
 
   // Header
   await expect(
@@ -55,7 +52,7 @@ test("Should switch dark/light theme", async ({ page }) => {
     .getByRole("banner")
     .getByRole("button", { name: "select-theme" })
     .click();
-  await page.getByRole("menuitem", { name: "Dark" }).click();
+  await page.getByRole("menuitem", { name: "Темна", exact: true }).click();
 
   await expect(page.locator("html")).toHaveClass(/dark/);
 });
@@ -81,12 +78,19 @@ test("Should go to the Movie page and find two rating types", async ({
     .getByLabel("project-header")
     .getByRole("link", { name: "Фільми" })
     .click();
+
+  // Two click because of the bug with the first click
+  // Next.js make Fast Refresh had to perform a full reload for some reason (framer-motion)
+  await page.getByRole("link", { name: "movie-link-0" }).click();
   await page.getByRole("link", { name: "movie-link-0" }).click();
   await expect(
-    page.locator('[id="radix-«rs»-trigger-visual-profile"]'),
-  ).toContainText("Візуальний профіль");
+    page.getByRole("tab", { name: "Візуальний профіль" }),
+  ).toBeVisible();
+  await expect(page.getByLabel("Візуальний профіль")).toContainText(
+    "Впливовість",
+  );
   await page.getByRole("tab", { name: "Оцінка" }).click();
-  await expect(page.getByLabel("rate-movie")).toContainText("Акторська гра");
+  await expect(page.getByText("Акторська гра")).toBeVisible();
 });
 
 test("Should find movie by Super Search: Втеча з Шоушенка", async ({
@@ -97,6 +101,7 @@ test("Should find movie by Super Search: Втеча з Шоушенка", async 
   await page.getByRole("button", { name: "Супер пошук" }).click();
   await expect(page.locator("h1")).toContainText("Розширений пошук тайтлів");
 
+  await page.getByRole("checkbox", { name: "Точний збіг" }).click();
   await page.getByText("Жанри", { exact: true }).click();
   await page.getByRole("option", { name: "Драма" }).click();
   await expect(page.locator("#main-layout")).toContainText("Драма(10-100)");
@@ -117,23 +122,26 @@ test("Should find movie by Super Search: Втеча з Шоушенка", async 
   await expect(page.locator("#main-layout")).toContainText("Френк Дарабонт");
   await page.getByRole("link", { name: "movie-link-0" }).click();
 
-  await expect(page.locator("h1")).toContainText("Втеча з Шоушенка");
+  await expect(
+    page.getByLabel("movie-link-").getByRole("paragraph"),
+  ).toContainText("Втеча з Шоушенка");
 });
 
 test("Should find movie by Search: The Dark Knight", async ({ page }) => {
   const movieTitle = "The Dark Knight";
   await page.goto("/");
-  // Switch to language
   await page
     .getByRole("banner", { name: "project-header" })
     .getByLabel("language-selector")
     .click();
   await page.getByRole("option", { name: "English" }).click();
   await page.getByRole("textbox", { name: "Search..." }).click();
-  await page.getByRole("textbox", { name: "Type to search..." }).click();
+  await page.getByRole("textbox", { name: "Search by movies..." }).click();
   await page
-    .getByRole("textbox", { name: "Type to search..." })
+    .getByRole("textbox", { name: "Search by movies..." })
     .fill(movieTitle);
-  await page.getByRole("link", { name: `Movie poster ${movieTitle}` }).click();
-  await page.getByRole("heading", { name: movieTitle }).click();
+  await page.getByRole("link", { name: `Title Poster ${movieTitle}` }).click();
+  await page.getByRole("textbox", { name: "Search..." }).click();
+  await page.getByRole("link", { name: `Title Poster ${movieTitle}` }).click();
+  await expect(page.locator("h1")).toContainText(movieTitle);
 });

@@ -11,7 +11,7 @@ export const Footer = () => {
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
           {/* Brand Section */}
           <div className="space-y-4">
-            <h3 className="text-lg font-bold text-blue-400">Title Seeker</h3>
+            <p className="text-lg font-bold text-blue-400">Title Seeker</p>
             <p className="text-sm text-gray-300">{t("shortText")}</p>
             <div className="text-sm text-gray-400">
               Version {process.env.NEXT_PUBLIC_APP_VERSION}
@@ -20,9 +20,9 @@ export const Footer = () => {
 
           {/* Contact Section */}
           <div className="space-y-4">
-            <h4 className="text-md font-semibold text-blue-400">
+            <p className="text-md font-semibold text-blue-400">
               {t("contact")}
-            </h4>
+            </p>
             <div className="space-y-2 text-sm text-gray-300">
               <div className="flex items-center gap-2">
                 {/* <span className="text-blue-400">📧</span> */}
@@ -39,9 +39,9 @@ export const Footer = () => {
 
           {/* Help Section */}
           <div className="space-y-4">
-            <h4 className="text-md font-semibold text-blue-400">
+            <p className="text-md font-semibold text-blue-400">
               {t("support")}
-            </h4>
+            </p>
             <div className="space-y-2 text-sm text-gray-300">
               <Link
                 href="/help-center"

@@ -56,11 +56,11 @@ test.describe("API", () => {
     expect(data.key).toBe(movieKey);
   });
 
-  test("Test Get Radar chart data: /api/users/genre-radar-chart", async ({
+  test("Test Get Radar chart data: /api/users/info-report", async ({
     request,
   }) => {
     const response = await request.get(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/users/genre-radar-chart`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/users/info-report`,
       {
         params: { ...API_OPTIONS },
       },
