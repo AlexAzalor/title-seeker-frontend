@@ -37,45 +37,53 @@ export const FilterList = ({
   visual_profile_categories,
 }: Props) => {
   return (
-    <div
-      className="mb-20 flex flex-col gap-4 overflow-auto"
-      aria-label="filter-list"
-    >
+    <div className="mb-20 flex flex-col gap-4" aria-label="filter-list">
       <SearchControlButtons />
 
-      <FilterSelector
-        data={visual_profile_categories}
-        param_key={FilterEnum.visual_profile}
-      />
+      <div className="custom-scrollbar flex flex-col gap-4 overflow-x-hidden overflow-y-auto pr-3">
+        <FilterSelector
+          data={visual_profile_categories}
+          param_key={FilterEnum.visual_profile}
+        />
+        <Separator className="my-2" />
 
-      <Separator className="my-2" />
+        <GenreSelector genres={genres} />
 
-      <GenreSelector genres={genres} />
+        <Separator className="my-2" />
 
-      <Separator className="my-2" />
+        <FilterSelector
+          data={specifications}
+          param_key={FilterEnum.specification}
+        />
 
-      <FilterSelector
-        data={specifications}
-        param_key={FilterEnum.specification}
-      />
-      <FilterSelector data={keywords} param_key={FilterEnum.keyword} />
-      <FilterSelector data={action_times} param_key={FilterEnum.action_time} />
+        <FilterSelector data={keywords} param_key={FilterEnum.keyword} />
 
-      <Separator className="my-2" />
+        <FilterSelector
+          data={action_times}
+          param_key={FilterEnum.action_time}
+        />
 
-      <PersonSelector peopleList={actors} personKey={FilterEnum.actor} />
-      <PersonSelector peopleList={directors} personKey={FilterEnum.director} />
-      <PersonSelector
-        peopleList={characters}
-        personKey={FilterEnum.character}
-      />
+        <Separator className="my-2" />
 
-      <Separator className="my-2" />
+        <PersonSelector peopleList={actors} personKey={FilterEnum.actor} />
 
-      <FilterSelector
-        data={shared_universes}
-        param_key={FilterEnum.shared_universe}
-      />
+        <PersonSelector
+          peopleList={directors}
+          personKey={FilterEnum.director}
+        />
+
+        <PersonSelector
+          peopleList={characters}
+          personKey={FilterEnum.character}
+        />
+
+        <Separator className="my-2" />
+
+        <FilterSelector
+          data={shared_universes}
+          param_key={FilterEnum.shared_universe}
+        />
+      </div>
     </div>
   );
 };

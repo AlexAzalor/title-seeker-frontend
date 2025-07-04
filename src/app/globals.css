@@ -644,3 +644,7 @@
 .header-shadow {
   box-shadow: 0 0 0.5rem 0.1rem var(--color-header);
 }
+
+.custom-scrollbar {
+  @apply [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-200 hover:[&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-thumb]:bg-[#2a274b] dark:hover:[&::-webkit-scrollbar-thumb]:bg-[#3b375c] [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 dark:[&::-webkit-scrollbar-track]:bg-[#14122f];
+}

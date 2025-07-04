@@ -122,7 +122,9 @@ export const SelectedFilters = ({
       </span>
       <ResizablePanel defaultSize={8}>
         <div className="col-span-3 min-h-25 w-full">
-          <h1 className="mb-3 text-center lg:text-5xl">{t("title")}</h1>
+          <h1 className="mb-0 text-center text-xl sm:mb-3 sm:text-5xl">
+            {t("title")}
+          </h1>
 
           {/* for mobile */}
           <div className="mb-2 flex justify-between">

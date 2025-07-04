@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { cn } from "@/lib/utils";
 
 type Tab = {
   key: string;
@@ -24,7 +25,12 @@ export const CustomTabs = ({ tabs, className, header }: Props) => {
         {header}
 
         <div className="flex w-full justify-center">
-          <TabsList className="flex w-fit">
+          <TabsList
+            className={cn(
+              "flex h-auto w-fit",
+              tabs.length > 3 && "flex-col md:flex-row",
+            )}
+          >
             {tabs.map((tab) => (
               <TabsTrigger key={tab.key} value={tab.key}>
                 {tab.name}

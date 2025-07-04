@@ -103,17 +103,19 @@
     "searchByMovies": "Search by movies...",
     "searchByActors": "Search by actors...",
     "searchByDirectors": "Search by directors...",
-    "searchByCharacters": "Search by characters..."
+    "searchByCharacters": "Search by characters...",
+    "notFound": "Nothing found."
   },
 
   "SuperSearch": {
     "title": "Advanced title search",
-    "emptyState": "Select at least one filter to search for movies",
+    "emptyState": "Select at least one filter to search",
     "enhance": "Enhance Search",
     "exactMatch": "Exact match",
     "clear": "Clear all filters",
     "notFound": "No movies found with selected filters",
     "apply": "Apply",
+    "applied": "Applied!",
     "filters": "Filters",
     "description": "Select filters to start"
   },

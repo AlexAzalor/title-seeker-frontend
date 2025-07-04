@@ -39,7 +39,7 @@ export const UserSettings = () => {
   const handleDeleteProfile = async () => {
     const res = await deleteProfile(data.user.uuid);
 
-    if (res === 200) {
+    if (res === 204) {
       close();
       signOut({ redirectTo: "/" });
     } else {

@@ -22,7 +22,7 @@ export const MovieList = ({ movies, lang, className = "" }: Props) => {
         !!movie.rating && "users-rated-movie p-2",
         className,
       )}
-      href={`/movies/${movie.key}`}
+      href={`/movies/${movie.key}#movie`}
     >
       <Image
         src={`${POSTER_URL}/posters/${movie.poster}`}

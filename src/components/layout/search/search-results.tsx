@@ -18,7 +18,7 @@ export const SearchResults = ({
   <>
     {!!searchResults && searchResults.length === 0 && (
       <p className="error-message mx-6 rounded-md text-center">
-        Items Not found
+        {t("notFound")}
       </p>
     )}
 

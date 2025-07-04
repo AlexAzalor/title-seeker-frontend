@@ -86,9 +86,9 @@ export const FilterFetchWrapper = async ({ children }: PropsWithChildren) => {
               />
 
               <ResizablePanel defaultSize={52}>
-                <ScrollArea type="auto" className="mx-1 h-full rounded-md">
+                <div className="custom-scrollbar h-full overflow-y-auto">
                   {children}
-                </ScrollArea>
+                </div>
               </ResizablePanel>
 
               <ResizableHandle

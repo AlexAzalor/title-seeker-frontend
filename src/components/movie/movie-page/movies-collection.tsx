@@ -40,14 +40,14 @@ export const MoviesCollection = ({
     <div
       aria-label="movies-collection"
       ref={listRef}
-      className="flex max-h-80 flex-col gap-1 overflow-y-auto"
+      className="custom-scrollbar flex max-h-80 flex-col gap-1 overflow-y-auto"
     >
       {data.movies.map((movie, i) => (
         <Link
           ref={index === i ? activeItemRef : null}
-          href={`/movies/${movie.key}`}
+          href={`/movies/${movie.key}#movie`}
           key={movie.key}
-          scroll={false}
+          scroll
           className={cn(
             "dark:hover:bg-main-dark-hover flex items-center gap-4 rounded-xl transition-all duration-200 select-none hover:bg-neutral-100",
             currentMovieKey === movie.key &&

@@ -34,11 +34,11 @@ export const RelatedSimilarMovieList = ({
 
       <div
         aria-label="related-similar-list"
-        className="mx-2 flex max-h-80 flex-grow-1 flex-row gap-2 overflow-visible overflow-y-auto md:m-0 xl:max-w-none xl:flex-col"
+        className="custom-scrollbar mx-2 flex max-h-80 flex-grow-1 flex-row gap-2 overflow-visible overflow-y-auto md:m-0 xl:max-w-none xl:flex-col"
       >
         {movies.map((movie) => (
           <Link
-            href={`/movies/${movie.key}`}
+            href={`/movies/${movie.key}#movie`}
             key={movie.key}
             className={cn(
               "dark:hover:bg-main-dark-hover mb-2 flex items-center gap-4 rounded-xl transition-all duration-200 select-none hover:bg-neutral-100 md:m-0",

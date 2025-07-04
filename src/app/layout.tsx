@@ -29,10 +29,23 @@ const sourceSans3 = Source_Sans_3({
 });
 
 export const metadata: Metadata = {
+  keywords: [
+    "фільм",
+    "фільми",
+    "пошук фільмів",
+    "тайтл",
+    "тайтли",
+    "пошук тайтлів",
+    "оцінювати фільми",
+    "оцінювати тайтли",
+  ],
   title: {
     template:
       "%s | Title Seeker - дозволяє швидко і якісно знайти бажаний тайтл!",
     default: "Title Seeker - дозволяє швидко і якісно знайти бажаний тайтл!",
+  },
+  alternates: {
+    canonical: "https://titleseeker.com/",
   },
   description:
     "Платформа, де ви можете шукати тайтли за допомогою багатьох фільтрів, оцінювати їх, переглядати статистику та багато іншого!",
@@ -45,6 +58,18 @@ export const metadata: Metadata = {
     url: "https://titleseeker.com",
     siteName: "Title Seeker",
     images: ["https://static.titleseeker.com/other/title-seeker-logo.webp"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    nocache: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
 };
 

@@ -179,12 +179,6 @@ export const Search = ({ posterURL }: Props) => {
             onChange={handleTabChange}
           />
 
-          {warning && (
-            <p className="error-message mx-6 rounded-md text-center">
-              Title type not supported!
-            </p>
-          )}
-
           <SearchInput
             placeholder={getInputPlaceholder(tab)}
             isMobile={isMobile}

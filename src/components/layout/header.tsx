@@ -21,6 +21,7 @@ export const Header = () => {
 
   return (
     <header
+      id="movie"
       aria-label="project-header"
       className="bg-header header-shadow flex items-center justify-between px-4 py-4 shadow-sm shadow-gray-200 sm:px-10 lg:px-40"
     >

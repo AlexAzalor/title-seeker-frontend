@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useLocale } from "next-intl";
 import dynamic from "next/dynamic";
 import { useModal } from "@/hooks/use-modal";
@@ -48,9 +49,19 @@ export function VisualProfile({ movieKey, radarData, isOwner }: Props) {
     <>
       <div className="relative text-center">
         <div className="flex items-center justify-center gap-2">
-          <h3 className="text-gray-purple text-xl font-semibold tracking-tight">
-            {radarData.name}
-          </h3>
+          <div className="flex flex-col">
+            <Link
+              href={`/super-search?page=1&visual_profile=${radarData.key}`}
+              className=""
+            >
+              <Button
+                className="text-gray-purple dark:text-gray-purple p-0 text-xl font-semibold tracking-tight"
+                variant="link"
+              >
+                {radarData.name}
+              </Button>
+            </Link>
+          </div>
           <TooltipWrapper content={radarData.description} />
         </div>
 

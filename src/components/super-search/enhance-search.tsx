@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useRouter, useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
 
 import {
   extractValues,
@@ -140,6 +141,8 @@ export const EnhanceSearch = () => {
     router.replace("/super-search" + "?" + urlSearchParams.toString(), {
       scroll: false,
     });
+
+    toast.info(t("applied"));
   };
 
   return (
