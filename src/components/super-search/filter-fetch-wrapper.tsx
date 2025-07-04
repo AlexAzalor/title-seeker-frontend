@@ -6,7 +6,6 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { SelectedFilters } from "@/components/super-search/selected-filters";
 import { EnhanceSearch } from "@/components/super-search/enhance-search";
 import { FilterList } from "@/components/super-search/filter-list";

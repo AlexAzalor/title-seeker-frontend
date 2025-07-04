@@ -158,7 +158,7 @@ export const Search = ({ posterURL }: Props) => {
           <SearchIcon className="absolute mr-2 ml-2 h-4 w-4 shrink-0 opacity-50" />
           <Input
             placeholder={t("search")}
-            className="dark:hover:bg-main-dark-hover cursor-pointer bg-white transition-colors placeholder:pl-5 hover:bg-neutral-200 dark:placeholder:text-neutral-400"
+            className="dark:hover:bg-main-dark-hover cursor-pointer bg-white pl-8 transition-colors hover:bg-neutral-200 dark:placeholder:text-neutral-400"
             readOnly
           />
         </div>
