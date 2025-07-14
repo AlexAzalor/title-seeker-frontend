@@ -31,7 +31,9 @@ export default async function SuperSearchPage(props: {
 
   const hasNoParams =
     !paramsKeys.length ||
-    (paramsKeys.length === 1 && paramsKeys.includes("exact_match"));
+    (paramsKeys.length === 1 &&
+      paramsKeys.includes("exact_match") &&
+      paramsKeys.includes("inner_exact_match"));
 
   if (hasNoParams) {
     return <h2 className="mx-auto mt-10 text-center">{t("emptyState")}</h2>;
@@ -66,6 +68,11 @@ export default async function SuperSearchPage(props: {
       ? searchParams.exact_match
       : undefined;
 
+  const innerExactMatch =
+    typeof searchParams.inner_exact_match === "string"
+      ? searchParams.inner_exact_match
+      : undefined;
+
   const { aPISuperSearchMovies } = getMovies();
   const {
     data: { items: movies, page, total, size, pages },
@@ -86,6 +93,7 @@ export default async function SuperSearchPage(props: {
 
       // Extra filters
       exact_match: Boolean(exactMatch),
+      inner_exact_match: Boolean(innerExactMatch),
 
       // Pagination and sorting,
       page: pageNumber,

@@ -10,9 +10,12 @@ export default async function NewMoviesToAddPage() {
   const admin = await getAdminOrRedirect();
 
   const t = await getTranslations("QuickMovie");
-  const { aPIMoviesToAdd } = getMovies();
+  const { aPIGetMoviesToAddList } = getMovies();
 
-  const { data } = await aPIMoviesToAdd({ user_uuid: admin.uuid }, backendURL);
+  const { data } = await aPIGetMoviesToAddList(
+    { user_uuid: admin.uuid },
+    backendURL,
+  );
 
   if (!data.quick_movies.length) {
     return (

@@ -9,7 +9,10 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 
-export const EXACT_MATCH_KEY = "exact_match";
+export const SearchControl = {
+  exactMatch: "exact_match",
+  innerExactMatch: "inner_exact_match",
+} as const;
 
 export const SearchControlButtons = () => {
   const router = useRouter();
@@ -17,7 +20,10 @@ export const SearchControlButtons = () => {
   const { setSubgenres } = useSubgenreStore();
   const currentSearchParams = useSearchParams();
 
-  const currentExactMatch = currentSearchParams.get(EXACT_MATCH_KEY);
+  const currentExactMatch = currentSearchParams.get(SearchControl.exactMatch);
+  const currentInnerExactMatch = currentSearchParams.get(
+    SearchControl.innerExactMatch,
+  );
 
   const clearAllFilters = () => {
     const { refreshPage } = syncSearchParameters(router);
@@ -27,16 +33,26 @@ export const SearchControlButtons = () => {
 
   function handleExactMatch() {
     manageSearchParameters(
-      EXACT_MATCH_KEY,
+      SearchControl.exactMatch,
       "true",
-      currentSearchParams.has(EXACT_MATCH_KEY) ? "true" : "",
+      currentSearchParams.has(SearchControl.exactMatch) ? "true" : "",
+      currentSearchParams,
+      router,
+    );
+  }
+
+  function handleInnerExactMatch() {
+    manageSearchParameters(
+      SearchControl.innerExactMatch,
+      "true",
+      currentSearchParams.has(SearchControl.innerExactMatch) ? "true" : "",
       currentSearchParams,
       router,
     );
   }
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-1">
       <Button
         className="mb-4 cursor-pointer font-bold text-black"
         variant="destructive"
@@ -48,9 +64,22 @@ export const SearchControlButtons = () => {
       <Label
         onClick={handleExactMatch}
         className="my-2 flex w-max cursor-pointer items-center gap-3 text-xl"
+        title={t("exactMatchTooltip")}
       >
         <span>{t("exactMatch")}</span>
         <Checkbox checked={!!currentExactMatch} className="cursor-pointer" />
+      </Label>
+
+      <Label
+        onClick={handleInnerExactMatch}
+        className="my-2 flex w-max cursor-pointer items-center gap-3 text-xl"
+        title={t("innerEMTooltip")}
+      >
+        <span>{t("innerExactMatch")}</span>
+        <Checkbox
+          checked={!!currentInnerExactMatch}
+          className="cursor-pointer"
+        />
       </Label>
     </div>
   );

@@ -8,7 +8,6 @@ import { useSubgenreStore } from "@/lib/store";
 import { extractWord, manageSearchParameters } from "@/lib/utils";
 
 import { ResizableHandle, ResizablePanel } from "@/components/ui/resizable";
-import { EXACT_MATCH_KEY } from "@/components/super-search/genre-selector";
 import { FilterBrick } from "@/components/super-search/filter-brick";
 import { HoverBrick } from "@/components/super-search/hover-brick";
 import { FilterList } from "@/components/super-search/filter-list";
@@ -23,6 +22,7 @@ import {
   FilterEnum,
   type BaseSharedUniverse,
 } from "@/orval_api/model";
+import { SearchControl } from "./search-control-buttons";
 
 const SideMenuPanel = dynamic(() => import("./side-menu-panel"), {
   ssr: false,
@@ -75,7 +75,10 @@ export const SelectedFilters = ({
   const selectedUniverses = currentSearchParams.getAll(
     FilterEnum.shared_universe,
   );
-  const selectedExactMatch = currentSearchParams.get(EXACT_MATCH_KEY);
+  const selectedExactMatch = currentSearchParams.get(SearchControl.exactMatch);
+  const selectedInnerExactMatch = currentSearchParams.get(
+    SearchControl.innerExactMatch,
+  );
   const selectedVisualProfiles = currentSearchParams.getAll(
     FilterEnum.visual_profile,
   );
@@ -222,7 +225,25 @@ export const SelectedFilters = ({
                 <CircleX
                   className="top-0 right-0 h-4 w-4 cursor-pointer"
                   onClick={() =>
-                    deleteSearchParam(selectedExactMatch, EXACT_MATCH_KEY)
+                    deleteSearchParam(
+                      selectedExactMatch,
+                      SearchControl.exactMatch,
+                    )
+                  }
+                />
+              </div>
+            )}
+
+            {selectedInnerExactMatch && (
+              <div className="hover:shadow-exact-match dark:hover:shadow-exact-match-light flex items-center space-x-1 rounded-xl border-1 border-black p-1 font-bold text-black transition-shadow dark:border-white dark:text-white">
+                <span>{t("innerExactMatch")}</span>
+                <CircleX
+                  className="top-0 right-0 h-4 w-4 cursor-pointer"
+                  onClick={() =>
+                    deleteSearchParam(
+                      selectedInnerExactMatch,
+                      SearchControl.innerExactMatch,
+                    )
                   }
                 />
               </div>

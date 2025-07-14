@@ -7,6 +7,7 @@ import { Separator } from "@/components/ui/separator";
 import type {
   UserInfoReportTotalActorsCount,
   Language,
+  UserInfoReportTotalDirectorsCount,
 } from "@/orval_api/model";
 import type { UserExtended } from "@/auth";
 import type { User } from "next-auth";
@@ -17,6 +18,7 @@ type Props = {
   moviesRated: number;
   lastMovieRateDate: string | null;
   totalActorsCount?: UserInfoReportTotalActorsCount;
+  totalDirectorsCount?: UserInfoReportTotalDirectorsCount;
   user: User & UserExtended;
 };
 
@@ -26,6 +28,7 @@ export const UserInfo = ({
   lastMovieRateDate,
   moviesRated,
   totalActorsCount,
+  totalDirectorsCount,
   user,
 }: Props) => {
   const t = useTranslations("User");
@@ -64,6 +67,13 @@ export const UserInfo = ({
             <div>
               <p>{t("totalActors")}:</p>
               <span className="font-bold">{totalActorsCount}</span>
+            </div>
+          )}
+
+          {!!totalDirectorsCount && checkIfAdmin(user.role) && (
+            <div>
+              <p>{t("totalDirectors")}:</p>
+              <span className="font-bold">{totalDirectorsCount}</span>
             </div>
           )}
 

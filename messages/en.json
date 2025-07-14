@@ -112,6 +112,9 @@
     "emptyState": "Select at least one filter to search",
     "enhance": "Enhance Search",
     "exactMatch": "Exact match",
+    "exactMatchTooltip": "Exact match between filters (vertical)",
+    "innerExactMatch": "Inner exact match",
+    "innerEMTooltip": "Exact match between selected filters of the same type (horizontal)",
     "clear": "Clear all filters",
     "notFound": "No movies found with selected filters",
     "apply": "Apply",
@@ -532,6 +535,7 @@
     "joined": "Joined",
     "ratedCount": "Rated movies",
     "totalActors": "Total actors",
+    "totalDirectors": "Total directors",
     "lastRatingDate": "Date of last rating"
   },
 

@@ -101,7 +101,7 @@ test("Should find movie by Super Search: Втеча з Шоушенка", async 
   await page.getByRole("button", { name: "Супер пошук" }).click();
   await expect(page.locator("h1")).toContainText("Розширений пошук тайтлів");
 
-  await page.getByRole("checkbox", { name: "Точний збіг" }).click();
+  await page.getByRole("checkbox", { name: "Точний збіг" }).first().click();
   await page.getByText("Жанри", { exact: true }).click();
   await page.getByRole("option", { name: "Драма" }).click();
   await expect(page.locator("#main-layout")).toContainText("Драма(10-100)");

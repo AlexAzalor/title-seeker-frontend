@@ -135,10 +135,10 @@ export const VisualProfileMovieForm = ({ categories }: Props) => {
 
             <div className="w-200">
               <p className="mb-1 font-semibold">
-                {tVisualProfile("visualProfile.mainInfo")}
+                {tVisualProfile("visualProfile.description")}
               </p>
               <p className="font-semibold">
-                {tVisualProfile("visualProfile.criteria")}
+                {tVisualProfile("visualProfile.shape")}
               </p>
             </div>
 
