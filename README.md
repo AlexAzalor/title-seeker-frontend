@@ -176,9 +176,9 @@ Translation files are located in the `messages/` directory.
 
 ---
 
-## 🚢 Deploy
+## 🐳 Docker Deployment
 
-Deployment is done using Docker. Changes are pushed to the repository and then pulled on the server.
+Changes are pushed to the docker hub repository and then pulled on the server.
 For hotfixes there is a quick script, and after significant changes it is better to use git actions. To do this you need to create a runner on your machine.
 
 ---

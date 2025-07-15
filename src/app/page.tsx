@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import { useTranslations } from "next-intl";
 import { AVATAR_URL, POSTER_URL } from "@/lib/constants";
 
+import { RevealOnScroll } from "@/components/my-custom-ui/reveal-on-scroll";
 import { ActorsCarousel } from "@/components/actors-carousel";
 import { FetchWrapper } from "@/components/my-custom-ui/fetch-wrapper";
 import { MoviesCarousel } from "@/components/movie/movie-carousel";
@@ -65,58 +66,62 @@ export default function Home() {
 
         <div className="text-gray-purple">{t("warning")}</div>
 
-        <Suspense
-          fallback={
-            <div className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border w-full rounded-xl border p-5">
-              <Spinner className="mx-auto w-fit" />
-            </div>
-          }
-        >
-          <FetchWrapper<
-            MovieCarouselList,
-            APIGetRandomListParams,
-            typeof aPIGetRandomList
+        <RevealOnScroll>
+          <Suspense
+            fallback={
+              <div className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border w-full rounded-xl border p-5">
+                <Spinner className="mx-auto w-fit" />
+              </div>
+            }
           >
-            apiFetch={aPIGetRandomList}
-            params={{}}
-          >
-            {({ result, lang }) => (
-              <MoviesCarousel
-                name={t("randomMovies")}
-                movies={result.data.movies}
-                lang={lang}
-                posterURL={POSTER_URL || "NO URL!"}
-                avatarURL={AVATAR_URL || "NO URL!"}
-              />
-            )}
-          </FetchWrapper>
-        </Suspense>
+            <FetchWrapper<
+              MovieCarouselList,
+              APIGetRandomListParams,
+              typeof aPIGetRandomList
+            >
+              apiFetch={aPIGetRandomList}
+              params={{}}
+            >
+              {({ result, lang }) => (
+                <MoviesCarousel
+                  name={t("randomMovies")}
+                  movies={result.data.movies}
+                  lang={lang}
+                  posterURL={POSTER_URL || "NO URL!"}
+                  avatarURL={AVATAR_URL || "NO URL!"}
+                />
+              )}
+            </FetchWrapper>
+          </Suspense>
+        </RevealOnScroll>
 
-        <Suspense
-          fallback={
-            <div className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border w-full rounded-xl border p-5">
-              <Spinner className="mx-auto w-fit" />
-            </div>
-          }
-        >
-          <FetchWrapper<
-            ActorsList,
-            APIGetActorsWithMostMoviesParams,
-            typeof aPIGetActorsWithMostMovies
+        <RevealOnScroll>
+          <Suspense
+            fallback={
+              <div className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border w-full rounded-xl border p-5">
+                <Spinner className="mx-auto w-fit" />
+              </div>
+            }
           >
-            apiFetch={aPIGetActorsWithMostMovies}
-            params={{}}
-          >
-            {({ result, lang }) => (
-              <ActorsCarousel
-                name={t("topActorsCarousel")}
-                actors={result.data.actors}
-                lang={lang}
-                avatarURL={AVATAR_URL || "NO URL!"}
-              />
-            )}
-          </FetchWrapper>
-        </Suspense>
+            <FetchWrapper<
+              ActorsList,
+              APIGetActorsWithMostMoviesParams,
+              typeof aPIGetActorsWithMostMovies
+            >
+              apiFetch={aPIGetActorsWithMostMovies}
+              params={{}}
+            >
+              {({ result, lang }) => (
+                <ActorsCarousel
+                  name={t("topActorsCarousel")}
+                  actors={result.data.actors}
+                  lang={lang}
+                  avatarURL={AVATAR_URL || "NO URL!"}
+                />
+              )}
+            </FetchWrapper>
+          </Suspense>
+        </RevealOnScroll>
       </main>
     </>
   );
