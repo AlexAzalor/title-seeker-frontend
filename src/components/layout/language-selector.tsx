@@ -1,6 +1,6 @@
 "use client";
 
-import { setUserLocale } from "@/app/services/locale";
+import { setUserLocale } from "@/app/(app)/services/locale";
 import {
   Select,
   SelectContent,

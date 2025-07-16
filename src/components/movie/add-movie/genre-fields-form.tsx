@@ -14,7 +14,7 @@ import { SliderFormField } from "@/components/my-custom-ui/form-ui-parts/slider-
 import { ResponsiveWrapper } from "@/components/my-custom-ui/responsive-wrapper";
 import { AddNewGenre } from "@/components/movie/add-movie/connected-parts/add-new-genre";
 
-import { createGenre, createSubgenre } from "@/app/services/admin-api";
+import { createGenre, createSubgenre } from "@/app/(app)/services/admin-api";
 
 import { GenreSchemaList } from "@/types/genre-filter-schema";
 import type {

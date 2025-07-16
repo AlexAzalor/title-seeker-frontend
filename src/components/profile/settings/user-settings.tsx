@@ -9,8 +9,8 @@ import { Language } from "@/orval_api/model";
 
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { setUserLocale } from "@/app/services/locale";
-import { deleteProfile, setLanguage } from "@/app/services/user-api";
+import { setUserLocale } from "@/app/(app)/services/locale";
+import { deleteProfile, setLanguage } from "@/app/(app)/services/user-api";
 import type { Session } from "next-auth";
 
 const CustomModal = dynamic(

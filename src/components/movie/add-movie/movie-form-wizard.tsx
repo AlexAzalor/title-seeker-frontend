@@ -33,7 +33,7 @@ import { RelatedMovieForm } from "@/components/movie/add-movie/related-movie-for
 import { SharedUniverseForm } from "@/components/movie/add-movie/shared-universe-form";
 import { VisualProfileMovieForm } from "@/components/movie/add-movie/visual-profile-form";
 
-import { createMovie } from "@/app/services/admin-api";
+import { createMovie } from "@/app/(app)/services/admin-api";
 import type {
   FilterItemOut,
   BodyAPICreateMovie,

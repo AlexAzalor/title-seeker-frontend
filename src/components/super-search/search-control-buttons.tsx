@@ -52,9 +52,9 @@ export const SearchControlButtons = () => {
   }
 
   return (
-    <div className="flex flex-col gap-1">
+    <div className="flex flex-col gap-1 lg:gap-3">
       <Button
-        className="mb-4 cursor-pointer font-bold text-black"
+        className="mb-2 cursor-pointer font-bold text-black lg:mb-0"
         variant="destructive"
         onClick={clearAllFilters}
       >
@@ -63,7 +63,7 @@ export const SearchControlButtons = () => {
 
       <Label
         onClick={handleExactMatch}
-        className="my-2 flex w-max cursor-pointer items-center gap-3 text-xl"
+        className="flex w-max cursor-pointer items-center gap-3 text-xl"
         title={t("exactMatchTooltip")}
       >
         <span>{t("exactMatch")}</span>
@@ -72,7 +72,7 @@ export const SearchControlButtons = () => {
 
       <Label
         onClick={handleInnerExactMatch}
-        className="my-2 flex w-max cursor-pointer items-center gap-3 text-xl"
+        className="flex w-max cursor-pointer items-center gap-3 text-xl"
         title={t("innerEMTooltip")}
       >
         <span>{t("innerExactMatch")}</span>

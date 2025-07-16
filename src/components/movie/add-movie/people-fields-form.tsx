@@ -17,7 +17,7 @@ import { ResponsiveWrapper } from "@/components/my-custom-ui/responsive-wrapper"
 import { AddNewCharacter } from "@/components/movie/add-movie/connected-parts/add-new-character";
 import { AddNewPerson } from "@/components/movie/add-movie/connected-parts/add-new-person";
 
-import { createActor, createDirector } from "@/app/services/admin-api";
+import { createActor, createDirector } from "@/app/(app)/services/admin-api";
 import { PeopleListSchema } from "@/types/people-schema";
 
 import type {

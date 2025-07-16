@@ -25,7 +25,7 @@ import {
   createActionTime,
   createKeyword,
   createSpecification,
-} from "@/app/services/admin-api";
+} from "@/app/(app)/services/admin-api";
 
 import type { MovieFormData, FilterItemOut } from "@/orval_api/model";
 

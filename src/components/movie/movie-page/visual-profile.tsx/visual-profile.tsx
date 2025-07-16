@@ -11,7 +11,7 @@ import { TooltipWrapper } from "@/components/my-custom-ui/tooltip-wrapper";
 import { VisualProfileEditForm } from "@/components/movie/movie-page/visual-profile.tsx/visual-profile-movie-edit-form";
 import { VisualProfileChartMemo } from "@/components/movie/movie-page/visual-profile.tsx/visual-profile-chart";
 
-import { getVisualProfileCategories } from "@/app/services/user-api";
+import { getVisualProfileCategories } from "@/app/(app)/services/user-api";
 import { Language, type VisualProfileData } from "@/orval_api/model";
 
 const CustomModal = dynamic(

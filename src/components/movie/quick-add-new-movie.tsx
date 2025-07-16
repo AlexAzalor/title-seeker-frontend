@@ -13,7 +13,7 @@ import { FormField } from "@/components/my-custom-ui/form-ui-parts/form-field";
 import { RateMovie } from "@/components/movie/rating/rate-movie";
 import { FormWrapper } from "@/components/my-custom-ui/form-ui-parts/form-wrapper";
 
-import { quicklyAddNewMovie } from "@/app/services/admin-api";
+import { quicklyAddNewMovie } from "@/app/(app)/services/admin-api";
 import {
   type QuickMovieFormData,
   RatingCriterion,

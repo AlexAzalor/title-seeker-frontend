@@ -5,7 +5,7 @@ import {
   searchCharacters,
   searchDirectors,
   searchTitles,
-} from "@/app/services/global-api";
+} from "@/app/(app)/services/global-api";
 import { SearchType, type SearchResult } from "@/orval_api/model";
 import {
   SUPPORTED_SEARCH_TYPES,

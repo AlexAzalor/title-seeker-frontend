@@ -7,7 +7,7 @@ import Credentials from "next-auth/providers/credentials";
 import "next-auth/jwt";
 import { Language, UserRole } from "./orval_api/model";
 import { getAuth } from "./orval_api/auth/auth";
-import { getCookie, setUserLocale } from "./app/services/locale";
+import { getCookie, setUserLocale } from "./app/(app)/services/locale";
 
 export interface UserExtended {
   /** User role */

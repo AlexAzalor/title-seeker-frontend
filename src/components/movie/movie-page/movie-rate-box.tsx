@@ -6,7 +6,7 @@ import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { RateMovie } from "@/components/movie/rating/rate-movie";
 
-import { rateMovie, updateRateMovie } from "@/app/services/user-api";
+import { rateMovie, updateRateMovie } from "@/app/(app)/services/user-api";
 import {
   type BaseRatingCriteria,
   type MovieOutUserRatingCriteria,

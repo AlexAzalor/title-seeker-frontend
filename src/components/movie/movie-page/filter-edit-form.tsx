@@ -21,7 +21,7 @@ import {
   createSpecification,
   editMovieActionTimes,
   editMovieKeywords,
-} from "@/app/services/admin-api";
+} from "@/app/(app)/services/admin-api";
 
 import { FilterEnum, type FilterItemOut } from "@/orval_api/model";
 import { type TitleFilterType, TitleFilter } from "@/types/genre-filter-schema";

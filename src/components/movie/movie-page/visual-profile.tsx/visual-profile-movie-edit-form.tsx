@@ -20,7 +20,7 @@ import { SliderFormField } from "@/components/my-custom-ui/form-ui-parts/slider-
 import { FormWrapper } from "@/components/my-custom-ui/form-ui-parts/form-wrapper";
 import { Button } from "@/components/ui/button";
 
-import { updateVisualRating } from "@/app/services/user-api";
+import { updateVisualRating } from "@/app/(app)/services/user-api";
 import {
   VisualProfileSchema,
   type VisualProfileType,

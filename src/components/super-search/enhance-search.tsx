@@ -147,10 +147,10 @@ export const EnhanceSearch = () => {
 
   return (
     <div
-      className="overflow-auto pr-2 lg:mx-6 lg:w-full"
+      className="custom-scrollbar overflow-y-auto pr-2 lg:mx-6 lg:w-full"
       aria-label="enhance-search"
     >
-      <h2 className="hidden lg:block">{t("enhance")}</h2>
+      <h2 className="mt-4 mb-2 hidden lg:block">{t("enhance")}</h2>
 
       {showForm && (
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">
