@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { ThemeSelector } from "@/components/layout/theme-selector";
 import { PortfolioNav } from "@/components/portfolio/portfolio-nav";
+import { TelegramIcon } from "@/lib/portfolio/tech-icons";
 
 const sourceSans3 = Source_Sans_3({
   subsets: ["cyrillic", "latin"],
@@ -50,7 +51,7 @@ export default async function PortfolioLayout({
             <div className="min-h-screen overflow-auto bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
               <div className="mx-auto flex h-screen max-w-7xl flex-col overflow-auto">
                 {/* Header with Theme Selector */}
-                <header className="mt-4 mb-4 flex items-center justify-between">
+                <header className="mt-4 mb-4 flex items-center justify-between px-2">
                   <div className="flex items-center gap-2">
                     <Code className="h-6 w-6 text-blue-600" />
                     <span className="text-lg font-semibold">Portfolio</span>
@@ -61,10 +62,10 @@ export default async function PortfolioLayout({
                 {/* Tab Navigation */}
                 <PortfolioNav />
 
-                <main className="custom-scrollbar grid flex-1 grid-cols-1 gap-8 overflow-auto lg:grid-cols-3">
+                <main className="custom-scrollbar mb-2 grid flex-1 grid-cols-1 gap-8 overflow-auto scroll-smooth lg:grid-cols-3">
                   {/* Left Card - Profile Info */}
                   <div className="lg:col-span-1">
-                    <div className="sticky top-0 h-auto rounded-2xl border border-white/20 bg-white/90 p-6 shadow-xl backdrop-blur-md dark:border-slate-700/20 dark:bg-slate-800/90">
+                    <div className="sticky top-0 mx-2 h-auto rounded-2xl border border-white/20 bg-white/90 p-6 shadow-xl backdrop-blur-md dark:border-slate-700/20 dark:bg-slate-800/90">
                       {/* Profile Image */}
                       <div className="mb-6 flex justify-center">
                         <div className="flex h-32 w-32 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-purple-600 shadow-lg">
@@ -113,22 +114,25 @@ export default async function PortfolioLayout({
                       {/* Social Links */}
                       <div className="mb-6 flex justify-center gap-4">
                         <a
-                          href="#"
+                          href="https://www.linkedin.com/in/alexandr-yablunovsky-9a459122a/"
+                          target="_blank"
                           className="rounded-lg bg-slate-100 p-2 transition-colors hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600"
                         >
                           <Linkedin className="h-5 w-5 text-blue-600" />
                         </a>
                         <a
-                          href="#"
+                          href="https://github.com/AlexAzalor"
+                          target="_blank"
                           className="rounded-lg bg-slate-100 p-2 transition-colors hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600"
                         >
                           <Github className="h-5 w-5 text-slate-700 dark:text-slate-300" />
                         </a>
                         <a
-                          href="#"
+                          href="https://telegram.me/yablunovsky_alexandr"
+                          target="_blank"
                           className="rounded-lg bg-slate-100 p-2 transition-colors hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600"
                         >
-                          <Globe className="h-5 w-5 text-green-600" />
+                          <TelegramIcon />
                         </a>
                       </div>
 

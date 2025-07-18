@@ -123,14 +123,14 @@ const getTypeColor = (type: TimelineItem["type"]) => {
 
 export default function ExperienceEducationPage() {
   return (
-    <div className="p-4 lg:col-span-2 lg:p-6">
+    <div className="p-3 lg:col-span-2 lg:p-6">
       {/* Header */}
       <div className="mb-8">
         <h1 className="mb-2 text-3xl font-bold text-slate-800 dark:text-white">
           Experience & Education
         </h1>
         <p className="mb-6 text-slate-600 dark:text-slate-400">
-          My journey from university student to self-taught full-stack developer
+          My journey from university student to professional developer
         </p>
 
         {/* Self-taught Banner */}
@@ -161,7 +161,10 @@ export default function ExperienceEducationPage() {
 
         <div className="space-y-8">
           {timelineData.map((e) => (
-            <div key={e.id} className="relative flex items-start gap-6">
+            <div
+              key={e.id}
+              className="relative flex items-start gap-3 sm:gap-6"
+            >
               {/* Timeline Dot */}
               <div className="relative z-10 flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-full border-4 border-white bg-white shadow-lg dark:border-slate-700 dark:bg-slate-800">
                 <div
@@ -172,7 +175,7 @@ export default function ExperienceEducationPage() {
               </div>
 
               {/* Content Card */}
-              <div className="flex-1 rounded-2xl border border-white/20 bg-white/90 p-6 shadow-lg backdrop-blur-md transition-all duration-300 hover:shadow-xl dark:border-slate-700/20 dark:bg-slate-800/90">
+              <div className="flex-1 rounded-2xl border border-white/20 bg-white/90 p-3 shadow-lg backdrop-blur-md transition-all duration-300 hover:shadow-xl sm:p-6 dark:border-slate-700/20 dark:bg-slate-800/90">
                 {/* Header */}
                 <div className="mb-4 flex flex-col justify-between lg:flex-row lg:items-center">
                   <div className="flex-1">

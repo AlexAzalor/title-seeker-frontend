@@ -215,9 +215,28 @@ export default function MyProjectsPage() {
       <div className="space-y-6">
         {projects.map((p) => (
           <div
+            id={p.id}
             key={p.id}
             className="rounded-2xl border border-white/20 bg-white/90 p-6 shadow-lg backdrop-blur-md transition-all duration-300 hover:shadow-xl dark:border-slate-700/20 dark:bg-slate-800/90"
           >
+            <div className="mb-2 flex items-center justify-between">
+              <span
+                className={`flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium ${getTypeColor(p.type)}`}
+              >
+                {getTypeIcon(p.type)}
+                {p.type}
+              </span>
+              {p.liveUrl && (
+                <a
+                  href={p.liveUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-lg bg-slate-100 p-2 transition-colors hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600"
+                >
+                  <ExternalLink className="h-4 w-4 text-slate-600 dark:text-slate-400" />
+                </a>
+              )}
+            </div>
             {/* Project Header */}
             <div className="mb-4 flex flex-col justify-between lg:flex-row lg:items-center">
               <div className="flex-1">
@@ -225,39 +244,10 @@ export default function MyProjectsPage() {
                   <h2 className="text-xl font-bold text-slate-800 dark:text-white">
                     {p.name}
                   </h2>
-                  <span
-                    className={`flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium ${getTypeColor(p.type)}`}
-                  >
-                    {getTypeIcon(p.type)}
-                    {p.type}
-                  </span>
                 </div>
                 <p className="font-medium text-slate-600 dark:text-slate-400">
                   {p.company}
                 </p>
-              </div>
-
-              <div className="mt-4 flex items-center gap-4 lg:mt-0">
-                {/* {project.githubUrl && (
-                    <a
-                      href={project.githubUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="rounded-lg bg-slate-100 p-2 transition-colors hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600"
-                    >
-                      <Github className="h-4 w-4 text-slate-600 dark:text-slate-400" />
-                    </a>
-                  )} */}
-                {p.liveUrl && (
-                  <a
-                    href={p.liveUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="rounded-lg bg-slate-100 p-2 transition-colors hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600"
-                  >
-                    <ExternalLink className="h-4 w-4 text-slate-600 dark:text-slate-400" />
-                  </a>
-                )}
               </div>
             </div>
 
@@ -280,6 +270,16 @@ export default function MyProjectsPage() {
             {/* Description */}
             <p className="mb-4 leading-relaxed text-slate-700 dark:text-slate-300">
               {p.description}
+
+              {p.id === "5" && (
+                <a
+                  className="inline text-blue-600 dark:text-blue-400"
+                  href="#2"
+                >
+                  {" "}
+                  Got to first
+                </a>
+              )}
             </p>
 
             {/* Responsibilities */}

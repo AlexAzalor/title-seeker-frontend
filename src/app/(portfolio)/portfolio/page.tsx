@@ -392,7 +392,7 @@ export default function PortfolioPage() {
     <>
       {/* Right Content - About & Stats */}
       <div className="lg:col-span-2">
-        <div className="flex h-full flex-col rounded-2xl border border-white/20 bg-white/90 p-8 shadow-xl backdrop-blur-md dark:border-slate-700/20 dark:bg-slate-800/90">
+        <div className="mx-2 flex h-full flex-col rounded-2xl border border-white/20 bg-white/90 p-8 shadow-xl backdrop-blur-md dark:border-slate-700/20 dark:bg-slate-800/90">
           {/* About Section */}
           <div className="mb-8">
             <h2 className="mb-4 text-2xl font-bold text-slate-800 dark:text-white">
