@@ -387,6 +387,22 @@ const skillsTools = [
   },
 ];
 
+const softSkills = [
+  "Self-Discipline",
+  "Responsibility",
+  "Teamwork",
+  "Curiosity",
+  "Learning Agility",
+  "Creativity",
+  "Time Management",
+  "Decision Making",
+  "Attention to Detail",
+  "Adaptability",
+  "Self-Motivation",
+  "Stress Management",
+  "Problem Solving",
+];
+
 export default function PortfolioPage() {
   return (
     <>
@@ -474,7 +490,8 @@ export default function PortfolioPage() {
 
           {/* Key Technologies */}
           <div className="flex-1">
-            <h3 className="mb-4 text-xl font-bold text-slate-800 dark:text-white">
+            <h3 className="mb-4 flex items-center gap-2 text-xl font-bold text-slate-800 dark:text-white">
+              <div className="h-2 w-2 rounded-full bg-gradient-to-r from-blue-300 to-blue-500"></div>
               Key Technologies
             </h3>
             <div className="flex flex-wrap gap-2">
@@ -486,13 +503,26 @@ export default function PortfolioPage() {
                   {tech.icon}
                   <span>{tech.label}</span>
                 </span>
-                // <span
-                //   key={tech.label}
-                //   className="flex items-center gap-1 rounded-full bg-gradient-to-r from-slate-100 to-slate-200 px-3 py-2 font-medium text-slate-700 transition-all duration-300 hover:from-blue-100 hover:to-blue-200 dark:from-slate-700 dark:to-slate-600 dark:text-slate-300 dark:hover:from-blue-900/30 dark:hover:to-blue-800/30"
-                // >
-                //   {tech.icon}
-                //   <span>{tech.label}</span>
-                // </span>
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-8">
+            <h3 className="mb-4 flex items-center gap-2 text-xl font-bold text-slate-800 dark:text-white">
+              <div className="h-2 w-2 rounded-full bg-gradient-to-r from-purple-500 to-pink-500"></div>
+              Soft Skills
+            </h3>
+            <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
+              {softSkills.map((skill) => (
+                <div
+                  key={skill}
+                  className="group relative overflow-hidden rounded-lg bg-gradient-to-br from-slate-50 to-slate-100 p-3 text-center shadow-sm transition-all duration-300 hover:scale-105 hover:shadow-md dark:from-slate-700/50 dark:to-slate-600/50"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-purple-500/10 to-pink-500/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+                  <span className="relative z-10 text-sm font-medium text-slate-700 dark:text-slate-300">
+                    {skill}
+                  </span>
+                </div>
               ))}
             </div>
           </div>

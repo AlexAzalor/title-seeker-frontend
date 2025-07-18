@@ -1,18 +1,11 @@
 import "../globals.css";
+import Image from "next/image";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
 import { Source_Sans_3 } from "next/font/google";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import type { Metadata } from "next";
-import {
-  Code,
-  Download,
-  Github,
-  Globe,
-  Linkedin,
-  Mail,
-  MapPin,
-} from "lucide-react";
+import { Code, Download, Github, Linkedin, Mail, MapPin } from "lucide-react";
 import { ThemeSelector } from "@/components/layout/theme-selector";
 import { PortfolioNav } from "@/components/portfolio/portfolio-nav";
 import { TelegramIcon } from "@/lib/portfolio/tech-icons";
@@ -62,16 +55,20 @@ export default async function PortfolioLayout({
                 {/* Tab Navigation */}
                 <PortfolioNav />
 
-                <main className="custom-scrollbar mb-2 grid flex-1 grid-cols-1 gap-8 overflow-auto scroll-smooth lg:grid-cols-3">
+                <main className="custom-scrollbar-portfolio mb-2 grid flex-1 grid-cols-1 gap-8 overflow-auto scroll-smooth lg:grid-cols-3">
                   {/* Left Card - Profile Info */}
                   <div className="lg:col-span-1">
                     <div className="sticky top-0 mx-2 h-auto rounded-2xl border border-white/20 bg-white/90 p-6 shadow-xl backdrop-blur-md dark:border-slate-700/20 dark:bg-slate-800/90">
                       {/* Profile Image */}
                       <div className="mb-6 flex justify-center">
-                        <div className="flex h-32 w-32 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-purple-600 shadow-lg">
-                          <span className="text-4xl font-bold text-white">
-                            AA
-                          </span>
+                        <div className="flex h-28 w-28 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-purple-600 shadow-lg">
+                          <Image
+                            src="https://static.titleseeker.com/other/Me.webp"
+                            width={112}
+                            height={112}
+                            alt="Me"
+                            className="rounded-full"
+                          />
                         </div>
                       </div>
 
@@ -80,7 +77,7 @@ export default async function PortfolioLayout({
                         <h1 className="mb-2 text-2xl font-bold text-slate-800 dark:text-white">
                           Alexandr Yablunovsky
                         </h1>
-                        <p className="text-lg font-medium text-blue-600 dark:text-blue-400">
+                        <p className="text-xl font-medium text-blue-600 dark:text-blue-400">
                           Software Developer
                         </p>
                         <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
@@ -145,17 +142,6 @@ export default async function PortfolioLayout({
                         </p>
                         <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
                           Ukrainian (Native)
-                        </p>
-                      </div>
-                      <div className="mb-6 text-center">
-                        <p className="text-lg font-medium text-blue-600 dark:text-blue-400">
-                          Soft skills
-                        </p>
-                        <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
-                          Creativity, Decision Making, Attention to Detail,
-                          Adaptability, Learning Agility, Curiosity, Teamwork,
-                          Time Management, Self-Motivation, Responsibility,
-                          Stress Management, Self-Discipline, Problem Solving
                         </p>
                       </div>
 
