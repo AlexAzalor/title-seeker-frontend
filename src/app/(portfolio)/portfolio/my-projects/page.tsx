@@ -4,24 +4,15 @@ import {
   Building2,
   Code2,
   ExternalLink,
-  // Github,
   Briefcase,
 } from "lucide-react";
-import {
-  bidhiveTech,
-  komunalka,
-  kraftjar,
-  simple2bTech,
-  smallProjects,
-  titleSeeker,
-} from "../page";
+import { skillsTools } from "../page";
 import type React from "react";
 
-interface Project {
+type Project = {
   id: string;
   name: string;
   company: string;
-  // role: string;
   startDate: string;
   endDate: string;
   duration?: string;
@@ -34,17 +25,15 @@ interface Project {
   githubUrl?: string;
   liveUrl?: string;
   type: "professional" | "personal" | "freelance";
-}
+};
 
 const projects: Project[] = [
   {
     id: "7",
     name: "Title Seeker",
     company: "Pet project",
-    // role: "Full Stack Developer",
     startDate: "11.2024",
     endDate: "present",
-    // duration: "4 months",
     description:
       "The database with titles was created in order to speed up the search for what you want. Allows you to effectively analyze titles before viewing and reduces false expectations. Ability to rate and create your own lists and view statistics.",
     responsibilities: [
@@ -54,7 +43,19 @@ const projects: Project[] = [
       "Built a complex 8-step form for adding new titles, with validation and saving.",
       "Developed creative approaches for analyzing titles.",
     ],
-    technologies: titleSeeker,
+    technologies: skillsTools.filter((e) =>
+      [
+        "Next.js",
+        "TailWindCSS",
+        "Shadcn/UI",
+        "Playwright",
+        "Flask",
+        "FastAPI",
+        "PostgreSQL",
+        "Testing",
+        "AWS",
+      ].includes(e.label),
+    ),
     liveUrl: "https://titleseeker.com/",
     type: "personal",
   },
@@ -62,7 +63,6 @@ const projects: Project[] = [
     id: "6",
     name: "Kraftjar",
     company: "Simple2B",
-    // role: "Full Stack Developer",
     startDate: "07.2024",
     endDate: "11.2024",
     duration: "4 months",
@@ -74,7 +74,11 @@ const projects: Project[] = [
       "Implemented the core business logic managing interactions between clients and service providers — from job acceptance to completion.",
       "Integrated Google and Apple authentication, ensuring secure and seamless user login across platforms.",
     ],
-    technologies: kraftjar,
+    technologies: skillsTools.filter((e) =>
+      ["Next.js", "TailWindCSS", "FastAPI", "Flask", "PostgreSQL"].includes(
+        e.label,
+      ),
+    ),
     liveUrl: "https://kraftjar.net/uk",
     type: "professional",
   },
@@ -82,7 +86,6 @@ const projects: Project[] = [
     id: "5",
     name: "Bidhive",
     company: "Simple2B",
-    // role: "Full Stack Developer",
     startDate: "12.2024",
     endDate: "07.2024",
     duration: "7 months",
@@ -95,7 +98,6 @@ const projects: Project[] = [
     id: "4",
     name: "Komunalka",
     company: "Simple2B",
-    // role: "Frontend Developer",
     startDate: "08.2023",
     endDate: "12.2023",
     duration: "4 months",
@@ -108,7 +110,9 @@ const projects: Project[] = [
       "Integrated multiple APIs, including address lookup, apartment data and personal account management.",
       "Handled data visualization, performing calculations and displaying complex statistics accurately using interactive charts.",
     ],
-    technologies: komunalka,
+    technologies: skillsTools.filter((e) =>
+      ["Next.js", "TailWindCSS", "Material UI"].includes(e.label),
+    ),
     liveUrl: "https://www.komunalka.ua/",
     type: "professional",
   },
@@ -116,7 +120,6 @@ const projects: Project[] = [
     id: "3",
     name: "Simple2B Portfolio site",
     company: "Simple2B",
-    // role: "Full Stack Developer",
     startDate: "06.2023",
     endDate: "08.2023",
     duration: "2 months",
@@ -127,7 +130,10 @@ const projects: Project[] = [
       "Implemented an email sending system.",
       "Developed a quiz flow, including logic for questions, progress tracking, and result handling.",
     ],
-    technologies: simple2bTech,
+    // technologies: simple2bTech,
+    technologies: skillsTools.filter((e) =>
+      ["Next.js", "TailWindCSS", "FastAPI"].includes(e.label),
+    ),
     liveUrl: "https://simple2b.com/en",
     type: "professional",
   },
@@ -135,7 +141,6 @@ const projects: Project[] = [
     id: "2",
     name: "Bidhive",
     company: "Simple2B",
-    // role: "Senior Frontend Developer",
     startDate: "08.2022",
     endDate: "06.2023",
     duration: "11 months",
@@ -148,7 +153,11 @@ const projects: Project[] = [
       "Took responsibility for deploying updates across three regional environments, each with its own user base and infrastructure.",
       "Reacted quickly to user-reported issues and delivered timely fixes to minimize downtime and improve user experience.",
     ],
-    technologies: bidhiveTech,
+    technologies: skillsTools.filter((e) =>
+      ["React", "TypeScript", "Styled Components", "Django", "AWS"].includes(
+        e.label,
+      ),
+    ),
     liveUrl: "https://bidhive.com/",
     type: "professional",
   },
@@ -167,8 +176,18 @@ const projects: Project[] = [
       "Developed a Chrome extension — a fuel cost calculator that estimates trip expenses between two locations based on vehicle model and fuel type",
       "Contributed to several larger projects by assisting teammates with various tasks, bug fixes, and code reviews, gaining exposure to collaborative workflows and real-world codebases",
     ],
-    technologies: smallProjects,
-    // githubUrl: "https://github.com/AlexAzalor/title-seeker-frontend",
+    technologies: skillsTools.filter((e) =>
+      [
+        "HTML",
+        "CSS",
+        "SASS",
+        "JavaScript",
+        "React",
+        "TypeScript",
+        "Python",
+        "FastAPI",
+      ].includes(e.label),
+    ),
     type: "professional",
   },
 ];
@@ -213,22 +232,22 @@ export default function MyProjectsPage() {
       </div>
 
       <div className="space-y-6">
-        {projects.map((p) => (
+        {projects.map((project) => (
           <div
-            id={p.id}
-            key={p.id}
+            id={project.id}
+            key={project.id}
             className="rounded-2xl border border-white/20 bg-white/90 p-6 shadow-lg backdrop-blur-md transition-all duration-300 hover:shadow-xl dark:border-slate-700/20 dark:bg-slate-800/90"
           >
             <div className="mb-2 flex items-center justify-between">
               <span
-                className={`flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium ${getTypeColor(p.type)}`}
+                className={`flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium ${getTypeColor(project.type)}`}
               >
-                {getTypeIcon(p.type)}
-                {p.type}
+                {getTypeIcon(project.type)}
+                {project.type}
               </span>
-              {p.liveUrl && (
+              {project.liveUrl && (
                 <a
-                  href={p.liveUrl}
+                  href={project.liveUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="rounded-lg bg-slate-100 p-2 transition-colors hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600"
@@ -237,59 +256,56 @@ export default function MyProjectsPage() {
                 </a>
               )}
             </div>
-            {/* Project Header */}
+
             <div className="mb-4 flex flex-col justify-between lg:flex-row lg:items-center">
               <div className="flex-1">
                 <div className="mb-2 flex items-center gap-3">
                   <h2 className="text-xl font-bold text-slate-800 dark:text-white">
-                    {p.name}
+                    {project.name}
                   </h2>
                 </div>
                 <p className="font-medium text-slate-600 dark:text-slate-400">
-                  {p.company}
+                  {project.company}
                 </p>
               </div>
             </div>
 
-            {/* Timeline Info */}
             <div className="mb-6 flex flex-col gap-4 sm:flex-row">
               <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400">
                 <Calendar className="h-4 w-4" />
                 <span className="text-sm">
-                  {p.startDate} - {p.endDate}
+                  {project.startDate} - {project.endDate}
                 </span>
               </div>
-              {p.duration && (
+              {project.duration && (
                 <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400">
                   <Clock className="h-4 w-4" />
-                  <span className="text-sm">{p.duration}</span>
+                  <span className="text-sm">{project.duration}</span>
                 </div>
               )}
             </div>
 
-            {/* Description */}
             <p className="mb-4 leading-relaxed text-slate-700 dark:text-slate-300">
-              {p.description}
+              {project.description}
 
-              {p.id === "5" && (
+              {project.id === "5" && (
                 <a
                   className="inline text-blue-600 dark:text-blue-400"
                   href="#2"
                 >
                   {" "}
-                  Got to first
+                  Go to first
                 </a>
               )}
             </p>
 
-            {/* Responsibilities */}
-            {p.responsibilities && (
+            {project.responsibilities && (
               <div className="mb-6">
                 <h3 className="mb-3 text-lg font-semibold text-slate-800 dark:text-white">
                   Key Responsibilities
                 </h3>
                 <ul className="space-y-2">
-                  {p.responsibilities.map((responsibility, idx) => (
+                  {project.responsibilities.map((responsibility, idx) => (
                     <li key={idx} className="flex items-start gap-2">
                       <div className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-blue-600"></div>
                       <span className="text-sm text-slate-600 dark:text-slate-400">
@@ -301,14 +317,13 @@ export default function MyProjectsPage() {
               </div>
             )}
 
-            {/* Technologies */}
-            {p.technologies && (
+            {project.technologies && (
               <div>
                 <h3 className="mb-3 text-lg font-semibold text-slate-800 dark:text-white">
                   Technologies Used
                 </h3>
                 <div className="flex flex-wrap gap-2">
-                  {p.technologies.map((tech) => (
+                  {project.technologies.map((tech) => (
                     <span
                       key={tech.label}
                       className="flex items-center gap-1 rounded-full bg-gradient-to-r from-slate-100 to-slate-200 px-3 py-2 font-medium text-slate-700 transition-all duration-300 hover:from-blue-100 hover:to-blue-200"

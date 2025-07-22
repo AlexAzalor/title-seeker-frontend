@@ -9,10 +9,10 @@ import {
   Award,
   TrendingUp,
 } from "lucide-react";
-import { gained, mateAcademySkills } from "../page";
+import { skillsTools } from "../page";
 import type React from "react";
 
-interface TimelineItem {
+type TimelineItem = {
   id: string;
   title: string;
   organization?: string;
@@ -26,14 +26,13 @@ interface TimelineItem {
     label: string;
     icon: React.ReactNode;
   }[];
-}
+};
 
 const timelineData: TimelineItem[] = [
   {
     id: "4",
     title: "Software Developer",
     organization: "Title Seeker",
-    // location: "San Francisco, CA",
     startDate: "11.2024",
     endDate: "present",
     type: "personal",
@@ -64,7 +63,20 @@ const timelineData: TimelineItem[] = [
       "Took on a leadership role in a project with a team of two, managing responsibilities and technical direction",
       "Acquired long-term project experience, working on a single product for over 1.5 years and contributing across multiple phases of development",
     ],
-    skills: gained,
+    skills: skillsTools.filter((e) =>
+      [
+        "Next.js",
+        "TailWindCSS",
+        "Python",
+        "Flask",
+        "Django",
+        "FastAPI",
+        "PostgreSQL",
+        "Docker",
+        "WSL|Linux|Ubuntu",
+        "AWS",
+      ].includes(e.label),
+    ),
   },
   {
     id: "2",
@@ -75,8 +87,19 @@ const timelineData: TimelineItem[] = [
     endDate: "02.2022",
     type: "course",
     description:
-      "This course was very intensive, with a schedule that felt like a full-time job. Daily task deadlines taught me strict discipline and how to make decisions quickly. The amount of hands-on practice was so high that it helped me build my first fully functional landing page.",
-    skills: mateAcademySkills,
+      "This course was very intensive, with a schedule that felt like a full-time job. Daily task deadlines taught me strict discipline and how to make decisions quickly. The amount of hands-on practice was so high that it helped me build my first fully functional ",
+    skills: skillsTools.filter((e) =>
+      [
+        "HTML",
+        "CSS",
+        "SASS",
+        "JavaScript",
+        "React",
+        "TypeScript",
+        "Git",
+        "Github",
+      ].includes(e.label),
+    ),
   },
 
   {
@@ -124,7 +147,6 @@ const getTypeColor = (type: TimelineItem["type"]) => {
 export default function ExperienceEducationPage() {
   return (
     <div className="p-3 lg:col-span-2 lg:p-6">
-      {/* Header */}
       <div className="mb-8">
         <h1 className="mb-2 text-3xl font-bold text-slate-800 dark:text-white">
           Experience & Education
@@ -132,90 +154,73 @@ export default function ExperienceEducationPage() {
         <p className="mb-6 text-slate-600 dark:text-slate-400">
           My journey from university student to professional developer
         </p>
-
-        {/* Self-taught Banner */}
-        {/* <div className="mb-8 rounded-2xl border border-blue-200/50 bg-gradient-to-r from-blue-50 to-purple-50 p-6 dark:border-blue-800/50 dark:from-blue-900/20 dark:to-purple-900/20">
-            <div className="mb-3 flex items-center gap-3">
-              <Heart className="h-6 w-6 text-red-500" />
-              <h2 className="text-xl font-semibold text-slate-800 dark:text-white">
-                Passionate Self-Learner
-              </h2>
-            </div>
-            <p className="leading-relaxed text-slate-700 dark:text-slate-300">
-              I&apos;m a passionate self-taught developer who believes that
-              learning never stops. While my formal education provided a strong
-              foundation, the majority of my practical skills come from
-              continuous self-learning, online courses, and hands-on projects. I
-              stay current with the latest technologies and best practices
-              through documentation, tutorials, and building real-world
-              applications. This journey of constant growth and adaptation is
-              what drives my passion for software development.
-            </p>
-          </div> */}
       </div>
 
-      {/* Timeline */}
       <div className="relative">
-        {/* Timeline Line */}
-        <div className="absolute top-0 bottom-0 left-8 w-0.5 bg-gradient-to-b from-blue-500 via-purple-500 to-orange-500"></div>
+        <div className="absolute top-0 bottom-0 left-6 w-0.5 bg-gradient-to-b from-blue-500 via-purple-500 to-orange-500 sm:left-8"></div>
 
         <div className="space-y-8">
-          {timelineData.map((e) => (
+          {timelineData.map((item) => (
             <div
-              key={e.id}
-              className="relative flex items-start gap-3 sm:gap-6"
+              key={item.id}
+              className="relative flex items-start gap-2 sm:gap-6"
             >
-              {/* Timeline Dot */}
-              <div className="relative z-10 flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-full border-4 border-white bg-white shadow-lg dark:border-slate-700 dark:bg-slate-800">
+              <div className="relative z-10 flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full border-4 border-white bg-white shadow-lg sm:h-16 sm:w-16 dark:border-slate-700 dark:bg-slate-800">
                 <div
-                  className={`flex h-8 w-8 items-center justify-center rounded-full ${getTypeColor(e.type)}`}
+                  className={`flex h-8 w-8 items-center justify-center rounded-full ${getTypeColor(item.type)}`}
                 >
-                  {getTypeIcon(e.type)}
+                  {getTypeIcon(item.type)}
                 </div>
               </div>
 
-              {/* Content Card */}
               <div className="flex-1 rounded-2xl border border-white/20 bg-white/90 p-3 shadow-lg backdrop-blur-md transition-all duration-300 hover:shadow-xl sm:p-6 dark:border-slate-700/20 dark:bg-slate-800/90">
-                {/* Header */}
                 <div className="mb-4 flex flex-col justify-between lg:flex-row lg:items-center">
                   <div className="flex-1">
                     <h3 className="mb-1 text-xl font-bold text-slate-800 dark:text-white">
-                      {e.title}
+                      {item.title}
                     </h3>
                     <p className="text-lg font-medium text-slate-600 dark:text-slate-400">
-                      {e.organization}
+                      {item.organization}
                     </p>
                   </div>
                   <div className="mt-2 flex flex-col gap-2 sm:flex-row lg:mt-0">
                     <div className="flex items-center gap-1 text-sm text-slate-500 dark:text-slate-400">
                       <Calendar className="h-4 w-4" />
                       <span>
-                        {e.startDate} - {e.endDate}
+                        {item.startDate} - {item.endDate}
                       </span>
                     </div>
-                    {e.location && (
+                    {item.location && (
                       <div className="flex items-center gap-1 text-sm text-slate-500 dark:text-slate-400">
                         <MapPin className="h-4 w-4" />
-                        <span>{e.location}</span>
+                        <span>{item.location}</span>
                       </div>
                     )}
                   </div>
                 </div>
 
-                {/* Description */}
                 <p className="mb-4 leading-relaxed text-slate-700 dark:text-slate-300">
-                  {e.description}
+                  {item.description}
+                  {item.id === "2" && (
+                    <a
+                      className="inline text-blue-600 dark:text-blue-400"
+                      href="https://alexazalor.github.io/kickstarter-landing/"
+                      target="_blank"
+                    >
+                      {" "}
+                      landing page.
+                    </a>
+                  )}
                 </p>
 
-                {/* Achievements */}
-                {e.achievements && (
+                {item.achievements && (
                   <div className="mb-4">
                     <h4 className="mb-3 flex items-center gap-2 text-lg font-semibold text-slate-800 dark:text-white">
                       <Award className="h-4 w-4 text-yellow-500" />
                       Key Achievements
                     </h4>
                     <ul className="space-y-2">
-                      {e.achievements.map((achievement, idx) => (
+                      {item.achievements.map((achievement, idx) => (
                         <li key={idx} className="flex items-start gap-2">
                           <div className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-green-500"></div>
                           <span className="text-sm text-slate-600 dark:text-slate-400">
@@ -227,15 +232,14 @@ export default function ExperienceEducationPage() {
                   </div>
                 )}
 
-                {/* Skills */}
-                {e.skills && (
+                {item.skills && (
                   <div>
                     <h4 className="mb-3 flex items-center gap-2 text-lg font-semibold text-slate-800 dark:text-white">
                       <TrendingUp className="h-4 w-4 text-blue-500" />
                       Skills Gained
                     </h4>
                     <div className="flex flex-wrap gap-2">
-                      {e.skills.map((skill) => (
+                      {item.skills.map((skill) => (
                         <span
                           key={skill.label}
                           className="flex items-center gap-1 rounded-full bg-gradient-to-r from-slate-100 to-slate-200 px-3 py-2 font-medium text-slate-700 transition-all duration-300 hover:from-blue-100 hover:to-blue-200"
@@ -253,7 +257,6 @@ export default function ExperienceEducationPage() {
         </div>
       </div>
 
-      {/* Footer Message */}
       <div className="mt-12 text-center">
         <div className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-100 to-purple-100 px-6 py-3 dark:from-blue-900/30 dark:to-purple-900/30">
           <Code2 className="h-5 w-5 text-blue-600 dark:text-blue-400" />
