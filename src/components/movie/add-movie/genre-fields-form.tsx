@@ -53,7 +53,9 @@ export const GenreFieldsForm = ({ genres }: Props) => {
     {} as MovieFormData,
   );
 
-  const genresKeys = parsedData.genres?.map((g) => g.key);
+  const genresKeys = (parsedData as Partial<MovieFormData>).genres?.map(
+    (g) => g.key,
+  );
 
   const [subgenres, setSubgenres] = useState<GenreFormOut[]>(
     genresKeys

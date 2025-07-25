@@ -184,7 +184,7 @@ export default function PortfolioPage() {
               hands-on experience from industry professionals.
             </p>
             <p className="leading-relaxed text-slate-600 dark:text-slate-300">
-              My first job was at a small outsourcing company, where I had the
+              My first job was at an outsourcing company, where I had the
               opportunity to work on a wide variety of projects. Each project
               challenged me in new ways and became not just a task list, but a
               creative space where I could learn and experiment. I’ve always had

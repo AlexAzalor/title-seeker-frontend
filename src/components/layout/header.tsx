@@ -8,7 +8,7 @@ import { POSTER_URL } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { RoleGate } from "@/components/providers/role-gate";
-import { ThemeSelector } from "@/components/layout/theme-selector";
+import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { Search } from "@/components/layout/search/search";
 import { LanguageSelector } from "@/components/layout/language-selector";
 import { UserProfileMenu } from "@/components/profile/menu-nav/user-profile-menu";
@@ -89,7 +89,7 @@ export const Header = () => {
         </div>
 
         <div className="hidden 2xl:block">
-          <ThemeSelector />
+          <ThemeToggle />
         </div>
 
         <div className="hidden 2xl:block">
