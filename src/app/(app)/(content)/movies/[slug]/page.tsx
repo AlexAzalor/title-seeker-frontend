@@ -15,6 +15,8 @@ import { MovieContent } from "@/components/movie/movie-page/components/movie-con
 import { RelatedMoviesSidebar } from "@/components/movie/movie-page/components/related-movies-sidebar";
 import { SharedUniverseSection } from "@/components/movie/movie-page/components/shared-universe-section";
 import { MoviePoster } from "@/components/movie/movie-page/components/movie-poster";
+import { ShareLinkButtons } from "@/components/movie/movie-page/components/share-link-buttons";
+
 import type { PageProps } from "@/types/general";
 import type { Metadata } from "next";
 
@@ -74,13 +76,17 @@ export default async function MoviePage({ params }: PageProps) {
   return (
     <LastWatchedWrapper movieKey={movie_key} poster={movie.poster}>
       <div className="container min-h-screen max-w-320 px-4 lg:px-0">
-        <div className="py-2 text-center lg:py-3 xl:text-left">
-          <h1 className="text-3xl">{movie.title}</h1>
-          {movie.title_en && (
-            <span className="text-light-gray text-lg font-medium">
-              ({movie.title_en})
-            </span>
-          )}
+        <div className="flex items-center justify-center py-2 text-center md:justify-between lg:py-3 xl:text-left">
+          <div>
+            <h1 className="text-3xl">{movie.title}</h1>
+            {movie.title_en && (
+              <span className="text-light-gray text-lg font-medium">
+                ({movie.title_en})
+              </span>
+            )}
+          </div>
+
+          <ShareLinkButtons />
         </div>
 
         <div className="flex flex-col items-center xl:flex-row">
