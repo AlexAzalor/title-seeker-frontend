@@ -319,3 +319,24 @@ export const cutLongWords = (word: string, maxLength: number) => {
   }
   return word;
 };
+
+// Default parameters that don't constitute actual search filters
+const DEFAULT_PARAMS = new Set(["exact_match", "inner_exact_match", "page"]);
+
+/**
+ * Checks if the search parameters contain any actual search filters
+ * Excludes pagination, sorting, and matching parameters
+ */
+export function hasSearchFilters(
+  searchParams: Record<string, string | string[] | undefined>,
+): boolean {
+  const paramKeys = Object.keys(searchParams);
+
+  // No parameters at all
+  if (paramKeys.length === 0) return false;
+
+  // Check if any parameters are actual search filters (not default params)
+  const hasFilters = paramKeys.some((key) => !DEFAULT_PARAMS.has(key));
+
+  return hasFilters;
+}

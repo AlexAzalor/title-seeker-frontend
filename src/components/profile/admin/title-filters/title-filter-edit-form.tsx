@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { FormField } from "@/components/my-custom-ui/form-ui-parts/form-field";
 import { TextareaFormField } from "@/components/my-custom-ui/form-ui-parts/textarea-form-field";
 
-import { updateFilterItem, updateGenre } from "@/app/services/admin-api";
+import { updateFilterItem, updateGenre } from "@/app/(app)/services/admin-api";
 import {
   type VisualProfileFieldType,
   VisualProfileUpdateSchema,

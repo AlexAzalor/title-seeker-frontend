@@ -11,7 +11,7 @@ import { FormWrapper } from "@/components/my-custom-ui/form-ui-parts/form-wrappe
 import { FormField } from "@/components/my-custom-ui/form-ui-parts/form-field";
 import { TextareaFormField } from "@/components/my-custom-ui/form-ui-parts/textarea-form-field";
 
-import { createSharedUniverse } from "@/app/services/admin-api";
+import { createSharedUniverse } from "@/app/(app)/services/admin-api";
 
 import { EntityFormSchema, type EntityFormType } from "@/types/general";
 import type { SharedUniverseType } from "@/types/movie-schema";

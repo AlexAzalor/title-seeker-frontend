@@ -23,7 +23,7 @@ import {
   PUBLIC_ITEMS,
   USER_ITEMS,
 } from "@/components/layout/sidebar/menu-item-collection";
-import { ThemeSelector } from "@/components/layout/theme-selector";
+import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { GoogleLogin } from "@/components/layout//google-login";
 import { SignOut } from "@/components/my-custom-ui/sign-out";
 import { LanguageSelector } from "@/components/layout/language-selector";
@@ -120,8 +120,9 @@ async function AppSidebar({ locale, ...props }: AppSidebarProps) {
       <SidebarFooter>
         <div className="flex items-center justify-between">
           <LanguageSelector locale={locale} />
-          <ThemeSelector />
+          <ThemeToggle />
         </div>
+
         {session && <SignOut name={menu("logout")} />}
         <span>Version {process.env.NEXT_PUBLIC_APP_VERSION}</span>
       </SidebarFooter>

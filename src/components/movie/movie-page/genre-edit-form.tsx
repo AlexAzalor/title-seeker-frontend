@@ -21,7 +21,7 @@ import {
   createGenre,
   createSubgenre,
   updateGenresSubgenres,
-} from "@/app/services/admin-api";
+} from "@/app/(app)/services/admin-api";
 
 import {
   GenreSchemaList,

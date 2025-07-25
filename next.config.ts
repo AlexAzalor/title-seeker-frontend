@@ -1,6 +1,5 @@
 import type { NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
-// const { version } = require('./package.json');
 import { version } from "./package.json";
 
 const withNextIntl = createNextIntlPlugin();

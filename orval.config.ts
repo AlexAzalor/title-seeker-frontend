@@ -1,7 +1,5 @@
 import { defineConfig } from "orval";
 
-// require("dotenv").config();
-
 module.exports = defineConfig({
   api: {
     output: {

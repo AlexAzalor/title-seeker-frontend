@@ -12,7 +12,7 @@ import { Separator } from "@/components/ui/separator";
 import { FormField } from "@/components/my-custom-ui/form-ui-parts/form-field";
 import { TextareaFormField } from "@/components/my-custom-ui/form-ui-parts/textarea-form-field";
 
-import { createVisualProfileCategory } from "@/app/services/admin/visual-profile-apis";
+import { createVisualProfileCategory } from "@/app/(app)/services/admin/visual-profile-apis";
 import {
   VisualProfileCreate,
   type VisualProfileCreateType,

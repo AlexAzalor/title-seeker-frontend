@@ -15,7 +15,7 @@ import { TextareaFormField } from "@/components/my-custom-ui/form-ui-parts/texta
 import {
   editVisualProfileCategory,
   editVisualProfileCriterion,
-} from "@/app/services/admin/visual-profile-apis";
+} from "@/app/(app)/services/admin/visual-profile-apis";
 import {
   type VisualProfileFieldType,
   VisualProfileUpdateSchema,

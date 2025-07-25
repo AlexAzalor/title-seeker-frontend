@@ -1,0 +1,66 @@
+import { getLocale } from "next-intl/server";
+import { getAdminOrRedirect } from "@/app/(app)/services/admin-api";
+import { backendURL } from "@/lib/constants";
+import { MovieFormWizard } from "@/components/movie/add-movie/movie-form-wizard";
+
+import { getMovies } from "@/orval_api/movies/movies";
+import { Language } from "@/orval_api/model";
+import type { SearchParams } from "@/types/general";
+
+export default async function AddMoviePage(props: {
+  searchParams: SearchParams;
+}) {
+  const admin = await getAdminOrRedirect();
+
+  const searchParams = await props.searchParams;
+  const quickMovieKey =
+    typeof searchParams.quick_movie_key === "string"
+      ? searchParams.quick_movie_key
+      : null;
+
+  const locale = await getLocale();
+  const lang = Language[locale as keyof typeof Language];
+
+  const { aPIGetPreCreateData } = getMovies();
+
+  const {
+    data: {
+      visual_profile_categories,
+      actors,
+      directors,
+      specifications,
+      genres,
+      keywords,
+      action_times,
+      quick_movie,
+      shared_universes,
+      base_movies,
+      characters,
+    },
+  } = await aPIGetPreCreateData(
+    {
+      lang,
+      quick_movie_key: quickMovieKey,
+      user_uuid: admin.uuid,
+    },
+    backendURL,
+  );
+
+  return (
+    <div className="min-h-screen">
+      <MovieFormWizard
+        visualProfileCategories={visual_profile_categories}
+        actors={actors}
+        directors={directors}
+        genres={genres}
+        specifications={specifications}
+        keywords={keywords}
+        actionTimes={action_times}
+        quickMovie={quick_movie}
+        shared_universes={shared_universes}
+        base_movies={base_movies}
+        characters={characters}
+      />
+    </div>
+  );
+}

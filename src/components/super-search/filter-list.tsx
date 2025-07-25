@@ -37,7 +37,10 @@ export const FilterList = ({
   visual_profile_categories,
 }: Props) => {
   return (
-    <div className="mb-20 flex flex-col gap-4" aria-label="filter-list">
+    <div
+      className="mb-20 flex flex-col gap-4 overflow-y-auto"
+      aria-label="filter-list"
+    >
       <SearchControlButtons />
 
       <div className="custom-scrollbar flex flex-col gap-4 overflow-x-hidden overflow-y-auto pr-3">

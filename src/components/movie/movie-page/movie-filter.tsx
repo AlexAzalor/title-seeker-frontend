@@ -24,7 +24,7 @@ import {
   getKeywords,
   getSpecifications,
   getSubgenresList,
-} from "@/app/services/admin-api";
+} from "@/app/(app)/services/admin-api";
 
 import {
   FilterEnum,
