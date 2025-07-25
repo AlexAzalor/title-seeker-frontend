@@ -38,10 +38,10 @@ const projects: Project[] = [
       "The database with titles was created in order to speed up the search for what you want. Allows you to effectively analyze titles before viewing and reduces false expectations. Ability to rate and create your own lists and view statistics.",
     responsibilities: [
       "Worked across the full development cycle, from frontend and backend to CI/CD setup and deployment.",
-      "I implemented only the first part of my big idea.",
       "Implemented multi-language support, light/dark themes, and high-quality mobile responsiveness for a seamless user experience.",
       "Built a complex 8-step form for adding new titles, with validation and saving.",
       "Developed creative approaches for analyzing titles.",
+      "I implemented only the first part of my big idea.",
     ],
     technologies: skillsTools.filter((e) =>
       [

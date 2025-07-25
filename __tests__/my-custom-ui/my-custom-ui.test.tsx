@@ -14,7 +14,7 @@ import { FormStep } from "@/components/my-custom-ui/form-ui-parts/form-step";
 import { FormWrapper } from "@/components/my-custom-ui/form-ui-parts/form-wrapper";
 import { PaginationContoller } from "@/components/my-custom-ui/pagination/pagination-contoller";
 import { SignOut } from "@/components/my-custom-ui/sign-out";
-import { ActorsCarousel } from "@/components/actors-carousel";
+import { PeopleCarousel } from "@/components/actors-carousel";
 import { ExpandableText } from "@/components/my-custom-ui/expandable-text";
 import { Spinner } from "@/components/my-custom-ui/spinner";
 import { MovieMoney } from "@/components/movie/movie-page/movie-money";
@@ -67,9 +67,10 @@ test("Should render PaginationContoller", () => {
 
 test("Should render ActorsCarousel", () => {
   render(
-    <ActorsCarousel
+    <PeopleCarousel
+      type="actor"
       name="test"
-      actors={[]}
+      people={[]}
       avatarURL="test"
       lang={Language.en}
     />,
@@ -78,7 +79,7 @@ test("Should render ActorsCarousel", () => {
     },
   );
 
-  expect(screen.getByLabelText("actors-carousel")).toBeDefined();
+  expect(screen.getByLabelText("people-carousel")).toBeDefined();
 });
 
 test("Should render FormButtons", async () => {

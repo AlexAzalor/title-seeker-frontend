@@ -3,7 +3,7 @@ import { useTranslations } from "next-intl";
 import { AVATAR_URL, POSTER_URL } from "@/lib/constants";
 
 import { RevealOnScroll } from "@/components/my-custom-ui/reveal-on-scroll";
-import { ActorsCarousel } from "@/components/actors-carousel";
+import { PeopleCarousel } from "@/components/actors-carousel";
 import { FetchWrapper } from "@/components/my-custom-ui/fetch-wrapper";
 import { MoviesCarousel } from "@/components/movie/movie-carousel";
 import { Spinner } from "@/components/my-custom-ui/spinner";
@@ -11,17 +11,19 @@ import { Spinner } from "@/components/my-custom-ui/spinner";
 import { getPeople } from "@/orval_api/people/people";
 import { getMovies } from "@/orval_api/movies/movies";
 import type {
-  ActorsList,
   APIGetActorsWithMostMoviesParams,
+  APIGetDirectorsWithMostMoviesParams,
   APIGetRandomListParams,
   MovieCarouselList,
+  PeopleList,
 } from "@/orval_api/model";
 
 export default function Home() {
   const t = useTranslations("HomePage");
   const keyFeatures = Object.keys(t.raw("keyFeatures.keys"));
 
-  const { aPIGetActorsWithMostMovies } = getPeople();
+  const { aPIGetActorsWithMostMovies, aPIGetDirectorsWithMostMovies } =
+    getPeople();
   const { aPIGetRandomList } = getMovies();
 
   return (
@@ -104,7 +106,7 @@ export default function Home() {
             }
           >
             <FetchWrapper<
-              ActorsList,
+              PeopleList,
               APIGetActorsWithMostMoviesParams,
               typeof aPIGetActorsWithMostMovies
             >
@@ -112,9 +114,39 @@ export default function Home() {
               params={{}}
             >
               {({ result, lang }) => (
-                <ActorsCarousel
+                <PeopleCarousel
+                  type="actor"
                   name={t("topActorsCarousel")}
-                  actors={result.data.actors}
+                  people={result.data.people}
+                  lang={lang}
+                  avatarURL={AVATAR_URL || "NO URL!"}
+                />
+              )}
+            </FetchWrapper>
+          </Suspense>
+        </RevealOnScroll>
+
+        <RevealOnScroll>
+          <Suspense
+            fallback={
+              <div className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border w-full rounded-xl border p-5">
+                <Spinner className="mx-auto w-fit" />
+              </div>
+            }
+          >
+            <FetchWrapper<
+              PeopleList,
+              APIGetDirectorsWithMostMoviesParams,
+              typeof aPIGetDirectorsWithMostMovies
+            >
+              apiFetch={aPIGetDirectorsWithMostMovies}
+              params={{}}
+            >
+              {({ result, lang }) => (
+                <PeopleCarousel
+                  type="director"
+                  name={t("topDirectorsCarousel")}
+                  people={result.data.people}
                   lang={lang}
                   avatarURL={AVATAR_URL || "NO URL!"}
                 />

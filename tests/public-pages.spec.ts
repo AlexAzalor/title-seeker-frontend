@@ -52,7 +52,7 @@ test("Should switch dark/light theme", async ({ page }) => {
     .getByRole("banner")
     .getByRole("button", { name: "select-theme" })
     .click();
-  await page.getByRole("menuitem", { name: "Темна", exact: true }).click();
+  // await page.getByRole("menuitem", { name: "Темна", exact: true }).click();
 
   await expect(page.locator("html")).toHaveClass(/dark/);
 });

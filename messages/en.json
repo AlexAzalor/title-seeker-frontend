@@ -36,6 +36,7 @@
     "quicklyAddMovie": "Quickly add Movie",
     "randomMovies": "Random Movies",
     "topActorsCarousel": "Top Actors by movies count",
+    "topDirectorsCarousel": "Top Directors by movies count",
     "theme": {
       "light": "Light",
       "dark": "Dark",
