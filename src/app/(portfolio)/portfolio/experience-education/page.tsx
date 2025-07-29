@@ -31,7 +31,7 @@ type TimelineItem = {
 const timelineData: TimelineItem[] = [
   {
     id: "4",
-    title: "Software Developer",
+    title: "Full Stack developer",
     organization: "Title Seeker",
     startDate: "11.2024",
     endDate: "present",
@@ -104,7 +104,8 @@ const timelineData: TimelineItem[] = [
 
   {
     id: "1",
-    title: "Lviv University of Trade and Economics",
+    title: "Student",
+    organization: "Lviv University of Trade and Economics",
     location: "Lviv, Ukraine",
     startDate: "2010",
     endDate: "2016",

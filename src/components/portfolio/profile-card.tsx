@@ -25,7 +25,7 @@ export const ProfileCard = () => {
             Oleksandr Yablunovsky
           </h1>
           <p className="text-xl font-medium text-blue-600 dark:text-blue-400">
-            Software Developer
+            Full Stack developer
           </p>
           <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
             Passionate Full Stack Developer with 3+ years of experience, driven
@@ -93,8 +93,8 @@ export const ProfileCard = () => {
 
         <a
           href="#"
-          target="_blank"
-          download
+          // target="_blank"
+          // download
           className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 py-3 font-medium text-white shadow-lg transition-all duration-300 hover:from-blue-700 hover:to-purple-700 hover:shadow-xl"
         >
           <Download className="h-4 w-4" />

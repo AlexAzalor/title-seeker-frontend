@@ -35,7 +35,7 @@ const projects: Project[] = [
     startDate: "11.2024",
     endDate: "present",
     description:
-      "The database with titles was created in order to speed up the search for what you want. Allows you to effectively analyze titles before viewing and reduces false expectations. Ability to rate and create your own lists and view statistics.",
+      "A platform with a database of titles, where there are many different creative filters for searching, the ability to rate, use a unique analysis system, see statistics, etc. The project was created to quickly find the desired title and reduce false expectations from watching.",
     responsibilities: [
       "Worked across the full development cycle, from frontend and backend to CI/CD setup and deployment.",
       "Implemented multi-language support, light/dark themes, and high-quality mobile responsiveness for a seamless user experience.",
@@ -145,11 +145,11 @@ const projects: Project[] = [
     endDate: "06.2023",
     duration: "11 months",
     description:
-      "A long-term project that was already about 6 years old. It is a very rich manager that allows businesses to work more efficiently with bids/contracts/tenders. Tables, analytics, statistics, scrapers, history with timeline and much more. Servers are located in 3 regions – Australia, United Kingdom and USA.",
+      "A long-term project that was already about 6 years old. It is a very rich manager that allows businesses to work more efficiently with bids/contracts/tenders. Tables, analytics, statistics, scrapers, history with timeline and much more. Servers are located in 3 regions – Australia, United Kingdom and US.",
     responsibilities: [
       "Implemented and integrated numerous new features into an existing architecture without breaking legacy functionality.",
       "Fixed many long-standing bugs and improved overall system stability and performance. Notably identified and resolved a critical bug that caused the timeline page to slow down and crash.",
-      "Maintained direct communication with the client, discussing feature requirements and implementation details collaboratively.",
+      "Maintained direct communication with the customer, discussing feature requirements and implementation details collaboratively.",
       "Took responsibility for deploying updates across three regional environments, each with its own user base and infrastructure.",
       "Reacted quickly to user-reported issues and delivered timely fixes to minimize downtime and improve user experience.",
     ],

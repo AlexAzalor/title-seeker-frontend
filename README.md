@@ -1,7 +1,7 @@
-# 🎬 Title Seeker
+# 🎬 <a href="https://titleseeker.com" target="_blank">Title Seeker</a>
 
 <div id="title-seeker" align="center">
-  <img src="public/static/logo.webp" alt="Title Seeker Logo" width="100" height="100" style="border-radius: 50%;">
+<img src="public/static/logo.webp" alt="Title Seeker Logo" width="100" height="100" style="border-radius: 50%;">
 
 **A powerful title discovery platform built with modern web technologies**
 
