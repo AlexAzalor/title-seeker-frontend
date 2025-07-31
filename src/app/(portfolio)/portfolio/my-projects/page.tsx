@@ -46,7 +46,7 @@ const projects: Project[] = [
     technologies: skillsTools.filter((e) =>
       [
         "Next.js",
-        "TailWindCSS",
+        "Tailwind CSS",
         "Shadcn/UI",
         "Playwright",
         "Flask",
@@ -75,7 +75,7 @@ const projects: Project[] = [
       "Integrated Google and Apple authentication, ensuring secure and seamless user login across platforms.",
     ],
     technologies: skillsTools.filter((e) =>
-      ["Next.js", "TailWindCSS", "FastAPI", "Flask", "PostgreSQL"].includes(
+      ["Next.js", "Tailwind CSS", "FastAPI", "Flask", "PostgreSQL"].includes(
         e.label,
       ),
     ),
@@ -86,7 +86,7 @@ const projects: Project[] = [
     id: "5",
     name: "Bidhive",
     company: "Simple2B",
-    startDate: "12.2024",
+    startDate: "12.2023",
     endDate: "07.2024",
     duration: "7 months",
     description:
@@ -111,7 +111,7 @@ const projects: Project[] = [
       "Handled data visualization, performing calculations and displaying complex statistics accurately using interactive charts.",
     ],
     technologies: skillsTools.filter((e) =>
-      ["Next.js", "TailWindCSS", "Material UI"].includes(e.label),
+      ["Next.js", "Tailwind CSS", "Material UI"].includes(e.label),
     ),
     liveUrl: "https://www.komunalka.ua/",
     type: "professional",
@@ -132,7 +132,7 @@ const projects: Project[] = [
     ],
     // technologies: simple2bTech,
     technologies: skillsTools.filter((e) =>
-      ["Next.js", "TailWindCSS", "FastAPI"].includes(e.label),
+      ["Next.js", "Tailwind CSS", "FastAPI"].includes(e.label),
     ),
     liveUrl: "https://simple2b.com/en",
     type: "professional",

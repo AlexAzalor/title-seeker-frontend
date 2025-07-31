@@ -12,7 +12,6 @@ import {
   GitIcon,
   HTMLIcon,
   JavaScriptIcon,
-  LinuxIcon,
   MaterialUiIcon,
   NextJsIcon,
   NPMIcon,
@@ -20,11 +19,13 @@ import {
   PostgreSQLIcon,
   PythonIcon,
   ReactIcon,
+  RestApiIcon,
   SassIcon,
   ShadcnIcon,
   StyledComponentstIcon,
   TailwindCSSIcon,
   TypeScriptIcon,
+  UbuntuIcon,
   VSCodeIcon,
   WindowsIcon,
   YarnIcon,
@@ -60,7 +61,7 @@ export const skillsTools = [
     icon: <SassIcon />,
   },
   {
-    label: "TailWindCSS",
+    label: "Tailwind CSS",
     icon: <TailwindCSSIcon />,
   },
   {
@@ -129,7 +130,7 @@ export const skillsTools = [
     icon: <GitIcon />,
   },
   {
-    label: "Github",
+    label: "GitHub",
     icon: <GithubIcon />,
   },
   {
@@ -141,13 +142,19 @@ export const skillsTools = [
     icon: <WindowsIcon />,
   },
   {
-    label: "WSL|Linux|Ubuntu",
-    icon: <LinuxIcon />,
+    label: "WSL / Ubuntu",
+    icon: <UbuntuIcon />,
   },
   {
     label: "AWS",
     icon: <AWSIcon />,
   },
+  // {
+  //   label: "REST API",
+  //   icon: <RestApiIcon />,
+  // },
+
+  // Vitest, Pytest
 ];
 
 const softSkills = [

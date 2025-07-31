@@ -132,7 +132,7 @@ export default async function MoviePage({ params }: PageProps) {
           />
 
           {!!movie.related_movies?.length && (
-            <div className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border mb-4 flex max-w-88 flex-col rounded-4xl border p-5 md:w-full md:max-w-none">
+            <div className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border mx-auto mb-4 flex max-w-82 flex-col rounded-4xl border p-5 md:w-full md:max-w-none">
               <SimilarMoviesFetcher movieKey={movie_key} bottom />
             </div>
           )}

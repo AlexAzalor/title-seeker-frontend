@@ -92,9 +92,9 @@ export const ProfileCard = () => {
         </div>
 
         <a
-          href="#"
-          // target="_blank"
-          // download
+          href="https://static.titleseeker.com/other/Oleksandr_Yablunovsky_CV_Full_Stack_developer.pdf"
+          target="_blank"
+          download
           className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 py-3 font-medium text-white shadow-lg transition-all duration-300 hover:from-blue-700 hover:to-purple-700 hover:shadow-xl"
         >
           <Download className="h-4 w-4" />
