@@ -57,7 +57,7 @@ export const ProfileCard = () => {
         {/* Social Links */}
         <div className="mb-6 flex justify-center gap-4">
           <a
-            href="https://www.linkedin.com/in/alexandr-yablunovsky-9a459122a/"
+            href="https://www.linkedin.com/in/oleksandr-yablunovsky-9a459122a"
             target="_blank"
             className="rounded-lg bg-slate-100 p-2 transition-colors hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600"
           >

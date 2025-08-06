@@ -107,7 +107,7 @@ const projects: Project[] = [
       "Built the entire frontend architecture from scratch, following modern best practices.",
       "Implemented a wide range of client-specific requirements, ensuring precision and usability across all features.",
       "Collaborated closely with backend developers from another company, maintaining clear communication.",
-      "Integrated multiple APIs, including address lookup, apartment data and personal account management.",
+      "Integrated multiple APIs, including personal account management.",
       "Handled data visualization, performing calculations and displaying complex statistics accurately using interactive charts.",
     ],
     technologies: skillsTools.filter((e) =>
