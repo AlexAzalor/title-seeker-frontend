@@ -93,6 +93,7 @@ export default async function RootLayout({
       <body
         className={`${sourceSans3.variable} ${sourceSans3.variable} antialiased`}
       >
+        {/* React Scan - https://react-scan.com/*/}
         {/* <Script src="https://unpkg.com/react-scan/dist/auto.global.js" async /> */}
         <ThemeProvider>
           <NextIntlClientProvider messages={messages}>
