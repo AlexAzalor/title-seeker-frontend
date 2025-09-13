@@ -1,3 +1,4 @@
+import { GraphQLMovieList } from "@/components/graphql-movie-list";
 import { useTranslations } from "next-intl";
 
 export default function AnimePage() {
@@ -7,6 +8,8 @@ export default function AnimePage() {
     <div className="min-h-screen text-center">
       <h1 className="p-5 text-3xl">{t("HomePage.navigation.anime")}</h1>
       <p className="text-danger font-bold">{t("notImplemented")}</p>
+
+      <GraphQLMovieList />
     </div>
   );
 }

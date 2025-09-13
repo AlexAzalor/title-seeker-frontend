@@ -6,6 +6,7 @@ import { Source_Sans_3 } from "next/font/google";
 import { MainLayout } from "@/components/layout/main-layout";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import AuthProvider from "@/components/providers/auth-provider";
+import { GraphQLProvider } from "@/components/providers/graphql-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { SidebarProvider } from "@/components/ui/sidebar";
 
@@ -98,12 +99,14 @@ export default async function RootLayout({
         <ThemeProvider>
           <NextIntlClientProvider messages={messages}>
             <AuthProvider>
-              <SidebarProvider defaultOpen={false}>
-                <MainLayout>
-                  <AppSidebar locale={locale} />
-                  {children}
-                </MainLayout>
-              </SidebarProvider>
+              <GraphQLProvider>
+                <SidebarProvider defaultOpen={false}>
+                  <MainLayout>
+                    <AppSidebar locale={locale} />
+                    {children}
+                  </MainLayout>
+                </SidebarProvider>
+              </GraphQLProvider>
             </AuthProvider>
           </NextIntlClientProvider>
         </ThemeProvider>
