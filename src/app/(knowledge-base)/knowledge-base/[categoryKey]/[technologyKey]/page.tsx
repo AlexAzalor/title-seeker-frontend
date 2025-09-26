@@ -3,6 +3,7 @@ import { getKnowledgeBase } from "@/orval_api/knowledge-base/knowledge-base";
 import Link from "next/link";
 import type { PropsWithChildren } from "react";
 import { ArrowRight, HelpCircle } from "lucide-react";
+import { AddNewQuestionForm } from "@/components/knowledge-base/forms/add-new-question";
 
 type PageProps = {
   params: Promise<{ categoryKey: string; technologyKey: string }>;
@@ -25,6 +26,7 @@ export default async function KBQuestionsPage({
             Questions & Answers
           </h1>
         </div>
+        <AddNewQuestionForm technologyKey={technologyKey} />
         <p className="text-gray-600 dark:text-gray-300">
           Explore commonly asked questions about{" "}
           {technologyKey

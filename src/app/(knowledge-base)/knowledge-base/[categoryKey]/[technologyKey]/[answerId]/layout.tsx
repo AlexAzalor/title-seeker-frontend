@@ -38,14 +38,16 @@ export default async function KBQuestionAnswerLayout({
                       </h3>
                     </div>
 
-                    <div className="">
-                      <p
-                        title={question.short_answer}
-                        className="mb-1 leading-relaxed text-gray-600 dark:text-gray-300"
-                      >
-                        {question.short_answer.slice(0, 30)}...
-                      </p>
-                    </div>
+                    {question.short_answer && (
+                      <div className="">
+                        <p
+                          title={question.short_answer}
+                          className="mb-1 leading-relaxed text-gray-600 dark:text-gray-300"
+                        >
+                          {question.short_answer.slice(0, 30)}...
+                        </p>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>

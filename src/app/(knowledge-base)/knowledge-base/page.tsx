@@ -2,6 +2,7 @@ import { backendURL } from "@/lib/constants";
 import { getKnowledgeBase } from "@/orval_api/knowledge-base/knowledge-base";
 import Link from "next/link";
 import { BookOpen, ArrowRight, Lightbulb } from "lucide-react";
+import { AddNewCategoryForm } from "@/components/knowledge-base/forms/add-new-category";
 
 export default async function KnowledgeBasePage() {
   const { aPIGetKbCategories } = getKnowledgeBase();
@@ -23,6 +24,7 @@ export default async function KnowledgeBasePage() {
             resources
           </p>
         </div>
+        <AddNewCategoryForm />
 
         {/* Categories Grid */}
         <div className="flex flex-wrap justify-center gap-3">
@@ -61,7 +63,6 @@ export default async function KnowledgeBasePage() {
             </Link>
           ))}
         </div>
-
         {/* Empty State */}
         {data.categories.length === 0 && (
           <div className="py-16 text-center">

@@ -8,6 +8,7 @@ import AuthProvider from "@/components/providers/auth-provider";
 import "../globals.css";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { Header } from "@/components/knowledge-base/layout/header";
+import { Toaster } from "@/components/ui/sonner";
 
 const sourceSans3 = Source_Sans_3({
   subsets: ["cyrillic", "latin"],
@@ -56,6 +57,8 @@ export default async function RootLayout({
             </div>
           </AuthProvider>
         </ThemeProvider>
+
+        <Toaster richColors />
       </body>
     </html>
   );
