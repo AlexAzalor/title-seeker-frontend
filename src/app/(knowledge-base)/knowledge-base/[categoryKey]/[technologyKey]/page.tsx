@@ -13,8 +13,8 @@ export default async function KBQuestionsPage({
   params,
 }: PropsWithChildren<PageProps>) {
   const { categoryKey, technologyKey } = await params;
-  const { aPIGetTechnologyQuestions } = getKnowledgeBase();
-  const { data } = await aPIGetTechnologyQuestions(technologyKey, backendURL);
+  const { aPIGetKbTechnologyQuestions } = getKnowledgeBase();
+  const { data } = await aPIGetKbTechnologyQuestions(technologyKey, backendURL);
 
   return (
     <div>
@@ -62,7 +62,7 @@ export default async function KBQuestionsPage({
                   </div>
 
                   <div className="ml-11">
-                    <div>{4}</div>
+                    <div>{question.score}</div>
                     <p className="mb-4 leading-relaxed text-gray-600 dark:text-gray-300">
                       {question.short_answer}
                     </p>

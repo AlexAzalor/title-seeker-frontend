@@ -13,8 +13,11 @@ export const Header = ({ session }: Props) => {
       {!session ? (
         <GoogleLogin />
       ) : (
-        <div onClick={() => signOut({ redirectTo: "/knowledge-base" })}>
-          Logged in!
+        <div
+          className="cursor-pointer text-blue-500 hover:underline"
+          onClick={() => signOut({ redirectTo: "/knowledge-base" })}
+        >
+          Sign out
         </div>
       )}
     </div>

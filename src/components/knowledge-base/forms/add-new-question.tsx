@@ -16,6 +16,8 @@ import {
 } from "@/types/knowledge-base-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { KBQuestionIn } from "@/orval_api/model";
+import { useSession } from "next-auth/react";
+import { checkIfOwner } from "@/middleware";
 
 const CustomModal = dynamic(
   () => import("@/components/my-custom-ui/custom-modal"),
@@ -30,6 +32,7 @@ type Props = {
 
 export const AddNewQuestionForm = ({ technologyKey }: Props) => {
   const router = useRouter();
+  const session = useSession();
   const { isOpen, open, close } = useModal();
 
   const {
@@ -66,9 +69,11 @@ export const AddNewQuestionForm = ({ technologyKey }: Props) => {
 
   return (
     <>
-      <div>
-        <Button onClick={() => open()}>Add Question</Button>
-      </div>
+      {checkIfOwner(session.data?.user.role) && (
+        <div>
+          <Button onClick={() => open()}>Add Question</Button>
+        </div>
+      )}
 
       <CustomModal isOpen={isOpen} onClose={close}>
         <FormWrapper

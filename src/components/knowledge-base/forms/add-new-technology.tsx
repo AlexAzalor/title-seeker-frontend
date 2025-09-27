@@ -18,6 +18,8 @@ import {
   type KBTechnologyType,
 } from "@/types/knowledge-base-schema";
 import type { KBTechnologyIn } from "@/orval_api/model";
+import { useSession } from "next-auth/react";
+import { checkIfOwner } from "@/middleware";
 
 const CustomModal = dynamic(
   () => import("@/components/my-custom-ui/custom-modal"),
@@ -32,6 +34,7 @@ type Props = {
 
 export const AddNewTechnologyForm = ({ categoryKey }: Props) => {
   const router = useRouter();
+  const session = useSession();
   const { isOpen, open, close } = useModal();
 
   const {
@@ -75,9 +78,11 @@ export const AddNewTechnologyForm = ({ categoryKey }: Props) => {
 
   return (
     <>
-      <div className="my-2 text-center">
-        <Button onClick={() => open()}>Add technology</Button>
-      </div>
+      {checkIfOwner(session.data?.user.role) && (
+        <div className="my-2 text-center">
+          <Button onClick={() => open()}>Add technology</Button>
+        </div>
+      )}
 
       <CustomModal isOpen={isOpen} onClose={close}>
         <FormWrapper

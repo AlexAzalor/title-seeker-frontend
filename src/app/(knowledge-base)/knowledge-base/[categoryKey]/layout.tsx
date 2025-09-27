@@ -13,8 +13,8 @@ export default async function Layout({
   children,
 }: PropsWithChildren<PageProps>) {
   const { categoryKey } = await params;
-  const { aPIGetTechnologies } = getKnowledgeBase();
-  const { data } = await aPIGetTechnologies(categoryKey, backendURL);
+  const { aPIGetKbTechnologies } = getKnowledgeBase();
+  const { data } = await aPIGetKbTechnologies(categoryKey, backendURL);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">

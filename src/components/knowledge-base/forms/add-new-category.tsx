@@ -18,6 +18,8 @@ import {
   KBCategorySchema,
   type KBCategoryType,
 } from "@/types/knowledge-base-schema";
+import { useSession } from "next-auth/react";
+import { checkIfOwner } from "@/middleware";
 
 const CustomModal = dynamic(
   () => import("@/components/my-custom-ui/custom-modal"),
@@ -27,6 +29,7 @@ const CustomModal = dynamic(
 );
 export const AddNewCategoryForm = () => {
   const router = useRouter();
+  const session = useSession();
   const { isOpen, open, close } = useModal();
 
   const {
@@ -66,9 +69,11 @@ export const AddNewCategoryForm = () => {
 
   return (
     <>
-      <div className="mb-2 text-center">
-        <Button onClick={() => open()}>Add category</Button>
-      </div>
+      {checkIfOwner(session.data?.user.role) && (
+        <div className="mb-2 text-center">
+          <Button onClick={() => open()}>Add category</Button>
+        </div>
+      )}
 
       <CustomModal isOpen={isOpen} onClose={close}>
         <FormWrapper

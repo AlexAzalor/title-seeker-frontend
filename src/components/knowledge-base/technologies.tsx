@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Code, ChevronRight, ArrowLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { MasteryProgress } from "./mastery-progress";
 
 type Props = {
   categoryKey: string;
@@ -21,7 +22,7 @@ export const Technologies = ({
   const router = useRouter();
   // Check if we're on a specific technology page
   // const selectedTech = pathname.split("/").pop();
-  console.log("selectedTech", pathname.split("/"));
+
   const isOnTechPage =
     pathname.startsWith(`/knowledge-base/${categoryKey}/`) &&
     pathname.split("/").length > 3;
@@ -34,7 +35,7 @@ export const Technologies = ({
           <div className="mb-6 flex items-center justify-center">
             <Code className="mr-3 h-10 w-10 text-blue-600 dark:text-blue-400" />
             <h1 className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-3xl font-bold text-transparent md:text-4xl dark:from-blue-400 dark:to-indigo-400">
-              Technologies1
+              Technologies
             </h1>
           </div>
           <p className="mx-auto mb-8 max-w-2xl text-lg text-gray-600 dark:text-gray-300">
@@ -58,6 +59,8 @@ export const Technologies = ({
                       <h3 className="mb-2 text-xl font-semibold text-gray-900 transition-colors group-hover:text-blue-600 dark:text-white dark:group-hover:text-blue-400">
                         {tech.name}
                       </h3>
+
+                      <MasteryProgress progress={tech.mastery_progress} />
 
                       <p className="mb-4 flex-1 text-sm leading-relaxed text-gray-600 dark:text-gray-300">
                         {tech.description}
@@ -126,7 +129,7 @@ export const Technologies = ({
 
                         <div className="min-w-0 flex-1">
                           <p
-                            className={`text-xl font-medium ${
+                            className={`mb-2 text-lg font-medium ${
                               isSelected
                                 ? "text-blue-700 dark:text-blue-300"
                                 : "text-gray-900 dark:text-white"
@@ -134,6 +137,10 @@ export const Technologies = ({
                           >
                             {tech.name}
                           </p>
+                          <MasteryProgress
+                            progress={tech.mastery_progress}
+                            size="compact"
+                          />
                         </div>
 
                         {isSelected && (

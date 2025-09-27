@@ -1,4 +1,4 @@
-import { QuestionAnswer } from "@/components/question-answer";
+import { QuestionAnswer } from "@/components/knowledge-base/question-answer";
 import { backendURL } from "@/lib/constants";
 import { getKnowledgeBase } from "@/orval_api/knowledge-base/knowledge-base";
 
@@ -14,8 +14,8 @@ export default async function KBQuestionAnswerPage({ params }: PageProps) {
     return <div>Invalid answer ID</div>;
   }
 
-  const { aPIGetQuestionAnswer } = getKnowledgeBase();
-  const { data } = await aPIGetQuestionAnswer(answerIdNum, backendURL);
+  const { aPIGetKbQuestionAnswer } = getKnowledgeBase();
+  const { data } = await aPIGetKbQuestionAnswer(answerIdNum, backendURL);
 
   return <div className="text-center">{<QuestionAnswer data={data} />}</div>;
 }

@@ -1,3 +1,6 @@
+"use server";
+// CORS errors occur without this directive
+
 import axios from "axios";
 import { getAdmin } from "@/app/(app)/services/admin-api";
 import { fetchSettings } from "@/app/(app)/services/global-api";
@@ -18,10 +21,10 @@ export async function createKBCategory(formData: KBCategoryOut) {
   }
 
   const { backendURL, unknownError } = await fetchSettings();
-  const { aPICreateCategory } = getKnowledgeBase();
+  const { aPICreateKbCategory } = getKnowledgeBase();
 
   try {
-    await aPICreateCategory(formData, backendURL);
+    await aPICreateKbCategory(formData, { user_uuid: admin.uuid }, backendURL);
     return { status: 201, message: "Movie created" };
   } catch (error) {
     if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
@@ -40,10 +43,14 @@ export async function createKBTechnology(formData: KBTechnologyIn) {
   }
 
   const { backendURL, unknownError } = await fetchSettings();
-  const { aPICreateTechnology } = getKnowledgeBase();
+  const { aPICreateKbTechnology } = getKnowledgeBase();
 
   try {
-    await aPICreateTechnology(formData, backendURL);
+    await aPICreateKbTechnology(
+      formData,
+      { user_uuid: admin.uuid },
+      backendURL,
+    );
 
     return { status: 201, message: "Movie created" };
   } catch (error) {
@@ -63,10 +70,14 @@ export async function createKBQuestion(formData: KBQuestionIn) {
   }
 
   const { backendURL, unknownError } = await fetchSettings();
-  const { aPICreateQuestionAnswer } = getKnowledgeBase();
+  const { aPICreateKbQuestionAnswer } = getKnowledgeBase();
 
   try {
-    await aPICreateQuestionAnswer(formData, backendURL);
+    await aPICreateKbQuestionAnswer(
+      formData,
+      { user_uuid: admin.uuid },
+      backendURL,
+    );
 
     return { status: 201, message: "Question created" };
   } catch (error) {
@@ -86,10 +97,14 @@ export async function updateAnswer(formData: KBQuestionAnswerPutIn) {
   }
 
   const { backendURL, unknownError } = await fetchSettings();
-  const { aPIUpdateQuestionAnswer } = getKnowledgeBase();
+  const { aPIUpdateKbQuestionAnswer } = getKnowledgeBase();
 
   try {
-    await aPIUpdateQuestionAnswer(formData, backendURL);
+    await aPIUpdateKbQuestionAnswer(
+      formData,
+      { user_uuid: admin.uuid },
+      backendURL,
+    );
   } catch (error) {
     if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
       return { status: error.status, message: error.response?.data.detail };

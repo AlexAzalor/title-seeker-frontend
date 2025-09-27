@@ -12,8 +12,8 @@ export default async function KBQuestionAnswerLayout({
   children,
 }: PropsWithChildren<PageProps>) {
   const { technologyKey, categoryKey } = await params;
-  const { aPIGetRandomQuestions } = getKnowledgeBase();
-  const { data } = await aPIGetRandomQuestions(technologyKey, backendURL);
+  const { aPIGetKbRandomQuestions } = getKnowledgeBase();
+  const { data } = await aPIGetKbRandomQuestions(technologyKey, backendURL);
 
   return (
     <>
@@ -37,6 +37,8 @@ export default async function KBQuestionAnswerLayout({
                         {question.question}
                       </h3>
                     </div>
+
+                    {question.score}
 
                     {question.short_answer && (
                       <div className="">
