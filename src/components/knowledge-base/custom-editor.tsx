@@ -9,6 +9,7 @@ import { Textarea } from "../ui/textarea";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { StarRating } from "./layout/star-rating";
+import { Input } from "../ui/input";
 
 const Editor = dynamic(
   () => import("@tinymce/tinymce-react").then((m) => m.Editor),
@@ -26,6 +27,7 @@ type Props = {
 export const CustomEditor = ({ data }: Props) => {
   const editorRef = useRef<TinyMCEEditor | null>(null);
   const shortAnswerRef = useRef<string | null>(null);
+  const questionRef = useRef<string | null>(null);
   const scoreRef = useRef<number | null>(null);
 
   const router = useRouter();
@@ -35,10 +37,14 @@ export const CustomEditor = ({ data }: Props) => {
       toast.error("Short answer ref not found");
       return;
     }
+    if (!questionRef.current && !data.question) {
+      toast.error("Question ref not found");
+      return;
+    }
 
     await updateAnswer({
       id: data.id,
-      question: data.question,
+      question: questionRef.current || data.question,
       answer: editorRef.current
         ? editorRef.current.getContent()
         : data.answer || "",
@@ -60,10 +66,17 @@ export const CustomEditor = ({ data }: Props) => {
 
   return (
     <>
-      <h1 className="my-3">{data.question}</h1>
+      <h1 className="my-3 text-center">{data.question}</h1>
 
       <StarRating score={data.score} scoreRef={scoreRef} />
 
+      <span className="text-sm text-gray-400">Question</span>
+      <Input
+        className="mb-4"
+        onChange={(e) => (questionRef.current = e.target.value)}
+        defaultValue={data.question || ""}
+      />
+      <span className="text-sm text-gray-400">Short answer</span>
       <Textarea
         className="mb-4"
         onChange={(e) => (shortAnswerRef.current = e.target.value)}
@@ -85,6 +98,7 @@ export const CustomEditor = ({ data }: Props) => {
           height: 500,
           width: 854,
           menubar: true,
+          toolbar_mode: "wrap",
           plugins: [
             "save",
             "accordion",
@@ -110,11 +124,10 @@ export const CustomEditor = ({ data }: Props) => {
           ],
           toolbar:
             "save | undo redo | blocks | " +
-            "bold italic forecolor | link | image | table | code | codesample | accordion | alignleft aligncenter " +
+            "bold italic forecolor | fontsize | backcolor | link | image | table | code | codesample | accordion | alignleft aligncenter " +
             "alignright alignjustify | bullist numlist outdent indent | " +
             "removeformat | help",
-          content_style:
-            "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+          content_style: "body { font-family:Helvetica,Arial,sans-serif;}",
         }}
       />
     </>

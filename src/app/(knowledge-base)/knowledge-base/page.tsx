@@ -4,6 +4,9 @@ import Link from "next/link";
 import { BookOpen, ArrowRight, Lightbulb } from "lucide-react";
 import { AddNewCategoryForm } from "@/components/knowledge-base/forms/add-new-category";
 
+// Need?
+export const dynamic = "force-dynamic";
+
 export default async function KnowledgeBasePage() {
   const { aPIGetKbCategories } = getKnowledgeBase();
   const { data } = await aPIGetKbCategories(backendURL);

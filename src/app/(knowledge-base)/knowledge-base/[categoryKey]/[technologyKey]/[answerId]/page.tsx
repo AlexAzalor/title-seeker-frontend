@@ -17,5 +17,7 @@ export default async function KBQuestionAnswerPage({ params }: PageProps) {
   const { aPIGetKbQuestionAnswer } = getKnowledgeBase();
   const { data } = await aPIGetKbQuestionAnswer(answerIdNum, backendURL);
 
-  return <div className="text-center">{<QuestionAnswer data={data} />}</div>;
+  return (
+    <div className="kb-editor-link-style">{<QuestionAnswer data={data} />}</div>
+  );
 }

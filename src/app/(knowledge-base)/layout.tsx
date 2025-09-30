@@ -1,6 +1,7 @@
 import { Source_Sans_3 } from "next/font/google";
 import Link from "next/link";
 import { auth } from "@/auth";
+import type { Metadata } from "next";
 
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import AuthProvider from "@/components/providers/auth-provider";
@@ -18,6 +19,13 @@ const sourceSans3 = Source_Sans_3({
   preload: true,
   fallback: ["system-ui", "sans-serif"],
 });
+
+export const metadata: Metadata = {
+  title: {
+    template: "%s | Knowledge Base",
+    default: "Knowledge Base",
+  },
+};
 
 export default async function RootLayout({
   children,

@@ -1,7 +1,6 @@
 import { backendURL } from "@/lib/constants";
 import { getKnowledgeBase } from "@/orval_api/knowledge-base/knowledge-base";
 import Link from "next/link";
-import type { PropsWithChildren } from "react";
 import { ArrowRight, HelpCircle } from "lucide-react";
 import { AddNewQuestionForm } from "@/components/knowledge-base/forms/add-new-question";
 
@@ -9,9 +8,7 @@ type PageProps = {
   params: Promise<{ categoryKey: string; technologyKey: string }>;
 };
 
-export default async function KBQuestionsPage({
-  params,
-}: PropsWithChildren<PageProps>) {
+export default async function KBQuestionsPage({ params }: PageProps) {
   const { categoryKey, technologyKey } = await params;
   const { aPIGetKbTechnologyQuestions } = getKnowledgeBase();
   const { data } = await aPIGetKbTechnologyQuestions(technologyKey, backendURL);

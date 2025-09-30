@@ -33,8 +33,11 @@ export default async function KBQuestionAnswerLayout({
                 <div className="flex items-start justify-between px-3">
                   <div className="flex-1">
                     <div className="mb-1 flex items-start">
-                      <h3 className="text-lg leading-tight font-semibold text-gray-900 transition-colors group-hover:text-blue-600 dark:text-white dark:group-hover:text-blue-400">
-                        {question.question}
+                      <h3
+                        title={question.question}
+                        className="text-lg leading-tight font-semibold text-gray-900 transition-colors group-hover:text-blue-600 dark:text-white dark:group-hover:text-blue-400"
+                      >
+                        {question.question.slice(0, 60)}...
                       </h3>
                     </div>
 

@@ -7,9 +7,9 @@ import { useModal } from "@/hooks/use-modal";
 
 import { toast } from "sonner";
 import { createKBQuestion } from "@/app/(knowledge-base)/api/actions";
-import { FormField } from "@/components/my-custom-ui/form-ui-parts/form-field";
 import { FormWrapper } from "@/components/my-custom-ui/form-ui-parts/form-wrapper";
 import { Button } from "@/components/ui/button";
+import { TextareaFormField } from "@/components/my-custom-ui/form-ui-parts/textarea-form-field";
 import {
   KBQuestionSchema,
   type KBQuestionType,
@@ -80,8 +80,7 @@ export const AddNewQuestionForm = ({ technologyKey }: Props) => {
           onSubmit={handleSubmit(onSubmit)}
           isSubmitting={isSubmitting}
         >
-          <FormField
-            type="text"
+          <TextareaFormField
             label="Question"
             name="question"
             register={register}

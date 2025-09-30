@@ -29,19 +29,21 @@ export const QuestionAnswer = ({ data }: Props) => {
   return (
     <>
       {checkIfOwner(session.data?.user.role) && (
-        <button
-          className="rounded bg-blue-500 px-4 py-2 font-semibold text-white hover:bg-blue-600"
-          onClick={() => setOpenEditor((p) => !p)}
-        >
-          {!openEditor ? "Edit Answer" : "Close Editor"}
-        </button>
+        <div className="flex">
+          <button
+            className="mx-auto rounded bg-blue-500 px-4 py-2 font-semibold text-white hover:bg-blue-600"
+            onClick={() => setOpenEditor((p) => !p)}
+          >
+            {!openEditor ? "Edit Answer" : "Close Editor"}
+          </button>
+        </div>
       )}
 
       {openEditor && <CustomEditor data={data} />}
 
       {!openEditor && (
         <div className="prose w-[854px]">
-          <h1 className="my-3">{data.question}</h1>
+          <h1 className="my-3 text-center">{data.question}</h1>
           <StarRating score={data.score} readonly />
           <div dangerouslySetInnerHTML={{ __html: data.answer || "" }} />
         </div>
