@@ -9,6 +9,8 @@ import { MIN_RATE } from "@/components/movie/rating/utils";
 import { TooltipWrapper } from "@/components/my-custom-ui/tooltip-wrapper";
 import type { BaseRatingCriteria } from "@/orval_api/model";
 
+const STEP_COUNT = 3;
+
 // type SliderProps = React.ComponentProps<typeof Slider>;
 // https://github.com/shadcn-ui/ui/blob/main/apps/www/app/(app)/examples/playground/components/temperature-selector.tsx
 export type RatingType = keyof BaseRatingCriteria;
@@ -38,22 +40,18 @@ function RateSlider({
   const t = useTranslations("Rating");
 
   const getQualityLabel = (value: number) => {
-    const step = max / 5;
+    const step = Number((max / STEP_COUNT).toFixed(2));
     const cartoon = isCartoon ? ".cartoon" : "";
+    // 2 - its two steps, e.g. step1 + step2
+    const firstStep = max - step * 2;
 
     switch (true) {
-      case value < max - step * 4:
+      case value < firstStep:
         return t(`${type}.qualityLevel${cartoon}.one`);
-      case value >= max - step * 4 && value < max - step * 3:
+      case value >= firstStep && value < max - step:
         return t(`${type}.qualityLevel${cartoon}.two`);
-      case value >= max - step * 3 && value < max - step * 2:
+      case value >= max - step:
         return t(`${type}.qualityLevel${cartoon}.three`);
-      case value >= max - step * 2 && value < max - step:
-        return t(`${type}.qualityLevel${cartoon}.four`);
-      case value >= max - step && value < max:
-        return t(`${type}.qualityLevel${cartoon}.five`);
-      case value === max:
-        return t(`${type}.qualityLevel${cartoon}.six`);
       default:
         return "No value";
     }
