@@ -5,6 +5,7 @@ import { version } from "./package.json";
 const withNextIntl = createNextIntlPlugin();
 
 const nextConfig: NextConfig = {
+  // typedRoutes: true,
   output: "standalone",
   experimental: {
     serverActions: {
