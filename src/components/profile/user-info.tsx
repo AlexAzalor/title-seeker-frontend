@@ -1,5 +1,5 @@
 import { useTranslations } from "next-intl";
-import { checkIfAdmin } from "@/middleware";
+import { checkIfAdmin } from "@/proxy";
 import { formatDate } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";

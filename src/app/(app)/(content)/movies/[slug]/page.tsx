@@ -3,7 +3,7 @@ import { auth } from "@/auth";
 import dynamic from "next/dynamic";
 import { getLocale, getTranslations } from "next-intl/server";
 
-import { checkIfAdmin, checkIfOwner } from "@/middleware";
+import { checkIfAdmin, checkIfOwner } from "@/proxy";
 import { AVATAR_URL, backendURL, POSTER_URL } from "@/lib/constants";
 import { Language } from "@/orval_api/model";
 import { getMovies } from "@/orval_api/movies/movies";

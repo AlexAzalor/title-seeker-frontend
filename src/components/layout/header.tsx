@@ -2,7 +2,7 @@ import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
 import { PlusCircle } from "lucide-react";
-import { ALL_ROLES } from "@/middleware";
+import { ALL_ROLES } from "@/proxy";
 import { POSTER_URL } from "@/lib/constants";
 
 import { Button } from "@/components/ui/button";

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useTranslations } from "next-intl";
-import { ADMINS_ROLES } from "@/middleware";
+import { ADMINS_ROLES } from "@/proxy";
 
 import { AdminPanel } from "@/components/profile/admin/admin-panel";
 import { RoleGate } from "@/components/providers/role-gate";

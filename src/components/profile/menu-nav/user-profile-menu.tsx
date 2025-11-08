@@ -3,7 +3,7 @@
 import { signOut } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { LogOut } from "lucide-react";
-import { checkIfAdmin } from "@/middleware";
+import { checkIfAdmin } from "@/proxy";
 
 import {
   ADMIN_ITEMS,

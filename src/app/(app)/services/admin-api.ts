@@ -3,7 +3,7 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import axios, { type AxiosResponse } from "axios";
-import { checkIfAdmin } from "@/middleware";
+import { checkIfAdmin } from "@/proxy";
 
 import { fetchSettings } from "./global-api";
 import { getMovies } from "@/orval_api/movies/movies";

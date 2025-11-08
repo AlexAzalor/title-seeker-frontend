@@ -11,7 +11,7 @@ import "prismjs/themes/prism.css"; // Enable Prism.js default theme
 import "prismjs/components/prism-python";
 import "prismjs/components/prism-typescript";
 import { useSession } from "next-auth/react";
-import { checkIfOwner } from "@/middleware";
+import { checkIfOwner } from "@/proxy";
 import { StarRating } from "./layout/star-rating";
 
 type Props = {

@@ -4,6 +4,8 @@ import { version } from "./package.json";
 
 const withNextIntl = createNextIntlPlugin();
 
+// https://nextjs.org/docs/app/guides/upgrading/version-16
+
 const nextConfig: NextConfig = {
   // typedRoutes: true,
   output: "standalone",
@@ -13,6 +15,7 @@ const nextConfig: NextConfig = {
     },
   },
   images: {
+    dangerouslyAllowLocalIP: true, // Only for private networks
     remotePatterns: [
       {
         protocol: "http",

@@ -1,7 +1,7 @@
 import { memo } from "react";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
-import { checkIfAdmin } from "@/middleware";
+import { checkIfAdmin } from "@/proxy";
 import { Check, Info } from "lucide-react";
 
 import { cn } from "@/lib/utils";

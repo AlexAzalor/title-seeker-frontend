@@ -19,7 +19,7 @@ import {
 } from "@/types/knowledge-base-schema";
 import type { KBTechnologyIn } from "@/orval_api/model";
 import { useSession } from "next-auth/react";
-import { checkIfOwner } from "@/middleware";
+import { checkIfOwner } from "@/proxy";
 
 const CustomModal = dynamic(
   () => import("@/components/my-custom-ui/custom-modal"),

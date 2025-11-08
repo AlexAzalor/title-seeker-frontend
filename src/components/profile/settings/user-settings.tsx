@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl";
 import { signOut, useSession } from "next-auth/react";
 import dynamic from "next/dynamic";
 import { useModal } from "@/hooks/use-modal";
-import { checkIfOwner } from "@/middleware";
+import { checkIfOwner } from "@/proxy";
 import { Language } from "@/orval_api/model";
 
 import { Button } from "@/components/ui/button";

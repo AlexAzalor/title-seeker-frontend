@@ -2,7 +2,7 @@ import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { auth } from "@/auth";
 import { PlusCircle } from "lucide-react";
-import { checkIfAdmin, checkIfOwner } from "@/middleware";
+import { checkIfAdmin, checkIfOwner } from "@/proxy";
 
 import {
   Sidebar,

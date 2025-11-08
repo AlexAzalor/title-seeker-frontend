@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
-import { checkIfAdmin } from "@/middleware";
+import { checkIfAdmin } from "@/proxy";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";

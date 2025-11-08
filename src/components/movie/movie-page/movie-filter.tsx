@@ -9,7 +9,7 @@ import { useModal } from "@/hooks/use-modal";
 import { InfoIcon } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
-import { checkIfAdmin } from "@/middleware";
+import { checkIfAdmin } from "@/proxy";
 
 import { TooltipWrapper } from "@/components/my-custom-ui/tooltip-wrapper";
 import { Button } from "@/components/ui/button";
