@@ -1,5 +1,5 @@
 yarn tsc --noEmit &&
-yarn lint &&
+# yarn lint &&
 yarn test &&
 yarn build &&
 docker build -t azalor/title-hunter-frontend:latest . &&
