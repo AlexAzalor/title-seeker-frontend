@@ -57,6 +57,11 @@ export default async function SuperSearchPage(props: {
     visual_profile: visualProfileList,
   } = FilterSchema.parse(searchParams);
 
+  const duration =
+    typeof searchParams.duration === "string"
+      ? searchParams.duration
+      : undefined;
+
   const exactMatch =
     typeof searchParams.exact_match === "string"
       ? searchParams.exact_match
@@ -84,6 +89,8 @@ export default async function SuperSearchPage(props: {
       character: characterNamesList,
       shared_universe: universesList,
       visual_profile: visualProfileList,
+
+      duration,
 
       // Extra filters
       exact_match: Boolean(exactMatch),

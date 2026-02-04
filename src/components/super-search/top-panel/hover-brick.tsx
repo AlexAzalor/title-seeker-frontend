@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FilterBrick } from "@/components/super-search/filter-brick";
+import { FilterBrick } from "@/components/super-search/top-panel/filter-brick";
 import { FilterEnum, type GenreOut, type SubgenreOut } from "@/orval_api/model";
 
 type Props = {

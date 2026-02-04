@@ -7,11 +7,11 @@ import { ThemeProvider } from "next-themes";
 import { NextIntlClientProvider } from "next-intl";
 
 import { ResizablePanelGroup } from "@/components/ui/resizable";
-import { EnhanceSearch } from "@/components/super-search/enhance-search";
-import { SelectedFilters } from "@/components/super-search/selected-filters";
-import { FilterList } from "@/components/super-search/filter-list";
-import { FilterBrick } from "@/components/super-search/filter-brick";
-import { HoverBrick } from "@/components/super-search/hover-brick";
+import { EnhanceSearch } from "@/components/super-search/right-side/enhance-search";
+import { SelectedFilters } from "@/components/super-search/top-panel/selected-filters";
+import { FilterList } from "@/components/super-search/left-side/filter-list";
+import { FilterBrick } from "@/components/super-search/top-panel/filter-brick";
+import { HoverBrick } from "@/components/super-search/top-panel/hover-brick";
 import SideMenuPanel from "@/components/super-search/side-menu-panel";
 import { FilterEnum } from "@/orval_api/model";
 import type { PropsWithChildren } from "react";

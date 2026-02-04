@@ -121,7 +121,8 @@
     "apply": "Apply",
     "applied": "Applied!",
     "filters": "Filters",
-    "description": "Select filters to start"
+    "description": "Select filters to start",
+    "duration": "Duration (in minutes)"
   },
 
   "Filters": {

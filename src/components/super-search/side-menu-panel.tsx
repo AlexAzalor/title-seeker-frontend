@@ -17,6 +17,9 @@ type Props = {
   description: string;
 };
 
+/**
+ * @description Side menu panel component for **mobile** view
+ */
 function SideMenuPanel({
   children,
   side,

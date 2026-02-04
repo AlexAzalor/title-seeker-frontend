@@ -146,6 +146,12 @@
   --shadow-exact-match-light: 0px 0px 0px 0px #ffffff, 0 0 10px #ffffff,
     0 0 6px #ffffff, inset 0 0 10px #ffffff;
 
+  /* Search by duration */
+  --shadow-duration: 0px 0px 0px 0px #fe64ee, 0 0 10px #fe64ee, 0 0 6px #fe64ee,
+    inset 0 0 10px #fe64ee;
+  --shadow-exact-match-light: 0px 0px 0px 0px #ffffff, 0 0 10px #ffffff,
+    0 0 6px #ffffff, inset 0 0 10px #ffffff;
+
   /* Responsive */
   --breakpoint-xs: 30rem;
   /* --breakpoint-xl: 64rem; 1024px */

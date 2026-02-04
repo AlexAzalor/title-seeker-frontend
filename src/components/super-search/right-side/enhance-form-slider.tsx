@@ -4,17 +4,12 @@ import {
   Controller,
   type FieldArrayWithId,
 } from "react-hook-form";
+import { z } from "zod";
 import { Slider } from "@/components/ui/slider";
 import { Separator } from "@/components/ui/separator";
-import type { EnhanceSearchType } from "@/types/search-params-schema";
+import { EnhanceSearchSchema } from "@/types/search-params-schema";
 
-type FormData = {
-  genres: EnhanceSearchType[];
-  subgenres: EnhanceSearchType[];
-  specifications: EnhanceSearchType[];
-  keywords: EnhanceSearchType[];
-  action_times: EnhanceSearchType[];
-};
+type FormData = z.infer<typeof EnhanceSearchSchema>;
 
 type Props = {
   name: "genres" | "subgenres" | "specifications" | "keywords" | "action_times";
@@ -39,9 +34,10 @@ export const EnhancedFormSlider = ({ name, itemsList, control }: Props) => {
                   range
                   defaultValue={value}
                   onValueChange={onChange}
-                  step={1}
+                  step={10}
                   max={100}
-                  minStepsBetweenThumbs={10}
+                  min={10}
+                  minStepsBetweenThumbs={1}
                 />
                 {error && (
                   <span className="text-danger text-sm">{error.message}</span>
