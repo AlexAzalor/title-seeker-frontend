@@ -48,7 +48,7 @@ export const EnhanceSearch = () => {
   const {
     control,
     handleSubmit,
-    formState: { isDirty },
+    formState: { isDirty, errors },
     reset,
   } = useForm<EnhanceSearchSchemaType>({
     resolver: zodResolver(EnhanceSearchSchema),
@@ -248,6 +248,21 @@ export const EnhanceSearch = () => {
                 );
               }}
             />
+          )}
+
+          {Object.keys(errors).length > 0 && (
+            <div
+              className="mb-4 rounded-lg bg-red-100 p-4 text-sm text-red-700"
+              role="alert"
+            >
+              <ul>
+                {Object.entries(errors).map(([fieldName, error]) => (
+                  <li key={fieldName}>
+                    {fieldName}: {error.message}
+                  </li>
+                ))}
+              </ul>
+            </div>
           )}
 
           <button

@@ -43,7 +43,7 @@ export const EnhanceSearchSchema = z.object({
   specifications: z.array(EnhanceSearchField),
   keywords: z.array(EnhanceSearchField),
   action_times: z.array(EnhanceSearchField),
-  duration: z.array(z.number()),
+  duration: z.array(z.number()).optional(),
 });
 
 export type EnhanceSearchSchemaType = z.infer<typeof EnhanceSearchSchema>;
