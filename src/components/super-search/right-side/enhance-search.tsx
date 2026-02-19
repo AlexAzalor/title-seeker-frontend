@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { useTranslations } from "next-intl";
-import { useFieldArray, useForm } from "react-hook-form";
+import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { useRouter, useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
@@ -14,9 +14,21 @@ import {
   type SearchFormValue,
   type SearchValue,
 } from "@/lib/utils";
-import { EnhancedFormSlider } from "@/components/super-search/enhance-form-slider";
+import { EnhancedFormSlider } from "@/components/super-search/right-side/enhance-form-slider";
 import { FilterEnum } from "@/orval_api/model";
-import { EnhanceSearchSchema } from "@/types/search-params-schema";
+import {
+  EnhanceSearchSchema,
+  type EnhanceSearchSchemaType,
+} from "@/types/search-params-schema";
+import { Slider } from "../../ui/slider";
+import { MAX_LIMIT, MIN_LIMIT } from "@/lib/constants";
+
+export const parseDurationString = (
+  str: string | undefined,
+): number[] | undefined => {
+  if (!str) return undefined;
+  return str.split(",").map((val) => Number(val.trim()));
+};
 
 export const EnhanceSearch = () => {
   const router = useRouter();
@@ -29,15 +41,16 @@ export const EnhanceSearch = () => {
     formatSpecificationData,
     formatKeywordData,
     formatActionTimeData,
+    duration,
     showForm,
   } = formatSearchParams(currentSearchParams);
 
   const {
     control,
     handleSubmit,
-    formState: { isDirty },
+    formState: { isDirty, errors },
     reset,
-  } = useForm({
+  } = useForm<EnhanceSearchSchemaType>({
     resolver: zodResolver(EnhanceSearchSchema),
     defaultValues: {
       genres: formatGenreData,
@@ -45,6 +58,7 @@ export const EnhanceSearch = () => {
       specifications: formatSpecificationData,
       keywords: formatKeywordData,
       action_times: formatActionTimeData,
+      duration: duration as number[],
     },
   });
 
@@ -67,6 +81,9 @@ export const EnhanceSearch = () => {
       specifications: getItems(FilterEnum.specification),
       keywords: getItems(FilterEnum.keyword),
       action_times: getItems(FilterEnum.action_time),
+      duration: parseDurationString(
+        currentSearchParams.get("duration") ?? undefined,
+      ) as number[],
     }); // Reset form with new values
   }, [currentSearchParams, reset]);
 
@@ -137,6 +154,13 @@ export const EnhanceSearch = () => {
     constructSearchQuery(data.keywords, FilterEnum.keyword);
     constructSearchQuery(data.action_times, FilterEnum.action_time);
 
+    // Handle duration separately as it's an array, convert to string for URL
+    urlSearchParams.delete("duration");
+    if (data.duration && data.duration.length === 2) {
+      const durationStr = data.duration.join(",");
+      urlSearchParams.set("duration", durationStr);
+    }
+
     // To refresh the page with the new search parameters
     router.replace("/super-search" + "?" + urlSearchParams.toString(), {
       scroll: false,
@@ -192,6 +216,53 @@ export const EnhanceSearch = () => {
               control={control}
               itemsList={actionTimesFields}
             />
+          )}
+
+          {!!duration && (
+            <Controller
+              control={control}
+              name="duration"
+              render={({
+                field: { onChange, value },
+                fieldState: { error },
+              }) => {
+                return (
+                  <>
+                    <p className="font-bold">{t("duration")}</p>
+                    <span>{value?.join(" - ")}</span>
+                    <Slider
+                      range
+                      defaultValue={value}
+                      value={value}
+                      onValueChange={onChange}
+                      max={MAX_LIMIT}
+                      min={MIN_LIMIT}
+                      minStepsBetweenThumbs={1}
+                    />
+                    {error && (
+                      <span className="text-danger text-sm">
+                        {error.message}
+                      </span>
+                    )}
+                  </>
+                );
+              }}
+            />
+          )}
+
+          {Object.keys(errors).length > 0 && (
+            <div
+              className="mb-4 rounded-lg bg-red-100 p-4 text-sm text-red-700"
+              role="alert"
+            >
+              <ul>
+                {Object.entries(errors).map(([fieldName, error]) => (
+                  <li key={fieldName}>
+                    {fieldName}: {error.message}
+                  </li>
+                ))}
+              </ul>
+            </div>
           )}
 
           <button

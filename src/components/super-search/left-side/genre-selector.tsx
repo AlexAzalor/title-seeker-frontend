@@ -11,7 +11,7 @@ import {
   extractWord,
   manageSearchParameters,
 } from "@/lib/utils";
-import { ResponsiveWrapper } from "../my-custom-ui/responsive-wrapper";
+import { ResponsiveWrapper } from "../../my-custom-ui/responsive-wrapper";
 import { useSubgenreStore } from "@/lib/store";
 
 // const checkGenreType = (item: GenreOut | SubgenreOut): item is GenreOut => {

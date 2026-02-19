@@ -1,8 +1,8 @@
 import { Separator } from "@/components/ui/separator";
-import { PersonSelector } from "@/components/super-search/person-selector";
-import { GenreSelector } from "@/components/super-search/genre-selector";
-import { FilterSelector } from "@/components/super-search/filter-selector";
-import { SearchControlButtons } from "@/components/super-search/search-control-buttons";
+import { PersonSelector } from "@/components/super-search/left-side/person-selector";
+import { GenreSelector } from "@/components/super-search/left-side/genre-selector";
+import { FilterSelector } from "@/components/super-search/left-side/filter-selector";
+import { SearchControlButtons } from "@/components/super-search/left-side/search-control-buttons";
 
 import {
   type GenreOut,
@@ -12,6 +12,7 @@ import {
   FilterEnum,
   type BaseSharedUniverse,
 } from "@/orval_api/model";
+import { DurationFilterPreset } from "./duration-filter-preset";
 
 type Props = {
   genres: GenreOut[];
@@ -38,12 +39,18 @@ export const FilterList = ({
 }: Props) => {
   return (
     <div
-      className="mb-20 flex flex-col gap-4 overflow-y-auto"
+      className="mb-20 flex flex-col gap-4 overflow-y-auto lg:w-full lg:items-center"
       aria-label="filter-list"
     >
       <SearchControlButtons />
 
-      <div className="custom-scrollbar flex flex-col gap-4 overflow-x-hidden overflow-y-auto pr-3">
+      <Separator className="my-2" />
+
+      <DurationFilterPreset />
+
+      <Separator className="my-2" />
+
+      <div className="custom-scrollbar flex w-full flex-col gap-4 overflow-x-hidden overflow-y-auto lg:items-center">
         <FilterSelector
           data={visual_profile_categories}
           param_key={FilterEnum.visual_profile}

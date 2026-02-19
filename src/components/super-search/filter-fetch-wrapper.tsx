@@ -6,9 +6,9 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
-import { SelectedFilters } from "@/components/super-search/selected-filters";
-import { EnhanceSearch } from "@/components/super-search/enhance-search";
-import { FilterList } from "@/components/super-search/filter-list";
+import { SelectedFilters } from "@/components/super-search/top-panel/selected-filters";
+import { EnhanceSearch } from "@/components/super-search/right-side/enhance-search";
+import { FilterList } from "@/components/super-search/left-side/filter-list";
 
 import { getMovies } from "@/orval_api/movies/movies";
 import { Language } from "@/orval_api/model";

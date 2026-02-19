@@ -42,3 +42,8 @@ export const HTTP_STATUS = {
   GATEWAY_TIMEOUT: 504,
   HTTP_VERSION_NOT_SUPPORTED: 505,
 };
+
+// NOTE: Duration values connected to backend limits
+// NOTE: Movie duration limits in minutes
+export const MIN_LIMIT = 1;
+export const MAX_LIMIT = 300;

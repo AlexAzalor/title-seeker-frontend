@@ -5,13 +5,13 @@ import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
 import { CircleX } from "lucide-react";
 import { useSubgenreStore } from "@/lib/store";
-import { extractWord, manageSearchParameters } from "@/lib/utils";
+import { cn, extractWord, manageSearchParameters } from "@/lib/utils";
 
 import { ResizableHandle, ResizablePanel } from "@/components/ui/resizable";
-import { FilterBrick } from "@/components/super-search/filter-brick";
-import { HoverBrick } from "@/components/super-search/hover-brick";
-import { FilterList } from "@/components/super-search/filter-list";
-import { EnhanceSearch } from "@/components/super-search/enhance-search";
+import { FilterBrick } from "@/components/super-search/top-panel/filter-brick";
+import { HoverBrick } from "@/components/super-search/top-panel/hover-brick";
+import { FilterList } from "@/components/super-search/left-side/filter-list";
+import { EnhanceSearch } from "@/components/super-search/right-side/enhance-search";
 
 import {
   type FilterItemOut,
@@ -22,9 +22,9 @@ import {
   FilterEnum,
   type BaseSharedUniverse,
 } from "@/orval_api/model";
-import { SearchControl } from "./search-control-buttons";
+import { SearchControl } from "../left-side/search-control-buttons";
 
-const SideMenuPanel = dynamic(() => import("./side-menu-panel"), {
+const SideMenuPanel = dynamic(() => import("../side-menu-panel"), {
   ssr: false,
 });
 
@@ -82,6 +82,8 @@ export const SelectedFilters = ({
   const selectedVisualProfiles = currentSearchParams.getAll(
     FilterEnum.visual_profile,
   );
+
+  const selectedDuration = currentSearchParams.get("duration");
 
   const deleteSubgenres = (genre: string, urlSearchParams: URLSearchParams) => {
     setSubgenres(
@@ -220,7 +222,7 @@ export const SelectedFilters = ({
             />
 
             {selectedExactMatch && (
-              <div className="hover:shadow-exact-match dark:hover:shadow-exact-match-light flex items-center space-x-1 rounded-xl border-1 border-black p-1 font-bold text-black transition-shadow dark:border-white dark:text-white">
+              <div className="hover:shadow-exact-match dark:hover:shadow-exact-match-light flex items-center space-x-1 rounded-xl border-2 border-black p-1 font-bold text-black transition-shadow dark:border-white dark:text-white">
                 <span>{t("exactMatch")}</span>
                 <CircleX
                   className="top-0 right-0 h-4 w-4 cursor-pointer"
@@ -235,7 +237,7 @@ export const SelectedFilters = ({
             )}
 
             {selectedInnerExactMatch && (
-              <div className="hover:shadow-exact-match dark:hover:shadow-exact-match-light flex items-center space-x-1 rounded-xl border-1 border-black p-1 font-bold text-black transition-shadow dark:border-white dark:text-white">
+              <div className="hover:shadow-exact-match dark:hover:shadow-exact-match-light flex items-center space-x-1 rounded-xl border-2 border-black p-1 font-bold text-black transition-shadow dark:border-white dark:text-white">
                 <span>{t("innerExactMatch")}</span>
                 <CircleX
                   className="top-0 right-0 h-4 w-4 cursor-pointer"
@@ -244,6 +246,25 @@ export const SelectedFilters = ({
                       selectedInnerExactMatch,
                       SearchControl.innerExactMatch,
                     )
+                  }
+                />
+              </div>
+            )}
+
+            {selectedDuration && (
+              <div
+                className={cn(
+                  "hover:shadow-duration dark:hover:shadow-duration flex items-center space-x-1 rounded-xl border-2 border-[#c763bd] p-1 font-bold text-black transition-shadow dark:text-white",
+                )}
+              >
+                <div className="flex flex-col items-center">
+                  <span>{t("duration")}</span>
+                  <span> {selectedDuration.replace(",", "-")}</span>
+                </div>
+                <CircleX
+                  className="top-0 right-0 h-4 w-4 cursor-pointer"
+                  onClick={() =>
+                    deleteSearchParam(selectedDuration, "duration")
                   }
                 />
               </div>

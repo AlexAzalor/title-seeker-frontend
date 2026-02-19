@@ -11,6 +11,7 @@ import {
 } from "@/orval_api/model";
 import type { APISuperSearchMoviesParams } from "@/orval_api/model/aPISuperSearchMoviesParams";
 import type { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { parseDurationString } from "@/components/super-search/right-side/enhance-search";
 
 type SuperSearchParams = keyof APISuperSearchMoviesParams;
 
@@ -25,6 +26,7 @@ const PARAM_KEYS: SuperSearchParams[] = [
   FilterEnum.shared_universe,
   "exact_match",
   "visual_profile",
+  "duration",
 ];
 
 type IntlOptions = Intl.DateTimeFormatOptions;
@@ -40,6 +42,7 @@ export type SearchFormValue = {
   specifications: SearchValue[];
   keywords: SearchValue[];
   action_times: SearchValue[];
+  duration?: number[];
 };
 
 export function cn(...inputs: ClassValue[]) {
@@ -178,11 +181,16 @@ export function manageSearchParameters(
   searchParams: ReadonlyURLSearchParams,
   router: AppRouterInstance,
   deleteParams?: (value: string, urlSearchParams: URLSearchParams) => void,
+  keyToDelete?: string,
 ) {
   const { urlSearchParams, refreshPage } = syncSearchParameters(
     router,
     searchParams,
   );
+
+  if (keyToDelete) {
+    urlSearchParams.delete(keyToDelete);
+  }
 
   if (deleteParams) {
     deleteParams(value, urlSearchParams);
@@ -238,6 +246,7 @@ export const formatSearchParams = (
   const selectedActionTimes = currentSearchParams.getAll(
     FilterEnum.action_time,
   );
+  const duration = currentSearchParams.get("duration");
 
   const showForm = () => {
     return (
@@ -245,7 +254,8 @@ export const formatSearchParams = (
       selectedSubgenres.length > 0 ||
       selectedSpecifications.length > 0 ||
       selectedKeywords.length > 0 ||
-      selectedActionTimes.length > 0
+      selectedActionTimes.length > 0 ||
+      !!duration
     );
   };
 
@@ -262,6 +272,7 @@ export const formatSearchParams = (
     formatSpecificationData: formatData(selectedSpecifications),
     formatKeywordData: formatData(selectedKeywords),
     formatActionTimeData: formatData(selectedActionTimes),
+    duration: parseDurationString(duration ?? undefined),
     showForm: showForm(),
   };
 };

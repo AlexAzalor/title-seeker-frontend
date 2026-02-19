@@ -52,11 +52,12 @@ export const SearchControlButtons = () => {
   }
 
   return (
-    <div className="flex flex-col gap-1 lg:gap-3">
+    <>
       <Button
-        className="mb-2 cursor-pointer font-bold text-black lg:mb-0"
+        className="mb-2 cursor-pointer font-bold lg:mb-0"
         variant="destructive"
         onClick={clearAllFilters}
+        disabled={currentSearchParams.size === 0}
       >
         {t("clear")}
       </Button>
@@ -81,6 +82,6 @@ export const SearchControlButtons = () => {
           className="cursor-pointer"
         />
       </Label>
-    </div>
+    </>
   );
 };
