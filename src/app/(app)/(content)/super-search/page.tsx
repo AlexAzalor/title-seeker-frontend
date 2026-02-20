@@ -57,20 +57,19 @@ export default async function SuperSearchPage(props: {
     visual_profile: visualProfileList,
   } = FilterSchema.parse(searchParams);
 
-  const duration =
-    typeof searchParams.duration === "string"
-      ? searchParams.duration
+  const getString = (key: keyof typeof searchParams) =>
+    typeof searchParams[key] === "string"
+      ? (searchParams[key] as string)
       : undefined;
 
-  const exactMatch =
-    typeof searchParams.exact_match === "string"
-      ? searchParams.exact_match
-      : undefined;
-
-  const innerExactMatch =
-    typeof searchParams.inner_exact_match === "string"
-      ? searchParams.inner_exact_match
-      : undefined;
+  const duration = getString("duration");
+  const rating = getString("rating");
+  const visual_effects = getString("visual_effects");
+  const scare_factor = getString("scare_factor");
+  const humor = getString("humor");
+  const animation_cartoon = getString("animation_cartoon");
+  const exactMatch = getString("exact_match");
+  const innerExactMatch = getString("inner_exact_match");
 
   const { aPISuperSearchMovies } = getMovies();
   const {
@@ -91,6 +90,11 @@ export default async function SuperSearchPage(props: {
       visual_profile: visualProfileList,
 
       duration,
+      rating,
+      visual_effects,
+      scare_factor,
+      humor,
+      animation_cartoon,
 
       // Extra filters
       exact_match: Boolean(exactMatch),

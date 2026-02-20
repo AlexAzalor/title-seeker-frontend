@@ -9,6 +9,26 @@ export type RateCriteriesEnum = keyof BaseRatingCriteria;
 //   [K in keyof UserRatingCriteria]: { type: K; value: UserRatingCriteria[K] };
 // }[keyof UserRatingCriteria];
 
+export enum CriteriaEnum {
+  VISUAL_EFFECTS = "visual_effects",
+  SCARE_FACTOR = "scare_factor",
+  HUMOR = "humor",
+  ANIMATION_CARTOON = "animation_cartoon",
+}
+
+export const TYPE_KEYS = [
+  "acting",
+  "plot_storyline",
+  "script_dialogue",
+  "music",
+  "enjoyment",
+  "production_design",
+  "visual_effects",
+  "scare_factor",
+  "humor",
+  "animation_cartoon",
+] as const;
+
 export type GroupedCriteria<T extends keyof BaseRatingCriteria> = Extract<
   keyof BaseRatingCriteria,
   T
