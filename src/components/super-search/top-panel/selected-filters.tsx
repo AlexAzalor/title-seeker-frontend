@@ -23,6 +23,8 @@ import {
   type BaseSharedUniverse,
 } from "@/orval_api/model";
 import { SearchControl } from "../left-side/search-control-buttons";
+import { CriteriaEnum, TYPE_KEYS } from "@/components/movie/rating/utils";
+import { RatingBrick } from "../rating-filter/rating-brick";
 
 const SideMenuPanel = dynamic(() => import("../side-menu-panel"), {
   ssr: false,
@@ -83,7 +85,18 @@ export const SelectedFilters = ({
     FilterEnum.visual_profile,
   );
 
-  const selectedDuration = currentSearchParams.get("duration");
+  const selectedDurationValue = currentSearchParams.get("duration");
+  const selectedRating = currentSearchParams.get("rating");
+  const selectedVisualEffects = currentSearchParams.get(
+    CriteriaEnum.VISUAL_EFFECTS,
+  );
+  const selectedScareFactor = currentSearchParams.get(
+    CriteriaEnum.SCARE_FACTOR,
+  );
+  const selectedHumor = currentSearchParams.get(CriteriaEnum.HUMOR);
+  const selectedAnimationCartoon = currentSearchParams.get(
+    CriteriaEnum.ANIMATION_CARTOON,
+  );
 
   const deleteSubgenres = (genre: string, urlSearchParams: URLSearchParams) => {
     setSubgenres(
@@ -117,6 +130,8 @@ export const SelectedFilters = ({
       currentSearchParams,
       router,
       deleteSubgenres,
+      undefined,
+      key === "rating" ? TYPE_KEYS : undefined,
     );
   };
 
@@ -251,7 +266,7 @@ export const SelectedFilters = ({
               </div>
             )}
 
-            {selectedDuration && (
+            {selectedDurationValue && (
               <div
                 className={cn(
                   "hover:shadow-duration dark:hover:shadow-duration flex items-center space-x-1 rounded-xl border-2 border-[#c763bd] p-1 font-bold text-black transition-shadow dark:text-white",
@@ -259,16 +274,47 @@ export const SelectedFilters = ({
               >
                 <div className="flex flex-col items-center">
                   <span>{t("duration")}</span>
-                  <span> {selectedDuration.replace(",", "-")}</span>
+                  <span> {selectedDurationValue.replace(",", "-")}</span>
                 </div>
                 <CircleX
                   className="top-0 right-0 h-4 w-4 cursor-pointer"
                   onClick={() =>
-                    deleteSearchParam(selectedDuration, "duration")
+                    deleteSearchParam(selectedDurationValue, "duration")
                   }
                 />
               </div>
             )}
+
+            <RatingBrick
+              value={selectedRating}
+              label="Rating"
+              paramKey="rating"
+              onDelete={deleteSearchParam}
+            />
+            <RatingBrick
+              value={selectedVisualEffects}
+              label="visual_effects"
+              paramKey={CriteriaEnum.VISUAL_EFFECTS}
+              onDelete={deleteSearchParam}
+            />
+            <RatingBrick
+              value={selectedScareFactor}
+              label="scare_factor"
+              paramKey={CriteriaEnum.SCARE_FACTOR}
+              onDelete={deleteSearchParam}
+            />
+            <RatingBrick
+              value={selectedHumor}
+              label="humor"
+              paramKey={CriteriaEnum.HUMOR}
+              onDelete={deleteSearchParam}
+            />
+            <RatingBrick
+              value={selectedAnimationCartoon}
+              label="Animation/Cartoon"
+              paramKey={CriteriaEnum.ANIMATION_CARTOON}
+              onDelete={deleteSearchParam}
+            />
           </div>
         </div>
       </ResizablePanel>

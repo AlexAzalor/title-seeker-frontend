@@ -182,6 +182,7 @@ export function manageSearchParameters(
   router: AppRouterInstance,
   deleteParams?: (value: string, urlSearchParams: URLSearchParams) => void,
   keyToDelete?: string,
+  keysToDelete?: readonly string[],
 ) {
   const { urlSearchParams, refreshPage } = syncSearchParameters(
     router,
@@ -190,6 +191,12 @@ export function manageSearchParameters(
 
   if (keyToDelete) {
     urlSearchParams.delete(keyToDelete);
+  }
+
+  if (keysToDelete) {
+    for (const key of keysToDelete) {
+      urlSearchParams.delete(key);
+    }
   }
 
   if (deleteParams) {

@@ -22,6 +22,8 @@ import {
 } from "@/types/search-params-schema";
 import { Slider } from "../../ui/slider";
 import { MAX_LIMIT, MIN_LIMIT } from "@/lib/constants";
+import { Separator } from "@/components/ui/separator";
+import { EnchancedRatingFilter } from "../rating-filter/enhance-rating-filter";
 
 export const parseDurationString = (
   str: string | undefined,
@@ -44,6 +46,8 @@ export const EnhanceSearch = () => {
     duration,
     showForm,
   } = formatSearchParams(currentSearchParams);
+
+  const currentRating = currentSearchParams.get("rating");
 
   const {
     control,
@@ -171,13 +175,56 @@ export const EnhanceSearch = () => {
 
   return (
     <div
-      className="custom-scrollbar overflow-y-auto pr-2 lg:mx-6 lg:w-full"
+      className="custom-scrollbar overflow-y-auto lg:mx-6 lg:w-full"
       aria-label="enhance-search"
     >
       <h2 className="mt-4 mb-2 hidden lg:block">{t("enhance")}</h2>
 
+      {/* This is not part of the form. TODO: split this */}
+      {currentRating && (
+        <EnchancedRatingFilter
+          currentSearchParams={currentSearchParams}
+          router={router}
+        />
+      )}
+
+      <Separator className="my-6" />
+
       {showForm && (
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">
+          {/* TODO: move duration to separate component */}
+          {!!duration && (
+            <Controller
+              control={control}
+              name="duration"
+              render={({
+                field: { onChange, value },
+                fieldState: { error },
+              }) => {
+                return (
+                  <>
+                    <p className="font-bold">{t("duration")}</p>
+                    <span>{value?.join(" - ")}</span>
+                    <Slider
+                      range
+                      defaultValue={value}
+                      value={value}
+                      onValueChange={onChange}
+                      max={MAX_LIMIT}
+                      min={MIN_LIMIT}
+                      minStepsBetweenThumbs={1}
+                    />
+                    {error && (
+                      <span className="text-danger text-sm">
+                        {error.message}
+                      </span>
+                    )}
+                  </>
+                );
+              }}
+            />
+          )}
+
           {!!genresFields.length && (
             <EnhancedFormSlider
               name="genres"
@@ -215,38 +262,6 @@ export const EnhanceSearch = () => {
               name="action_times"
               control={control}
               itemsList={actionTimesFields}
-            />
-          )}
-
-          {!!duration && (
-            <Controller
-              control={control}
-              name="duration"
-              render={({
-                field: { onChange, value },
-                fieldState: { error },
-              }) => {
-                return (
-                  <>
-                    <p className="font-bold">{t("duration")}</p>
-                    <span>{value?.join(" - ")}</span>
-                    <Slider
-                      range
-                      defaultValue={value}
-                      value={value}
-                      onValueChange={onChange}
-                      max={MAX_LIMIT}
-                      min={MIN_LIMIT}
-                      minStepsBetweenThumbs={1}
-                    />
-                    {error && (
-                      <span className="text-danger text-sm">
-                        {error.message}
-                      </span>
-                    )}
-                  </>
-                );
-              }}
             />
           )}
 

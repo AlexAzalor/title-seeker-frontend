@@ -7,23 +7,22 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { RatingCriterion } from "@/orval_api/model";
 
-type Props = {
+type Props<T extends string> = {
   items: { value: string; label: string }[];
   label: string;
-  defaultValue: RatingCriterion;
-  onValueChange: (value: RatingCriterion) => void;
+  defaultValue: T;
+  onValueChange: (value: T) => void;
 };
 
-const RatingTypeSelector = ({
+const RatingTypeSelector = <T extends string>({
   items,
   label,
   defaultValue,
   onValueChange,
-}: Props) => {
+}: Props<T>) => {
   return (
-    <div className="mb-4 grid w-72 gap-2">
+    <div className="mb-4 grid max-w-72 gap-2">
       <Label htmlFor="rating-criteria">{label}</Label>
       <Select onValueChange={onValueChange} defaultValue={defaultValue}>
         <SelectTrigger id="rating-criteria">
@@ -41,6 +40,8 @@ const RatingTypeSelector = ({
   );
 };
 
-const RatingTypeSelectorMemo = memo(RatingTypeSelector);
+const RatingTypeSelectorMemo = memo(
+  RatingTypeSelector,
+) as typeof RatingTypeSelector;
 
 export { RatingTypeSelectorMemo as RatingTypeSelector };

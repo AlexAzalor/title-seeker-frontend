@@ -13,6 +13,7 @@ import {
   type BaseSharedUniverse,
 } from "@/orval_api/model";
 import { DurationFilterPreset } from "./duration-filter-preset";
+import { RatingFilter } from "../rating-filter/rating-filter";
 
 type Props = {
   genres: GenreOut[];
@@ -43,6 +44,10 @@ export const FilterList = ({
       aria-label="filter-list"
     >
       <SearchControlButtons />
+
+      <Separator className="my-2" />
+
+      <RatingFilter />
 
       <Separator className="my-2" />
 
