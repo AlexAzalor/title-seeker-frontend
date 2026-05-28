@@ -55,6 +55,11 @@ export default async function SuperSearchPage(props: {
     character: characterNamesList,
     shared_universe: universesList,
     visual_profile: visualProfileList,
+    exclude_genre: excludeGenreNamesList,
+    exclude_subgenre: excludeSubgenreNamesList,
+    exclude_specification: excludeSpecificationNamesList,
+    exclude_keyword: excludeKeywordNamesList,
+    exclude_action_time: excludeActionTimeNamesList,
   } = FilterSchema.parse(searchParams);
 
   const getString = (key: keyof typeof searchParams) =>
@@ -88,6 +93,13 @@ export default async function SuperSearchPage(props: {
       character: characterNamesList,
       shared_universe: universesList,
       visual_profile: visualProfileList,
+
+      // Exclude filters
+      exclude_genre: excludeGenreNamesList,
+      exclude_subgenre: excludeSubgenreNamesList,
+      exclude_specification: excludeSpecificationNamesList,
+      exclude_keyword: excludeKeywordNamesList,
+      exclude_action_time: excludeActionTimeNamesList,
 
       duration,
       rating,

@@ -21,6 +21,8 @@ type Props<ItemData extends Data> = {
   onMouseLeave?: () => void;
   hoveredSubgenre?: string | null;
   hoveredGenre?: string | null;
+  excluded?: boolean;
+  paramKey?: string;
 };
 
 export const FilterBrick = <ItemData extends Data>({
@@ -32,10 +34,12 @@ export const FilterBrick = <ItemData extends Data>({
   onMouseLeave,
   hoveredSubgenre,
   hoveredGenre,
+  excluded,
+  paramKey,
 }: Props<ItemData>) => {
   const color = useMemo(() => {
-    return getFilterColor(type);
-  }, [type]);
+    return excluded ? "#888888" : getFilterColor(type);
+  }, [type, excluded]);
 
   const specialFilters = [
     FilterEnum.actor,
@@ -62,28 +66,38 @@ export const FilterBrick = <ItemData extends Data>({
         key={searchParam}
         className={cn(
           "hover:shadow-genre group relative flex min-h-12 min-w-28 items-center rounded-xl border-2 transition-shadow",
-          type === FilterEnum.genre && "dark:border-genre",
-          type === FilterEnum.subgenre && "dark:border-subgenre",
+          excluded && "opacity-60 grayscale",
+          !excluded && type === FilterEnum.genre && "dark:border-genre",
+          !excluded && type === FilterEnum.subgenre && "dark:border-subgenre",
           hoveredSubgenre === cleanSearchParam &&
             type === FilterEnum.genre &&
             "shadow-genre",
           hoveredGenre === item.parent_genre_key &&
             type === FilterEnum.subgenre &&
             "shadow-genre",
-          type === FilterEnum.specification &&
+          !excluded &&
+            type === FilterEnum.specification &&
             "hover:shadow-specification dark:border-specification",
-          type === FilterEnum.keyword &&
+          !excluded &&
+            type === FilterEnum.keyword &&
             "hover:shadow-keyword dark:border-keyword",
-          type === FilterEnum.action_time &&
+          !excluded &&
+            type === FilterEnum.action_time &&
             "hover:shadow-action-time dark:border-action-time",
-          type === FilterEnum.actor && "hover:shadow-actor dark:border-actor",
-          type === FilterEnum.director &&
+          !excluded &&
+            type === FilterEnum.actor &&
+            "hover:shadow-actor dark:border-actor",
+          !excluded &&
+            type === FilterEnum.director &&
             "hover:shadow-director dark:border-director",
-          type === FilterEnum.character &&
+          !excluded &&
+            type === FilterEnum.character &&
             "hover:shadow-character dark:border-character",
-          type === FilterEnum.shared_universe &&
+          !excluded &&
+            type === FilterEnum.shared_universe &&
             "hover:shadow-su dark:border-su",
-          type === FilterEnum.visual_profile &&
+          !excluded &&
+            type === FilterEnum.visual_profile &&
             "hover:shadow-vp dark:border-vp",
         )}
         onMouseEnter={
@@ -110,16 +124,22 @@ export const FilterBrick = <ItemData extends Data>({
             </TooltipWrapper>
           )}
           <div className="flex flex-col items-center leading-4">
-            <p title={item.name} style={{ fontWeight: "bold" }}>
+            <p
+              title={item.name}
+              style={{
+                fontWeight: "bold",
+                textDecoration: excluded ? "line-through" : "auto",
+              }}
+            >
               {cutLongWords(item.name, 24)}
             </p>
-            {!isFilters && (
+            {!isFilters && !excluded && (
               <p className="text-sm">({itemPercentMatchRange.join("-")})</p>
             )}
           </div>
           <CircleX
             className="top-0 right-0 h-4 w-4 cursor-pointer"
-            onClick={() => deleteItem(searchParam, type)}
+            onClick={() => deleteItem(searchParam, paramKey ?? type)}
           />
         </div>
       </div>

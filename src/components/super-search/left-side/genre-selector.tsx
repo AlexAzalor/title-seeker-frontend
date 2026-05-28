@@ -33,6 +33,13 @@ export const GenreSelector = ({ genres }: Props) => {
     FilterEnum.subgenre,
   );
 
+  const excludedGenres = currentSearchParams.getAll(
+    `exclude_${FilterEnum.genre}`,
+  );
+  const excludedSubgenres = currentSearchParams.getAll(
+    `exclude_${FilterEnum.subgenre}`,
+  );
+
   const selectedGenres = useMemo(() => {
     return genres.filter(
       (g) =>
@@ -162,6 +169,28 @@ export const GenreSelector = ({ genres }: Props) => {
     extractWord(e),
   );
 
+  function onExcludeGenre(key: string) {
+    const existing = excludedGenres.find((e) => e === key);
+    manageSearchParameters(
+      `exclude_${FilterEnum.genre}`,
+      key,
+      existing,
+      currentSearchParams,
+      router,
+    );
+  }
+
+  function onExcludeSubgenre(key: string) {
+    const existing = excludedSubgenres.find((e) => e === key);
+    manageSearchParameters(
+      `exclude_${FilterEnum.subgenre}`,
+      key,
+      existing,
+      currentSearchParams,
+      router,
+    );
+  }
+
   return (
     <div className="flex flex-col gap-4">
       <ResponsiveWrapper title={tFilters("genre.name")}>
@@ -170,6 +199,8 @@ export const GenreSelector = ({ genres }: Props) => {
           emptyText={tFilters("genreNotFound")}
           onSelect={updateSubgenreList}
           checkIconStyle={selectedGenresKeys}
+          onExclude={({ key }) => onExcludeGenre(key)}
+          excludedKeys={excludedGenres}
         />
       </ResponsiveWrapper>
 
@@ -181,6 +212,8 @@ export const GenreSelector = ({ genres }: Props) => {
             updateSearchParameters(key, FilterEnum.subgenre);
           }}
           checkIconStyle={selectedSubgenresKeys}
+          onExclude={({ key }) => onExcludeSubgenre(key)}
+          excludedKeys={excludedSubgenres}
         />
       </ResponsiveWrapper>
     </div>

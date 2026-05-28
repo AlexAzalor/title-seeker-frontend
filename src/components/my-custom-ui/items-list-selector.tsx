@@ -2,7 +2,7 @@ import { memo } from "react";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { checkIfAdmin } from "@/proxy";
-import { Check, Info } from "lucide-react";
+import { Check, Info, X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -29,6 +29,8 @@ type Props<Datum extends ItemFields> = {
   onOpenModal?: () => void;
   checkIconStyle: string[];
   emptyText?: string;
+  onExclude?: (item: Datum) => void;
+  excludedKeys?: string[];
 };
 
 const ItemsSelector = <Datum extends ItemFields>({
@@ -37,6 +39,8 @@ const ItemsSelector = <Datum extends ItemFields>({
   onOpenModal,
   checkIconStyle,
   emptyText,
+  onExclude,
+  excludedKeys,
 }: Props<Datum>) => {
   const session = useSession();
   const t = useTranslations("MenuItems");
@@ -71,29 +75,49 @@ const ItemsSelector = <Datum extends ItemFields>({
               : item.name;
 
             return (
-              <CommandItem
-                key={item.key}
-                value={value}
-                onSelect={() => onSelect(item)}
-                className="cursor-pointer"
-              >
-                <p>{item.name}</p>
+              <div className="flex items-center" key={item.key}>
+                <CommandItem
+                  key={item.key}
+                  value={value}
+                  onSelect={() => onSelect(item)}
+                  className="w-full cursor-pointer"
+                >
+                  <p>{item.name}</p>
 
-                {!!item.description && (
-                  <TooltipWrapper content={item.description}>
-                    <Info className="ml-2" />
-                  </TooltipWrapper>
-                )}
-
-                <Check
-                  className={cn(
-                    "ml-auto",
-                    checkIconStyle.find((key) => key === item.key)
-                      ? "opacity-100"
-                      : "opacity-0",
+                  {!!item.description && (
+                    <TooltipWrapper content={item.description}>
+                      <Info className="ml-2" />
+                    </TooltipWrapper>
                   )}
-                />
-              </CommandItem>
+
+                  <Check
+                    className={cn(
+                      "ml-auto",
+                      checkIconStyle.find((key) => key === item.key)
+                        ? "opacity-100"
+                        : "opacity-0",
+                    )}
+                  />
+                </CommandItem>
+                {onExclude && (
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      e.preventDefault();
+                      onExclude(item);
+                    }}
+                    className={cn(
+                      "rounded-sm p-2.5 transition-colors",
+                      excludedKeys?.includes(item.key)
+                        ? "text-red-500"
+                        : "text-muted-foreground/40 hover:bg-red-500/10 hover:text-red-500",
+                    )}
+                  >
+                    <X className="h-3 w-3" />
+                  </button>
+                )}
+              </div>
             );
           })}
         </CommandGroup>

@@ -85,6 +85,14 @@ export const SelectedFilters = ({
     FilterEnum.visual_profile,
   );
 
+  const excludedGenre = currentSearchParams.getAll("exclude_genre");
+  const excludedSubgenre = currentSearchParams.getAll("exclude_subgenre");
+  const excludedSpecifications = currentSearchParams.getAll(
+    "exclude_specification",
+  );
+  const excludedKeywords = currentSearchParams.getAll("exclude_keyword");
+  const excludedActionTimes = currentSearchParams.getAll("exclude_action_time");
+
   const selectedDurationValue = currentSearchParams.get("duration");
   const selectedRating = currentSearchParams.get("rating");
   const selectedVisualEffects = currentSearchParams.get(
@@ -192,6 +200,48 @@ export const SelectedFilters = ({
               data={specifications}
               deleteItem={deleteSearchParam}
             />
+
+            <FilterBrick
+              type={FilterEnum.genre}
+              searchParamsList={excludedGenre}
+              data={genres}
+              deleteItem={deleteSearchParam}
+              excluded
+              paramKey="exclude_genre"
+            />
+            <FilterBrick
+              type={FilterEnum.subgenre}
+              searchParamsList={excludedSubgenre}
+              data={subgenres}
+              deleteItem={deleteSearchParam}
+              excluded
+              paramKey="exclude_subgenre"
+            />
+            <FilterBrick
+              type={FilterEnum.specification}
+              searchParamsList={excludedSpecifications}
+              data={specifications}
+              deleteItem={deleteSearchParam}
+              excluded
+              paramKey="exclude_specification"
+            />
+            <FilterBrick
+              type={FilterEnum.keyword}
+              searchParamsList={excludedKeywords}
+              data={keywords}
+              deleteItem={deleteSearchParam}
+              excluded
+              paramKey="exclude_keyword"
+            />
+            <FilterBrick
+              type={FilterEnum.action_time}
+              searchParamsList={excludedActionTimes}
+              data={action_times}
+              deleteItem={deleteSearchParam}
+              excluded
+              paramKey="exclude_action_time"
+            />
+
             <FilterBrick
               type={FilterEnum.keyword}
               searchParamsList={selectedKeywords}
