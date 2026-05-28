@@ -75,30 +75,33 @@ const ItemsSelector = <Datum extends ItemFields>({
               : item.name;
 
             return (
-              <div className="flex items-center" key={item.key}>
-                <CommandItem
-                  key={item.key}
-                  value={value}
-                  onSelect={() => onSelect(item)}
-                  className="w-full cursor-pointer"
-                >
-                  <p>{item.name}</p>
+              <CommandItem
+                key={item.key}
+                value={value}
+                onSelect={() => onSelect(item)}
+                className={cn(
+                  "w-full cursor-pointer",
+                  excludedKeys?.includes(item.key) &&
+                    "pointer-events-none opacity-50",
+                )}
+              >
+                <p>{item.name}</p>
 
-                  {!!item.description && (
-                    <TooltipWrapper content={item.description}>
-                      <Info className="ml-2" />
-                    </TooltipWrapper>
+                {!!item.description && (
+                  <TooltipWrapper content={item.description}>
+                    <Info className="ml-2" />
+                  </TooltipWrapper>
+                )}
+
+                <Check
+                  className={cn(
+                    "ml-auto",
+                    checkIconStyle.find((key) => key === item.key)
+                      ? "opacity-100"
+                      : "opacity-0",
                   )}
+                />
 
-                  <Check
-                    className={cn(
-                      "ml-auto",
-                      checkIconStyle.find((key) => key === item.key)
-                        ? "opacity-100"
-                        : "opacity-0",
-                    )}
-                  />
-                </CommandItem>
                 {onExclude && (
                   <button
                     type="button"
@@ -108,16 +111,16 @@ const ItemsSelector = <Datum extends ItemFields>({
                       onExclude(item);
                     }}
                     className={cn(
-                      "rounded-sm p-2.5 transition-colors",
+                      "rounded-sm p-2 transition-colors",
                       excludedKeys?.includes(item.key)
-                        ? "text-red-500"
+                        ? "pointer-events-auto bg-red-500/10 text-red-500 hover:scale-110"
                         : "text-muted-foreground/40 hover:bg-red-500/10 hover:text-red-500",
                     )}
                   >
                     <X className="h-3 w-3" />
                   </button>
                 )}
-              </div>
+              </CommandItem>
             );
           })}
         </CommandGroup>
