@@ -18,6 +18,14 @@ type Props = {
   param_key: FilterEnum;
 };
 
+const filtersToExclude = [
+  FilterEnum.genre,
+  FilterEnum.subgenre,
+  FilterEnum.specification,
+  FilterEnum.keyword,
+  FilterEnum.action_time,
+] as const;
+
 export const FilterSelector = ({ data, param_key }: Props) => {
   const router = useRouter();
   const t = useTranslations("Filters");
@@ -37,12 +45,29 @@ export const FilterSelector = ({ data, param_key }: Props) => {
   const currentSearchParams = useSearchParams();
   const selectedFilter = currentSearchParams.getAll(param_key);
 
+  const excludedFilters = (filtersToExclude as readonly FilterEnum[]).includes(
+    param_key,
+  )
+    ? currentSearchParams.getAll(`exclude_${param_key}`)
+    : undefined;
+
   function onClick(name: string) {
     const item = selectedFilter.find((e) => e.includes(name));
     manageSearchParameters(
       param_key,
       name + defaultRange,
       item,
+      currentSearchParams,
+      router,
+    );
+  }
+
+  function onExclude(key: string) {
+    const existing = excludedFilters?.find((e) => e === key);
+    manageSearchParameters(
+      `exclude_${param_key}`,
+      key,
+      existing,
       currentSearchParams,
       router,
     );
@@ -57,6 +82,12 @@ export const FilterSelector = ({ data, param_key }: Props) => {
           onClick(key);
         }}
         checkIconStyle={selectedFilter.map((e) => extractWord(e))}
+        onExclude={
+          excludedFilters !== undefined
+            ? ({ key }) => onExclude(key)
+            : undefined
+        }
+        excludedKeys={excludedFilters}
       />
     </ResponsiveWrapper>
   );

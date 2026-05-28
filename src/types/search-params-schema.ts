@@ -30,6 +30,12 @@ export const FilterSchema = z.object({
   character: stringOrStringArray.optional(),
   shared_universe: stringOrStringArray.optional(),
   visual_profile: stringOrStringArray.optional(),
+  // Exclude filters
+  exclude_genre: stringOrStringArray.optional(),
+  exclude_subgenre: stringOrStringArray.optional(),
+  exclude_specification: stringOrStringArray.optional(),
+  exclude_keyword: stringOrStringArray.optional(),
+  exclude_action_time: stringOrStringArray.optional(),
 });
 
 export const EnhanceSearchField = z.object({

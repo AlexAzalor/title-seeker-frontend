@@ -2,7 +2,7 @@ import { memo } from "react";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { checkIfAdmin } from "@/proxy";
-import { Check, Info } from "lucide-react";
+import { Check, Info, X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -29,6 +29,8 @@ type Props<Datum extends ItemFields> = {
   onOpenModal?: () => void;
   checkIconStyle: string[];
   emptyText?: string;
+  onExclude?: (item: Datum) => void;
+  excludedKeys?: string[];
 };
 
 const ItemsSelector = <Datum extends ItemFields>({
@@ -37,6 +39,8 @@ const ItemsSelector = <Datum extends ItemFields>({
   onOpenModal,
   checkIconStyle,
   emptyText,
+  onExclude,
+  excludedKeys,
 }: Props<Datum>) => {
   const session = useSession();
   const t = useTranslations("MenuItems");
@@ -75,7 +79,11 @@ const ItemsSelector = <Datum extends ItemFields>({
                 key={item.key}
                 value={value}
                 onSelect={() => onSelect(item)}
-                className="cursor-pointer"
+                className={cn(
+                  "w-full cursor-pointer",
+                  excludedKeys?.includes(item.key) &&
+                    "pointer-events-none opacity-50",
+                )}
               >
                 <p>{item.name}</p>
 
@@ -93,6 +101,25 @@ const ItemsSelector = <Datum extends ItemFields>({
                       : "opacity-0",
                   )}
                 />
+
+                {onExclude && (
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      e.preventDefault();
+                      onExclude(item);
+                    }}
+                    className={cn(
+                      "rounded-sm p-2 transition-colors",
+                      excludedKeys?.includes(item.key)
+                        ? "pointer-events-auto bg-red-500/10 text-red-500 hover:scale-110"
+                        : "text-muted-foreground/40 hover:bg-red-500/10 hover:text-red-500",
+                    )}
+                  >
+                    <X className="h-3 w-3" />
+                  </button>
+                )}
               </CommandItem>
             );
           })}

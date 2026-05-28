@@ -58,7 +58,7 @@ export const Footer = () => {
         <div className="mt-8 border-t border-gray-700 pt-6">
           <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
             <p className="text-xs text-gray-400">
-              © 2025 Title Seeker. All rights reserved.
+              © {new Date().getFullYear()} Title Seeker. All rights reserved.
             </p>
             <div className="flex gap-4 text-xs text-gray-400">
               <Link
