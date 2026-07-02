@@ -836,3 +836,29 @@ export async function editMovieActionTimes(
     }
   }
 }
+
+export async function recalculateSimilarities() {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { backendURL, unknownError } = await fetchSettings();
+  const { aPIRecalculateSimilarities } = getMovies();
+
+  try {
+    const res = await aPIRecalculateSimilarities(
+      { user_uuid: admin.uuid },
+      backendURL,
+    );
+
+    return { status: 200, message: "Recal", data: res.data };
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
+  }
+}

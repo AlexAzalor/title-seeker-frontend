@@ -91,9 +91,10 @@ export function formatKey(names: string[]) {
 export const errorHandling = (
   response: { status?: number; message?: string },
   endSubmitting: () => void,
+  link: React.ReactNode,
 ) => {
   if (response.status === 201) {
-    toast.success(response?.message);
+    toast.success(link);
     // localStorage.removeItem("new-movie-data");
   }
 
@@ -105,7 +106,7 @@ export const errorHandling = (
   }
 
   if (response.status === 409) {
-    toast.error(response?.message);
+    toast.error(link);
     endSubmitting();
 
     throw new Error(response?.message);

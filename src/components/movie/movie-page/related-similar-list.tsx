@@ -1,8 +1,8 @@
-import { useTranslations } from "next-intl";
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { RelatedMovie } from "@/orval_api/model";
+import { RelatedSimilarListHeader } from "./related-similar-list-header";
 
 type Props = {
   movies: {
@@ -25,13 +25,9 @@ export const RelatedSimilarMovieList = ({
   currentMovieKey,
   bottom,
 }: Props) => {
-  const t = useTranslations("MovieParts");
-
   return (
     <>
-      <h4 className={cn("text-lg", bottom && "p-2 text-2xl")}>
-        {type === "related" ? t("related") : t("similar")}
-      </h4>
+      <RelatedSimilarListHeader type={type} bottom={bottom} />
 
       <div
         aria-label="related-similar-list"
