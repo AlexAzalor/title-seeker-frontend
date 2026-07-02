@@ -241,6 +241,8 @@ export const GenreEditForm = ({
           {genreFields.map((field, index) => (
             <div key={field.id} className="grid grid-cols-2 gap-4">
               <FormField
+                // TODO: fix any
+                title={(field as any).description}
                 type="text"
                 name={`genres.${index}.name`}
                 register={register}
@@ -249,6 +251,7 @@ export const GenreEditForm = ({
               />
 
               <SliderFormField
+                showValue
                 name={`genres.${index}.percentage_match`}
                 register={register}
                 defaultValue={getValues}
@@ -297,6 +300,7 @@ export const GenreEditForm = ({
             <div key={field.id} className="grid grid-cols-2 gap-4">
               <FormField
                 type="text"
+                title={(field as any).description}
                 name={`subgenres.${index}.name`}
                 register={register}
                 error={undefined}
@@ -304,6 +308,7 @@ export const GenreEditForm = ({
               />
 
               <SliderFormField
+                showValue
                 name={`subgenres.${index}.percentage_match`}
                 register={register}
                 defaultValue={getValues}

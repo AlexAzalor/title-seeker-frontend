@@ -118,6 +118,7 @@ test("Should render FilterEditForm", () => {
           name: "test-name",
           percentage_match: 50,
           description: "test-description",
+          movie_count: 10,
         },
       ]}
       selectedFilterItems={[]}

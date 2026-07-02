@@ -23,6 +23,7 @@ type Props<
   moveUp?: () => void;
   moveDown?: () => void;
   min?: number;
+  showValue?: boolean;
 };
 
 export const SliderFormField = <
@@ -34,11 +35,12 @@ export const SliderFormField = <
   register,
   error,
   removItem,
-  step = 10,
+  step = 20,
   max = 100,
   moveUp,
   moveDown,
   min = 0,
+  showValue,
 }: Props<TFormValues, TFieldName>) => {
   return (
     <div className="flex items-center gap-2">
@@ -80,6 +82,8 @@ export const SliderFormField = <
           />
         </button>
       )}
+
+      {showValue && <div>{defaultValue(name)}</div>}
     </div>
   );
 };

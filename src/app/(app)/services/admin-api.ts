@@ -12,7 +12,7 @@ import { getGenres } from "@/orval_api/genres/genres";
 import { getSharedUniverses } from "@/orval_api/shared-universes/shared-universes";
 import { getFilters } from "@/orval_api/filters/filters";
 
-import type { ValidationError } from "@/types/general";
+import type { ValidationError, ValidationItemListError } from "@/types/general";
 import {
   type FilterList,
   type PersonBase,
@@ -385,6 +385,41 @@ export async function updateFilterItem(
     };
   } catch (error) {
     if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
+  }
+}
+
+export async function deleteFilterItem(key: string, type: FilterEnum) {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { backendURL, unknownError } = await fetchSettings();
+  const { aPIDeleteKeywords } = getFilters();
+
+  try {
+    const response = await aPIDeleteKeywords(
+      key,
+      { user_uuid: admin.uuid },
+      backendURL,
+    );
+
+    return {
+      status: response.status,
+
+      message: "Filter item deleted!",
+    };
+  } catch (error) {
+    if (
+      axios.isAxiosError<ValidationItemListError, Record<string, unknown>>(
+        error,
+      )
+    ) {
       return { status: error.status, message: error.response?.data.detail };
     } else {
       return unknownError;

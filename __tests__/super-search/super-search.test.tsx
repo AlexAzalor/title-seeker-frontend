@@ -74,6 +74,7 @@ test("Should render HoverBrick", () => {
           name: "test GENRE",
           description: "test",
           subgenres: [],
+          movie_count: 10,
         },
       ]}
       subgenres={[
@@ -82,6 +83,7 @@ test("Should render HoverBrick", () => {
           name: "test SUBGENRE",
           description: "test",
           parent_genre_key: "test-genre",
+          movie_count: 5,
         },
       ]}
       deleteSearchParam={() => {}}
