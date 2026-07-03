@@ -462,7 +462,8 @@
       "nameEn": "Назва (англ.)",
       "nameUk": "Назва (укр.)",
       "descriptionEn": "Опис (англ.)",
-      "descriptionUk": "Опис (укр.)"
+      "descriptionUk": "Опис (укр.)",
+      "order": "Хронологічний порядок"
     },
     "personFields": {
       "key": "Ключ",

@@ -400,10 +400,17 @@ export async function deleteFilterItem(key: string, type: FilterEnum) {
   }
 
   const { backendURL, unknownError } = await fetchSettings();
-  const { aPIDeleteKeywords } = getFilters();
+  const { aPIDeleteKeyword, aPIDeleteSpecification, aPIDeleteActionTime } =
+    getFilters();
+
+  const apis: { [type]: any } = {
+    keyword: aPIDeleteKeyword,
+    specification: aPIDeleteSpecification,
+    action_time: aPIDeleteActionTime,
+  };
 
   try {
-    const response = await aPIDeleteKeywords(
+    const response = await apis[type](
       key,
       { user_uuid: admin.uuid },
       backendURL,

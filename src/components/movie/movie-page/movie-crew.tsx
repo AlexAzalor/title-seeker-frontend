@@ -10,6 +10,7 @@ import {
   type MovieActorOut,
   type MoviePersonOut,
 } from "@/orval_api/model";
+import { CopyButton } from "./components/copy-button";
 
 type Props = {
   actors: MovieActorOut[];
@@ -36,13 +37,15 @@ export const MovieCrew = ({ actors, avatarURL, directors }: Props) => {
         ) : (
           <div className="flex gap-3">
             {actors.map((actor) => (
-              <PersonLink
-                avatarURL={avatarURL}
-                key={actor.key}
-                person={actor}
-                linkQueryParam={FilterEnum.actor}
-                type="actors"
-              />
+              <div key={actor.key} className="relative">
+                <CopyButton label={actor.full_name} className="absolute" />
+                <PersonLink
+                  avatarURL={avatarURL}
+                  person={actor}
+                  linkQueryParam={FilterEnum.actor}
+                  type="actors"
+                />
+              </div>
             ))}
           </div>
         )}

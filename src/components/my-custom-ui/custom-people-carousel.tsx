@@ -11,6 +11,7 @@ import type {
   MovieActorOut,
   MoviePersonOut,
 } from "@/orval_api/model";
+import { CopyButton } from "../movie/movie-page/components/copy-button";
 
 type Props = {
   people: MovieActorOut[] | MoviePersonOut[];
@@ -31,8 +32,9 @@ export const CustomPeopleCarousel = ({
         {people.map((person) => (
           <CarouselItem
             key={person.key}
-            className="basis-auto pl-1 md:basis-1/2 lg:basis-1/5"
+            className="relative basis-auto pl-1 md:basis-1/2 lg:basis-1/5"
           >
+            <CopyButton label={person.full_name} className="absolute" />
             <PersonLink
               avatarURL={avatarURL}
               key={person.key}

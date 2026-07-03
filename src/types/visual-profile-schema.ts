@@ -22,6 +22,7 @@ export const VisualProfileField = z.object({
   name_uk: z.string().trim().min(1, { message: "Value is required" }),
   description_en: z.string().trim().min(1, { message: "Value is required" }),
   description_uk: z.string().trim().min(1, { message: "Value is required" }),
+  order: z.coerce.number().optional(),
 });
 
 export const VisualProfileUpdateSchema = VisualProfileField.refine(

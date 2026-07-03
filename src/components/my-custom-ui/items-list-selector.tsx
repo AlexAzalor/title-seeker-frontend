@@ -50,10 +50,6 @@ const ItemsSelector = <Datum extends ItemFields>({
 
   const isAdmin = checkIfAdmin(session.data?.user.role);
 
-  const sortedItems = [...items].sort(
-    (a, b) => (b.movie_count ?? 0) - (a.movie_count ?? 0),
-  );
-
   return (
     <>
       <CommandInput placeholder={t("search")} className="h-9" />
@@ -76,7 +72,7 @@ const ItemsSelector = <Datum extends ItemFields>({
 
         <CommandGroup className="text-left">
           {/* need switch lang to search items */}
-          {sortedItems.map((item) => {
+          {items.map((item) => {
             const value = item.another_lang_name
               ? item.name + " " + item.another_lang_name
               : item.name;

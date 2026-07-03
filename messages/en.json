@@ -465,7 +465,8 @@
       "nameEn": "Name (en)",
       "nameUk": "Name (uk)",
       "descriptionEn": "Description (en)",
-      "descriptionUk": "Description (uk)"
+      "descriptionUk": "Description (uk)",
+      "order": "Order"
     },
     "personFields": {
       "key": "Key",

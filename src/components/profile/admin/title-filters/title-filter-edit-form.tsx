@@ -150,6 +150,7 @@ export const TitleFilterEditForm = ({ filterItem, type }: Props) => {
           name="description_en"
           register={register}
           error={errors.description_en}
+          autoResize={false}
         />
 
         <TextareaFormField
@@ -157,19 +158,32 @@ export const TitleFilterEditForm = ({ filterItem, type }: Props) => {
           name="description_uk"
           register={register}
           error={errors.description_uk}
+          autoResize={false}
         />
+
+        {type === "action_time" && (
+          <FormField
+            type="text"
+            label={t("order")}
+            name="order"
+            register={register}
+            error={errors.order}
+          />
+        )}
 
         <Button
           disabled={!isDirty}
           type="submit"
-          className="bg-main-ui-purple hover:bg-dark-blue dark:bg-main-ui-purple dark:text-white-dark dark:hover:bg-main-ui-purple/80 mt-7 h-12 w-41 cursor-pointer rounded-2xl border-0 text-center text-lg transition-all duration-200"
+          className="bg-main-ui-purple hover:bg-dark-blue dark:bg-main-ui-purple dark:text-white-dark dark:hover:bg-main-ui-purple/80 h-12 w-41 cursor-pointer rounded-2xl border-0 text-center text-lg transition-all duration-200"
         >
           Save
         </Button>
+
         <Button
-          onClick={handleDelete}
+          onDoubleClick={handleDelete}
+          variant="destructive"
           type="button"
-          className="bg-danger hover:bg-danger/80 dark:bg-danger dark:text-white-dark dark:hover:bg-danger/80 mt-7 h-12 w-41 cursor-pointer rounded-2xl border-0 text-center text-lg transition-all duration-200"
+          className="cursor-pointer border-0 text-center text-lg"
         >
           Delete
         </Button>

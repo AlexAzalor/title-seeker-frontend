@@ -87,7 +87,12 @@ export const VisualProfileEditPage = ({ categories }: Props) => {
                 key={index}
                 value={item.uuid}
               >
-                {item.name_en}
+                <p>
+                  {item.name_uk}{" "}
+                  <span className="text-lg text-red-600">
+                    ({item.movie_count})
+                  </span>
+                </p>
               </SelectItem>
             ))}
           </SelectContent>
