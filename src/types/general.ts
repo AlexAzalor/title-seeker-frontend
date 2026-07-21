@@ -13,6 +13,10 @@ export type ValidationError = {
   errors: Record<string, string[]>;
   detail: string;
 };
+export type ValidationItemListError = {
+  errors: Record<string, string[]>;
+  detail: Record<string, string[]>;
+};
 
 export const ACCEPTED_IMAGE_TYPES = [
   "image/jpeg",

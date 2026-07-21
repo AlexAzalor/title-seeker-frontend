@@ -1,15 +1,16 @@
-import { useTranslations } from "next-intl";
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { RelatedMovie } from "@/orval_api/model";
+import { RelatedSimilarListHeader } from "./related-similar-list-header";
 
 type Props = {
   movies: {
     key: string;
     poster: string;
-    relation_type?: RelatedMovie;
     title: string;
+    relation_type?: RelatedMovie;
+    similarity_score?: number;
   }[];
   posterUrl: string;
   currentMovieKey: string;
@@ -24,13 +25,9 @@ export const RelatedSimilarMovieList = ({
   currentMovieKey,
   bottom,
 }: Props) => {
-  const t = useTranslations("MovieParts");
-
   return (
     <>
-      <h4 className={cn("text-lg", bottom && "p-2 text-2xl")}>
-        {type === "related" ? t("related") : t("similar")}
-      </h4>
+      <RelatedSimilarListHeader type={type} bottom={bottom} />
 
       <div
         aria-label="related-similar-list"
@@ -39,6 +36,11 @@ export const RelatedSimilarMovieList = ({
         {movies.map((movie) => (
           <Link
             href={`/movies/${movie.key}#movie`}
+            title={
+              movie?.similarity_score
+                ? `Score: ${movie.similarity_score}`
+                : undefined
+            }
             key={movie.key}
             className={cn(
               "dark:hover:bg-main-dark-hover mb-2 flex items-center gap-4 rounded-xl transition-all duration-200 select-none hover:bg-neutral-100 md:m-0",

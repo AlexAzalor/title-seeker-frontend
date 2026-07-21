@@ -12,7 +12,7 @@ import { getGenres } from "@/orval_api/genres/genres";
 import { getSharedUniverses } from "@/orval_api/shared-universes/shared-universes";
 import { getFilters } from "@/orval_api/filters/filters";
 
-import type { ValidationError } from "@/types/general";
+import type { ValidationError, ValidationItemListError } from "@/types/general";
 import {
   type FilterList,
   type PersonBase,
@@ -385,6 +385,48 @@ export async function updateFilterItem(
     };
   } catch (error) {
     if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
+  }
+}
+
+export async function deleteFilterItem(key: string, type: FilterEnum) {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { backendURL, unknownError } = await fetchSettings();
+  const { aPIDeleteKeyword, aPIDeleteSpecification, aPIDeleteActionTime } =
+    getFilters();
+
+  const apis: { [type]: any } = {
+    keyword: aPIDeleteKeyword,
+    specification: aPIDeleteSpecification,
+    action_time: aPIDeleteActionTime,
+  };
+
+  try {
+    const response = await apis[type](
+      key,
+      { user_uuid: admin.uuid },
+      backendURL,
+    );
+
+    return {
+      status: response.status,
+
+      message: "Filter item deleted!",
+    };
+  } catch (error) {
+    if (
+      axios.isAxiosError<ValidationItemListError, Record<string, unknown>>(
+        error,
+      )
+    ) {
       return { status: error.status, message: error.response?.data.detail };
     } else {
       return unknownError;
@@ -793,6 +835,32 @@ export async function editMovieActionTimes(
     );
 
     return { status: 200, message: "Action times updated" };
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
+  }
+}
+
+export async function recalculateSimilarities() {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { backendURL, unknownError } = await fetchSettings();
+  const { aPIRecalculateSimilarities } = getMovies();
+
+  try {
+    const res = await aPIRecalculateSimilarities(
+      { user_uuid: admin.uuid },
+      backendURL,
+    );
+
+    return { status: 200, message: "Recal", data: res.data };
   } catch (error) {
     if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
       return { status: error.status, message: error.response?.data.detail };

@@ -34,9 +34,9 @@ export const EnhancedFormSlider = ({ name, itemsList, control }: Props) => {
                   range
                   defaultValue={value}
                   onValueChange={onChange}
-                  step={10}
+                  step={20}
                   max={100}
-                  min={10}
+                  min={20}
                   minStepsBetweenThumbs={1}
                 />
                 {error && (

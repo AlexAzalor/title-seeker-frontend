@@ -159,6 +159,7 @@ export const FilterEditForm = ({
           {itemFields.map((field, index) => (
             <div key={field.id} className="grid grid-cols-2 gap-4">
               <FormField
+                title={field.description}
                 type="text"
                 name={`items.${index}.name`}
                 register={register}
@@ -167,6 +168,7 @@ export const FilterEditForm = ({
               />
 
               <SliderFormField
+                showValue
                 name={`items.${index}.percentage_match`}
                 register={register}
                 defaultValue={getValues}

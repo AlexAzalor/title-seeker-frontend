@@ -21,6 +21,7 @@ type ItemFields = {
   another_lang_name?: string;
   description?: string;
   parent_genre_key?: string;
+  movie_count?: number;
 };
 
 type Props<Datum extends ItemFields> = {
@@ -42,6 +43,8 @@ const ItemsSelector = <Datum extends ItemFields>({
   onExclude,
   excludedKeys,
 }: Props<Datum>) => {
+  // console.log("items", items);
+
   const session = useSession();
   const t = useTranslations("MenuItems");
 
@@ -85,7 +88,12 @@ const ItemsSelector = <Datum extends ItemFields>({
                     "pointer-events-none opacity-50",
                 )}
               >
-                <p>{item.name}</p>
+                <p>
+                  {item.name}{" "}
+                  <span className="text-lg text-red-600">
+                    ({item.movie_count})
+                  </span>
+                </p>
 
                 {!!item.description && (
                   <TooltipWrapper content={item.description}>

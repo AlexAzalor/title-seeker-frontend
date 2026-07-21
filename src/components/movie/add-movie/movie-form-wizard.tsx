@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
+import Link from "next/link";
+
 import { toast } from "sonner";
 import {
   FIRST_STEP,
@@ -119,11 +121,23 @@ export const MovieFormWizard = ({
 
     const response = await createMovie({ form_data, file }, !!quickMovie);
 
-    errorHandling(response, endSubmitting);
+    errorHandling(
+      response,
+      endSubmitting,
+      <div>
+        {response?.message}{" "}
+        <Link
+          href={`/movies/${form_data.key}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-lg font-bold underline"
+        >
+          {form_data.title_en}
+        </Link>
+      </div>,
+    );
 
     endSubmitting();
-
-    // redirect to movie page
   };
 
   const clearForm = () => {

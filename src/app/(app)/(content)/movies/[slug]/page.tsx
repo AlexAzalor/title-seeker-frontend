@@ -19,6 +19,7 @@ import { ShareLinkButtons } from "@/components/movie/movie-page/components/share
 
 import type { PageProps } from "@/types/general";
 import type { Metadata } from "next";
+import { CopyButton } from "@/components/movie/movie-page/components/copy-button";
 
 const SimilarMoviesFetcher = dynamic(
   () => import("@/components/movie/movie-page/similar-movies-fetcher"),
@@ -79,11 +80,17 @@ export default async function MoviePage({ params }: PageProps) {
       <div className="container min-h-screen max-w-320 px-4 lg:px-0">
         <div className="flex items-center justify-center py-2 text-center md:justify-between lg:py-3 xl:text-left">
           <div>
-            <h1 className="text-3xl">{movie.title}</h1>
+            <div className="flex items-center gap-2">
+              <h1 className="text-3xl">{movie.title}</h1>
+              <CopyButton label={movie.title} />
+            </div>
             {movie.title_en && (
-              <span className="text-light-gray text-lg font-medium">
-                ({movie.title_en})
-              </span>
+              <div className="flex items-center gap-2">
+                <span className="text-light-gray text-lg font-medium">
+                  ({movie.title_en})
+                </span>
+                <CopyButton label={movie.title_en} />
+              </div>
             )}
           </div>
 

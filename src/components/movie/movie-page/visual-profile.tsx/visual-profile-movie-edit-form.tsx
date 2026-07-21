@@ -143,7 +143,12 @@ export const VisualProfileEditForm = ({
                       value={item.key}
                       title={item.description}
                     >
-                      {item.name}
+                      <p>
+                        {item.name}{" "}
+                        <span className="text-lg text-red-600">
+                          ({item.movie_count})
+                        </span>
+                      </p>
                     </SelectItem>
                   ))}
                 </SelectContent>
