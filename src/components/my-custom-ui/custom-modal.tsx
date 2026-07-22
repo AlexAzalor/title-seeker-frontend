@@ -36,7 +36,7 @@ function CustomModal({ isOpen, onClose, children }: ModalProps) {
           }}
         >
           <motion.div
-            className="dark:bg-main-dark-bg bg-main-bg-surface w-full max-w-lg rounded-2xl p-6 shadow-xl"
+            className="dark:bg-main-dark-bg bg-main-bg-surface w-fit rounded-2xl p-6 shadow-xl"
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 50, opacity: 0 }}

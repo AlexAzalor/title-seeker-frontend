@@ -13,15 +13,20 @@ import { FormField } from "@/components/my-custom-ui/form-ui-parts/form-field";
 import { createCharacter } from "@/app/(app)/services/admin-api";
 
 import { CharacterFields, type CharacterType } from "@/types/people-schema";
-import type { CharacterFormIn } from "@/orval_api/model";
+import type { CharacterFormIn, CharacterOut } from "@/orval_api/model";
 import type { PeopleSchemeType } from "@/components/movie/add-movie/people-fields-form";
 
 type Props = {
   setValue: UseFormSetValue<PeopleSchemeType>;
   characterIndexField: number | null;
+  onCharacterCreated?: (character: CharacterOut) => void;
 };
 
-export const AddNewCharacter = ({ setValue, characterIndexField }: Props) => {
+export const AddNewCharacter = ({
+  setValue,
+  characterIndexField,
+  onCharacterCreated,
+}: Props) => {
   const t = useTranslations("Form.itemFields");
 
   const router = useRouter();
@@ -54,6 +59,7 @@ export const AddNewCharacter = ({ setValue, characterIndexField }: Props) => {
         `actors.${characterIndexField}.character_key`,
         response.newItem!.key,
       );
+      onCharacterCreated?.(response.newItem);
 
       toast.success(response?.message);
       router.refresh();

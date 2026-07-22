@@ -11,6 +11,7 @@ import {
   formatKey,
   formattedDuration,
   getVisiblePages,
+  parseNumberValue,
 } from "@/lib/utils";
 import { COLORS } from "@/lib/colors";
 
@@ -60,6 +61,11 @@ test("Should format duration (number) to readable string form", () => {
 test("Should clean number with comas (string) to clear number (also string)", () => {
   const cleanNumber = cleanNumberValue("25,000,000");
   expect(cleanNumber).toBe("25000000");
+});
+
+test('Should parse formatted currency string "$43,243" to number 43243', () => {
+  const parsedNumber = parseNumberValue("$43,243");
+  expect(parsedNumber).toBe(43243);
 });
 
 test("Shold extract filter name from query param: Drama(10,100) => Drama", () => {

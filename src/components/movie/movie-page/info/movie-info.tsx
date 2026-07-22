@@ -29,6 +29,7 @@ export const MovieInfo = ({ data, isOwner, lang }: Props) => {
   return (
     <div className="my-4 grid w-full grid-cols-1 place-items-center gap-3 xl:grid-cols-3">
       <MovieMoney
+        movieKey={data.key}
         budget={data.budget}
         domesticGross={data.domestic_gross}
         worldwideGross={data.worldwide_gross}

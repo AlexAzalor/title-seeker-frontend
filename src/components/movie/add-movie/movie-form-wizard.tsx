@@ -128,8 +128,6 @@ export const MovieFormWizard = ({
         {response?.message}{" "}
         <Link
           href={`/movies/${form_data.key}`}
-          target="_blank"
-          rel="noopener noreferrer"
           className="text-lg font-bold underline"
         >
           {form_data.title_en}

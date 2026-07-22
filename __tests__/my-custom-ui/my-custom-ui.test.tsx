@@ -15,7 +15,7 @@ import { FormWrapper } from "@/components/my-custom-ui/form-ui-parts/form-wrappe
 import { PaginationContoller } from "@/components/my-custom-ui/pagination/pagination-contoller";
 import { SignOut } from "@/components/my-custom-ui/sign-out";
 import { PeopleCarousel } from "@/components/actors-carousel";
-import { ExpandableText } from "@/components/my-custom-ui/expandable-text";
+import { MovieDescription } from "@/components/my-custom-ui/expandable-text";
 import { Spinner } from "@/components/my-custom-ui/spinner";
 import { MovieMoney } from "@/components/movie/movie-page/movie-money";
 import { RateSlider } from "@/components/movie/rating/rate-slider";
@@ -152,7 +152,7 @@ test("Should render Spinner", async () => {
 
 test("Should render ExpandableText", async () => {
   const text = "Test expandable text";
-  render(<ExpandableText text={text} />, {
+  render(<MovieDescription movieKey="test-key" text={text} />, {
     wrapper: ProjectProviders,
   });
   expect(screen.getByText(text)).toBeDefined();
@@ -164,6 +164,7 @@ test("Should render MovieMoney", () => {
   const worldwideGross = "300";
   render(
     <MovieMoney
+      movieKey="test-key"
       budget={budget}
       domesticGross={domesticGross}
       worldwideGross={worldwideGross}

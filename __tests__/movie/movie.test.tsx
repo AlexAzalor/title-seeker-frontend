@@ -68,9 +68,17 @@ test("Should render MovieFilterList", () => {
 });
 
 test("Should render MovieCrew", () => {
-  render(<MovieCrew actors={[]} directors={[]} avatarURL="test" />, {
-    wrapper: ProjectProviders,
-  });
+  render(
+    <MovieCrew
+      actors={[]}
+      directors={[]}
+      avatarURL="test"
+      movieKey="test-key"
+    />,
+    {
+      wrapper: ProjectProviders,
+    },
+  );
 
   expect(screen.getByLabelText("movie-crew")).toBeDefined();
 });

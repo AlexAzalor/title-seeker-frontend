@@ -8,6 +8,7 @@ import type {
   Path,
   UseFormRegister,
 } from "react-hook-form";
+import { MIN_MOVIE_DESCR_LENGTH } from "@/lib/constants";
 
 const FORM_FIELD = ["key"];
 
@@ -21,6 +22,7 @@ type FieldProps<
   label: string;
   value?: string;
   autoResize?: boolean;
+  currentLength?: number;
 } & TextareaHTMLAttributes<HTMLTextAreaElement>;
 
 const TextareaFormField = <
@@ -33,8 +35,10 @@ const TextareaFormField = <
   label,
   value,
   autoResize = true,
+  currentLength,
   ...inputProps
 }: FieldProps<TFormValues, TFieldName>) => {
+  console.log("🚀 ~ TextareaFormField ~ value:", value);
   return (
     <>
       <div className="relative mt-7 w-full">
@@ -61,6 +65,12 @@ const TextareaFormField = <
         {error && (
           <div className="error-message absolute rounded-md px-2 text-sm">
             {error.message}
+          </div>
+        )}
+
+        {currentLength && currentLength < MIN_MOVIE_DESCR_LENGTH && (
+          <div className="text-danger absolute right-0">
+            Min: {MIN_MOVIE_DESCR_LENGTH} / {currentLength}
           </div>
         )}
       </div>

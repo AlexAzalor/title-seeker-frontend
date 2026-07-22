@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { MovieOut } from "@/orval_api/model";
-import { ExpandableText } from "@/components/my-custom-ui/expandable-text";
+import { MovieDescription } from "@/components/my-custom-ui/expandable-text";
 import { Button } from "@/components/ui/button";
 import { MovieCrew } from "@/components/movie/movie-page/movie-crew";
 import { CustomTabs } from "@/components/my-custom-ui/custom-tabs";
@@ -24,9 +24,10 @@ export const MovieContent = ({
 }: Props) => (
   <div className="mb-4 flex flex-col justify-between gap-6 xl:flex-row">
     <div className="pt-6 sm:mx-auto">
-      <ExpandableText text={data.description} />
+      <MovieDescription movieKey={data.key} text={data.description} />
 
       <MovieCrew
+        movieKey={data.key}
         avatarURL={avatarUrl}
         actors={data.actors}
         directors={data.directors}

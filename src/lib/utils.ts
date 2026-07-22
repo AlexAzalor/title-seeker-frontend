@@ -145,6 +145,33 @@ export function formattedDuration(
 export function cleanNumberValue(value: number | string) {
   return String(value).replace(/,/g, "");
 }
+
+/**
+ * @description Parses formatted numeric values like "$43,243" into numbers.
+ */
+export function parseNumberValue(value?: string | number | null) {
+  if (value === undefined || value === null) {
+    return undefined;
+  }
+
+  if (typeof value === "number") {
+    return Number.isFinite(value) ? value : undefined;
+  }
+
+  const normalizedValue = value.replace(/[^\d.-]/g, "");
+
+  if (
+    normalizedValue.length === 0 ||
+    normalizedValue === "-" ||
+    normalizedValue === "." ||
+    normalizedValue === "-."
+  ) {
+    return undefined;
+  }
+
+  const parsedNumber = Number(normalizedValue);
+  return Number.isFinite(parsedNumber) ? parsedNumber : undefined;
+}
 /**
  *
 @description Synchronizes the URL search parameters with the router and returns a function to refresh the page.

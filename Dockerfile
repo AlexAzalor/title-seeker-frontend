@@ -1,21 +1,22 @@
 # Alpine - if your project is small and mostly JavaScript-based.
 # Regular (node:18) or slim (node:18-slim) - If you hit compatibility issues (bcrypt, sharp, puppeteer).
 # FROM node:18-alpine AS base
-FROM node:23.9.0-alpine AS base
+FROM node:24.18.0-alpine AS base
 
 # Install dependencies only when needed
 FROM base AS deps
 
 # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
 RUN apk add --no-cache libc6-compat
+# RUN corepack enable
 
 WORKDIR /app
 
 # Install dependencies based on the preferred package manager
-COPY package.json yarn.lock ./
+COPY package.json yarn.lock .yarnrc.yml ./
 
 RUN \
-  if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
+  if [ -f yarn.lock ]; then yarn --immutable; \
   else echo "Lockfile not found." && exit 1; \
   fi
 

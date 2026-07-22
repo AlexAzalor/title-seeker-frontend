@@ -13,6 +13,7 @@ import { TextareaFormField } from "@/components/my-custom-ui/form-ui-parts/texta
 
 import { MovieInfoSchema } from "@/types/movie-schema";
 import type { MovieFormData } from "@/orval_api/model";
+import { MIN_MOVIE_DESCR_LENGTH } from "@/lib/constants";
 
 export type MovieInfoFieldNames = Pick<
   MovieFormData,
@@ -52,22 +53,33 @@ export const InfoFieldsForm = () => {
       release_date: parsedData.release_date || undefined,
       duration: parsedData.duration || undefined,
       budget: parsedData.budget || 0,
-      domestic_gross: parsedData.domestic_gross || 0,
-      worldwide_gross: parsedData.worldwide_gross || 0,
+      domestic_gross: parsedData.domestic_gross || undefined,
+      worldwide_gross: parsedData.worldwide_gross || undefined,
       location_en: parsedData.location_en || "",
       location_uk: parsedData.location_uk || "",
     },
   });
 
-  const [budget, domesticGross, worldwide_gross] = watch([
+  const [
+    budget,
+    domesticGross,
+    worldwide_gross,
+    description_en,
+    description_uk,
+  ] = watch([
     "budget",
     "domestic_gross",
     "worldwide_gross",
+    "description_en",
+    "description_uk",
   ]);
 
   const onSubmit = (data: MovieInfoSchemeType) => {
     const dataToSend: MovieInfoFieldNames = {
       ...data,
+      domestic_gross: data.domestic_gross ? Number(data.domestic_gross) : 0,
+      worldwide_gross: data.worldwide_gross ? Number(data.worldwide_gross) : 0,
+      budget: data.budget ? Number(data.budget) : 0,
     };
 
     setMovieFormData((prev) => ({
@@ -100,6 +112,7 @@ export const InfoFieldsForm = () => {
           name="description_en"
           register={register}
           error={errors.description_en}
+          currentLength={description_en.length}
         />
 
         <TextareaFormField
@@ -107,6 +120,7 @@ export const InfoFieldsForm = () => {
           name="description_uk"
           register={register}
           error={errors.description_uk}
+          currentLength={description_uk.length}
         />
 
         <div>
@@ -157,7 +171,7 @@ export const InfoFieldsForm = () => {
             name="budget"
             register={register}
             error={errors.budget}
-            value={cleanNumberValue(budget)}
+            value={budget ? cleanNumberValue(budget).toString() : undefined}
           />
 
           <FormField
@@ -166,7 +180,12 @@ export const InfoFieldsForm = () => {
             name="domestic_gross"
             register={register}
             error={errors.domestic_gross}
-            value={cleanNumberValue(domesticGross)}
+            value={
+              domesticGross
+                ? cleanNumberValue(domesticGross).toString()
+                : undefined
+            }
+            minLength={MIN_MOVIE_DESCR_LENGTH}
           />
 
           <FormField
@@ -175,7 +194,12 @@ export const InfoFieldsForm = () => {
             name="worldwide_gross"
             register={register}
             error={errors.worldwide_gross}
-            value={cleanNumberValue(worldwide_gross)}
+            value={
+              worldwide_gross
+                ? cleanNumberValue(worldwide_gross).toString()
+                : undefined
+            }
+            minLength={MIN_MOVIE_DESCR_LENGTH}
           />
         </div>
         <FormButtons handlePrev={handlePrev} />

@@ -31,6 +31,7 @@ import {
   type GenreFormFieldsWithUUID,
   type GenresSubgenresOut,
   type GenreItemFieldEditFormIn,
+  type ActorCharacterKey,
 } from "@/orval_api/model";
 
 /**
@@ -861,6 +862,217 @@ export async function recalculateSimilarities() {
     );
 
     return { status: 200, message: "Recal", data: res.data };
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
+  }
+}
+
+export async function getMovieDescription(movieKey: string) {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { backendURL, unknownError } = await fetchSettings();
+  const { aPIGetMovieDescription } = getMovies();
+
+  try {
+    const res = await aPIGetMovieDescription(
+      movieKey,
+      { user_uuid: admin.uuid },
+      backendURL,
+    );
+
+    return { status: 200, message: "Get", data: res.data };
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
+  }
+}
+
+export async function editMovieDescription(
+  movieKey: string,
+  description_en: string,
+  description_uk: string,
+) {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { backendURL, unknownError } = await fetchSettings();
+  const { aPIEditDescription } = getMovies();
+
+  try {
+    await aPIEditDescription(
+      {
+        movie_key: movieKey,
+        description_en,
+        description_uk,
+      },
+      { user_uuid: admin.uuid },
+      backendURL,
+    );
+
+    return { status: 200, message: "Movie description updated" };
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
+  }
+}
+
+export async function getMovieActors() {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { lang, backendURL, unknownError } = await fetchSettings();
+  const { aPIGetActors } = getMovies();
+
+  try {
+    const res = await aPIGetActors({ lang, user_uuid: admin.uuid }, backendURL);
+
+    return { status: 200, message: "Get Actors", data: res.data };
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
+  }
+}
+
+export async function editMovieActors(
+  movieKey: string,
+  items: ActorCharacterKey[],
+) {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { backendURL, unknownError } = await fetchSettings();
+  const { aPIEditActors } = getMovies();
+
+  try {
+    await aPIEditActors(
+      {
+        movie_key: movieKey,
+        actors: items,
+      },
+      { user_uuid: admin.uuid },
+      backendURL,
+    );
+
+    return { status: 200, message: "Actors updated" };
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
+  }
+}
+
+export async function getMovieDirectors() {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { lang, backendURL, unknownError } = await fetchSettings();
+  const { aPIGetDirectors } = getMovies();
+
+  try {
+    const res = await aPIGetDirectors(
+      { lang, user_uuid: admin.uuid },
+      backendURL,
+    );
+
+    return { status: 200, message: "Get Directors", data: res.data };
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
+  }
+}
+
+export async function editMovieDirectors(movieKey: string, items: string[]) {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { backendURL, unknownError } = await fetchSettings();
+  const { aPIEditDirectors } = getMovies();
+
+  try {
+    await aPIEditDirectors(
+      {
+        movie_key: movieKey,
+        directors: items,
+      },
+      { user_uuid: admin.uuid },
+      backendURL,
+    );
+
+    return { status: 200, message: "Directors updated" };
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
+  }
+}
+
+export async function editMovieBoxOffice(
+  movieKey: string,
+  budget: number,
+  domesticGross?: number,
+  worldwideGross?: number,
+) {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { backendURL, unknownError } = await fetchSettings();
+  const { aPIEditBoxOffice } = getMovies();
+
+  try {
+    await aPIEditBoxOffice(
+      {
+        movie_key: movieKey,
+        budget,
+        domestic_gross: domesticGross,
+        worldwide_gross: worldwideGross,
+      },
+      { user_uuid: admin.uuid },
+      backendURL,
+    );
+
+    return { status: 200, message: "Movie Box Office updated" };
   } catch (error) {
     if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
       return { status: error.status, message: error.response?.data.detail };

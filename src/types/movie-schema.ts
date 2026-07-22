@@ -1,6 +1,7 @@
 import { formatKey } from "@/lib/utils";
 import { z } from "zod";
 import { ACCEPTED_IMAGE_TYPES } from "./general";
+import { MIN_MOVIE_DESCR_LENGTH } from "@/lib/constants";
 
 export const MovieSchema = z
   .object({
@@ -22,8 +23,18 @@ export const MovieSchema = z
   .refine((data) => (data.key = formatKey([data.title_en])));
 
 export const MovieInfoSchema = z.object({
-  description_uk: z.string().min(10, { message: "Value is required" }).trim(),
-  description_en: z.string().min(10, { message: "Value is required" }).trim(),
+  description_uk: z
+    .string()
+    .min(MIN_MOVIE_DESCR_LENGTH, {
+      message: `Minimum ${MIN_MOVIE_DESCR_LENGTH} required`,
+    })
+    .trim(),
+  description_en: z
+    .string()
+    .min(MIN_MOVIE_DESCR_LENGTH, {
+      message: `Minimum ${MIN_MOVIE_DESCR_LENGTH} required`,
+    })
+    .trim(),
   release_date: z.coerce.date().transform((date) => date.toISOString()),
   duration: z.coerce
     .number({
@@ -39,12 +50,12 @@ export const MovieInfoSchema = z.object({
     .number({
       invalid_type_error: "Value must be a number",
     })
-    .min(1, { message: "Value is required" }),
+    .optional(),
   worldwide_gross: z.coerce
     .number({
       invalid_type_error: "Value must be a number",
     })
-    .min(1, { message: "Value is required" }),
+    .optional(),
   location_uk: z.string().min(1, { message: "Value is required" }).trim(),
   location_en: z.string().min(1, { message: "Value is required" }).trim(),
 });
@@ -81,3 +92,44 @@ export type MovieSchemaType = z.infer<typeof MovieSchema>;
 export type RelatedMovieType = z.infer<typeof RelatedMovieField>;
 export type SharedUniverseType = z.infer<typeof SharedUniverseFields>;
 export type QuickMovieType = z.infer<typeof QuickMovieSchema>;
+
+// Edit forms
+
+export const EditMovieDescriptionShema = z.object({
+  description_uk: z
+    .string()
+    .min(MIN_MOVIE_DESCR_LENGTH, {
+      message: `Minimum ${MIN_MOVIE_DESCR_LENGTH} required`,
+    })
+    .trim(),
+  description_en: z
+    .string()
+    .min(MIN_MOVIE_DESCR_LENGTH, {
+      message: `Minimum ${MIN_MOVIE_DESCR_LENGTH} required`,
+    })
+    .trim(),
+});
+
+export type EditMovieDescriptionType = z.infer<
+  typeof EditMovieDescriptionShema
+>;
+
+export const EditMovieBoxOfficeShema = z.object({
+  budget: z.coerce
+    .number({
+      invalid_type_error: "Value must be a number",
+    })
+    .min(1, { message: "Value is required" }),
+  domestic_gross: z.coerce
+    .number({
+      invalid_type_error: "Value must be a number",
+    })
+    .optional(),
+  worldwide_gross: z.coerce
+    .number({
+      invalid_type_error: "Value must be a number",
+    })
+    .optional(),
+});
+
+export type EditMovieBoxOfficeType = z.infer<typeof EditMovieBoxOfficeShema>;

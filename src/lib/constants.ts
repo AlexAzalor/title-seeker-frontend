@@ -47,3 +47,5 @@ export const HTTP_STATUS = {
 // NOTE: Movie duration limits in minutes
 export const MIN_LIMIT = 1;
 export const MAX_LIMIT = 300;
+
+export const MIN_MOVIE_DESCR_LENGTH = 94;
