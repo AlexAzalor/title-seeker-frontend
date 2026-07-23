@@ -32,6 +32,10 @@ import {
   type GenresSubgenresOut,
   type GenreItemFieldEditFormIn,
   type ActorCharacterKey,
+  type PersonFormWithID,
+  type PeopleListOut,
+  type CharacterFormPutIn,
+  type CharacterFormFieldsOut,
 } from "@/orval_api/model";
 
 /**
@@ -941,10 +945,13 @@ export async function getMovieActors() {
   }
 
   const { lang, backendURL, unknownError } = await fetchSettings();
-  const { aPIGetActors } = getMovies();
+  const { aPIGetMovieActors } = getMovies();
 
   try {
-    const res = await aPIGetActors({ lang, user_uuid: admin.uuid }, backendURL);
+    const res = await aPIGetMovieActors(
+      { lang, user_uuid: admin.uuid },
+      backendURL,
+    );
 
     return { status: 200, message: "Get Actors", data: res.data };
   } catch (error) {
@@ -997,10 +1004,10 @@ export async function getMovieDirectors() {
   }
 
   const { lang, backendURL, unknownError } = await fetchSettings();
-  const { aPIGetDirectors } = getMovies();
+  const { aPIGetMovieDirectors } = getMovies();
 
   try {
-    const res = await aPIGetDirectors(
+    const res = await aPIGetMovieDirectors(
       { lang, user_uuid: admin.uuid },
       backendURL,
     );
@@ -1075,6 +1082,362 @@ export async function editMovieBoxOffice(
     return { status: 200, message: "Movie Box Office updated" };
   } catch (error) {
     if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
+  }
+}
+
+// Title People
+
+// Actors
+
+export async function getActors() {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { lang, backendURL, unknownError } = await fetchSettings();
+  const { aPIGetActors } = getPeople();
+
+  try {
+    const response: AxiosResponse<PeopleListOut> = await aPIGetActors(
+      { lang },
+      backendURL,
+    );
+
+    return response.data.people;
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
+  }
+}
+
+export async function getActorFormFields(id: number) {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { lang, backendURL, unknownError } = await fetchSettings();
+  const { aPIGetActor } = getPeople();
+
+  try {
+    const response: AxiosResponse<PersonFormWithID> = await aPIGetActor(
+      id,
+      { lang },
+      backendURL,
+    );
+
+    return { status: response.status, data: response.data };
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
+  }
+}
+
+export async function updateActor(formData: PersonFormWithID) {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { backendURL, unknownError } = await fetchSettings();
+  const { aPIEditActor } = getPeople();
+
+  try {
+    const response = await aPIEditActor(
+      formData,
+      { user_uuid: admin.uuid },
+      backendURL,
+    );
+
+    return {
+      status: response.status,
+      message: "Actor row updated!",
+    };
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
+  }
+}
+
+export async function deleteActorRow(key: string) {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { backendURL, unknownError } = await fetchSettings();
+  const { aPIDeleteActor } = getPeople();
+
+  try {
+    const response = await aPIDeleteActor(
+      key,
+      { user_uuid: admin.uuid },
+      backendURL,
+    );
+
+    return {
+      status: response.status,
+      message: "Actor row deleted!",
+    };
+  } catch (error) {
+    if (
+      axios.isAxiosError<ValidationItemListError, Record<string, unknown>>(
+        error,
+      )
+    ) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
+  }
+}
+
+// Directors
+
+export async function getDirectors() {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { lang, backendURL, unknownError } = await fetchSettings();
+  const { aPIGetDirectors } = getPeople();
+
+  try {
+    const response: AxiosResponse<PeopleListOut> = await aPIGetDirectors(
+      { lang },
+      backendURL,
+    );
+
+    return response.data.people;
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
+  }
+}
+
+export async function getDirectorFormFields(id: number) {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { lang, backendURL, unknownError } = await fetchSettings();
+  const { aPIGetDirector } = getPeople();
+
+  try {
+    const response: AxiosResponse<PersonFormWithID> = await aPIGetDirector(
+      id,
+      { lang },
+      backendURL,
+    );
+
+    return { status: response.status, data: response.data };
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
+  }
+}
+
+export async function updateDirector(formData: PersonFormWithID) {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { backendURL, unknownError } = await fetchSettings();
+  const { aPIEditDirector } = getPeople();
+
+  try {
+    const response = await aPIEditDirector(
+      formData,
+      { user_uuid: admin.uuid },
+      backendURL,
+    );
+
+    return {
+      status: response.status,
+      message: "Director row updated!",
+    };
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
+  }
+}
+
+export async function deleteDirectorRow(key: string) {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { backendURL, unknownError } = await fetchSettings();
+  const { aPIDeleteDirector } = getPeople();
+
+  try {
+    const response = await aPIDeleteDirector(
+      key,
+      { user_uuid: admin.uuid },
+      backendURL,
+    );
+
+    return {
+      status: response.status,
+      message: "Director row deleted!",
+    };
+  } catch (error) {
+    if (
+      axios.isAxiosError<ValidationItemListError, Record<string, unknown>>(
+        error,
+      )
+    ) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
+  }
+}
+
+// Character
+
+export async function getCharacter() {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { lang, backendURL, unknownError } = await fetchSettings();
+  const { aPIGetCharacters } = getPeople();
+
+  try {
+    const response: AxiosResponse<PeopleListOut> = await aPIGetCharacters(
+      { lang },
+      backendURL,
+    );
+
+    return response.data.people;
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
+  }
+}
+
+export async function getCharacterFormFields(id: number) {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { lang, backendURL, unknownError } = await fetchSettings();
+  const { aPIGetCharacter } = getPeople();
+
+  try {
+    const response: AxiosResponse<CharacterFormFieldsOut> =
+      await aPIGetCharacter(id, { lang }, backendURL);
+
+    return { status: response.status, data: response.data };
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
+  }
+}
+
+export async function updateCharacter(formData: CharacterFormPutIn) {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { backendURL, unknownError } = await fetchSettings();
+  const { aPIEditCharacter } = getPeople();
+
+  try {
+    const response = await aPIEditCharacter(
+      formData,
+      { user_uuid: admin.uuid },
+      backendURL,
+    );
+
+    return {
+      status: response.status,
+      message: "Character row updated!",
+    };
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
+  }
+}
+
+export async function deleteCharacterRow(key: string) {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { backendURL, unknownError } = await fetchSettings();
+  const { aPIDeleteCharacter } = getPeople();
+
+  try {
+    const response = await aPIDeleteCharacter(
+      key,
+      { user_uuid: admin.uuid },
+      backendURL,
+    );
+
+    return {
+      status: response.status,
+      message: "Character row deleted!",
+    };
+  } catch (error) {
+    if (
+      axios.isAxiosError<ValidationItemListError, Record<string, unknown>>(
+        error,
+      )
+    ) {
       return { status: error.status, message: error.response?.data.detail };
     } else {
       return unknownError;

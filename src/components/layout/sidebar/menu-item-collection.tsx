@@ -3,6 +3,7 @@ import {
   CircleHelp,
   FilePlus,
   FileScan,
+  FileUser,
   Film,
   Flower,
   Gamepad2,
@@ -29,6 +30,7 @@ export const ADMIN_ITEMS = [
   "allUsers",
   "visualProfile",
   "titleFilters",
+  "titlePeople",
 ];
 
 export const OTHER_ITEMS = ["settings"];
@@ -104,6 +106,12 @@ export function getMenuItems(
       href: "/account/admin/" + menu("titleFilters.key"),
       icon: <FileScan />,
       label: menu("titleFilters.label"),
+    },
+    {
+      key: "titlePeople",
+      href: "/account/admin/" + menu("titlePeople.key"),
+      icon: <FileUser />,
+      label: menu("titlePeople.label"),
     },
   ];
 

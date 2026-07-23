@@ -28,7 +28,10 @@ export const AdminPanel = ({ session }: Props) => {
             href={item.href}
             className="dark:hover:bg-main-dark-hover hover:bg-white-dark relative cursor-pointer rounded-[6px] px-2 py-1 text-lg transition-colors"
           >
-            {item.label}
+            <div className="flex items-center gap-1">
+              {item.icon}
+              {item.label}
+            </div>
             {item.extraElement}
           </Link>
         ))}

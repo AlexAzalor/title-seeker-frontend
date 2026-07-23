@@ -295,6 +295,7 @@ export const EditMovieActors = ({
                 return [
                   ...prev,
                   {
+                    id: 0,
                     key: newCharacter.key,
                     name: newCharacter.name,
                     another_lang_name: newCharacter.name,

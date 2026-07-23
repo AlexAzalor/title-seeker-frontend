@@ -72,15 +72,19 @@
     },
     "allUsers": {
       "key": "all-users",
-      "label": "Список всіх користувачів"
+      "label": "Користувачі"
     },
     "visualProfile": {
       "key": "visual-profile",
-      "label": "Візуальний профіль тайтлу"
+      "label": "Візуальний профіль"
     },
     "titleFilters": {
       "key": "title-filters",
       "label": "Фільтри тайтлу"
+    },
+    "titlePeople": {
+      "key": "title-people",
+      "label": "Люди / Персонажі"
     },
     "helpCenter": {
       "key": "help-center",

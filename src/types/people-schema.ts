@@ -60,6 +60,48 @@ export const PersonSchema = z
     (data) => (data.key = formatKey([data.first_name_en, data.last_name_en])),
   );
 
+export const PersonUpdateSchema = z
+  .object({
+    id: z.number(),
+    key: z.string().trim(),
+    first_name_en: z
+      .string()
+      .min(1, { message: "first_name_en is required" })
+      .trim(),
+    first_name_uk: z
+      .string()
+      .min(1, { message: "first_name_uk is required" })
+      .trim(),
+    last_name_en: z
+      .string()
+      .min(1, { message: "last_name_en is required" })
+      .trim(),
+    last_name_uk: z
+      .string()
+      .min(1, { message: "last_name_uk is required" })
+      .trim(),
+    born: z.string().date(),
+    died: z.union([z.string().date(), z.literal("")]).optional(),
+    born_in_en: z.string().min(1, { message: "born_in_en is required" }).trim(),
+    born_in_uk: z.string().min(1, { message: "born_in_uk is required" }).trim(),
+  })
+  .refine(
+    (data) => (data.key = formatKey([data.first_name_en, data.last_name_en])),
+  );
+
+export type PersonUpdateType = z.infer<typeof PersonUpdateSchema>;
+
+export const CharacterUpdateSchema = z
+  .object({
+    id: z.number(),
+    key: z.string().trim(),
+    name_en: z.string().min(1, { message: "name_en is required" }).trim(),
+    name_uk: z.string().min(1, { message: "name_uk is required" }).trim(),
+  })
+  .refine((data) => (data.key = formatKey([data.name_en])));
+
+export type CharacterUpdateType = z.infer<typeof CharacterUpdateSchema>;
+
 export const ActorSchemaType = BaseFormFields.extend({
   character_key: z.string().trim().min(1, {
     message: "Character is required",

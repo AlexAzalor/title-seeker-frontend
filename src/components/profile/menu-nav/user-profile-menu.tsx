@@ -91,6 +91,12 @@ export function UserProfileMenu({ user }: Props) {
                 items={getMenuItems(menu, ADMIN_ITEMS)}
               />
             )}
+            {isAdmin && (
+              <ItemsGroup
+                showAfterKeys={["titlePeople"]}
+                items={getMenuItems(menu, ADMIN_ITEMS)}
+              />
+            )}
 
             <ItemsGroup
               showAfterKeys={[]}

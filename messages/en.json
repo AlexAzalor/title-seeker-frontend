@@ -75,11 +75,15 @@
     },
     "visualProfile": {
       "key": "visual-profile",
-      "label": "Title Visual Profile"
+      "label": "Visual Profile"
     },
     "titleFilters": {
       "key": "title-filters",
       "label": "Title Filters"
+    },
+    "titlePeople": {
+      "key": "title-people",
+      "label": "People / Characters"
     },
     "helpCenter": {
       "key": "help-center",
