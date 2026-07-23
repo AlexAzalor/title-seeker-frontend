@@ -19,6 +19,7 @@ import { toast } from "sonner";
 import { useModal } from "@/hooks/use-modal";
 import CustomModal from "@/components/my-custom-ui/custom-modal";
 import { EditMovieDirectors } from "@/components/movie/movie-page/edit/movie-directors";
+import { Spinner } from "@/components/my-custom-ui/spinner";
 
 type Props = {
   movieKey: string;
@@ -39,6 +40,7 @@ export const DirectorsList = ({
   const { isOpen, open, close } = useModal();
 
   const [allDirectors, setAllDirectors] = useState<MainItemMenu[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleClose = () => {
     close();
@@ -46,34 +48,27 @@ export const DirectorsList = ({
   };
 
   const handleEditDirectors = async () => {
+    open();
+    setIsLoading(true);
+
     try {
       const res = await getMovieDirectors();
 
       if (res.status === 200 && res.data) {
         setAllDirectors(res.data.directors ?? []);
-        open();
       } else {
         toast.error(res.message);
       }
     } catch (error) {
       toast.error("An error occurred while fetching directors");
       console.error("Fetch movie directors error:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
     <>
-      {isOpen && (
-        <CustomModal isOpen={isOpen} onClose={handleClose}>
-          <EditMovieDirectors
-            movieKey={movieKey}
-            allDirectors={allDirectors}
-            currentDirectors={directors}
-            onClose={handleClose}
-          />
-        </CustomModal>
-      )}
-
       {checkIfAdmin(session.data?.user.role) && (
         <Button
           variant="link"
@@ -106,6 +101,21 @@ export const DirectorsList = ({
             />
           ))}
         </div>
+      )}
+
+      {isOpen && (
+        <CustomModal isOpen={isOpen} onClose={handleClose}>
+          {!isLoading ? (
+            <EditMovieDirectors
+              movieKey={movieKey}
+              allDirectors={allDirectors}
+              currentDirectors={directors}
+              onClose={handleClose}
+            />
+          ) : (
+            <Spinner className="grid size-36 place-items-center" />
+          )}
+        </CustomModal>
       )}
     </>
   );

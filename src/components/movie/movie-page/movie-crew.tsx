@@ -21,6 +21,7 @@ import { useModal } from "@/hooks/use-modal";
 import CustomModal from "@/components/my-custom-ui/custom-modal";
 import { EditMovieActors } from "@/components/movie/movie-page/edit/movie-actors";
 import { DirectorsList } from "./directors-list";
+import { Spinner } from "@/components/my-custom-ui/spinner";
 
 type Props = {
   movieKey: string;
@@ -42,21 +43,26 @@ export const MovieCrew = ({
   const { isOpen, open, close } = useModal();
   const [allActors, setAllActors] = useState<MainItemMenu[]>([]);
   const [allCharacters, setAllCharacters] = useState<MainItemMenu[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleEditActors = async () => {
+    open();
+    setIsLoading(true);
+
     try {
       const res = await getMovieActors();
 
       if (res.status === 200 && res.data) {
         setAllActors(res.data.actors);
         setAllCharacters(res.data.characters);
-        open();
       } else {
         toast.error(res.message);
       }
     } catch (error) {
       toast.error("An error occurred while fetching actors");
       console.error("Fetch movie actors error:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -108,13 +114,17 @@ export const MovieCrew = ({
 
       {isOpen && (
         <CustomModal isOpen={isOpen} onClose={handleClose}>
-          <EditMovieActors
-            movieKey={movieKey}
-            allActors={allActors}
-            allCharacters={allCharacters}
-            currentActors={actors}
-            onClose={handleClose}
-          />
+          {!isLoading ? (
+            <EditMovieActors
+              movieKey={movieKey}
+              allActors={allActors}
+              allCharacters={allCharacters}
+              currentActors={actors}
+              onClose={handleClose}
+            />
+          ) : (
+            <Spinner className="grid size-36 place-items-center" />
+          )}
         </CustomModal>
       )}
     </>

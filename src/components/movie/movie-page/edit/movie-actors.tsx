@@ -137,7 +137,7 @@ export const EditMovieActors = ({
         onClose();
         router.refresh();
       } else {
-        toast.error(res.message);
+        toast.error(res.message ?? "Something went wrong");
       }
     } catch (error) {
       toast.error("An error occurred while updating actors");

@@ -43,8 +43,6 @@ const ItemsSelector = <Datum extends ItemFields>({
   onExclude,
   excludedKeys,
 }: Props<Datum>) => {
-  // console.log("items", items);
-
   const session = useSession();
   const t = useTranslations("MenuItems");
 

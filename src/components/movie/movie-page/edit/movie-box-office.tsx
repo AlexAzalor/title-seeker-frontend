@@ -25,7 +25,6 @@ type Props = {
 };
 
 export const EditMovieBoxOffice = ({ movieKey, boxOfficeData }: Props) => {
-  console.log("🚀 ~ EditMovieBoxOffice ~ boxOfficeData:", boxOfficeData);
   const t = useTranslations("Form.stepper.info");
   const router = useRouter();
 

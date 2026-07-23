@@ -38,7 +38,6 @@ const TextareaFormField = <
   currentLength,
   ...inputProps
 }: FieldProps<TFormValues, TFieldName>) => {
-  console.log("🚀 ~ TextareaFormField ~ value:", value);
   return (
     <>
       <div className="relative mt-7 w-full">
