@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useMemo } from "react";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { checkIfAdmin } from "@/proxy";
@@ -48,6 +48,20 @@ const ItemsSelector = <Datum extends ItemFields>({
 
   const isAdmin = checkIfAdmin(session.data?.user.role);
 
+  // Sort items based on selection and name
+  const sortedItems = useMemo(() => {
+    return [...items].sort((a, b) => {
+      const aSelected = checkIconStyle.includes(a.key);
+      const bSelected = checkIconStyle.includes(b.key);
+
+      if (aSelected && !bSelected) return -1;
+      if (!aSelected && bSelected) return 1;
+
+      return a.name.localeCompare(b.name);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
       <CommandInput placeholder={t("search")} className="h-9" />
@@ -70,7 +84,7 @@ const ItemsSelector = <Datum extends ItemFields>({
 
         <CommandGroup className="text-left">
           {/* need switch lang to search items */}
-          {items.map((item) => {
+          {sortedItems.map((item) => {
             const value = item.another_lang_name
               ? item.name + " " + item.another_lang_name
               : item.name;

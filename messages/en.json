@@ -515,7 +515,22 @@
 
   "Dashboard": {
     "title": "Dashboard",
-    "subTitle": "Welcome to your dashboard!"
+    "subTitle": "Overall Stats",
+    "noStats": "No stats",
+    "overallStats": {
+      "total_movies": "Total Movies",
+      "total_standalone_movies": "Total Standalone Movies",
+      "total_collections_movies": "Total Collections Movies",
+      "total_actors": "Total Actors",
+      "total_directors": "Total Directors",
+      "total_characters": "Total Characters",
+      "total_genres": "Total Genres",
+      "total_subgenres": "Total Subgenres",
+      "total_specifications": "Total Specifications",
+      "total_keywords": "Total Keywords",
+      "total_action_times": "Total Action Times",
+      "total_shared_universes": "Total Shared Universe"
+    }
   },
 
   "QuickMovie": {

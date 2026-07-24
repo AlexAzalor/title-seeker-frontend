@@ -1,18 +1,20 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import axios from "axios";
+import axios, { type AxiosResponse } from "axios";
 import { fetchSettings, getSession } from "./global-api";
 import { backendURL } from "@/lib/constants";
 
 import type { ValidationError } from "@/types/general";
 import type {
+  DashboardStatsOut,
   Language,
   UserRateMovieIn,
   VisualProfileIn,
 } from "@/orval_api/model";
 import { getUsers } from "@/orval_api/users/users";
 import { getAuth } from "@/orval_api/auth/auth";
+import { getDashboard } from "@/orval_api/dashboard/dashboard";
 import { getVisualProfile } from "@/orval_api/visual-profile/visual-profile";
 
 /**Any user role */
@@ -127,6 +129,30 @@ export async function getVisualProfileCategories(lang: Language) {
   try {
     const response = await aPIGetVisualProfiles({ lang }, backendURL);
     return response.data.items;
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
+  }
+}
+
+// Dashboard
+
+export async function getOverallStats() {
+  const currentUser = await getSession();
+  if (!currentUser) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { backendURL, unknownError } = await fetchSettings();
+  const { aPIGetDashboardStats } = getDashboard();
+
+  try {
+    const response: AxiosResponse<DashboardStatsOut> =
+      await aPIGetDashboardStats({ user_uuid: currentUser.uuid }, backendURL);
+    return response.data;
   } catch (error) {
     if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
       return { status: error.status, message: error.response?.data.detail };

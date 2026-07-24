@@ -511,7 +511,22 @@
   },
   "Dashboard": {
     "title": "Дашборд",
-    "subTitle": "Ласкаво просимо до вашого дашборду!"
+    "subTitle": "Загальна статистика",
+    "noStats": "Нема статистики",
+    "overallStats": {
+      "total_movies": "Загальна кількість Фільмів",
+      "total_standalone_movies": "Загальна кількість окремих фільмів",
+      "total_collections_movies": "Загальна кількість фільмів, які мають колекції",
+      "total_actors": "Загальна кількість Акторів",
+      "total_directors": "Загальна кількість Режисерів",
+      "total_characters": "Загальна кількість Персонажів",
+      "total_genres": "Загальна кількість Жанрів",
+      "total_subgenres": "Загальна кількість Піджанрів",
+      "total_specifications": "Загальна кількість Специфікацій",
+      "total_keywords": "Загальна кількість Ключових слів",
+      "total_action_times": "Загальна кількість Час Дій",
+      "total_shared_universes": "Загальна кількість Спільних всесвітів"
+    }
   },
 
   "QuickMovie": {
