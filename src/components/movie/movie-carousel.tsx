@@ -3,9 +3,7 @@ import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Autoplay from "embla-carousel-autoplay";
-import { useMediaQuery } from "@/hooks/use-media-query";
 
-import { formatDate } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
@@ -15,39 +13,56 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { Separator } from "@/components/ui/separator";
-import type { Language, MovieCarousel } from "@/orval_api/model";
+import type {
+  MovieCarousel,
+  MovieCarouselListMovieFilter,
+} from "@/orval_api/model";
+import { TooltipWrapper } from "../my-custom-ui/tooltip-wrapper";
+import { InfoIcon } from "lucide-react";
 
 type Props = {
   name: string;
   movies: MovieCarousel[];
-  lang: Language;
   posterURL: string;
   avatarURL: string;
+  movieFilter?: MovieCarouselListMovieFilter;
+  type?: string;
+  delay?: number;
 };
 export function MoviesCarousel({
   name,
   movies,
-  lang,
   posterURL,
   avatarURL,
+  movieFilter,
+  type,
+  delay = 12000,
 }: Props) {
   // wrapper?
-  const plugin = useRef(Autoplay({ delay: 10000 }));
-  const isMobile = useMediaQuery("(max-width: 640px)");
-  const textLength = isMobile ? 20 : 40;
+  const plugin = useRef(Autoplay({ delay }));
+
   return (
     <div className="w-full" aria-label="movies-carousel">
-      <h2 className="mb-3">{name}</h2>
+      <h2 className="mb-3 flex items-center gap-2">
+        <span>{movieFilter ? `${type}: ${movieFilter.name}` : name}</span>
+
+        {movieFilter && (
+          <TooltipWrapper content={movieFilter?.description}>
+            <InfoIcon className="h-4 w-4" />
+          </TooltipWrapper>
+        )}
+      </h2>
+
       <Carousel
-        className="xl:w-full"
+        className="w-full"
         plugins={[plugin.current]}
         onMouseEnter={plugin.current.stop}
         onMouseLeave={() => plugin.current.play()}
-        opts={{ loop: true }}
+        opts={{ loop: true, align: "start" }}
       >
         <CarouselContent className="max-w-[340px] xl:max-w-none">
           {movies.map((movie) => (
-            <CarouselItem key={movie.key} className="">
+            <CarouselItem key={movie.key} className="xl:basis-[806px]">
               <div className="p-1">
                 <Link
                   key={movie.key}
@@ -65,31 +80,32 @@ export function MoviesCarousel({
                           width={110}
                         />
                       )}
-                      <div className="flex h-full flex-col justify-center gap-2 self-start">
-                        <h3 title={movie.title} className="text-xl font-bold">
-                          {movie.title.length > textLength
-                            ? movie.title.slice(0, textLength) + "..."
-                            : movie.title}
+                      <div className="flex h-full min-w-0 flex-1 flex-col justify-center gap-2">
+                        <h3
+                          title={movie.title}
+                          className="min-w-0 truncate text-xl font-bold"
+                        >
+                          {movie.title}
                         </h3>
 
                         <div className="flex flex-col gap-1 xl:flex-row">
                           <div>
                             {movie.release_date
-                              ? formatDate(movie.release_date, lang)
+                              ? new Date(movie.release_date).getFullYear()
                               : "no date"}
                           </div>
                           <span className="hidden xl:inline">|</span>
                           <div>{movie.duration}</div>
                           <span className="hidden xl:inline">|</span>
                           <div className="hidden xl:block">
-                            {movie.location}
+                            {movie.location.length > 40
+                              ? movie.location.slice(0, 40) + "..."
+                              : movie.location}
                           </div>
                         </div>
 
-                        <p className="hidden xl:block">
-                          {movie.description.length >= 100
-                            ? movie.description.slice(0, 100) + "..."
-                            : movie.description}
+                        <p className="hidden min-w-0 truncate xl:block">
+                          {movie.description}
                         </p>
 
                         <div className="flex flex-wrap gap-1">

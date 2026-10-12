@@ -1,7 +1,7 @@
 {
   "HomePage": {
     "title": "Title Seeker",
-    "subTitle": "The flexibility, speed, and simplicity of this platform will allow you to find the title you want at any time and place!",
+    "subTitle": "Discover titles by their themes, atmosphere, story elements, and many other characteristics.",
     "meaning": "Title refers to an individual piece of media — such as a movie, TV show, anime or video game. It's commonly used to describe a specific work as a whole, not just its name.",
     "navigation": {
       "movies": "Movies",
@@ -47,7 +47,12 @@
       "contact": "Contact the Owner",
       "support": "Support"
     },
-    "warning": "This project is under development and therefore some parts will not be available yet."
+    "warning": "This project is under development and therefore some parts will not be available yet.",
+    "filterItems": {
+      "specification": "Specification",
+      "keyword": "Keyword",
+      "visual_profile": "Visual Profile"
+    }
   },
   "MenuItems": {
     "content": "Content",

@@ -57,7 +57,7 @@ const ItemsSelector = <Datum extends ItemFields>({
       if (aSelected && !bSelected) return -1;
       if (!aSelected && bSelected) return 1;
 
-      return a.name.localeCompare(b.name);
+      return 0;
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

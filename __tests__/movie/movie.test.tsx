@@ -1,6 +1,6 @@
 import { expect, test } from "vitest";
 import { render, screen } from "@testing-library/react";
-import { FilterEnum, Language } from "@/orval_api/model";
+import { FilterEnum } from "@/orval_api/model";
 
 import { MovieFormWizard } from "@/components/movie/add-movie/movie-form-wizard";
 import { QuicklyAddNewMovie } from "@/components/movie/quick-add-new-movie";
@@ -105,7 +105,6 @@ test("Should render MoviesCarousel", () => {
       name="test"
       avatarURL="test"
       movies={[]}
-      lang={Language.en}
       posterURL="test"
     />,
     {
