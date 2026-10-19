@@ -11,6 +11,7 @@ import { getPeople } from "@/orval_api/people/people";
 import { getGenres } from "@/orval_api/genres/genres";
 import { getSharedUniverses } from "@/orval_api/shared-universes/shared-universes";
 import { getFilters } from "@/orval_api/filters/filters";
+import { getAuditLogs } from "@/orval_api/audit-logs/audit-logs";
 
 import type { ValidationError, ValidationItemListError } from "@/types/general";
 import {
@@ -1438,6 +1439,41 @@ export async function deleteCharacterRow(key: string) {
         error,
       )
     ) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
+  }
+}
+
+/**
+ * @description Get entity audit history (newest first). Omit `cursor` for the first page.
+ */
+export async function getEntityAuditLogs(
+  entityType: string,
+  entityId: string,
+  cursor?: string,
+) {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { backendURL, unknownError } = await fetchSettings();
+  const { aPIGetEntityHistory } = getAuditLogs();
+
+  try {
+    const res = await aPIGetEntityHistory(
+      entityType,
+      entityId,
+      { user_uuid: admin.uuid, cursor, limit: 20 },
+      backendURL,
+    );
+
+    return { status: 200, message: "Get", data: res.data };
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
       return { status: error.status, message: error.response?.data.detail };
     } else {
       return unknownError;

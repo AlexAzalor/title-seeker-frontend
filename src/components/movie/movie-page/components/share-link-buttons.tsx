@@ -6,8 +6,19 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { Check, Copy } from "lucide-react";
 import { TelegramIcon } from "@/lib/portfolio/tech-icons";
 import { cn } from "@/lib/utils";
+import { AuditLogDrawer } from "@/components/audit-log/audit-log-drawer";
 
-export const ShareLinkButtons = () => {
+export const ShareLinkButtons = ({
+  movieKey,
+  movieTitle,
+  createdAt,
+  updatedAt,
+}: {
+  movieKey: string;
+  movieTitle: string;
+  createdAt?: string;
+  updatedAt?: string;
+}) => {
   const pathname = usePathname();
   const isMobile = useIsMobile();
   const [copied, setCopied] = useState(false);
@@ -55,6 +66,14 @@ export const ShareLinkButtons = () => {
       >
         <TelegramIcon />
       </a>
+
+      <AuditLogDrawer
+        entityType="movie"
+        entityId={movieKey}
+        movieTitle={movieTitle}
+        createdAt={createdAt}
+        updatedAt={updatedAt}
+      />
     </div>
   );
 };
