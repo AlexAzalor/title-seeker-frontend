@@ -13,11 +13,15 @@ export const ShareLinkButtons = ({
   movieTitle,
   createdAt,
   updatedAt,
+  posterUrl,
+  avatarUrl,
 }: {
   movieKey: string;
   movieTitle: string;
   createdAt?: string;
   updatedAt?: string;
+  posterUrl: string;
+  avatarUrl: string;
 }) => {
   const pathname = usePathname();
   const isMobile = useIsMobile();
@@ -73,6 +77,8 @@ export const ShareLinkButtons = ({
         movieTitle={movieTitle}
         createdAt={createdAt}
         updatedAt={updatedAt}
+        posterUrl={posterUrl}
+        avatarUrl={avatarUrl}
       />
     </div>
   );

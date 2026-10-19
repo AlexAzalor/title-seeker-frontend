@@ -4,8 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { ArrowRight, Minus, Plus, Repeat } from "lucide-react";
-
-import { AVATAR_URL } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 export type PersonEntry = {
@@ -105,12 +103,13 @@ const getInitials = (name: string) =>
 type AvatarProps = {
   person: PersonEntry;
   type: "actors" | "directors";
+  avatarUrl: string;
 };
 
-const PersonAvatar = ({ person, type }: AvatarProps) =>
+const PersonAvatar = ({ person, type, avatarUrl }: AvatarProps) =>
   person.avatar ? (
     <Image
-      src={`${AVATAR_URL}/${type}/${person.avatar}`}
+      src={`${avatarUrl}/${type}/${person.avatar}`}
       alt={person.name}
       width={40}
       height={40}
@@ -126,9 +125,10 @@ type Props = {
   oldList: PersonEntry[];
   newList: PersonEntry[];
   type: "actors" | "directors";
+  avatarUrl: string;
 };
 
-export const PeopleDiff = ({ oldList, newList, type }: Props) => {
+export const PeopleDiff = ({ oldList, newList, type, avatarUrl }: Props) => {
   const t = useTranslations("AuditLog");
   const rows = diffPeople(oldList, newList);
   const isActors = type === "actors";
@@ -160,7 +160,7 @@ export const PeopleDiff = ({ oldList, newList, type }: Props) => {
               </span>
             )}
 
-            <PersonAvatar person={person} type={type} />
+            <PersonAvatar person={person} type={type} avatarUrl={avatarUrl} />
 
             <div className="min-w-0 flex-1">
               <Link

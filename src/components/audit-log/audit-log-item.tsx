@@ -251,9 +251,17 @@ type Props = {
   item: AuditLogOut;
   isLast: boolean;
   movieTitle: string;
+  posterUrl: string;
+  avatarUrl: string;
 };
 
-export const AuditLogItem = ({ item, isLast, movieTitle }: Props) => {
+export const AuditLogItem = ({
+  item,
+  isLast,
+  movieTitle,
+  posterUrl,
+  avatarUrl,
+}: Props) => {
   const t = useTranslations("AuditLog");
   const locale = useLocale();
 
@@ -359,7 +367,9 @@ export const AuditLogItem = ({ item, isLast, movieTitle }: Props) => {
 
           {isBoxOffice && <BoxOfficeDiff changes={item.changes} />}
 
-          {similarChanges && <SimilarDiff changes={similarChanges} />}
+          {similarChanges && (
+            <SimilarDiff changes={similarChanges} posterUrl={posterUrl} />
+          )}
 
           {genresChanges && <GenresDiff changes={genresChanges} />}
 
@@ -384,6 +394,7 @@ export const AuditLogItem = ({ item, isLast, movieTitle }: Props) => {
                     type={peopleType}
                     oldList={oldPeople}
                     newList={newPeople}
+                    avatarUrl={avatarUrl}
                   />
                 );
               }

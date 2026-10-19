@@ -98,6 +98,8 @@ export default async function MoviePage({ params }: PageProps) {
             movieTitle={movie.title}
             createdAt={movie.created_at}
             updatedAt={movie.updated_at}
+            posterUrl={posterUrl}
+            avatarUrl={avatarUrl}
           />
         </div>
 

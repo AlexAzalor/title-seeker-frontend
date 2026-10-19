@@ -36,6 +36,8 @@ type Props = {
   createdAt?: string;
   updatedAt?: string;
   className?: string;
+  posterUrl: string;
+  avatarUrl: string;
 };
 
 export const AuditLogDrawer = ({
@@ -44,6 +46,8 @@ export const AuditLogDrawer = ({
   entityType = "movie",
   createdAt,
   updatedAt,
+  posterUrl,
+  avatarUrl,
 }: Props) => {
   const t = useTranslations("AuditLog");
   const locale = useLocale();
@@ -210,6 +214,8 @@ export const AuditLogDrawer = ({
                   item={item}
                   movieTitle={movieTitle}
                   isLast={index === items.length - 1 && !nextCursor}
+                  posterUrl={posterUrl}
+                  avatarUrl={avatarUrl}
                 />
               ))}
             </ul>

@@ -6,7 +6,6 @@ import { useLocale, useTranslations } from "next-intl";
 import { ArrowRight, Minus, MoveVertical, Plus, Sparkles } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import { POSTER_URL } from "@/lib/constants";
 
 type SimilarEntry = {
   rank: number;
@@ -66,9 +65,10 @@ type ColumnProps = {
   variant: "old" | "new";
   entries: SimilarEntry[];
   other: SimilarEntry[];
+  posterUrl: string;
 };
 
-const Column = ({ label, variant, entries, other }: ColumnProps) => {
+const Column = ({ label, variant, entries, other, posterUrl }: ColumnProps) => {
   const t = useTranslations("AuditLog");
   const locale = useLocale();
   const otherByKey = new Map(other.map((e) => [e.key, e]));
@@ -114,7 +114,7 @@ const Column = ({ label, variant, entries, other }: ColumnProps) => {
 
                 {entry.poster ? (
                   <Image
-                    src={`${POSTER_URL}/posters/${entry.poster}`}
+                    src={`${posterUrl}/posters/${entry.poster}`}
                     alt=""
                     width={32}
                     height={48}
@@ -170,7 +170,13 @@ const Column = ({ label, variant, entries, other }: ColumnProps) => {
   );
 };
 
-export const SimilarDiff = ({ changes }: { changes: SimilarChanges }) => {
+export const SimilarDiff = ({
+  changes,
+  posterUrl,
+}: {
+  changes: SimilarChanges;
+  posterUrl: string;
+}) => {
   const t = useTranslations("AuditLog");
   const isFirstRun = changes.old.length === 0;
 
@@ -190,6 +196,7 @@ export const SimilarDiff = ({ changes }: { changes: SimilarChanges }) => {
             variant="old"
             entries={changes.old}
             other={changes.new}
+            posterUrl={posterUrl}
           />
         )}
         <Column
@@ -197,6 +204,7 @@ export const SimilarDiff = ({ changes }: { changes: SimilarChanges }) => {
           variant="new"
           entries={changes.new}
           other={changes.old}
+          posterUrl={posterUrl}
         />
       </div>
     </div>
