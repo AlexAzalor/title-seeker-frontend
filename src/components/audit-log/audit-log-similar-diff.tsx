@@ -128,6 +128,7 @@ const Column = ({ label, variant, entries, other }: ColumnProps) => {
                 )}
 
                 <Link
+                  prefetch={false}
                   href={`/movies/${entry.key}`}
                   target="_blank"
                   className={cn(

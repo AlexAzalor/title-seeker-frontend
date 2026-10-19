@@ -40,6 +40,7 @@ export const LastSeenTitles = ({ posterURL }: Props) => {
               <Card>
                 <CardContent className="flex aspect-square items-center justify-center p-2">
                   <Link
+                    prefetch={false}
                     href={`/movies/${title.key}#movie`}
                     scroll={true}
                     key={title.key}
@@ -63,7 +64,7 @@ export const LastSeenTitles = ({ posterURL }: Props) => {
       ) : (
         <div className="flex flex-row justify-center gap-1 lg:gap-5">
           {movies.map((title) => (
-            <Link key={title.key} href={`/movies/${title.key}#movie`}>
+            <Link key={title.key} prefetch={false} href={`/movies/${title.key}#movie`}>
               <Image
                 src={`${posterURL}/posters/${title.poster}`}
                 alt="Title Poster"
