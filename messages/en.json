@@ -94,6 +94,10 @@
       "key": "help-center",
       "label": "Help Center"
     },
+    "auditLog": {
+      "key": "audit-log",
+      "label": "Audit Log"
+    },
     "settings": {
       "key": "settings",
       "label": "Settings"
@@ -560,6 +564,31 @@
 
   "notImplemented": "This part is not yet implemented.",
   "AuditLog": {
+    "entityType": "Entity",
+    "entityMovie": "Movie",
+    "entityPerson": "Person",
+    "entityGenre": "Genre",
+    "entityUser": "User",
+    "excludeEvents": "Hide event types",
+    "excludedCount": "{count} hidden",
+    "filterContent": "Content",
+    "filterRatings": "Ratings",
+    "filterVisits": "Visits",
+    "allUsers": "All users",
+    "anonymous": "Anonymous",
+    "searchPlaceholder": "Search by title...",
+    "dateFrom": "From",
+    "dateTo": "To",
+    "newestFirst": "Newest first",
+    "oldestFirst": "Oldest first",
+    "resetFilters": "Reset filters",
+    "by": "by {name}",
+    "noResults": "No events match the filters",
+    "generalTitle": "Audit log",
+    "generalDescription": "Everything that changed across the app, newest first",
+    "unknownEvent": "Unknown event",
+    "entityDeleted": "Deleted",
+    "endOfList": "You've reached the end",
     "history": "History",
     "title": "Change history",
     "description": "Recent changes made to this title",

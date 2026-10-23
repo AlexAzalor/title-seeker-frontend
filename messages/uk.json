@@ -95,6 +95,10 @@
       "key": "help-center",
       "label": "Довідник"
     },
+    "auditLog": {
+      "key": "audit-log",
+      "label": "Історія"
+    },
     "settings": {
       "key": "settings",
       "label": "Налаштування"
@@ -557,6 +561,31 @@
   "notImplemented": "Ця частина ще не реалізована.",
 
   "AuditLog": {
+    "entityType": "Сутність",
+    "entityMovie": "Фільм",
+    "entityPerson": "Особа",
+    "entityGenre": "Жанр",
+    "entityUser": "Користувач",
+    "excludeEvents": "Сховати типи подій",
+    "excludedCount": "Сховано: {count}",
+    "filterContent": "Контент",
+    "filterRatings": "Оцінки",
+    "filterVisits": "Відвідування",
+    "allUsers": "Усі користувачі",
+    "anonymous": "Анонім",
+    "searchPlaceholder": "Пошук за назвою...",
+    "dateFrom": "Від",
+    "dateTo": "До",
+    "newestFirst": "Спочатку нові",
+    "oldestFirst": "Спочатку старі",
+    "resetFilters": "Скинути фільтри",
+    "by": "від {name}",
+    "noResults": "Подій за фільтрами не знайдено",
+    "generalTitle": "Журнал змін",
+    "generalDescription": "Усі зміни в застосунку, від найновіших",
+    "unknownEvent": "Невідома подія",
+    "entityDeleted": "Видалено",
+    "endOfList": "Це кінець списку",
     "history": "Історія",
     "title": "Історія змін",
     "description": "Останні зміни цього тайтлу",

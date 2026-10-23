@@ -56,7 +56,7 @@ import {
 const COLLAPSED_MAX_LENGTH = 240;
 
 /** Maps `<entity>.<field>.<action>` to a translation key in `AuditLog.events`. */
-const EVENT_LABEL_KEYS: Record<string, string> = {
+export const EVENT_LABEL_KEYS: Record<string, string> = {
   "movie.description.updated": "descriptionUpdated",
   "movie.actors.updated": "actorsUpdated",
   "movie.directors.updated": "directorsUpdated",
@@ -72,7 +72,7 @@ const EVENT_LABEL_KEYS: Record<string, string> = {
   "movie.visited": "movieVisited",
 };
 
-const EVENT_ICONS: Record<string, LucideIcon> = {
+export const EVENT_ICONS: Record<string, LucideIcon> = {
   "movie.description.updated": FileText,
   "movie.actors.updated": Users,
   "movie.directors.updated": Clapperboard,
