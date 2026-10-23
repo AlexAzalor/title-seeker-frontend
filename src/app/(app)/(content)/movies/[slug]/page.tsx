@@ -93,8 +93,14 @@ export default async function MoviePage({ params }: PageProps) {
               </div>
             )}
           </div>
-
-          <ShareLinkButtons />
+          <ShareLinkButtons
+            movieKey={movie_key}
+            movieTitle={movie.title}
+            createdAt={movie.created_at}
+            updatedAt={movie.updated_at}
+            posterUrl={posterUrl}
+            avatarUrl={avatarUrl}
+          />
         </div>
 
         <div className="flex flex-col items-center xl:flex-row">
