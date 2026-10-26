@@ -563,9 +563,10 @@
   "AuditLog": {
     "entityType": "Сутність",
     "entityMovie": "Фільм",
-    "entityPerson": "Особа",
-    "entityGenre": "Жанр",
-    "entityUser": "Користувач",
+    "tvseries": "Серіали",
+    "anime": "Аніме",
+    "games": "Ігри",
+    "eventTypes": "Типи подій",
     "excludeEvents": "Сховати типи подій",
     "excludedCount": "Сховано: {count}",
     "filterContent": "Контент",

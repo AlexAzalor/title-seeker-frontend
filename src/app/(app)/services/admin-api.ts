@@ -1486,6 +1486,7 @@ export type GeneralAuditLogFilters = {
   sort?: "asc" | "desc";
   lang?: Language;
   category?: string[];
+  event_type?: string[];
   exclude_event_type?: string[];
   entity_type?: string;
   user_id?: number;
@@ -1516,6 +1517,9 @@ export async function getGeneralAuditLogs(
       {
         ...filters,
         category: filters.category?.length ? filters.category : undefined,
+        event_type: filters.event_type?.length
+          ? filters.event_type
+          : undefined,
         exclude_event_type: filters.exclude_event_type?.length
           ? filters.exclude_event_type
           : undefined,
@@ -1523,6 +1527,7 @@ export async function getGeneralAuditLogs(
         user_uuid: admin.uuid,
         cursor,
         limit: 20,
+        entity_type: filters.entity_type || undefined,
       },
       // Repeatable params must look like `category=a&category=b`
       { ...backendURL, paramsSerializer: { indexes: null } },

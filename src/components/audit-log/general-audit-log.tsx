@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import type { DateRange } from "react-day-picker";
 import { useLocale, useTranslations } from "next-intl";
 import {
   ArrowDownWideNarrow,
@@ -12,22 +13,29 @@ import {
   Search,
   UserRound,
   X,
+  Calendar as CalendarIcon,
   type LucideIcon,
 } from "lucide-react";
-
+// IP addres of Anonim user?
 import {
   getAuditLogUsers,
   getGeneralAuditLogs,
   type GeneralAuditLogFilters,
 } from "@/app/(app)/services/admin-api";
 import { cn } from "@/lib/utils";
-import { POSTER_URL } from "@/lib/constants";
 import type {
   AuditLogDayGroupOut,
   AuditLogSummaryOut,
   AuditLogUserOut,
 } from "@/orval_api/model";
 import { Button } from "@/components/ui/button";
+import { format, parse } from "date-fns";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Spinner } from "@/components/my-custom-ui/spinner";
@@ -36,6 +44,14 @@ import {
   EVENT_LABEL_KEYS,
   parseUtcDate,
 } from "@/components/audit-log/audit-log-item";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
 type Status = "loading" | "loadingMore" | "success" | "error";
 type Category = "content" | "ratings" | "visits";
@@ -49,9 +65,9 @@ const CATEGORIES: { value: Category; labelKey: string }[] = [
 /** Only movies have audit events for now; the rest are shown as disabled. */
 const ENTITY_TYPES = [
   { value: "movie", labelKey: "entityMovie", disabled: false },
-  { value: "person", labelKey: "entityPerson", disabled: true },
-  { value: "genre", labelKey: "entityGenre", disabled: true },
-  { value: "user", labelKey: "entityUser", disabled: true },
+  { value: "tvseries", labelKey: "tvseries", disabled: true },
+  { value: "anime", labelKey: "anime", disabled: true },
+  { value: "games", labelKey: "games", disabled: true },
 ];
 
 const SEARCH_DEBOUNCE_MS = 300;
@@ -80,7 +96,7 @@ function mergeGroups(
   return result;
 }
 
-export const GeneralAuditLog = () => {
+export const GeneralAuditLog = ({ posterURL }: { posterURL: string }) => {
   const t = useTranslations("AuditLog");
   const locale = useLocale();
 
@@ -91,8 +107,9 @@ export const GeneralAuditLog = () => {
   const requestId = useRef(0);
 
   const [categories, setCategories] = useState<Category[]>([]);
+  const [included, setIncluded] = useState<string[]>([]);
   const [excluded, setExcluded] = useState<string[]>([]);
-  const [entityType, setEntityType] = useState<string | undefined>();
+  const [entityType, setEntityType] = useState<string | undefined>("movie");
   const [sort, setSort] = useState<"asc" | "desc">("desc");
   const [userId, setUserId] = useState<number | undefined>();
   const [dateFrom, setDateFrom] = useState("");
@@ -118,6 +135,15 @@ export const GeneralAuditLog = () => {
     return () => clearTimeout(timer);
   }, [searchInput]);
 
+  const dateRange: DateRange | undefined =
+    dateFrom || dateTo
+      ? {
+          from: dateFrom
+            ? parse(dateFrom, "yyyy-MM-dd", new Date())
+            : undefined,
+          to: dateTo ? parse(dateTo, "yyyy-MM-dd", new Date()) : undefined,
+        }
+      : undefined;
   const invalidRange = !!dateFrom && !!dateTo && dateFrom > dateTo;
 
   const loadPage = useCallback(
@@ -153,6 +179,7 @@ export const GeneralAuditLog = () => {
     sort,
     lang: locale as GeneralAuditLogFilters["lang"],
     category: categories,
+    event_type: included,
     exclude_event_type: excluded,
     entity_type: entityType,
     user_id: userId,
@@ -162,7 +189,6 @@ export const GeneralAuditLog = () => {
   };
   const filtersKey = JSON.stringify(filters);
   const filtersRef = useRef(filters);
-  console.log("🚀 ~ GeneralAuditLog ~ filtersRef:", filtersRef);
   filtersRef.current = filters;
 
   // Any filter change resets the list and drops the cursor
@@ -198,6 +224,11 @@ export const GeneralAuditLog = () => {
       prev.includes(value) ? prev.filter((c) => c !== value) : [...prev, value],
     );
 
+  const toggleIncluded = (value: string) =>
+    setIncluded((prev) =>
+      prev.includes(value) ? prev.filter((e) => e !== value) : [...prev, value],
+    );
+
   const toggleExcluded = (value: string) =>
     setExcluded((prev) =>
       prev.includes(value) ? prev.filter((e) => e !== value) : [...prev, value],
@@ -205,6 +236,7 @@ export const GeneralAuditLog = () => {
 
   const hasFilters =
     categories.length > 0 ||
+    included.length > 0 ||
     excluded.length > 0 ||
     entityType !== undefined ||
     userId !== undefined ||
@@ -214,6 +246,7 @@ export const GeneralAuditLog = () => {
 
   const resetFilters = () => {
     setCategories([]);
+    setIncluded([]);
     setExcluded([]);
     setEntityType(undefined);
     setUserId(undefined);
@@ -267,7 +300,7 @@ export const GeneralAuditLog = () => {
         </div>
       </div>
 
-      <div className="bg-card mb-6 space-y-3 rounded-lg border p-3">
+      <div className="bg-card dark:border-main-ui-purple mb-6 space-y-3 rounded-lg border p-3">
         <div className="flex flex-wrap items-center gap-2">
           {CATEGORIES.map(({ value, labelKey }) => {
             const active = categories.includes(value);
@@ -305,6 +338,31 @@ export const GeneralAuditLog = () => {
           </Button>
         </div>
 
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-muted-foreground text-sm">
+            {t("eventTypes")}:
+          </span>
+          {Object.keys(EVENT_LABEL_KEYS).map((eventType) => {
+            const active = included.includes(eventType);
+
+            return (
+              <button
+                key={eventType}
+                type="button"
+                aria-pressed={active}
+                onClick={() => toggleIncluded(eventType)}
+                className={cn(
+                  "rounded-full border px-2.5 py-0.5 text-sm transition-colors",
+                  active
+                    ? "bg-main-ui-purple border-main-ui-purple text-white"
+                    : "hover:bg-main-ui-purple dark:hover:bg-main-dark-hover",
+                )}
+              >
+                {getLabel(eventType)}
+              </button>
+            );
+          })}
+        </div>
         <div className="flex flex-wrap items-center gap-2">
           <span className="text-muted-foreground text-sm">
             {t("entityType")}:
@@ -352,8 +410,8 @@ export const GeneralAuditLog = () => {
                   className={cn(
                     "rounded-full border px-2.5 py-0.5 text-xs transition-colors",
                     active
-                      ? "border-destructive/50 bg-destructive/10 text-destructive line-through"
-                      : "hover:bg-accent",
+                      ? "border-danger/50 bg-danger/10 text-danger line-through"
+                      : "hover:bg-danger/75",
                   )}
                 >
                   {getLabel(eventType)}
@@ -370,44 +428,55 @@ export const GeneralAuditLog = () => {
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value.slice(0, 128))}
               placeholder={t("searchPlaceholder")}
-              className="pl-8"
+              className="dark:focus-visible:border-main-ui-purple border-main-ui-purple dark:border-main-ui-purple/50 pl-8"
             />
           </div>
 
-          <select
-            value={userId ?? ""}
-            onChange={(e) =>
-              setUserId(e.target.value ? Number(e.target.value) : undefined)
-            }
-            aria-label={t("allUsers")}
-            className="border-input bg-background h-9 rounded-md border px-3 text-sm"
-          >
-            <option value="">{t("allUsers")}</option>
-            {users.map((user) => (
-              <option key={user.id} value={user.id}>
-                {user.full_name}
-              </option>
-            ))}
-          </select>
+          <Select onValueChange={(e) => setUserId(e ? Number(e) : undefined)}>
+            <SelectTrigger className="" aria-label="language-selector">
+              <SelectValue placeholder={t("allUsers")} />
+            </SelectTrigger>
+            <SelectContent>
+              {users.map((user) => (
+                <SelectGroup key={user.id}>
+                  <SelectItem value={String(user.id)}>
+                    {user.full_name} ({user.role})
+                  </SelectItem>
+                </SelectGroup>
+              ))}
+            </SelectContent>
+          </Select>
 
-          <label className="flex items-center gap-2 text-sm">
-            <span className="text-muted-foreground w-10">{t("dateFrom")}</span>
-            <Input
-              type="date"
-              value={dateFrom}
-              max={dateTo || undefined}
-              onChange={(e) => setDateFrom(e.target.value)}
-            />
-          </label>
-          <label className="flex items-center gap-2 text-sm">
-            <span className="text-muted-foreground w-10">{t("dateTo")}</span>
-            <Input
-              type="date"
-              value={dateTo}
-              min={dateFrom || undefined}
-              onChange={(e) => setDateTo(e.target.value)}
-            />
-          </label>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant="outline" className="justify-start font-normal">
+                <CalendarIcon className="size-4" />
+                {dateFrom || dateTo ? (
+                  <span>
+                    {dateFrom || "…"} – {dateTo || "…"}
+                  </span>
+                ) : (
+                  <span className="text-muted-foreground">
+                    {t("dateFrom")} – {t("dateTo")}
+                  </span>
+                )}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-2" align="start">
+              <Calendar
+                mode="range"
+                defaultMonth={dateRange?.from}
+                selected={dateRange}
+                onSelect={(range) => {
+                  setDateFrom(
+                    range?.from ? format(range.from, "yyyy-MM-dd") : "",
+                  );
+                  setDateTo(range?.to ? format(range.to, "yyyy-MM-dd") : "");
+                }}
+                numberOfMonths={2}
+              />
+            </PopoverContent>
+          </Popover>
         </div>
 
         {hasFilters && (
@@ -459,6 +528,7 @@ export const GeneralAuditLog = () => {
                 time={formatTime(item.created_at)}
                 author={item.user_name ?? t("anonymous")}
                 deletedLabel={t("entityDeleted")}
+                posterURL={posterURL}
               />
             ))}
           </ul>
@@ -500,9 +570,17 @@ type RowProps = {
   time: string;
   author: string;
   deletedLabel: string;
+  posterURL: string;
 };
 
-const LogRow = ({ item, label, time, author, deletedLabel }: RowProps) => {
+const LogRow = ({
+  item,
+  label,
+  time,
+  author,
+  deletedLabel,
+  posterURL,
+}: RowProps) => {
   const Icon: LucideIcon = EVENT_ICONS[item.event_type] ?? History;
   const href =
     item.entity_type === "movie" && item.entity_key
@@ -514,7 +592,7 @@ const LogRow = ({ item, label, time, author, deletedLabel }: RowProps) => {
     <>
       {item.entity_poster ? (
         <Image
-          src={POSTER_URL + "/posters/" + item.entity_poster}
+          src={posterURL + "/posters/" + item.entity_poster}
           alt=""
           width={40}
           height={60}
@@ -528,7 +606,7 @@ const LogRow = ({ item, label, time, author, deletedLabel }: RowProps) => {
       <div className="min-w-0 flex-1">
         <p
           className={cn(
-            "truncate font-medium",
+            "font-medium whitespace-break-spaces",
             !item.entity_title && "text-muted-foreground italic",
           )}
         >
@@ -563,7 +641,7 @@ const LogRow = ({ item, label, time, author, deletedLabel }: RowProps) => {
           prefetch={false}
           className={cn(
             baseClass,
-            "hover:border-main-ui-purple/50 hover:bg-accent",
+            "hover:border-main-ui-purple/50 hover:bg-accent dark:border-main-ui-purple",
           )}
         >
           {content}
