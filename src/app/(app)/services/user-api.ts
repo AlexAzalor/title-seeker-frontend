@@ -161,3 +161,21 @@ export async function getOverallStats() {
     }
   }
 }
+
+// TODO: remove later
+// export async function saveMovieUserInfo(userInfo: string) {
+//   const currentUser = await getSession();
+//   const { aPISaveUserInfo } = getMovies();
+
+//   try {
+//     await aPISaveUserInfo(
+//       { user_info: userInfo },
+//       {
+//         user_uuid: currentUser?.uuid,
+//       },
+//       backendURL,
+//     );
+//   } catch (error) {
+//     console.error("Error saving user info:", error);
+//   }
+// }

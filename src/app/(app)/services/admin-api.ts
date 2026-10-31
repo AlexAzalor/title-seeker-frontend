@@ -11,10 +11,12 @@ import { getPeople } from "@/orval_api/people/people";
 import { getGenres } from "@/orval_api/genres/genres";
 import { getSharedUniverses } from "@/orval_api/shared-universes/shared-universes";
 import { getFilters } from "@/orval_api/filters/filters";
+import { getAuditLogs } from "@/orval_api/audit-logs/audit-logs";
 
 import type { ValidationError, ValidationItemListError } from "@/types/general";
 import {
   type FilterList,
+  type Language,
   type PersonBase,
   type BodyAPICreateMovie,
   type CharacterFormIn,
@@ -1438,6 +1440,128 @@ export async function deleteCharacterRow(key: string) {
         error,
       )
     ) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
+  }
+}
+
+/**
+ * @description Get entity audit history (newest first). Omit `cursor` for the first page.
+ */
+export async function getEntityAuditLogs(
+  entityType: string,
+  entityId: string,
+  cursor?: string,
+) {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { backendURL, unknownError } = await fetchSettings();
+  const { aPIGetEntityHistory } = getAuditLogs();
+
+  try {
+    const res = await aPIGetEntityHistory(
+      entityType,
+      entityId,
+      { user_uuid: admin.uuid, cursor, limit: 20 },
+      backendURL,
+    );
+
+    return { status: 200, message: "Get", data: res.data };
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
+  }
+}
+
+export type GeneralAuditLogFilters = {
+  sort?: "asc" | "desc";
+  lang?: Language;
+  category?: string[];
+  event_type?: string[];
+  exclude_event_type?: string[];
+  entity_type?: string;
+  user_id?: number;
+  date_from?: string;
+  date_to?: string;
+  search?: string;
+};
+
+/**
+ * @description Get the general audit history grouped by day. Omit `cursor` for the first page.
+ * Keep the filters identical while paginating.
+ */
+export async function getGeneralAuditLogs(
+  filters: GeneralAuditLogFilters,
+  cursor?: string,
+) {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { backendURL, unknownError } = await fetchSettings();
+  const { aPIGetGeneralHistory } = getAuditLogs();
+
+  try {
+    const res = await aPIGetGeneralHistory(
+      {
+        ...filters,
+        category: filters.category?.length ? filters.category : undefined,
+        event_type: filters.event_type?.length
+          ? filters.event_type
+          : undefined,
+        exclude_event_type: filters.exclude_event_type?.length
+          ? filters.exclude_event_type
+          : undefined,
+        search: filters.search || undefined,
+        user_uuid: admin.uuid,
+        cursor,
+        limit: 20,
+        entity_type: filters.entity_type || undefined,
+      },
+      // Repeatable params must look like `category=a&category=b`
+      { ...backendURL, paramsSerializer: { indexes: null } },
+    );
+
+    return { status: 200, message: "Get", data: res.data };
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
+  }
+}
+
+/**
+ * @description Get users who authored audit events (for the `user_id` filter).
+ */
+export async function getAuditLogUsers() {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { backendURL, unknownError } = await fetchSettings();
+  const { aPIGetHistoryUsers } = getAuditLogs();
+
+  try {
+    const res = await aPIGetHistoryUsers({ user_uuid: admin.uuid }, backendURL);
+
+    return { status: 200, message: "Get", data: res.data };
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
       return { status: error.status, message: error.response?.data.detail };
     } else {
       return unknownError;

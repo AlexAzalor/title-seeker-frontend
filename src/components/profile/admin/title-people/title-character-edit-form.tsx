@@ -160,6 +160,7 @@ export const TitleCharacterEditForm = ({ filterItem }: Props) => {
             {moviesList.map((movie) => (
               <Link
                 key={movie.key}
+                prefetch={false}
                 className="text-center text-lg font-bold hover:underline"
                 href={`/movies/${movie.key}`}
                 target="_blank"

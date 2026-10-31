@@ -23,6 +23,7 @@ export const MyMovies = ({ movies }: Props) => {
       {movies.map((movie, i) => (
         <Link
           aria-label={`movie-link-${i}`}
+          prefetch={false}
           href={`/movies/${movie.key}`}
           key={movie.key}
           className="dark:hover:bg-main-dark-hover flex items-center gap-4 rounded-xl px-2 transition-all duration-200 select-none hover:bg-neutral-100"
