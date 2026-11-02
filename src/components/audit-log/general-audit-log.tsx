@@ -29,7 +29,7 @@ import type {
   AuditLogUserOut,
 } from "@/orval_api/model";
 import { Button } from "@/components/ui/button";
-import { format, parse } from "date-fns";
+import { format, parse, startOfMonth, subDays } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
@@ -71,6 +71,29 @@ const ENTITY_TYPES = [
 ];
 
 const SEARCH_DEBOUNCE_MS = 300;
+
+const DATE_PRESETS: { key: string; getRange: () => DateRange }[] = [
+  { key: "presetToday", getRange: () => ({ from: new Date(), to: new Date() }) },
+  {
+    key: "presetYesterday",
+    getRange: () => {
+      const day = subDays(new Date(), 1);
+      return { from: day, to: day };
+    },
+  },
+  {
+    key: "presetLast7",
+    getRange: () => ({ from: subDays(new Date(), 6), to: new Date() }),
+  },
+  {
+    key: "presetLast30",
+    getRange: () => ({ from: subDays(new Date(), 29), to: new Date() }),
+  },
+  {
+    key: "presetThisMonth",
+    getRange: () => ({ from: startOfMonth(new Date()), to: new Date() }),
+  },
+];
 
 /** Pagination counts items, so a day may continue on the next page. */
 function mergeGroups(
@@ -145,6 +168,25 @@ export const GeneralAuditLog = ({ posterURL }: { posterURL: string }) => {
         }
       : undefined;
   const invalidRange = !!dateFrom && !!dateTo && dateFrom > dateTo;
+
+  // The calendar edits a draft; the backend is queried only on submit
+  const [dateOpen, setDateOpen] = useState(false);
+  const [draftRange, setDraftRange] = useState<DateRange | undefined>();
+
+  const handleDateOpenChange = (open: boolean) => {
+    if (open) setDraftRange(dateRange);
+    setDateOpen(open);
+  };
+
+  const applyDates = () => {
+    const from = draftRange?.from;
+    // A single selected day filters by that day only
+    const to = draftRange?.to ?? from;
+
+    setDateFrom(from ? format(from, "yyyy-MM-dd") : "");
+    setDateTo(to ? format(to, "yyyy-MM-dd") : "");
+    setDateOpen(false);
+  };
 
   const loadPage = useCallback(
     async (filters: GeneralAuditLogFilters, cursor?: string) => {
@@ -447,7 +489,7 @@ export const GeneralAuditLog = ({ posterURL }: { posterURL: string }) => {
             </SelectContent>
           </Select>
 
-          <Popover>
+          <Popover open={dateOpen} onOpenChange={handleDateOpenChange}>
             <PopoverTrigger asChild>
               <Button variant="outline" className="justify-start font-normal">
                 <CalendarIcon className="size-4" />
@@ -463,18 +505,40 @@ export const GeneralAuditLog = ({ posterURL }: { posterURL: string }) => {
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-2" align="start">
+              <div className="mb-2 flex flex-wrap gap-1">
+                {DATE_PRESETS.map((preset) => (
+                  <Button
+                    key={preset.key}
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setDraftRange(preset.getRange())}
+                  >
+                    {t(preset.key)}
+                  </Button>
+                ))}
+              </div>
               <Calendar
                 mode="range"
-                defaultMonth={dateRange?.from}
-                selected={dateRange}
-                onSelect={(range) => {
-                  setDateFrom(
-                    range?.from ? format(range.from, "yyyy-MM-dd") : "",
-                  );
-                  setDateTo(range?.to ? format(range.to, "yyyy-MM-dd") : "");
-                }}
+                defaultMonth={draftRange?.from}
+                selected={draftRange}
+                onSelect={setDraftRange}
                 numberOfMonths={2}
               />
+              <div className="mt-2 flex justify-end gap-2">
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  disabled={!draftRange?.from}
+                  onClick={() => setDraftRange(undefined)}
+                >
+                  {t("clearDates")}
+                </Button>
+                <Button type="button" size="sm" onClick={applyDates}>
+                  {t("applyDates")}
+                </Button>
+              </div>
             </PopoverContent>
           </Popover>
         </div>
