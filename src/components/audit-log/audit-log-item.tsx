@@ -57,6 +57,7 @@ const COLLAPSED_MAX_LENGTH = 240;
 
 /** Maps `<entity>.<field>.<action>` to a translation key in `AuditLog.events`. */
 export const EVENT_LABEL_KEYS: Record<string, string> = {
+  "movie.created": "movieCreated",
   "movie.description.updated": "descriptionUpdated",
   "movie.actors.updated": "actorsUpdated",
   "movie.directors.updated": "directorsUpdated",
@@ -73,6 +74,7 @@ export const EVENT_LABEL_KEYS: Record<string, string> = {
 };
 
 export const EVENT_ICONS: Record<string, LucideIcon> = {
+  "movie.created": Clapperboard,
   "movie.description.updated": FileText,
   "movie.actors.updated": Users,
   "movie.directors.updated": Clapperboard,
@@ -278,6 +280,7 @@ export const AuditLogItem = ({
   const isLanguageKeyed = LANGUAGE_KEYED_EVENTS.has(item.event_type);
   const peopleType = PEOPLE_EVENTS[item.event_type];
   const isBoxOffice = item.event_type === "movie.box_office.updated";
+  const isMovieCreated = item.event_type === "movie.created";
   const isMovieVisited = item.event_type === "movie.visited";
   const visitedAt = toText(item.changes?.visited_at);
   const similarChanges =
@@ -383,6 +386,7 @@ export const AuditLogItem = ({
             !similarChanges &&
             !isBoxOffice &&
             !isMovieVisited &&
+            !isMovieCreated &&
             toChangeEntries(item.changes).map(([key, change]) => {
               const oldPeople = toPersonEntries(change.old);
               const newPeople = toPersonEntries(change.new);

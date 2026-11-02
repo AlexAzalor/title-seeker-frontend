@@ -656,6 +656,7 @@
     "category": "Категорія",
     "movieVisitedMessage": "Сторінку фільму «<movie>{title}</movie>» відвідали <date>{visitedAt}</date>",
     "events": {
+      "movieCreated": "Фільм створено",
       "movieVisited": "Відвідування фільму",
       "descriptionUpdated": "Опис оновлено",
       "actorsUpdated": "Акторів оновлено",

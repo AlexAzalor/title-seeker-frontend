@@ -659,6 +659,7 @@
     "category": "Category",
     "movieVisitedMessage": "<movie>{title}</movie> was visited on <date>{visitedAt}</date>",
     "events": {
+      "movieCreated": "Movie created",
       "movieVisited": "Movie visited",
       "descriptionUpdated": "Description updated",
       "actorsUpdated": "Actors updated",

@@ -174,11 +174,6 @@ export const AuditLogDrawer = ({
                   {t("createdAt")}: <time>{createdLabel}</time>
                 </span>
               )}
-              {updatedLabel && (
-                <span>
-                  {t("updatedAt")}: <time>{updatedLabel}</time>
-                </span>
-              )}
             </div>
           )}
         </DrawerHeader>
