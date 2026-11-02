@@ -615,6 +615,7 @@
     "userRating": "Оцінка від {name}",
     "overallRating": "Загальна оцінка",
     "averageRating": "Середня оцінка",
+    "ratingCriterionType": "Критерій оцінювання",
     "votes": "Голоси",
     "votesUnit": "голосів",
     "criteria": {

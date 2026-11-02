@@ -41,6 +41,7 @@ type Props = {
   type?: RatingCriterion;
   onRateSubmit?: (data: UserRateMovieIn) => Promise<void>;
   movieKey?: string;
+  isAdmin?: boolean;
 };
 
 const RateMovie = ({
@@ -51,7 +52,9 @@ const RateMovie = ({
   type,
   onRateSubmit,
   movieKey,
+  isAdmin,
 }: Props) => {
+  console.log("🚀 ~ RateMovie ~ movieKey:", movieKey);
   const session = useSession();
   const t = useTranslations("Other");
   const tRating = useTranslations("Rating");
@@ -143,6 +146,7 @@ const RateMovie = ({
         uuid: "some_uuid",
         rating: calculateRating(),
         rating_criteria: states,
+        rating_criterion_type: ratingCriteria,
       };
       await onRateSubmit(data);
     } else {
@@ -280,7 +284,7 @@ const RateMovie = ({
 
   return (
     <div className="max-w-[594px] py-6 lg:w-[594px]" aria-label="rate-movie">
-      {!onRateSubmit && !movieKey && (
+      {isAdmin && (
         <RatingTypeSelector
           items={items}
           label={tRating("ratingType.name")}

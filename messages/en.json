@@ -618,6 +618,7 @@
     "userRating": "Rating by {name}",
     "overallRating": "Overall rating",
     "averageRating": "Average rating",
+    "ratingCriterionType": "Rating criterion",
     "votes": "Votes",
     "votesUnit": "votes",
     "criteria": {

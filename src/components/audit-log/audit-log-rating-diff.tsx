@@ -3,9 +3,14 @@
 import { useTranslations } from "next-intl";
 import { ArrowDown, ArrowRight, ArrowUp, Star } from "lucide-react";
 
+import { RatingCriterion } from "@/orval_api/model";
 import { cn } from "@/lib/utils";
 
 export type RatingChange = { old: number | null; new: number | null };
+export type RatingCriterionTypeChange = {
+  old: RatingCriterion | null;
+  new: RatingCriterion | null;
+};
 
 const CRITERIA_KEYS = new Set([
   "acting",
@@ -19,6 +24,44 @@ const CRITERIA_KEYS = new Set([
   "humor",
   "animation_cartoon",
 ]);
+
+const RATING_CRITERION_TRANSLATION_KEYS: Record<RatingCriterion, string> = {
+  [RatingCriterion.basic]: "basic",
+  [RatingCriterion.visual_effects]: "visual_effects.name",
+  [RatingCriterion.scare_factor]: "scare_factor.name",
+  [RatingCriterion.humor]: "humor.name",
+  [RatingCriterion.animation_cartoon]: "animation_cartoon.name",
+};
+
+const toRatingCriterion = (value: unknown): RatingCriterion | null => {
+  switch (value) {
+    case RatingCriterion.basic:
+    case RatingCriterion.visual_effects:
+    case RatingCriterion.scare_factor:
+    case RatingCriterion.humor:
+    case RatingCriterion.animation_cartoon:
+      return value;
+    default:
+      return null;
+  }
+};
+
+const toRatingCriterionTypeChange = (
+  value: unknown,
+): RatingCriterionTypeChange | undefined => {
+  if (typeof value !== "object" || value === null) return undefined;
+
+  const type = (value as Record<string, unknown>).type;
+  if (typeof type !== "object" || type === null) return undefined;
+
+  const typeChange = type as Record<string, unknown>;
+  const change = {
+    old: toRatingCriterion(typeChange.old),
+    new: toRatingCriterion(typeChange.new),
+  };
+
+  return change.old || change.new ? change : undefined;
+};
 
 const toNumber = (value: unknown) => {
   if (value == null) return null;
@@ -49,26 +92,38 @@ const toGroup = (value: unknown): Record<string, RatingChange> | undefined => {
 export type RatingGroups = {
   user_rating?: Record<string, RatingChange>;
   overall_rating?: Record<string, RatingChange>;
+  rating_criterion_type?: RatingCriterionTypeChange;
 };
 
 /** Supports the grouped shape and the older flat shape (treated as the user's rating). */
 export function toRatingChanges(
   changes: Record<string, unknown>,
 ): RatingGroups | null {
+  const ratingCriterionType = toRatingCriterionTypeChange(
+    changes.rating_criterion,
+  );
+  const ratingChanges = Object.fromEntries(
+    Object.entries(changes).filter(([key]) => key !== "rating_criterion"),
+  );
   const isGrouped = "user_rating" in changes || "overall_rating" in changes;
 
   if (!isGrouped) {
-    const flat = toGroup(changes);
+    const flat = toGroup(ratingChanges);
 
-    return flat ? { user_rating: flat } : null;
+    return flat || ratingCriterionType
+      ? { user_rating: flat, rating_criterion_type: ratingCriterionType }
+      : null;
   }
 
   const result: RatingGroups = {
     user_rating: toGroup(changes.user_rating),
     overall_rating: toGroup(changes.overall_rating),
+    rating_criterion_type: ratingCriterionType,
   };
 
-  return result.user_rating || result.overall_rating ? result : null;
+  return result.user_rating || result.overall_rating || ratingCriterionType
+    ? result
+    : null;
 }
 
 const format = (value: number | null) =>
@@ -207,9 +262,29 @@ type Props = {
 
 export const RatingDiff = ({ changes, userName, created }: Props) => {
   const t = useTranslations("AuditLog");
+  const tRating = useTranslations("Rating");
+
+  const formatCriterionType = (value: RatingCriterion | null) =>
+    value ? tRating(RATING_CRITERION_TRANSLATION_KEYS[value]) : "—";
 
   return (
     <div className="flex flex-col gap-4">
+      {changes.rating_criterion_type && (
+        <div className="flex items-center justify-between gap-3 rounded-lg border border-neutral-200 px-3 py-2 dark:border-neutral-800">
+          <span className="text-sm text-neutral-600 dark:text-neutral-300">
+            {t("ratingCriterionType")}
+          </span>
+          <span className="flex items-center gap-2 text-sm font-medium">
+            <span>
+              {formatCriterionType(changes.rating_criterion_type.old)}
+            </span>
+            <ArrowRight className="size-3 text-neutral-400" />
+            <span>
+              {formatCriterionType(changes.rating_criterion_type.new)}
+            </span>
+          </span>
+        </div>
+      )}
       {changes.user_rating && (
         <RatingGroup
           title={t("userRating", { name: userName })}
