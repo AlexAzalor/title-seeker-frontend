@@ -26,6 +26,7 @@ import { cn } from "@/lib/utils";
 import type {
   AuditLogDayGroupOut,
   AuditLogSummaryOut,
+  AuditLogSummaryOutUserRole,
   AuditLogUserOut,
 } from "@/orval_api/model";
 import { Button } from "@/components/ui/button";
@@ -54,13 +55,32 @@ import {
 } from "../ui/select";
 
 type Status = "loading" | "loadingMore" | "success" | "error";
-type Category = "content" | "ratings" | "visits";
+type Category = "content" | "similar_movies" | "ratings" | "visits";
 
 const CATEGORIES: { value: Category; labelKey: string }[] = [
   { value: "content", labelKey: "filterContent" },
+  { value: "similar_movies", labelKey: "filterSimilarMovies" },
   { value: "ratings", labelKey: "filterRatings" },
   { value: "visits", labelKey: "filterVisits" },
 ];
+
+const CATEGORY_EVENT_TYPES: Record<Category, string[]> = {
+  content: [
+    "movie.created",
+    "movie.description.updated",
+    "movie.box_office.updated",
+    "movie.actors.updated",
+    "movie.directors.updated",
+    "movie.visual_profile.updated",
+    "movie.genres.updated",
+    "movie.specifications.updated",
+    "movie.keywords.updated",
+    "movie.action_times.updated",
+  ],
+  similar_movies: ["movie.similar_movies.updated"],
+  ratings: ["movie.rating.created", "movie.rating.updated"],
+  visits: ["movie.visited"],
+};
 
 /** Only movies have audit events for now; the rest are shown as disabled. */
 const ENTITY_TYPES = [
@@ -73,7 +93,10 @@ const ENTITY_TYPES = [
 const SEARCH_DEBOUNCE_MS = 300;
 
 const DATE_PRESETS: { key: string; getRange: () => DateRange }[] = [
-  { key: "presetToday", getRange: () => ({ from: new Date(), to: new Date() }) },
+  {
+    key: "presetToday",
+    getRange: () => ({ from: new Date(), to: new Date() }),
+  },
   {
     key: "presetYesterday",
     getRange: () => {
@@ -124,14 +147,16 @@ export const GeneralAuditLog = ({ posterURL }: { posterURL: string }) => {
   const locale = useLocale();
 
   const [groups, setGroups] = useState<AuditLogDayGroupOut[]>([]);
+  const [latestEvent, setLatestEvent] = useState<AuditLogSummaryOut | null>(
+    null,
+  );
   const [nextCursor, setNextCursor] = useState<string | null>(null);
   const [status, setStatus] = useState<Status>("loading");
   const [sentinelEl, setSentinelEl] = useState<HTMLDivElement | null>(null);
   const requestId = useRef(0);
 
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [included, setIncluded] = useState<string[]>([]);
-  const [excluded, setExcluded] = useState<string[]>([]);
+  const [category, setCategory] = useState<Category>("content");
+  const [eventTypes, setEventTypes] = useState<string[]>([]);
   const [entityType, setEntityType] = useState<string | undefined>("movie");
   const [sort, setSort] = useState<"asc" | "desc">("desc");
   const [userId, setUserId] = useState<number | undefined>();
@@ -199,7 +224,10 @@ export const GeneralAuditLog = ({ posterURL }: { posterURL: string }) => {
         if (id !== requestId.current) return;
 
         if (res.status === 200 && res.data) {
-          const { groups: page, next_cursor } = res.data;
+          const { groups: page, next_cursor, latest_event } = res.data;
+
+          // Pinned and unfiltered: refreshed on reload, ignored on pagination
+          if (!cursor) setLatestEvent(latest_event ?? null);
 
           setGroups((prev) => (cursor ? mergeGroups(prev, page) : page));
           setNextCursor(next_cursor ?? null);
@@ -220,14 +248,14 @@ export const GeneralAuditLog = ({ posterURL }: { posterURL: string }) => {
   const filters: GeneralAuditLogFilters = {
     sort,
     lang: locale as GeneralAuditLogFilters["lang"],
-    category: categories,
-    event_type: included,
-    exclude_event_type: excluded,
+    category,
+    event_type: eventTypes,
     entity_type: entityType,
     user_id: userId,
     date_from: dateFrom || undefined,
     date_to: dateTo || undefined,
     search,
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
   };
   const filtersKey = JSON.stringify(filters);
   const filtersRef = useRef(filters);
@@ -261,25 +289,8 @@ export const GeneralAuditLog = ({ posterURL }: { posterURL: string }) => {
     return () => observer.disconnect();
   }, [sentinelEl, nextCursor, status, loadPage]);
 
-  const toggleCategory = (value: Category) =>
-    setCategories((prev) =>
-      prev.includes(value) ? prev.filter((c) => c !== value) : [...prev, value],
-    );
-
-  const toggleIncluded = (value: string) =>
-    setIncluded((prev) =>
-      prev.includes(value) ? prev.filter((e) => e !== value) : [...prev, value],
-    );
-
-  const toggleExcluded = (value: string) =>
-    setExcluded((prev) =>
-      prev.includes(value) ? prev.filter((e) => e !== value) : [...prev, value],
-    );
-
   const hasFilters =
-    categories.length > 0 ||
-    included.length > 0 ||
-    excluded.length > 0 ||
+    eventTypes.length > 0 ||
     entityType !== undefined ||
     userId !== undefined ||
     !!dateFrom ||
@@ -287,9 +298,7 @@ export const GeneralAuditLog = ({ posterURL }: { posterURL: string }) => {
     !!searchInput;
 
   const resetFilters = () => {
-    setCategories([]);
-    setIncluded([]);
-    setExcluded([]);
+    setEventTypes([]);
     setEntityType(undefined);
     setUserId(undefined);
     setDateFrom("");
@@ -326,6 +335,20 @@ export const GeneralAuditLog = ({ posterURL }: { posterURL: string }) => {
     return key ? t("events." + key) : t("unknownEvent");
   };
 
+  const formatDateTime = (value: string) => {
+    const date = parseUtcDate(value);
+
+    return Number.isNaN(date.getTime())
+      ? value
+      : date.toLocaleString(locale, {
+          day: "numeric",
+          month: "short",
+          hour: "2-digit",
+          minute: "2-digit",
+          hourCycle: "h23",
+        });
+  };
+
   const isEmpty = status === "success" && groups.length === 0;
 
   return (
@@ -336,25 +359,54 @@ export const GeneralAuditLog = ({ posterURL }: { posterURL: string }) => {
         </div>
         <div>
           <h1 className="text-2xl font-semibold">{t("generalTitle")}</h1>
-          <p className="text-muted-foreground text-sm">
+          <p className="text-muted-foreground text-base">
             {t("generalDescription")}
           </p>
         </div>
       </div>
 
+      {latestEvent && (
+        <section aria-label={t("latestEvent")} className="mb-6">
+          <h2 className="text-main-ui-purple mb-2 flex items-center gap-2 text-base font-semibold tracking-wide uppercase">
+            <span className="relative flex size-2.5">
+              <span className="bg-main-ui-purple absolute inline-flex size-full animate-ping rounded-full opacity-60" />
+              <span className="bg-main-ui-purple relative inline-flex size-2.5 rounded-full" />
+            </span>
+            {t("latestEvent")}
+          </h2>
+          <ul>
+            <LogRow
+              featured
+              item={latestEvent}
+              label={getLabel(latestEvent.event_type)}
+              time={formatDateTime(latestEvent.created_at)}
+              author={latestEvent.user_name ?? t("anonymous")}
+              userRole={latestEvent.user_role}
+              deletedLabel={t("entityDeleted")}
+              posterURL={posterURL}
+            />
+          </ul>
+        </section>
+      )}
+
       <div className="bg-card dark:border-main-ui-purple mb-6 space-y-3 rounded-lg border p-3">
         <div className="flex flex-wrap items-center gap-2">
           {CATEGORIES.map(({ value, labelKey }) => {
-            const active = categories.includes(value);
+            const active = category === value;
 
             return (
               <button
                 key={value}
                 type="button"
                 aria-pressed={active}
-                onClick={() => toggleCategory(value)}
+                onClick={() => {
+                  if (value !== category) {
+                    setCategory(value);
+                    setEventTypes([]);
+                  }
+                }}
                 className={cn(
-                  "rounded-full border px-3 py-1 text-sm transition-colors",
+                  "rounded-full border px-3 py-1 text-base transition-colors",
                   active
                     ? "bg-main-ui-purple border-main-ui-purple text-white"
                     : "hover:bg-accent",
@@ -381,20 +433,26 @@ export const GeneralAuditLog = ({ posterURL }: { posterURL: string }) => {
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
-          <span className="text-muted-foreground text-sm">
+          <span className="text-muted-foreground text-base">
             {t("eventTypes")}:
           </span>
-          {Object.keys(EVENT_LABEL_KEYS).map((eventType) => {
-            const active = included.includes(eventType);
+          {CATEGORY_EVENT_TYPES[category].map((eventType) => {
+            const active = eventTypes.includes(eventType);
 
             return (
               <button
                 key={eventType}
                 type="button"
                 aria-pressed={active}
-                onClick={() => toggleIncluded(eventType)}
+                onClick={() =>
+                  setEventTypes((prev) =>
+                    active
+                      ? prev.filter((type) => type !== eventType)
+                      : [...prev, eventType],
+                  )
+                }
                 className={cn(
-                  "rounded-full border px-2.5 py-0.5 text-sm transition-colors",
+                  "rounded-full border px-2.5 py-0.5 text-base transition-colors",
                   active
                     ? "bg-main-ui-purple border-main-ui-purple text-white"
                     : "hover:bg-main-ui-purple dark:hover:bg-main-dark-hover",
@@ -405,8 +463,9 @@ export const GeneralAuditLog = ({ posterURL }: { posterURL: string }) => {
             );
           })}
         </div>
+
         <div className="flex flex-wrap items-center gap-2">
-          <span className="text-muted-foreground text-sm">
+          <span className="text-muted-foreground text-base">
             {t("entityType")}:
           </span>
           {ENTITY_TYPES.map(({ value, labelKey, disabled }) => {
@@ -418,9 +477,12 @@ export const GeneralAuditLog = ({ posterURL }: { posterURL: string }) => {
                 type="button"
                 disabled={disabled}
                 aria-pressed={active}
-                onClick={() => setEntityType(active ? undefined : value)}
+                onClick={() => {
+                  if (entityType === value) return;
+                  setEntityType(active ? undefined : value);
+                }}
                 className={cn(
-                  "rounded-full border px-3 py-1 text-sm transition-colors",
+                  "rounded-full border px-3 py-1 text-base transition-colors",
                   active
                     ? "bg-main-ui-purple border-main-ui-purple text-white"
                     : "hover:bg-accent",
@@ -432,36 +494,6 @@ export const GeneralAuditLog = ({ posterURL }: { posterURL: string }) => {
             );
           })}
         </div>
-
-        <details className="group">
-          <summary className="text-muted-foreground hover:text-foreground cursor-pointer text-sm select-none">
-            {t("excludeEvents")}
-            {excluded.length > 0 &&
-              " (" + t("excludedCount", { count: excluded.length }) + ")"}
-          </summary>
-          <div className="mt-2 flex flex-wrap gap-2">
-            {Object.keys(EVENT_LABEL_KEYS).map((eventType) => {
-              const active = excluded.includes(eventType);
-
-              return (
-                <button
-                  key={eventType}
-                  type="button"
-                  aria-pressed={active}
-                  onClick={() => toggleExcluded(eventType)}
-                  className={cn(
-                    "rounded-full border px-2.5 py-0.5 text-xs transition-colors",
-                    active
-                      ? "border-danger/50 bg-danger/10 text-danger line-through"
-                      : "hover:bg-danger/75",
-                  )}
-                >
-                  {getLabel(eventType)}
-                </button>
-              );
-            })}
-          </div>
-        </details>
 
         <div className="grid gap-2 sm:grid-cols-2">
           <div className="relative">
@@ -580,7 +612,7 @@ export const GeneralAuditLog = ({ posterURL }: { posterURL: string }) => {
 
       {groups.map((group) => (
         <section key={group.date} className="mb-6">
-          <h2 className="bg-background/90 text-muted-foreground sticky top-0 z-10 mb-2 py-1 text-sm font-semibold backdrop-blur">
+          <h2 className="bg-background/90 text-muted-foreground sticky top-0 z-10 mb-2 py-1 text-lg font-semibold backdrop-blur">
             {formatDay(group.date)}
           </h2>
           <ul className="space-y-2">
@@ -591,6 +623,7 @@ export const GeneralAuditLog = ({ posterURL }: { posterURL: string }) => {
                 label={getLabel(item.event_type)}
                 time={formatTime(item.created_at)}
                 author={item.user_name ?? t("anonymous")}
+                userRole={item.user_role}
                 deletedLabel={t("entityDeleted")}
                 posterURL={posterURL}
               />
@@ -602,7 +635,7 @@ export const GeneralAuditLog = ({ posterURL }: { posterURL: string }) => {
       {groups.length > 0 && (
         <div ref={setSentinelEl} className="flex flex-col items-center py-6">
           {status === "loadingMore" && (
-            <div className="text-muted-foreground flex items-center gap-2 text-sm">
+            <div className="text-muted-foreground flex items-center gap-2 text-base">
               <Spinner />
               {t("loadingMore")}
             </div>
@@ -620,7 +653,7 @@ export const GeneralAuditLog = ({ posterURL }: { posterURL: string }) => {
           )}
 
           {status === "success" && !nextCursor && (
-            <p className="text-muted-foreground text-sm">{t("endOfList")}</p>
+            <p className="text-muted-foreground text-base">{t("endOfList")}</p>
           )}
         </div>
       )}
@@ -635,6 +668,8 @@ type RowProps = {
   author: string;
   deletedLabel: string;
   posterURL: string;
+  featured?: boolean;
+  userRole?: AuditLogSummaryOutUserRole;
 };
 
 const LogRow = ({
@@ -644,6 +679,8 @@ const LogRow = ({
   author,
   deletedLabel,
   posterURL,
+  featured,
+  userRole,
 }: RowProps) => {
   const Icon: LucideIcon = EVENT_ICONS[item.event_type] ?? History;
   const href =
@@ -658,30 +695,44 @@ const LogRow = ({
         <Image
           src={posterURL + "/posters/" + item.entity_poster}
           alt=""
-          width={40}
-          height={60}
-          className="h-[60px] w-10 shrink-0 rounded object-cover"
+          width={featured ? 60 : 40}
+          height={featured ? 90 : 60}
+          className={cn(
+            "h-[60px] w-10 shrink-0 rounded object-cover",
+            featured && "h-[90px] w-[60px] shadow-md",
+          )}
           blurDataURL="/static/blur-image.webp"
           placeholder="blur"
         />
       ) : (
-        <div className="bg-muted h-[60px] w-10 shrink-0 rounded" />
+        <div
+          className={cn(
+            "bg-muted h-[60px] w-10 shrink-0 rounded",
+            featured && "h-[90px] w-[60px]",
+          )}
+        />
       )}
       <div className="min-w-0 flex-1">
         <p
           className={cn(
             "font-medium whitespace-break-spaces",
+            featured && "text-xl font-semibold",
             !item.entity_title && "text-muted-foreground italic",
           )}
         >
           {title}
         </p>
-        <p className="text-main-ui-purple flex items-center gap-1.5 text-sm">
-          <Icon className="size-4 shrink-0" />
+        <p className="text-main-ui-purple flex items-center gap-1.5 text-lg">
+          <Icon className="size-5 shrink-0" />
           {label}
         </p>
-        <p className="text-muted-foreground flex items-center gap-1 text-xs">
-          <UserRound className="size-3" />
+        <p
+          className={cn(
+            "text-muted-foreground flex items-center gap-1",
+            userRole && "text-yellow-500",
+          )}
+        >
+          <UserRound className="size-4" />
           {author}
         </p>
       </div>
@@ -694,8 +745,11 @@ const LogRow = ({
     </>
   );
 
-  const baseClass =
-    "flex items-center gap-3 rounded-lg border bg-card p-3 shadow-xs transition-colors";
+  const baseClass = cn(
+    "flex items-center gap-3 rounded-lg border bg-card p-3 shadow-xs transition-colors",
+    featured &&
+      "from-main-ui-purple/15 via-card to-card border-main-ui-purple/60 gap-4 bg-gradient-to-r p-4 shadow-md",
+  );
 
   return (
     <li>

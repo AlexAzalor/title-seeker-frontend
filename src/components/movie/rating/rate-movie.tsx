@@ -54,7 +54,6 @@ const RateMovie = ({
   movieKey,
   isAdmin,
 }: Props) => {
-  console.log("🚀 ~ RateMovie ~ movieKey:", movieKey);
   const session = useSession();
   const t = useTranslations("Other");
   const tRating = useTranslations("Rating");

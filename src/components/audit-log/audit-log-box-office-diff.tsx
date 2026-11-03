@@ -3,16 +3,16 @@
 import { useTranslations } from "next-intl";
 import {
   ArrowRight,
-  Banknote,
-  Globe,
-  Landmark,
+  GlobeIcon,
+  HomeIcon,
+  WalletIcon,
   type LucideIcon,
 } from "lucide-react";
 
 const FIELDS: Record<string, LucideIcon> = {
-  budget: Banknote,
-  domestic_gross: Landmark,
-  worldwide_gross: Globe,
+  budget: WalletIcon,
+  domestic_gross: HomeIcon,
+  worldwide_gross: GlobeIcon,
 };
 
 const formatMoney = (value: unknown) => {

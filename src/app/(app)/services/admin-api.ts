@@ -1485,14 +1485,14 @@ export async function getEntityAuditLogs(
 export type GeneralAuditLogFilters = {
   sort?: "asc" | "desc";
   lang?: Language;
-  category?: string[];
+  category?: string;
   event_type?: string[];
-  exclude_event_type?: string[];
   entity_type?: string;
   user_id?: number;
   date_from?: string;
   date_to?: string;
   search?: string;
+  timezone?: string;
 };
 
 /**
@@ -1511,26 +1511,23 @@ export async function getGeneralAuditLogs(
 
   const { backendURL, unknownError } = await fetchSettings();
   const { aPIGetGeneralHistory } = getAuditLogs();
+  const { event_type, ...queryFilters } = filters;
 
   try {
     const res = await aPIGetGeneralHistory(
       {
-        ...filters,
-        category: filters.category?.length ? filters.category : undefined,
-        event_type: filters.event_type?.length
-          ? filters.event_type
-          : undefined,
-        exclude_event_type: filters.exclude_event_type?.length
-          ? filters.exclude_event_type
-          : undefined,
+        ...queryFilters,
         search: filters.search || undefined,
         user_uuid: admin.uuid,
         cursor,
         limit: 20,
         entity_type: filters.entity_type || undefined,
       },
-      // Repeatable params must look like `category=a&category=b`
-      { ...backendURL, paramsSerializer: { indexes: null } },
+      {
+        ...backendURL,
+        params: { event_type },
+        paramsSerializer: { indexes: null },
+      },
     );
 
     return { status: 200, message: "Get", data: res.data };

@@ -1,5 +1,5 @@
 import { TelegramIcon } from "@/lib/portfolio/tech-icons";
-import { Download, Github, Linkedin, Mail, MapPin } from "lucide-react";
+import { Download, CardSim, GlobeCode, Mail, MapPin } from "lucide-react";
 import Image from "next/image";
 
 export const ProfileCard = () => {
@@ -61,14 +61,14 @@ export const ProfileCard = () => {
             target="_blank"
             className="rounded-lg bg-slate-100 p-2 transition-colors hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600"
           >
-            <Linkedin className="h-5 w-5 text-blue-600" />
+            <GlobeCode className="h-5 w-5 text-blue-600" />
           </a>
           <a
             href="https://github.com/AlexAzalor"
             target="_blank"
             className="rounded-lg bg-slate-100 p-2 transition-colors hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600"
           >
-            <Github className="h-5 w-5 text-slate-700 dark:text-slate-300" />
+            <CardSim className="h-5 w-5 text-slate-700 dark:text-slate-300" />
           </a>
           <a
             href="https://telegram.me/yablunovsky_alexandr"
