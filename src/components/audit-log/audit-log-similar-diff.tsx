@@ -131,6 +131,7 @@ const Column = ({ label, variant, entries, other, posterUrl }: ColumnProps) => {
                   prefetch={false}
                   href={`/movies/${entry.key}`}
                   target="_blank"
+                  title={entry.title?.[locale] ?? entry.title?.en ?? entry.key}
                   className={cn(
                     "min-w-0 flex-1 truncate text-sm font-medium hover:underline",
                     status === "removed" && "line-through",

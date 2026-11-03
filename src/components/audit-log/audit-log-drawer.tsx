@@ -168,7 +168,7 @@ export const AuditLogDrawer = ({
           </DrawerTitle>
           <DrawerDescription>{t("description")}</DrawerDescription>
           {(createdLabel || updatedLabel) && (
-            <div className="flex flex-wrap gap-x-4 gap-y-1 pt-1 text-xs text-neutral-500 dark:text-neutral-400">
+            <div className="flex flex-wrap gap-x-4 gap-y-1 pt-1 text-neutral-500 dark:text-neutral-400">
               {createdLabel && (
                 <span>
                   {t("createdAt")}: <time>{createdLabel}</time>

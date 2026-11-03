@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { ArrowRight, Minus, Plus, Repeat, ArrowUpDown } from "lucide-react";
 
@@ -19,9 +20,12 @@ type CriterionEntry = {
 };
 
 export type VisualProfileChanges = {
-  category?: { old: Category; new: Category };
-  criteria?: { old: CriterionEntry[]; new: CriterionEntry[] };
+  category?: { old?: Category; new: Category };
+  criteria?: { old?: CriterionEntry[]; new: CriterionEntry[] };
 };
+
+const isPair = (v: unknown): v is { old: unknown; new: unknown } =>
+  typeof v === "object" && v !== null && "old" in v && "new" in v;
 
 const isLocalizedName = (value: unknown): value is LocalizedName =>
   typeof value === "string" ||
@@ -47,30 +51,36 @@ const localizedName = (
   return name[lang] ?? name[Language.en] ?? name[Language.uk] ?? fallback;
 };
 
+const isCriteriaList = (v: unknown): v is CriterionEntry[] =>
+  Array.isArray(v) && v.every(isCriterion);
+
+const isCategory = (v: unknown): v is NonNullable<Category> => isCriterion(v);
+
 export function toVisualProfileChanges(
   changes: Record<string, unknown>,
 ): VisualProfileChanges | null {
   const result: VisualProfileChanges = {};
-  const category = changes?.category as VisualProfileChanges["category"];
-  const criteria = changes?.criteria as
-    | { old: unknown; new: unknown }
-    | undefined;
+  const category = changes?.category;
+  const criteria = changes?.criteria;
 
-  if (category && typeof category === "object") {
-    result.category = category;
+  if (isPair(category)) {
+    const { old: oldCat, new: newCat } = category;
+    if (
+      (oldCat === null || isCategory(oldCat)) &&
+      (newCat === null || isCategory(newCat))
+    ) {
+      result.category = { old: oldCat, new: newCat };
+    }
+  } else if (isCategory(category)) {
+    result.category = { new: category };
   }
 
-  if (
-    criteria &&
-    Array.isArray(criteria.old) &&
-    Array.isArray(criteria.new) &&
-    criteria.old.every(isCriterion) &&
-    criteria.new.every(isCriterion)
-  ) {
-    result.criteria = {
-      old: criteria.old as CriterionEntry[],
-      new: criteria.new as CriterionEntry[],
-    };
+  if (isPair(criteria)) {
+    if (isCriteriaList(criteria.old) && isCriteriaList(criteria.new)) {
+      result.criteria = { old: criteria.old, new: criteria.new };
+    }
+  } else if (isCriteriaList(criteria)) {
+    result.criteria = { new: criteria };
   }
 
   return result.category || result.criteria ? result : null;
@@ -144,13 +154,7 @@ type ChartPanelProps = {
   lang: LanguageType;
 };
 
-const ChartPanel = ({
-  label,
-  variant,
-  criteria,
-  category,
-  lang,
-}: ChartPanelProps) => (
+const ChartPanel = ({ label, variant, criteria, lang }: ChartPanelProps) => (
   <div
     className={cn(
       "min-w-0 rounded-lg border p-3",
@@ -169,11 +173,6 @@ const ChartPanel = ({
     >
       {label}
     </p>
-    {category && (
-      <p className="text-sm font-medium">
-        {localizedName(category.name, lang, category.key)}
-      </p>
-    )}
     <VisualProfileChartMemo
       criteria={[...criteria].sort(byOrder).map((entry) => ({
         ...entry,
@@ -194,116 +193,162 @@ export const VisualProfileDiff = ({ changes }: Props) => {
   const locale = useLocale();
   const lang = locale === Language.uk ? Language.uk : Language.en;
   const { category, criteria } = changes;
-  const rows = criteria ? diffCriteria(criteria.old, criteria.new) : [];
+  const rows =
+    criteria?.old !== undefined ? diffCriteria(criteria.old, criteria.new) : [];
+  const categoryChanged = category && "old" in category;
 
   return (
     <div className="flex flex-col gap-3">
-      {category && (
+      {category && !categoryChanged && (
+        <div className="flex flex-wrap items-center gap-2 text-sm">
+          <span className="text-neutral-500">{t("category")}</span>
+          <span className="rounded-full bg-neutral-500/10 px-2.5 py-0.5">
+            {category.new ? (
+              <CategoryLink category={category.new} lang={lang} />
+            ) : (
+              "—"
+            )}
+          </span>
+        </div>
+      )}
+
+      {category && categoryChanged && (
         <div className="flex flex-wrap items-center gap-2 text-sm">
           <span className="text-neutral-500">{t("category")}</span>
           <span className="rounded-full bg-red-500/10 px-2.5 py-0.5 text-red-700 dark:text-red-400">
-            {category.old
-              ? localizedName(category.old.name, lang, category.old.key)
-              : "—"}
+            {category.old ? (
+              <CategoryLink category={category.old} lang={lang} />
+            ) : (
+              "—"
+            )}
           </span>
           <ArrowRight className="size-4 text-neutral-400" />
           <span className="rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-emerald-700 dark:text-emerald-400">
-            {category.new
-              ? localizedName(category.new.name, lang, category.new.key)
-              : "—"}
+            {category.new ? (
+              <CategoryLink category={category.new} lang={lang} />
+            ) : (
+              "—"
+            )}
           </span>
         </div>
       )}
 
       {criteria && (
         <>
-          <div className="grid gap-3 sm:grid-cols-2">
-            <ChartPanel
-              label={t("oldChart")}
-              variant="old"
-              criteria={criteria.old}
-              category={category?.old}
-              lang={lang}
-            />
+          <div
+            className={cn(
+              "grid gap-3",
+              criteria.old !== undefined && "sm:grid-cols-2",
+            )}
+          >
+            {criteria.old !== undefined && (
+              <ChartPanel
+                label={t("oldChart")}
+                variant="old"
+                criteria={criteria.old}
+                category={categoryChanged ? category?.old : undefined}
+                lang={lang}
+              />
+            )}
             <ChartPanel
               label={t("newChart")}
               variant="new"
               criteria={criteria.new}
-              category={category?.new}
+              category={categoryChanged ? category?.new : undefined}
               lang={lang}
             />
           </div>
 
-          <ul className="flex flex-col gap-1.5">
-            {rows.map(
-              ({ entry, previous, status, scoreChanged, orderChanged }) => (
-                <li
-                  key={`${entry.key}-${status}`}
-                  className={cn(
-                    "flex flex-wrap items-center justify-between gap-2 rounded-lg border px-3 py-2",
-                    ROW_STYLES[status],
-                  )}
-                >
-                  <span
+          {!categoryChanged && (
+            <ul className="flex flex-col gap-1.5">
+              {rows.map(
+                ({ entry, previous, status, scoreChanged, orderChanged }) => (
+                  <li
+                    key={`${entry.key}-${status}`}
                     className={cn(
-                      "text-sm font-medium",
-                      status === "removed" && "line-through",
+                      "flex flex-wrap items-center justify-between gap-2 rounded-lg border px-3 py-2",
+                      ROW_STYLES[status],
                     )}
                   >
-                    {localizedName(entry.name, lang, entry.key)}
-                  </span>
+                    <span
+                      className={cn(
+                        "text-sm font-medium",
+                        status === "removed" && "line-through",
+                      )}
+                    >
+                      {localizedName(entry.name, lang, entry.key)}
+                    </span>
 
-                  <span className="flex flex-wrap items-center gap-2 text-sm tabular-nums">
-                    {scoreChanged && previous ? (
-                      <>
-                        <span className="text-neutral-500 line-through">
-                          {previous.rating}
-                        </span>
-                        <ArrowRight className="size-3 text-neutral-400" />
-                        <span className="font-semibold">{entry.rating}</span>
-                      </>
-                    ) : (
-                      <span>{entry.rating}</span>
-                    )}
+                    <span className="flex flex-wrap items-center gap-2 text-sm tabular-nums">
+                      {scoreChanged && previous ? (
+                        <>
+                          <span className="text-neutral-500 line-through">
+                            {previous.rating}
+                          </span>
+                          <ArrowRight className="size-3 text-neutral-400" />
+                          <span className="font-semibold">{entry.rating}</span>
+                        </>
+                      ) : (
+                        <span>{entry.rating}</span>
+                      )}
 
-                    {status === "added" && (
-                      <Badge
-                        icon={Plus}
-                        text={t("status.added")}
-                        tone="green"
-                      />
-                    )}
-                    {status === "removed" && (
-                      <Badge
-                        icon={Minus}
-                        text={t("status.removed")}
-                        tone="red"
-                      />
-                    )}
-                    {scoreChanged && (
-                      <Badge
-                        icon={Repeat}
-                        text={t("status.scoreChanged")}
-                        tone="amber"
-                      />
-                    )}
-                    {orderChanged && (
-                      <Badge
-                        icon={ArrowUpDown}
-                        text={t("status.orderChanged")}
-                        tone="amber"
-                      />
-                    )}
-                  </span>
-                </li>
-              ),
-            )}
-          </ul>
+                      {status === "added" && (
+                        <Badge
+                          icon={Plus}
+                          text={t("status.added")}
+                          tone="green"
+                        />
+                      )}
+                      {status === "removed" && (
+                        <Badge
+                          icon={Minus}
+                          text={t("status.removed")}
+                          tone="red"
+                        />
+                      )}
+                      {scoreChanged && (
+                        <Badge
+                          icon={Repeat}
+                          text={t("status.scoreChanged")}
+                          tone="amber"
+                        />
+                      )}
+                      {orderChanged && (
+                        <Badge
+                          icon={ArrowUpDown}
+                          text={t("status.orderChanged")}
+                          tone="amber"
+                        />
+                      )}
+                    </span>
+                  </li>
+                ),
+              )}
+            </ul>
+          )}
         </>
       )}
     </div>
   );
 };
+
+const CategoryLink = ({
+  category,
+  lang,
+  className,
+}: {
+  category: NonNullable<Category>;
+  lang: LanguageType;
+  className?: string;
+}) => (
+  <Link
+    href={`/super-search?page=1&visual_profile=${category.key}`}
+    className={cn("hover:underline", className)}
+    target="_blank"
+  >
+    {localizedName(category.name, lang, category.key)}
+  </Link>
+);
 
 const TONES = {
   green: "bg-emerald-500/15 text-emerald-700 dark:text-emerald-400",

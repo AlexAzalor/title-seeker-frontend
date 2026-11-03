@@ -335,10 +335,15 @@ export const AuditLogItem = ({
           </TooltipProvider>
         </div>
 
-        <p className="mb-3 flex items-center gap-1.5 text-sm text-neutral-600 dark:text-neutral-300">
+        <p className="mb-2 flex items-center gap-1.5 text-neutral-600 dark:text-neutral-300">
           <UserRound className="size-4" />
-          <span className={cn(!item.user_name && "italic")}>
-            {item.user_name ?? t("deletedUser")}
+          <span
+            className={cn(
+              !item.user_name && "italic",
+              item.user_role && "text-yellow-500",
+            )}
+          >
+            {item.user_name ?? t("anonymous")}
           </span>
         </p>
 
@@ -365,7 +370,7 @@ export const AuditLogItem = ({
           {ratingChanges && (
             <RatingDiff
               changes={ratingChanges}
-              userName={item.user_name ?? t("deletedUser")}
+              userName={item.user_name ?? t("anonymous")}
               created={item.event_type === "movie.rating.created"}
             />
           )}

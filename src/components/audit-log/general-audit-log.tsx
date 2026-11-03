@@ -31,6 +31,7 @@ import type {
 } from "@/orval_api/model";
 import { Button } from "@/components/ui/button";
 import { format, parse, startOfMonth, subDays } from "date-fns";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
@@ -195,6 +196,7 @@ export const GeneralAuditLog = ({ posterURL }: { posterURL: string }) => {
   const invalidRange = !!dateFrom && !!dateTo && dateFrom > dateTo;
 
   // The calendar edits a draft; the backend is queried only on submit
+  const isMobile = useIsMobile();
   const [dateOpen, setDateOpen] = useState(false);
   const [draftRange, setDraftRange] = useState<DateRange | undefined>();
 
@@ -536,7 +538,11 @@ export const GeneralAuditLog = ({ posterURL }: { posterURL: string }) => {
                 )}
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-auto p-2" align="start">
+            <PopoverContent
+              className="max-w-[calc(100vw-1rem)] w-auto p-2"
+              align={isMobile ? "center" : "start"}
+              collisionPadding={8}
+            >
               <div className="mb-2 flex flex-wrap gap-1">
                 {DATE_PRESETS.map((preset) => (
                   <Button
@@ -555,7 +561,8 @@ export const GeneralAuditLog = ({ posterURL }: { posterURL: string }) => {
                 defaultMonth={draftRange?.from}
                 selected={draftRange}
                 onSelect={setDraftRange}
-                numberOfMonths={2}
+                numberOfMonths={isMobile ? 1 : 2}
+                className="mx-auto"
               />
               <div className="mt-2 flex justify-end gap-2">
                 <Button
