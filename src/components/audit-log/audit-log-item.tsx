@@ -23,6 +23,7 @@ import {
   Boxes,
   ShieldUser,
   StarPlus,
+  Image as ImageIcon,
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -73,6 +74,7 @@ export const EVENT_LABEL_KEYS: Record<string, string> = {
   "movie.keywords.updated": "keywordsUpdated",
   "movie.action_times.updated": "actionTimesUpdated",
   "movie.visited": "movieVisited",
+  "movie.poster.updated": "posterUpdated",
 };
 
 export const EVENT_ICONS: Record<string, LucideIcon> = {
@@ -90,6 +92,7 @@ export const EVENT_ICONS: Record<string, LucideIcon> = {
   "movie.keywords.updated": Tags,
   "movie.action_times.updated": Hourglass,
   "movie.visited": Eye,
+  "movie.poster.updated": ImageIcon,
 };
 
 /** Events whose `changes` hold lists of filter entries with a match percentage. */

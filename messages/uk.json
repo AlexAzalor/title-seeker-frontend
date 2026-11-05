@@ -601,6 +601,12 @@
     "before": "Було",
     "after": "Стало",
     "emptyValue": "(порожньо)",
+    "posterFields": {
+      "file": "Файл",
+      "size": "Розмір",
+      "dimensions": "Розміри",
+      "format": "Формат"
+    },
     "showMore": "Показати більше",
     "showLess": "Показати менше",
     "loadError": "Не вдалося завантажити історію",
@@ -668,8 +674,15 @@
       "specificationsUpdated": "Специфікації оновлено",
       "keywordsUpdated": "Ключові слова оновлено",
       "actionTimesUpdated": "Час дії оновлено",
-      "directorsUpdated": "Режисерів оновлено"
+      "directorsUpdated": "Режисерів оновлено",
+      "posterUpdated": "Постер оновлено"
     }
+  },
+  "MoviePoster": {
+    "change": "Змінити постер",
+    "updated": "Постер оновлено",
+    "invalidImage": "Будь ласка, виберіть зображення",
+    "error": "Сталася помилка під час оновлення постера"
   },
   "Other": {
     "showValues": "Показати значення",

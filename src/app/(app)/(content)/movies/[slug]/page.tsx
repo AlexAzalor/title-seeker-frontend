@@ -105,6 +105,8 @@ export default async function MoviePage({ params }: PageProps) {
 
         <div className="flex flex-col items-center xl:flex-row">
           <MoviePoster
+            movieKey={movie_key}
+            isAdmin={isAdmin}
             posterUrl={posterUrl}
             poster={movie.poster}
             title={movie.title}

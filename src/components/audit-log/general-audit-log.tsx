@@ -77,6 +77,7 @@ const CATEGORY_EVENT_TYPES: Record<Category, string[]> = {
     "movie.specifications.updated",
     "movie.keywords.updated",
     "movie.action_times.updated",
+    "movie.poster.updated",
   ],
   similar_movies: ["movie.similar_movies.updated"],
   ratings: ["movie.rating.created", "movie.rating.updated"],
@@ -539,7 +540,7 @@ export const GeneralAuditLog = ({ posterURL }: { posterURL: string }) => {
               </Button>
             </PopoverTrigger>
             <PopoverContent
-              className="max-w-[calc(100vw-1rem)] w-auto p-2"
+              className="w-auto max-w-[calc(100vw-1rem)] p-2"
               align={isMobile ? "center" : "start"}
               collisionPadding={8}
             >

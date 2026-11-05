@@ -604,6 +604,12 @@
     "before": "Before",
     "after": "After",
     "emptyValue": "(empty)",
+    "posterFields": {
+      "file": "File",
+      "size": "Size",
+      "dimensions": "Dimensions",
+      "format": "Format"
+    },
     "showMore": "Show more",
     "showLess": "Show less",
     "loadError": "Failed to load history",
@@ -671,8 +677,15 @@
       "specificationsUpdated": "Specifications updated",
       "keywordsUpdated": "Keywords updated",
       "actionTimesUpdated": "Action times updated",
-      "directorsUpdated": "Directors updated"
+      "directorsUpdated": "Directors updated",
+      "posterUpdated": "Poster updated"
     }
+  },
+  "MoviePoster": {
+    "change": "Change poster",
+    "updated": "Poster updated",
+    "invalidImage": "Please select an image file",
+    "error": "An error occurred while updating the poster"
   },
   "Other": {
     "showValues": "Show values",

@@ -38,6 +38,9 @@ import {
   type PeopleListOut,
   type CharacterFormPutIn,
   type CharacterFormFieldsOut,
+  type MovieCollectionOut,
+  type MovieCollectionAdd,
+  type MovieCollectionUpdate,
 } from "@/orval_api/model";
 
 /**
@@ -1091,6 +1094,39 @@ export async function editMovieBoxOffice(
   }
 }
 
+export async function changeMoviePoster(movieKey: string, file: Blob) {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { backendURL, unknownError } = await fetchSettings();
+  const { aPIChangeMoviePoster } = getMovies();
+
+  try {
+    const response: AxiosResponse<{ poster: string }> =
+      await aPIChangeMoviePoster(
+        movieKey,
+        { file },
+        { user_uuid: admin.uuid },
+        backendURL,
+      );
+
+    return {
+      status: response.status,
+      poster: response.data.poster,
+      message: "Movie poster updated",
+    };
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
+  }
+}
+
 // Title People
 
 // Actors
@@ -1564,4 +1600,58 @@ export async function getAuditLogUsers() {
       return unknownError;
     }
   }
+}
+
+type CollectionResult =
+  | { status: 200; data: MovieCollectionOut }
+  | { status: number | undefined; message: string | undefined };
+
+async function collectionRequest(
+  request: (
+    api: ReturnType<typeof getMovies>,
+    userUuid: string,
+    backendURL: Awaited<ReturnType<typeof fetchSettings>>["backendURL"],
+  ) => Promise<AxiosResponse<MovieCollectionOut>>,
+): Promise<CollectionResult> {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { backendURL, unknownError } = await fetchSettings();
+
+  try {
+    const res = await request(getMovies(), admin.uuid, backendURL);
+    return { status: 200, data: res.data };
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    }
+    return unknownError;
+  }
+}
+
+export async function getMovieCollection(movieKey: string) {
+  return collectionRequest((api, user_uuid, backendURL) =>
+    api.aPIGetMovieCollection(movieKey, { user_uuid }, backendURL),
+  );
+}
+
+export async function addMovieToCollection(data: MovieCollectionAdd) {
+  return collectionRequest((api, user_uuid, backendURL) =>
+    api.aPIAddCollectionMovie(data, { user_uuid }, backendURL),
+  );
+}
+
+export async function updateMovieInCollection(data: MovieCollectionUpdate) {
+  return collectionRequest((api, user_uuid, backendURL) =>
+    api.aPIUpdateCollectionMovieRelation(data, { user_uuid }, backendURL),
+  );
+}
+
+export async function removeMovieFromCollection(movieKey: string) {
+  return collectionRequest((api, user_uuid, backendURL) =>
+    api.aPIRemoveCollectionMovie(movieKey, { user_uuid }, backendURL),
+  );
 }
