@@ -1599,6 +1599,7 @@ export type GeneralAuditLogFilters = {
   lang?: Language;
   category?: string;
   event_type?: string[];
+  exclude_event_type?: string[];
   entity_type?: string;
   user_id?: number;
   date_from?: string;
@@ -1623,7 +1624,7 @@ export async function getGeneralAuditLogs(
 
   const { backendURL, unknownError } = await fetchSettings();
   const { aPIGetGeneralHistory } = getAuditLogs();
-  const { event_type, ...queryFilters } = filters;
+  const { event_type, exclude_event_type, ...queryFilters } = filters;
 
   try {
     const res = await aPIGetGeneralHistory(
@@ -1637,7 +1638,7 @@ export async function getGeneralAuditLogs(
       },
       {
         ...backendURL,
-        params: { event_type },
+        params: { event_type, exclude_event_type },
         paramsSerializer: { indexes: null },
       },
     );

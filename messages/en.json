@@ -576,6 +576,7 @@
     "anime": "Anime",
     "games": "Games",
     "eventTypes": "Event types",
+    "excludeEventType": "Exclude {event}",
     "latestEvent": "Latest event",
     "filterContent": "Content",
     "filterSimilarMovies": "Similar movies",

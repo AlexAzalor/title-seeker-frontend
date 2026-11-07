@@ -170,6 +170,7 @@ function Calendar({
         },
         ...components,
       }}
+      weekStartsOn={1}
       {...props}
     />
   );

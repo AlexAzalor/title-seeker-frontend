@@ -1,8 +1,6 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
 import type { DateRange } from "react-day-picker";
 import { useLocale, useTranslations } from "next-intl";
 import {
@@ -11,10 +9,8 @@ import {
   History,
   Inbox,
   Search,
-  UserRound,
   X,
   Calendar as CalendarIcon,
-  type LucideIcon,
 } from "lucide-react";
 // IP addres of Anonim user?
 import {
@@ -26,7 +22,6 @@ import { cn } from "@/lib/utils";
 import type {
   AuditLogDayGroupOut,
   AuditLogSummaryOut,
-  AuditLogSummaryOutUserRole,
   AuditLogUserOut,
 } from "@/orval_api/model";
 import { Button } from "@/components/ui/button";
@@ -46,6 +41,8 @@ import {
   EVENT_LABEL_KEYS,
   parseUtcDate,
 } from "@/components/audit-log/audit-log-item";
+import { LogRow } from "@/components/audit-log/general-audit-log-row";
+import { LatestEvent } from "@/components/audit-log/latest-event";
 import {
   Select,
   SelectContent,
@@ -56,34 +53,35 @@ import {
 } from "../ui/select";
 
 type Status = "loading" | "loadingMore" | "success" | "error";
-type Category = "content" | "similar_movies" | "ratings" | "visits";
+type Category = "content" | "similar_movies";
 
 const CATEGORIES: { value: Category; labelKey: string }[] = [
   { value: "content", labelKey: "filterContent" },
   { value: "similar_movies", labelKey: "filterSimilarMovies" },
-  { value: "ratings", labelKey: "filterRatings" },
-  { value: "visits", labelKey: "filterVisits" },
 ];
 
 const CATEGORY_EVENT_TYPES: Record<Category, string[]> = {
   content: [
     "movie.created",
+    "movie.rating.created",
+    "movie.rating.updated",
+    "movie.visual_profile.updated",
     "movie.description.updated",
     "movie.title.updated",
     "movie.details.updated",
     "movie.box_office.updated",
     "movie.actors.updated",
     "movie.directors.updated",
-    "movie.visual_profile.updated",
     "movie.genres.updated",
     "movie.specifications.updated",
     "movie.keywords.updated",
     "movie.action_times.updated",
     "movie.poster.updated",
+    "movie.visited",
   ],
   similar_movies: ["movie.similar_movies.updated"],
-  ratings: ["movie.rating.created", "movie.rating.updated"],
-  visits: ["movie.visited"],
+  // ratings: ["movie.rating.created", "movie.rating.updated"],
+  // visits: ["movie.visited"],
 };
 
 /** Only movies have audit events for now; the rest are shown as disabled. */
@@ -161,6 +159,7 @@ export const GeneralAuditLog = ({ posterURL }: { posterURL: string }) => {
 
   const [category, setCategory] = useState<Category>("content");
   const [eventTypes, setEventTypes] = useState<string[]>([]);
+  const [excludedEventTypes, setExcludedEventTypes] = useState<string[]>([]);
   const [entityType, setEntityType] = useState<string | undefined>("movie");
   const [sort, setSort] = useState<"asc" | "desc">("desc");
   const [userId, setUserId] = useState<number | undefined>();
@@ -255,6 +254,7 @@ export const GeneralAuditLog = ({ posterURL }: { posterURL: string }) => {
     lang: locale as GeneralAuditLogFilters["lang"],
     category,
     event_type: eventTypes,
+    exclude_event_type: excludedEventTypes,
     entity_type: entityType,
     user_id: userId,
     date_from: dateFrom || undefined,
@@ -296,6 +296,7 @@ export const GeneralAuditLog = ({ posterURL }: { posterURL: string }) => {
 
   const hasFilters =
     eventTypes.length > 0 ||
+    excludedEventTypes.length > 0 ||
     entityType !== undefined ||
     userId !== undefined ||
     !!dateFrom ||
@@ -304,6 +305,7 @@ export const GeneralAuditLog = ({ posterURL }: { posterURL: string }) => {
 
   const resetFilters = () => {
     setEventTypes([]);
+    setExcludedEventTypes([]);
     setEntityType(undefined);
     setUserId(undefined);
     setDateFrom("");
@@ -340,20 +342,6 @@ export const GeneralAuditLog = ({ posterURL }: { posterURL: string }) => {
     return key ? t("events." + key) : t("unknownEvent");
   };
 
-  const formatDateTime = (value: string) => {
-    const date = parseUtcDate(value);
-
-    return Number.isNaN(date.getTime())
-      ? value
-      : date.toLocaleString(locale, {
-          day: "numeric",
-          month: "short",
-          hour: "2-digit",
-          minute: "2-digit",
-          hourCycle: "h23",
-        });
-  };
-
   const isEmpty = status === "success" && groups.length === 0;
 
   return (
@@ -370,29 +358,11 @@ export const GeneralAuditLog = ({ posterURL }: { posterURL: string }) => {
         </div>
       </div>
 
-      {latestEvent && (
-        <section aria-label={t("latestEvent")} className="mb-6">
-          <h2 className="text-main-ui-purple mb-2 flex items-center gap-2 text-base font-semibold tracking-wide uppercase">
-            <span className="relative flex size-2.5">
-              <span className="bg-main-ui-purple absolute inline-flex size-full animate-ping rounded-full opacity-60" />
-              <span className="bg-main-ui-purple relative inline-flex size-2.5 rounded-full" />
-            </span>
-            {t("latestEvent")}
-          </h2>
-          <ul>
-            <LogRow
-              featured
-              item={latestEvent}
-              label={getLabel(latestEvent.event_type)}
-              time={formatDateTime(latestEvent.created_at)}
-              author={latestEvent.user_name ?? t("anonymous")}
-              userRole={latestEvent.user_role}
-              deletedLabel={t("entityDeleted")}
-              posterURL={posterURL}
-            />
-          </ul>
-        </section>
-      )}
+      <LatestEvent
+        event={latestEvent}
+        isLoading={status === "loading"}
+        posterURL={posterURL}
+      />
 
       <div className="bg-card dark:border-main-ui-purple mb-6 space-y-3 rounded-lg border p-3">
         <div className="flex flex-wrap items-center gap-2">
@@ -408,6 +378,7 @@ export const GeneralAuditLog = ({ posterURL }: { posterURL: string }) => {
                   if (value !== category) {
                     setCategory(value);
                     setEventTypes([]);
+                    setExcludedEventTypes([]);
                   }
                 }}
                 className={cn(
@@ -443,28 +414,65 @@ export const GeneralAuditLog = ({ posterURL }: { posterURL: string }) => {
           </span>
           {CATEGORY_EVENT_TYPES[category].map((eventType) => {
             const active = eventTypes.includes(eventType);
+            const excluded = excludedEventTypes.includes(eventType);
+            const Icon = EVENT_ICONS[eventType] ?? History;
 
             return (
-              <button
+              <div
                 key={eventType}
-                type="button"
-                aria-pressed={active}
-                onClick={() =>
-                  setEventTypes((prev) =>
-                    active
-                      ? prev.filter((type) => type !== eventType)
-                      : [...prev, eventType],
-                  )
-                }
-                className={cn(
-                  "rounded-full border px-2.5 py-0.5 text-base transition-colors",
-                  active
-                    ? "bg-main-ui-purple border-main-ui-purple text-white"
-                    : "hover:bg-main-ui-purple dark:hover:bg-main-dark-hover",
-                )}
+                className="inline-flex overflow-hidden rounded-full border"
               >
-                {getLabel(eventType)}
-              </button>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  aria-pressed={active}
+                  onClick={() => {
+                    setEventTypes((prev) =>
+                      active
+                        ? prev.filter((type) => type !== eventType)
+                        : [...prev, eventType],
+                    );
+                    setExcludedEventTypes((prev) =>
+                      prev.filter((type) => type !== eventType),
+                    );
+                  }}
+                  className={cn(
+                    "h-8 rounded-none px-2.5 text-base",
+                    active &&
+                      "bg-main-ui-purple hover:bg-main-ui-purple text-white hover:text-white",
+                  )}
+                >
+                  <Icon aria-hidden="true" />
+                  {getLabel(eventType)}
+                </Button>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  aria-label={t("excludeEventType", {
+                    event: getLabel(eventType),
+                  })}
+                  aria-pressed={excluded}
+                  onClick={() => {
+                    setExcludedEventTypes((prev) =>
+                      excluded
+                        ? prev.filter((type) => type !== eventType)
+                        : [...prev, eventType],
+                    );
+                    setEventTypes((prev) =>
+                      prev.filter((type) => type !== eventType),
+                    );
+                  }}
+                  className={cn(
+                    "h-8 w-8 rounded-none border-l hover:bg-red-300 dark:hover:bg-red-900",
+                    excluded &&
+                      "bg-red-600 text-white hover:bg-red-700 hover:text-white",
+                  )}
+                >
+                  <X aria-hidden="true" />
+                </Button>
+              </div>
             );
           })}
         </div>
@@ -668,115 +676,5 @@ export const GeneralAuditLog = ({ posterURL }: { posterURL: string }) => {
         </div>
       )}
     </div>
-  );
-};
-
-type RowProps = {
-  item: AuditLogSummaryOut;
-  label: string;
-  time: string;
-  author: string;
-  deletedLabel: string;
-  posterURL: string;
-  featured?: boolean;
-  userRole?: AuditLogSummaryOutUserRole;
-};
-
-const LogRow = ({
-  item,
-  label,
-  time,
-  author,
-  deletedLabel,
-  posterURL,
-  featured,
-  userRole,
-}: RowProps) => {
-  const Icon: LucideIcon = EVENT_ICONS[item.event_type] ?? History;
-  const href =
-    item.entity_type === "movie" && item.entity_key
-      ? "/movies/" + item.entity_key
-      : null;
-  const title = item.entity_title ?? item.entity_key ?? deletedLabel;
-
-  const content = (
-    <>
-      {item.entity_poster ? (
-        <Image
-          src={posterURL + "/posters/" + item.entity_poster}
-          alt=""
-          width={featured ? 60 : 40}
-          height={featured ? 90 : 60}
-          className={cn(
-            "h-[60px] w-10 shrink-0 rounded object-cover",
-            featured && "h-[90px] w-[60px] shadow-md",
-          )}
-          blurDataURL="/static/blur-image.webp"
-          placeholder="blur"
-        />
-      ) : (
-        <div
-          className={cn(
-            "bg-muted h-[60px] w-10 shrink-0 rounded",
-            featured && "h-[90px] w-[60px]",
-          )}
-        />
-      )}
-      <div className="min-w-0 flex-1">
-        <p
-          className={cn(
-            "font-medium whitespace-break-spaces",
-            featured && "text-xl font-semibold",
-            !item.entity_title && "text-muted-foreground italic",
-          )}
-        >
-          {title}
-        </p>
-        <p className="text-main-ui-purple flex items-center gap-1.5 text-lg">
-          <Icon className="size-5 shrink-0" />
-          {label}
-        </p>
-        <p
-          className={cn(
-            "text-muted-foreground flex items-center gap-1",
-            userRole && "text-yellow-500",
-          )}
-        >
-          <UserRound className="size-4" />
-          {author}
-        </p>
-      </div>
-      <time
-        dateTime={item.created_at}
-        className="text-muted-foreground shrink-0 text-xs sm:text-sm"
-      >
-        {time}
-      </time>
-    </>
-  );
-
-  const baseClass = cn(
-    "flex items-center gap-3 rounded-lg border bg-card p-3 shadow-xs transition-colors",
-    featured &&
-      "from-main-ui-purple/15 via-card to-card border-main-ui-purple/60 gap-4 bg-gradient-to-r p-4 shadow-md",
-  );
-
-  return (
-    <li>
-      {href ? (
-        <Link
-          href={href}
-          prefetch={false}
-          className={cn(
-            baseClass,
-            "hover:border-main-ui-purple/50 hover:bg-accent dark:border-main-ui-purple",
-          )}
-        >
-          {content}
-        </Link>
-      ) : (
-        <div className={baseClass}>{content}</div>
-      )}
-    </li>
   );
 };

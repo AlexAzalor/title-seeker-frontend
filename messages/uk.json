@@ -573,6 +573,7 @@
     "anime": "Аніме",
     "games": "Ігри",
     "eventTypes": "Типи подій",
+    "excludeEventType": "Виключити: {event}",
     "latestEvent": "Остання подія",
     "filterContent": "Контент",
     "filterSimilarMovies": "Схожі фільми",
