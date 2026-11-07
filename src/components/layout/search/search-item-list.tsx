@@ -55,6 +55,7 @@ export function SearchItemList({
       {recentSearchItems.map((item) => (
         <Link
           key={item.key}
+          prefetch={false}
           href={getSearchTypeUrl(item.type, item.key)}
           className="dark:hover:bg-main-dark-hover flex w-full items-center gap-2 rounded-sm p-2 transition-all duration-200 select-none hover:bg-neutral-100"
           onClick={() => close(item)}

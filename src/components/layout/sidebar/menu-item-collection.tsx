@@ -7,6 +7,7 @@ import {
   Film,
   Flower,
   Gamepad2,
+  History,
   LayoutDashboard,
   NotebookText,
   Settings,
@@ -31,6 +32,7 @@ export const ADMIN_ITEMS = [
   "visualProfile",
   "titleFilters",
   "titlePeople",
+  "auditLog",
 ];
 
 export const OTHER_ITEMS = ["settings"];
@@ -112,6 +114,12 @@ export function getMenuItems(
       href: "/account/admin/" + menu("titlePeople.key"),
       icon: <FileUser />,
       label: menu("titlePeople.label"),
+    },
+    {
+      key: "auditLog",
+      href: "/account/admin/" + menu("auditLog.key"),
+      icon: <History />,
+      label: menu("auditLog.label"),
     },
   ];
 

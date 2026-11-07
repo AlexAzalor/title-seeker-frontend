@@ -161,6 +161,7 @@ export const KeyFieldsForm = ({ quickMovie }: Props) => {
           ratingRef={ratingRef}
           quickMovie={quickMovie}
           parsedData={parsedData}
+          isAdmin
         />
 
         {!isSubmitting ? (

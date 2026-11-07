@@ -17,6 +17,9 @@ export const RelatedMoviesSidebar = ({
 }: Props) => (
   <div className="xl:ml-auto">
     <div className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border max-w-80 rounded-lg border py-2 lg:w-76 lg:rounded-4xl lg:p-5">
+      {/* Hide for now */}
+      {/* <EditRelatedMovie posterUrl={posterUrl} movieKey={movieKey} /> */}
+
       {relatedMovies?.length ? (
         <RelatedSimilarMovieList
           type="related"

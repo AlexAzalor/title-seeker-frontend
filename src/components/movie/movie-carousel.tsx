@@ -67,6 +67,7 @@ export function MoviesCarousel({
                 <Link
                   key={movie.key}
                   className=" "
+                  prefetch={false}
                   href={`/movies/${movie.key}`}
                 >
                   <Card className="dark:border-dark-border">

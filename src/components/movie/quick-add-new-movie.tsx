@@ -111,7 +111,7 @@ export const QuicklyAddNewMovie = () => {
         value={formatKey(watchFields)}
       />
 
-      <RateMovie ratingRef={ratingRef} />
+      <RateMovie ratingRef={ratingRef} isAdmin />
     </FormWrapper>
   );
 };

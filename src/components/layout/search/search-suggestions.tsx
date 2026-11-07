@@ -21,6 +21,7 @@ export const SearchSuggestions = ({ navigationKeys, t, close }: Props) => (
       return (
         <Link
           key={item.key}
+          prefetch={false}
           href={item.key}
           className="dark:hover:bg-main-dark-hover flex w-full items-center gap-1 rounded-sm p-1 transition-all duration-200 select-none hover:bg-neutral-100"
           onClick={close}

@@ -127,6 +127,7 @@ export const MovieFormWizard = ({
       <div>
         {response?.message}{" "}
         <Link
+          prefetch={false}
           href={`/movies/${form_data.key}`}
           className="text-lg font-bold underline"
         >

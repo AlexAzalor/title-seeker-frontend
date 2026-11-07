@@ -6,7 +6,10 @@ import { RevealOnScroll } from "@/components/my-custom-ui/reveal-on-scroll";
 import { PeopleCarousel } from "@/components/actors-carousel";
 import { FetchWrapper } from "@/components/my-custom-ui/fetch-wrapper";
 import { MoviesCarousel } from "@/components/movie/movie-carousel";
-import { Spinner } from "@/components/my-custom-ui/spinner";
+import {
+  MoviesCarouselSkeleton,
+  PeopleCarouselSkeleton,
+} from "@/components/my-custom-ui/carousel-skeletons";
 
 import { getPeople } from "@/orval_api/people/people";
 import { getMovies } from "@/orval_api/movies/movies";
@@ -42,106 +45,77 @@ export default function Home() {
           {t("subTitle")}
         </h2>
 
-        <RevealOnScroll>
-          <Suspense
-            fallback={
-              <div className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border w-full rounded-xl border p-5">
-                <Spinner className="mx-auto w-fit" />
-              </div>
-            }
+        <Suspense fallback={<MoviesCarouselSkeleton />}>
+          <FetchWrapper<
+            MovieCarouselList,
+            APIGetRandomListParams,
+            typeof aPIGetTopMoviesByVisualProfile
           >
-            <FetchWrapper<
-              MovieCarouselList,
-              APIGetRandomListParams,
-              typeof aPIGetTopMoviesByVisualProfile
-            >
-              apiFetch={aPIGetTopMoviesByVisualProfile}
-              params={{}}
-            >
-              {({ result }) => (
-                <MoviesCarousel
-                  name={t("randomMovies")}
-                  movies={result.data.movies}
-                  movieFilter={result.data.movie_filter}
-                  type={t(`filterItems.${result.data.movie_filter?.type}`)}
-                  posterURL={POSTER_URL || "NO URL!"}
-                  avatarURL={AVATAR_URL || "NO URL!"}
-                  delay={15000}
-                />
-              )}
-            </FetchWrapper>
-          </Suspense>
-        </RevealOnScroll>
-        <RevealOnScroll>
-          <Suspense
-            fallback={
-              <div className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border w-full rounded-xl border p-5">
-                <Spinner className="mx-auto w-fit" />
-              </div>
-            }
+            apiFetch={aPIGetTopMoviesByVisualProfile}
+            params={{}}
           >
-            <FetchWrapper<
-              MovieCarouselList,
-              APIGetRandomListParams,
-              typeof aPIGetTopMoviesBySpecification
-            >
-              apiFetch={aPIGetTopMoviesBySpecification}
-              params={{}}
-            >
-              {({ result }) => (
-                <MoviesCarousel
-                  name={t("randomMovies")}
-                  movies={result.data.movies}
-                  movieFilter={result.data.movie_filter}
-                  type={t(`filterItems.${result.data.movie_filter?.type}`)}
-                  posterURL={POSTER_URL || "NO URL!"}
-                  avatarURL={AVATAR_URL || "NO URL!"}
-                  delay={15000}
-                />
-              )}
-            </FetchWrapper>
-          </Suspense>
-        </RevealOnScroll>
+            {({ result }) => (
+              <MoviesCarousel
+                name={t("randomMovies")}
+                movies={result.data.movies}
+                movieFilter={result.data.movie_filter}
+                type={t(`filterItems.${result.data.movie_filter?.type}`)}
+                posterURL={POSTER_URL || "NO URL!"}
+                avatarURL={AVATAR_URL || "NO URL!"}
+                delay={15000}
+              />
+            )}
+          </FetchWrapper>
+        </Suspense>
+
+        <Suspense fallback={<MoviesCarouselSkeleton />}>
+          <FetchWrapper<
+            MovieCarouselList,
+            APIGetRandomListParams,
+            typeof aPIGetTopMoviesBySpecification
+          >
+            apiFetch={aPIGetTopMoviesBySpecification}
+            params={{}}
+          >
+            {({ result }) => (
+              <MoviesCarousel
+                name={t("randomMovies")}
+                movies={result.data.movies}
+                movieFilter={result.data.movie_filter}
+                type={t(`filterItems.${result.data.movie_filter?.type}`)}
+                posterURL={POSTER_URL || "NO URL!"}
+                avatarURL={AVATAR_URL || "NO URL!"}
+                delay={15000}
+              />
+            )}
+          </FetchWrapper>
+        </Suspense>
+
+        <Suspense fallback={<MoviesCarouselSkeleton />}>
+          <FetchWrapper<
+            MovieCarouselList,
+            APIGetRandomListParams,
+            typeof aPIGetTopMoviesByKeyword
+          >
+            apiFetch={aPIGetTopMoviesByKeyword}
+            params={{}}
+          >
+            {({ result }) => (
+              <MoviesCarousel
+                name={t("randomMovies")}
+                movies={result.data.movies}
+                movieFilter={result.data.movie_filter}
+                type={t(`filterItems.${result.data.movie_filter?.type}`)}
+                posterURL={POSTER_URL || "NO URL!"}
+                avatarURL={AVATAR_URL || "NO URL!"}
+                delay={15000}
+              />
+            )}
+          </FetchWrapper>
+        </Suspense>
 
         <RevealOnScroll>
-          <Suspense
-            fallback={
-              <div className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border w-full rounded-xl border p-5">
-                <Spinner className="mx-auto w-fit" />
-              </div>
-            }
-          >
-            <FetchWrapper<
-              MovieCarouselList,
-              APIGetRandomListParams,
-              typeof aPIGetTopMoviesByKeyword
-            >
-              apiFetch={aPIGetTopMoviesByKeyword}
-              params={{}}
-            >
-              {({ result }) => (
-                <MoviesCarousel
-                  name={t("randomMovies")}
-                  movies={result.data.movies}
-                  movieFilter={result.data.movie_filter}
-                  type={t(`filterItems.${result.data.movie_filter?.type}`)}
-                  posterURL={POSTER_URL || "NO URL!"}
-                  avatarURL={AVATAR_URL || "NO URL!"}
-                  delay={15000}
-                />
-              )}
-            </FetchWrapper>
-          </Suspense>
-        </RevealOnScroll>
-
-        <RevealOnScroll>
-          <Suspense
-            fallback={
-              <div className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border w-full rounded-xl border p-5">
-                <Spinner className="mx-auto w-fit" />
-              </div>
-            }
-          >
+          <Suspense fallback={<MoviesCarouselSkeleton />}>
             <FetchWrapper<
               MovieCarouselList,
               APIGetRandomListParams,
@@ -163,13 +137,7 @@ export default function Home() {
         </RevealOnScroll>
 
         <RevealOnScroll>
-          <Suspense
-            fallback={
-              <div className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border w-full rounded-xl border p-5">
-                <Spinner className="mx-auto w-fit" />
-              </div>
-            }
-          >
+          <Suspense fallback={<PeopleCarouselSkeleton />}>
             <FetchWrapper<
               PeopleList,
               APIGetActorsWithMostMoviesParams,
@@ -192,13 +160,7 @@ export default function Home() {
         </RevealOnScroll>
 
         <RevealOnScroll>
-          <Suspense
-            fallback={
-              <div className="shadow-form-layout dark:shadow-dark-form-layout dark:border-dark-border border-light-border w-full rounded-xl border p-5">
-                <Spinner className="mx-auto w-fit" />
-              </div>
-            }
-          >
+          <Suspense fallback={<PeopleCarouselSkeleton />}>
             <FetchWrapper<
               PeopleList,
               APIGetDirectorsWithMostMoviesParams,
