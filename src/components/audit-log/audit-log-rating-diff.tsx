@@ -5,6 +5,7 @@ import { ArrowDown, ArrowRight, ArrowUp, Star } from "lucide-react";
 
 import { RatingCriterion } from "@/orval_api/model";
 import { cn } from "@/lib/utils";
+import { TYPE_KEYS } from "@/components/movie/rating/utils";
 
 export type RatingChange = { old: number | null; new: number | null };
 export type RatingCriterionTypeChange = {
@@ -12,18 +13,7 @@ export type RatingCriterionTypeChange = {
   new: RatingCriterion | null;
 };
 
-const CRITERIA_KEYS = new Set([
-  "acting",
-  "plot_storyline",
-  "script_dialogue",
-  "music",
-  "enjoyment",
-  "production_design",
-  "visual_effects",
-  "scare_factor",
-  "humor",
-  "animation_cartoon",
-]);
+const CRITERIA_KEYS = new Set<string>(TYPE_KEYS);
 
 const RATING_CRITERION_TRANSLATION_KEYS: Record<RatingCriterion, string> = {
   [RatingCriterion.basic]: "basic",
@@ -198,6 +188,7 @@ type GroupProps = {
 
 const RatingGroup = ({ title, scoreLabel, changes, created }: GroupProps) => {
   const t = useTranslations("AuditLog");
+  const tRating = useTranslations("Rating");
   const { rating, ratings_count, ...criteria } = changes;
 
   return (
@@ -242,7 +233,7 @@ const RatingGroup = ({ title, scoreLabel, changes, created }: GroupProps) => {
               className="flex items-center justify-between gap-3 py-2"
             >
               <span className="text-sm text-neutral-600 dark:text-neutral-300">
-                {CRITERIA_KEYS.has(key) ? t(`criteria.${key}`) : key}
+                {CRITERIA_KEYS.has(key) ? tRating(`${key}.name`) : key}
               </span>
               <Values change={change} created={created} />
             </li>
@@ -288,7 +279,7 @@ export const RatingDiff = ({ changes, userName, created }: Props) => {
       {changes.user_rating && (
         <RatingGroup
           title={t("userRating", { name: userName })}
-          scoreLabel={t("criteria.rating")}
+          scoreLabel={tRating("name")}
           changes={changes.user_rating}
           created={created}
         />

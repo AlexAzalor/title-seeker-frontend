@@ -409,6 +409,12 @@
     "nextStep": "Next step",
     "skip": "Skip",
     "menuSelect": "Select",
+    "movieEdit": {
+      "editTitle": "Edit title",
+      "editDetails": "Edit details",
+      "save": "Save",
+      "durationUnavailable": "Could not read the current duration ({duration}). Enter it in minutes."
+    },
     "stepper": {
       "titleRate": {
         "name": "Title/Rate",
@@ -633,23 +639,16 @@
     "ratingCriterionType": "Rating criterion",
     "votes": "Votes",
     "votesUnit": "votes",
-    "criteria": {
-      "rating": "Rating",
-      "acting": "Acting",
-      "plot_storyline": "Plot & storyline",
-      "script_dialogue": "Script & dialogue",
-      "music": "Music",
-      "enjoyment": "Enjoyment",
-      "production_design": "Production design",
-      "visual_effects": "Visual effects",
-      "scare_factor": "Scare factor",
-      "humor": "Humor",
-      "animation_cartoon": "Animation / cartoon"
-    },
     "boxOffice": {
       "budget": "Budget",
       "domestic_gross": "Domestic gross",
       "worldwide_gross": "Worldwide gross"
+    },
+    "movieDetails": {
+      "duration": "Duration",
+      "release_date": "Release date",
+      "location_en": "Location (English)",
+      "location_uk": "Location (Ukrainian)"
     },
     "firstGenerated": "Similar movies generated for the first time",
     "sections": {
@@ -667,6 +666,8 @@
       "movieCreated": "Movie created",
       "movieVisited": "Movie visited",
       "descriptionUpdated": "Description updated",
+      "titleUpdated": "Title updated",
+      "detailsUpdated": "Movie details updated",
       "actorsUpdated": "Actors updated",
       "ratingCreated": "Rating added",
       "ratingUpdated": "Rating changed",

@@ -24,11 +24,14 @@ import {
   ShieldUser,
   StarPlus,
   Image as ImageIcon,
+  Info,
+  TypeOutline,
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import type { AuditLogOut } from "@/orval_api/model";
 import { BoxOfficeDiff } from "@/components/audit-log/audit-log-box-office-diff";
+import { MovieDetailsDiff } from "@/components/audit-log/audit-log-movie-details-diff";
 import {
   SimilarDiff,
   toSimilarChanges,
@@ -62,6 +65,8 @@ const COLLAPSED_MAX_LENGTH = 240;
 export const EVENT_LABEL_KEYS: Record<string, string> = {
   "movie.created": "movieCreated",
   "movie.description.updated": "descriptionUpdated",
+  "movie.title.updated": "titleUpdated",
+  "movie.details.updated": "detailsUpdated",
   "movie.actors.updated": "actorsUpdated",
   "movie.directors.updated": "directorsUpdated",
   "movie.rating.updated": "ratingUpdated",
@@ -80,6 +85,8 @@ export const EVENT_LABEL_KEYS: Record<string, string> = {
 export const EVENT_ICONS: Record<string, LucideIcon> = {
   "movie.created": Clapperboard,
   "movie.description.updated": FileText,
+  "movie.details.updated": Info,
+  "movie.title.updated": TypeOutline,
   "movie.actors.updated": Users,
   "movie.directors.updated": ShieldUser,
   "movie.rating.updated": Star,
@@ -285,6 +292,7 @@ export const AuditLogItem = ({
   const isLanguageKeyed = LANGUAGE_KEYED_EVENTS.has(item.event_type);
   const peopleType = PEOPLE_EVENTS[item.event_type];
   const isBoxOffice = item.event_type === "movie.box_office.updated";
+  const isMovieDetails = item.event_type === "movie.details.updated";
   const isMovieCreated = item.event_type === "movie.created";
   const isMovieVisited = item.event_type === "movie.visited";
   const visitedAt = toText(item.changes?.visited_at);
@@ -380,6 +388,8 @@ export const AuditLogItem = ({
 
           {isBoxOffice && <BoxOfficeDiff changes={item.changes} />}
 
+          {isMovieDetails && <MovieDetailsDiff changes={item.changes} />}
+
           {similarChanges && (
             <SimilarDiff changes={similarChanges} posterUrl={posterUrl} />
           )}
@@ -395,6 +405,7 @@ export const AuditLogItem = ({
             !genresChanges &&
             !similarChanges &&
             !isBoxOffice &&
+            !isMovieDetails &&
             !isMovieVisited &&
             !isMovieCreated &&
             toChangeEntries(item.changes).map(([key, change]) => {

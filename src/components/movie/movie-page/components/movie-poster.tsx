@@ -70,38 +70,45 @@ export const MoviePoster = ({
 
   return (
     <div className="flex flex-col items-center gap-2">
-      <Image
-        key={currentPoster}
-        src={`${posterUrl}/posters/${currentPoster}`}
-        alt={`${title} poster`}
-        className="max-h-75 max-w-50 sm:max-h-112 sm:max-w-76"
-        height={450}
-        width={300}
-        priority
-        loading="eager"
-      />
+      <div className="relative">
+        <Image
+          key={currentPoster}
+          src={`${posterUrl}/posters/${currentPoster}`}
+          alt={`${title} poster`}
+          className="max-h-75 max-w-50 sm:max-h-112 sm:max-w-76"
+          height={450}
+          width={300}
+          priority
+          loading="eager"
+        />
 
-      {isAdmin && (
-        <>
-          <input
-            ref={inputRef}
-            type="file"
-            accept=".webp"
-            className="hidden"
-            onChange={onFileChange}
-          />
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            disabled={isUploading}
-            onClick={() => inputRef.current?.click()}
-          >
-            {isUploading ? <Loader2 className="animate-spin" /> : <ImagePlus />}
-            {t("change")}
-          </Button>
-        </>
-      )}
+        {isAdmin && (
+          <>
+            <input
+              ref={inputRef}
+              type="file"
+              accept=".webp"
+              className="hidden"
+              onChange={onFileChange}
+            />
+            <Button
+              type="button"
+              variant="outline"
+              size="icon"
+              aria-label={t("change")}
+              className="absolute bottom-2 left-2 opacity-30 transition-opacity duration-300 hover:opacity-100"
+              disabled={isUploading}
+              onClick={() => inputRef.current?.click()}
+            >
+              {isUploading ? (
+                <Loader2 className="animate-spin" />
+              ) : (
+                <ImagePlus />
+              )}
+            </Button>
+          </>
+        )}
+      </div>
     </div>
   );
 };

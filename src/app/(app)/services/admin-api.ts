@@ -15,8 +15,10 @@ import { getAuditLogs } from "@/orval_api/audit-logs/audit-logs";
 
 import type { ValidationError, ValidationItemListError } from "@/types/general";
 import {
+  Language,
+  type MovieEditTitle,
+  type MovieEditDetails,
   type FilterList,
-  type Language,
   type PersonBase,
   type BodyAPICreateMovie,
   type CharacterFormIn,
@@ -904,6 +906,80 @@ export async function getMovieDescription(movieKey: string) {
     } else {
       return unknownError;
     }
+  }
+}
+
+export async function getMovieEditFields(movieKey: string) {
+  const admin = await getAdmin();
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { backendURL } = await fetchSettings();
+  const { aPIGetMovie } = getMovies();
+  try {
+    const [en, uk] = await Promise.all([
+      aPIGetMovie(
+        movieKey,
+        { lang: Language.en, user_uuid: admin.uuid },
+        backendURL,
+      ),
+      aPIGetMovie(
+        movieKey,
+        { lang: Language.uk, user_uuid: admin.uuid },
+        backendURL,
+      ),
+    ]);
+    return {
+      status: 200,
+      data: {
+        title_en: en.data.title,
+        title_uk: uk.data.title,
+        location_en: en.data.location,
+        location_uk: uk.data.location,
+        duration: en.data.duration,
+        release_date: en.data.release_date,
+      },
+    };
+  } catch (error) {
+    console.error("Failed to load movie edit fields:", error);
+    return { status: 500, message: "Failed to load movie details" };
+  }
+}
+
+export async function editMovieTitle(data: MovieEditTitle) {
+  const admin = await getAdmin();
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { backendURL } = await fetchSettings();
+  try {
+    await getMovies().aPIEditTitle(data, { user_uuid: admin.uuid }, backendURL);
+    return { status: 200, message: "Movie title updated" };
+  } catch (error) {
+    console.error("Failed to update movie title:", error);
+    return { status: 500, message: "Failed to update movie title" };
+  }
+}
+
+export async function editMovieDetails(data: MovieEditDetails) {
+  const admin = await getAdmin();
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { backendURL } = await fetchSettings();
+  try {
+    await getMovies().aPIEditMovieDetails(
+      data,
+      { user_uuid: admin.uuid },
+      backendURL,
+    );
+    return { status: 200, message: "Movie details updated" };
+  } catch (error) {
+    console.error("Failed to update movie details:", error);
+    return { status: 500, message: "Failed to update movie details" };
   }
 }
 

@@ -20,6 +20,7 @@ import { ShareLinkButtons } from "@/components/movie/movie-page/components/share
 import type { PageProps } from "@/types/general";
 import type { Metadata } from "next";
 import { CopyButton } from "@/components/movie/movie-page/components/copy-button";
+import { MovieFieldsEditor } from "@/components/movie/movie-page/edit/movie-fields";
 
 const SimilarMoviesFetcher = dynamic(
   () => import("@/components/movie/movie-page/similar-movies-fetcher"),
@@ -83,6 +84,9 @@ export default async function MoviePage({ params }: PageProps) {
             <div className="flex items-center gap-2">
               <h1 className="text-3xl">{movie.title}</h1>
               <CopyButton label={movie.title} />
+              {isAdmin && (
+                <MovieFieldsEditor movieKey={movie_key} kind="title" />
+              )}
             </div>
             {movie.title_en && (
               <div className="flex items-center gap-2">
@@ -129,7 +133,12 @@ export default async function MoviePage({ params }: PageProps) {
           />
         </div>
 
-        <MovieInfo data={movie} lang={lang} isOwner={isOwner} />
+        <MovieInfo
+          data={movie}
+          lang={lang}
+          isOwner={isOwner}
+          isAdmin={isAdmin}
+        />
 
         <MovieContent
           data={movie}

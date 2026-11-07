@@ -69,6 +69,8 @@ const CATEGORY_EVENT_TYPES: Record<Category, string[]> = {
   content: [
     "movie.created",
     "movie.description.updated",
+    "movie.title.updated",
+    "movie.details.updated",
     "movie.box_office.updated",
     "movie.actors.updated",
     "movie.directors.updated",
