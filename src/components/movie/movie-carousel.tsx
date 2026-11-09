@@ -1,5 +1,5 @@
 "use client";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Autoplay from "embla-carousel-autoplay";
@@ -12,6 +12,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Separator } from "@/components/ui/separator";
 import type {
   MovieCarousel,
@@ -29,6 +30,30 @@ type Props = {
   type?: string;
   delay?: number;
 };
+function PosterImage({ src }: { src?: string }) {
+  const [loaded, setLoaded] = useState(false);
+
+  return (
+    <div className="relative h-full w-[110px] shrink-0">
+      {src && !loaded && <Skeleton className="absolute inset-0" />}
+      {src && (
+        <Image
+          src={src}
+          alt="Movie poster"
+          className={`object-contain transition-opacity duration-300 ${loaded ? "opacity-100" : "opacity-0"}`}
+          fill
+          sizes="110px"
+          ref={(img) => {
+            if (img?.complete) setLoaded(true);
+          }}
+          onLoad={() => setLoaded(true)}
+          onError={() => setLoaded(true)}
+        />
+      )}
+    </div>
+  );
+}
+
 export function MoviesCarousel({
   name,
   movies,
@@ -70,17 +95,15 @@ export function MoviesCarousel({
                   prefetch={false}
                   href={`/movies/${movie.key}`}
                 >
-                  <Card className="dark:border-dark-border">
+                  <Card className="dark:border-dark-border w-full">
                     <CardContent className="flex aspect-square h-52 w-full items-center justify-center gap-2 p-2">
-                      {movie.poster && (
-                        <Image
-                          src={`${posterURL}/posters/${movie.poster}`}
-                          alt="Movie poster"
-                          className="h-auto w-auto"
-                          height={230}
-                          width={110}
-                        />
-                      )}
+                      <PosterImage
+                        src={
+                          movie.poster
+                            ? `${posterURL}/posters/${movie.poster}`
+                            : undefined
+                        }
+                      />
                       <div className="flex h-full min-w-0 flex-1 flex-col justify-center gap-2">
                         <h3
                           title={movie.title}
