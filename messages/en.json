@@ -438,6 +438,10 @@
         "base": "Base movie",
         "collectionOrder": "Collection order",
         "relationType": "Relation type",
+        "selectMovies": "Select related movies",
+        "save": "Save",
+        "updated": "Related movies updated",
+        "dissolveWarning": "Saving with an empty list will dissolve this collection",
         "notFount": "If no movie in the list - Skip"
       },
       "info": {
@@ -630,6 +634,7 @@
       "moved": "Moved",
       "scoreChanged": "Score changed",
       "orderChanged": "Order changed",
+      "relationChanged": "Relation changed",
       "added": "Added",
       "removed": "Removed",
       "changed": "Character changed"
@@ -652,6 +657,19 @@
       "location_uk": "Location (Ukrainian)"
     },
     "firstGenerated": "Similar movies generated for the first time",
+    "collectionCreatedFromStandalone": "This movie was standalone and became the base of a collection.",
+    "collectionDissolvedToStandalone": "All related movies were removed, and the base movie became standalone.",
+    "collectionRelations": {
+      "base": "Base movie",
+      "sequel": "Sequel",
+      "prequel": "Prequel",
+      "spin_off": "Spin-off",
+      "remake": "Remake",
+      "reboot": "Reboot",
+      "crossover": "Crossover",
+      "alternative_timeline": "Alternative timeline",
+      "shared_universe": "Shared universe"
+    },
     "sections": {
       "genres": "Genres",
       "subgenres": "Subgenres",
@@ -675,6 +693,7 @@
       "visualProfileUpdated": "Visual profile updated",
       "boxOfficeUpdated": "Box office updated",
       "similarMoviesUpdated": "Similar movies updated",
+      "collectionUpdated": "Movie collection updated",
       "genresUpdated": "Genres updated",
       "specificationsUpdated": "Specifications updated",
       "keywordsUpdated": "Keywords updated",

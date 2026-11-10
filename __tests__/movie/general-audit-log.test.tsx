@@ -75,6 +75,17 @@ describe("audit event type filters", () => {
     const excludeVisited = screen.getByRole("button", {
       name: `Exclude ${en.AuditLog.events.movieVisited}`,
     });
+    const collection = screen.getByRole("button", {
+      name: en.AuditLog.events.collectionUpdated,
+    });
+    fireEvent.click(collection);
+    await waitFor(() =>
+      expect(getGeneralAuditLogs).toHaveBeenLastCalledWith(
+        expect.objectContaining({ event_type: ["movie.collection.updated"] }),
+        undefined,
+      ),
+    );
+    fireEvent.click(collection);
     expect(
       created.firstElementChild?.classList.contains("lucide-clapperboard"),
     ).toBe(true);
@@ -145,6 +156,23 @@ describe("audit event type filters", () => {
 });
 
 describe("latest audit event", () => {
+  test.each([
+    ["en", en],
+    ["uk", uk],
+  ] as const)("renders the collection event label in %s", (locale, messages) => {
+    renderWithLocale(
+      <LatestEvent
+        event={{ ...event, event_type: "movie.collection.updated" }}
+        isLoading={false}
+        posterURL=""
+      />,
+      locale,
+    );
+    expect(
+      screen.getByText(messages.AuditLog.events.collectionUpdated),
+    ).toBeDefined();
+  });
+
   test.each([
     ["en", en],
     ["uk", uk],

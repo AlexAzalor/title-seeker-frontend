@@ -130,6 +130,8 @@ export default async function MoviePage({ params }: PageProps) {
             posterUrl={posterUrl}
             currentMovieKey={movie.key}
             movieKey={movie_key}
+            baseMoviePosterKey={movie.poster}
+            baseMovieTitle={movie.title}
           />
         </div>
 

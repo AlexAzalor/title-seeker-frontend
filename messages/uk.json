@@ -435,6 +435,10 @@
         "base": "Базовий фільм",
         "collectionOrder": "Порядок в збірнику",
         "relationType": "Тип зв'язку",
+        "selectMovies": "Обрати пов'язані фільми",
+        "save": "Зберегти",
+        "updated": "Пов'язані фільми оновлено",
+        "dissolveWarning": "Збереження з порожнім списком розформує цей збірник",
         "notFound": "Якщо у списку немає фільму - Пропустити"
       },
       "info": {
@@ -627,6 +631,7 @@
       "moved": "Переміщено",
       "scoreChanged": "Змінено оцінку",
       "orderChanged": "Змінено порядок",
+      "relationChanged": "Змінено тип зв'язку",
       "added": "Додано",
       "removed": "Видалено",
       "changed": "Змінено персонажа"
@@ -649,6 +654,19 @@
       "location_uk": "Місце зйомок (українською)"
     },
     "firstGenerated": "Схожі фільми згенеровано вперше",
+    "collectionCreatedFromStandalone": "Цей фільм був окремим і став базовим фільмом збірника.",
+    "collectionDissolvedToStandalone": "Усі пов'язані фільми видалено, і базовий фільм став окремим.",
+    "collectionRelations": {
+      "base": "Базовий фільм",
+      "sequel": "Сиквел",
+      "prequel": "Приквел",
+      "spin_off": "Спін-оф",
+      "remake": "Ремейк",
+      "reboot": "Перезапуск",
+      "crossover": "Кросовер",
+      "alternative_timeline": "Альтернативна хронологія",
+      "shared_universe": "Спільний всесвіт"
+    },
     "sections": {
       "genres": "Жанри",
       "subgenres": "Піджанри",
@@ -672,6 +690,7 @@
       "visualProfileUpdated": "Візуальний профіль оновлено",
       "boxOfficeUpdated": "Касові збори оновлено",
       "similarMoviesUpdated": "Схожі фільми оновлено",
+      "collectionUpdated": "Збірник фільмів оновлено",
       "genresUpdated": "Жанри оновлено",
       "specificationsUpdated": "Специфікації оновлено",
       "keywordsUpdated": "Ключові слова оновлено",

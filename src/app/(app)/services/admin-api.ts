@@ -40,9 +40,7 @@ import {
   type PeopleListOut,
   type CharacterFormPutIn,
   type CharacterFormFieldsOut,
-  type MovieCollectionOut,
-  type MovieCollectionAdd,
-  type MovieCollectionUpdate,
+  type MovieEditCollection,
 } from "@/orval_api/model";
 
 /**
@@ -1679,17 +1677,7 @@ export async function getAuditLogUsers() {
   }
 }
 
-type CollectionResult =
-  | { status: 200; data: MovieCollectionOut }
-  | { status: number | undefined; message: string | undefined };
-
-async function collectionRequest(
-  request: (
-    api: ReturnType<typeof getMovies>,
-    userUuid: string,
-    backendURL: Awaited<ReturnType<typeof fetchSettings>>["backendURL"],
-  ) => Promise<AxiosResponse<MovieCollectionOut>>,
-): Promise<CollectionResult> {
+export async function editCollection(data: MovieEditCollection) {
   const admin = await getAdmin();
 
   if (!admin) {
@@ -1697,10 +1685,12 @@ async function collectionRequest(
   }
 
   const { backendURL, unknownError } = await fetchSettings();
+  const { aPIEditCollection } = getMovies();
 
   try {
-    const res = await request(getMovies(), admin.uuid, backendURL);
-    return { status: 200, data: res.data };
+    await aPIEditCollection(data, { user_uuid: admin.uuid }, backendURL);
+
+    return { status: 200, message: "Related movies updated" };
   } catch (error) {
     if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
       return { status: error.status, message: error.response?.data.detail };
@@ -1709,26 +1699,27 @@ async function collectionRequest(
   }
 }
 
-export async function getMovieCollection(movieKey: string) {
-  return collectionRequest((api, user_uuid, backendURL) =>
-    api.aPIGetMovieCollection(movieKey, { user_uuid }, backendURL),
-  );
-}
+export async function getStandaloneMovies() {
+  const admin = await getAdmin();
 
-export async function addMovieToCollection(data: MovieCollectionAdd) {
-  return collectionRequest((api, user_uuid, backendURL) =>
-    api.aPIAddCollectionMovie(data, { user_uuid }, backendURL),
-  );
-}
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
 
-export async function updateMovieInCollection(data: MovieCollectionUpdate) {
-  return collectionRequest((api, user_uuid, backendURL) =>
-    api.aPIUpdateCollectionMovieRelation(data, { user_uuid }, backendURL),
-  );
-}
+  const { lang, backendURL, unknownError } = await fetchSettings();
+  const { aPIGetStandaloneMoviesList } = getMovies();
 
-export async function removeMovieFromCollection(movieKey: string) {
-  return collectionRequest((api, user_uuid, backendURL) =>
-    api.aPIRemoveCollectionMovie(movieKey, { user_uuid }, backendURL),
-  );
+  try {
+    const res = await aPIGetStandaloneMoviesList(
+      { lang, user_uuid: admin.uuid },
+      backendURL,
+    );
+
+    return { status: 200, data: res.data.bases };
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    }
+    return unknownError;
+  }
 }

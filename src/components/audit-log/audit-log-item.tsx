@@ -26,12 +26,17 @@ import {
   Image as ImageIcon,
   Info,
   TypeOutline,
+  Waypoints,
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import type { AuditLogOut } from "@/orval_api/model";
 import { BoxOfficeDiff } from "@/components/audit-log/audit-log-box-office-diff";
 import { MovieDetailsDiff } from "@/components/audit-log/audit-log-movie-details-diff";
+import {
+  CollectionDiff,
+  toCollectionChanges,
+} from "@/components/audit-log/audit-log-collection-diff";
 import {
   SimilarDiff,
   toSimilarChanges,
@@ -74,6 +79,7 @@ export const EVENT_LABEL_KEYS: Record<string, string> = {
   "movie.visual_profile.updated": "visualProfileUpdated",
   "movie.box_office.updated": "boxOfficeUpdated",
   "movie.similar_movies.updated": "similarMoviesUpdated",
+  "movie.collection.updated": "collectionUpdated",
   "movie.genres.updated": "genresUpdated",
   "movie.specifications.updated": "specificationsUpdated",
   "movie.keywords.updated": "keywordsUpdated",
@@ -94,6 +100,7 @@ export const EVENT_ICONS: Record<string, LucideIcon> = {
   "movie.visual_profile.updated": ChartRadar,
   "movie.box_office.updated": Banknote,
   "movie.similar_movies.updated": Boxes,
+  "movie.collection.updated": Waypoints,
   "movie.genres.updated": Layers,
   "movie.specifications.updated": ListChecks,
   "movie.keywords.updated": Tags,
@@ -300,6 +307,10 @@ export const AuditLogItem = ({
     item.event_type === "movie.similar_movies.updated"
       ? toSimilarChanges(item.changes)
       : null;
+  const collectionChanges =
+    item.event_type === "movie.collection.updated"
+      ? toCollectionChanges(item.changes)
+      : null;
   const genresChanges = FILTER_EVENTS.has(item.event_type)
     ? toGenresChanges(item.changes)
     : null;
@@ -394,6 +405,10 @@ export const AuditLogItem = ({
             <SimilarDiff changes={similarChanges} posterUrl={posterUrl} />
           )}
 
+          {collectionChanges && (
+            <CollectionDiff changes={collectionChanges} posterUrl={posterUrl} />
+          )}
+
           {genresChanges && <GenresDiff changes={genresChanges} />}
 
           {visualProfileChanges && (
@@ -404,6 +419,7 @@ export const AuditLogItem = ({
             !visualProfileChanges &&
             !genresChanges &&
             !similarChanges &&
+            !collectionChanges &&
             !isBoxOffice &&
             !isMovieDetails &&
             !isMovieVisited &&

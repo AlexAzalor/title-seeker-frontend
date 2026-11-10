@@ -77,6 +77,7 @@ const CATEGORY_EVENT_TYPES: Record<Category, string[]> = {
     "movie.keywords.updated",
     "movie.action_times.updated",
     "movie.poster.updated",
+    "movie.collection.updated",
     "movie.visited",
   ],
   similar_movies: ["movie.similar_movies.updated"],
