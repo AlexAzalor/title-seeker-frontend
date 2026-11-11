@@ -6,6 +6,16 @@ const EXCELLENT = 75;
 const GOOD = 50;
 const POOR = 25;
 
+/** Background and shadow classes for a match percentage. */
+export const getPercentageMatchClasses = (percentage: number) =>
+  percentage >= EXCELLENT
+    ? "bg-success shadow-success"
+    : percentage >= GOOD
+      ? "bg-medium shadow-medium"
+      : percentage >= POOR
+        ? "bg-warning shadow-warning"
+        : "bg-danger shadow-danger";
+
 /**
  *
 Renders the color of the match percentage for movie filters (genres, keywords...)

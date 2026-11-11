@@ -40,9 +40,8 @@ export const metadata: Metadata = {
     "оцінювати тайтли",
   ],
   title: {
-    template:
-      "%s | Title Seeker - дозволяє швидко і якісно знайти бажаний тайтл!",
-    default: "Title Seeker - дозволяє швидко і якісно знайти бажаний тайтл!",
+    template: "%s | Title Seeker",
+    default: "Title Seeker",
   },
   alternates: {
     canonical: "https://titleseeker.com/",
@@ -60,16 +59,16 @@ export const metadata: Metadata = {
     images: ["https://static.titleseeker.com/other/title-seeker-logo.webp"],
   },
   robots: {
-    index: true,
-    follow: true,
-    nocache: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
+    index: false,
+    follow: false,
+    // nocache: true,
+    //   googleBot: {
+    //     index: true,
+    //     follow: true,
+    //     "max-video-preview": -1,
+    //     "max-image-preview": "large",
+    //     "max-snippet": -1,
+    //   },
   },
 };
 

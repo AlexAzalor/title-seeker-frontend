@@ -11,9 +11,13 @@ import { getPeople } from "@/orval_api/people/people";
 import { getGenres } from "@/orval_api/genres/genres";
 import { getSharedUniverses } from "@/orval_api/shared-universes/shared-universes";
 import { getFilters } from "@/orval_api/filters/filters";
+import { getAuditLogs } from "@/orval_api/audit-logs/audit-logs";
 
 import type { ValidationError, ValidationItemListError } from "@/types/general";
 import {
+  Language,
+  type MovieEditTitle,
+  type MovieEditDetails,
   type FilterList,
   type PersonBase,
   type BodyAPICreateMovie,
@@ -36,6 +40,7 @@ import {
   type PeopleListOut,
   type CharacterFormPutIn,
   type CharacterFormFieldsOut,
+  type MovieEditCollection,
 } from "@/orval_api/model";
 
 /**
@@ -902,6 +907,80 @@ export async function getMovieDescription(movieKey: string) {
   }
 }
 
+export async function getMovieEditFields(movieKey: string) {
+  const admin = await getAdmin();
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { backendURL } = await fetchSettings();
+  const { aPIGetMovie } = getMovies();
+  try {
+    const [en, uk] = await Promise.all([
+      aPIGetMovie(
+        movieKey,
+        { lang: Language.en, user_uuid: admin.uuid },
+        backendURL,
+      ),
+      aPIGetMovie(
+        movieKey,
+        { lang: Language.uk, user_uuid: admin.uuid },
+        backendURL,
+      ),
+    ]);
+    return {
+      status: 200,
+      data: {
+        title_en: en.data.title,
+        title_uk: uk.data.title,
+        location_en: en.data.location,
+        location_uk: uk.data.location,
+        duration: en.data.duration,
+        release_date: en.data.release_date,
+      },
+    };
+  } catch (error) {
+    console.error("Failed to load movie edit fields:", error);
+    return { status: 500, message: "Failed to load movie details" };
+  }
+}
+
+export async function editMovieTitle(data: MovieEditTitle) {
+  const admin = await getAdmin();
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { backendURL } = await fetchSettings();
+  try {
+    await getMovies().aPIEditTitle(data, { user_uuid: admin.uuid }, backendURL);
+    return { status: 200, message: "Movie title updated" };
+  } catch (error) {
+    console.error("Failed to update movie title:", error);
+    return { status: 500, message: "Failed to update movie title" };
+  }
+}
+
+export async function editMovieDetails(data: MovieEditDetails) {
+  const admin = await getAdmin();
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { backendURL } = await fetchSettings();
+  try {
+    await getMovies().aPIEditMovieDetails(
+      data,
+      { user_uuid: admin.uuid },
+      backendURL,
+    );
+    return { status: 200, message: "Movie details updated" };
+  } catch (error) {
+    console.error("Failed to update movie details:", error);
+    return { status: 500, message: "Failed to update movie details" };
+  }
+}
+
 export async function editMovieDescription(
   movieKey: string,
   description_en: string,
@@ -1080,6 +1159,39 @@ export async function editMovieBoxOffice(
     );
 
     return { status: 200, message: "Movie Box Office updated" };
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
+  }
+}
+
+export async function changeMoviePoster(movieKey: string, file: Blob) {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { backendURL, unknownError } = await fetchSettings();
+  const { aPIChangeMoviePoster } = getMovies();
+
+  try {
+    const response: AxiosResponse<{ poster: string }> =
+      await aPIChangeMoviePoster(
+        movieKey,
+        { file },
+        { user_uuid: admin.uuid },
+        backendURL,
+      );
+
+    return {
+      status: response.status,
+      poster: response.data.poster,
+      message: "Movie poster updated",
+    };
   } catch (error) {
     if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
       return { status: error.status, message: error.response?.data.detail };
@@ -1442,5 +1554,172 @@ export async function deleteCharacterRow(key: string) {
     } else {
       return unknownError;
     }
+  }
+}
+
+/**
+ * @description Get entity audit history (newest first). Omit `cursor` for the first page.
+ */
+export async function getEntityAuditLogs(
+  entityType: string,
+  entityId: string,
+  cursor?: string,
+) {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { backendURL, unknownError } = await fetchSettings();
+  const { aPIGetEntityHistory } = getAuditLogs();
+
+  try {
+    const res = await aPIGetEntityHistory(
+      entityType,
+      entityId,
+      { user_uuid: admin.uuid, cursor, limit: 20 },
+      backendURL,
+    );
+
+    return { status: 200, message: "Get", data: res.data };
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
+  }
+}
+
+export type GeneralAuditLogFilters = {
+  sort?: "asc" | "desc";
+  lang?: Language;
+  category?: string;
+  event_type?: string[];
+  exclude_event_type?: string[];
+  entity_type?: string;
+  user_id?: number;
+  date_from?: string;
+  date_to?: string;
+  search?: string;
+  timezone?: string;
+};
+
+/**
+ * @description Get the general audit history grouped by day. Omit `cursor` for the first page.
+ * Keep the filters identical while paginating.
+ */
+export async function getGeneralAuditLogs(
+  filters: GeneralAuditLogFilters,
+  cursor?: string,
+) {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { backendURL, unknownError } = await fetchSettings();
+  const { aPIGetGeneralHistory } = getAuditLogs();
+  const { event_type, exclude_event_type, ...queryFilters } = filters;
+
+  try {
+    const res = await aPIGetGeneralHistory(
+      {
+        ...queryFilters,
+        search: filters.search || undefined,
+        user_uuid: admin.uuid,
+        cursor,
+        limit: 20,
+        entity_type: filters.entity_type || undefined,
+      },
+      {
+        ...backendURL,
+        params: { event_type, exclude_event_type },
+        paramsSerializer: { indexes: null },
+      },
+    );
+
+    return { status: 200, message: "Get", data: res.data };
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
+  }
+}
+
+/**
+ * @description Get users who authored audit events (for the `user_id` filter).
+ */
+export async function getAuditLogUsers() {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { backendURL, unknownError } = await fetchSettings();
+  const { aPIGetHistoryUsers } = getAuditLogs();
+
+  try {
+    const res = await aPIGetHistoryUsers({ user_uuid: admin.uuid }, backendURL);
+
+    return { status: 200, message: "Get", data: res.data };
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    } else {
+      return unknownError;
+    }
+  }
+}
+
+export async function editCollection(data: MovieEditCollection) {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { backendURL, unknownError } = await fetchSettings();
+  const { aPIEditCollection } = getMovies();
+
+  try {
+    await aPIEditCollection(data, { user_uuid: admin.uuid }, backendURL);
+
+    return { status: 200, message: "Related movies updated" };
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    }
+    return unknownError;
+  }
+}
+
+export async function getStandaloneMovies() {
+  const admin = await getAdmin();
+
+  if (!admin) {
+    return { status: 403, message: "You are not allowed to do this" };
+  }
+
+  const { lang, backendURL, unknownError } = await fetchSettings();
+  const { aPIGetStandaloneMoviesList } = getMovies();
+
+  try {
+    const res = await aPIGetStandaloneMoviesList(
+      { lang, user_uuid: admin.uuid },
+      backendURL,
+    );
+
+    return { status: 200, data: res.data.bases };
+  } catch (error) {
+    if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
+      return { status: error.status, message: error.response?.data.detail };
+    }
+    return unknownError;
   }
 }

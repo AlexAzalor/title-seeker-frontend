@@ -29,6 +29,7 @@ export const TopRatedMovies = ({ radarData }: Props) => {
       <CardContent className="grid gap-3 pb-3 2xl:pb-0">
         {radarData.top_rated_movies.map((movie) => (
           <Link
+            prefetch={false}
             href={`/movies/${movie.key}`}
             key={movie.key}
             className={cn(

@@ -68,6 +68,7 @@ export const MovieRateBox = ({
       movieRateData={userRatingData || overallRatingCriteria}
       type={ratingType}
       onRateSubmit={submitRating}
+      isAdmin={isAdmin}
     />
   );
 };

@@ -95,6 +95,34 @@ export type QuickMovieType = z.infer<typeof QuickMovieSchema>;
 
 // Edit forms
 
+export const EditMovieTitleSchema = z.object({
+  title_en: z.string().trim().min(1, "Title EN is required"),
+  title_uk: z.string().trim().min(1, "Title UK is required"),
+});
+
+export type EditMovieTitleType = z.infer<typeof EditMovieTitleSchema>;
+
+export const EditMovieDetailsSchema = z.object({
+  release_date: z
+    .string()
+    .regex(/^\d{4}-\d{2}-\d{2}$/, "Release date is required")
+    .refine((value) => {
+      const date = new Date(`${value}T00:00:00.000Z`);
+      return (
+        !Number.isNaN(date.getTime()) &&
+        date.toISOString().slice(0, 10) === value
+      );
+    }, "Invalid release date"),
+  duration: z.coerce
+    .number({ invalid_type_error: "Value must be a number" })
+    .int("Value must be a whole number")
+    .min(1, "Value is required"),
+  location_en: z.string().trim().min(1, "Value is required"),
+  location_uk: z.string().trim().min(1, "Value is required"),
+});
+
+export type EditMovieDetailsType = z.infer<typeof EditMovieDetailsSchema>;
+
 export const EditMovieDescriptionShema = z.object({
   description_uk: z
     .string()

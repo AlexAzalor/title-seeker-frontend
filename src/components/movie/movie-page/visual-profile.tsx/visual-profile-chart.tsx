@@ -17,13 +17,15 @@ import {
 } from "@/components/ui/chart";
 import { Language, type VisualProfileCriterionData } from "@/orval_api/model";
 import { COLORS } from "@/lib/colors";
+import { cn } from "@/lib/utils";
 
 type Props = {
-  criteria: VisualProfileCriterionData[];
+  criteria: Pick<VisualProfileCriterionData, "name" | "rating">[];
   lang: Language;
+  compact?: boolean;
 };
 
-export const VisualProfileChart = ({ criteria, lang }: Props) => {
+export const VisualProfileChart = ({ criteria, lang, compact }: Props) => {
   const chartConfig = {
     rating: {
       label: lang === Language.uk ? "Бал" : "Rating",
@@ -34,7 +36,10 @@ export const VisualProfileChart = ({ criteria, lang }: Props) => {
   return (
     <ChartContainer
       config={chartConfig}
-      className="mx-auto aspect-square max-h-[364px] w-full p-0 2xl:w-full"
+      className={cn(
+        "mx-auto aspect-square w-full p-0 2xl:w-full",
+        compact ? "max-h-[260px]" : "max-h-[364px]",
+      )}
     >
       <RadarChart data={criteria}>
         <ChartTooltip
@@ -45,7 +50,11 @@ export const VisualProfileChart = ({ criteria, lang }: Props) => {
         <PolarAngleAxis
           dataKey="name"
           className="text-sm"
-          tick={{ fill: COLORS.lightGray, fontSize: 16, width: 140 }}
+          tick={{
+            fill: COLORS.lightGray,
+            fontSize: compact ? 12 : 16,
+            width: compact ? 90 : 140,
+          }}
         />
         <PolarRadiusAxis domain={[0, 5]} axisLine={false} tick={false} />
         <PolarGrid />

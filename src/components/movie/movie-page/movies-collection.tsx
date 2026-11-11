@@ -45,6 +45,7 @@ export const MoviesCollection = ({
       {data.movies.map((movie, i) => (
         <Link
           ref={index === i ? activeItemRef : null}
+          prefetch={false}
           href={`/movies/${movie.key}#movie`}
           key={movie.key}
           scroll

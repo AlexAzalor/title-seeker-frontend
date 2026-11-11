@@ -95,6 +95,10 @@
       "key": "help-center",
       "label": "Довідник"
     },
+    "auditLog": {
+      "key": "audit-log",
+      "label": "Історія"
+    },
     "settings": {
       "key": "settings",
       "label": "Налаштування"
@@ -402,6 +406,12 @@
     "nextStep": "Наступний крок",
     "skip": "Пропустити",
     "menuSelect": "Вибрати",
+    "movieEdit": {
+      "editTitle": "Редагувати назву",
+      "editDetails": "Редагувати деталі",
+      "save": "Зберегти",
+      "durationUnavailable": "Не вдалося визначити поточну тривалість ({duration}). Введіть її у хвилинах."
+    },
     "stepper": {
       "titleRate": {
         "name": "Назва/Оцінка",
@@ -425,6 +435,10 @@
         "base": "Базовий фільм",
         "collectionOrder": "Порядок в збірнику",
         "relationType": "Тип зв'язку",
+        "selectMovies": "Обрати пов'язані фільми",
+        "save": "Зберегти",
+        "updated": "Пов'язані фільми оновлено",
+        "dissolveWarning": "Збереження з порожнім списком розформує цей збірник",
         "notFound": "Якщо у списку немає фільму - Пропустити"
       },
       "info": {
@@ -556,6 +570,141 @@
 
   "notImplemented": "Ця частина ще не реалізована.",
 
+  "AuditLog": {
+    "entityType": "Сутність",
+    "entityMovie": "Фільм",
+    "tvseries": "Серіали",
+    "anime": "Аніме",
+    "games": "Ігри",
+    "eventTypes": "Типи подій",
+    "excludeEventType": "Виключити: {event}",
+    "latestEvent": "Остання подія",
+    "filterContent": "Контент",
+    "filterSimilarMovies": "Схожі фільми",
+    "filterRatings": "Оцінки",
+    "filterVisits": "Відвідування",
+    "allUsers": "Усі користувачі",
+    "anonymous": "Анонім",
+    "searchPlaceholder": "Пошук за назвою...",
+    "dateFrom": "Від",
+    "dateTo": "До",
+    "applyDates": "Застосувати",
+    "clearDates": "Очистити",
+    "presetToday": "Сьогодні",
+    "presetYesterday": "Вчора",
+    "presetLast7": "Останні 7 днів",
+    "presetLast30": "Останні 30 днів",
+    "presetThisMonth": "Цей місяць",
+    "newestFirst": "Спочатку нові",
+    "oldestFirst": "Спочатку старі",
+    "resetFilters": "Скинути фільтри",
+    "by": "від {name}",
+    "noResults": "Подій за фільтрами не знайдено",
+    "generalTitle": "Журнал змін",
+    "generalDescription": "Усі зміни в застосунку, від найновіших",
+    "unknownEvent": "Невідома подія",
+    "entityDeleted": "Видалено",
+    "endOfList": "Це кінець списку",
+    "history": "Історія",
+    "title": "Історія змін",
+    "description": "Останні зміни цього тайтлу",
+    "empty": "Змін ще не зафіксовано",
+    "before": "Було",
+    "after": "Стало",
+    "emptyValue": "(порожньо)",
+    "posterFields": {
+      "file": "Файл",
+      "size": "Розмір",
+      "dimensions": "Розміри",
+      "format": "Формат"
+    },
+    "showMore": "Показати більше",
+    "showLess": "Показати менше",
+    "loadError": "Не вдалося завантажити історію",
+    "retry": "Повторити",
+    "createdAt": "Фільм створено",
+    "updatedAt": "Оновлено",
+    "loadingMore": "Завантаження...",
+    "noPeople": "(немає)",
+    "status": {
+      "changedValue": "Змінено",
+      "moved": "Переміщено",
+      "scoreChanged": "Змінено оцінку",
+      "orderChanged": "Змінено порядок",
+      "relationChanged": "Змінено тип зв'язку",
+      "added": "Додано",
+      "removed": "Видалено",
+      "changed": "Змінено персонажа"
+    },
+    "userRating": "Оцінка від {name}",
+    "overallRating": "Загальна оцінка",
+    "averageRating": "Середня оцінка",
+    "ratingCriterionType": "Критерій оцінювання",
+    "votes": "Голоси",
+    "votesUnit": "голосів",
+    "boxOffice": {
+      "budget": "Бюджет",
+      "domestic_gross": "Збори в країні виробництва",
+      "worldwide_gross": "Світові збори"
+    },
+    "movieDetails": {
+      "duration": "Тривалість",
+      "release_date": "Дата виходу",
+      "location_en": "Місце зйомок (англійською)",
+      "location_uk": "Місце зйомок (українською)"
+    },
+    "firstGenerated": "Схожі фільми згенеровано вперше",
+    "collectionCreatedFromStandalone": "Цей фільм був окремим і став базовим фільмом збірника.",
+    "collectionDissolvedToStandalone": "Усі пов'язані фільми видалено, і базовий фільм став окремим.",
+    "collectionRelations": {
+      "base": "Базовий фільм",
+      "sequel": "Сиквел",
+      "prequel": "Приквел",
+      "spin_off": "Спін-оф",
+      "remake": "Ремейк",
+      "reboot": "Перезапуск",
+      "crossover": "Кросовер",
+      "alternative_timeline": "Альтернативна хронологія",
+      "shared_universe": "Спільний всесвіт"
+    },
+    "sections": {
+      "genres": "Жанри",
+      "subgenres": "Піджанри",
+      "specifications": "Специфікації",
+      "keywords": "Ключові слова",
+      "action_times": "Час дії"
+    },
+    "oldChart": "Було",
+    "newChart": "Стало",
+    "category": "Категорія",
+    "movieVisitedMessage": "Сторінку фільму «<movie>{title}</movie>» відвідали <date>{visitedAt}</date>",
+    "events": {
+      "movieCreated": "Фільм створено",
+      "movieVisited": "Відвідування фільму",
+      "descriptionUpdated": "Опис оновлено",
+      "titleUpdated": "Назву оновлено",
+      "detailsUpdated": "Деталі фільму оновлено",
+      "actorsUpdated": "Акторів оновлено",
+      "ratingCreated": "Оцінку додано",
+      "ratingUpdated": "Оцінку змінено",
+      "visualProfileUpdated": "Візуальний профіль оновлено",
+      "boxOfficeUpdated": "Касові збори оновлено",
+      "similarMoviesUpdated": "Схожі фільми оновлено",
+      "collectionUpdated": "Збірник фільмів оновлено",
+      "genresUpdated": "Жанри оновлено",
+      "specificationsUpdated": "Специфікації оновлено",
+      "keywordsUpdated": "Ключові слова оновлено",
+      "actionTimesUpdated": "Час дії оновлено",
+      "directorsUpdated": "Режисерів оновлено",
+      "posterUpdated": "Постер оновлено"
+    }
+  },
+  "MoviePoster": {
+    "change": "Змінити постер",
+    "updated": "Постер оновлено",
+    "invalidImage": "Будь ласка, виберіть зображення",
+    "error": "Сталася помилка під час оновлення постера"
+  },
   "Other": {
     "showValues": "Показати значення",
     "total": "Всього",

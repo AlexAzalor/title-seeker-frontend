@@ -35,6 +35,7 @@ export const RelatedSimilarMovieList = ({
       >
         {movies.map((movie) => (
           <Link
+            prefetch={false}
             href={`/movies/${movie.key}#movie`}
             title={
               movie?.similarity_score

@@ -17,7 +17,7 @@ import { getSession } from "@/app/(app)/services/global-api";
 import { hasSearchFilters } from "@/lib/utils";
 
 export const metadata: Metadata = {
-  title: "Super Search | Title Seeker",
+  title: "Super Search",
 };
 
 const DEFAULT_PAGE = 1;
