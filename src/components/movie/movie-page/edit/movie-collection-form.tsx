@@ -254,7 +254,7 @@ export const MovieCollectionForm = ({
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 20 }}
                 transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                className="dark:border-dark-border dark:bg-main-dark border-light-border flex flex-wrap items-center gap-3 rounded-xl border p-2"
+                className="dark:border-dark-border dark:bg-main-dark border-light-border flex flex-col flex-wrap items-center gap-3 rounded-xl border p-2 sm:flex-row"
               >
                 {field.poster ? (
                   <Image

@@ -39,11 +39,10 @@ export const metadata: Metadata = {
     "оцінювати фільми",
     "оцінювати тайтли",
   ],
-  // title: {
-  //   template:
-  //     "%s | Title Seeker - дозволяє швидко і якісно знайти бажаний тайтл!",
-  //   default: "Title Seeker - дозволяє швидко і якісно знайти бажаний тайтл!",
-  // },
+  title: {
+    template: "%s | Title Seeker",
+    default: "Title Seeker",
+  },
   alternates: {
     canonical: "https://titleseeker.com/",
   },

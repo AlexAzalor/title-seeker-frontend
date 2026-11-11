@@ -55,7 +55,7 @@ export async function generateMetadata({
   const movie = await getMovie(slug);
 
   return {
-    title: `${movie.title} (${new Date(movie.release_date).getFullYear()}) | Title Seeker`,
+    title: `${movie.title} (${new Date(movie.release_date).getFullYear()})`,
     description: movie.description || "No description available.",
     openGraph: {
       images: [`${posterUrl}/posters/${movie.poster}`],

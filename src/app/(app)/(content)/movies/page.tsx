@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
 import { backendURL } from "@/lib/constants";
 
@@ -12,6 +13,10 @@ import type { SearchParams } from "@/types/general";
 
 const DEFAULT_PAGE = 1;
 const DEFAULT_PAGE_SIZE = 30;
+
+export const metadata: Metadata = {
+  title: "Movies",
+};
 
 export default async function MoviesPage(props: {
   searchParams: SearchParams;
