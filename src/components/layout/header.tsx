@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
-import { PlusCircle } from "lucide-react";
+import { PlusCircle, Trophy } from "lucide-react";
 import { ALL_ROLES } from "@/proxy";
 import { POSTER_URL } from "@/lib/constants";
 
@@ -16,6 +16,7 @@ import { UserRole } from "@/orval_api/model";
 
 export const Header = () => {
   const t = useTranslations("HomePage");
+  const tournament = useTranslations("MovieTournament");
   const navigationKeys = Object.keys(t.raw("navigation"));
   const locale = useLocale();
 
@@ -62,6 +63,13 @@ export const Header = () => {
       </div>
 
       <Search posterURL={POSTER_URL ?? "NO POSTER"} />
+
+      <Button asChild size="icon" className="mx-3 shrink-0 sm:w-auto sm:px-4">
+        <Link href="/movie-tournament" aria-label={tournament("title")}>
+          <Trophy aria-hidden="true" />
+          <span className="hidden sm:inline">{tournament("title")}</span>
+        </Link>
+      </Button>
 
       <div className="flex items-center gap-2">
         <RoleGate allowedRoles={[UserRole.owner]}>
