@@ -1,15 +1,15 @@
-import type { Movie } from "./types";
+import type { MovieDetailOut } from "@/orval_api/model";
 
 export type Bracket = {
-  round: Movie[];
+  round: MovieDetailOut[];
   duel: number;
-  advancing: Movie[];
-  history: Movie[];
+  advancing: MovieDetailOut[];
+  history: MovieDetailOut[];
   roundNumber: number;
-  winner: Movie | null;
+  winner: MovieDetailOut | null;
 };
 
-export function createBracket(movies: Movie[]): Bracket {
+export function createBracket(movies: MovieDetailOut[]): Bracket {
   if (
     (movies.length !== 16 && movies.length !== 32) ||
     new Set(movies.map((movie) => movie.key)).size !== movies.length

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { Info, Loader2 } from "lucide-react";
+import { Info } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,15 +12,13 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import type { Language } from "@/orval_api/model";
-import { getTournamentMovieDetails } from "./actions";
-import type { Movie, MovieDetails } from "./types";
+import type { Language, MovieDetailOut } from "@/orval_api/model";
 
 export function Poster({
   movie,
   posterUrl,
 }: {
-  movie: Movie;
+  movie: MovieDetailOut;
   posterUrl: string;
   sizes: string;
 }) {
@@ -47,29 +45,11 @@ export function Poster({
   );
 }
 
-function MovieInfo({ movie, lang }: { movie: Movie; lang: Language }) {
+function MovieInfo({ movie }: { movie: MovieDetailOut; lang: Language }) {
   const t = useTranslations("MovieTournament");
-  const [details, setDetails] = useState<MovieDetails | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
-  async function load() {
-    setLoading(true);
-    setError(false);
-    try {
-      setDetails(await getTournamentMovieDetails(movie.key, lang));
-    } catch (err) {
-      console.error("Movie details could not be loaded", err);
-      setError(true);
-    } finally {
-      setLoading(false);
-    }
-  }
+
   return (
-    <Popover
-      onOpenChange={(open) => {
-        if (open && !details && !loading && !error) void load();
-      }}
-    >
+    <Popover>
       <PopoverTrigger asChild>
         <Button
           type="button"
@@ -85,45 +65,22 @@ function MovieInfo({ movie, lang }: { movie: Movie; lang: Language }) {
         collisionPadding={12}
         className="max-h-[70dvh] w-[min(22rem,calc(100vw-24px))] space-y-3 overflow-y-auto text-sm break-words"
       >
-        {/* <h3 className="font-semibold">{movie.title}</h3> */}
-
         <div className="flex gap-1 text-lg">
           <p className="movie-release-date">
             {new Date(movie.release_date).getFullYear()}
           </p>{" "}
           | <p className="movie-duration">{movie.duration}</p>
         </div>
-        {loading && (
-          <p role="status" className="flex items-center gap-2">
-            <Loader2 className="size-4 animate-spin motion-reduce:animate-none" />
-            {t("loadingDetails")}
-          </p>
-        )}
-        {error && (
-          <div role="alert">
-            {t("detailsError")}{" "}
-            <Button variant="link" onClick={() => void load()}>
-              {t("retry")}
-            </Button>
-          </div>
-        )}
-        {details && (
-          <>
-            <p className="text-base">
-              {details.description || t("noDescription")}
-            </p>
-            <p className="text-lg">
-              <strong className="text-genre">{t("genres")}:</strong>{" "}
-              {details.genres.join(", ") || t("none")}
-            </p>
-            <p className="text-lg">
-              <strong className="text-specification">
-                {t("specifications")}:
-              </strong>{" "}
-              {details.specifications.join(", ") || t("none")}
-            </p>
-          </>
-        )}
+
+        <p className="text-base">{movie.description || t("noDescription")}</p>
+        <p className="text-lg">
+          <strong className="text-genre">{t("genres")}:</strong>{" "}
+          {movie.genres.join(", ") || t("none")}
+        </p>
+        <p className="text-lg">
+          <strong className="text-specification">{t("specifications")}:</strong>{" "}
+          {movie.specifications.join(", ") || t("none")}
+        </p>
       </PopoverContent>
     </Popover>
   );
@@ -137,7 +94,7 @@ export function MovieCard({
   selected,
   locked,
 }: {
-  movie: Movie;
+  movie: MovieDetailOut;
   posterUrl: string;
   lang: Language;
   onSelect: () => void;

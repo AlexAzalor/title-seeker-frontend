@@ -306,6 +306,7 @@ export function ResultView({
           <Link
             href={`/movies/${encodeURIComponent(winner.key)}#movie`}
             target="_blank"
+            prefetch={false}
           >
             {t("moviePage")} <ArrowRight />
           </Link>
@@ -329,6 +330,7 @@ export function ResultView({
               className="space-y-1"
               href={`/movies/${encodeURIComponent(movie.key)}#movie`}
               target="_blank"
+              prefetch={false}
             >
               <Poster
                 movie={movie}
