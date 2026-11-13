@@ -32,6 +32,10 @@ type Props<Datum extends ItemFields> = {
   emptyText?: string;
   onExclude?: (item: Datum) => void;
   excludedKeys?: string[];
+  /**
+   * Whether to show the movie count badge next to the item name.
+   */
+  showMovieCount?: boolean;
 };
 
 const ItemsSelector = <Datum extends ItemFields>({
@@ -42,6 +46,7 @@ const ItemsSelector = <Datum extends ItemFields>({
   emptyText,
   onExclude,
   excludedKeys,
+  showMovieCount = true,
 }: Props<Datum>) => {
   const session = useSession();
   const t = useTranslations("MenuItems");
@@ -102,9 +107,11 @@ const ItemsSelector = <Datum extends ItemFields>({
               >
                 <p>
                   {item.name}{" "}
-                  <span className="inline-flex items-center rounded-full border border-red-500/20 bg-red-500/10 px-2 py-0.5 text-base font-semibold text-red-700">
-                    {item.movie_count ?? 0}
-                  </span>
+                  {showMovieCount && (
+                    <span className="inline-flex items-center rounded-full border border-red-500/20 bg-red-500/10 px-2 py-0.5 text-base font-semibold text-red-700">
+                      {item.movie_count ?? 0}
+                    </span>
+                  )}
                 </p>
 
                 {!!item.description && (

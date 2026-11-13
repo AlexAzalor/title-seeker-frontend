@@ -166,7 +166,7 @@ export const Search = ({ posterURL }: Props) => {
         <Link href="/super-search">
           <Button>
             <ScanSearch />
-            {t("super")}
+            <span className="hidden sm:inline">{t("super")}</span>
           </Button>
         </Link>
       </div>

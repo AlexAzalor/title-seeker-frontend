@@ -15,6 +15,13 @@
 - 🌍 **Internationalization** - Multi-language support
 - 📱 **Mobile Responsive** - Optimized for all device sizes
 - ⚡ **Fast Performance** - Built with Next.js for optimal speed
+- 🎬 **Movie Tournament** - Choose between movie posters in a 16- or 32-movie knockout
+
+The `/movie-tournament` page requests a random pool for the selected filters and
+keeps the bracket and choices in the browser until the page is left. Checking
+availability also generates the pool used when the tournament starts. Popular
+movie exclusions apply to the individual suggested titles, not whole franchises.
+Shared-universe exclusions separately remove movies belonging to selected universes.
 
 ---
 
