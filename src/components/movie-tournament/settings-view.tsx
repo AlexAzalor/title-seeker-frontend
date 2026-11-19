@@ -17,6 +17,8 @@ import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
 import type { FilterOption, PopularOption, Settings } from "./types";
 
+// const MOVIE_PRESET = ["action", "comedy", "adventure"];
+
 type Props = {
   settings: Settings;
   setSettings: (settings: Settings) => void;
@@ -166,23 +168,25 @@ function FilterSection({
           }
         />
       </div>
-      <div className="space-y-2">
-        <div className="flex justify-between text-sm">
-          <span>{t("matchingThreshold")}</span>
-          <span>{threshold}%</span>
+      {included.length > 0 && (
+        <div className="space-y-2">
+          <div className="flex justify-between text-sm">
+            <span>{t("matchingThreshold")}</span>
+            <span>{threshold}%</span>
+          </div>
+          <Slider
+            aria-label={t("thresholdLabel", { title })}
+            min={60}
+            max={100}
+            step={20}
+            value={[threshold]}
+            onValueChange={([value]) => onChange(included, excluded, value)}
+          />
+          <p className="text-xs text-neutral-500 dark:text-neutral-400">
+            {t("thresholdHelp")}
+          </p>
         </div>
-        <Slider
-          aria-label={t("thresholdLabel", { title })}
-          min={60}
-          max={100}
-          step={20}
-          value={[threshold]}
-          onValueChange={([value]) => onChange(included, excluded, value)}
-        />
-        <p className="text-xs text-neutral-500 dark:text-neutral-400">
-          {t("thresholdHelp")}
-        </p>
-      </div>
+      )}
     </section>
   );
 }

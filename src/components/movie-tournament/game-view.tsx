@@ -127,10 +127,12 @@ export function GameView({
   select,
   startOver,
   exit,
+  avatarURL,
 }: {
   bracket: Bracket;
   size: number;
   posterUrl: string;
+  avatarURL: string;
   lang: Language;
   selected: string | null;
   locked: boolean;
@@ -198,6 +200,7 @@ export function GameView({
                 key={movie.key}
                 movie={movie}
                 posterUrl={posterUrl}
+                avatarURL={avatarURL}
                 lang={lang}
                 selected={selected === movie.key}
                 locked={locked}

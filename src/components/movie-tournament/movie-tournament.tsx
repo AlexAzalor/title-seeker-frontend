@@ -62,9 +62,11 @@ type Availability = {
 export function MovieTournament({
   lang,
   posterUrl,
+  avatarURL,
 }: {
   lang: Language;
   posterUrl: string;
+  avatarURL: string;
 }) {
   const [settings, setSettings] = useState<Settings>(initialSettings);
   const [options, setOptions] = useState<{
@@ -343,6 +345,7 @@ export function MovieTournament({
                 bracket={bracket}
                 size={settings.size}
                 posterUrl={posterUrl}
+                avatarURL={avatarURL}
                 lang={lang}
                 selected={selected}
                 locked={transitioning}

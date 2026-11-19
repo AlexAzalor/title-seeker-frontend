@@ -13,6 +13,9 @@ import {
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import type { Language, MovieDetailOut } from "@/orval_api/model";
+import { Separator } from "../ui/separator";
+import { TooltipWrapper } from "../my-custom-ui/tooltip-wrapper";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export function Poster({
   movie,
@@ -45,44 +48,162 @@ export function Poster({
   );
 }
 
-function MovieInfo({ movie }: { movie: MovieDetailOut; lang: Language }) {
+function MovieInfo({
+  movie,
+  lang,
+  avatarURL,
+}: {
+  movie: MovieDetailOut;
+  lang: Language;
+  avatarURL: string;
+}) {
   const t = useTranslations("MovieTournament");
+  const isMobile = useIsMobile();
+
+  if (isMobile) {
+    return (
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            className="relative z-10 size-11 shrink-0"
+            aria-label={t("movieInfo", { title: movie.title })}
+          >
+            <Info className="size-4" />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent
+          collisionPadding={12}
+          className="max-h-[70dvh] w-[min(22rem,calc(100vw-24px))] space-y-3 overflow-y-auto text-sm break-words"
+        >
+          <div className="flex gap-1 text-lg">
+            <p className="movie-release-date">
+              {new Date(movie.release_date).getFullYear()}
+            </p>{" "}
+            | <p className="movie-duration">{movie.duration}</p>
+          </div>
+
+          <p className="text-base">{movie.description || t("noDescription")}</p>
+          <p className="text-lg">
+            <strong className="text-genre">{t("genres")}:</strong>{" "}
+            {movie.genres.join(", ") || t("none")}
+          </p>
+          <p className="text-lg">
+            <strong className="text-specification">
+              {t("specifications")}:
+            </strong>{" "}
+            {movie.specifications.join(", ") || t("none")}
+          </p>
+
+          <div className="flex gap-1">
+            <div className="flex gap-1">
+              {movie.directors.map((director) => (
+                <Image
+                  key={director.key}
+                  title={director.full_name}
+                  src={`${avatarURL}/directors/${director.avatar_url}`}
+                  alt="Director Avatar"
+                  className="size-12 rounded-full object-cover"
+                  height={50}
+                  width={50}
+                  blurDataURL="/static/blur-image.webp"
+                  placeholder="blur"
+                  loading="lazy"
+                />
+              ))}
+            </div>
+            <Separator className="mx-2 h-auto" orientation="vertical" />
+            <div className="flex gap-1">
+              {movie.actors.map((actor) => (
+                <Image
+                  key={actor.key}
+                  title={actor.full_name}
+                  src={`${avatarURL}/actors/${actor.avatar_url}`}
+                  alt="Actor Avatar"
+                  className="size-12 rounded-full object-cover"
+                  height={50}
+                  width={50}
+                  blurDataURL="/static/blur-image.webp"
+                  placeholder="blur"
+                  loading="lazy"
+                />
+              ))}
+            </div>
+          </div>
+        </PopoverContent>
+      </Popover>
+    );
+  }
 
   return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <Button
-          type="button"
-          variant="ghost"
-          size="icon"
-          className="relative z-10 size-11 shrink-0"
-          aria-label={t("movieInfo", { title: movie.title })}
-        >
-          <Info className="size-4" />
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent
-        collisionPadding={12}
-        className="max-h-[70dvh] w-[min(22rem,calc(100vw-24px))] space-y-3 overflow-y-auto text-sm break-words"
-      >
-        <div className="flex gap-1 text-lg">
-          <p className="movie-release-date">
-            {new Date(movie.release_date).getFullYear()}
-          </p>{" "}
-          | <p className="movie-duration">{movie.duration}</p>
-        </div>
+    <TooltipWrapper
+      asChild
+      className="max-w-80"
+      content={
+        <div className="max-h-[70dvh] space-y-3 overflow-y-auto text-sm break-words">
+          <div className="flex gap-1 text-lg">
+            <p className="movie-release-date">
+              {new Date(movie.release_date).getFullYear()}
+            </p>{" "}
+            | <p className="movie-duration">{movie.duration}</p>
+          </div>
 
-        <p className="text-base">{movie.description || t("noDescription")}</p>
-        <p className="text-lg">
-          <strong className="text-genre">{t("genres")}:</strong>{" "}
-          {movie.genres.join(", ") || t("none")}
-        </p>
-        <p className="text-lg">
-          <strong className="text-specification">{t("specifications")}:</strong>{" "}
-          {movie.specifications.join(", ") || t("none")}
-        </p>
-      </PopoverContent>
-    </Popover>
+          <p className="text-base">{movie.description || t("noDescription")}</p>
+          <p className="text-lg">
+            <strong className="text-genre">{t("genres")}:</strong>{" "}
+            {movie.genres.join(", ") || t("none")}
+          </p>
+          <p className="text-lg">
+            <strong className="text-specification">
+              {t("specifications")}:
+            </strong>{" "}
+            {movie.specifications.join(", ") || t("none")}
+          </p>
+
+          <div className="flex gap-1">
+            <div className="flex gap-1">
+              {movie.directors.map((director) => (
+                <Image
+                  key={director.key}
+                  title={director.full_name}
+                  src={`${avatarURL}/directors/${director.avatar_url}`}
+                  alt="Director Avatar"
+                  className="size-12 rounded-full object-cover"
+                  height={50}
+                  width={50}
+                  blurDataURL="/static/blur-image.webp"
+                  placeholder="blur"
+                  loading="lazy"
+                />
+              ))}
+            </div>
+            <Separator className="mx-2 h-auto" orientation="vertical" />
+            <div className="flex gap-1">
+              {movie.actors.map((actor) => (
+                <Image
+                  key={actor.key}
+                  title={actor.full_name}
+                  src={`${avatarURL}/actors/${actor.avatar_url}`}
+                  alt="Actor Avatar"
+                  className="size-12 rounded-full object-cover"
+                  height={50}
+                  width={50}
+                  blurDataURL="/static/blur-image.webp"
+                  placeholder="blur"
+                  loading="lazy"
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      }
+    >
+      <div className="relative z-10 grid size-11 shrink-0 place-content-center transition-colors">
+        <Info className="size-5" />
+      </div>
+    </TooltipWrapper>
   );
 }
 
@@ -93,9 +214,11 @@ export function MovieCard({
   onSelect,
   selected,
   locked,
+  avatarURL,
 }: {
   movie: MovieDetailOut;
   posterUrl: string;
+  avatarURL: string;
   lang: Language;
   onSelect: () => void;
   selected: boolean;
@@ -127,7 +250,8 @@ export function MovieCard({
         >
           {movie.title}
         </h1>
-        <MovieInfo movie={movie} lang={lang} />
+
+        <MovieInfo movie={movie} lang={lang} avatarURL={avatarURL} />
       </div>
       <Poster
         movie={movie}

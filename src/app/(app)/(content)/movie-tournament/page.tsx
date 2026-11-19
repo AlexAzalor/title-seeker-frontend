@@ -1,5 +1,5 @@
 import { getLocale } from "next-intl/server";
-import { POSTER_URL } from "@/lib/constants";
+import { POSTER_URL, AVATAR_URL } from "@/lib/constants";
 import { MovieTournament } from "@/components/movie-tournament/movie-tournament";
 
 export default async function MovieTournamentPage() {
@@ -8,6 +8,7 @@ export default async function MovieTournamentPage() {
     <MovieTournament
       lang={locale === "en" ? "en" : "uk"}
       posterUrl={POSTER_URL ?? ""}
+      avatarURL={AVATAR_URL ?? ""}
     />
   );
 }

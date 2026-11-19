@@ -9,6 +9,18 @@ export type Bracket = {
   winner: MovieDetailOut | null;
 };
 
+function shuffle<T>(items: T[]): T[] {
+  const shuffled = [...items];
+  for (let index = shuffled.length - 1; index > 0; index -= 1) {
+    const randomIndex = Math.floor(Math.random() * (index + 1));
+    [shuffled[index], shuffled[randomIndex]] = [
+      shuffled[randomIndex],
+      shuffled[index],
+    ];
+  }
+  return shuffled;
+}
+
 export function createBracket(movies: MovieDetailOut[]): Bracket {
   if (
     (movies.length !== 16 && movies.length !== 32) ||
@@ -42,7 +54,7 @@ export function selectWinner(bracket: Bracket, key: string): Bracket {
   }
   return {
     ...bracket,
-    round: advancing,
+    round: shuffle(advancing),
     duel: 0,
     advancing: [],
     history,

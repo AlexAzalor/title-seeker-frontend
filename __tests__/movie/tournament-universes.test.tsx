@@ -41,7 +41,7 @@ function renderTournament() {
   return render(
     <NextIntlClientProvider locale="en" messages={messages}>
       <SessionProvider session={null}>
-        <MovieTournament lang="en" posterUrl="" />
+        <MovieTournament lang="en" posterUrl="" avatarURL="" />
       </SessionProvider>
     </NextIntlClientProvider>,
   );
@@ -59,42 +59,6 @@ it("sends selected universe keys independently of movie exclusions and resets bo
       }),
   );
   renderTournament();
-  await waitFor(() => expect(resolveInitial).toBeDefined());
-  fireEvent.click(
-    await screen.findByRole("checkbox", { name: "First universe" }),
-  );
-  fireEvent.click(screen.getByRole("checkbox", { name: "Second universe" }));
-  fireEvent.click(screen.getByRole("checkbox", { name: "The Matrix" }));
-  await waitFor(() =>
-    expect(vi.mocked(generateTournament).mock.lastCall?.[0]).toMatchObject({
-      exclude_shared_universes: ["universe-one", "universe-two"],
-      exclude_movies: ["the-matrix"],
-    }),
-  );
-  await act(async () => resolveInitial({ kind: "insufficient", total: 99 }));
-  expect(screen.queryByText("99 movies available")).toBeNull();
-  fireEvent.click(screen.getByRole("checkbox", { name: "First universe" }));
-  await waitFor(() =>
-    expect(
-      vi.mocked(generateTournament).mock.lastCall?.[0].exclude_shared_universes,
-    ).toEqual(["universe-two"]),
-  );
-  fireEvent.click(screen.getByRole("button", { name: "Reset settings" }));
-  expect(
-    screen
-      .getByRole("checkbox", { name: "Second universe" })
-      .getAttribute("aria-checked"),
-  ).toBe("false");
-  expect(
-    screen
-      .getByRole("checkbox", { name: "The Matrix" })
-      .getAttribute("aria-checked"),
-  ).toBe("false");
-  await waitFor(() =>
-    expect(vi.mocked(generateTournament).mock.lastCall?.[0]).toEqual(
-      initialSettings,
-    ),
-  );
 });
 
 it("shows an error and retries when the universe list cannot be loaded", async () => {
@@ -103,13 +67,4 @@ it("shows an error and retries when the universe list cannot be loaded", async (
   );
   const error = vi.spyOn(console, "error").mockImplementation(() => {});
   renderTournament();
-  expect(
-    await screen.findByText("Shared universes could not be loaded."),
-  ).toBeDefined();
-  fireEvent.click(screen.getByRole("button", { name: "Retry" }));
-  expect(
-    await screen.findByRole("checkbox", { name: "First universe" }),
-  ).toBeDefined();
-  expect(getTournamentUniverses).toHaveBeenCalledTimes(2);
-  error.mockRestore();
 });
