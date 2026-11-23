@@ -10,9 +10,12 @@ const Slider = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root> & {
     range?: boolean;
   }
->(({ className, range, ...props }, ref) => {
+>(({ className, range, "aria-label": ariaLabel, ...props }, ref) => {
   const thumb = (
-    <SliderPrimitive.Thumb className="block h-6 w-6 rounded-full border-2 border-neutral-900 bg-white ring-offset-white transition-colors focus-visible:ring-neutral-950 focus-visible:ring-offset-2 focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-50 dark:bg-neutral-950 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300" />
+    <SliderPrimitive.Thumb
+      aria-label={ariaLabel}
+      className="block h-6 w-6 rounded-full border-2 border-neutral-900 bg-white ring-offset-white transition-colors focus-visible:ring-neutral-950 focus-visible:ring-offset-2 focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-50 dark:border-neutral-50 dark:bg-neutral-950 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300"
+    />
   );
 
   return (
