@@ -12,6 +12,7 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 // import Script from "next/script";
 import "../globals.css";
 import type { Metadata } from "next";
+import { ParticlesBackground } from "@/components/layout/particles-background";
 
 // import { after } from "next/server";
 
@@ -95,16 +96,22 @@ export default async function RootLayout({
         {/* React Scan - https://react-scan.com/*/}
         {/* <Script src="https://unpkg.com/react-scan/dist/auto.global.js" async /> */}
         <ThemeProvider>
-          <NextIntlClientProvider messages={messages}>
-            <AuthProvider>
-              <SidebarProvider defaultOpen={false}>
-                <MainLayout>
-                  <AppSidebar locale={locale} />
-                  {children}
-                </MainLayout>
-              </SidebarProvider>
-            </AuthProvider>
-          </NextIntlClientProvider>
+          <div className="relative isolate min-h-screen">
+            {/* <CinematicPortalBackground playground /> */}
+            <ParticlesBackground />
+            <div className="relative z-10">
+              <NextIntlClientProvider messages={messages}>
+                <AuthProvider>
+                  <SidebarProvider defaultOpen={false}>
+                    <MainLayout>
+                      <AppSidebar locale={locale} />
+                      {children}
+                    </MainLayout>
+                  </SidebarProvider>
+                </AuthProvider>
+              </NextIntlClientProvider>
+            </div>
+          </div>
         </ThemeProvider>
 
         <Toaster richColors />

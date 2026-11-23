@@ -17,15 +17,15 @@ export default auth((req) => {
   const newUrl = new URL("/", req.nextUrl.origin);
 
   // TODO: remove later
-  // if (req.nextUrl.pathname.startsWith("/movies/")) {
-  //   console.log(
-  //     "MOVIE HIT",
-  //     req.nextUrl.pathname,
-  //     req.headers.get("user-agent"),
-  //     req.headers.get("x-forwarded-for"),
-  //     req.headers.get("purpose") ?? req.headers.get("next-router-prefetch"),
-  //   );
-  // }
+  if (req.nextUrl.pathname.startsWith("/movies/")) {
+    console.log(
+      "MOVIE HIT",
+      req.nextUrl.pathname,
+      req.headers.get("user-agent"),
+      req.headers.get("x-forwarded-for"),
+      req.headers.get("purpose") ?? req.headers.get("next-router-prefetch"),
+    );
+  }
 
   // If the user is not authenticated, redirect to the home page
   const isPrivateRoute = pathname.startsWith("/account");
