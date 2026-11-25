@@ -15,7 +15,11 @@ type SimilarEntry = {
   similarity_score: number;
 };
 
-export type SimilarChanges = { old: SimilarEntry[]; new: SimilarEntry[] };
+export type SimilarChanges = {
+  old: SimilarEntry[];
+  new: SimilarEntry[];
+  sourceMovie: { key: string; title: string; poster: string } | undefined;
+};
 
 const isEntry = (v: unknown): v is SimilarEntry =>
   typeof v === "object" &&
@@ -30,6 +34,10 @@ export function toSimilarChanges(
     | { old?: unknown; new?: unknown }
     | undefined;
 
+  const sourceMovie = changes.source_movie as
+    | { key: string; title: string; poster: string }
+    | undefined;
+
   if (
     v &&
     Array.isArray(v.old) &&
@@ -37,7 +45,11 @@ export function toSimilarChanges(
     v.old.every(isEntry) &&
     v.new.every(isEntry)
   ) {
-    return { old: v.old as SimilarEntry[], new: v.new as SimilarEntry[] };
+    return {
+      old: v.old as SimilarEntry[],
+      new: v.new as SimilarEntry[],
+      sourceMovie,
+    };
   }
 
   return null;
@@ -189,7 +201,27 @@ export const SimilarDiff = ({
           {t("firstGenerated")}
         </p>
       )}
+      {changes.sourceMovie && (
+        <>
+          <div className="flex items-center gap-2 self-center">
+            <Image
+              src={`${posterUrl}/posters/${changes.sourceMovie.poster}`}
+              alt=""
+              width={32}
+              height={48}
+              className="h-12 w-8 shrink-0 rounded object-cover"
+              blurDataURL="/static/blur-image.webp"
+              placeholder="blur"
+              loading="lazy"
+            />
 
+            <div className="flex flex-col items-center gap-1">
+              <span>{changes.sourceMovie.title}</span>
+              <span className="text-sm">(Source movie)</span>
+            </div>
+          </div>
+        </>
+      )}
       <div className={cn("grid gap-3", !isFirstRun && "lg:grid-cols-2")}>
         {!isFirstRun && (
           <Column

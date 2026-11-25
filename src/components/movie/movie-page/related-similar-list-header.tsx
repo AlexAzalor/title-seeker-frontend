@@ -14,9 +14,14 @@ import { checkIfAdmin } from "@/proxy";
 type Props = {
   type: "related" | "similar";
   bottom?: boolean;
+  currentMovieKey: string;
 };
 
-export const RelatedSimilarListHeader = ({ type, bottom }: Props) => {
+export const RelatedSimilarListHeader = ({
+  type,
+  bottom,
+  currentMovieKey,
+}: Props) => {
   const t = useTranslations("MovieParts");
   const router = useRouter();
   const session = useSession();
@@ -28,7 +33,7 @@ export const RelatedSimilarListHeader = ({ type, bottom }: Props) => {
     }
 
     setIsRefreshing(true);
-    const res = await recalculateSimilarities();
+    const res = await recalculateSimilarities(currentMovieKey);
 
     if (res.status === 200 && res.data) {
       toast.success(

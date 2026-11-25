@@ -27,7 +27,11 @@ export const RelatedSimilarMovieList = ({
 }: Props) => {
   return (
     <>
-      <RelatedSimilarListHeader type={type} bottom={bottom} />
+      <RelatedSimilarListHeader
+        type={type}
+        bottom={bottom}
+        currentMovieKey={currentMovieKey}
+      />
 
       <div
         aria-label="related-similar-list"

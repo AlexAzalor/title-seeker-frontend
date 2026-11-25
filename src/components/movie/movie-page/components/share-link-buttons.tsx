@@ -2,10 +2,8 @@
 
 import { useState } from "react";
 import { usePathname } from "next/navigation";
-import { useIsMobile } from "@/hooks/use-mobile";
 import { Check, Copy } from "lucide-react";
 import { TelegramIcon } from "@/lib/portfolio/tech-icons";
-import { cn } from "@/lib/utils";
 import { AuditLogDrawer } from "@/components/audit-log/audit-log-drawer";
 
 export const ShareLinkButtons = ({
@@ -24,7 +22,6 @@ export const ShareLinkButtons = ({
   avatarUrl: string;
 }) => {
   const pathname = usePathname();
-  const isMobile = useIsMobile();
   const [copied, setCopied] = useState(false);
   const url = window.location.origin + pathname;
 
@@ -42,13 +39,7 @@ export const ShareLinkButtons = ({
   };
 
   return (
-    <div
-      className={cn(
-        isMobile
-          ? "fixed bottom-2 left-2 z-50 flex flex-col gap-2 opacity-70"
-          : "flex items-center gap-2",
-      )}
-    >
+    <div className="fixed bottom-2 left-2 z-50 flex flex-col gap-2 opacity-70 md:static md:z-auto md:flex-row md:items-center md:opacity-100">
       <button
         title="Copy link"
         onClick={handleCopy}

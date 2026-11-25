@@ -625,6 +625,9 @@
     "createdAt": "Фільм створено",
     "updatedAt": "Оновлено",
     "loadingMore": "Завантаження...",
+    "eventCount": "{count, plural, one {# подія} few {# події} many {# подій} other {# події}}",
+    "expandGroup": "Розгорнути згруповані події",
+    "collapseGroup": "Згорнути згруповані події",
     "noPeople": "(немає)",
     "status": {
       "changedValue": "Змінено",

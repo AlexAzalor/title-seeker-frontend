@@ -628,6 +628,9 @@
     "createdAt": "Movie Created",
     "updatedAt": "Updated",
     "loadingMore": "Loading more...",
+    "eventCount": "{count, plural, one {# event} other {# events}}",
+    "expandGroup": "Expand grouped events",
+    "collapseGroup": "Collapse grouped events",
     "noPeople": "(none)",
     "status": {
       "changedValue": "Changed",

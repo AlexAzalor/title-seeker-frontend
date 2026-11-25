@@ -159,19 +159,22 @@ describe("latest audit event", () => {
   test.each([
     ["en", en],
     ["uk", uk],
-  ] as const)("renders the collection event label in %s", (locale, messages) => {
-    renderWithLocale(
-      <LatestEvent
-        event={{ ...event, event_type: "movie.collection.updated" }}
-        isLoading={false}
-        posterURL=""
-      />,
-      locale,
-    );
-    expect(
-      screen.getByText(messages.AuditLog.events.collectionUpdated),
-    ).toBeDefined();
-  });
+  ] as const)(
+    "renders the collection event label in %s",
+    (locale, messages) => {
+      renderWithLocale(
+        <LatestEvent
+          event={{ ...event, event_type: "movie.collection.updated" }}
+          isLoading={false}
+          posterURL=""
+        />,
+        locale,
+      );
+      expect(
+        screen.getByText(messages.AuditLog.events.collectionUpdated),
+      ).toBeDefined();
+    },
+  );
 
   test.each([
     ["en", en],
@@ -275,6 +278,7 @@ describe("latest audit event", () => {
         data: { groups: [], next_cursor: null, latest_event: event },
       });
     });
+
     expect(within(section()).getByText("Example movie")).toBeDefined();
     expect(section().getAttribute("aria-busy")).toBe("false");
 
@@ -290,6 +294,63 @@ describe("latest audit event", () => {
       resolveReload({
         status: 200,
         data: { groups: [], next_cursor: null, latest_event: null },
+      });
+    });
+
+    describe("grouped audit events", () => {
+      test("collapses same-user film events into an expandable row", async () => {
+        const secondEvent = {
+          ...event,
+          id: 2,
+          created_at: "2025-01-02T02:00:00Z",
+          event_type: "movie.title.updated",
+          user_id: 7,
+          user_name: "Alex",
+          user_role: "owner",
+        };
+        const groupedEvent = {
+          ...event,
+          user_id: 7,
+          user_name: "Alex",
+          user_role: "owner",
+          items: [
+            { ...event, user_id: 7, user_name: "Alex", user_role: "owner" },
+            secondEvent,
+          ],
+        };
+
+        getAuditLogUsers.mockResolvedValue({
+          status: 200,
+          data: { users: [] },
+        });
+        getGeneralAuditLogs.mockResolvedValue({
+          status: 200,
+          data: {
+            groups: [{ date: "2025-01-02", items: [groupedEvent] }],
+            next_cursor: null,
+            latest_event: null,
+          },
+        });
+
+        renderWithLocale(<GeneralAuditLog posterURL="" />);
+
+        const toggle = await screen.findByRole("button", {
+          name: en.AuditLog.expandGroup,
+        });
+        expect(toggle.getAttribute("aria-expanded")).toBe("false");
+        expect(within(toggle).getByText("2 events")).toBeDefined();
+        expect(screen.queryByText(en.AuditLog.events.titleUpdated)).toBeNull();
+
+        fireEvent.click(toggle);
+
+        expect(toggle.getAttribute("aria-expanded")).toBe("true");
+        expect(toggle.getAttribute("aria-label")).toBe(
+          en.AuditLog.collapseGroup,
+        );
+        expect(screen.getByText(en.AuditLog.events.titleUpdated)).toBeDefined();
+        expect(
+          screen.getAllByRole("link", { name: /Example movie/ }),
+        ).toHaveLength(2);
       });
     });
     expect(

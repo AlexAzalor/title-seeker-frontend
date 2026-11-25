@@ -21,6 +21,7 @@ import {
 import { cn } from "@/lib/utils";
 import type {
   AuditLogDayGroupOut,
+  AuditLogSummaryGroupOut,
   AuditLogSummaryOut,
   AuditLogUserOut,
 } from "@/orval_api/model";
@@ -41,7 +42,7 @@ import {
   EVENT_LABEL_KEYS,
   parseUtcDate,
 } from "@/components/audit-log/audit-log-item";
-import { LogRow } from "@/components/audit-log/general-audit-log-row";
+import { GroupedLogRow } from "@/components/audit-log/general-audit-log-row";
 import { LatestEvent } from "@/components/audit-log/latest-event";
 import {
   Select,
@@ -121,7 +122,13 @@ const DATE_PRESETS: { key: string; getRange: () => DateRange }[] = [
   },
 ];
 
-/** Pagination counts items, so a day may continue on the next page. */
+function groupKey(item: AuditLogSummaryGroupOut) {
+  if (item.user_id === null) return "anonymous";
+
+  return `${item.user_id}:${item.entity_type}:${item.entity_key ?? ""}`;
+}
+
+/** Pagination can continue either a day or one of its nested user/film groups. */
 function mergeGroups(
   prev: AuditLogDayGroupOut[],
   page: AuditLogDayGroupOut[],
@@ -133,9 +140,33 @@ function mergeGroups(
 
   page.forEach((group, i) => {
     if (i === 0 && group.date === last.date) {
+      const mergedItems = [...last.items];
+
+      group.items.forEach((item) => {
+        const existingIndex = mergedItems.findIndex(
+          (existing) => groupKey(existing) === groupKey(item),
+        );
+
+        if (existingIndex === -1) {
+          mergedItems.push(item);
+          return;
+        }
+
+        const existing = mergedItems[existingIndex];
+        const existingIds = new Set(existing.items.map(({ id }) => id));
+
+        mergedItems[existingIndex] = {
+          ...existing,
+          items: [
+            ...existing.items,
+            ...item.items.filter(({ id }) => !existingIds.has(id)),
+          ],
+        };
+      });
+
       result[result.length - 1] = {
         ...last,
-        items: [...last.items, ...group.items],
+        items: mergedItems,
       };
     } else {
       result.push(group);
@@ -636,15 +667,18 @@ export const GeneralAuditLog = ({ posterURL }: { posterURL: string }) => {
           </h2>
           <ul className="space-y-2">
             {group.items.map((item) => (
-              <LogRow
-                key={item.id}
-                item={item}
-                label={getLabel(item.event_type)}
-                time={formatTime(item.created_at)}
+              <GroupedLogRow
+                key={`${group.date}-${item.user_id ?? "anonymous"}-${item.id}`}
+                group={item}
+                getLabel={getLabel}
+                formatTime={formatTime}
                 author={item.user_name ?? t("anonymous")}
-                userRole={item.user_role}
                 deletedLabel={t("entityDeleted")}
                 posterURL={posterURL}
+                anonymousLabel={t("anonymous")}
+                eventCountLabel={(count) => t("eventCount", { count })}
+                expandLabel={t("expandGroup")}
+                collapseLabel={t("collapseGroup")}
               />
             ))}
           </ul>

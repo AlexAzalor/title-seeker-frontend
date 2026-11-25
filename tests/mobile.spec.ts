@@ -146,4 +146,46 @@ test.describe("Test Mobile view (385x851)", () => {
     await page.waitForURL("/movies/*");
     await expect(page.getByText("Жанри", { exact: true })).toBeVisible();
   });
+
+  test("keeps movie share buttons at the bottom left on mobile", async ({
+    page,
+  }) => {
+    await page.goto("/movies/the-shawshank-redemption");
+    const panel = page.getByRole("button", { name: "Copy link" }).locator("..");
+
+    for (const width of [385, 767]) {
+      await page.setViewportSize({ width, height: 800 });
+      await page.evaluate(() => window.scrollTo(0, 400));
+      await expect
+        .poll(() =>
+          panel.evaluate((element) => {
+            const rect = element.getBoundingClientRect();
+            const style = getComputedStyle(element);
+            return {
+              position: style.position,
+              direction: style.flexDirection,
+              left: Math.round(rect.left),
+              bottom: Math.round(window.innerHeight - rect.bottom),
+            };
+          }),
+        )
+        .toEqual({
+          position: "fixed",
+          direction: "column",
+          left: 8,
+          bottom: 8,
+        });
+    }
+
+    await page.setViewportSize({ width: 768, height: 800 });
+    await page.evaluate(() => window.scrollTo(0, 0));
+    await expect
+      .poll(() =>
+        panel.evaluate((element) => ({
+          position: getComputedStyle(element).position,
+          direction: getComputedStyle(element).flexDirection,
+        })),
+      )
+      .toEqual({ position: "static", direction: "row" });
+  });
 });

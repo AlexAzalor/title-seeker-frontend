@@ -854,7 +854,7 @@ export async function editMovieActionTimes(
   }
 }
 
-export async function recalculateSimilarities() {
+export async function recalculateSimilarities(movieKey: string) {
   const admin = await getAdmin();
 
   if (!admin) {
@@ -866,7 +866,7 @@ export async function recalculateSimilarities() {
 
   try {
     const res = await aPIRecalculateSimilarities(
-      { user_uuid: admin.uuid },
+      { user_uuid: admin.uuid, source_movie_key: movieKey },
       backendURL,
     );
 
