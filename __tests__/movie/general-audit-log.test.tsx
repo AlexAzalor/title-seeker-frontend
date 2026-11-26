@@ -54,6 +54,140 @@ afterEach(() => {
   getGeneralAuditLogs.mockReset();
 });
 
+describe("refreshing the audit log", () => {
+  test("reloads users and the first filtered page, ignoring an in-flight older page", async () => {
+    const originalObserver = globalThis.IntersectionObserver;
+    let onIntersection!: IntersectionObserverCallback;
+    vi.stubGlobal(
+      "IntersectionObserver",
+      class {
+        constructor(
+          callback: IntersectionObserverCallback,
+          options?: IntersectionObserverInit,
+        ) {
+          if (options?.rootMargin === "0px 0px 300px 0px") {
+            onIntersection = callback;
+          }
+        }
+        observe() {}
+        unobserve() {}
+        disconnect() {}
+      },
+    );
+
+    let resolveOlderPage!: (value: object) => void;
+    let resolveRefresh!: (value: object) => void;
+    const oldGroup = { ...event, items: [event] };
+    const refreshedEvent = { ...event, id: 2, entity_title: "New movie" };
+    getAuditLogUsers.mockResolvedValue({ status: 200, data: { users: [] } });
+    getGeneralAuditLogs
+      .mockResolvedValueOnce({
+        status: 200,
+        data: {
+          groups: [{ date: "2025-01-02", items: [oldGroup] }],
+          next_cursor: "older-page",
+          latest_event: event,
+        },
+      })
+      .mockResolvedValueOnce({
+        status: 200,
+        data: {
+          groups: [{ date: "2025-01-02", items: [oldGroup] }],
+          next_cursor: "older-page",
+          latest_event: event,
+        },
+      })
+      .mockImplementationOnce(
+        () =>
+          new Promise((resolve) => {
+            resolveOlderPage = resolve;
+          }),
+      )
+      .mockImplementationOnce(
+        () =>
+          new Promise((resolve) => {
+            resolveRefresh = resolve;
+          }),
+      );
+
+    try {
+      renderWithLocale(<GeneralAuditLog posterURL="" />);
+      await screen.findAllByText("Example movie");
+      fireEvent.click(
+        screen.getByRole("button", { name: en.AuditLog.events.movieCreated }),
+      );
+      await waitFor(() => expect(getGeneralAuditLogs).toHaveBeenCalledTimes(2));
+      await waitFor(() => expect(onIntersection).toBeDefined());
+
+      act(() => {
+        onIntersection(
+          [{ isIntersecting: true } as IntersectionObserverEntry],
+          {} as IntersectionObserver,
+        );
+      });
+      expect(getGeneralAuditLogs).toHaveBeenLastCalledWith(
+        expect.objectContaining({ event_type: ["movie.created"] }),
+        "older-page",
+      );
+
+      const refresh = screen.getByRole("button", { name: en.AuditLog.refresh });
+      fireEvent.click(refresh);
+      expect(getAuditLogUsers).toHaveBeenCalledTimes(2);
+      expect(getGeneralAuditLogs).toHaveBeenLastCalledWith(
+        expect.objectContaining({ event_type: ["movie.created"] }),
+        undefined,
+      );
+      expect((refresh as HTMLButtonElement).disabled).toBe(true);
+
+      await act(async () => {
+        resolveRefresh({
+          status: 200,
+          data: {
+            groups: [],
+            next_cursor: null,
+            latest_event: refreshedEvent,
+          },
+        });
+        resolveOlderPage({
+          status: 200,
+          data: {
+            groups: [{ date: "2025-01-02", items: [oldGroup] }],
+            next_cursor: null,
+            latest_event: event,
+          },
+        });
+      });
+
+      expect(screen.getByText("New movie")).toBeDefined();
+      expect(screen.queryByText("Example movie")).toBeNull();
+      expect((refresh as HTMLButtonElement).disabled).toBe(false);
+    } finally {
+      vi.stubGlobal("IntersectionObserver", originalObserver);
+    }
+  });
+
+  test("allows retrying when refresh fails", async () => {
+    getAuditLogUsers.mockResolvedValue({ status: 200, data: { users: [] } });
+    getGeneralAuditLogs
+      .mockResolvedValueOnce({
+        status: 200,
+        data: { groups: [], next_cursor: null, latest_event: null },
+      })
+      .mockResolvedValueOnce({ status: 500 })
+      .mockResolvedValueOnce({
+        status: 200,
+        data: { groups: [], next_cursor: null, latest_event: event },
+      });
+
+    renderWithLocale(<GeneralAuditLog posterURL="" />);
+    await screen.findByText(en.AuditLog.noResults);
+    fireEvent.click(screen.getByRole("button", { name: en.AuditLog.refresh }));
+    await screen.findByText(en.AuditLog.loadError);
+    fireEvent.click(screen.getByRole("button", { name: en.AuditLog.retry }));
+    await screen.findByText("Example movie");
+  });
+});
+
 describe("audit event type filters", () => {
   test("includes and excludes event types independently, and clears them", async () => {
     getAuditLogUsers.mockResolvedValue({

@@ -598,6 +598,7 @@
     "newestFirst": "Спочатку нові",
     "oldestFirst": "Спочатку старі",
     "resetFilters": "Скинути фільтри",
+    "refresh": "Оновити",
     "by": "від {name}",
     "noResults": "Подій за фільтрами не знайдено",
     "generalTitle": "Журнал змін",

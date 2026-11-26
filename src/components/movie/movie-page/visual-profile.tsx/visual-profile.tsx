@@ -6,6 +6,7 @@ import { useLocale } from "next-intl";
 import dynamic from "next/dynamic";
 import { useModal } from "@/hooks/use-modal";
 
+import { Edit } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { TooltipWrapper } from "@/components/my-custom-ui/tooltip-wrapper";
 import { VisualProfileEditForm } from "@/components/movie/movie-page/visual-profile.tsx/visual-profile-movie-edit-form";
@@ -47,7 +48,7 @@ export function VisualProfile({ movieKey, radarData, isOwner }: Props) {
 
   return (
     <>
-      <div className="relative text-center">
+      <div className="text-center">
         <div className="flex items-center justify-center gap-2">
           <div className="flex flex-col">
             <Link
@@ -62,18 +63,15 @@ export function VisualProfile({ movieKey, radarData, isOwner }: Props) {
               </Button>
             </Link>
           </div>
-          <TooltipWrapper content={radarData.description} />
-        </div>
 
-        {isOwner && (
-          <Button
-            variant="link"
-            className="absolute top-0 right-0"
-            onClick={handleEdit}
-          >
-            Edit
-          </Button>
-        )}
+          <TooltipWrapper content={radarData.description} />
+
+          {isOwner && (
+            <Button variant="link" className="p-0" onClick={handleEdit}>
+              <Edit size={16} />
+            </Button>
+          )}
+        </div>
       </div>
 
       <VisualProfileChartMemo criteria={radarData.criteria} lang={lang} />

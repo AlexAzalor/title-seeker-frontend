@@ -601,6 +601,7 @@
     "newestFirst": "Newest first",
     "oldestFirst": "Oldest first",
     "resetFilters": "Reset filters",
+    "refresh": "Refresh",
     "by": "by {name}",
     "noResults": "No events match the filters",
     "generalTitle": "Audit log",

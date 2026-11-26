@@ -130,24 +130,32 @@ export const MovieFilter = ({
     <>
       <div>
         <div className="flex items-center gap-1">
-          <p
-            className={cn(
-              "base-neon-text mb-1 text-xl",
-              textColor[filterKey as keyof typeof textColor],
-            )}
-          >
-            {t(`${filterKey}.name`)}
-          </p>
+          {checkIfAdmin(session.data?.user.role) &&
+          filterKey !== FilterEnum.subgenre ? (
+            <Button
+              variant="link"
+              onClick={handleEdit}
+              className={cn(
+                "base-neon-text p-0 text-xl",
+                textColor[filterKey as keyof typeof textColor],
+              )}
+            >
+              {t(`${filterKey}.name`)}
+            </Button>
+          ) : (
+            <p
+              className={cn(
+                "base-neon-text mb-1 text-xl",
+                textColor[filterKey as keyof typeof textColor],
+              )}
+            >
+              {t(`${filterKey}.name`)}
+            </p>
+          )}
+
           <TooltipWrapper content={t(`${filterKey}.description`)}>
             <InfoIcon className="h-4 w-4" />
           </TooltipWrapper>
-
-          {checkIfAdmin(session.data?.user.role) &&
-            filterKey !== FilterEnum.subgenre && (
-              <Button variant="link" className="h-7 p-0" onClick={handleEdit}>
-                Edit
-              </Button>
-            )}
         </div>
 
         <FilterItemLink data={data} filterKey={filterKey} />

@@ -8,6 +8,7 @@ import {
   ArrowUpNarrowWide,
   History,
   Inbox,
+  RefreshCw,
   Search,
   X,
   Calendar as CalendarIcon,
@@ -188,6 +189,7 @@ export const GeneralAuditLog = ({ posterURL }: { posterURL: string }) => {
   const [status, setStatus] = useState<Status>("loading");
   const [sentinelEl, setSentinelEl] = useState<HTMLDivElement | null>(null);
   const requestId = useRef(0);
+  const usersRequestId = useRef(0);
 
   const [category, setCategory] = useState<Category>("content");
   const [eventTypes, setEventTypes] = useState<string[]>([]);
@@ -201,13 +203,30 @@ export const GeneralAuditLog = ({ posterURL }: { posterURL: string }) => {
   const [search, setSearch] = useState("");
   const [users, setUsers] = useState<AuditLogUserOut[]>([]);
 
-  useEffect(() => {
-    getAuditLogUsers()
-      .then((res) => {
-        if (res.status === 200 && res.data) setUsers(res.data.users);
-      })
-      .catch((error) => console.error("Fetch audit users error:", error));
+  const loadUsers = useCallback(async () => {
+    const id = ++usersRequestId.current;
+    try {
+      const res = await getAuditLogUsers();
+      if (id !== usersRequestId.current) return;
+      if (res.status === 200 && res.data) {
+        setUsers(res.data.users);
+      } else {
+        console.error("Fetch audit users error:", res.message);
+      }
+    } catch (error) {
+      if (id === usersRequestId.current) {
+        console.error("Fetch audit users error:", error);
+      }
+    }
   }, []);
+
+  useEffect(() => {
+    const requestId = usersRequestId;
+    loadUsers();
+    return () => {
+      requestId.current++;
+    };
+  }, [loadUsers]);
 
   useEffect(() => {
     const timer = setTimeout(
@@ -345,6 +364,13 @@ export const GeneralAuditLog = ({ posterURL }: { posterURL: string }) => {
     setSearchInput("");
   };
 
+  const refresh = () => {
+    setGroups([]);
+    setNextCursor(null);
+    loadPage(filtersRef.current);
+    loadUsers();
+  };
+
   const formatDay = (value: string) => {
     const date = new Date(value + "T00:00:00Z");
 
@@ -378,16 +404,26 @@ export const GeneralAuditLog = ({ posterURL }: { posterURL: string }) => {
 
   return (
     <div className="mx-auto w-full max-w-3xl">
-      <div className="mb-6 flex items-center gap-3">
+      <div className="mb-6 flex flex-wrap items-center gap-3">
         <div className="bg-main-ui-purple/10 text-main-ui-purple flex size-10 items-center justify-center rounded-full">
           <History className="size-5" />
         </div>
-        <div>
+        <div className="min-w-0 flex-1">
           <h1 className="text-2xl font-semibold">{t("generalTitle")}</h1>
           <p className="text-muted-foreground text-base">
             {t("generalDescription")}
           </p>
         </div>
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          disabled={status === "loading" || invalidRange}
+          onClick={refresh}
+        >
+          <RefreshCw aria-hidden="true" />
+          {t("refresh")}
+        </Button>
       </div>
 
       <LatestEvent

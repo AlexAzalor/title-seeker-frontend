@@ -23,7 +23,7 @@ const RatingTypeSelector = <T extends string>({
 }: Props<T>) => {
   return (
     <div className="mb-4 grid max-w-72 gap-2">
-      <Label htmlFor="rating-criteria">{label}</Label>
+      {/* <Label htmlFor="rating-criteria">{label}</Label> */}
       <Select onValueChange={onValueChange} defaultValue={defaultValue}>
         <SelectTrigger id="rating-criteria">
           <SelectValue />
