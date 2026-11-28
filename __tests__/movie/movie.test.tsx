@@ -44,7 +44,7 @@ test("Should render QuicklyAddNewMovie", () => {
 });
 
 test("Should render GenresList", () => {
-  render(<GenresList movieKey="test-key" genres={[]} />, {
+  render(<GenresList movieKey="test-key" genres={[]} isOwner={true} />, {
     wrapper: ProjectProviders,
   });
 
@@ -58,6 +58,7 @@ test("Should render MovieFilterList", () => {
       action_times={[]}
       keywords={[]}
       specifications={[]}
+      isOwner={true}
     />,
     {
       wrapper: ProjectProviders,

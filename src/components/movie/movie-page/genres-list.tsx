@@ -8,6 +8,7 @@ type Props = {
   movieKey: string;
   genres: MovieFilterItem[];
   subgenres?: MovieFilterItem[];
+  isOwner: boolean;
 };
 export const GenreContext = createContext<{
   onMouseEnter: (key: string) => void;
@@ -20,7 +21,7 @@ export const GenreContext = createContext<{
   hoveredGenre: null,
   hoveredSubgenre: null,
 });
-export const GenresList = ({ movieKey, genres, subgenres }: Props) => {
+export const GenresList = ({ movieKey, genres, subgenres, isOwner }: Props) => {
   const [hoveredGenre, setHoveredGenre] = useState<string | null>(null);
   const [hoveredSubgenre, setHoveredSubgenre] = useState<string | null>(null);
 
@@ -41,6 +42,7 @@ export const GenresList = ({ movieKey, genres, subgenres }: Props) => {
           data={genres}
           filterKey={FilterEnum.genre}
           subgenres={subgenres}
+          isOwner={isOwner}
         />
       </GenreContext>
 
@@ -56,6 +58,7 @@ export const GenresList = ({ movieKey, genres, subgenres }: Props) => {
             movieKey={movieKey}
             data={subgenres}
             filterKey={FilterEnum.subgenre}
+            isOwner={isOwner}
           />
         </GenreContext>
       )}

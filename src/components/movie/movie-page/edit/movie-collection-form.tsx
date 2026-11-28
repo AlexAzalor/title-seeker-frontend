@@ -48,6 +48,7 @@ type Props = {
   baseMoviePosterKey: string;
   baseMovieTitle: string;
   relatedMovies?: RelatedMovieOut[] | null;
+  onSuccess?: () => void;
 };
 
 const RELATIONS = Object.values(RelatedMovie).filter(
@@ -65,6 +66,7 @@ export const MovieCollectionForm = ({
   baseMoviePosterKey,
   baseMovieTitle,
   relatedMovies,
+  onSuccess,
 }: Props) => {
   const t = useTranslations("Form.stepper.relatedMovie");
   const router = useRouter();
@@ -183,6 +185,7 @@ export const MovieCollectionForm = ({
 
       if (res.status === 200) {
         toast.success(t("updated"));
+        onSuccess?.();
         router.refresh();
       } else {
         toast.error(String(res.message));

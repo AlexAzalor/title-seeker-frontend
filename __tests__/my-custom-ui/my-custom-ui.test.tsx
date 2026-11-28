@@ -152,7 +152,7 @@ test("Should render Spinner", async () => {
 
 test("Should render ExpandableText", async () => {
   const text = "Test expandable text";
-  render(<MovieDescription movieKey="test-key" text={text} />, {
+  render(<MovieDescription text={text} />, {
     wrapper: ProjectProviders,
   });
   expect(screen.getByText(text)).toBeDefined();

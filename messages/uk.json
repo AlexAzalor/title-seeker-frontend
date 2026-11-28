@@ -409,6 +409,17 @@
     "movieEdit": {
       "editTitle": "Редагувати назву",
       "editDetails": "Редагувати деталі",
+      "editDescription": "Редагувати опис",
+      "editBoxOffice": "Редагувати касові збори",
+      "editActors": "Редагувати акторів",
+      "editDirectors": "Редагувати режисерів",
+      "editRelatedMovies": "Редагувати пов'язані фільми",
+      "loadError": "Не вдалося завантажити дані тайтлу",
+      "actorsLoadError": "Не вдалося завантажити акторів",
+      "directorsLoadError": "Не вдалося завантажити режисерів",
+      "boxOfficeSaveError": "Не вдалося оновити касові збори",
+      "menu": "Редагувати тайтл",
+      "descriptionSaveError": "Сталася помилка під час оновлення опису тайтлу",
       "save": "Зберегти",
       "durationUnavailable": "Не вдалося визначити поточну тривалість ({duration}). Введіть її у хвилинах."
     },

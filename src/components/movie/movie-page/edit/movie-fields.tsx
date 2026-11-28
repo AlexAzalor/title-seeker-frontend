@@ -25,6 +25,18 @@ type EditFields = NonNullable<
   Awaited<ReturnType<typeof getMovieEditFields>>["data"]
 >;
 
+export async function loadMovieEditFields(movieKey: string) {
+  try {
+    const result = await getMovieEditFields(movieKey);
+    if (result.status === 200 && result.data) return result.data;
+    toast.error(result.message || "Failed to load movie details");
+  } catch (error) {
+    console.error("Failed to load movie edit fields:", error);
+    toast.error("Failed to load movie details");
+  }
+  return null;
+}
+
 export function parseMovieDuration(value: string): number | undefined {
   const text = value.trim();
   if (/^\d+$/.test(text)) return Number(text);
@@ -49,15 +61,7 @@ export function MovieFieldsEditor({
   const loadFields = async () => {
     setLoading(true);
     try {
-      const result = await getMovieEditFields(movieKey);
-      if (result.status === 200 && result.data) {
-        setData(result.data);
-      } else {
-        toast.error(result.message || "Failed to load movie details");
-      }
-    } catch (error) {
-      console.error("Failed to load movie edit fields:", error);
-      toast.error("Failed to load movie details");
+      setData(await loadMovieEditFields(movieKey));
     } finally {
       setLoading(false);
     }
@@ -77,20 +81,12 @@ export function MovieFieldsEditor({
       </Button>
       {data && (
         <CustomModal isOpen onClose={() => setData(null)}>
-          <h2 className="base-neon-text mb-6 text-center text-2xl">{label}</h2>
-          {kind === "title" ? (
-            <TitleForm
-              movieKey={movieKey}
-              data={data}
-              onClose={() => setData(null)}
-            />
-          ) : (
-            <DetailsForm
-              movieKey={movieKey}
-              data={data}
-              onClose={() => setData(null)}
-            />
-          )}
+          <MovieFieldsForm
+            movieKey={movieKey}
+            kind={kind}
+            data={data}
+            onClose={() => setData(null)}
+          />
         </CustomModal>
       )}
     </>
@@ -102,6 +98,22 @@ type FormProps = {
   data: EditFields;
   onClose: () => void;
 };
+
+export function MovieFieldsForm({
+  kind,
+  ...props
+}: FormProps & { kind: "title" | "details" }) {
+  const t = useTranslations("Form.movieEdit");
+
+  return (
+    <>
+      <h2 className="base-neon-text mb-6 text-center text-2xl">
+        {kind === "title" ? t("editTitle") : t("editDetails")}
+      </h2>
+      {kind === "title" ? <TitleForm {...props} /> : <DetailsForm {...props} />}
+    </>
+  );
+}
 
 function TitleForm({ movieKey, data, onClose }: FormProps) {
   const t = useTranslations("Form.stepper.titleRate");

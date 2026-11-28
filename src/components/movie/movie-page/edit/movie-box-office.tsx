@@ -22,10 +22,16 @@ type Props = {
     domesticGross?: string;
     worldwideGross?: string;
   };
+  onSuccess?: () => void;
 };
 
-export const EditMovieBoxOffice = ({ movieKey, boxOfficeData }: Props) => {
+export const EditMovieBoxOffice = ({
+  movieKey,
+  boxOfficeData,
+  onSuccess,
+}: Props) => {
   const t = useTranslations("Form.stepper.info");
+  const edit = useTranslations("Form.movieEdit");
   const router = useRouter();
 
   const { domesticGross, worldwideGross } = boxOfficeData;
@@ -33,7 +39,7 @@ export const EditMovieBoxOffice = ({ movieKey, boxOfficeData }: Props) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     watch,
   } = useForm<EditMovieBoxOfficeType>({
     resolver: zodResolver(EditMovieBoxOfficeShema),
@@ -65,17 +71,22 @@ export const EditMovieBoxOffice = ({ movieKey, boxOfficeData }: Props) => {
 
       if (res.status === 200) {
         toast.success(res.message);
+        onSuccess?.();
         router.refresh();
       } else {
         toast.error(res.message);
       }
     } catch (error) {
-      toast.error("An error occurred while updating Box Office");
-      console.error("Filter update error:", error);
+      toast.error(edit("boxOfficeSaveError"));
+      console.error("Movie box office update error:", error);
     }
   };
-  const onSubmit = (data: EditMovieBoxOfficeType) => {
-    updateBoxOffice(data.budget, data.domestic_gross, data.worldwide_gross);
+  const onSubmit = async (data: EditMovieBoxOfficeType) => {
+    await updateBoxOffice(
+      data.budget,
+      data.domestic_gross,
+      data.worldwide_gross,
+    );
   };
 
   return (
@@ -87,6 +98,7 @@ export const EditMovieBoxOffice = ({ movieKey, boxOfficeData }: Props) => {
         <FormField
           type="text"
           label={t("budget")}
+          aria-label={t("budget")}
           name="budget"
           register={register}
           error={errors.budget}
@@ -96,6 +108,7 @@ export const EditMovieBoxOffice = ({ movieKey, boxOfficeData }: Props) => {
         <FormField
           type="text"
           label={t("domesticGross")}
+          aria-label={t("domesticGross")}
           name="domestic_gross"
           register={register}
           error={errors.domestic_gross}
@@ -109,6 +122,7 @@ export const EditMovieBoxOffice = ({ movieKey, boxOfficeData }: Props) => {
         <FormField
           type="text"
           label={t("worldwideGross")}
+          aria-label={t("worldwideGross")}
           name="worldwide_gross"
           register={register}
           error={errors.worldwide_gross}
@@ -119,7 +133,9 @@ export const EditMovieBoxOffice = ({ movieKey, boxOfficeData }: Props) => {
           }
         />
 
-        <Button type="submit">Submit</Button>
+        <Button type="submit" disabled={isSubmitting}>
+          {edit("save")}
+        </Button>
       </form>
     </>
   );

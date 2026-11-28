@@ -9,6 +9,7 @@ type Props = {
   specifications: MovieFilterItem[];
   keywords: MovieFilterItem[];
   actionTimes: MovieFilterItem[];
+  isOwner: boolean;
 };
 
 export const MovieFiltersdata = ({
@@ -18,12 +19,14 @@ export const MovieFiltersdata = ({
   specifications,
   keywords,
   actionTimes,
+  isOwner,
 }: Props) => (
   <div className="mx-6">
     <GenresList
       movieKey={movieKey}
       genres={genres}
       subgenres={subgenres || []}
+      isOwner={isOwner}
     />
 
     <MovieFilterList
@@ -31,6 +34,7 @@ export const MovieFiltersdata = ({
       specifications={specifications}
       keywords={keywords}
       action_times={actionTimes}
+      isOwner={isOwner}
     />
   </div>
 );

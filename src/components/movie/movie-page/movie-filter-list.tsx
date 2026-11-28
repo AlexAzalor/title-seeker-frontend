@@ -6,6 +6,7 @@ type Props = {
   specifications: MovieFilterItem[];
   keywords: MovieFilterItem[];
   action_times: MovieFilterItem[];
+  isOwner: boolean;
 };
 
 export const MovieFilterList = ({
@@ -13,6 +14,7 @@ export const MovieFilterList = ({
   specifications,
   keywords,
   action_times,
+  isOwner,
 }: Props) => {
   return (
     <div
@@ -23,18 +25,21 @@ export const MovieFilterList = ({
         movieKey={movieKey}
         data={specifications}
         filterKey={FilterEnum.specification}
+        isOwner={isOwner}
       />
 
       <MovieFilter
         movieKey={movieKey}
         data={keywords}
         filterKey={FilterEnum.keyword}
+        isOwner={isOwner}
       />
 
       <MovieFilter
         movieKey={movieKey}
         data={action_times}
         filterKey={FilterEnum.action_time}
+        isOwner={isOwner}
       />
     </div>
   );

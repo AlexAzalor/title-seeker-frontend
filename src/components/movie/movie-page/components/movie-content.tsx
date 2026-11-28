@@ -24,7 +24,7 @@ export const MovieContent = ({
 }: Props) => (
   <div className="mb-4 flex flex-col justify-between gap-6 xl:flex-row">
     <div className="pt-6 sm:mx-auto">
-      <MovieDescription movieKey={data.key} text={data.description} />
+      <MovieDescription text={data.description} />
 
       <MovieCrew
         movieKey={data.key}

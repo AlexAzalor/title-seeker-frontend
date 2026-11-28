@@ -2,18 +2,16 @@ import { useTranslations } from "next-intl";
 import { cn, formatDate } from "@/lib/utils";
 import { MovieMoney } from "@/components/movie/movie-page/movie-money";
 import type { Language, MovieOut } from "@/orval_api/model";
-import { MovieFieldsEditor } from "@/components/movie/movie-page/edit/movie-fields";
 
 type Props = {
   data: MovieOut;
   isOwner?: boolean;
-  isAdmin?: boolean;
   lang: Language;
 };
 
 const TEXT_LIMIT = 30;
 
-export const MovieInfo = ({ data, isOwner, isAdmin, lang }: Props) => {
+export const MovieInfo = ({ data, isOwner, lang }: Props) => {
   const t = useTranslations("Rating.ratingType");
 
   const filmingLocation =
@@ -38,7 +36,6 @@ export const MovieInfo = ({ data, isOwner, isAdmin, lang }: Props) => {
       />
 
       <div className="text-center text-2xl">
-        {isAdmin && <MovieFieldsEditor movieKey={data.key} kind="details" />}
         <div className="movie-duration">{data.duration}</div>
         {data.release_date ? (
           <div className="movie-release-date">

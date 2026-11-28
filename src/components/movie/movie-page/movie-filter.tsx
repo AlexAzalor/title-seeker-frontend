@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
 import { useModal } from "@/hooks/use-modal";
@@ -9,7 +8,6 @@ import { useModal } from "@/hooks/use-modal";
 import { InfoIcon } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
-import { checkIfAdmin } from "@/proxy";
 
 import { TooltipWrapper } from "@/components/my-custom-ui/tooltip-wrapper";
 import { Button } from "@/components/ui/button";
@@ -45,6 +43,7 @@ type Props = {
   data: MovieFilterItem[];
   filterKey: FilterEnum;
   subgenres?: MovieFilterItem[];
+  isOwner: boolean;
 };
 
 const textColor = {
@@ -60,8 +59,8 @@ export const MovieFilter = ({
   data,
   filterKey,
   subgenres,
+  isOwner,
 }: Props) => {
-  const session = useSession();
   const t = useTranslations("Filters");
   const { isOpen, open, close } = useModal();
   const [filterData, setFilterData] = useState<FilterItemOut[]>([]);
@@ -130,8 +129,7 @@ export const MovieFilter = ({
     <>
       <div>
         <div className="flex items-center gap-1">
-          {checkIfAdmin(session.data?.user.role) &&
-          filterKey !== FilterEnum.subgenre ? (
+          {isOwner && filterKey !== FilterEnum.subgenre ? (
             <Button
               variant="link"
               onClick={handleEdit}

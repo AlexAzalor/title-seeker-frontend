@@ -412,6 +412,17 @@
     "movieEdit": {
       "editTitle": "Edit title",
       "editDetails": "Edit details",
+      "editDescription": "Edit description",
+      "editBoxOffice": "Edit box office",
+      "editActors": "Edit actors",
+      "editDirectors": "Edit directors",
+      "editRelatedMovies": "Edit related movies",
+      "loadError": "Failed to load movie data",
+      "actorsLoadError": "Failed to load actors",
+      "directorsLoadError": "Failed to load directors",
+      "boxOfficeSaveError": "Failed to update box office",
+      "menu": "Edit movie",
+      "descriptionSaveError": "An error occurred while updating the movie description",
       "save": "Save",
       "durationUnavailable": "Could not read the current duration ({duration}). Enter it in minutes."
     },
